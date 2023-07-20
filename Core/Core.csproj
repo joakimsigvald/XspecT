@@ -9,19 +9,18 @@
 	  <RootNamespace>XspecT</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <IsPackable>true</IsPackable>
-    <PackageTags>unit test given when then fluent mock automock xunit moq</PackageTags>
+    <PackageTags>unit test specification given when then fluent mock xunit moq automock</PackageTags>
     <PackageIconUrl></PackageIconUrl>
     <PackageProjectUrl>https://github.com/joakimsigvald/XspecT.git</PackageProjectUrl>
     <PackageLicenseUrl></PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/joakimsigvald/XspecT</PackageProjectUrl>
     <RepositoryUrl>https://github.com/joakimsigvald/XspecT.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageVersion>4.3.1</PackageVersion>
+    <PackageVersion>1.0.0</PackageVersion>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>icon.png</PackageIcon>
-    <PackageReleaseNotes>Alternative way to supply anynomous method arguments through `Given` without using fields in test-class.
-    </PackageReleaseNotes>
+    <PackageReleaseNotes>Copied code from deprecated package WhenGivenThen</PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Moq" Version="4.18.4" />
