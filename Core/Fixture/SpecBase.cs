@@ -93,46 +93,46 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
     protected ITestPipeline<TResult> When(Func<TResult> act)
         => When(null, act ?? throw new InvalidOperationException("Act cannot be null"));
 
-    protected ITestPipeline<TResult> When<TValue>(Func<TValue, TResult> act)
-        => When(() =>
-        {
-            var oneArg = (OneArgument<TValue>)_arguments;
-            return act(oneArg.Arg);
-        });
-
-    protected ITestPipeline<TResult> When<TValue1, TValue2>(Func<TValue1, TValue2, TResult> act)
-        => When(() =>
-        {
-            var twoArgs = (TwoArguments<TValue1, TValue2>)_arguments;
-            return act(twoArgs.Arg1, twoArgs.Arg2);
-        });
-
-    protected ITestPipeline<TResult> When<TValue1, TValue2, TValue3>(Func<TValue1, TValue2, TValue3, TResult> act)
-        => When(() =>
-        {
-            var twoArgs = (ThreeArguments<TValue1, TValue2, TValue3>)_arguments;
-            return act(twoArgs.Arg1, twoArgs.Arg2, twoArgs.Arg3);
-        });
-
     protected ITestPipeline<TResult> When<TValue>(Action<TValue> act)
         => When(() =>
         {
-            var oneArg = (OneArgument<TValue>)_arguments;
+            var oneArg = _arguments as OneArgument<TValue> ?? new();
             act(oneArg.Arg);
+        });
+
+    protected ITestPipeline<TResult> When<TValue>(Func<TValue, TResult> act)
+        => When(() =>
+        {
+            var oneArg = _arguments as OneArgument<TValue> ?? new();
+            return act(oneArg.Arg);
         });
 
     protected ITestPipeline<TResult> When<TValue1, TValue2>(Action<TValue1, TValue2> act)
         => When(() =>
         {
-            var twoArgs = (TwoArguments<TValue1, TValue2>)_arguments;
+            var twoArgs = _arguments as TwoArguments<TValue1, TValue2> ?? new();
             act(twoArgs.Arg1, twoArgs.Arg2);
+        });
+
+    protected ITestPipeline<TResult> When<TValue1, TValue2>(Func<TValue1, TValue2, TResult> act)
+        => When(() =>
+        {
+            var twoArgs = _arguments as TwoArguments<TValue1, TValue2> ?? new();
+            return act(twoArgs.Arg1, twoArgs.Arg2);
         });
 
     protected ITestPipeline<TResult> When<TValue1, TValue2, TValue3>(Action<TValue1, TValue2, TValue3> act)
         => When(() =>
         {
-            var twoArgs = (ThreeArguments<TValue1, TValue2, TValue3>)_arguments;
-            act(twoArgs.Arg1, twoArgs.Arg2, twoArgs.Arg3);
+            var threeArgs = _arguments as ThreeArguments<TValue1, TValue2, TValue3> ?? new();
+            act(threeArgs.Arg1, threeArgs.Arg2, threeArgs.Arg3);
+        });
+
+    protected ITestPipeline<TResult> When<TValue1, TValue2, TValue3>(Func<TValue1, TValue2, TValue3, TResult> act)
+        => When(() =>
+        {
+            var threeArgs = _arguments as ThreeArguments<TValue1, TValue2, TValue3> ?? new();
+            return act(threeArgs.Arg1, threeArgs.Arg2, threeArgs.Arg3);
         });
 
     protected ITestPipeline<TResult> When(Action command, Func<TResult> function)

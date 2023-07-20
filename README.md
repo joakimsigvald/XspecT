@@ -1,4 +1,4 @@
-# XspectT: A fluent unit testing framework
+# XspecT: A fluent unit testing framework
 
 Framework for writing and running automated tests in .Net in a flexible and fluent style, 
 based on the popular "Given-When-Then" pattern, built upon XUnit, Moq, AutoMock and FluentAssertions.

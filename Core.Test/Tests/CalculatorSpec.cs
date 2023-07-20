@@ -8,6 +8,8 @@ namespace XspecT.Test.Tests;
 
 public class CalculatorSpec : StaticSpec<int>
 {
+    [Fact] public void WhenAddZeros_ThenSumIsZero() => When<int, int>(Add).Then.Result.Is(0);
+
     [Theory]
     [InlineData(1, 1, 2)]
     [InlineData(3, 4, 7)]

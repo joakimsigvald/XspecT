@@ -9,6 +9,7 @@ public class TestResult<TResult>
 {
     private readonly IMocked _mocking;
     private readonly Exception _error;
+    private TResult _result;
 
     public TestResult(TResult result, Exception error, IMocked mocking)
     {
@@ -17,7 +18,7 @@ public class TestResult<TResult>
         _mocking = mocking;
     }
 
-    public TResult Result { get; }
+    public TResult Result { get => _error is null ? _result : throw _error; init => _result = value; }
     public void Throws<TError>() => Assert.IsType<TError>(_error);
     public void Throws() => Assert.NotNull(_error);
     public void NotThrows<TError>() => Assert.IsNotType<TError>(_error);
