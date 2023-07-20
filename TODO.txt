@@ -1,0 +1,3 @@
+* Comment all public methods
+* Extend Is-framework
+-- Is().Null() and Is().Not().Null() instead of IsNull() and IsNotNull()? - to reduce listing of possible methods in edi
