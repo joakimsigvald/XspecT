@@ -1,8 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace XspecT.Fixture;
+﻿namespace XspecT.Fixture;
 
 /// <summary>
 /// Not intended for direct override. Override either TestStaticAsync or TestSubjectAsync instead

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace XspecT.Test.Subjects;
+﻿namespace XspecT.Test.Subjects;
 
 public class NotPurcheable : ApplicationException
 {

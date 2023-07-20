@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Moq.Language.Flow;
+﻿using Moq.Language.Flow;
 
 namespace XspecT.Fixture;
 

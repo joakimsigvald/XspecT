@@ -1,5 +1,4 @@
-﻿using Xunit;
-using XspecT.Test.Subjects;
+﻿using XspecT.Test.Subjects;
 using XspecT.Verification;
 
 namespace XspecT.Test.Tests.AsyncShoppingService;

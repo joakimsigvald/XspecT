@@ -1,7 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-
-namespace XspecT.Test.Subjects;
+﻿namespace XspecT.Test.Subjects;
 
 public class ShoppingServiceAsync
 {

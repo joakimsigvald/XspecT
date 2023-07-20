@@ -1,6 +1,5 @@
 ﻿using XspecT.Verification;
 using XspecT.Fixture;
-using Xunit;
 
 using static XspecT.Test.Subjects.Calculator;
 

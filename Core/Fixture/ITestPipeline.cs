@@ -1,5 +1,4 @@
-﻿using System;
-using XspecT.Verification;
+﻿using XspecT.Verification;
 
 namespace XspecT.Fixture;
 

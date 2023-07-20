@@ -1,7 +1,5 @@
 ﻿using Moq;
-using System;
 using System.Linq.Expressions;
-using Xunit;
 
 namespace XspecT.Verification;
 

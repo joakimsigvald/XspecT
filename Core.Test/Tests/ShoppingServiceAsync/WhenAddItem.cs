@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using Xunit;
-using XspecT.Test.Subjects;
+﻿using XspecT.Test.Subjects;
 using XspecT.Verification;
 using XspecT.Fixture;
 

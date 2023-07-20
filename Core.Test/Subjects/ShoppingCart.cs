@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-
-namespace XspecT.Test.Subjects;
+﻿namespace XspecT.Test.Subjects;
 
 public record ShoppingCart
 {

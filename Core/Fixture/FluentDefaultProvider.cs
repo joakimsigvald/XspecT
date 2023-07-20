@@ -1,7 +1,5 @@
 ﻿using Moq;
 using Moq.AutoMock;
-using System;
-using System.Threading.Tasks;
 
 namespace XspecT.Fixture;
 
