@@ -47,7 +47,7 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
         _arguments = args;
     }
 
-    public ITestPipeline<TResult> Given(params Action[] arrangements)
+    public ITestPipeline<TResult> GivenThat(params Action[] arrangements)
     {
         if (_then != null)
             throw new InvalidOperationException("Given must be called before Then");

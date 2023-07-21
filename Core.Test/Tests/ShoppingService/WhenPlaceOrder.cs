@@ -13,7 +13,8 @@ public abstract class WhenPlaceOrder : ShoppingServiceSpec<object>
     {
         protected const int ShopId = 123;
 
-        protected GivenCart() => Using(ShopId).Given(() => Cart = new());
+        protected GivenCart() => Using(ShopId).GivenThat(() => Cart = new());
+
         [Fact] public void ThenOrderIsCreated() => Then.Does<IOrderService>(_ => _.CreateOrder(Cart));
 
         [Fact]
@@ -28,7 +29,9 @@ public abstract class WhenPlaceOrder : ShoppingServiceSpec<object>
 
             [Fact]
             public void ThenLogOrderCreated_With_ShopName()
-                => Then.Does<ILogger>(_ => _.Information(It.Is<string>(s => s.Contains(_shopName))));
+            {
+                Then.Does<ILogger>(_ => _.Information(It.Is<string>(s => s.Contains(_shopName))));
+            }
         }
 
         public class AndShopNameAndDivision : GivenCart

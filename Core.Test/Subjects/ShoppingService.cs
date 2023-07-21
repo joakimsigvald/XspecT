@@ -9,8 +9,8 @@ public class ShoppingService
     private readonly string _division;
 
     public ShoppingService(
-        IOrderService orderService, 
-        ILogger logger, 
+        IOrderService orderService,
+        ILogger logger,
         (string shop, string division) names,
         int shopId)
     {

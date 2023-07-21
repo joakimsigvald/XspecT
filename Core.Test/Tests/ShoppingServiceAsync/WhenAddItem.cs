@@ -11,7 +11,7 @@ public abstract class WhenAddItem : ShoppingServiceAsyncSpec<ShoppingCart>
     protected readonly ShoppingCartItem NewItem = new("N1");
 
     protected WhenAddItem() => When(() => SUT.AddToCart(CartId, NewItem))
-        .Given(
+        .GivenThat(
         () => CartItems ??= Array.Empty<ShoppingCartItem>(),
         () => GetMock<IShoppingCartRepository>()
         .Setup(repo => repo.GetCart(CartId))
@@ -27,7 +27,7 @@ public abstract class WhenAddItem : ShoppingServiceAsyncSpec<ShoppingCart>
 
     public class GivenCartWithOneItem : WhenAddItem
     {
-        public GivenCartWithOneItem() => Given(() => CartItems = new[] { new ShoppingCartItem("A1") });
+        public GivenCartWithOneItem() => GivenThat(() => CartItems = new[] { new ShoppingCartItem("A1") });
         [Fact] public void ThenDoNotThrow() => Then.NotThrows();
         [Fact] public void ThenCartHasTwoItems() => Result.Items.Length.Is(2);
         [Fact] public void ThenNewItemIsLast() => Result.Items.Last().Sku.Is(NewItem.Sku);

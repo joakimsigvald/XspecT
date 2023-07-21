@@ -9,7 +9,7 @@ public interface IResultProvider<TResult>
 
 public interface ITestPipelineBase<TResult, TSelf> : IResultProvider<TResult>
 {
-    TSelf Given(params Action[] arrangements);
+    TSelf GivenThat(params Action[] arrangements);
     TSelf Using<TService>(TService service);
 }
 
@@ -69,9 +69,9 @@ public class TestPipeline<TValue, TResult> : TestPipeline<TResult>, ITestPipelin
         return this;
     }
 
-    public ITestPipeline<TValue, TResult> Given(params Action[] arrangements)
+    public ITestPipeline<TValue, TResult> GivenThat(params Action[] arrangements)
     {
-        Parent.Given(arrangements);
+        Parent.GivenThat(arrangements);
         return this;
     }
 
@@ -99,9 +99,9 @@ public class TestPipeline<TValue1, TValue2, TResult>
 {
     public TestPipeline(SpecBase<TResult> parent) : base(parent) { }
 
-    public ITestPipeline<TValue1, TValue2, TResult> Given(params Action[] arrangements)
+    public ITestPipeline<TValue1, TValue2, TResult> GivenThat(params Action[] arrangements)
     {
-        Parent.Given(arrangements);
+        Parent.GivenThat(arrangements);
         return this;
     }
 
@@ -135,9 +135,9 @@ public class TestPipeline<TValue1, TValue2, TValue3, TResult>
 {
     public TestPipeline(SpecBase<TResult> parent) : base(parent) { }
 
-    public ITestPipeline<TValue1, TValue2, TValue3, TResult> Given(params Action[] arrangements)
+    public ITestPipeline<TValue1, TValue2, TValue3, TResult> GivenThat(params Action[] arrangements)
     {
-        Parent.Given(arrangements);
+        Parent.GivenThat(arrangements);
         return this;
     }
 
