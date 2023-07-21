@@ -1,13 +1,11 @@
 # XspecT: A fluent unit testing framework
 
-## About
-
 Framework for writing and running automated tests in .Net in a flexible and fluent style, 
 based on the popular "Given-When-Then" pattern, built upon XUnit, Moq, AutoMock and FluentAssertions.
 
 Whether you are beginner or expert in unit-testing, this framework will help you to write more descriptive, concise and maintainable tests.
 
-## How to use
+## Usage
 
 It is assumed that you are already familiar with Xunit and Moq, or similar test and mocking frameworks.
 This package includes FluentAssertions, but also comes with its own, more limited but less wordy assertion methods, based on the verb `Is` instead of `Should`.
