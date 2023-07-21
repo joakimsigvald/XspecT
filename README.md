@@ -111,7 +111,7 @@ public abstract class WhenPlaceOrder : ShoppingServiceSpec<object>
     protected ShoppingCart Cart;
 
     protected WhenPlaceOrder() 
-        => When<ShoppingCart>(() => SUT.PlaceOrder(Cart)).GivenThat(() => The<ICartRepository>().ReturnsDefault(Cart));
+        => When(() => SUT.PlaceOrder(Cart)).GivenThat(() => The<ICartRepository>().ReturnsDefault(Cart));
 
     public class GivenCart : WhenPlaceOrder
     {
