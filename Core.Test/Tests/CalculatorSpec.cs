@@ -9,6 +9,8 @@ public class CalculatorSpec : StaticSpec<int>
 {
     [Fact] public void WhenAddZeros_ThenSumIsZero() => When<int, int>(Add).Then.Result.Is(0);
 
+    [Fact] public void WhenAdd_1_and_2_ThenSumIs_3() => Given(1, 2).When(Add).Then.Result.Is(3);
+
     [Theory]
     [InlineData(1, 1, 2)]
     [InlineData(3, 4, 7)]

@@ -19,23 +19,32 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
     private TestResult<TResult> _then;
     private object _arguments;
 
-    public ITestPipeline<TResult> Given<TValue>(TValue value)
-        => SetArguments(value);
+    public ITestPipeline<TValue, TResult> Given<TValue>(TValue value)
+    {
+        SetArguments(value);
+        return new TestPipeline<TValue, TResult>(this);
+    }
 
-    public ITestPipeline<TResult> Given<TValue1, TValue2>(TValue1 value1, TValue2 value2)
-        => SetArguments((value1, value2));
+    public ITestPipeline<TValue1, TValue2, TResult> Given<TValue1, TValue2>(TValue1 value1, TValue2 value2)
+    {
+        SetArguments((value1, value2));
+        return new TestPipeline<TValue1, TValue2, TResult>(this);
+    }
 
-    public ITestPipeline<TResult> Given<TValue1, TValue2, TValue3>(TValue1 value1, TValue2 value2, TValue3 value3)
-        => SetArguments((value1, value2, value3));
+    public ITestPipeline<TValue1, TValue2, TValue3, TResult> Given<TValue1, TValue2, TValue3>(
+        TValue1 value1, TValue2 value2, TValue3 value3)
+    {
+        SetArguments((value1, value2, value3));
+        return new TestPipeline<TValue1, TValue2, TValue3, TResult>(this);
+    }
 
-    private ITestPipeline<TResult> SetArguments(object args)
+    private void SetArguments(object args)
     {
         if (_then != null)
             throw new InvalidOperationException("Given must be called before Then");
         if (_arguments is not null)
             throw new InvalidOperationException("Can only supply method arguments once");
         _arguments = args;
-        return this;
     }
 
     public ITestPipeline<TResult> Given(params Action[] arrangements)
@@ -90,47 +99,65 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
     protected ITestPipeline<TResult> When(Func<TResult> act)
         => When(null, act ?? throw new InvalidOperationException("Act cannot be null"));
 
-    protected ITestPipeline<TResult> When<TValue>(Action<TValue> act)
-        => When(() =>
+    public ITestPipeline<TValue, TResult> When<TValue>(Action<TValue> act)
+    {
+        When(() =>
         {
             var arg = _arguments is TValue val ? val : default;
             act(arg);
         });
+        return new TestPipeline<TValue, TResult>(this);
+    }
 
-    protected ITestPipeline<TResult> When<TValue>(Func<TValue, TResult> act)
-        => When(() =>
+    public ITestPipeline<TValue, TResult> When<TValue>(Func<TValue, TResult> act)
+    {
+        When(() =>
         {
             var arg = _arguments is TValue val ? val : default;
             return act(arg);
         });
+        return new TestPipeline<TValue, TResult>(this);
+    }
 
-    protected ITestPipeline<TResult> When<TValue1, TValue2>(Action<TValue1, TValue2> act)
-        => When(() =>
+    public ITestPipeline<TValue1, TValue2, TResult> When<TValue1, TValue2>(Action<TValue1, TValue2> act)
+    {
+        When(() =>
         {
             var (arg1, arg2) = _arguments is ValueTuple<TValue1, TValue2> t ? t : default;
             act(arg1, arg2);
         });
+        return new TestPipeline<TValue1, TValue2, TResult>(this);
+    }
 
-    protected ITestPipeline<TResult> When<TValue1, TValue2>(Func<TValue1, TValue2, TResult> act)
-        => When(() =>
+    public ITestPipeline<TValue1, TValue2, TResult> When<TValue1, TValue2>(Func<TValue1, TValue2, TResult> act)
+    {
+        When(() =>
         {
             var (arg1, arg2) = _arguments is ValueTuple<TValue1, TValue2> t ? t : default;
             return act(arg1, arg2);
         });
+        return new TestPipeline<TValue1, TValue2, TResult>(this);
+    }
 
-    protected ITestPipeline<TResult> When<TValue1, TValue2, TValue3>(Action<TValue1, TValue2, TValue3> act)
-        => When(() =>
+    public ITestPipeline<TValue1, TValue2, TValue3, TResult> When<TValue1, TValue2, TValue3>(Action<TValue1, TValue2, TValue3> act)
+    {
+        When(() =>
         {
             var (arg1, arg2, arg3) = _arguments is ValueTuple<TValue1, TValue2, TValue3> t ? t : default;
             act(arg1, arg2, arg3);
         });
+        return new TestPipeline<TValue1, TValue2, TValue3, TResult>(this);
+    }
 
-    protected ITestPipeline<TResult> When<TValue1, TValue2, TValue3>(Func<TValue1, TValue2, TValue3, TResult> act)
-        => When(() =>
+    public ITestPipeline<TValue1, TValue2, TValue3, TResult> When<TValue1, TValue2, TValue3>(Func<TValue1, TValue2, TValue3, TResult> act)
+    {
+        When(() =>
         {
             var (arg1, arg2, arg3) = _arguments is ValueTuple<TValue1, TValue2, TValue3> t ? t : default;
             return act(arg1, arg2, arg3);
         });
+        return new TestPipeline<TValue1, TValue2, TValue3, TResult>(this);
+    }
 
     protected ITestPipeline<TResult> When(Action command, Func<TResult> function)
     {
