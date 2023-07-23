@@ -101,9 +101,13 @@ Example:
 ```
 namespace MyProject.Test.ShoppingService;
 
-public abstract class ShoppingServiceSpec<TResult> : SubjectSpec<MyProject.ShoppingService, TResult>
+public abstract class ShoppingServiceSpec<TResult> 
+    : SubjectSpec<MyProject.ShoppingService, TResult>
 {
-    protected ShoppingServiceSpec() => Using(new MyTestLogger());
+    protected const int ShopId = 2;
+
+    //Specify a value to pass to the constructor
+    protected ShoppingServiceSpec() => Using(ShopId);
 }
 
 public abstract class WhenPlaceOrder : ShoppingServiceSpec<object>
@@ -111,12 +115,19 @@ public abstract class WhenPlaceOrder : ShoppingServiceSpec<object>
     protected ShoppingCart Cart;
 
     protected WhenPlaceOrder() 
-        => When(() => SUT.PlaceOrder(Cart)).GivenThat(() => The<ICartRepository>().ReturnsDefault(Cart));
+        => When(() => SUT.PlaceOrder(Cart.Id)).
+        GivenThat(() => The<ICartRepository>().Setup(_ => _.GetCart(Cart.Id)).Returns(Cart));
 
     public class GivenCart : WhenPlaceOrder
     {
+        public GivenCart() => GivenThat(() => Cart = new() { Id = 123 });
+
         [Fact] public void ThenOrderIsCreated() 
-            => GivenThat(() => Cart = new()).Then.Does<IOrderService>(_ => _.CreateOrder(Cart));
+            => Then.Does<IOrderService>(_ => _.CreateOrder(Cart));
+
+        [Fact] public void ThenLogsOrderCreated()
+            => Then.Does<ILogger>(
+                _ => _.Information($"OrderCreated from Cart {Cart.Id} in Shop {ShopId}"));
     }
 }
 ```
