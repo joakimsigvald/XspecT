@@ -1,6 +1,6 @@
 ﻿using XspecT.Test.Subjects;
-using XspecT.Verification;
 using XspecT.Fixture;
+using XspecT.Verification;
 
 namespace XspecT.Test.Tests.AsyncShoppingService;
 
@@ -19,8 +19,8 @@ public abstract class WhenAddItem : ShoppingServiceAsyncSpec<ShoppingCart>
 
     public class GivenEmptyCart : WhenAddItem
     {
-        [Fact] public void ThenCartIsNotEmpty() => Result.Items.IsNotEmpty();
-        [Fact] public void ThenCartHasOneItem() => Result.Items.ContainsSingle();
+        [Fact] public void ThenCartIsNotEmpty() => Result.Items.Is().NotEmpty();
+        [Fact] public void ThenCartHasOneItem() => Result.Items.Has().Single();
         [Fact] public void TheIdIsPreserved() => Result.Id.Is(CartId);
         [Fact] public void ThenCartIsStored() => Then.Does<IShoppingCartRepository>(_ => _.StoreCart(Result));
     }
@@ -31,8 +31,8 @@ public abstract class WhenAddItem : ShoppingServiceAsyncSpec<ShoppingCart>
         [Fact] public void ThenDoNotThrow() => Then.NotThrows();
         [Fact] public void ThenCartHasTwoItems() => Result.Items.Length.Is(2);
         [Fact] public void ThenNewItemIsLast() => Result.Items.Last().Sku.Is(NewItem.Sku);
-        [Fact] public void ThenNewItemIsCloned() => Result.Items.Last().IsNot(NewItem);
-        [Fact] public void ThenItemsAreNotNull() => Result.Items.Each(it => it != null);
-        [Fact] public void ThenItemsHaveLineNumbers() => Result.Items.Each((it, i) => it.LineNumber == i + 1);
+        [Fact] public void ThenNewItemIsCloned() => Result.Items.Last().Is().Not(NewItem);
+        [Fact] public void ThenItemsAreNotNull() => Result.Items.Has().Only(it => it != null);
+        [Fact] public void ThenItemsHaveLineNumbers() => Result.Items.Has().Only((it, i) => it.LineNumber == i + 1);
     }
 }
