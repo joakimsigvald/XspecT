@@ -168,12 +168,26 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
         return this;
     }
 
+    /// <summary>
+    /// Convenience method for assigning fields in the test class that is used in later test setup.
+    /// Will be called during pipeline execution right before the first arrangement
+    /// </summary>
+    protected virtual void Set() { }
+
+    /// <summary>
+    /// Convenience method for supplying setup (typically specifiing behaviour of mocks that will be used and or verified during the test execution)
+    /// Will be called during pipeline execution right after the last arrangement
+    /// </summary>
+    protected virtual void Setup() { }
+
     protected abstract void Instantiate();
 
     private TestResult<TResult> CreateTestResult()
     {
         foreach (var substitute in _substitutions) substitute();
+        Set();
         foreach (var arrange in _arrangements) arrange();
+        Setup();
         Instantiate();
         CatchError(_command ?? GetResult);
         return new(_result, _error, this);

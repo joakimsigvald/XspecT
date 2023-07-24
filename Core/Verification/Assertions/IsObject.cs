@@ -9,25 +9,37 @@ public class IsObject
     public IsObject(object actual) => _actual = actual;
 
     /// <summary>
-    /// actual.Should().NotBeSameAs(expected)
+    /// Should().NotBeSameAs(expected)
     /// </summary>
     public AndConstraint<FluentAssertions.Primitives.ObjectAssertions> Not(object expected)
         => _actual.Should().NotBeSameAs(expected);
 
     /// <summary>
-    /// actual.Should().Be(expected)
+    /// Should().BeNull()
+    /// </summary>
+    public AndConstraint<FluentAssertions.Primitives.ObjectAssertions> Null()
+        => _actual.Should().BeNull();
+
+    /// <summary>
+    /// Should().NotBeNull()
+    /// </summary>
+    public AndConstraint<FluentAssertions.Primitives.ObjectAssertions> NotNull()
+        => _actual.Should().NotBeNull();
+
+    /// <summary>
+    /// Should().Be(expected)
     /// </summary>
     public AndConstraint<FluentAssertions.Primitives.ObjectAssertions> EqualTo(object expected)
         => _actual.Should().Be(expected);
 
     /// <summary>
-    /// actual.Should().NotBe(expected)
+    /// Should().NotBe(expected)
     /// </summary>
     public AndConstraint<FluentAssertions.Primitives.ObjectAssertions> NotEqualTo(object expected)
         => _actual.Should().NotBe(expected);
 
     /// <summary>
-    /// actual.Should().BeEquivalentTo(expected)
+    /// Should().BeEquivalentTo(expected)
     /// </summary>
     public AndConstraint<FluentAssertions.Primitives.ObjectAssertions> Like(object expected)
         => _actual.Should().BeEquivalentTo(expected);
