@@ -48,5 +48,5 @@ public class TestResult<TResult>
         where TObject : class
         => Mocked<TObject>().Verify(expression, times);
 
-    private Mock<TObject> Mocked<TObject>() where TObject : class => _mocking.GetMock<TObject>();
+    private Mock<TObject> Mocked<TObject>() where TObject : class => _mocking.The<TObject>();
 }

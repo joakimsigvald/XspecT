@@ -21,13 +21,11 @@ public abstract class Mocking : Verification.IMocked
         Mocker = new(MockBehavior.Loose, DefaultValue.Custom, defaultProvider, false);
     }
 
-    public Mock<TObject> GetMock<TObject>() where TObject : class => Mocker.GetMock<TObject>();
+    public Mock<TObject> The<TObject>() where TObject : class => Mocker.GetMock<TObject>();
 
     /// <summary>
     /// Override this to set different Culture than InvariantCulture during test
     /// </summary>
     /// <returns></returns>
     protected virtual CultureInfo GetCulture() => CultureInfo.InvariantCulture;
-
-    protected TObject The<TObject>() where TObject : class => GetMock<TObject>().Object;
 }

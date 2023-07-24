@@ -47,12 +47,11 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
         _arguments = args;
     }
 
-    public ITestPipeline<TResult> GivenThat(params Action[] arrangements)
+    public ITestPipeline<TResult> GivenThat(Action arrangement)
     {
         if (_then != null)
             throw new InvalidOperationException("Given must be called before Then");
-        foreach (var arrange in arrangements.Reverse())
-            _arrangements.Push(arrange);
+        _arrangements.Push(arrangement);
         return this;
     }
 
@@ -169,18 +168,12 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
         return this;
     }
 
-    protected virtual void Set() { }
-
-    protected virtual void Setup() { }
-
     protected abstract void Instantiate();
 
     private TestResult<TResult> CreateTestResult()
     {
         foreach (var substitute in _substitutions) substitute();
-        Set();
         foreach (var arrange in _arrangements) arrange();
-        Setup();
         Instantiate();
         CatchError(_command ?? GetResult);
         return new(_result, _error, this);
