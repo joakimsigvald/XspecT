@@ -19,6 +19,7 @@ public abstract class Mocking : Verification.IMocked
             DefaultMocker = new(MockBehavior.Loose, DefaultValue.Mock)
         };
         Mocker = new(MockBehavior.Loose, DefaultValue.Custom, defaultProvider, false);
+        defaultProvider.Mocker = Mocker;
     }
 
     public Mock<TObject> The<TObject>() where TObject : class => Mocker.GetMock<TObject>();

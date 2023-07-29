@@ -1,10 +1,12 @@
 ﻿using Moq;
 using Moq.AutoMock;
+using XspecT.Fixture.Exceptions;
 
 namespace XspecT.Fixture;
 
 public class FluentDefaultProvider : DefaultValueProvider
 {
+    internal AutoMocker Mocker { private get; set; }
     internal AutoMocker DefaultMocker { get; init; }
 
     protected override object GetDefaultValue(Type type, Mock mock)
@@ -17,21 +19,19 @@ public class FluentDefaultProvider : DefaultValueProvider
         {
             return Task.CompletedTask;
         }
-        if (typeof(Task).IsAssignableFrom(type) && type.GenericTypeArguments.Length > 0)
+        if (typeof(Task).IsAssignableFrom(type))
         {
-            dynamic model = DefaultMocker.Get(type.GenericTypeArguments[0]);
-            var res = Task.FromResult(model);
-            return res;
+            if (type.GenericTypeArguments.Length == 1)
+            {
+                var genericType = type.GenericTypeArguments[0];
+                dynamic model = Mocker.Get(genericType);
+                if (model.GetType() != genericType)
+                    throw new SetupFailed($"Could not resolve generic type {genericType} of Task. Call Using to provide a default value");
+                var res = Task.FromResult(model);
+                return res;
+            }
+            throw new NotImplementedException("Unexpected type: Task with more than one generic arguments");
         }
         return DefaultMocker.Get(type);
     }
-
-    //protected override object GetDefaultValue(Type type, Mock mock)
-    //    => type.IsAssignableFrom(mock.Object.GetType())
-    //    ? mock.Object
-    //    : type == typeof(Task)
-    //    ? Task.CompletedTask
-    //    : type.IsAssignableFrom(typeof(Task)) && type.GenericTypeArguments.Length > 0
-    //    ? Task.FromResult(DefaultMocker.Get(type.GenericTypeArguments[0]))
-    //    : DefaultMocker.Get(type);
 }

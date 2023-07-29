@@ -1,6 +1,7 @@
 ﻿using Moq;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
+using XspecT.Fixture.Exceptions;
 using XspecT.Verification;
 
 namespace XspecT.Fixture;
@@ -200,6 +201,10 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
         try
         {
             act();
+        }
+        catch (SetupFailed)
+        {
+            throw;
         }
         catch (Exception ex)
         {
