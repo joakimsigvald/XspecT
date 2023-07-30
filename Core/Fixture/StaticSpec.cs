@@ -1,6 +1,6 @@
 ﻿namespace XspecT.Fixture;
 
-public abstract class StaticSpec<TResult> : Spec<TResult>
+public abstract class StaticSpec<TResult> : SpecBase<TResult>
 {
     protected override sealed void Instantiate() { }
 }

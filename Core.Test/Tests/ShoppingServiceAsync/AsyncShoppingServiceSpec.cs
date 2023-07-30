@@ -2,7 +2,6 @@
 
 namespace XspecT.Test.Tests.AsyncShoppingService;
 
-public abstract class ShoppingServiceAsyncSpec<TResult>
-    : SubjectSpecAsync<Subjects.ShoppingServiceAsync, TResult>
+public abstract class ShoppingServiceAsyncSpec<TResult> : SubjectSpec<Subjects.ShoppingServiceAsync, TResult>
 {
 }

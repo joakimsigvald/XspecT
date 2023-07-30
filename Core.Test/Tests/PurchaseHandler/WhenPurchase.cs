@@ -9,7 +9,7 @@ public class WhenPurchase : PurchaseHandlerSpec<PurchaseResponseModel>
     protected const int BasketId = 1;
     protected Checkout Checkout;
 
-    protected WhenPurchase() => When(() => SUT.Purchase(BasketId));
+    protected WhenPurchase() => Using(new Basket()).When(() => SUT.Purchase(BasketId));
 
     protected override void Setup()
     {

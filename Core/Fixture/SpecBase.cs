@@ -2,12 +2,13 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using XspecT.Fixture.Exceptions;
+using XspecT.Fixture.Pipelines;
 using XspecT.Verification;
 
 namespace XspecT.Fixture;
 
 /// <summary>
-/// Not intended for direct override. Override one of TestStatic, TestSubject, TestStaticAsync or TestSubjectAsync instead
+/// Not intended for direct override. Override TestStatic or TestSubject instead
 /// </summary>
 public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisposable
 {
@@ -89,8 +90,6 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
 
     public TestResult<TResult> Then => _then ??= CreateTestResult();
 
-    public abstract void Dispose();
-
     protected TResult Result => Then.Result;
 
     protected ITestPipeline<TResult> When(Action act)
@@ -117,6 +116,15 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
             return act(arg);
         });
         return new TestPipeline<TValue, TResult>(this);
+    }
+
+    public ITestPipeline<TResult> When(Func<Task> action) => When(() => Execute(action));
+    public ITestPipeline<TResult> When(Func<Task<TResult>> func) => When(() => Execute(func));
+    public void Dispose()
+    {
+        TearDown();
+        Execute(TearDownAsync);
+        GC.SuppressFinalize(this);
     }
 
     public ITestPipeline<TValue1, TValue2, TResult> When<TValue1, TValue2>(Action<TValue1, TValue2> act)
@@ -182,6 +190,22 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
     protected virtual void Setup() { }
 
     protected abstract void Instantiate();
+
+    protected virtual void TearDown() { }
+    protected virtual Task TearDownAsync() => Task.CompletedTask;
+
+    private static void Execute(Func<Task> action)
+        => _taskFactory.StartNew(action).Unwrap().GetAwaiter().GetResult();
+
+    private static TResult Execute(Func<Task<TResult>> func)
+        => _taskFactory.StartNew(func).Unwrap().GetAwaiter().GetResult();
+
+
+    private static readonly TaskFactory _taskFactory = new
+        (CancellationToken.None,
+        TaskCreationOptions.None,
+        TaskContinuationOptions.None,
+        TaskScheduler.Default);
 
     private TestResult<TResult> CreateTestResult()
     {
