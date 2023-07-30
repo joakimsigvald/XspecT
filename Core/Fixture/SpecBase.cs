@@ -92,11 +92,8 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
 
     protected TResult Result => Then.Result;
 
-    protected ITestPipeline<TResult> When(Action act)
+    public ITestPipeline<TResult> When(Action act)
         => When(act ?? throw new InvalidOperationException("Act cannot be null"), null);
-
-    protected ITestPipeline<TResult> When(Func<TResult> act)
-        => When(null, act ?? throw new InvalidOperationException("Act cannot be null"));
 
     public ITestPipeline<TValue, TResult> When<TValue>(Action<TValue> act)
     {
@@ -106,25 +103,6 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
             act(arg);
         });
         return new TestPipeline<TValue, TResult>(this);
-    }
-
-    public ITestPipeline<TValue, TResult> When<TValue>(Func<TValue, TResult> act)
-    {
-        When(() =>
-        {
-            var arg = _arguments is TValue val ? val : default;
-            return act(arg);
-        });
-        return new TestPipeline<TValue, TResult>(this);
-    }
-
-    public ITestPipeline<TResult> When(Func<Task> action) => When(() => Execute(action));
-    public ITestPipeline<TResult> When(Func<Task<TResult>> func) => When(() => Execute(func));
-    public void Dispose()
-    {
-        TearDown();
-        Execute(TearDownAsync);
-        GC.SuppressFinalize(this);
     }
 
     public ITestPipeline<TValue1, TValue2, TResult> When<TValue1, TValue2>(Action<TValue1, TValue2> act)
@@ -137,6 +115,30 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
         return new TestPipeline<TValue1, TValue2, TResult>(this);
     }
 
+    public ITestPipeline<TValue1, TValue2, TValue3, TResult> When<TValue1, TValue2, TValue3>(
+        Action<TValue1, TValue2, TValue3> act)
+    {
+        When(() =>
+        {
+            var (arg1, arg2, arg3) = _arguments is ValueTuple<TValue1, TValue2, TValue3> t ? t : default;
+            act(arg1, arg2, arg3);
+        });
+        return new TestPipeline<TValue1, TValue2, TValue3, TResult>(this);
+    }
+
+    public ITestPipeline<TResult> When(Func<TResult> act)
+        => When(null, act ?? throw new InvalidOperationException("Act cannot be null"));
+
+    public ITestPipeline<TValue, TResult> When<TValue>(Func<TValue, TResult> act)
+    {
+        When(() =>
+        {
+            var arg = _arguments is TValue val ? val : default;
+            return act(arg);
+        });
+        return new TestPipeline<TValue, TResult>(this);
+    }
+
     public ITestPipeline<TValue1, TValue2, TResult> When<TValue1, TValue2>(Func<TValue1, TValue2, TResult> act)
     {
         When(() =>
@@ -147,17 +149,8 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
         return new TestPipeline<TValue1, TValue2, TResult>(this);
     }
 
-    public ITestPipeline<TValue1, TValue2, TValue3, TResult> When<TValue1, TValue2, TValue3>(Action<TValue1, TValue2, TValue3> act)
-    {
-        When(() =>
-        {
-            var (arg1, arg2, arg3) = _arguments is ValueTuple<TValue1, TValue2, TValue3> t ? t : default;
-            act(arg1, arg2, arg3);
-        });
-        return new TestPipeline<TValue1, TValue2, TValue3, TResult>(this);
-    }
-
-    public ITestPipeline<TValue1, TValue2, TValue3, TResult> When<TValue1, TValue2, TValue3>(Func<TValue1, TValue2, TValue3, TResult> act)
+    public ITestPipeline<TValue1, TValue2, TValue3, TResult> When<TValue1, TValue2, TValue3>(
+        Func<TValue1, TValue2, TValue3, TResult> act)
     {
         When(() =>
         {
@@ -167,7 +160,32 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
         return new TestPipeline<TValue1, TValue2, TValue3, TResult>(this);
     }
 
-    protected ITestPipeline<TResult> When(Action command, Func<TResult> function)
+    public ITestPipeline<TResult> When(Func<Task> action) => When(() => Execute(action));
+    public ITestPipeline<TValue, TResult> When<TValue>(Func<TValue, Task> action)
+        => When<TValue>(v => Execute(() => action(v)));
+    public ITestPipeline<TValue1, TValue2, TResult> When<TValue1, TValue2>(Func<TValue1, TValue2, Task> action)
+        => When<TValue1, TValue2>((v1, v2) => Execute(() => action(v1, v2)));
+    public ITestPipeline<TValue1, TValue2, TValue3, TResult> When<TValue1, TValue2, TValue3>(
+        Func<TValue1, TValue2, TValue3, Task> action)
+        => When<TValue1, TValue2, TValue3>((v1, v2, v3) => Execute(() => action(v1, v2, v3)));
+
+    public ITestPipeline<TResult> When(Func<Task<TResult>> func) => When(() => Execute(func));
+    public ITestPipeline<TValue, TResult> When<TValue>(Func<TValue, Task<TResult>> func)
+        => When<TValue>(v => Execute(() => func(v)));
+    public ITestPipeline<TValue1, TValue2, TResult> When<TValue1, TValue2>(Func<TValue1, TValue2, Task<TResult>> func)
+        => When<TValue1, TValue2>((v1, v2) => Execute(() => func(v1, v2)));
+    public ITestPipeline<TValue1, TValue2, TValue3, TResult> When<TValue1, TValue2, TValue3>(
+        Func<TValue1, TValue2, TValue3, Task<TResult>> func)
+        => When<TValue1, TValue2, TValue3>((v1, v2, v3) => Execute(() => func(v1, v2, v3)));
+
+    public void Dispose()
+    {
+        TearDown();
+        Execute(TearDownAsync);
+        GC.SuppressFinalize(this);
+    }
+
+    private ITestPipeline<TResult> When(Action command, Func<TResult> function)
     {
         if (_command != null || _function != null)
             throw new InvalidOperationException("When may only be called once");
@@ -184,7 +202,8 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
     protected virtual void Set() { }
 
     /// <summary>
-    /// Convenience method for supplying setup (typically specifiing behaviour of mocks that will be used and or verified during the test execution)
+    /// Convenience method for supplying setup (typically specifiing behaviour of mocks 
+    /// that will be used and or verified during the test execution)
     /// Will be called during pipeline execution right after the last arrangement
     /// </summary>
     protected virtual void Setup() { }

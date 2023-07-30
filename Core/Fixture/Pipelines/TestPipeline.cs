@@ -43,6 +43,18 @@ public class TestPipeline<TValue, TResult> : TestPipeline<TResult>, ITestPipelin
         Parent.When(act);
         return this;
     }
+
+    public ITestPipeline<TValue, TResult> When(Func<TValue, Task> act)
+    {
+        Parent.When(act);
+        return this;
+    }
+
+    public ITestPipeline<TValue, TResult> When(Func<TValue, Task<TResult>> act)
+    {
+        Parent.When(act);
+        return this;
+    }
 }
 
 public class TestPipeline<TValue1, TValue2, TResult>
@@ -79,6 +91,18 @@ public class TestPipeline<TValue1, TValue2, TResult>
         Parent.When(act);
         return this;
     }
+
+    public ITestPipeline<TValue1, TValue2, TResult> When(Func<TValue1, TValue2, Task> act)
+    {
+        Parent.When(act);
+        return this;
+    }
+
+    public ITestPipeline<TValue1, TValue2, TResult> When(Func<TValue1, TValue2, Task<TResult>> act)
+    {
+        Parent.When(act);
+        return this;
+    }
 }
 
 public class TestPipeline<TValue1, TValue2, TValue3, TResult>
@@ -111,6 +135,18 @@ public class TestPipeline<TValue1, TValue2, TValue3, TResult>
     }
 
     public ITestPipeline<TValue1, TValue2, TValue3, TResult> When(Func<TValue1, TValue2, TValue3, TResult> act)
+    {
+        Parent.When(act);
+        return this;
+    }
+
+    public ITestPipeline<TValue1, TValue2, TValue3, TResult> When(Func<TValue1, TValue2, TValue3, Task> act)
+    {
+        Parent.When(act);
+        return this;
+    }
+
+    public ITestPipeline<TValue1, TValue2, TValue3, TResult> When(Func<TValue1, TValue2, TValue3, Task<TResult>> act)
     {
         Parent.When(act);
         return this;
