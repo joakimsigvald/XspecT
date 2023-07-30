@@ -5,6 +5,7 @@ using XspecT.Fixture.Exceptions;
 using XspecT.Fixture.Pipelines;
 using XspecT.Verification;
 
+using static XspecT.Fixture.AsyncHelper;
 namespace XspecT.Fixture;
 
 /// <summary>
@@ -38,15 +39,6 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
     {
         SetArguments((value1, value2, value3));
         return new TestPipeline<TValue1, TValue2, TValue3, TResult>(this);
-    }
-
-    private void SetArguments(object args)
-    {
-        if (_then != null)
-            throw new InvalidOperationException("Given must be called before Then");
-        if (_arguments is not null)
-            throw new InvalidOperationException("Can only supply method arguments once");
-        _arguments = args;
     }
 
     public ITestPipeline<TResult> GivenThat(Action arrangement)
@@ -185,16 +177,6 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
         GC.SuppressFinalize(this);
     }
 
-    private ITestPipeline<TResult> When(Action command, Func<TResult> function)
-    {
-        if (_command != null || _function != null)
-            throw new InvalidOperationException("When may only be called once");
-        if (_then != null)
-            throw new InvalidOperationException("When must be called before Then");
-        (_command, _function) = (command, function);
-        return this;
-    }
-
     /// <summary>
     /// Convenience method for assigning fields in the test class that is used in later test setup.
     /// Will be called during pipeline execution right before the first arrangement
@@ -213,18 +195,24 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
     protected virtual void TearDown() { }
     protected virtual Task TearDownAsync() => Task.CompletedTask;
 
-    private static void Execute(Func<Task> action)
-        => _taskFactory.StartNew(action).Unwrap().GetAwaiter().GetResult();
+    private void SetArguments(object args)
+    {
+        if (_then != null)
+            throw new InvalidOperationException("Given must be called before Then");
+        if (_arguments is not null)
+            throw new InvalidOperationException("Can only supply method arguments once");
+        _arguments = args;
+    }
 
-    private static TResult Execute(Func<Task<TResult>> func)
-        => _taskFactory.StartNew(func).Unwrap().GetAwaiter().GetResult();
-
-
-    private static readonly TaskFactory _taskFactory = new
-        (CancellationToken.None,
-        TaskCreationOptions.None,
-        TaskContinuationOptions.None,
-        TaskScheduler.Default);
+    private ITestPipeline<TResult> When(Action command, Func<TResult> function)
+    {
+        if (_command != null || _function != null)
+            throw new InvalidOperationException("When may only be called once");
+        if (_then != null)
+            throw new InvalidOperationException("When must be called before Then");
+        (_command, _function) = (command, function);
+        return this;
+    }
 
     private TestResult<TResult> CreateTestResult()
     {
