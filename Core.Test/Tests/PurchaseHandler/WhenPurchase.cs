@@ -6,38 +6,23 @@ namespace XspecT.Test.Tests.PurchaseHandler;
 
 public class WhenPurchase : PurchaseHandlerSpec<PurchaseResponseModel>
 {
-    protected const int BasketId = 1;
-    protected Checkout Checkout;
+    protected Basket Basket;
 
-    protected WhenPurchase() => Using(new Basket()).When(() => SUT.Purchase(BasketId));
+    protected WhenPurchase() => When(() => SUT.Purchase(Basket.Id));
 
     protected override void Setup()
     {
         The<ICheckoutProvider>()
-            .Setup(provider => provider.GetExistingCheckout(BasketId))
-            .ReturnsAsync(Checkout);
-        The<IBasketRepository>()
-            .Setup(repo => repo.GetEditable(BasketId))
-            .ReturnsAsync(new Basket { Id = BasketId });
+            .Setup(provider => provider.GetExistingCheckout(Basket.Id))
+            .ReturnsAsync(new Checkout() { Basket = Basket });
+        The<IBasketRepository>().Setup(repo => repo.GetEditable(Basket.Id)).ReturnsAsync(Basket);
     }
 
     public class GivenEditableBasket : WhenPurchase
     {
-        protected override void Set() => Checkout = CreateCheckout();
-
         [Fact]
         public void ThenPublishBasketPurchasedEvent()
-            => Then.Does<ITopicExchangeV2<BasketPurchasedV1>>(topic =>
-            topic.Publish(It.IsAny<BasketPurchasedV1>()));
+            => GivenThat(() => Basket = new() { Id = 1 }).
+            Then.Does<ITopicExchangeV2<BasketPurchasedV1>>(_ => _.Publish(It.IsAny<BasketPurchasedV1>()));
     }
-
-    private static Checkout CreateCheckout(params BasketItem[] items)
-        => new()
-        {
-            Basket = new()
-            {
-                Id = BasketId,
-                Items = items
-            }
-        };
 }

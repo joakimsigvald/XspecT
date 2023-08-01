@@ -1,6 +1,7 @@
 ﻿using Moq;
 using Moq.AutoMock;
 using System.Globalization;
+using XspecT.Internal;
 
 namespace XspecT.Fixture;
 
@@ -10,14 +11,12 @@ namespace XspecT.Fixture;
 public abstract class Mocking : Verification.IMocked
 {
     protected readonly AutoMocker Mocker;
-    
+    protected readonly AutoFixture.Fixture Fixture = new();
+
     protected Mocking()
     {
         CultureInfo.CurrentCulture = GetCulture();
-        var defaultProvider = new FluentDefaultProvider
-        {
-            DefaultMocker = new(MockBehavior.Loose, DefaultValue.Mock)
-        };
+        var defaultProvider = new FluentDefaultProvider(Fixture);
         Mocker = new(MockBehavior.Loose, DefaultValue.Custom, defaultProvider, false);
         defaultProvider.Mocker = Mocker;
     }
