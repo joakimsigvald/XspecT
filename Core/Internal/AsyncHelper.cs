@@ -1,4 +1,4 @@
-﻿namespace XspecT.Fixture;
+﻿namespace XspecT.Internal;
 
 internal static class AsyncHelper
 {

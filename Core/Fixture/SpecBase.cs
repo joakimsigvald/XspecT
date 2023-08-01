@@ -5,7 +5,7 @@ using XspecT.Fixture.Exceptions;
 using XspecT.Fixture.Pipelines;
 using XspecT.Verification;
 
-using static XspecT.Fixture.AsyncHelper;
+using static XspecT.Internal.AsyncHelper;
 namespace XspecT.Fixture;
 
 /// <summary>
@@ -44,7 +44,7 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
     public ITestPipeline<TResult> GivenThat(Action arrangement)
     {
         if (_then != null)
-            throw new InvalidOperationException("Given must be called before Then");
+            throw new SetupFailed("Given must be called before Then");
         _arrangements.Push(arrangement);
         return this;
     }
@@ -79,7 +79,7 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
     protected TResult Result => Then.Result;
 
     public ITestPipeline<TResult> When(Action act)
-        => When(act ?? throw new InvalidOperationException("Act cannot be null"), null);
+        => When(act ?? throw new SetupFailed("Act cannot be null"), null);
 
     public ITestPipeline<TValue, TResult> When<TValue>(Action<TValue> act)
     {
@@ -113,7 +113,7 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
     }
 
     public ITestPipeline<TResult> When(Func<TResult> act)
-        => When(null, act ?? throw new InvalidOperationException("Act cannot be null"));
+        => When(null, act ?? throw new SetupFailed("Act cannot be null"));
 
     public ITestPipeline<TValue, TResult> When<TValue>(Func<TValue, TResult> act)
     {
@@ -192,7 +192,7 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
     private ITestPipeline<TResult> Substitute(params Action[] substitutions)
     {
         if (_then != null)
-            throw new InvalidOperationException("Use must be called before Then");
+            throw new SetupFailed("Use must be called before Then");
         foreach (var arrange in substitutions)
             _substitutions.Add(arrange);
         return this;
@@ -201,18 +201,18 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
     private void SetArguments(object args)
     {
         if (_then != null)
-            throw new InvalidOperationException("Given must be called before Then");
+            throw new SetupFailed("Given must be called before Then");
         if (_arguments is not null)
-            throw new InvalidOperationException("Can only supply method arguments once");
+            throw new SetupFailed("Can only supply method arguments once");
         _arguments = args;
     }
 
     private ITestPipeline<TResult> When(Action command, Func<TResult> function)
     {
         if (_command != null || _function != null)
-            throw new InvalidOperationException("When may only be called once");
+            throw new SetupFailed("When may only be called once");
         if (_then != null)
-            throw new InvalidOperationException("When must be called before Then");
+            throw new SetupFailed("When must be called before Then");
         (_command, _function) = (command, function);
         return this;
     }

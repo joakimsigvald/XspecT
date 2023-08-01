@@ -1,6 +1,6 @@
 ﻿using XspecT.Test.Subjects;
-using XspecT.Fixture;
 using XspecT.Verification;
+using Moq;
 
 namespace XspecT.Test.Tests.AsyncShoppingService;
 
