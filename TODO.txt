@@ -1,3 +1,3 @@
 * Comment all public methods
 * Using and GivenThat return pipeline for async test method
-* Replace AutoMocker with AutoFixture?
+* Replace AutoMocker with AutoFixture.AutoMoq?

@@ -7,6 +7,7 @@ public interface ITestPipelineBase<TResult, TSelf>
     TestResult<TResult> Then { get; }
     TSelf GivenThat(Action arrangement);
     TSelf Using<TService>(TService service);
+    TSelf Using<TService>(Func<TService> service);
 }
 
 public interface ITestPipeline<TResult> : ITestPipelineBase<TResult, ITestPipeline<TResult>>

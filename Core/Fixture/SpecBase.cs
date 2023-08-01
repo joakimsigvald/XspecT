@@ -49,14 +49,8 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
         return this;
     }
 
-    public ITestPipeline<TResult> Substitute(params Action[] substitutions)
-    {
-        if (_then != null)
-            throw new InvalidOperationException("Use must be called before Then");
-        foreach (var arrange in substitutions)
-            _substitutions.Add(arrange);
-        return this;
-    }
+    public ITestPipeline<TResult> Using<TValue>([DisallowNull] Func<TValue> value)
+        => Substitute(() => Mocker.Use(value()));
 
     public ITestPipeline<TResult> Using<TValue>([DisallowNull] TValue value)
         => Substitute(() => Mocker.Use(value));
@@ -195,6 +189,15 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
     protected virtual void TearDown() { }
     protected virtual Task TearDownAsync() => Task.CompletedTask;
 
+    private ITestPipeline<TResult> Substitute(params Action[] substitutions)
+    {
+        if (_then != null)
+            throw new InvalidOperationException("Use must be called before Then");
+        foreach (var arrange in substitutions)
+            _substitutions.Add(arrange);
+        return this;
+    }
+
     private void SetArguments(object args)
     {
         if (_then != null)
@@ -216,9 +219,9 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
 
     private TestResult<TResult> CreateTestResult()
     {
-        foreach (var substitute in _substitutions) substitute();
         Set();
         foreach (var arrange in _arrangements) arrange();
+        foreach (var substitute in _substitutions) substitute();
         Setup();
         Instantiate();
         CatchError(_command ?? GetResult);

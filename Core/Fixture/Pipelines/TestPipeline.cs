@@ -20,6 +20,12 @@ public class TestPipeline<TValue, TResult> : TestPipeline<TResult>, ITestPipelin
         return this;
     }
 
+    public ITestPipeline<TValue, TResult> Using<TService>(Func<TService> service)
+    {
+        Parent.Using(service);
+        return this;
+    }
+
     public ITestPipeline<TValue, TResult> GivenThat(Action arrangement)
     {
         Parent.GivenThat(arrangement);
@@ -80,6 +86,12 @@ public class TestPipeline<TValue1, TValue2, TResult>
         return this;
     }
 
+    public ITestPipeline<TValue1, TValue2, TResult> Using<TService>(Func<TService> service)
+    {
+        Parent.Using(service);
+        return this;
+    }
+
     public ITestPipeline<TValue1, TValue2, TResult> When(Action<TValue1, TValue2> act)
     {
         Parent.When(act);
@@ -123,6 +135,12 @@ public class TestPipeline<TValue1, TValue2, TValue3, TResult>
     }
 
     public ITestPipeline<TValue1, TValue2, TValue3, TResult> Using<TService>(TService service)
+    {
+        Parent.Using(service);
+        return this;
+    }
+
+    public ITestPipeline<TValue1, TValue2, TValue3, TResult> Using<TService>(Func<TService> service)
     {
         Parent.Using(service);
         return this;
