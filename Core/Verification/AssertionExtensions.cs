@@ -16,6 +16,8 @@ public static class AssertionExtensions
     public static IsNumerical<float> Is(this float actual) => new(actual);
     public static IsNumerical<double> Is(this double actual) => new(actual);
 
+    public static IsBool Is(this bool actual) => new(actual);
+
     public static IsObject Is(this object actual) => new(actual);
 
     public static IsEnumerable<TItem> Is<TItem>(this IEnumerable<TItem> actual) => new(actual);

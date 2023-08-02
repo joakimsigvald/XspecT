@@ -17,11 +17,12 @@
     <PackageProjectUrl>https://github.com/joakimsigvald/XspecT</PackageProjectUrl>
     <RepositoryUrl>https://github.com/joakimsigvald/XspecT.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageVersion>2.5.0</PackageVersion>
+    <PackageVersion>3.0.0</PackageVersion>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>icon.png</PackageIcon>
-    <PackageReleaseNotes>Breaking change: Removed obsolete assertion methods</PackageReleaseNotes>
+    <PackageReleaseNotes>Converted Then from property to method.
+Added Then(this) to return self, allowing access to members of the Spec-class for fluent assertions. Added bool fluent assertions</PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AutoFixture" Version="4.18.0" />

@@ -4,7 +4,7 @@ namespace XspecT.Fixture.Pipelines;
 
 public interface ITestPipelineBase<TResult, TSelf>
 {
-    TestResult<TResult> Then { get; }
+    TestResult<TResult> Then();
     TSelf GivenThat(Action arrangement);
     TSelf Using<TService>(TService service);
     TSelf Using<TService>(Func<TService> service);

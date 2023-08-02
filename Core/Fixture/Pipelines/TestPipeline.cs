@@ -7,7 +7,7 @@ public class TestPipeline<TResult>
 {
     protected readonly SpecBase<TResult> Parent;
     protected TestPipeline(SpecBase<TResult> parent) => Parent = parent;
-    public TestResult<TResult> Then => Parent.Then;
+    public TestResult<TResult> Then() => Parent.Then();
 }
 
 public class TestPipeline<TValue, TResult> : TestPipeline<TResult>, ITestPipeline<TValue, TResult>

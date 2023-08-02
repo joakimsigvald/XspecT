@@ -74,10 +74,6 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
         where TService : class
         => Substitute(() => Mocker.Use(setup));
 
-    public TestResult<TResult> Then => _then ??= CreateTestResult();
-
-    protected TResult Result => Then.Result;
-
     public ITestPipeline<TResult> When(Action act)
         => When(act ?? throw new SetupFailed("Act cannot be null"), null);
 
@@ -164,6 +160,8 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
         Func<TValue1, TValue2, TValue3, Task<TResult>> func)
         => When<TValue1, TValue2, TValue3>((v1, v2, v3) => Execute(() => func(v1, v2, v3)));
 
+    public TestResult<TResult> Then() => _then ??= CreateTestResult();
+
     public void Dispose()
     {
         TearDown();
@@ -185,6 +183,14 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
     protected virtual void Setup() { }
 
     protected abstract void Instantiate();
+
+    protected TSpec Then<TSpec>(TSpec spec)
+    {
+        Then();
+        return spec;
+    }
+
+    protected TResult Result => Then().Result;
 
     protected virtual void TearDown() { }
     protected virtual Task TearDownAsync() => Task.CompletedTask;

@@ -21,13 +21,13 @@ public abstract class WhenAddItem : ShoppingServiceAsyncSpec<ShoppingCart>
         [Fact] public void ThenCartIsNotEmpty() => Result.Items.Is().NotEmpty();
         [Fact] public void ThenCartHasOneItem() => Result.Items.Has().Single();
         [Fact] public void TheIdIsPreserved() => Result.Id.Is(CartId);
-        [Fact] public void ThenCartIsStored() => Then.Does<IShoppingCartRepository>(_ => _.StoreCart(Result));
+        [Fact] public void ThenCartIsStored() => Then().Does<IShoppingCartRepository>(_ => _.StoreCart(Result));
     }
 
     public class GivenCartWithOneItem : WhenAddItem
     {
         public GivenCartWithOneItem() => GivenThat(() => CartItems = new[] { new ShoppingCartItem("A1") });
-        [Fact] public void ThenDoNotThrow() => Then.NotThrows();
+        [Fact] public void ThenDoNotThrow() => Then().NotThrows();
         [Fact] public void ThenCartHasTwoItems() => Result.Items.Length.Is(2);
         [Fact] public void ThenNewItemIsLast() => Result.Items.Last().Sku.Is(NewItem.Sku);
         [Fact] public void ThenNewItemIsCloned() => Result.Items.Last().Is().Not(NewItem);
