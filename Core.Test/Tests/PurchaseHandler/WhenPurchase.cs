@@ -1,6 +1,6 @@
 ﻿using Moq;
+using XspecT.Test.Subjects.Order;
 using XspecT.Test.Subjects.Purchase;
-using XspecT.Test.Subjects.PurchaseOrder;
 using XspecT.Verification;
 
 namespace XspecT.Test.Tests.PurchaseHandler;

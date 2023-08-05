@@ -1,4 +1,6 @@
-﻿namespace XspecT.Test.Subjects.PurchaseOrder;
+﻿using XspecT.Test.Subjects.Shopping;
+
+namespace XspecT.Test.Subjects.Order;
 
 public class Checkout
 {

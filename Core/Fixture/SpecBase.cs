@@ -15,7 +15,7 @@ namespace XspecT.Fixture;
 public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisposable
 {
     private readonly Stack<Action> _arrangements = new();
-    private readonly List<Action> _substitutions = new();
+    private readonly List<Action> _usings = new();
     private readonly SpecActor<TResult> _actor = new ();
     private TestResult<TResult> _then;
     private object _arguments;
@@ -48,29 +48,29 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
     }
 
     public ITestPipeline<TResult> Using<TValue>([DisallowNull] Func<TValue> value)
-        => Substitute(() => Mocker.Use(value()));
+        => Using(() => Use(value()));
 
     public ITestPipeline<TResult> Using<TValue>([DisallowNull] TValue value)
-        => Substitute(() => Mocker.Use(value));
+        => Using(() => Use(value));
 
     public ITestPipeline<TResult> Using<TValue1, TValue2>(
         [DisallowNull] TValue1 value1, [DisallowNull] TValue2 value2)
-        => Substitute(() => Mocker.Use(value1), () => Mocker.Use(value2));
+        => Using(() => Use(value1), () => Use(value2));
 
     public ITestPipeline<TResult> Using<TValue1, TValue2, TValue3>(
         [DisallowNull] TValue1 value1, [DisallowNull] TValue2 value2, [DisallowNull] TValue3 value3)
-        => Substitute(() => Mocker.Use(value1), () => Mocker.Use(value2), () => Mocker.Use(value3));
+        => Using(() => Use(value1), () => Use(value2), () => Use(value3));
 
     public ITestPipeline<TResult> Using(Type type, object value)
-        => Substitute(() => Mocker.Use(type, value));
+        => Using(() => Use(type, value));
 
     public ITestPipeline<TResult> Using<TService>(Mock<TService> mockedService)
         where TService : class
-        => Substitute(() => Mocker.Use(mockedService));
+        => Using(() => Use(mockedService));
 
     public ITestPipeline<TResult> Using<TService>(Expression<Func<TService, bool>> setup)
         where TService : class
-        => Substitute(() => Mocker.Use(setup));
+        => Using(() => Use(setup));
 
     public ITestPipeline<TResult> When(Action act)
         => When(act ?? throw new SetupFailed("Act cannot be null"), null);
@@ -193,12 +193,12 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
     protected virtual void TearDown() { }
     protected virtual Task TearDownAsync() => Task.CompletedTask;
 
-    private ITestPipeline<TResult> Substitute(params Action[] substitutions)
+    private ITestPipeline<TResult> Using(params Action[] usings)
     {
         if (_then != null)
             throw new SetupFailed("Use must be called before Then");
-        foreach (var arrange in substitutions)
-            _substitutions.Add(arrange);
+        foreach (var use in usings)
+            _usings.Add(use);
         return this;
     }
 
@@ -229,7 +229,7 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
     {
         Set();
         foreach (var arrange in _arrangements) arrange();
-        foreach (var substitute in _substitutions) substitute();
+        foreach (var use in _usings) use();
         Setup();
         Instantiate();
     }

@@ -1,6 +1,6 @@
 ﻿namespace XspecT.Test.Subjects;
 
-public class Order
+public class PurchaseOrder
 {
     public int Id { get; set; }
 }

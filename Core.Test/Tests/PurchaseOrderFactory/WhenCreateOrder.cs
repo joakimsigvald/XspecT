@@ -1,4 +1,4 @@
-﻿using XspecT.Test.Subjects.PurchaseOrder;
+﻿using XspecT.Test.Subjects.Order;
 
 namespace XspecT.Test.Tests.PurchaseOrderFactory;
 

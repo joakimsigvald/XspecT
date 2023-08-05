@@ -2,6 +2,6 @@
 
 namespace XspecT.Test.Tests.PurchaseOrderFactory;
 
-public abstract class PurchaseOrderFactorySpec<TResult> : SubjectSpec<Subjects.PurchaseOrder.PurchaseOrderFactory, TResult>
+public abstract class PurchaseOrderFactorySpec<TResult> : SubjectSpec<Subjects.Order.PurchaseOrderFactory, TResult>
 {
 }

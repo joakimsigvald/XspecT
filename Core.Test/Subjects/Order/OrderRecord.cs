@@ -1,4 +1,4 @@
-﻿namespace XspecT.Test.Subjects.PurchaseOrder;
+﻿namespace XspecT.Test.Subjects.Order;
 
 public class OrderRecord
 {

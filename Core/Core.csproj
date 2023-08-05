@@ -10,19 +10,19 @@
 	  <RootNamespace>XspecT</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <IsPackable>true</IsPackable>
-    <PackageTags>unit test specification given when then fluent mock xunit moq automock</PackageTags>
+    <PackageTags>unit test specification given when then fluent mock xunit moq automock autofixture</PackageTags>
     <PackageIconUrl></PackageIconUrl>
     <PackageProjectUrl>https://github.com/joakimsigvald/XspecT.git</PackageProjectUrl>
     <PackageLicenseUrl></PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/joakimsigvald/XspecT</PackageProjectUrl>
     <RepositoryUrl>https://github.com/joakimsigvald/XspecT.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageVersion>3.0.0</PackageVersion>
+    <PackageVersion>3.1.0</PackageVersion>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>icon.png</PackageIcon>
-    <PackageReleaseNotes>Converted Then from property to method.
-Added Then(this) to return self, allowing access to members of the Spec-class for fluent assertions. Added bool fluent assertions</PackageReleaseNotes>
+    <PackageReleaseNotes>Breaking changes: Made AutoMock.Mocker and AutoFixture.Fixture private.
+    Uses Fixture for creating all default values instead of Mocker</PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AutoFixture" Version="4.18.0" />
