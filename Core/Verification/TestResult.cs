@@ -29,24 +29,38 @@ public class TestResult<TResult>
     }
 
     public void Does<TObject>(Expression<Action<TObject>> expression) where TObject : class
-        => Mocked<TObject>().Verify(expression);
+        => CombineWithErrorOnFail(() => Mocked<TObject>().Verify(expression));
 
     public void Does<TObject>(Expression<Action<TObject>> expression, Times times) where TObject : class
-        => Mocked<TObject>().Verify(expression, times);
+        => CombineWithErrorOnFail(() => Mocked<TObject>().Verify(expression, times));
 
     public void Does<TObject>(Expression<Action<TObject>> expression, Func<Times> times) where TObject : class
-        => Mocked<TObject>().Verify(expression, times);
+        => CombineWithErrorOnFail(() => Mocked<TObject>().Verify(expression, times));
 
     public void Does<TObject, TReturns>(Expression<Func<TObject, TReturns>> expression) where TObject : class
-        => Mocked<TObject>().Verify(expression);
+        => CombineWithErrorOnFail(() => Mocked<TObject>().Verify(expression));
 
     public void Does<TObject, TReturns>(Expression<Func<TObject, TReturns>> expression, Times times)
         where TObject : class
-        => Mocked<TObject>().Verify(expression, times);
+        => CombineWithErrorOnFail(() => Mocked<TObject>().Verify(expression, times));
 
     public void Does<TObject, TReturns>(Expression<Func<TObject, TReturns>> expression, Func<Times> times)
         where TObject : class
-        => Mocked<TObject>().Verify(expression, times);
+        => CombineWithErrorOnFail(() => Mocked<TObject>().Verify(expression, times));
 
     private Mock<TObject> Mocked<TObject>() where TObject : class => _mocking.The<TObject>();
+
+    private void CombineWithErrorOnFail(Action verify)
+    {
+        try
+        {
+            verify();
+        }
+        catch (Exception ex)
+        {
+            if (_error is null)
+                throw;
+            throw new AggregateException(ex, _error);
+        }
+    }
 }
