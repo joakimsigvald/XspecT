@@ -26,7 +26,7 @@ public abstract class Mocking : Verification.IMocked
 
     private static IFixture CreateAutoFixture()
     {
-        var fixture = new AutoFixture.Fixture();
+        AutoFixture.Fixture fixture = new () { RepeatCount = 0 };
         var customization = new SupportMutableValueTypesCustomization();
         customization.Customize(fixture);
         return fixture;
