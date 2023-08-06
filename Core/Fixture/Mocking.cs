@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using AutoFixture;
+using Moq;
 using Moq.AutoMock;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
@@ -12,14 +13,23 @@ namespace XspecT.Fixture;
 public abstract class Mocking : Verification.IMocked
 {
     private readonly AutoMocker _mocker;
-    private readonly AutoFixture.Fixture _fixture = new();
+    private readonly IFixture _fixture;
     private readonly IDictionary<Type, object> _usings = new Dictionary<Type, object>();
 
     protected Mocking()
     {
+        _fixture = CreateAutoFixture();
         CultureInfo.CurrentCulture = GetCulture();
         var defaultProvider = new FluentDefaultProvider(_fixture, _usings);
         _mocker = new(MockBehavior.Loose, DefaultValue.Custom, defaultProvider, false);
+    }
+
+    private static IFixture CreateAutoFixture()
+    {
+        var fixture = new AutoFixture.Fixture();
+        var customization = new SupportMutableValueTypesCustomization();
+        customization.Customize(fixture);
+        return fixture;
     }
 
     public Mock<TObject> The<TObject>() where TObject : class => _mocker.GetMock<TObject>();
