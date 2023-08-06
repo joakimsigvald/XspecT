@@ -15,6 +15,9 @@ public static class AssertionExtensions
     public static IsNumerical<ulong> Is(this ulong actual) => new(actual);
     public static IsNumerical<float> Is(this float actual) => new(actual);
     public static IsNumerical<double> Is(this double actual) => new(actual);
+    public static IsNullableInt Is(this int? actual) => new(actual);
+    public static IsNullableDecimal Is(this decimal? actual) => new(actual);
+    public static IsNullableFloat Is(this float? actual) => new(actual);
 
     public static IsBool Is(this bool actual) => new(actual);
 
@@ -27,6 +30,83 @@ public static class AssertionExtensions
         => new(actual);
 
     /// <summary>
+    /// actual.Should().Be(expected)
+    /// </summary>
+    public static AndConstraint<FluentAssertions.Numeric.NullableNumericAssertions<byte>> Is(
+        this byte? actual, byte? expected)
+        => actual.Should().Be(expected);
+
+    /// <summary>
+    /// actual.Should().Be(expected)
+    /// </summary>
+    public static AndConstraint<FluentAssertions.Numeric.NullableNumericAssertions<sbyte>> Is(
+        this sbyte? actual, sbyte? expected)
+        => actual.Should().Be(expected);
+
+    /// <summary>
+    /// actual.Should().Be(expected)
+    /// </summary>
+    public static AndConstraint<FluentAssertions.Numeric.NullableNumericAssertions<ushort>> Is(
+        this ushort? actual, ushort? expected)
+        => actual.Should().Be(expected);
+
+    /// <summary>
+    /// actual.Should().Be(expected)
+    /// </summary>
+    public static AndConstraint<FluentAssertions.Numeric.NullableNumericAssertions<short>> Is(
+        this short? actual, short? expected)
+        => actual.Should().Be(expected);
+
+    /// <summary>
+    /// actual.Should().Be(expected)
+    /// </summary>
+    public static AndConstraint<FluentAssertions.Numeric.NullableNumericAssertions<uint>> Is(
+        this uint? actual, uint? expected)
+        => actual.Should().Be(expected);
+
+    /// <summary>
+    /// actual.Should().Be(expected)
+    /// </summary>
+    public static AndConstraint<FluentAssertions.Numeric.NullableNumericAssertions<int>> Is(
+        this int? actual, int? expected)
+        => actual.Should().Be(expected);
+
+    /// <summary>
+    /// actual.Should().Be(expected)
+    /// </summary>
+    public static AndConstraint<FluentAssertions.Numeric.NullableNumericAssertions<ulong>> Is(
+        this ulong? actual, ulong? expected)
+        => actual.Should().Be(expected);
+
+    /// <summary>
+    /// actual.Should().Be(expected)
+    /// </summary>
+    public static AndConstraint<FluentAssertions.Numeric.NullableNumericAssertions<long>> Is(
+        this long? actual, long? expected)
+        => actual.Should().Be(expected);
+
+    /// <summary>
+    /// actual.Should().Be(expected)
+    /// </summary>
+    public static AndConstraint<FluentAssertions.Numeric.NullableNumericAssertions<float>> Is(
+        this float? actual, float? expected)
+        => actual.Should().Be(expected);
+
+    /// <summary>
+    /// actual.Should().Be(expected)
+    /// </summary>
+    public static AndConstraint<FluentAssertions.Numeric.NullableNumericAssertions<double>> Is(
+        this double? actual, double? expected)
+        => actual.Should().Be(expected);
+
+    /// <summary>
+    /// actual.Should().Be(expected)
+    /// </summary>
+    public static AndConstraint<FluentAssertions.Numeric.NullableNumericAssertions<decimal>> Is(
+        this decimal? actual, decimal? expected)
+        => actual.Should().Be(expected);
+
+    /// <summary>
     /// actual.Should().BeSameAs(expected)
     /// </summary>
     public static AndConstraint<FluentAssertions.Primitives.ObjectAssertions> Is(
@@ -34,6 +114,7 @@ public static class AssertionExtensions
         => actual.Should().BeSameAs(expected);
 
     public static HasEnumerable<TItem> Has<TItem>(this IEnumerable<TItem> actual) => new(actual);
+
     /// <summary>
     /// actual.Should().Be(expected)
     /// </summary>
