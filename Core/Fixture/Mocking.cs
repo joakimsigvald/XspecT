@@ -40,9 +40,18 @@ public abstract class Mocking : Verification.IMocked
     /// <returns></returns>
     protected virtual CultureInfo GetCulture() => CultureInfo.InvariantCulture;
 
-    internal protected void Use<TService>([DisallowNull] TService service)
-        => Use(typeof(TService), service ?? throw new ArgumentNullException(nameof(service)));
-    internal protected void Use(Type type, object value)
+    internal protected void Use<TService>(TService service)
+    {
+        var type = typeof(TService);
+        Use(typeof(TService), service);
+        if (typeof(Task).IsAssignableFrom(type))
+            return;
+        if (typeof(Mock).IsAssignableFrom(type))
+            return;
+        Use(Task.FromResult(service));
+    }
+
+    private void Use(Type type, object value)
     {
         _usings[type] = value;
         _mocker.Use(type, value);

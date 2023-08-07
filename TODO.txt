@@ -1,4 +1,3 @@
 * Comment all public methods
 * Using and GivenThat return pipeline for async test method
-* Is for nullable numbers (Decimal?)
 * Can Given be used instead of GivenThat for providing values in more cases? (Add way to access provided values where needed?)

@@ -50,19 +50,16 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
     public ITestPipeline<TResult> Using<TValue>([DisallowNull] Func<TValue> value)
         => Using(() => Use(value()));
 
-    public ITestPipeline<TResult> Using<TValue>([DisallowNull] TValue value)
+    public ITestPipeline<TResult> Using<TValue>(TValue value)
         => Using(() => Use(value));
 
     public ITestPipeline<TResult> Using<TValue1, TValue2>(
-        [DisallowNull] TValue1 value1, [DisallowNull] TValue2 value2)
+        TValue1 value1, TValue2 value2)
         => Using(() => Use(value1), () => Use(value2));
 
     public ITestPipeline<TResult> Using<TValue1, TValue2, TValue3>(
-        [DisallowNull] TValue1 value1, [DisallowNull] TValue2 value2, [DisallowNull] TValue3 value3)
+        TValue1 value1, TValue2 value2, TValue3 value3)
         => Using(() => Use(value1), () => Use(value2), () => Use(value3));
-
-    public ITestPipeline<TResult> Using(Type type, object value)
-        => Using(() => Use(type, value));
 
     public ITestPipeline<TResult> Using<TService>(Mock<TService> mockedService)
         where TService : class
