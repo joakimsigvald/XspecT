@@ -20,7 +20,7 @@ internal class SpecActor<TResult>
     }
 
     internal TestResult<TResult> Execute<TSpec>(TSpec spec)
-        where TSpec : IMocked
+        where TSpec : IMocking
     {
         CatchError(_command ?? GetResult);
         return new(_result, _error, spec);

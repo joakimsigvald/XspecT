@@ -17,15 +17,15 @@
     <PackageProjectUrl>https://github.com/joakimsigvald/XspecT</PackageProjectUrl>
     <RepositoryUrl>https://github.com/joakimsigvald/XspecT.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageVersion>3.3.2</PackageVersion>
+    <PackageVersion>4.0.0</PackageVersion>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>icon.png</PackageIcon>
-    <PackageReleaseNotes>Removed non-generic Using(Type...) and allow generic Using with null. Generating Using Task when Using value that is not Mock or Task</PackageReleaseNotes>
+    <PackageReleaseNotes>Create and retreive test-data. Renamed The to _ for accessing mock</PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AutoFixture" Version="4.18.0" />
-    <PackageReference Include="Moq" Version="4.18.4" />
+    <PackageReference Include="Moq" Version="4.20.1" />
     <PackageReference Include="Moq.AutoMock" Version="3.5.0" />
     <PackageReference Include="xunit" Version="2.5.0" />
     <PackageReference Include="FluentAssertions" Version="6.11.0" />
