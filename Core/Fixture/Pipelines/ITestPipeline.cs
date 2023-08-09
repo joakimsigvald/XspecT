@@ -12,6 +12,15 @@ public interface ITestPipelineBase<TResult, TSelf>
 
 public interface ITestPipeline<TResult> : ITestPipelineBase<TResult, ITestPipeline<TResult>>
 {
+    ITestPipeline<TResult> When(Action act);
+    ITestPipeline<TResult> When(Func<TResult> act);
+    ITestPipeline<TResult> When(Func<Task> action);
+    ITestPipeline<TResult> When(Func<Task<TResult>> func);
+}
+
+
+public interface IStaticTestPipeline<TResult> : ITestPipelineBase<TResult, IStaticTestPipeline<TResult>>
+{
     ITestPipeline<TValue, TResult> Given<TValue>(TValue value);
     ITestPipeline<TValue1, TValue2, TResult> Given<TValue1, TValue2>(TValue1 value1, TValue2 value2);
     ITestPipeline<TValue1, TValue2, TValue3, TResult> Given<TValue1, TValue2, TValue3>(
