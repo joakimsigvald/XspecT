@@ -9,26 +9,26 @@ public abstract class StaticSpec<TResult> : SpecBase<TResult>
 {
     private object _arguments;
 
-    public ITestPipeline<TValue, TResult> Given<TValue>(TValue value)
+    public IStaticTestPipeline<TValue, TResult> Given<TValue>(TValue value)
     {
         SetArguments(value);
         return new StaticTestPipeline<TValue, TResult>(this);
     }
 
-    public ITestPipeline<TValue1, TValue2, TResult> Given<TValue1, TValue2>(TValue1 value1, TValue2 value2)
+    public IStaticTestPipeline<TValue1, TValue2, TResult> Given<TValue1, TValue2>(TValue1 value1, TValue2 value2)
     {
         SetArguments((value1, value2));
         return new StaticTestPipeline<TValue1, TValue2, TResult>(this);
     }
 
-    public ITestPipeline<TValue1, TValue2, TValue3, TResult> Given<TValue1, TValue2, TValue3>(
+    public IStaticTestPipeline<TValue1, TValue2, TValue3, TResult> Given<TValue1, TValue2, TValue3>(
         TValue1 value1, TValue2 value2, TValue3 value3)
     {
         SetArguments((value1, value2, value3));
         return new StaticTestPipeline<TValue1, TValue2, TValue3, TResult>(this);
     }
 
-    public ITestPipeline<TValue, TResult> When<TValue>(Action<TValue> act)
+    public IStaticTestPipeline<TValue, TResult> When<TValue>(Action<TValue> act)
     {
         When(() =>
         {
@@ -38,7 +38,7 @@ public abstract class StaticSpec<TResult> : SpecBase<TResult>
         return new StaticTestPipeline<TValue, TResult>(this);
     }
 
-    public ITestPipeline<TValue1, TValue2, TResult> When<TValue1, TValue2>(Action<TValue1, TValue2> act)
+    public IStaticTestPipeline<TValue1, TValue2, TResult> When<TValue1, TValue2>(Action<TValue1, TValue2> act)
     {
         When(() =>
         {
@@ -48,7 +48,7 @@ public abstract class StaticSpec<TResult> : SpecBase<TResult>
         return new StaticTestPipeline<TValue1, TValue2, TResult>(this);
     }
 
-    public ITestPipeline<TValue1, TValue2, TValue3, TResult> When<TValue1, TValue2, TValue3>(
+    public IStaticTestPipeline<TValue1, TValue2, TValue3, TResult> When<TValue1, TValue2, TValue3>(
         Action<TValue1, TValue2, TValue3> act)
     {
         When(() =>
@@ -59,7 +59,7 @@ public abstract class StaticSpec<TResult> : SpecBase<TResult>
         return new StaticTestPipeline<TValue1, TValue2, TValue3, TResult>(this);
     }
 
-    public ITestPipeline<TValue, TResult> When<TValue>(Func<TValue, TResult> act)
+    public IStaticTestPipeline<TValue, TResult> When<TValue>(Func<TValue, TResult> act)
     {
         When(() =>
         {
@@ -69,7 +69,7 @@ public abstract class StaticSpec<TResult> : SpecBase<TResult>
         return new StaticTestPipeline<TValue, TResult>(this);
     }
 
-    public ITestPipeline<TValue1, TValue2, TResult> When<TValue1, TValue2>(Func<TValue1, TValue2, TResult> act)
+    public IStaticTestPipeline<TValue1, TValue2, TResult> When<TValue1, TValue2>(Func<TValue1, TValue2, TResult> act)
     {
         When(() =>
         {
@@ -79,7 +79,7 @@ public abstract class StaticSpec<TResult> : SpecBase<TResult>
         return new StaticTestPipeline<TValue1, TValue2, TResult>(this);
     }
 
-    public ITestPipeline<TValue1, TValue2, TValue3, TResult> When<TValue1, TValue2, TValue3>(
+    public IStaticTestPipeline<TValue1, TValue2, TValue3, TResult> When<TValue1, TValue2, TValue3>(
         Func<TValue1, TValue2, TValue3, TResult> act)
     {
         When(() =>
@@ -90,22 +90,21 @@ public abstract class StaticSpec<TResult> : SpecBase<TResult>
         return new StaticTestPipeline<TValue1, TValue2, TValue3, TResult>(this);
     }
 
-    public ITestPipeline<TValue, TResult> When<TValue>(Func<TValue, Task> action)
+    public IStaticTestPipeline<TValue, TResult> When<TValue>(Func<TValue, Task> action)
         => When<TValue>(v => Execute(() => action(v)));
-    public ITestPipeline<TValue1, TValue2, TResult> When<TValue1, TValue2>(Func<TValue1, TValue2, Task> action)
+    public IStaticTestPipeline<TValue1, TValue2, TResult> When<TValue1, TValue2>(Func<TValue1, TValue2, Task> action)
         => When<TValue1, TValue2>((v1, v2) => Execute(() => action(v1, v2)));
-    public ITestPipeline<TValue1, TValue2, TValue3, TResult> When<TValue1, TValue2, TValue3>(
+    public IStaticTestPipeline<TValue1, TValue2, TValue3, TResult> When<TValue1, TValue2, TValue3>(
         Func<TValue1, TValue2, TValue3, Task> action)
         => When<TValue1, TValue2, TValue3>((v1, v2, v3) => Execute(() => action(v1, v2, v3)));
 
-    public ITestPipeline<TValue, TResult> When<TValue>(Func<TValue, Task<TResult>> func)
+    public IStaticTestPipeline<TValue, TResult> When<TValue>(Func<TValue, Task<TResult>> func)
     => When<TValue>(v => Execute(() => func(v)));
-    public ITestPipeline<TValue1, TValue2, TResult> When<TValue1, TValue2>(Func<TValue1, TValue2, Task<TResult>> func)
+    public IStaticTestPipeline<TValue1, TValue2, TResult> When<TValue1, TValue2>(Func<TValue1, TValue2, Task<TResult>> func)
         => When<TValue1, TValue2>((v1, v2) => Execute(() => func(v1, v2)));
-    public ITestPipeline<TValue1, TValue2, TValue3, TResult> When<TValue1, TValue2, TValue3>(
+    public IStaticTestPipeline<TValue1, TValue2, TValue3, TResult> When<TValue1, TValue2, TValue3>(
         Func<TValue1, TValue2, TValue3, Task<TResult>> func)
         => When<TValue1, TValue2, TValue3>((v1, v2, v3) => Execute(() => func(v1, v2, v3)));
-
 
     protected override sealed void Instantiate() { }
 

@@ -17,11 +17,11 @@
     <PackageProjectUrl>https://github.com/joakimsigvald/XspecT</PackageProjectUrl>
     <RepositoryUrl>https://github.com/joakimsigvald/XspecT.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageVersion>4.0.0</PackageVersion>
+    <PackageVersion>4.1.0</PackageVersion>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>icon.png</PackageIcon>
-    <PackageReleaseNotes>Create and retreive test-data. Renamed The to _ for accessing mock</PackageReleaseNotes>
+    <PackageReleaseNotes>Only use Given in static pipelines (GivenThat can be used for both static and subject)</PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AutoFixture" Version="4.18.0" />
