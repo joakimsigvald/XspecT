@@ -20,6 +20,13 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
     private TestResult<TResult> _then;
     protected bool HasRun => _then != null;
 
+    /// <summary>
+    /// Provide arrangement to the test-pipeline that will be executed before the test-method, in reversed chronological order 
+    /// (allowing arrangement added later to be used in arrangement added earlier)
+    /// </summary>
+    /// <param name="arrangement"></param>
+    /// <returns></returns>
+    /// <exception cref="SetupFailed"></exception>
     public ITestPipeline<TResult> GivenThat(Action arrangement)
     {
         if (HasRun)
