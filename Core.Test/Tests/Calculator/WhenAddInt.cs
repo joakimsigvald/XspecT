@@ -22,3 +22,17 @@ public abstract class WhenAddInt : StaticSpec<int>
         [Fact] public void Then_Return_5() => Result.Is(5);
     }
 }
+
+public abstract class WhenAddIntAsync : StaticSpec<int>
+{
+    public class Given_1_1 : WhenAddIntAsync
+    {
+        public Given_1_1() => Given(1, 1).When(AddAsync);
+        [Fact] public void Then_Return_2() => Result.Is(2);
+    }
+
+    public class Given_2_3 : WhenAddIntAsync
+    {
+        [Fact] public void Then_Return_5() => When<int, int>(AddAsync).Given(2, 3).Then().Result.Is(5);
+    }
+}
