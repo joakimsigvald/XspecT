@@ -28,38 +28,104 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
         return this;
     }
 
-    public ITestPipeline<TResult> Using<TValue>([DisallowNull] Func<TValue> value)
-        => Using(() => Use(value()));
+    /// <summary>
+    /// Provide service to the test-pipeline that can be used in auto-mocking
+    /// </summary>
+    /// <typeparam name="TService"></typeparam>
+    /// <param name="service"></param>
+    /// <returns></returns>
+    public ITestPipeline<TResult> Using<TService>([DisallowNull] Func<TService> service)
+        => Using(() => Use(service()));
 
-    public ITestPipeline<TResult> Using<TValue>(TValue value)
-        => Using(() => Use(value));
+    /// <summary>
+    /// Provide service to the test-pipeline that can be used in auto-mocking
+    /// </summary>
+    /// <typeparam name="TService"></typeparam>
+    /// <param name="service"></param>
+    /// <returns></returns>
+    public ITestPipeline<TResult> Using<TService>(TService service)
+        => Using(() => Use(service));
 
-    public ITestPipeline<TResult> Using<TValue1, TValue2>(
-        TValue1 value1, TValue2 value2)
-        => Using(() => Use(value1), () => Use(value2));
+    /// <summary>
+    /// Provide services to the test-pipeline that can be used in auto-mocking
+    /// </summary>
+    /// <typeparam name="TService1"></typeparam>
+    /// <typeparam name="TService2"></typeparam>
+    /// <param name="service1"></param>
+    /// <param name="service2"></param>
+    /// <returns></returns>
+    public ITestPipeline<TResult> Using<TService1, TService2>(
+        TService1 service1, TService2 service2)
+        => Using(() => Use(service1), () => Use(service2));
 
-    public ITestPipeline<TResult> Using<TValue1, TValue2, TValue3>(
-        TValue1 value1, TValue2 value2, TValue3 value3)
-        => Using(() => Use(value1), () => Use(value2), () => Use(value3));
+    /// <summary>
+    /// Provide services to the test-pipeline that can be used in auto-mocking
+    /// </summary>
+    /// <typeparam name="TService1"></typeparam>
+    /// <typeparam name="TService2"></typeparam>
+    /// <typeparam name="TService3"></typeparam>
+    /// <param name="service1"></param>
+    /// <param name="service2"></param>
+    /// <param name="service3"></param>
+    /// <returns></returns>
+    public ITestPipeline<TResult> Using<TService1, TService2, TService3>(
+        TService1 service1, TService2 service2, TService3 service3)
+        => Using(() => Use(service1), () => Use(service2), () => Use(service3));
 
+    /// <summary>
+    /// Provide service to the test-pipeline that can be used in auto-mocking
+    /// </summary>
+    /// <typeparam name="TService"></typeparam>
+    /// <param name="mockedService"></param>
+    /// <returns></returns>
     public ITestPipeline<TResult> Using<TService>(Mock<TService> mockedService)
         where TService : class
         => Using(() => Use(mockedService));
 
+    /// <summary>
+    /// Provide service to the test-pipeline that can be used in auto-mocking
+    /// </summary>
+    /// <typeparam name="TService"></typeparam>
+    /// <param name="setup"></param>
+    /// <returns></returns>
     public ITestPipeline<TResult> Using<TService>(Expression<Func<TService, bool>> setup)
         where TService : class
         => Using(() => Use(setup));
 
+    /// <summary>
+    /// Provide the method-under-test to the test-pipeline
+    /// </summary>
+    /// <param name="act"></param>
+    /// <returns></returns>
     public ITestPipeline<TResult> When(Action act)
         => When(act ?? throw new SetupFailed("Act cannot be null"), null);
 
+    /// <summary>
+    /// Provide the method-under-test to the test-pipeline
+    /// </summary>
+    /// <param name="act"></param>
+    /// <returns></returns>
     public ITestPipeline<TResult> When(Func<TResult> act)
         => When(null, act ?? throw new SetupFailed("Act cannot be null"));
 
+    /// <summary>
+    /// Provide the method-under-test to the test-pipeline
+    /// </summary>
+    /// <param name="action"></param>
+    /// <returns></returns>
     public ITestPipeline<TResult> When(Func<Task> action) => When(() => Execute(action));
 
+    /// <summary>
+    /// Provide the method-under-test to the test-pipeline
+    /// </summary>
+    /// <param name="func"></param>
+    /// <returns></returns>
     public ITestPipeline<TResult> When(Func<Task<TResult>> func) => When(() => Execute(func));
 
+    /// <summary>
+    /// Run the test pipeline, before accessing the result
+    /// </summary>
+    /// <returns>The test result</returns>
     public TestResult<TResult> Then() => _then ??= Run();
 
     public void Dispose()
@@ -84,15 +150,32 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
 
     protected abstract void Instantiate();
 
+    /// <summary>
+    /// Run the test-pipeline and return the test-class (specification).
+    /// Use this method to access any member on the testclass after the test is run, for a more fluent experience
+    /// </summary>
+    /// <typeparam name="TSpec"></typeparam>
+    /// <param name="spec"></param>
+    /// <returns></returns>
     protected TSpec Then<TSpec>(TSpec spec)
     {
         Then();
         return spec;
     }
 
+    /// <summary>
+    /// Contains the returned value after calling method-under-test
+    /// </summary>
     protected TResult Result => Then().Result;
 
+    /// <summary>
+    /// Override this method to provide tear-down logic after test has run
+    /// </summary>
     protected virtual void TearDown() { }
+
+    /// <summary>
+    /// Override this method to provide async tear-down logic after test has run
+    /// </summary>
     protected virtual Task TearDownAsync() => Task.CompletedTask;
 
     private ITestPipeline<TResult> Using(params Action[] usings)
