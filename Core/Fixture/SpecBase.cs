@@ -14,8 +14,7 @@ namespace XspecT.Fixture;
 /// </summary>
 public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisposable
 {
-    private readonly Stack<Action> _arrangements = new();
-    private readonly List<Action> _usings = new();
+    private readonly List<Action> _arrangements = new();
     private readonly SpecActor<TResult> _actor = new ();
     private TestResult<TResult> _then;
     protected bool HasRun => _then != null;
@@ -31,7 +30,7 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
     {
         if (HasRun)
             throw new SetupFailed("Given must be called before Then");
-        _arrangements.Push(arrangement);
+        _arrangements.Insert(0, arrangement);
         return this;
     }
 
@@ -190,7 +189,7 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
         if (HasRun)
             throw new SetupFailed("Use must be called before Then");
         foreach (var use in usings)
-            _usings.Add(use);
+            _arrangements.Add(use);
         return this;
     }
 
@@ -212,7 +211,6 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
     {
         Set();
         foreach (var arrange in _arrangements) arrange();
-        foreach (var use in _usings) use();
         Setup();
         Instantiate();
     }
