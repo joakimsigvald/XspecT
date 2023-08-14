@@ -27,7 +27,7 @@ public abstract class Mocking : Verification.IMocking
     /// </summary>
     /// <typeparam name="TObject"></typeparam>
     /// <returns></returns>
-    public Mock<TObject> _<TObject>() where TObject : class => _mocker.GetMock<TObject>();
+    public Mock<TObject> TheMocked<TObject>() where TObject : class => _mocker.GetMock<TObject>();
 
     /// <summary>
     /// Alias for A

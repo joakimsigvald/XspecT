@@ -10,7 +10,7 @@ public abstract class WhenAddItem : ShoppingServiceAsyncSpec<ShoppingCart>
     protected ShoppingCartItem[] CartItems;
     protected readonly ShoppingCartItem NewItem = new("N1");
 
-    protected WhenAddItem() => GivenThat(() => _<IShoppingCartRepository>().Setup(_ => _.GetCart(CartId))
+    protected WhenAddItem() => GivenThat(() => TheMocked<IShoppingCartRepository>().Setup(_ => _.GetCart(CartId))
         .ReturnsAsync(new ShoppingCart { Id = CartId, Items = CartItems }))
         .When(() => SUT.AddToCart(CartId, NewItem))
         .GivenThat(() => CartItems ??= Array.Empty<ShoppingCartItem>());

@@ -48,7 +48,7 @@ public class TestResult<TResult>
         where TObject : class
         => CombineWithErrorOnFail(() => Mocked<TObject>().Verify(expression, times));
 
-    private Mock<TObject> Mocked<TObject>() where TObject : class => _mocking._<TObject>();
+    private Mock<TObject> Mocked<TObject>() where TObject : class => _mocking.TheMocked<TObject>();
 
     private void CombineWithErrorOnFail(Action verify)
     {

@@ -14,10 +14,10 @@ public class WhenPurchase : PurchaseHandlerSpec<PurchaseResponseModel>
 
     protected override void Setup()
     {
-        _<ICheckoutProvider>()
+        TheMocked<ICheckoutProvider>()
             .Setup(provider => provider.GetExistingCheckout(BasketId))
             .ReturnsAsync(Checkout);
-        _<IBasketRepository>().Setup(repo => repo.GetEditable(BasketId)).ReturnsAsync(Checkout.Basket);
+        TheMocked<IBasketRepository>().Setup(repo => repo.GetEditable(BasketId)).ReturnsAsync(Checkout.Basket);
     }
 
     public class GivenEditableBasket : WhenPurchase

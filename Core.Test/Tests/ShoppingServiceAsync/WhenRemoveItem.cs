@@ -13,7 +13,7 @@ public abstract class WhenRemoveItem : ShoppingServiceAsyncSpec<ShoppingCart>
 
     protected WhenRemoveItem()
         => When(() => SUT.RemoveFromCart(CartId, Cart.Items[0]))
-        .GivenThat(() => _<IShoppingCartRepository>()
+        .GivenThat(() => TheMocked<IShoppingCartRepository>()
         .Setup(repo => repo.GetCart(CartId))
         .ReturnsAsync(new ShoppingCart { Id = CartId, Items = CartItems }));
 

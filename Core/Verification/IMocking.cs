@@ -4,5 +4,5 @@ namespace XspecT.Verification;
 
 public interface IMocking
 {
-    Mock<TObject> _<TObject>() where TObject : class;
+    Mock<TObject> TheMocked<TObject>() where TObject : class;
 }
