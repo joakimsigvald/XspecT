@@ -26,7 +26,18 @@ internal class SpecActor<TResult>
         return new(_result, _error, spec);
     }
 
-    private void GetResult() => _result = _function();
+    private void GetResult()
+    {
+        const string cue = "could not resolve to an object. (Parameter 'serviceType')";
+        try
+        {
+            _result = _function();
+        }
+        catch (ArgumentException ex) when (ex.Message.Contains(cue))
+        {
+            throw new ExecuteMethodUnderTestFailed(ex.Message.Split(cue)[0].Trim(), ex);
+        }
+    }
 
     private void CatchError(Action act)
     {

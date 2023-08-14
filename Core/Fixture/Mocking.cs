@@ -1,6 +1,7 @@
 ﻿using Moq;
 using Moq.AutoMock;
 using System.Globalization;
+using XspecT.Fixture.Exceptions;
 using XspecT.Internal;
 
 namespace XspecT.Fixture;
@@ -132,5 +133,15 @@ public abstract class Mocking : Verification.IMocking
         Use(Task.FromResult(service));
     }
 
-    internal protected TValue CreateInstance<TValue>() where TValue : class => _mocker.CreateInstance<TValue>();
+    protected internal TValue CreateInstance<TValue>() where TValue : class
+    {
+        try
+        {
+            return _mocker.CreateInstance<TValue>();
+        }
+        catch (ArgumentException ex) when (ex.Message.Contains("Did not find a best constructor for"))
+        {
+            throw new CreateSubjectUnderTestFailed(ex.Message.Split('`')[1], ex);
+        }
+    }
 }
