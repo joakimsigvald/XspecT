@@ -10,7 +10,7 @@ public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTe
     where TSUT : class
 {
     private readonly List<Action> _arrangements = new();
-    private TSUT _sut;
+    protected TSUT SUT { get; private set; }
 
     /// <summary>
     /// Provide the method-under-test to the test-pipeline
@@ -19,7 +19,7 @@ public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTe
     /// <returns></returns>
     public ISubjectTestPipeline<TSUT, TResult> When(Action<TSUT> act)
     {
-        SetAction(() => act(_sut));
+        SetAction(() => act(SUT));
         return this;
     }
 
@@ -30,7 +30,7 @@ public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTe
     /// <returns></returns>
     public ISubjectTestPipeline<TSUT, TResult> When(Func<TSUT, TResult> act)
     {
-        SetAction(() => act(_sut));
+        SetAction(() => act(SUT));
         return this;
     }
 
@@ -41,7 +41,7 @@ public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTe
     /// <returns></returns>
     public ISubjectTestPipeline<TSUT, TResult> When(Func<TSUT, Task> action)
     {
-        SetAction(() => action(_sut));
+        SetAction(() => action(SUT));
         return this;
     }
 
@@ -52,7 +52,7 @@ public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTe
     /// <returns></returns>
     public ISubjectTestPipeline<TSUT, TResult> When(Func<TSUT, Task<TResult>> func)
     {
-        SetAction(() => func(_sut));
+        SetAction(() => func(SUT));
         return this;
     }
 
@@ -158,6 +158,6 @@ public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTe
     {
         foreach (var arrange in _arrangements) arrange();
         Setup();
-        _sut = CreateInstance<TSUT>();
+        SUT = CreateInstance<TSUT>();
     }
 }
