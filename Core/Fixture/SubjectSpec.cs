@@ -72,6 +72,21 @@ public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTe
     }
 
     /// <summary>
+    /// Provide setup to the test-pipeline that will be executed before the test-method, in reversed chronological order 
+    /// (allowing variables set later to be used in setup added earlier)
+    /// </summary>
+    /// <param name="arrangement"></param>
+    /// <returns></returns>
+    /// <exception cref="SetupFailed"></exception>
+    public ISubjectTestPipeline<TSUT, TResult> GivenThat<TService>(Action<Mock<TService>> setup) where TService : class
+    {
+        if (HasRun)
+            throw new SetupFailed("Given must be called before Then");
+        _arrangements.Insert(0, () => setup(TheMocked<TService>()));
+        return this;
+    }
+
+    /// <summary>
     /// Provide service to the test-pipeline that can be used in auto-mocking
     /// </summary>
     /// <typeparam name="TService"></typeparam>
