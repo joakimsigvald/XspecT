@@ -6,7 +6,7 @@ public abstract class WhenPlaceOrder : ShoppingServiceAsyncSpec<object>
 {
     protected ShoppingCart Cart;
 
-    protected WhenPlaceOrder() => When(() => SUT.PlaceOrder(Cart));
+    protected WhenPlaceOrder() => When(_ => _.PlaceOrder(Cart));
 
     public class GivenOpenCart : WhenPlaceOrder
     {

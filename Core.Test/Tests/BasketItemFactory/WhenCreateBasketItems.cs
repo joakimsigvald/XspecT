@@ -8,7 +8,7 @@ public class WhenCreateBasketItems : BasketItemFactorySpec<BasketItem[]>
     private const int _companyId = 2;
     protected NewBasketItem[] NewBasketItems;
 
-    protected WhenCreateBasketItems() => When(() => SUT.CreateBasketItems(_customerId, _companyId, NewBasketItems));
+    protected WhenCreateBasketItems() => When(_ => _.CreateBasketItems(_customerId, _companyId, NewBasketItems));
 
     public class GivenItemWithUnknownProduct : WhenCreateBasketItems
     {

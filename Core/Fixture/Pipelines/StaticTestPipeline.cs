@@ -9,24 +9,6 @@ public class StaticTestPipeline<TValue, TResult> : StaticTestPipeline<TResult>, 
 {
     public StaticTestPipeline(StaticSpec<TResult> parent) : base(parent) { }
 
-    public IStaticTestPipeline<TValue, TResult> Using<TService>(TService service)
-    {
-        Parent.Using(service);
-        return this;
-    }
-
-    public IStaticTestPipeline<TValue, TResult> Using<TService>(Func<TService> service)
-    {
-        Parent.Using(service);
-        return this;
-    }
-
-    public IStaticTestPipeline<TValue, TResult> GivenThat(Action arrangement)
-    {
-        Parent.GivenThat(arrangement);
-        return this;
-    }
-
     public IStaticTestPipeline<TValue, TResult> Given(TValue value)
     {
         Parent.Given(value);
@@ -63,27 +45,9 @@ public class StaticTestPipeline<TValue1, TValue2, TResult>
 {
     public StaticTestPipeline(StaticSpec<TResult> parent) : base(parent) { }
 
-    public IStaticTestPipeline<TValue1, TValue2, TResult> GivenThat(Action arrangement)
-    {
-        Parent.GivenThat(arrangement);
-        return this;
-    }
-
     public IStaticTestPipeline<TValue1, TValue2, TResult> Given(TValue1 value1, TValue2 value2)
     {
         Parent.Given(value1, value2);
-        return this;
-    }
-
-    public IStaticTestPipeline<TValue1, TValue2, TResult> Using<TService>(TService service)
-    {
-        Parent.Using(service);
-        return this;
-    }
-
-    public IStaticTestPipeline<TValue1, TValue2, TResult> Using<TService>(Func<TService> service)
-    {
-        Parent.Using(service);
         return this;
     }
 
@@ -117,27 +81,9 @@ public class StaticTestPipeline<TValue1, TValue2, TValue3, TResult>
 {
     public StaticTestPipeline(StaticSpec<TResult> parent) : base(parent) { }
 
-    public IStaticTestPipeline<TValue1, TValue2, TValue3, TResult> GivenThat(Action arrangement)
-    {
-        Parent.GivenThat(arrangement);
-        return this;
-    }
-
     public IStaticTestPipeline<TValue1, TValue2, TValue3, TResult> Given(TValue1 value1, TValue2 value2, TValue3 value3)
     {
         Parent.Given(value1, value2, value3);
-        return this;
-    }
-
-    public IStaticTestPipeline<TValue1, TValue2, TValue3, TResult> Using<TService>(TService service)
-    {
-        Parent.Using(service);
-        return this;
-    }
-
-    public IStaticTestPipeline<TValue1, TValue2, TValue3, TResult> Using<TService>(Func<TService> service)
-    {
-        Parent.Using(service);
         return this;
     }
 

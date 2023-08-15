@@ -10,7 +10,6 @@ public class KeyServiceSpec : SubjectSpec<Subjects.RecordStructDefaults.KeyServi
 
 public class WhenKeyKey : KeyServiceSpec
 {
-    public WhenKeyKey() => When(() => SUT.GetKey());
-
+    public WhenKeyKey() => When(_ => _.GetKey());
     [Fact] public void ThenGetsKey() => Result.A.Is().NotNullOrEmpty();
 }

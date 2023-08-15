@@ -6,7 +6,7 @@ namespace XspecT.Test.AutoMock;
 
 public class WhenMockInt : SubjectSpec<StaticIntService, int>
 {
-    public WhenMockInt() => When(() => SUT.GetValue());
+    public WhenMockInt() => When(_ => _.GetValue());
     public class GivenItWasNotProvided : WhenMockInt
     {
         [Fact]

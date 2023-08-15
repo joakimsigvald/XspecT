@@ -1,7 +1,4 @@
-﻿using Moq;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq.Expressions;
-using XspecT.Fixture.Exceptions;
+﻿using XspecT.Fixture.Exceptions;
 using XspecT.Fixture.Pipelines;
 using XspecT.Internal;
 using XspecT.Verification;
@@ -14,119 +11,9 @@ namespace XspecT.Fixture;
 /// </summary>
 public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisposable
 {
-    private readonly List<Action> _arrangements = new();
     private readonly SpecActor<TResult> _actor = new ();
     private TestResult<TResult> _then;
     protected bool HasRun => _then != null;
-
-    /// <summary>
-    /// Provide arrangement to the test-pipeline that will be executed before the test-method, in reversed chronological order 
-    /// (allowing arrangement added later to be used in arrangement added earlier)
-    /// </summary>
-    /// <param name="arrangement"></param>
-    /// <returns></returns>
-    /// <exception cref="SetupFailed"></exception>
-    public ITestPipeline<TResult> GivenThat(Action arrangement)
-    {
-        if (HasRun)
-            throw new SetupFailed("Given must be called before Then");
-        _arrangements.Insert(0, arrangement);
-        return this;
-    }
-
-    /// <summary>
-    /// Provide service to the test-pipeline that can be used in auto-mocking
-    /// </summary>
-    /// <typeparam name="TService"></typeparam>
-    /// <param name="service"></param>
-    /// <returns></returns>
-    public ITestPipeline<TResult> Using<TService>([DisallowNull] Func<TService> service)
-        => Using(() => Use(service()));
-
-    /// <summary>
-    /// Provide service to the test-pipeline that can be used in auto-mocking
-    /// </summary>
-    /// <typeparam name="TService"></typeparam>
-    /// <param name="service"></param>
-    /// <returns></returns>
-    public ITestPipeline<TResult> Using<TService>(TService service)
-        => Using(() => Use(service));
-
-    /// <summary>
-    /// Provide services to the test-pipeline that can be used in auto-mocking
-    /// </summary>
-    /// <typeparam name="TService1"></typeparam>
-    /// <typeparam name="TService2"></typeparam>
-    /// <param name="service1"></param>
-    /// <param name="service2"></param>
-    /// <returns></returns>
-    public ITestPipeline<TResult> Using<TService1, TService2>(
-        TService1 service1, TService2 service2)
-        => Using(() => Use(service1), () => Use(service2));
-
-    /// <summary>
-    /// Provide services to the test-pipeline that can be used in auto-mocking
-    /// </summary>
-    /// <typeparam name="TService1"></typeparam>
-    /// <typeparam name="TService2"></typeparam>
-    /// <typeparam name="TService3"></typeparam>
-    /// <param name="service1"></param>
-    /// <param name="service2"></param>
-    /// <param name="service3"></param>
-    /// <returns></returns>
-    public ITestPipeline<TResult> Using<TService1, TService2, TService3>(
-        TService1 service1, TService2 service2, TService3 service3)
-        => Using(() => Use(service1), () => Use(service2), () => Use(service3));
-
-    /// <summary>
-    /// Provide service to the test-pipeline that can be used in auto-mocking
-    /// </summary>
-    /// <typeparam name="TService"></typeparam>
-    /// <param name="mockedService"></param>
-    /// <returns></returns>
-    public ITestPipeline<TResult> Using<TService>(Mock<TService> mockedService)
-        where TService : class
-        => Using(() => Use(mockedService));
-
-    /// <summary>
-    /// Provide service to the test-pipeline that can be used in auto-mocking
-    /// </summary>
-    /// <typeparam name="TService"></typeparam>
-    /// <param name="setup"></param>
-    /// <returns></returns>
-    public ITestPipeline<TResult> Using<TService>(Expression<Func<TService, bool>> setup)
-        where TService : class
-        => Using(() => Use(setup));
-
-    /// <summary>
-    /// Provide the method-under-test to the test-pipeline
-    /// </summary>
-    /// <param name="act"></param>
-    /// <returns></returns>
-    public ITestPipeline<TResult> When(Action act)
-        => When(act ?? throw new SetupFailed("Act cannot be null"), null);
-
-    /// <summary>
-    /// Provide the method-under-test to the test-pipeline
-    /// </summary>
-    /// <param name="act"></param>
-    /// <returns></returns>
-    public ITestPipeline<TResult> When(Func<TResult> act)
-        => When(null, act ?? throw new SetupFailed("Act cannot be null"));
-
-    /// <summary>
-    /// Provide the method-under-test to the test-pipeline
-    /// </summary>
-    /// <param name="action"></param>
-    /// <returns></returns>
-    public ITestPipeline<TResult> When(Func<Task> action) => When(() => Execute(action));
-
-    /// <summary>
-    /// Provide the method-under-test to the test-pipeline
-    /// </summary>
-    /// <param name="func"></param>
-    /// <returns></returns>
-    public ITestPipeline<TResult> When(Func<Task<TResult>> func) => When(() => Execute(func));
 
     /// <summary>
     /// Run the test pipeline, before accessing the result
@@ -146,15 +33,6 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
     /// Will be called during pipeline execution right before the first arrangement
     /// </summary>
     protected virtual void Set() { }
-
-    /// <summary>
-    /// Convenience method for supplying setup (typically specifiing behaviour of mocks 
-    /// that will be used and or verified during the test execution)
-    /// Will be called during pipeline execution right after the last arrangement
-    /// </summary>
-    protected virtual void Setup() { }
-
-    protected abstract void Instantiate();
 
     /// <summary>
     /// Run the test-pipeline and return the test-class (specification).
@@ -184,16 +62,17 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
     /// </summary>
     protected virtual Task TearDownAsync() => Task.CompletedTask;
 
-    private ITestPipeline<TResult> Using(params Action[] usings)
-    {
-        if (HasRun)
-            throw new SetupFailed("Use must be called before Then");
-        foreach (var use in usings)
-            _arrangements.Add(use);
-        return this;
-    }
+    protected internal void SetAction(Action act)
+        => SetAction(act ?? throw new SetupFailed("Act cannot be null"), null);
 
-    private ITestPipeline<TResult> When(Action command, Func<TResult> function)
+    protected internal void SetAction(Func<TResult> act)
+        => SetAction(null, act ?? throw new SetupFailed("Act cannot be null"));
+
+    protected internal void SetAction(Func<Task> action) => SetAction(() => Execute(action));
+
+    protected internal void SetAction(Func<Task<TResult>> func) => SetAction(() => Execute(func));
+
+    private ITestPipeline<TResult> SetAction(Action command, Func<TResult> function)
     {
         if (HasRun)
             throw new SetupFailed("When must be called before Then");
@@ -203,15 +82,13 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
 
     private TestResult<TResult> Run()
     {
+        Set();
         Arrange();
         return _actor.Execute(this);
     }
 
-    private void Arrange()
-    {
-        Set();
-        foreach (var arrange in _arrangements) arrange();
-        Setup();
-        Instantiate();
-    }
+    /// <summary>
+    /// Not intended to override or call
+    /// </summary>
+    protected internal virtual void Arrange() { }
 }

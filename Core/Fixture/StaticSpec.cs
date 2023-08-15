@@ -30,7 +30,7 @@ public abstract class StaticSpec<TResult> : SpecBase<TResult>
 
     public IStaticTestPipeline<TValue, TResult> When<TValue>(Action<TValue> act)
     {
-        When(() =>
+        SetAction(() =>
         {
             var arg = _arguments is TValue val ? val : default;
             act(arg);
@@ -40,7 +40,7 @@ public abstract class StaticSpec<TResult> : SpecBase<TResult>
 
     public IStaticTestPipeline<TValue1, TValue2, TResult> When<TValue1, TValue2>(Action<TValue1, TValue2> act)
     {
-        When(() =>
+        SetAction(() =>
         {
             var (arg1, arg2) = _arguments is ValueTuple<TValue1, TValue2> t ? t : default;
             act(arg1, arg2);
@@ -51,7 +51,7 @@ public abstract class StaticSpec<TResult> : SpecBase<TResult>
     public IStaticTestPipeline<TValue1, TValue2, TValue3, TResult> When<TValue1, TValue2, TValue3>(
         Action<TValue1, TValue2, TValue3> act)
     {
-        When(() =>
+        SetAction(() =>
         {
             var (arg1, arg2, arg3) = _arguments is ValueTuple<TValue1, TValue2, TValue3> t ? t : default;
             act(arg1, arg2, arg3);
@@ -61,7 +61,7 @@ public abstract class StaticSpec<TResult> : SpecBase<TResult>
 
     public IStaticTestPipeline<TValue, TResult> When<TValue>(Func<TValue, TResult> act)
     {
-        When(() =>
+        SetAction(() =>
         {
             var arg = _arguments is TValue val ? val : default;
             return act(arg);
@@ -71,7 +71,7 @@ public abstract class StaticSpec<TResult> : SpecBase<TResult>
 
     public IStaticTestPipeline<TValue1, TValue2, TResult> When<TValue1, TValue2>(Func<TValue1, TValue2, TResult> act)
     {
-        When(() =>
+        SetAction(() =>
         {
             var (arg1, arg2) = _arguments is ValueTuple<TValue1, TValue2> t ? t : default;
             return act(arg1, arg2);
@@ -82,7 +82,7 @@ public abstract class StaticSpec<TResult> : SpecBase<TResult>
     public IStaticTestPipeline<TValue1, TValue2, TValue3, TResult> When<TValue1, TValue2, TValue3>(
         Func<TValue1, TValue2, TValue3, TResult> act)
     {
-        When(() =>
+        SetAction(() =>
         {
             var (arg1, arg2, arg3) = _arguments is ValueTuple<TValue1, TValue2, TValue3> t ? t : default;
             return act(arg1, arg2, arg3);
@@ -105,8 +105,6 @@ public abstract class StaticSpec<TResult> : SpecBase<TResult>
     public IStaticTestPipeline<TValue1, TValue2, TValue3, TResult> When<TValue1, TValue2, TValue3>(
         Func<TValue1, TValue2, TValue3, Task<TResult>> func)
         => When<TValue1, TValue2, TValue3>((v1, v2, v3) => Execute(() => func(v1, v2, v3)));
-
-    protected override sealed void Instantiate() { }
 
     private void SetArguments(object args)
     {

@@ -7,7 +7,7 @@ public abstract class WhenCreateCart : ShoppingServiceAsyncSpec<ShoppingCart>
 {
     protected int Id;
 
-    protected WhenCreateCart() => When(() => SUT.CreateCart(Id));
+    protected WhenCreateCart() => When(_ => _.CreateCart(Id));
 
     public class GivenIdIsOne : WhenCreateCart
     {

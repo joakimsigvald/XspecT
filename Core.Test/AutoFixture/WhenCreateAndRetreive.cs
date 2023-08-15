@@ -5,7 +5,7 @@ namespace XspecT.Test.AutoFixture;
 
 public class WhenCreateAndRetreive : SubjectSpec<Retreiver, Model>
 {
-    public WhenCreateAndRetreive() => When(() => SUT.Get(An<int>()));
+    public WhenCreateAndRetreive() => When(_ => _.Get(An<int>()));
 
     [Fact]
     public void A_Value_Mentioned_Twice_Is_Same_Value()

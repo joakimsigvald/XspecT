@@ -8,7 +8,7 @@ public class WhenCreateOrder : PurchaseOrderFactorySpec<OrderRecord>
     protected const int CompanyId = 234;
     protected Checkout Checkout = new() { Basket = new() };
 
-    protected WhenCreateOrder() => When(() => SUT.CreateOrder(Checkout));
+    protected WhenCreateOrder() => When(_ => _.CreateOrder(Checkout));
 
     public class GivenBasket : WhenCreateOrder
     {

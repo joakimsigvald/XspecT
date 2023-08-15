@@ -15,11 +15,11 @@ public class CalculatorSpec : StaticSpec<int>
     [InlineData(1, 1, 2)]
     [InlineData(3, 4, 7)]
     public void WhenAdd_ThenReturnSum(int x, int y, int sum)
-        => When<int, int>(Add).Given(x, y).Then().Result.Is(sum);
+        => Given(x, y).When(Add).Then().Result.Is(sum);
 
     [Theory]
     [InlineData(1, 1, 1)]
     [InlineData(3, 4, 12)]
     public void WhenMultiply_ThenReturnProduct(int x, int y, int product)
-        => When(() => Multiply(x, y)).Then().Result.Is(product);
+        => Given(x, y).When(Multiply).Then().Result.Is(product);
 }

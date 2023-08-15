@@ -1,6 +1,6 @@
 ﻿namespace XspecT.Fixture.Pipelines;
 
-public interface IStaticTestPipeline<TValue, TResult> : ITestPipeline<TResult, IStaticTestPipeline<TValue, TResult>>
+public interface IStaticTestPipeline<TValue, TResult> : ITestPipeline<TResult>
 {
     IStaticTestPipeline<TValue, TResult> Given(TValue value);
     IStaticTestPipeline<TValue, TResult> When(Action<TValue> act);
@@ -10,7 +10,7 @@ public interface IStaticTestPipeline<TValue, TResult> : ITestPipeline<TResult, I
 }
 
 public interface IStaticTestPipeline<TValue1, TValue2, TResult>
-    : ITestPipeline<TResult, IStaticTestPipeline<TValue1, TValue2, TResult>>
+    : ITestPipeline<TResult>
 {
     IStaticTestPipeline<TValue1, TValue2, TResult> Given(TValue1 value1, TValue2 value2);
     IStaticTestPipeline<TValue1, TValue2, TResult> When(Action<TValue1, TValue2> act);
@@ -20,7 +20,7 @@ public interface IStaticTestPipeline<TValue1, TValue2, TResult>
 }
 
 public interface IStaticTestPipeline<TValue1, TValue2, TValue3, TResult>
-    : ITestPipeline<TResult, IStaticTestPipeline<TValue1, TValue2, TValue3, TResult>>
+    : ITestPipeline<TResult>
 {
     IStaticTestPipeline<TValue1, TValue2, TValue3, TResult> Given(TValue1 value1, TValue2 value2, TValue3 value3);
     IStaticTestPipeline<TValue1, TValue2, TValue3, TResult> When(Action<TValue1, TValue2, TValue3> act);

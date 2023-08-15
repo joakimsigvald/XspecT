@@ -6,7 +6,7 @@ namespace XspecT.Test.AutoMock;
 
 public class WhenMockDateTime : SubjectSpec<StaticDateService, DateTime>
 {
-    public WhenMockDateTime() => When(() => SUT.GetDate());
+    public WhenMockDateTime() => When(_ => _.GetDate());
     public class GivenItWasNotProvided : WhenMockDateTime
     {
         [Fact]

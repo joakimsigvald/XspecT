@@ -33,6 +33,6 @@ public abstract class WhenAddIntAsync : StaticSpec<int>
 
     public class Given_2_3 : WhenAddIntAsync
     {
-        [Fact] public void Then_Return_5() => When<int, int>(AddAsync).Given(2, 3).Then().Result.Is(5);
+        [Fact] public void Then_Return_5() => Given(2, 3).When(AddAsync).Then().Result.Is(5);
     }
 }
