@@ -29,9 +29,10 @@ internal class Context
     internal TValue Mention<TValue>(TValue value, int index = 0)
         => (GetMentions(typeof(TValue))[index] = value) is TValue v ? v : default;
 
-    internal TValue Create<TValue>() => _fixture.Create<TValue>();
+    internal TValue Create<TValue>() 
+        => typeof(TValue).IsInterface ? _mocker.Get<TValue>() : _fixture.Create<TValue>();
 
-    internal object Create(Type type)
+    internal object CreateDefaultValue(Type type)
     {
         try
         {

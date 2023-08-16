@@ -14,7 +14,7 @@ internal class FluentDefaultProvider : DefaultValueProvider
     private object GetValue(Type type, Mock mock)
         => IsReturningSelf(type, mock) ? mock.Object
         : IsTask(type) ? GetTask(type, mock)
-        : _context.Create(type);
+        : _context.CreateDefaultValue(type);
 
     private static bool IsReturningSelf(Type type, Mock mock) => type.IsAssignableFrom(mock.Object.GetType());
 

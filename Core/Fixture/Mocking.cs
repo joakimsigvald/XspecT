@@ -52,7 +52,7 @@ public abstract class Mocking : Verification.IMocking
     protected TValue A<TValue>() => _context.Mention<TValue>();
 
     /// <summary>
-    /// Will always yield a new model of the given type. 
+    /// Will always yield a new model of the given type, unless TValue is an interface. 
     /// Do not use in combination with Using or reference the generated value twice in the same pipeline, 
     /// since that might give the specification confusing semantics
     /// </summary>
