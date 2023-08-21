@@ -6,11 +6,14 @@ using XspecT.Fixture.Pipelines;
 
 namespace XspecT.Fixture;
 
-public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTestPipeline<TSUT, TResult>
+public class GivenThatSubjectTestPipeline<TSUT, TResult> 
+    : TestPipeline<TResult, SubjectSpec<TSUT, TResult>>, IGivenThatSubjectTestPipeline<TSUT, TResult>
     where TSUT : class
 {
-    private readonly List<Action> _arrangements = new();
-    protected TSUT SUT { get; private set; }
+    private readonly SubjectSpec<TSUT, TResult> _parent;
+
+    public GivenThatSubjectTestPipeline(SubjectSpec<TSUT, TResult> parent)
+        : base(parent) { }
 
     /// <summary>
     /// Provide the method-under-test to the test-pipeline
@@ -18,10 +21,7 @@ public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTe
     /// <param name="act"></param>
     /// <returns></returns>
     public ISubjectTestPipeline<TSUT, TResult> When(Action<TSUT> act)
-    {
-        SetAction(() => act(SUT));
-        return this;
-    }
+        => _parent.When(act);
 
     /// <summary>
     /// Provide the method-under-test to the test-pipeline
@@ -29,10 +29,7 @@ public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTe
     /// <param name="act"></param>
     /// <returns></returns>
     public ISubjectTestPipeline<TSUT, TResult> When(Func<TSUT, TResult> act)
-    {
-        SetAction(() => act(SUT));
-        return this;
-    }
+        => _parent.When(act);
 
     /// <summary>
     /// Provide the method-under-test to the test-pipeline
@@ -40,10 +37,7 @@ public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTe
     /// <param name="action"></param>
     /// <returns></returns>
     public ISubjectTestPipeline<TSUT, TResult> When(Func<TSUT, Task> action)
-    {
-        SetAction(() => action(SUT));
-        return this;
-    }
+        => _parent.When(action);
 
     /// <summary>
     /// Provide the method-under-test to the test-pipeline
@@ -51,10 +45,27 @@ public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTe
     /// <param name="func"></param>
     /// <returns></returns>
     public ISubjectTestPipeline<TSUT, TResult> When(Func<TSUT, Task<TResult>> func)
-    {
-        SetAction(() => func(SUT));
-        return this;
-    }
+        => _parent.When(func);
+
+    /// <summary>
+    /// Provide arrangement to the test-pipeline that will be executed before the test-method, in reversed chronological order 
+    /// (allowing arrangement added later to be used in arrangement added earlier)
+    /// </summary>
+    /// <param name="arrangement"></param>
+    /// <returns></returns>
+    /// <exception cref="SetupFailed"></exception>
+    public IGivenThatSubjectTestPipeline<TSUT, TResult> And(Action arrangement)
+        => GivenThat(arrangement);
+
+    /// <summary>
+    /// Provide setup to the test-pipeline that will be executed before the test-method, in reversed chronological order 
+    /// (allowing variables set later to be used in setup added earlier)
+    /// </summary>
+    /// <param name="arrangement"></param>
+    /// <returns></returns>
+    /// <exception cref="SetupFailed"></exception>
+    public IGivenThatSubjectTestPipeline<TSUT, TResult> And<TService>(Action<Mock<TService>> setup) where TService : class
+        => GivenThat(setup);
 
     /// <summary>
     /// Provide arrangement to the test-pipeline that will be executed before the test-method, in reversed chronological order 
@@ -65,10 +76,8 @@ public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTe
     /// <exception cref="SetupFailed"></exception>
     public IGivenThatSubjectTestPipeline<TSUT, TResult> GivenThat(Action arrangement)
     {
-        if (HasRun)
-            throw new SetupFailed("Given must be called before Then");
-        _arrangements.Insert(0, arrangement);
-        return new GivenThatSubjectTestPipeline<TSUT, TResult>(this);
+        _parent.GivenThat(arrangement);
+        return this;
     }
 
     /// <summary>
@@ -80,10 +89,8 @@ public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTe
     /// <exception cref="SetupFailed"></exception>
     public IGivenThatSubjectTestPipeline<TSUT, TResult> GivenThat<TService>(Action<Mock<TService>> setup) where TService : class
     {
-        if (HasRun)
-            throw new SetupFailed("Given must be called before Then");
-        _arrangements.Insert(0, () => setup(TheMocked<TService>()));
-        return new GivenThatSubjectTestPipeline<TSUT, TResult>(this);
+        _parent.GivenThat(setup);
+        return this;
     }
 
     /// <summary>
@@ -93,7 +100,7 @@ public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTe
     /// <param name="service"></param>
     /// <returns></returns>
     public ISubjectTestPipeline<TSUT, TResult> Using<TService>([DisallowNull] Func<TService> service)
-        => Using(() => Use(service()));
+        => _parent.Using(service);
 
     /// <summary>
     /// Provide service to the test-pipeline that can be used in auto-mocking
@@ -102,7 +109,7 @@ public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTe
     /// <param name="service"></param>
     /// <returns></returns>
     public ISubjectTestPipeline<TSUT, TResult> Using<TService>(TService service)
-        => Using(() => Use(service));
+        => _parent.Using(service);
 
     /// <summary>
     /// Provide services to the test-pipeline that can be used in auto-mocking
@@ -114,7 +121,7 @@ public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTe
     /// <returns></returns>
     public ISubjectTestPipeline<TSUT, TResult> Using<TService1, TService2>(
         TService1 service1, TService2 service2)
-        => Using(() => Use(service1), () => Use(service2));
+        => _parent.Using(service1, service2);
 
     /// <summary>
     /// Provide services to the test-pipeline that can be used in auto-mocking
@@ -128,7 +135,7 @@ public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTe
     /// <returns></returns>
     public ISubjectTestPipeline<TSUT, TResult> Using<TService1, TService2, TService3>(
         TService1 service1, TService2 service2, TService3 service3)
-        => Using(() => Use(service1), () => Use(service2), () => Use(service3));
+        => _parent.Using(service1, service2, service3);
 
     /// <summary>
     /// Provide service to the test-pipeline that can be used in auto-mocking
@@ -138,7 +145,7 @@ public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTe
     /// <returns></returns>
     public ISubjectTestPipeline<TSUT, TResult> Using<TService>(Mock<TService> mockedService)
         where TService : class
-        => Using(() => Use(mockedService));
+        => _parent.Using(mockedService);
 
     /// <summary>
     /// Provide service to the test-pipeline that can be used in auto-mocking
@@ -148,31 +155,5 @@ public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTe
     /// <returns></returns>
     public ISubjectTestPipeline<TSUT, TResult> Using<TService>(Expression<Func<TService, bool>> setup)
         where TService : class
-        => Using(() => Use(setup));
-
-    private ISubjectTestPipeline<TSUT, TResult> Using(params Action[] usings)
-    {
-        if (HasRun)
-            throw new SetupFailed("Use must be called before Then");
-        foreach (var use in usings)
-            _arrangements.Add(use);
-        return this;
-    }
-
-    /// <summary>
-    /// Convenience method for supplying setup (typically specifiing behaviour of mocks 
-    /// that will be used and or verified during the test execution)
-    /// Will be called during pipeline execution right after the last arrangement
-    /// </summary>
-    protected virtual void Setup() { }
-
-    /// <summary>
-    /// Not intended to call
-    /// </summary>
-    protected internal override sealed void Arrange()
-    {
-        foreach (var arrange in _arrangements) arrange();
-        Setup();
-        SUT = CreateInstance<TSUT>();
-    }
+        => _parent.Using(setup);
 }

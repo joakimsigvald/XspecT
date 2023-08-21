@@ -24,7 +24,7 @@ public class WhenPurchase : PurchaseHandlerSpec<PurchaseResponseModel>
     {
         public GivenEditableBasket()
             => GivenThat(() => Checkout = new Checkout() { Basket = new() { Id = BasketId }, IsOpen = true }).
-            GivenThat(() => BasketId = 123);
+            And(() => BasketId = 123);
 
         [Fact]
         public void ThenPublishBasketPurchasedEvent()
