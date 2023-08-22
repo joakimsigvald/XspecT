@@ -28,25 +28,43 @@ public class TestResult<TResult>
         assert(ex);
     }
 
-    public void Does<TObject>(Expression<Action<TObject>> expression) where TObject : class
-        => CombineWithErrorOnFail(() => Mocked<TObject>().Verify(expression));
+    public AndDoes<TResult> Does<TObject>(Expression<Action<TObject>> expression) where TObject : class
+    {
+        CombineWithErrorOnFail(() => Mocked<TObject>().Verify(expression));
+        return new AndDoes<TResult>(this);
+    }
 
-    public void Does<TObject>(Expression<Action<TObject>> expression, Times times) where TObject : class
-        => CombineWithErrorOnFail(() => Mocked<TObject>().Verify(expression, times));
+    public AndDoes<TResult> Does<TObject>(Expression<Action<TObject>> expression, Times times) where TObject : class
+    {
+        CombineWithErrorOnFail(() => Mocked<TObject>().Verify(expression, times));
+        return new AndDoes<TResult>(this);
+    }
 
-    public void Does<TObject>(Expression<Action<TObject>> expression, Func<Times> times) where TObject : class
-        => CombineWithErrorOnFail(() => Mocked<TObject>().Verify(expression, times));
+    public AndDoes<TResult> Does<TObject>(Expression<Action<TObject>> expression, Func<Times> times) where TObject : class
+    {
+        CombineWithErrorOnFail(() => Mocked<TObject>().Verify(expression, times));
+        return new AndDoes<TResult>(this);
+    }
 
-    public void Does<TObject, TReturns>(Expression<Func<TObject, TReturns>> expression) where TObject : class
-        => CombineWithErrorOnFail(() => Mocked<TObject>().Verify(expression));
+    public AndDoes<TResult> Does<TObject, TReturns>(Expression<Func<TObject, TReturns>> expression) where TObject : class
+    {
+        CombineWithErrorOnFail(() => Mocked<TObject>().Verify(expression));
+        return new AndDoes<TResult>(this);
+    }
 
-    public void Does<TObject, TReturns>(Expression<Func<TObject, TReturns>> expression, Times times)
+    public AndDoes<TResult> Does<TObject, TReturns>(Expression<Func<TObject, TReturns>> expression, Times times)
         where TObject : class
-        => CombineWithErrorOnFail(() => Mocked<TObject>().Verify(expression, times));
+    {
+        CombineWithErrorOnFail(() => Mocked<TObject>().Verify(expression, times));
+        return new AndDoes<TResult>(this);
+    }
 
-    public void Does<TObject, TReturns>(Expression<Func<TObject, TReturns>> expression, Func<Times> times)
+    public AndDoes<TResult> Does<TObject, TReturns>(Expression<Func<TObject, TReturns>> expression, Func<Times> times)
         where TObject : class
-        => CombineWithErrorOnFail(() => Mocked<TObject>().Verify(expression, times));
+    {
+        CombineWithErrorOnFail(() => Mocked<TObject>().Verify(expression, times));
+        return new AndDoes<TResult>(this);
+    }
 
     private Mock<TObject> Mocked<TObject>() where TObject : class => _mocking.TheMocked<TObject>();
 
@@ -63,4 +81,31 @@ public class TestResult<TResult>
             throw new AggregateException(ex, _error);
         }
     }
+}
+
+public class AndDoes<TResult>
+{
+    private readonly TestResult<TResult> _parent;
+
+    public AndDoes(TestResult<TResult> parent) => _parent = parent;
+
+    public void And<TObject>(Expression<Action<TObject>> expression) where TObject : class
+        => _parent.Does(expression);
+
+    public void Does<TObject>(Expression<Action<TObject>> expression, Times times) where TObject : class
+        => _parent.Does(expression, times);
+
+    public void Does<TObject>(Expression<Action<TObject>> expression, Func<Times> times) where TObject : class
+        => _parent.Does(expression, times);
+
+    public void Does<TObject, TReturns>(Expression<Func<TObject, TReturns>> expression) where TObject : class
+        => _parent.Does(expression);
+
+    public void Does<TObject, TReturns>(Expression<Func<TObject, TReturns>> expression, Times times)
+        where TObject : class
+        => _parent.Does(expression, times);
+
+    public void Does<TObject, TReturns>(Expression<Func<TObject, TReturns>> expression, Func<Times> times)
+        where TObject : class
+        => _parent.Does(expression, times);
 }

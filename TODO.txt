@@ -1,3 +1,4 @@
 * Comment all public methods
 * Using and GivenThat return pipeline for async test method
-* Flytta upp Given till Static Spec och Using till SubjectSpec
+* Does Return continuation with method And<TService> that is 
+  shorthand for Then().Does, allowing chaining of several Does
