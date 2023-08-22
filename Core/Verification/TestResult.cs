@@ -82,30 +82,3 @@ public class TestResult<TResult>
         }
     }
 }
-
-public class AndDoes<TResult>
-{
-    private readonly TestResult<TResult> _parent;
-
-    public AndDoes(TestResult<TResult> parent) => _parent = parent;
-
-    public void And<TObject>(Expression<Action<TObject>> expression) where TObject : class
-        => _parent.Does(expression);
-
-    public void Does<TObject>(Expression<Action<TObject>> expression, Times times) where TObject : class
-        => _parent.Does(expression, times);
-
-    public void Does<TObject>(Expression<Action<TObject>> expression, Func<Times> times) where TObject : class
-        => _parent.Does(expression, times);
-
-    public void Does<TObject, TReturns>(Expression<Func<TObject, TReturns>> expression) where TObject : class
-        => _parent.Does(expression);
-
-    public void Does<TObject, TReturns>(Expression<Func<TObject, TReturns>> expression, Times times)
-        where TObject : class
-        => _parent.Does(expression, times);
-
-    public void Does<TObject, TReturns>(Expression<Func<TObject, TReturns>> expression, Func<Times> times)
-        where TObject : class
-        => _parent.Does(expression, times);
-}
