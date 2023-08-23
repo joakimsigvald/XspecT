@@ -1,4 +1,5 @@
 ﻿using XspecT.Test.Subjects.Order;
+using XspecT.Verification;
 
 namespace XspecT.Test.Tests.PurchaseOrderFactory;
 
@@ -14,7 +15,7 @@ public class WhenCreateOrder : PurchaseOrderFactorySpec<OrderRecord>
     {
         protected override void Set() => Checkout = new() { Basket = new() { Id = BasketId } };
 
-        [Fact] public void ThenQuotationId_Is_BasketId() => Assert.Equal(BasketId, Result.QuotationId);
-        [Fact] public void ThenOrderNo_Is_BasketId() => Assert.Equal($"{BasketId}", Result.OrderNo);
+        [Fact] public void ThenQuotationId_Is_BasketId() => Result.QuotationId.Is(BasketId);
+        [Fact] public void ThenOrderNo_Is_BasketId() => Result.OrderNo.Is($"{BasketId}");
     }
 }

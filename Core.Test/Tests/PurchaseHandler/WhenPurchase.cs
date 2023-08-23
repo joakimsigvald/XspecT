@@ -27,9 +27,8 @@ public class WhenPurchase : PurchaseHandlerSpec<PurchaseResponseModel>
             And(() => BasketId = 123);
 
         [Fact]
-        public void ThenPublishBasketPurchasedEvent()
-            => Then().Does<ITopicExchangeV2<BasketPurchasedV1>>(_ => _.Publish(It.IsAny<BasketPurchasedV1>()));
-
-        [Fact] public void ThenCheckoutIsClosed() => Then(this).Checkout.IsOpen.Is().False();
+        public void ThenPublishBasketPurchasedEventAndCheckoutIsClosed()
+            => Then().Does<ITopicExchangeV2<BasketPurchasedV1>>(_ => _.Publish(It.IsAny<BasketPurchasedV1>()))
+            .And(this).Checkout.IsOpen.Is().False();
     }
 }

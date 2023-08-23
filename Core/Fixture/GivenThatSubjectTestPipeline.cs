@@ -10,8 +10,6 @@ public class GivenThatSubjectTestPipeline<TSUT, TResult>
     : TestPipeline<TResult, SubjectSpec<TSUT, TResult>>, IGivenThatSubjectTestPipeline<TSUT, TResult>
     where TSUT : class
 {
-    private readonly SubjectSpec<TSUT, TResult> _parent;
-
     public GivenThatSubjectTestPipeline(SubjectSpec<TSUT, TResult> parent)
         : base(parent) { }
 
@@ -21,7 +19,7 @@ public class GivenThatSubjectTestPipeline<TSUT, TResult>
     /// <param name="act"></param>
     /// <returns></returns>
     public ISubjectTestPipeline<TSUT, TResult> When(Action<TSUT> act)
-        => _parent.When(act);
+        => Parent.When(act);
 
     /// <summary>
     /// Provide the method-under-test to the test-pipeline
@@ -29,7 +27,7 @@ public class GivenThatSubjectTestPipeline<TSUT, TResult>
     /// <param name="act"></param>
     /// <returns></returns>
     public ISubjectTestPipeline<TSUT, TResult> When(Func<TSUT, TResult> act)
-        => _parent.When(act);
+        => Parent.When(act);
 
     /// <summary>
     /// Provide the method-under-test to the test-pipeline
@@ -37,7 +35,7 @@ public class GivenThatSubjectTestPipeline<TSUT, TResult>
     /// <param name="action"></param>
     /// <returns></returns>
     public ISubjectTestPipeline<TSUT, TResult> When(Func<TSUT, Task> action)
-        => _parent.When(action);
+        => Parent.When(action);
 
     /// <summary>
     /// Provide the method-under-test to the test-pipeline
@@ -45,7 +43,7 @@ public class GivenThatSubjectTestPipeline<TSUT, TResult>
     /// <param name="func"></param>
     /// <returns></returns>
     public ISubjectTestPipeline<TSUT, TResult> When(Func<TSUT, Task<TResult>> func)
-        => _parent.When(func);
+        => Parent.When(func);
 
     /// <summary>
     /// Provide arrangement to the test-pipeline that will be executed before the test-method, in reversed chronological order 
@@ -76,7 +74,7 @@ public class GivenThatSubjectTestPipeline<TSUT, TResult>
     /// <exception cref="SetupFailed"></exception>
     public IGivenThatSubjectTestPipeline<TSUT, TResult> GivenThat(Action arrangement)
     {
-        _parent.GivenThat(arrangement);
+        Parent.GivenThat(arrangement);
         return this;
     }
 
@@ -89,7 +87,7 @@ public class GivenThatSubjectTestPipeline<TSUT, TResult>
     /// <exception cref="SetupFailed"></exception>
     public IGivenThatSubjectTestPipeline<TSUT, TResult> GivenThat<TService>(Action<Mock<TService>> setup) where TService : class
     {
-        _parent.GivenThat(setup);
+        Parent.GivenThat(setup);
         return this;
     }
 
@@ -100,7 +98,7 @@ public class GivenThatSubjectTestPipeline<TSUT, TResult>
     /// <param name="service"></param>
     /// <returns></returns>
     public ISubjectTestPipeline<TSUT, TResult> Using<TService>([DisallowNull] Func<TService> service)
-        => _parent.Using(service);
+        => Parent.Using(service);
 
     /// <summary>
     /// Provide service to the test-pipeline that can be used in auto-mocking
@@ -109,7 +107,7 @@ public class GivenThatSubjectTestPipeline<TSUT, TResult>
     /// <param name="service"></param>
     /// <returns></returns>
     public ISubjectTestPipeline<TSUT, TResult> Using<TService>(TService service)
-        => _parent.Using(service);
+        => Parent.Using(service);
 
     /// <summary>
     /// Provide services to the test-pipeline that can be used in auto-mocking
@@ -121,7 +119,7 @@ public class GivenThatSubjectTestPipeline<TSUT, TResult>
     /// <returns></returns>
     public ISubjectTestPipeline<TSUT, TResult> Using<TService1, TService2>(
         TService1 service1, TService2 service2)
-        => _parent.Using(service1, service2);
+        => Parent.Using(service1, service2);
 
     /// <summary>
     /// Provide services to the test-pipeline that can be used in auto-mocking
@@ -135,7 +133,7 @@ public class GivenThatSubjectTestPipeline<TSUT, TResult>
     /// <returns></returns>
     public ISubjectTestPipeline<TSUT, TResult> Using<TService1, TService2, TService3>(
         TService1 service1, TService2 service2, TService3 service3)
-        => _parent.Using(service1, service2, service3);
+        => Parent.Using(service1, service2, service3);
 
     /// <summary>
     /// Provide service to the test-pipeline that can be used in auto-mocking
@@ -145,7 +143,7 @@ public class GivenThatSubjectTestPipeline<TSUT, TResult>
     /// <returns></returns>
     public ISubjectTestPipeline<TSUT, TResult> Using<TService>(Mock<TService> mockedService)
         where TService : class
-        => _parent.Using(mockedService);
+        => Parent.Using(mockedService);
 
     /// <summary>
     /// Provide service to the test-pipeline that can be used in auto-mocking
@@ -155,5 +153,5 @@ public class GivenThatSubjectTestPipeline<TSUT, TResult>
     /// <returns></returns>
     public ISubjectTestPipeline<TSUT, TResult> Using<TService>(Expression<Func<TService, bool>> setup)
         where TService : class
-        => _parent.Using(setup);
+        => Parent.Using(setup);
 }

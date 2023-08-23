@@ -1,5 +1,6 @@
 ﻿using XspecT.Test.Subjects;
 using Moq;
+using XspecT.Verification;
 
 namespace XspecT.Test.Tests.ShoppingService;
 
@@ -39,8 +40,10 @@ public abstract class WhenPlaceOrder : ShoppingServiceSpec<object>
 
             [Fact]
             public void ThenLogOrderCreated_With_ShopNameAndDivision()
-                => Then().Does<ILogger>(_ => _.Information(It.Is<string>(
-                    s => s.Contains(_shopName) && s.Contains(_division))));
+                => Then().DoesNotThrow()
+                .And().Does<ILogger>(_ => _.Information(It.Is<string>(
+                    s => s.Contains(_shopName) && s.Contains(_division))))
+                .And().Result.Is().Null();
         }
     }
 }

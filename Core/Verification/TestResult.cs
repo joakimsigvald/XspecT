@@ -17,15 +17,35 @@ public class TestResult<TResult>
     }
 
     public TResult Result { get => _error is null ? _result : throw _error; init => _result = value; }
-    public void Throws<TError>() => Assert.IsType<TError>(_error);
-    public void Throws() => Assert.NotNull(_error);
-    public void NotThrows<TError>() => Assert.IsNotType<TError>(_error);
-    public void NotThrows() => Assert.Null(_error);
+    public AndThen<TResult> Throws<TError>()
+    {
+        Assert.IsType<TError>(_error);
+        return new(this);
+    }
 
-    public void Throws<TError>(Action<TError> assert)
+    public AndThen<TResult> Throws()
+    {
+        _error.Is().NotNull();
+        return new(this);
+    }
+
+    public AndThen<TResult> DoesNotThrow<TError>()
+    {
+        Assert.IsNotType<TError>(_error);
+        return new(this);
+    }
+
+    public AndThen<TResult> DoesNotThrow()
+    {
+        _error.Is().Null();
+        return new(this);
+    }
+
+    public AndThen<TResult> Throws<TError>(Action<TError> assert)
     {
         var ex = Assert.IsType<TError>(_error);
         assert(ex);
+        return new(this);
     }
 
     public AndDoes<TResult> Does<TObject>(Expression<Action<TObject>> expression) where TObject : class
