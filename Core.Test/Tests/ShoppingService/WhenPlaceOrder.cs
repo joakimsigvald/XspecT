@@ -14,10 +14,11 @@ public abstract class WhenPlaceOrder : ShoppingServiceSpec<object>
     {
         protected int ShopId;
 
-        protected GivenCart() => Using(() => ShopId).GivenThat(() => ShopId = 123).GivenThat(() => Cart = new());
+        protected GivenCart() => Using(() => ShopId).Given(() => ShopId = 123).And(() => Cart = new());
 
-        [Fact] public void ThenOrderIsCreated() 
-            => Then().Does<IOrderService>(_ => _.CreateOrder(Cart))
+        [Fact]
+        public void ThenOrderIsCreated()
+            => Then<IOrderService>(_ => _.CreateOrder(Cart))
             .And<ILogger>(_ => _.ForContext("ShopId", ShopId));
 
         public class AndShopName : GivenCart
@@ -27,8 +28,8 @@ public abstract class WhenPlaceOrder : ShoppingServiceSpec<object>
             public AndShopName() => Using((_shopName, ""));
 
             [Fact]
-            public void ThenLogOrderCreated_With_ShopName() 
-                => Then().Does<ILogger>(_ => _.Information(It.Is<string>(s => s.Contains(_shopName))));
+            public void ThenLogOrderCreated_With_ShopName()
+                => Then<ILogger>(_ => _.Information(It.Is<string>(s => s.Contains(_shopName))));
         }
 
         public class AndShopNameAndDivision : GivenCart
@@ -40,9 +41,8 @@ public abstract class WhenPlaceOrder : ShoppingServiceSpec<object>
 
             [Fact]
             public void ThenLogOrderCreated_With_ShopNameAndDivision()
-                => Then().DoesNotThrow()
-                .And().Does<ILogger>(_ => _.Information(It.Is<string>(
-                    s => s.Contains(_shopName) && s.Contains(_division))))
+                => Then<ILogger>(_ => _.Information(
+                    It.Is<string>(s => s.Contains(_shopName) && s.Contains(_division))))
                 .And().Result.Is().Null();
         }
     }

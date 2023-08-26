@@ -1,4 +1,6 @@
-﻿using XspecT.Fixture.Exceptions;
+﻿using Moq;
+using System.Linq.Expressions;
+using XspecT.Fixture.Exceptions;
 using XspecT.Fixture.Pipelines;
 using XspecT.Internal;
 using XspecT.Verification;
@@ -21,6 +23,27 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
     /// <returns>The test result</returns>
     public TestResult<TResult> Then() => _then ??= Run();
 
+
+    public AndDoes<TResult> Then<TService>(Expression<Action<TService>> expression) where TService : class
+        => Then().Does(expression);
+
+    public AndDoes<TResult> Then<TService>(Expression<Action<TService>> expression, Times times) where TService : class
+        => Then().Does(expression, times);
+
+    public AndDoes<TResult> Then<TService>(Expression<Action<TService>> expression, Func<Times> times) where TService : class
+        => Then().Does(expression, times);
+
+    public AndDoes<TResult> Then<TService, TReturns>(Expression<Func<TService, TReturns>> expression) where TService : class
+        => Then().Does(expression);
+
+    public AndDoes<TResult> Then<TService, TReturns>(Expression<Func<TService, TReturns>> expression, Times times)
+        where TService : class
+        => Then().Does(expression, times);
+
+    public AndDoes<TResult> Then<TService, TReturns>(Expression<Func<TService, TReturns>> expression, Func<Times> times)
+        where TService : class
+        => Then().Does(expression, times);
+
     public void Dispose()
     {
         TearDown();
@@ -32,6 +55,7 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
     /// Convenience method for assigning fields in the test class that is used in later test setup.
     /// Will be called during pipeline execution right before the first arrangement
     /// </summary>
+    [Obsolete("Use Given(() => ...) instead, called in constructor")]
     protected virtual void Set() { }
 
     /// <summary>

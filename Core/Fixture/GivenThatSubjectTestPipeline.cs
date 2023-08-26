@@ -6,11 +6,11 @@ using XspecT.Fixture.Pipelines;
 
 namespace XspecT.Fixture;
 
-public class GivenThatSubjectTestPipeline<TSUT, TResult> 
-    : TestPipeline<TResult, SubjectSpec<TSUT, TResult>>, IGivenThatSubjectTestPipeline<TSUT, TResult>
+public class GivenSubjectTestPipeline<TSUT, TResult> 
+    : TestPipeline<TResult, SubjectSpec<TSUT, TResult>>, IGivenSubjectTestPipeline<TSUT, TResult>
     where TSUT : class
 {
-    public GivenThatSubjectTestPipeline(SubjectSpec<TSUT, TResult> parent)
+    public GivenSubjectTestPipeline(SubjectSpec<TSUT, TResult> parent)
         : base(parent) { }
 
     /// <summary>
@@ -52,8 +52,8 @@ public class GivenThatSubjectTestPipeline<TSUT, TResult>
     /// <param name="arrangement"></param>
     /// <returns></returns>
     /// <exception cref="SetupFailed"></exception>
-    public IGivenThatSubjectTestPipeline<TSUT, TResult> And(Action arrangement)
-        => GivenThat(arrangement);
+    public IGivenSubjectTestPipeline<TSUT, TResult> And(Action arrangement)
+        => Given(arrangement);
 
     /// <summary>
     /// Provide setup to the test-pipeline that will be executed before the test-method, in reversed chronological order 
@@ -62,8 +62,8 @@ public class GivenThatSubjectTestPipeline<TSUT, TResult>
     /// <param name="arrangement"></param>
     /// <returns></returns>
     /// <exception cref="SetupFailed"></exception>
-    public IGivenThatSubjectTestPipeline<TSUT, TResult> And<TService>(Action<Mock<TService>> setup) where TService : class
-        => GivenThat(setup);
+    public IGivenSubjectTestPipeline<TSUT, TResult> And<TService>(Action<Mock<TService>> setup) where TService : class
+        => Given(setup);
 
     /// <summary>
     /// Provide arrangement to the test-pipeline that will be executed before the test-method, in reversed chronological order 
@@ -72,9 +72,9 @@ public class GivenThatSubjectTestPipeline<TSUT, TResult>
     /// <param name="arrangement"></param>
     /// <returns></returns>
     /// <exception cref="SetupFailed"></exception>
-    public IGivenThatSubjectTestPipeline<TSUT, TResult> GivenThat(Action arrangement)
+    public IGivenSubjectTestPipeline<TSUT, TResult> Given(Action arrangement)
     {
-        Parent.GivenThat(arrangement);
+        Parent.Given(arrangement);
         return this;
     }
 
@@ -85,9 +85,9 @@ public class GivenThatSubjectTestPipeline<TSUT, TResult>
     /// <param name="arrangement"></param>
     /// <returns></returns>
     /// <exception cref="SetupFailed"></exception>
-    public IGivenThatSubjectTestPipeline<TSUT, TResult> GivenThat<TService>(Action<Mock<TService>> setup) where TService : class
+    public IGivenSubjectTestPipeline<TSUT, TResult> Given<TService>(Action<Mock<TService>> setup) where TService : class
     {
-        Parent.GivenThat(setup);
+        Parent.Given(setup);
         return this;
     }
 

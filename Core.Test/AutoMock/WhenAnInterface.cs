@@ -9,7 +9,7 @@ public class WhenInjectingAnInterfaceWithUsing : SubjectSpec<InterfaceService, i
         => Using(new MyComponent(An<IMyLogger>(), An<int>())).When(_ => _.GetValue());
 
     [Fact] public void ThenGetValue() => Result.Is(The<int>());
-    [Fact] public void ThenInterfaceIsMocked() => Then().Does<IMyLogger>(_ => _.LogValue(The<int>()));
+    [Fact] public void ThenInterfaceIsMocked() => Then<IMyLogger>(_ => _.LogValue(The<int>()));
 }
 
 public class InterfaceService

@@ -10,22 +10,22 @@ public abstract class WhenAddItem : ShoppingServiceAsyncSpec<ShoppingCart>
     protected ShoppingCartItem[] CartItems;
     protected readonly ShoppingCartItem NewItem = new("N1");
 
-    protected WhenAddItem() => GivenThat<IShoppingCartRepository>(_ => _.Setup(_ => _.GetCart(CartId))
+    protected WhenAddItem() => Given<IShoppingCartRepository>(_ => _.Setup(_ => _.GetCart(CartId))
         .ReturnsAsync(new ShoppingCart { Id = CartId, Items = CartItems }))
         .When(_ => _.AddToCart(CartId, NewItem))
-        .GivenThat(() => CartItems ??= Array.Empty<ShoppingCartItem>());
+        .Given(() => CartItems ??= Array.Empty<ShoppingCartItem>());
 
     public class GivenEmptyCart : WhenAddItem
     {
         [Fact] public void ThenCartIsNotEmpty() => Result.Items.Is().NotEmpty();
         [Fact] public void ThenCartHasOneItem() => Result.Items.Has().Single();
         [Fact] public void TheIdIsPreserved() => Result.Id.Is(CartId);
-        [Fact] public void ThenCartIsStored() => Then().Does<IShoppingCartRepository>(_ => _.StoreCart(Result));
+        [Fact] public void ThenCartIsStored() => Then<IShoppingCartRepository>(_ => _.StoreCart(Result));
     }
 
     public class GivenCartWithOneItem : WhenAddItem
     {
-        public GivenCartWithOneItem() => GivenThat(() => CartItems = new[] { new ShoppingCartItem("A1") });
+        public GivenCartWithOneItem() => Given(() => CartItems = new[] { new ShoppingCartItem("A1") });
         [Fact] public void ThenDoNotThrow() => Then().DoesNotThrow();
         [Fact] public void ThenCartHasTwoItems() => Result.Items.Length.Is(2);
         [Fact] public void ThenNewItemIsLast() => Result.Items.Last().Sku.Is(NewItem.Sku);

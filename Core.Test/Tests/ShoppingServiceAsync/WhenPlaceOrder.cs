@@ -10,13 +10,13 @@ public abstract class WhenPlaceOrder : ShoppingServiceAsyncSpec<object>
 
     public class GivenOpenCart : WhenPlaceOrder
     {
-        public GivenOpenCart() => GivenThat(() => Cart = new() { IsOpen = true });
-        [Fact] public void ThenOrderIsCreated() => Then().Does<IOrderService>(_ => _.CreateOrder(Cart));
+        public GivenOpenCart() => Given(() => Cart = new() { IsOpen = true });
+        [Fact] public void ThenOrderIsCreated() => Then<IOrderService>(_ => _.CreateOrder(Cart));
     }
 
     public class GivenClosedCart : WhenPlaceOrder
     {
-        public GivenClosedCart() => GivenThat(() => Cart = new() { IsOpen = false });
+        public GivenClosedCart() => Given(() => Cart = new() { IsOpen = false });
         [Fact] public void ThenThrowsNotPurcheable() => Then().Throws<NotPurcheable>();
     }
 }

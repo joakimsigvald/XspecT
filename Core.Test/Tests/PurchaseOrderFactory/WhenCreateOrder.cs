@@ -13,7 +13,7 @@ public class WhenCreateOrder : PurchaseOrderFactorySpec<OrderRecord>
 
     public class GivenBasket : WhenCreateOrder
     {
-        protected override void Set() => Checkout = new() { Basket = new() { Id = BasketId } };
+        public GivenBasket() => Given(() => Checkout = new() { Basket = new() { Id = BasketId } });
 
         [Fact] public void ThenQuotationId_Is_BasketId() => Result.QuotationId.Is(BasketId);
         [Fact] public void ThenOrderNo_Is_BasketId() => Result.OrderNo.Is($"{BasketId}");

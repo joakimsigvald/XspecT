@@ -28,7 +28,7 @@ public abstract class Mocking : Verification.IMocking
     /// </summary>
     /// <typeparam name="TObject"></typeparam>
     /// <returns></returns>
-    [Obsolete("Use GivenThat<TService>(_ => _.Setup... instead)")]
+    [Obsolete("Use Given<TService>(_ => _.Setup... instead)")]
     public Mock<TObject> TheMocked<TObject>() where TObject : class => Mocker.GetMock<TObject>();
 
     /// <summary>
