@@ -1,4 +1,1 @@
 * Comment all public methods
-* Using and GivenThat return pipeline for async test method
-* Does Return continuation with method And<TService> that is 
-  shorthand for Then().Does, allowing chaining of several Does
