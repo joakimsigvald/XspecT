@@ -82,7 +82,7 @@ public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTe
     {
         if (HasRun)
             throw new SetupFailed("Given must be called before Then");
-        _arrangements.Insert(0, () => setup(TheMocked<TService>()));
+        _arrangements.Insert(0, () => setup(Mocker.GetMock<TService>()));
         return new GivenThatSubjectTestPipeline<TSUT, TResult>(this);
     }
 
@@ -164,6 +164,7 @@ public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTe
     /// that will be used and or verified during the test execution)
     /// Will be called during pipeline execution right after the last arrangement
     /// </summary>
+    [Obsolete("Use GivenThat<TService>(_ => _.Setup...), called in constructor instead")]
     protected virtual void Setup() { }
 
     /// <summary>

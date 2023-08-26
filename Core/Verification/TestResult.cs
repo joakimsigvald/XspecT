@@ -1,19 +1,20 @@
 ﻿using Moq;
+using Moq.AutoMock;
 using System.Linq.Expressions;
 
 namespace XspecT.Verification;
 
 public class TestResult<TResult>
 {
-    private readonly IMocking _mocking;
     private readonly Exception _error;
+    private readonly AutoMocker _mocker;
     private TResult _result;
 
-    public TestResult(TResult result, Exception error, IMocking mocking)
+    public TestResult(TResult result, Exception error, AutoMocker mocker)
     {
         Result = result;
         _error = error;
-        _mocking = mocking;
+        _mocker = mocker;
     }
 
     public TResult Result { get => _error is null ? _result : throw _error; init => _result = value; }
@@ -86,7 +87,7 @@ public class TestResult<TResult>
         return new AndDoes<TResult>(this);
     }
 
-    private Mock<TObject> Mocked<TObject>() where TObject : class => _mocking.TheMocked<TObject>();
+    private Mock<TObject> Mocked<TObject>() where TObject : class => _mocker.GetMock<TObject>();
 
     private void CombineWithErrorOnFail(Action verify)
     {

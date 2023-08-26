@@ -10,15 +10,11 @@ public class WhenPurchase : PurchaseHandlerSpec<PurchaseResponseModel>
     protected int BasketId;
     protected Checkout Checkout;
 
-    protected WhenPurchase() => When(_ => _.Purchase(BasketId));
-
-    protected override void Setup()
-    {
-        TheMocked<ICheckoutProvider>()
-            .Setup(provider => provider.GetExistingCheckout(BasketId))
-            .ReturnsAsync(Checkout);
-        TheMocked<IBasketRepository>().Setup(repo => repo.GetEditable(BasketId)).ReturnsAsync(Checkout.Basket);
-    }
+    protected WhenPurchase() => When(_ => _.Purchase(BasketId))
+        .GivenThat<ICheckoutProvider>(_ => _.Setup(_ => _.GetExistingCheckout(BasketId))
+        .ReturnsAsync(Checkout))
+        .And<IBasketRepository>(_ => _.Setup(_ => _.GetEditable(BasketId))
+        .ReturnsAsync(Checkout.Basket));
 
     public class GivenEditableBasket : WhenPurchase
     {

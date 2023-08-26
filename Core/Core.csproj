@@ -17,15 +17,11 @@
     <PackageProjectUrl>https://github.com/joakimsigvald/XspecT</PackageProjectUrl>
     <RepositoryUrl>https://github.com/joakimsigvald/XspecT.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageVersion>4.5.0</PackageVersion>
+    <PackageVersion>4.5.2</PackageVersion>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>icon.png</PackageIcon>
-    <PackageReleaseNotes>
-      Added continuation to Throws and Does-methods in TestResult,
-      allowing several asserts of different kinds to be chained in the same expression.
-      Renamed NotThrows to DoesNotThrow
-    </PackageReleaseNotes>
+    <PackageReleaseNotes>Deprected virtual Setup method</PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AutoFixture" Version="4.18.0" />

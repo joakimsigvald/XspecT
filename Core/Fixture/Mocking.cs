@@ -11,15 +11,15 @@ namespace XspecT.Fixture;
 /// </summary>
 public abstract class Mocking : Verification.IMocking
 {
-    private readonly AutoMocker _mocker;
+    protected readonly AutoMocker Mocker;
     private readonly Context _context;
 
     protected Mocking()
     {
         CultureInfo.CurrentCulture = GetCulture();
         var defaultProvider = new FluentDefaultProvider();
-        _mocker = new(MockBehavior.Loose, DefaultValue.Custom, defaultProvider, false);
-        _context = new Context(_mocker);
+        Mocker = new(MockBehavior.Loose, DefaultValue.Custom, defaultProvider, false);
+        _context = new Context(Mocker);
         defaultProvider.SetContext(_context);
     }
 
@@ -28,7 +28,8 @@ public abstract class Mocking : Verification.IMocking
     /// </summary>
     /// <typeparam name="TObject"></typeparam>
     /// <returns></returns>
-    public Mock<TObject> TheMocked<TObject>() where TObject : class => _mocker.GetMock<TObject>();
+    [Obsolete("Use GivenThat<TService>(_ => _.Setup... instead)")]
+    public Mock<TObject> TheMocked<TObject>() where TObject : class => Mocker.GetMock<TObject>();
 
     /// <summary>
     /// Alias for A
@@ -137,7 +138,7 @@ public abstract class Mocking : Verification.IMocking
     {
         try
         {
-            return _mocker.CreateInstance<TValue>();
+            return Mocker.CreateInstance<TValue>();
         }
         catch (ArgumentException ex) when (ex.Message.Contains("Did not find a best constructor for"))
         {

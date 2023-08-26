@@ -84,7 +84,7 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
     {
         Set();
         Arrange();
-        return _actor.Execute(this);
+        return _actor.Execute(Mocker);
     }
 
     /// <summary>
