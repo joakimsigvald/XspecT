@@ -10,7 +10,7 @@ namespace XspecT.Fixture;
 /// <summary>
 /// Not intended for direct override. Override one of TestStatic, TestStaticAsync, TestSubject or TestSubjectAsync instead
 /// </summary>
-public abstract class Mocking : Verification.IMocking
+public abstract class Mocking
 {
     protected readonly AutoMocker Mocker;
     private readonly Context _context;
@@ -25,19 +25,11 @@ public abstract class Mocking : Verification.IMocking
     }
 
     /// <summary>
-    /// Get the mock of the given type
-    /// </summary>
-    /// <typeparam name="TObject"></typeparam>
-    /// <returns></returns>
-    [Obsolete("Use Given<TService>(_ => _.Setup... instead)")]
-    public Mock<TObject> TheMocked<TObject>() where TObject : class => Mocker.GetMock<TObject>();
-
-    /// <summary>
     /// Alias for A
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected TValue The<TValue>() => _context.Retreive<TValue>(0);
+    protected TValue The<TValue>() => A<TValue>();
 
     /// <summary>
     /// Alias for A
@@ -45,6 +37,13 @@ public abstract class Mocking : Verification.IMocking
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
     protected TValue An<TValue>() => A<TValue>();
+
+    /// <summary>
+    /// Alias for A
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="setup"></param>
+    /// <returns></returns>
     protected TValue An<TValue>([NotNull] Action<TValue> setup) => A(setup);
 
     /// <summary>
@@ -53,6 +52,13 @@ public abstract class Mocking : Verification.IMocking
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
     protected TValue A<TValue>() => _context.Mention<TValue>(null, 0);
+
+    /// <summary>
+    /// Yields a new customized value of the given type
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="setup"></param>
+    /// <returns></returns>
     protected TValue A<TValue>([NotNull] Action<TValue> setup) => _context.Mention(setup, 0);
 
     /// <summary>
@@ -63,6 +69,13 @@ public abstract class Mocking : Verification.IMocking
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
     protected TValue Another<TValue>() => _context.Create<TValue>(null);
+
+    /// <summary>
+    /// Yields a new customized value of the given type, which cannot be reused
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="setup"></param>
+    /// <returns></returns>
     protected TValue Another<TValue>([NotNull] Action<TValue> setup) => _context.Create(setup);
 
     /// <summary>
@@ -70,7 +83,7 @@ public abstract class Mocking : Verification.IMocking
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected TValue TheSecond<TValue>() => _context.Retreive<TValue>(1);
+    protected TValue TheSecond<TValue>() => ASecond<TValue>();
 
     /// <summary>
     /// Yields a new value of the given type, or same value as previously mentioned as second value
@@ -78,6 +91,13 @@ public abstract class Mocking : Verification.IMocking
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
     protected TValue ASecond<TValue>() => _context.Mention<TValue>(null, 1);
+
+    /// <summary>
+    /// Yields a new customized second value of the given type
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="setup"></param>
+    /// <returns></returns>
     protected TValue ASecond<TValue>([NotNull] Action<TValue> setup) => _context.Mention(setup, 1);
 
     /// <summary>
@@ -85,7 +105,7 @@ public abstract class Mocking : Verification.IMocking
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected TValue TheThird<TValue>() => _context.Retreive<TValue>(2);
+    protected TValue TheThird<TValue>() => AThird<TValue>();
 
     /// <summary>
     /// Yields a new value of the given type, or same value as previously mentioned as third value
@@ -93,6 +113,13 @@ public abstract class Mocking : Verification.IMocking
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
     protected TValue AThird<TValue>() => _context.Mention<TValue>(null, 2);
+
+    /// <summary>
+    /// Yields a new customized third value of the given type
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="setup"></param>
+    /// <returns></returns>
     protected TValue AThird<TValue>([NotNull] Action<TValue> setup) => _context.Mention(setup, 2);
 
     /// <summary>
@@ -100,7 +127,7 @@ public abstract class Mocking : Verification.IMocking
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected TValue TheFourth<TValue>() => _context.Retreive<TValue>(3);
+    protected TValue TheFourth<TValue>() => AFourth<TValue>();
 
     /// <summary>
     /// Yields a new value of the given type, or same value as previously mentioned as fourth value
@@ -108,6 +135,13 @@ public abstract class Mocking : Verification.IMocking
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
     protected TValue AFourth<TValue>() => _context.Mention<TValue>(null, 3);
+
+    /// <summary>
+    /// Yields a new customized fourth value of the given type
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="setup"></param>
+    /// <returns></returns>
     protected TValue AFourth<TValue>([NotNull] Action<TValue> setup) => _context.Mention(setup, 3);
 
     /// <summary>
@@ -115,7 +149,7 @@ public abstract class Mocking : Verification.IMocking
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected TValue TheFifth<TValue>() => _context.Retreive<TValue>(4);
+    protected TValue TheFifth<TValue>() => AFifth<TValue>();
 
     /// <summary>
     /// Yields a new value of the given type, or same value as previously mentioned as fifth value
@@ -123,7 +157,121 @@ public abstract class Mocking : Verification.IMocking
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
     protected TValue AFifth<TValue>() => _context.Mention<TValue>(null, 4);
+
+    /// <summary>
+    /// Yields a new customized fifth value of the given type
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="setup"></param>
+    /// <returns></returns>
     protected TValue AFifth<TValue>([NotNull] Action<TValue> setup) => _context.Mention(setup, 4);
+
+    /// <summary>
+    /// Yields an array with one element of the given type
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <returns></returns>
+    protected TValue[] One<TValue>() => _context.MentionMany((Action<TValue>)null, 1);
+
+    /// <summary>
+    /// Yields an array with one customized element of the given type
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="setup"></param>
+    /// <returns></returns>
+    protected TValue[] One<TValue>([NotNull] Action<TValue> setup) => _context.MentionMany(setup, 1);
+
+    /// <summary>
+    /// Yields an array with two element of the given type
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <returns></returns>
+    protected TValue[] Two<TValue>() => _context.MentionMany((Action<TValue>)null, 2);
+
+    /// <summary>
+    /// Yields an array with two customized element of the given type
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="setup"></param>
+    /// <returns></returns>
+    protected TValue[] Two<TValue>([NotNull] Action<TValue> setup) => _context.MentionMany(setup, 2);
+
+    /// <summary>
+    /// Yields an array with two individually customized elements of the given type
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="setup"></param>
+    /// <returns></returns>
+    protected TValue[] Two<TValue>([NotNull] Action<TValue, int> setup) => _context.MentionMany(setup, 2);
+
+    /// <summary>
+    /// Yields an array with three element of the given type
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <returns></returns>
+    protected TValue[] Three<TValue>() => _context.MentionMany((Action<TValue>)null, 3);
+
+    /// <summary>
+    /// Yields an array with three customized element of the given type
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="setup"></param>
+    /// <returns></returns>
+    protected TValue[] Three<TValue>([NotNull] Action<TValue> setup) => _context.MentionMany(setup, 3);
+
+    /// <summary>
+    /// Yields an array with three individually customized elements of the given type
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="setup"></param>
+    /// <returns></returns>
+    protected TValue[] Three<TValue>([NotNull] Action<TValue, int> setup) => _context.MentionMany(setup, 3);
+
+    /// <summary>
+    /// Yields an array with four element of the given type
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <returns></returns>
+    protected TValue[] Four<TValue>() => _context.MentionMany((Action<TValue>)null, 4);
+
+    /// <summary>
+    /// Yields an array with four customized element of the given type
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="setup"></param>
+    /// <returns></returns>
+    protected TValue[] Four<TValue>([NotNull] Action<TValue> setup) => _context.MentionMany(setup, 4);
+
+    /// <summary>
+    /// Yields an array with four individually customized elements of the given type
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="setup"></param>
+    /// <returns></returns>
+    protected TValue[] Four<TValue>([NotNull] Action<TValue, int> setup) => _context.MentionMany(setup, 4);
+
+    /// <summary>
+    /// Yields an array with five element of the given type
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <returns></returns>
+    protected TValue[] Five<TValue>() => _context.MentionMany((Action<TValue>)null, 5);
+
+    /// <summary>
+    /// Yields an array with five customized element of the given type
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="setup"></param>
+    /// <returns></returns>
+    protected TValue[] Five<TValue>([NotNull] Action<TValue> setup) => _context.MentionMany(setup, 5);
+
+    /// <summary>
+    /// Yields an array with five individually customized elements of the given type
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="setup"></param>
+    /// <returns></returns>
+    protected TValue[] Five<TValue>([NotNull] Action<TValue, int> setup) => _context.MentionMany(setup, 5);
 
     /// <summary>
     /// Override this to set different Culture than InvariantCulture during test

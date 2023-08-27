@@ -23,18 +23,28 @@ internal class Context
         _mocker.Use(type, value);
     }
 
-    internal TValue Mention<TValue>(Action<TValue> setup, int index) => Mention(Create(setup), index);
+    internal TValue Mention<TValue>(Action<TValue> setup, int index)
+        => setup is null
+        ? Retreive(typeof(TValue), index) is TValue val ? val : Mention(Create(setup), index)
+        : Retreive(typeof(TValue), index) is null 
+        ? Mention(Create(setup), index)
+        : throw new SetupFailed($"A {index + 1}th instance of {typeof(TValue).Name} has already been created. Cannot recreate it with new setup");
 
     internal TValue Mention<TValue>(TValue value, int index = 0)
-        => (GetMentions(typeof(TValue))[index] = value) is TValue v ? v : default;
+        => Retreive(typeof(TValue), index) is null
+        ? (GetMentions(typeof(TValue))[index] = value) is TValue v ? v : throw new Exception($"Created value has unexpected type or is null: {value}")
+        : throw new SetupFailed($"A {index + 1}th instance of {typeof(TValue).Name} has already been created. Cannot recreate it with new setup");
 
-    internal TValue Retreive<TValue>(int index)
-        => Retreive(typeof(TValue), index) is TValue val ? val : Mention<TValue>(null, index);
+    internal TValue[] MentionMany<TValue>(Action<TValue> setup, int count)
+        => Mention(Enumerable.Range(0, count).Select(i => Mention(setup, i)).ToArray());
+
+    internal TValue[] MentionMany<TValue>(Action<TValue, int> setup, int count)
+        => Mention(Enumerable.Range(0, count).Select(i => Mention<TValue>(_ => setup(_, i), i)).ToArray());
 
     internal TValue Create<TValue>(Action<TValue> setup)
     {
         var val = typeof(TValue).IsInterface ? _mocker.Get<TValue>() : _fixture.Create<TValue>();
-        if (setup is not null) 
+        if (setup is not null)
             setup(val);
         return val;
     }
