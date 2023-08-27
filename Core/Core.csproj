@@ -21,7 +21,7 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>icon.png</PackageIcon>
-    <PackageReleaseNotes>Optionally Provide setup when auto-creating and object with A, An, ASecond... etc</PackageReleaseNotes>
+    <PackageReleaseNotes>Optionally Provide setup when auto-creating an object with A, An, ASecond... etc</PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AutoFixture" Version="4.18.0" />
