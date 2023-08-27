@@ -44,6 +44,19 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
         where TService : class
         => Then().Does(expression, times);
 
+    /// <summary>
+    /// Run the test-pipeline and return the test-class (specification).
+    /// Use this method to access any member on the testclass after the test is run, for a more fluent experience
+    /// </summary>
+    /// <typeparam name="TSpec"></typeparam>
+    /// <param name="spec"></param>
+    /// <returns></returns>
+    public TSpec Then<TSpec>(TSpec spec) where TSpec : SpecBase<TResult>
+    {
+        Then();
+        return spec;
+    }
+
     public void Dispose()
     {
         TearDown();
@@ -57,19 +70,6 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
     /// </summary>
     [Obsolete("Use Given(() => ...) instead, called in constructor")]
     protected virtual void Set() { }
-
-    /// <summary>
-    /// Run the test-pipeline and return the test-class (specification).
-    /// Use this method to access any member on the testclass after the test is run, for a more fluent experience
-    /// </summary>
-    /// <typeparam name="TSpec"></typeparam>
-    /// <param name="spec"></param>
-    /// <returns></returns>
-    protected TSpec Then<TSpec>(TSpec spec)
-    {
-        Then();
-        return spec;
-    }
 
     /// <summary>
     /// Contains the returned value after calling method-under-test

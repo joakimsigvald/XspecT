@@ -1,5 +1,6 @@
 ﻿using Moq;
 using Moq.AutoMock;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using XspecT.Fixture.Exceptions;
 using XspecT.Internal;
@@ -36,7 +37,7 @@ public abstract class Mocking : Verification.IMocking
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected TValue The<TValue>() => A<TValue>();
+    protected TValue The<TValue>() => _context.Retreive<TValue>(0);
 
     /// <summary>
     /// Alias for A
@@ -44,13 +45,15 @@ public abstract class Mocking : Verification.IMocking
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
     protected TValue An<TValue>() => A<TValue>();
+    protected TValue An<TValue>([NotNull] Action<TValue> setup) => A(setup);
 
     /// <summary>
     /// Yields a new value of the given type, or same value as previously mentioned, including as part of a Using clause
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected TValue A<TValue>() => _context.Mention<TValue>();
+    protected TValue A<TValue>() => _context.Mention<TValue>(null, 0);
+    protected TValue A<TValue>([NotNull] Action<TValue> setup) => _context.Mention(setup, 0);
 
     /// <summary>
     /// Will always yield a new model of the given type, unless TValue is an interface. 
@@ -59,63 +62,68 @@ public abstract class Mocking : Verification.IMocking
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected TValue Another<TValue>() => _context.Create<TValue>();
+    protected TValue Another<TValue>() => _context.Create<TValue>(null);
+    protected TValue Another<TValue>([NotNull] Action<TValue> setup) => _context.Create(setup);
 
     /// <summary>
     /// Alias for ASecond
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected TValue TheSecond<TValue>() => ASecond<TValue>();
+    protected TValue TheSecond<TValue>() => _context.Retreive<TValue>(1);
 
     /// <summary>
     /// Yields a new value of the given type, or same value as previously mentioned as second value
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected TValue ASecond<TValue>() => _context.Mention<TValue>(1);
+    protected TValue ASecond<TValue>() => _context.Mention<TValue>(null, 1);
+    protected TValue ASecond<TValue>([NotNull] Action<TValue> setup) => _context.Mention(setup, 1);
 
     /// <summary>
     /// Alias for AThird
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected TValue TheThird<TValue>() => AThird<TValue>();
+    protected TValue TheThird<TValue>() => _context.Retreive<TValue>(2);
 
     /// <summary>
     /// Yields a new value of the given type, or same value as previously mentioned as third value
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected TValue AThird<TValue>() => _context.Mention<TValue>(2);
+    protected TValue AThird<TValue>() => _context.Mention<TValue>(null, 2);
+    protected TValue AThird<TValue>([NotNull] Action<TValue> setup) => _context.Mention(setup, 2);
 
     /// <summary>
     /// Alias for AFourth
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected TValue TheFourth<TValue>() => AFourth<TValue>();
+    protected TValue TheFourth<TValue>() => _context.Retreive<TValue>(3);
 
     /// <summary>
     /// Yields a new value of the given type, or same value as previously mentioned as fourth value
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected TValue AFourth<TValue>() => _context.Mention<TValue>(3);
+    protected TValue AFourth<TValue>() => _context.Mention<TValue>(null, 3);
+    protected TValue AFourth<TValue>([NotNull] Action<TValue> setup) => _context.Mention(setup, 3);
 
     /// <summary>
     /// Alias for AFifth
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected TValue TheFifth<TValue>() => AFifth<TValue>();
+    protected TValue TheFifth<TValue>() => _context.Retreive<TValue>(4);
 
     /// <summary>
     /// Yields a new value of the given type, or same value as previously mentioned as fifth value
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected TValue AFifth<TValue>() => _context.Mention<TValue>(4);
+    protected TValue AFifth<TValue>() => _context.Mention<TValue>(null, 4);
+    protected TValue AFifth<TValue>([NotNull] Action<TValue> setup) => _context.Mention(setup, 4);
 
     /// <summary>
     /// Override this to set different Culture than InvariantCulture during test

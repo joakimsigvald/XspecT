@@ -23,14 +23,21 @@ internal class Context
         _mocker.Use(type, value);
     }
 
-    internal TValue Mention<TValue>(int index = 0)
-        => Retreive(typeof(TValue), index) is TValue val ? val : Mention(Create<TValue>(), index);
+    internal TValue Mention<TValue>(Action<TValue> setup, int index) => Mention(Create(setup), index);
 
     internal TValue Mention<TValue>(TValue value, int index = 0)
         => (GetMentions(typeof(TValue))[index] = value) is TValue v ? v : default;
 
-    internal TValue Create<TValue>()
-        => typeof(TValue).IsInterface ? _mocker.Get<TValue>() : _fixture.Create<TValue>();
+    internal TValue Retreive<TValue>(int index)
+        => Retreive(typeof(TValue), index) is TValue val ? val : Mention<TValue>(null, index);
+
+    internal TValue Create<TValue>(Action<TValue> setup)
+    {
+        var val = typeof(TValue).IsInterface ? _mocker.Get<TValue>() : _fixture.Create<TValue>();
+        if (setup is not null) 
+            setup(val);
+        return val;
+    }
 
     internal object CreateDefaultValue(Type type)
     {
