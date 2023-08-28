@@ -17,11 +17,11 @@
     <PackageProjectUrl>https://github.com/joakimsigvald/XspecT</PackageProjectUrl>
     <RepositoryUrl>https://github.com/joakimsigvald/XspecT.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageVersion>5.3.1</PackageVersion>
+    <PackageVersion>5.4.0</PackageVersion>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>icon.png</PackageIcon>
-    <PackageReleaseNotes>Replaced ArrayResolver i AutoMock with one that always provide empty array as default</PackageReleaseNotes>
+    <PackageReleaseNotes>Removed deprecated methods Set and Setup. Set member fields in constructor and provide Setup with Given instead.</PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AutoFixture" Version="4.18.0" />

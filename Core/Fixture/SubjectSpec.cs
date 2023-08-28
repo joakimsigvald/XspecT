@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using XspecT.Fixture.Exceptions;
 using XspecT.Fixture.Pipelines;
+using XspecT.Verification;
 
 namespace XspecT.Fixture;
 
@@ -159,21 +160,10 @@ public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTe
         return this;
     }
 
-    /// <summary>
-    /// Convenience method for supplying setup (typically specifiing behaviour of mocks 
-    /// that will be used and or verified during the test execution)
-    /// Will be called during pipeline execution right after the last arrangement
-    /// </summary>
-    [Obsolete("Use Given<TService>(_ => _.Setup...), called in constructor instead")]
-    protected virtual void Setup() { }
-
-    /// <summary>
-    /// Not intended to call
-    /// </summary>
-    protected internal override sealed void Arrange()
+    protected internal override sealed TestResult<TResult> Run()
     {
         foreach (var arrange in _arrangements) arrange();
-        Setup();
         SUT = CreateInstance<TSUT>();
+        return base.Run();
     }
 }

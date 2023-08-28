@@ -65,13 +65,6 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
     }
 
     /// <summary>
-    /// Convenience method for assigning fields in the test class that is used in later test setup.
-    /// Will be called during pipeline execution right before the first arrangement
-    /// </summary>
-    [Obsolete("Use Given(() => ...) instead, called in constructor")]
-    protected virtual void Set() { }
-
-    /// <summary>
     /// Contains the returned value after calling method-under-test
     /// </summary>
     protected TResult Result => Then().Result;
@@ -104,15 +97,5 @@ public abstract class SpecBase<TResult> : Mocking, ITestPipeline<TResult>, IDisp
         return this;
     }
 
-    private TestResult<TResult> Run()
-    {
-        Set();
-        Arrange();
-        return _actor.Execute(Mocker);
-    }
-
-    /// <summary>
-    /// Not intended to override or call
-    /// </summary>
-    protected internal virtual void Arrange() { }
+    protected internal virtual TestResult<TResult> Run() => _actor.Execute(Mocker);
 }

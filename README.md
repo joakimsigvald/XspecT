@@ -24,7 +24,7 @@ namespace App.Test;
 
 public class CalculatorSpec : StaticSpec<int>
 {
-    [Fact] public void WhenAdd_1_and_2_ThenSumIs_3() => Given(1, 2).When(Add).Then.Result.Is(3);
+    [Fact] public void WhenAdd_1_and_2_ThenSumIs_3() => Given(1, 2).When(Add).Then().Result.Is(3);
 }
 ```
 
@@ -34,7 +34,7 @@ If you are used to writing one test class per production class and use Theory fo
 First you create your test-class overriding `StaticSpec<[ReturnType]>` with the expected return type as generic argument.
 Then create a test-method, attributed with `Theory` and `InlineData`, called `When[Something]`. 
 This method call `Given` and `When`, in any order, to setup the test pipeline with test data and the method to test.
-Finally verify the result by calling `Then.Result` (or only `Result`) on the returned pipeline and check the result with `Is`.
+Finally verify the result by calling `Then().Result` (or only `Result`) on the returned pipeline and check the result with `Is`.
 
 Example:
 ```
@@ -81,12 +81,12 @@ public abstract class WhenVerifyAreEqual : StaticSpec<object>
 
     public class Given_1_And_2 : WhenVerifyAreEqual
     {
-        [Fact] public void ThenThrows_NotEqual() => Given(1, 2).Then.Throws<NotEqual>();
+        [Fact] public void ThenThrows_NotEqual() => Given(1, 2).Then().Throws<NotEqual>();
     }
 
     public class Given_2_And_2 : WhenVerifyAreEqual
     {
-        [Fact] public void ThenDoNotThrow() => Given(2, 2).Then.DoesNotThrow();
+        [Fact] public void ThenDoNotThrow() => Given(2, 2).Then().DoesNotThrow();
     }
 }
 ```
@@ -100,7 +100,7 @@ You can supply you own constructor arguments by calling `Using` (which will be a
 
 * To mock behaviour of any dependency, provide the mocking by calling `Given<[TheService]>(_ => _.Setup(...))`. 
 Each call to `Given` will provide additional arrangement that will be applied on test execution on the inversed order.
-* To verify a call to a dependency, write `Then.Does<TheService>([SomeLambdaExpression])`. 
+* To verify a call to a dependency, write `Then<[TheService]>([SomeLambdaExpression])`. 
 * Moq framework is used to express both mocking and verification of behaviour.
  
 Example:
@@ -121,19 +121,17 @@ public abstract class WhenPlaceOrder : ShoppingServiceSpec<object>
     protected ShoppingCart Cart;
 
     protected WhenPlaceOrder() 
-        => When(() => SUT.PlaceOrder(Cart.Id)).
-        GivenThat<ICartRepository>(_ => _.Setup(_ => _.GetCart(Cart.Id)).Returns(Cart));
+        => When(() => SUT.PlaceOrder(Cart.Id))
+        .Given<ICartRepository>(_ => _.Setup(_ => _.GetCart(Cart.Id)).Returns(Cart));
 
     public class GivenCart : WhenPlaceOrder
     {
-        public GivenCart() => GivenThat(() => Cart = new() { Id = 123 });
+        public GivenCart() => Given(() => Cart = new() { Id = 123 });
 
-        [Fact] public void ThenOrderIsCreated() 
-            => Then.Does<IOrderService>(_ => _.CreateOrder(Cart));
+        [Fact] public void ThenOrderIsCreated() => Then<IOrderService>(_ => _.CreateOrder(Cart));
 
         [Fact] public void ThenLogsOrderCreated()
-            => Then.Does<ILogger>(
-                _ => _.Information($"OrderCreated from Cart {Cart.Id} in Shop {ShopId}"));
+            => Then<ILogger>(_ => _.Information($"OrderCreated from Cart {Cart.Id} in Shop {ShopId}"));
     }
 }
 ```
