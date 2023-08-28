@@ -1,5 +1,6 @@
 ﻿using Moq;
 using Moq.AutoMock;
+using Moq.AutoMock.Resolvers;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using XspecT.Fixture.Exceptions;
@@ -19,7 +20,7 @@ public abstract class Mocking
     {
         CultureInfo.CurrentCulture = GetCulture();
         var defaultProvider = new FluentDefaultProvider();
-        Mocker = new(MockBehavior.Loose, DefaultValue.Custom, defaultProvider, false);
+        Mocker = CreateAutoMocker(defaultProvider);
         _context = new Context(Mocker);
         defaultProvider.SetContext(_context);
     }
@@ -300,5 +301,25 @@ public abstract class Mocking
         {
             throw new CreateSubjectUnderTestFailed(ex.Message.Split('`')[1], ex);
         }
+    }
+
+    private static AutoMocker CreateAutoMocker(DefaultValueProvider defaultProvider)
+    {
+        var autoMocker = new AutoMocker(MockBehavior.Loose, DefaultValue.Custom, defaultProvider, false);
+        ReplaceArrayResolver(autoMocker);
+        return autoMocker;
+    }
+
+    private static void ReplaceArrayResolver(AutoMocker autoMocker)
+    {
+        var resolverList = (List<IMockResolver>)autoMocker.Resolvers;
+        var arrayResolverIndex = resolverList.FindIndex(_ => _.GetType() == typeof(ArrayResolver));
+        if (arrayResolverIndex < 0)
+            return;
+
+        //Remove the Moq ArrayResolver, which create an array with one mocked element for reference types
+        resolverList.RemoveAt(arrayResolverIndex);
+        //replace it with ArrayResolver that creates empty array
+        resolverList.Insert(arrayResolverIndex, new EmptyArrayResolver());
     }
 }

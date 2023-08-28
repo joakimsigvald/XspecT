@@ -5,8 +5,7 @@ namespace XspecT.Test.AutoMock;
 
 public class WhenConstructorOf_SUTTakeArrayOfObject: SubjectSpec<ArrayService, SomeValue[]>
 {
-    [Fact] public void ThenArrayIsEmpty() => When(_ => _.GetValues())
-        .Then().Result.Has().Count(1); //Unfortunately AutoMock always create array with one mocked object
+    [Fact] public void ThenArrayIsEmpty() => When(_ => _.GetValues()).Then().Result.Is().Empty();
 }
 
 public class ArrayService
