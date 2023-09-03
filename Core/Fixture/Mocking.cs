@@ -275,6 +275,29 @@ public abstract class Mocking
     protected TValue[] Five<TValue>([NotNull] Action<TValue, int> setup) => _context.MentionMany(setup, 5);
 
     /// <summary>
+    /// Alias for Three
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <returns></returns>
+    protected TValue[] Many<TValue>() => Three<TValue>();
+
+    /// <summary>
+    /// Alias for Three
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="setup"></param>
+    /// <returns></returns>
+    protected TValue[] Many<TValue>([NotNull] Action<TValue> setup) => Three(setup);
+
+    /// <summary>
+    /// Alias for Three
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="setup"></param>
+    /// <returns></returns>
+    protected TValue[] Many<TValue>([NotNull] Action<TValue, int> setup) => Three(setup);
+
+    /// <summary>
     /// Override this to set different Culture than InvariantCulture during test
     /// </summary>
     /// <returns></returns>
