@@ -18,4 +18,16 @@ public class IsEnumerable<TItem>
     /// actual.Should().NotBeEmpty()
     /// </summary>
     public AndConstraint<GenericCollectionAssertions<TItem>> NotEmpty() => _actual.Should().NotBeEmpty();
+
+    /// <summary>
+    /// actual.Should().NotBeSameAs(expected)
+    /// </summary>
+    public AndConstraint<GenericCollectionAssertions<TItem>> Not(IEnumerable<TItem> expected)
+        => _actual.Should().NotBeSameAs(expected);
+
+    /// <summary>
+    /// actual.Should().NotBeSameAs(expected)
+    /// </summary>
+    public AndConstraint<GenericCollectionAssertions<TItem>> EqualTo(IEnumerable<TItem> expected)
+        => _actual.Should().BeEquivalentTo(expected);
 }

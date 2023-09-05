@@ -15,7 +15,7 @@ internal class Context
 
     public Context(AutoMocker mocker) => _mocker = mocker;
 
-    internal bool TryGetValue(Type type, out object val) => _usings.TryGetValue(type, out val);
+    internal bool TryUse(Type type, out object val) => _usings.TryGetValue(type, out val);
 
     internal void Use(Type type, object value)
     {
@@ -26,7 +26,7 @@ internal class Context
     internal TValue Mention<TValue>(Action<TValue> setup, int index)
         => setup is null
         ? Retreive(typeof(TValue), index) is TValue val ? val : Mention(Create(setup), index)
-        : Retreive(typeof(TValue), index) is null 
+        : Retreive(typeof(TValue), index) is null
         ? Mention(Create(setup), index)
         : throw new SetupFailed($"A {index + 1}th instance of {typeof(TValue).Name} has already been created. Cannot recreate it with new setup");
 
@@ -34,6 +34,26 @@ internal class Context
         => Retreive(typeof(TValue), index) is null
         ? (GetMentions(typeof(TValue))[index] = value) is TValue v ? v : throw new Exception($"Created value has unexpected type or is null: {value}")
         : throw new SetupFailed($"A {index + 1}th instance of {typeof(TValue).Name} has already been created. Cannot recreate it with new setup");
+
+    internal TValue[] MentionMany<TValue>(int count) 
+        => Retreive(typeof(TValue[])) is TValue[] arr 
+        ? Reuse(arr, count) 
+        : MentionMany((Action<TValue>)null, count);
+
+    private TValue[] Reuse<TValue>(TValue[] arr, int count)
+        => arr.Length == count ? arr
+        : arr.Length > count ? arr[..count]
+        : Extend(arr, count);
+
+    private TValue[] Extend<TValue>(TValue[] arr, int count)
+    {
+        var oldLen = arr.Length;
+        var newArr = new TValue[count];
+        Array.Copy(arr, newArr, oldLen);
+        for (var i = oldLen; i < count; i++)
+            newArr[i] = Mention<TValue>(null, i);
+        return newArr;
+    }
 
     internal TValue[] MentionMany<TValue>(Action<TValue> setup, int count)
         => Mention(Enumerable.Range(0, count).Select(i => Mention(setup, i)).ToArray());
@@ -73,7 +93,7 @@ internal class Context
 
     private object Retreive(Type type, int index = 0)
         => _mentions.TryGetValue(type, out var vals) ? vals[index]
-        : index == 0 && _usings.TryGetValue(type, out var val) ? val
+        : index == 0 && TryUse(type, out var val) ? val
         : null;
 
     private static IFixture CreateAutoFixture()

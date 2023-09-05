@@ -172,7 +172,7 @@ public abstract class Mocking
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected TValue[] One<TValue>() => _context.MentionMany((Action<TValue>)null, 1);
+    protected TValue[] One<TValue>() => _context.MentionMany<TValue>(1);
 
     /// <summary>
     /// Yields an array with one customized element of the given type
@@ -187,7 +187,7 @@ public abstract class Mocking
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected TValue[] Two<TValue>() => _context.MentionMany((Action<TValue>)null, 2);
+    protected TValue[] Two<TValue>() => _context.MentionMany<TValue>(2);
 
     /// <summary>
     /// Yields an array with two customized element of the given type
@@ -210,7 +210,7 @@ public abstract class Mocking
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected TValue[] Three<TValue>() => _context.MentionMany((Action<TValue>)null, 3);
+    protected TValue[] Three<TValue>() => _context.MentionMany<TValue>(3);
 
     /// <summary>
     /// Yields an array with three customized element of the given type
@@ -233,7 +233,7 @@ public abstract class Mocking
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected TValue[] Four<TValue>() => _context.MentionMany((Action<TValue>)null, 4);
+    protected TValue[] Four<TValue>() => _context.MentionMany<TValue>(4);
 
     /// <summary>
     /// Yields an array with four customized element of the given type
@@ -256,7 +256,7 @@ public abstract class Mocking
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected TValue[] Five<TValue>() => _context.MentionMany((Action<TValue>)null, 5);
+    protected TValue[] Five<TValue>() => _context.MentionMany<TValue>(5);
 
     /// <summary>
     /// Yields an array with five customized element of the given type

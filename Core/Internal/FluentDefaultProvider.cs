@@ -9,7 +9,7 @@ internal class FluentDefaultProvider : DefaultValueProvider
     internal void SetContext(Context context) => _context = context;
 
     protected override object GetDefaultValue(Type type, Mock mock)
-        => _context.TryGetValue(type, out var val) ? val : GetValue(type, mock);
+        => _context.TryUse(type, out var val) ? val : GetValue(type, mock);
 
     private object GetValue(Type type, Mock mock)
         => IsReturningSelf(type, mock) ? mock.Object
