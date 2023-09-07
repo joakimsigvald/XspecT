@@ -156,4 +156,6 @@ public static class AssertionExtensions
     public static AndConstraint<FluentAssertions.Primitives.StringAssertions> Is(
         this string actual, string expected)
         => actual.Should().Be(expected);
+
+    public static TService And<TService, TValue>(this AndConstraint<TValue> _, TService service) => service;
 }

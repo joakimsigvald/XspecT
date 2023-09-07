@@ -297,6 +297,8 @@ public abstract class Mocking
     /// <returns></returns>
     protected TValue[] Many<TValue>([NotNull] Action<TValue, int> setup) => Three(setup);
 
+    protected TValue The<TValue>(string label) => _context.Mention<TValue>(label);
+
     /// <summary>
     /// Override this to set different Culture than InvariantCulture during test
     /// </summary>
