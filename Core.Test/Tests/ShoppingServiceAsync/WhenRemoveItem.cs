@@ -13,14 +13,14 @@ public abstract class WhenRemoveItem : ShoppingServiceAsyncSpec<ShoppingCart>
 
     protected WhenRemoveItem()
         => When(_ => _.RemoveFromCart(CartId, Cart.Items[0]))
-        .Given<IShoppingCartRepository>(_ => _.Setup(_ => _.GetCart(CartId))
+        .GivenThat<IShoppingCartRepository>(_ => _.Setup(_ => _.GetCart(CartId))
         .ReturnsAsync(new ShoppingCart { Id = CartId, Items = CartItems }));
 
     protected ShoppingCart Cart => _cart ??= new() { Id = CartId, Items = CartItems };
 
     public class GivenCartWithOneItem : WhenRemoveItem
     {
-        public GivenCartWithOneItem() => Given(() => CartItems = new[] { new ShoppingCartItem("X") });
+        public GivenCartWithOneItem() => GivenThat(() => CartItems = new[] { new ShoppingCartItem("X") });
         [Fact] public void ThenCartIsEmpty() => Result.Items.Is().Empty();
     }
 }

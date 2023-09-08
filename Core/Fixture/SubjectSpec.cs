@@ -64,10 +64,10 @@ public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTe
     /// <param name="arrangement"></param>
     /// <returns></returns>
     /// <exception cref="SetupFailed"></exception>
-    public IGivenSubjectTestPipeline<TSUT, TResult> Given(Action arrangement)
+    public IGivenSubjectTestPipeline<TSUT, TResult> GivenThat(Action arrangement)
     {
         if (HasRun)
-            throw new SetupFailed("Given must be called before Then");
+            throw new SetupFailed("GivenThat must be called before Then");
         _arrangements.Insert(0, arrangement);
         return new GivenSubjectTestPipeline<TSUT, TResult>(this);
     }
@@ -79,11 +79,19 @@ public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTe
     /// <param name="arrangement"></param>
     /// <returns></returns>
     /// <exception cref="SetupFailed"></exception>
-    public IGivenSubjectTestPipeline<TSUT, TResult> Given<TService>(Action<Mock<TService>> setup) where TService : class
+    public IGivenSubjectTestPipeline<TSUT, TResult> GivenThat<TService>(Action<Mock<TService>> setup) where TService : class
     {
         if (HasRun)
-            throw new SetupFailed("Given must be called before Then");
+            throw new SetupFailed("GivenThat must be called before Then");
         _arrangements.Insert(0, () => setup(Mocker.GetMock<TService>()));
+        return new GivenSubjectTestPipeline<TSUT, TResult>(this);
+    }
+
+    public IGivenSubjectTestPipeline<TSUT, TResult> GivenThe<TValue>(Action<TValue> setup) where TValue : class
+    {
+        if (HasRun)
+            throw new SetupFailed("GivenThe must be called before Then");
+        A(setup);
         return new GivenSubjectTestPipeline<TSUT, TResult>(this);
     }
 

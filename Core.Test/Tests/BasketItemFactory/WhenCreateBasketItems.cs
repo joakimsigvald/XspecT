@@ -13,7 +13,7 @@ public class WhenCreateBasketItems : BasketItemFactorySpec<BasketItem[]>
     public class GivenItemWithUnknownProduct : WhenCreateBasketItems
     {
         public GivenItemWithUnknownProduct()
-            => Given(() => NewBasketItems = new[] { new NewBasketItem { PartNo = "P123" } });
+            => GivenThat(() => NewBasketItems = new[] { new NewBasketItem { PartNo = "P123" } });
 
         [Fact] public void ThenThrowBasketItemNotBuyable() => Then().Throws<BasketItemNotBuyable>();
     }

@@ -11,7 +11,7 @@ public class WhenPurchase : PurchaseHandlerSpec<PurchaseResponseModel>
     protected Checkout Checkout;
 
     protected WhenPurchase() => When(_ => _.Purchase(BasketId))
-        .Given<ICheckoutProvider>(_ => _.Setup(_ => _.GetExistingCheckout(BasketId))
+        .GivenThat<ICheckoutProvider>(_ => _.Setup(_ => _.GetExistingCheckout(BasketId))
         .ReturnsAsync(Checkout))
         .And<IBasketRepository>(_ => _.Setup(_ => _.GetEditable(BasketId))
         .ReturnsAsync(Checkout.Basket));
@@ -19,7 +19,7 @@ public class WhenPurchase : PurchaseHandlerSpec<PurchaseResponseModel>
     public class GivenEditableBasket : WhenPurchase
     {
         public GivenEditableBasket()
-            => Given(() => Checkout = new Checkout() { Basket = new() { Id = BasketId }, IsOpen = true }).
+            => GivenThat(() => Checkout = new Checkout() { Basket = new() { Id = BasketId }, IsOpen = true }).
             And(() => BasketId = 123);
 
         [Fact]

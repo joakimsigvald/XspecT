@@ -53,7 +53,7 @@ public class GivenSubjectTestPipeline<TSUT, TResult>
     /// <returns></returns>
     /// <exception cref="SetupFailed"></exception>
     public IGivenSubjectTestPipeline<TSUT, TResult> And(Action arrangement)
-        => Given(arrangement);
+        => GivenThat(arrangement);
 
     /// <summary>
     /// Provide setup to the test-pipeline that will be executed before the test-method, in reversed chronological order 
@@ -63,7 +63,10 @@ public class GivenSubjectTestPipeline<TSUT, TResult>
     /// <returns></returns>
     /// <exception cref="SetupFailed"></exception>
     public IGivenSubjectTestPipeline<TSUT, TResult> And<TService>(Action<Mock<TService>> setup) where TService : class
-        => Given(setup);
+        => GivenThat(setup);
+
+    public IGivenSubjectTestPipeline<TSUT, TResult> AndThe<TValue>(Action<TValue> setup) where TValue : class
+        => GivenThe(setup);
 
     /// <summary>
     /// Provide arrangement to the test-pipeline that will be executed before the test-method, in reversed chronological order 
@@ -72,9 +75,9 @@ public class GivenSubjectTestPipeline<TSUT, TResult>
     /// <param name="arrangement"></param>
     /// <returns></returns>
     /// <exception cref="SetupFailed"></exception>
-    public IGivenSubjectTestPipeline<TSUT, TResult> Given(Action arrangement)
+    public IGivenSubjectTestPipeline<TSUT, TResult> GivenThat(Action arrangement)
     {
-        Parent.Given(arrangement);
+        Parent.GivenThat(arrangement);
         return this;
     }
 
@@ -85,9 +88,15 @@ public class GivenSubjectTestPipeline<TSUT, TResult>
     /// <param name="arrangement"></param>
     /// <returns></returns>
     /// <exception cref="SetupFailed"></exception>
-    public IGivenSubjectTestPipeline<TSUT, TResult> Given<TService>(Action<Mock<TService>> setup) where TService : class
+    public IGivenSubjectTestPipeline<TSUT, TResult> GivenThat<TService>(Action<Mock<TService>> setup) where TService : class
     {
-        Parent.Given(setup);
+        Parent.GivenThat(setup);
+        return this;
+    }
+
+    public IGivenSubjectTestPipeline<TSUT, TResult> GivenThe<TValue>(Action<TValue> setup) where TValue : class
+    {
+        Parent.GivenThe(setup);
         return this;
     }
 
