@@ -18,9 +18,23 @@ public class TestResult<TResult>
     }
 
     public TResult Result { get => _error is null ? _result : throw _error; init => _result = value; }
+
     public AndThen<TResult> Throws<TError>()
     {
         Assert.IsType<TError>(_error);
+        return new(this);
+    }
+
+    public AndThen<TResult> Throws<TError>(TError error) where TError : Exception
+    {
+        error.Is(Assert.IsType<TError>(_error));
+        return new(this);
+    }
+
+    public AndThen<TResult> Throws<TError>(Action<TError> assert)
+    {
+        var ex = Assert.IsType<TError>(_error);
+        assert(ex);
         return new(this);
     }
 
@@ -39,13 +53,6 @@ public class TestResult<TResult>
     public AndThen<TResult> DoesNotThrow()
     {
         _error.Is().Null();
-        return new(this);
-    }
-
-    public AndThen<TResult> Throws<TError>(Action<TError> assert)
-    {
-        var ex = Assert.IsType<TError>(_error);
-        assert(ex);
         return new(this);
     }
 
