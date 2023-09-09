@@ -14,7 +14,7 @@ public abstract class WhenPlaceOrder : ShoppingServiceSpec<object>
     {
         protected int ShopId;
 
-        protected GivenCart() => Using(() => ShopId).GivenThat(() => ShopId = 123).And(() => Cart = new());
+        protected GivenCart() => Using(() => ShopId).Given(() => ShopId = 123).And(() => Cart = new());
 
         [Fact]
         public void ThenOrderIsCreated()

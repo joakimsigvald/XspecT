@@ -7,14 +7,14 @@ public class WhenGivenValueSetup : SubjectSpec<MyService, MyModel>
 {
     [Fact]
     public void AsFirstSentence_ThenUseSetupInPipeline()
-        => GivenThe<MyModel>(_ => _.Name = A<string>())
+        => Given<MyModel>(_ => _.Name = A<string>())
         .When(_ => _.Echo(A<MyModel>()))
         .Then().Result.Name.Is(The<string>());
 
     [Fact]
     public void AsSecondSentence_ThenUseSetupInPipeline()
-        => GivenThat<IMyRepository>(_ => _.Setup(_ => _.GetModel()).Returns(A<MyModel>()))
-        .AndThe<MyModel>(_ => _.Name = A<string>())
+        => Given<IMyRepository>().That(_ => _.GetModel()).Returns(A<MyModel>)
+        .And<MyModel>(_ => _.Name = A<string>())
         .When(_ => _.GetModel())
         .Then().Result.Name.Is(The<string>());
 }

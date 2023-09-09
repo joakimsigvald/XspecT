@@ -64,7 +64,7 @@ public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTe
     /// <param name="arrangement"></param>
     /// <returns></returns>
     /// <exception cref="SetupFailed"></exception>
-    public IGivenSubjectTestPipeline<TSUT, TResult> GivenThat(Action arrangement)
+    public IGivenSubjectTestPipeline<TSUT, TResult> Given(Action arrangement)
     {
         if (HasRun)
             throw new SetupFailed("GivenThat must be called before Then");
@@ -72,22 +72,14 @@ public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTe
         return new GivenSubjectTestPipeline<TSUT, TResult>(this);
     }
 
-    /// <summary>
-    /// Provide setup to the test-pipeline that will be executed before the test-method, in reversed chronological order 
-    /// (allowing variables set later to be used in setup added earlier)
-    /// </summary>
-    /// <param name="arrangement"></param>
-    /// <returns></returns>
-    /// <exception cref="SetupFailed"></exception>
-    public IGivenSubjectTestPipeline<TSUT, TResult> GivenThat<TService>(Action<Mock<TService>> setup) where TService : class
+    public IGivenContinuation<TSUT, TResult, TService> Given<TService>() where TService : class
     {
         if (HasRun)
-            throw new SetupFailed("GivenThat must be called before Then");
-        _arrangements.Insert(0, () => setup(Mocker.GetMock<TService>()));
-        return new GivenSubjectTestPipeline<TSUT, TResult>(this);
+            throw new SetupFailed("Given must be called before Then");
+        return new GivenContinuation<TSUT, TResult, TService>(this);
     }
 
-    public IGivenSubjectTestPipeline<TSUT, TResult> GivenThe<TValue>(Action<TValue> setup) where TValue : class
+    public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(Action<TValue> setup) where TValue : class
     {
         if (HasRun)
             throw new SetupFailed("GivenThe must be called before Then");
@@ -158,6 +150,9 @@ public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTe
     public ISubjectTestPipeline<TSUT, TResult> Using<TService>(Expression<Func<TService, bool>> setup)
         where TService : class
         => Using(() => Use(setup));
+
+    internal void SetupMock<TService>(Action<Mock<TService>> setup) where TService : class
+        => _arrangements.Insert(0, () => setup(Mocker.GetMock<TService>()));
 
     private ISubjectTestPipeline<TSUT, TResult> Using(params Action[] usings)
     {

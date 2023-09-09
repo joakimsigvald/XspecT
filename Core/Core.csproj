@@ -17,11 +17,11 @@
     <PackageProjectUrl>https://github.com/joakimsigvald/XspecT</PackageProjectUrl>
     <RepositoryUrl>https://github.com/joakimsigvald/XspecT.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageVersion>5.5.0</PackageVersion>
+    <PackageVersion>6.0.0</PackageVersion>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>icon.png</PackageIcon>
-    <PackageReleaseNotes>Added GivenThe in SubjectSpec to provide setup for a value in a fluent style. Renamed Given to GivenThat for SubjectSpec</PackageReleaseNotes>
+    <PackageReleaseNotes>Restructured GivenThat for mocking as three chained methods: Given().That(...).Returns(...) and renamed GivenXXX to Given</PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AutoFixture" Version="4.18.0" />
