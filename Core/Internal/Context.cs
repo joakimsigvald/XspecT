@@ -27,24 +27,29 @@ internal class Context
         _mocker.Use(type, value);
     }
 
-    internal TValue Mention<TValue>(Action<TValue> setup, int index)
-        => setup is null
-        ? Retreive(typeof(TValue), index) is TValue val ? val : Mention(Create(setup), index)
-        : Retreive(typeof(TValue), index) is null
-        ? Mention(Create(setup), index)
-        : throw new SetupFailed($"A {index + 1}th instance of {typeof(TValue).Name} has already been created. Cannot recreate it with new setup");
+    internal TValue Mention<TValue>(int index, Action<TValue> setup = null) 
+        => setup is null ? Produce<TValue>(index) : ApplyTo(setup, Produce<TValue>(index));
+
+    private TValue Produce<TValue>(int index)
+        => (TValue)(Retreive(typeof(TValue), index) ?? Mention(Create<TValue>(), index));
+
+    internal static TValue ApplyTo<TValue>(Action<TValue> setup, TValue value)
+    {
+        setup?.Invoke(value);
+        return value;
+    }
 
     internal TValue Mention<TValue>(string label)
     {
         var mentions = ProduceMentions(typeof(TValue));
         return mentions.TryGetValue(label, out var val)
             ? (TValue)val
-            : (TValue)(mentions[label] = Create<TValue>(null));
+            : (TValue)(mentions[label] = Create<TValue>());
     }
 
     internal IDictionary<string, object> ProduceMentions(Type type)
-        => _labeledMentions.TryGetValue(type, out var mentions) 
-        ? mentions 
+        => _labeledMentions.TryGetValue(type, out var mentions)
+        ? mentions
         : _labeledMentions[type] = new Dictionary<string, object>();
 
     internal TValue Mention<TValue>(TValue value, int index = 0)
@@ -68,29 +73,20 @@ internal class Context
         var newArr = new TValue[count];
         Array.Copy(arr, newArr, oldLen);
         for (var i = oldLen; i < count; i++)
-            newArr[i] = Mention<TValue>(null, i);
+            newArr[i] = Mention<TValue>(i);
         return newArr;
     }
 
     internal TValue[] MentionMany<TValue>(Action<TValue> setup, int count)
-        => Mention(Enumerable.Range(0, count).Select(i => Mention(setup, i)).ToArray());
+        => Mention(Enumerable.Range(0, count).Select(i => Mention(i, setup)).ToArray());
 
     internal TValue[] MentionMany<TValue>(Action<TValue, int> setup, int count)
-        => Mention(Enumerable.Range(0, count).Select(i => Mention<TValue>(_ => setup(_, i), i)).ToArray());
+        => Mention(Enumerable.Range(0, count).Select(i => Mention<TValue>(i, _ => setup(_, i))).ToArray());
 
-    /// <summary>
-    /// TODO: setup should be Func returning configured instance
-    /// </summary>
-    /// <typeparam name="TValue"></typeparam>
-    /// <param name="setup"></param>
-    /// <returns></returns>
-    internal TValue Create<TValue>(Action<TValue> setup)
-    {
-        var val = typeof(TValue).IsInterface ? _mocker.Get<TValue>() : _fixture.Create<TValue>();
-        if (setup is not null)
-            setup(val);
-        return val;
-    }
+    internal TValue Create<TValue>()
+        => typeof(TValue).IsInterface
+        ? _mocker.Get<TValue>()
+        : _fixture.Create<TValue>();
 
     internal object CreateDefaultValue(Type type)
     {

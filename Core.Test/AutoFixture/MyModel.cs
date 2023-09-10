@@ -1,6 +1,7 @@
 ﻿namespace XspecT.Test.AutoFixture;
 
-public class Model
+public class MyModel
 {
+    public int Id { get; set; }
     public string Name { get; set; }
 }
