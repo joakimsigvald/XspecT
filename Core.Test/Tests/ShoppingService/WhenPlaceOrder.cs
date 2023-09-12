@@ -14,12 +14,14 @@ public abstract class WhenPlaceOrder : ShoppingServiceSpec<object>
     {
         protected int ShopId;
 
-        protected GivenCart() => Using(() => ShopId).Given(() => ShopId = 123).And(() => Cart = new());
+        protected GivenCart() => Using(() => ShopId).Given(() => Cart = new());
 
-        [Fact]
-        public void ThenOrderIsCreated()
-            => Then<IOrderService>(_ => _.CreateOrder(Cart))
-            .And<ILogger>(_ => _.ForContext("ShopId", ShopId));
+        [Theory]
+        [InlineData(1)]
+        [InlineData(123)]
+        public void ThenOrderIsCreated(int shopId)
+            => Given(() => ShopId = shopId).Then<IOrderService>(_ => _.CreateOrder(Cart))
+            .And<ILogger>(_ => _.ForContext("ShopId", shopId));
 
         public class AndShopName : GivenCart
         {

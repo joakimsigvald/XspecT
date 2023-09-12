@@ -1,5 +1,4 @@
-﻿using Moq;
-using XspecT.Fixture.Exceptions;
+﻿using XspecT.Fixture.Exceptions;
 using XspecT.Verification;
 namespace XspecT.Internal;
 

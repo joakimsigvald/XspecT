@@ -56,42 +56,42 @@ public class TestResult<TResult>
         return new(this);
     }
 
-    internal AndDoes<TResult> Does<TService>(Expression<Action<TService>> expression) where TService : class
+    internal AndVerify<TResult> Verify<TService>(Expression<Action<TService>> expression) where TService : class
     {
         CombineWithErrorOnFail(() => Mocked<TService>().Verify(expression));
-        return new AndDoes<TResult>(this);
+        return new AndVerify<TResult>(this);
     }
 
-    internal AndDoes<TResult> Does<TObject>(Expression<Action<TObject>> expression, Times times) where TObject : class
+    internal AndVerify<TResult> Verify<TObject>(Expression<Action<TObject>> expression, Times times) where TObject : class
     {
         CombineWithErrorOnFail(() => Mocked<TObject>().Verify(expression, times));
-        return new AndDoes<TResult>(this);
+        return new AndVerify<TResult>(this);
     }
 
-    internal AndDoes<TResult> Does<TObject>(Expression<Action<TObject>> expression, Func<Times> times) where TObject : class
+    internal AndVerify<TResult> Verify<TObject>(Expression<Action<TObject>> expression, Func<Times> times) where TObject : class
     {
         CombineWithErrorOnFail(() => Mocked<TObject>().Verify(expression, times));
-        return new AndDoes<TResult>(this);
+        return new AndVerify<TResult>(this);
     }
 
-    internal AndDoes<TResult> Does<TObject, TReturns>(Expression<Func<TObject, TReturns>> expression) where TObject : class
+    internal AndVerify<TResult> Verify<TObject, TReturns>(Expression<Func<TObject, TReturns>> expression) where TObject : class
     {
         CombineWithErrorOnFail(() => Mocked<TObject>().Verify(expression));
-        return new AndDoes<TResult>(this);
+        return new AndVerify<TResult>(this);
     }
 
-    internal AndDoes<TResult> Does<TObject, TReturns>(Expression<Func<TObject, TReturns>> expression, Times times)
+    internal AndVerify<TResult> Verify<TObject, TReturns>(Expression<Func<TObject, TReturns>> expression, Times times)
         where TObject : class
     {
         CombineWithErrorOnFail(() => Mocked<TObject>().Verify(expression, times));
-        return new AndDoes<TResult>(this);
+        return new AndVerify<TResult>(this);
     }
 
-    internal AndDoes<TResult> Does<TObject, TReturns>(Expression<Func<TObject, TReturns>> expression, Func<Times> times)
+    internal AndVerify<TResult> Verify<TObject, TReturns>(Expression<Func<TObject, TReturns>> expression, Func<Times> times)
         where TObject : class
     {
         CombineWithErrorOnFail(() => Mocked<TObject>().Verify(expression, times));
-        return new AndDoes<TResult>(this);
+        return new AndVerify<TResult>(this);
     }
 
     private Mock<TObject> Mocked<TObject>() where TObject : class => _mocker.GetMock<TObject>();

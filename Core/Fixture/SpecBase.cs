@@ -39,26 +39,6 @@ public abstract class SpecBase<TResult> : ITestPipeline<TResult>, IDisposable
     /// <returns>The test result</returns>
     public TestResult<TResult> Then() => _then ??= Run();
 
-    public AndDoes<TResult> Then<TService>(Expression<Action<TService>> expression) where TService : class
-        => Then().Does(expression);
-
-    public AndDoes<TResult> Then<TService>(Expression<Action<TService>> expression, Times times) where TService : class
-        => Then().Does(expression, times);
-
-    public AndDoes<TResult> Then<TService>(Expression<Action<TService>> expression, Func<Times> times) where TService : class
-        => Then().Does(expression, times);
-
-    public AndDoes<TResult> Then<TService, TReturns>(Expression<Func<TService, TReturns>> expression) where TService : class
-        => Then().Does(expression);
-
-    public AndDoes<TResult> Then<TService, TReturns>(Expression<Func<TService, TReturns>> expression, Times times)
-        where TService : class
-        => Then().Does(expression, times);
-
-    public AndDoes<TResult> Then<TService, TReturns>(Expression<Func<TService, TReturns>> expression, Func<Times> times)
-        where TService : class
-        => Then().Does(expression, times);
-
     /// <summary>
     /// Run the test-pipeline and return the test-class (specification).
     /// Use this method to access any member on the testclass after the test is run, for a more fluent experience
@@ -71,6 +51,26 @@ public abstract class SpecBase<TResult> : ITestPipeline<TResult>, IDisposable
         Then();
         return spec;
     }
+
+    protected AndVerify<TResult> Then<TService>(Expression<Action<TService>> expression) where TService : class
+        => Then().Verify(expression);
+
+    protected AndVerify<TResult> Then<TService>(Expression<Action<TService>> expression, Times times) where TService : class
+        => Then().Verify(expression, times);
+
+    protected AndVerify<TResult> Then<TService>(Expression<Action<TService>> expression, Func<Times> times) where TService : class
+        => Then().Verify(expression, times);
+
+    protected AndVerify<TResult> Then<TService, TReturns>(Expression<Func<TService, TReturns>> expression) where TService : class
+        => Then().Verify(expression);
+
+    protected AndVerify<TResult> Then<TService, TReturns>(Expression<Func<TService, TReturns>> expression, Times times)
+        where TService : class
+        => Then().Verify(expression, times);
+
+    protected AndVerify<TResult> Then<TService, TReturns>(Expression<Func<TService, TReturns>> expression, Func<Times> times)
+        where TService : class
+        => Then().Verify(expression, times);
 
     public void Dispose()
     {
