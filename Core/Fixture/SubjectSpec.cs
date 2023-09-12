@@ -83,7 +83,7 @@ public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTe
     {
         if (HasRun)
             throw new SetupFailed("GivenThe must be called before Then");
-        A(setup);
+        _arrangements.Insert(0, () => A(setup));
         return new GivenSubjectTestPipeline<TSUT, TResult>(this);
     }
 
