@@ -126,6 +126,13 @@ public abstract class SpecBase<TResult> : ITestPipeline<TResult>, IDisposable
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
+    protected TValue TheFirst<TValue>() => A<TValue>();
+
+    /// <summary>
+    /// Alias for A
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <returns></returns>
     protected TValue An<TValue>() => A<TValue>();
 
     /// <summary>
