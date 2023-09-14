@@ -107,8 +107,7 @@ Example:
 ```
 namespace MyProject.Test.ShoppingService;
 
-public abstract class ShoppingServiceSpec<TResult> 
-    : SubjectSpec<MyProject.ShoppingService, TResult>
+public abstract class ShoppingServiceSpec<TResult> : SubjectSpec<MyProject.ShoppingService, TResult>
 {
     protected const int ShopId = 2;
 
@@ -118,20 +117,19 @@ public abstract class ShoppingServiceSpec<TResult>
 
 public abstract class WhenPlaceOrder : ShoppingServiceSpec<object>
 {
-    protected ShoppingCart Cart;
-
     protected WhenPlaceOrder() 
-        => When(() => SUT.PlaceOrder(Cart.Id))
-        .Given<ICartRepository>(_ => _.Setup(_ => _.GetCart(Cart.Id)).Returns(Cart));
+        // Auto-generate a Cart and use its Id as parameter to PlaceOrder
+        => When(() => SUT.PlaceOrder(A<Cart>().Id))
+        //Setup ICartRepository to return the Cart
+        .Given<ICartRepository>().That(_ => _.GetCart(The<Cart>().Id)).Returns(The<Cart>()));
 
     public class GivenCart : WhenPlaceOrder
     {
-        public GivenCart() => Given(() => Cart = new() { Id = 123 });
-
-        [Fact] public void ThenOrderIsCreated() => Then<IOrderService>(_ => _.CreateOrder(Cart));
+        //Verify the auto-generated cart was used to create the Order
+        [Fact] public void ThenOrderIsCreated() => Then<IOrderService>(_ => _.CreateOrder(The<Cart>()));
 
         [Fact] public void ThenLogsOrderCreated()
-            => Then<ILogger>(_ => _.Information($"OrderCreated from Cart {Cart.Id} in Shop {ShopId}"));
+            => Then<ILogger>(_ => _.Information($"OrderCreated from Cart {The<Cart>().Id} in Shop {ShopId}"));
     }
 }
 ```

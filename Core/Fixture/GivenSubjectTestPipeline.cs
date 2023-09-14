@@ -58,6 +58,8 @@ public class GivenSubjectTestPipeline<TSUT, TResult>
     public IGivenSubjectTestPipeline<TSUT, TResult> And<TValue>(Action<TValue> setup) where TValue : class
         => Given(setup);
 
+    public IGivenSubjectTestPipeline<TSUT, TResult> And<TValue>(TValue value) => Given(value);
+
     /// <summary>
     /// Provide arrangement to the test-pipeline that will be executed before the test-method, in reversed chronological order 
     /// (allowing arrangement added later to be used in arrangement added earlier)
@@ -80,6 +82,12 @@ public class GivenSubjectTestPipeline<TSUT, TResult>
     public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(Action<TValue> setup) where TValue : class
     {
         Parent.Given(setup);
+        return this;
+    }
+
+    public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(TValue value)
+    {
+        Parent.Given(value);
         return this;
     }
 

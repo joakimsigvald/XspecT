@@ -159,6 +159,14 @@ public abstract class SpecBase<TResult> : ITestPipeline<TResult>, IDisposable
     protected TValue A<TValue>([NotNull] Action<TValue> setup) => Mention(0, setup);
 
     /// <summary>
+    /// Provide a value that can later be mentioned
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="setup"></param>
+    /// <returns></returns>
+    protected TValue A<TValue>(TValue value) => Mention(0, value);
+
+    /// <summary>
     /// Will always yield a new model of the given type, unless TValue is an interface. 
     /// Do not use in combination with Using or reference the generated value twice in the same pipeline, 
     /// since that might give the specification confusing semantics
@@ -434,6 +442,13 @@ public abstract class SpecBase<TResult> : ITestPipeline<TResult>, IDisposable
         if (HasRun)
             throw new SetupFailed("Setup to auto-generated values must be provided before Then");
         return _context.Mention(index, setup);
+    }
+
+    private TValue Mention<TValue>(int index, TValue value)
+    {
+        if (HasRun)
+            throw new SetupFailed("Setup to auto-generated values must be provided before Then");
+        return _context.Mention(value, index);
     }
 
     protected TValue[] MentionMany<TValue>([NotNull] Action<TValue> setup, int count) 

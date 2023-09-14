@@ -87,6 +87,14 @@ public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTe
         return new GivenSubjectTestPipeline<TSUT, TResult>(this);
     }
 
+    public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(TValue value)
+    {
+        if (HasRun)
+            throw new SetupFailed("GivenThe must be called before Then");
+        _arrangements.Insert(0, () => A(value));
+        return new GivenSubjectTestPipeline<TSUT, TResult>(this);
+    }
+
     /// <summary>
     /// Provide service to the test-pipeline that can be used in auto-mocking
     /// </summary>
