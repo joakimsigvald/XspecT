@@ -10,8 +10,9 @@ namespace XspecT.Fixture;
 public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTestPipeline<TSUT, TResult>
     where TSUT : class
 {
-    private readonly Arranger _arranger = new();
-    protected TSUT SUT { get; private set; }
+    protected SubjectSpec() : base(new SubjectPipeline<TSUT, TResult>()) { }
+    private SubjectPipeline<TSUT, TResult> Pipeline => (SubjectPipeline<TSUT, TResult>)_pipeline;
+    protected TSUT SUT => Pipeline.SUT;
 
     /// <summary>
     /// Provide the method-under-test to the test-pipeline
@@ -66,9 +67,7 @@ public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTe
     /// <exception cref="SetupFailed"></exception>
     public IGivenSubjectTestPipeline<TSUT, TResult> GivenThat(Action arrangement)
     {
-        if (HasRun)
-            throw new SetupFailed("GivenThat must be called before Then");
-        _arranger.Push(arrangement);
+        Pipeline.GivenThat(arrangement);
         return new GivenSubjectTestPipeline<TSUT, TResult>(this);
     }
 
@@ -81,17 +80,13 @@ public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTe
 
     public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(Action<TValue> setup) where TValue : class
     {
-        if (HasRun)
-            throw new SetupFailed("GivenThe must be called before Then");
-        _arranger.Push(() => A(setup));
+        Pipeline.GivenThat(() => A(setup));
         return new GivenSubjectTestPipeline<TSUT, TResult>(this);
     }
 
     public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(Func<TValue> value)
     {
-        if (HasRun)
-            throw new SetupFailed("GivenThe must be called before Then");
-        _arranger.Push(() => A(value()));
+        Pipeline.GivenThat(() => A(value()));
         return new GivenSubjectTestPipeline<TSUT, TResult>(this);
     }
 
@@ -102,7 +97,7 @@ public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTe
     /// <param name="service"></param>
     /// <returns></returns>
     public ISubjectTestPipeline<TSUT, TResult> Using<TService>([DisallowNull] Func<TService> service)
-        => Using(() => Use(service()));
+        => Using(() => Pipeline.Use(service()));
 
     /// <summary>
     /// Provide service to the test-pipeline that can be used in auto-mocking
@@ -111,7 +106,7 @@ public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTe
     /// <param name="service"></param>
     /// <returns></returns>
     public ISubjectTestPipeline<TSUT, TResult> Using<TService>(TService service)
-        => Using(() => Use(service));
+        => Using(() => Pipeline.Use(service));
 
     /// <summary>
     /// Provide services to the test-pipeline that can be used in auto-mocking
@@ -123,7 +118,7 @@ public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTe
     /// <returns></returns>
     public ISubjectTestPipeline<TSUT, TResult> Using<TService1, TService2>(
         TService1 service1, TService2 service2)
-        => Using(() => Use(service1), () => Use(service2));
+        => Using(() => Pipeline.Use(service1), () => Pipeline.Use(service2));
 
     /// <summary>
     /// Provide services to the test-pipeline that can be used in auto-mocking
@@ -137,7 +132,7 @@ public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTe
     /// <returns></returns>
     public ISubjectTestPipeline<TSUT, TResult> Using<TService1, TService2, TService3>(
         TService1 service1, TService2 service2, TService3 service3)
-        => Using(() => Use(service1), () => Use(service2), () => Use(service3));
+        => Using(() => Pipeline.Use(service1), () => Pipeline.Use(service2), () => Pipeline.Use(service3));
 
     /// <summary>
     /// Provide service to the test-pipeline that can be used in auto-mocking
@@ -147,7 +142,7 @@ public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTe
     /// <returns></returns>
     public ISubjectTestPipeline<TSUT, TResult> Using<TService>(Mock<TService> mockedService)
         where TService : class
-        => Using(() => Use(mockedService));
+        => Using(() => Pipeline.Use(mockedService));
 
     /// <summary>
     /// Provide service to the test-pipeline that can be used in auto-mocking
@@ -157,23 +152,14 @@ public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTe
     /// <returns></returns>
     public ISubjectTestPipeline<TSUT, TResult> Using<TService>(Expression<Func<TService, bool>> setup)
         where TService : class
-        => Using(() => Use(setup));
+        => Using(() => Pipeline.Use(setup));
 
     internal void SetupMock<TService>(Action<Mock<TService>> setup) where TService : class
-        => _arranger.Push(() => setup(GetMock<TService>()));
+        => Pipeline.SetupMock(setup);
 
     private ISubjectTestPipeline<TSUT, TResult> Using(params Action[] usings)
     {
-        if (HasRun)
-            throw new SetupFailed("Use must be called before Then");
-        foreach (var use in usings)
-            _arranger.Add(use);
+        Pipeline.Using(usings);
         return this;
-    }
-
-    internal protected override sealed void Arrange()
-    {
-        _arranger.Arrange();
-        SUT = CreateInstance<TSUT>();
     }
 }

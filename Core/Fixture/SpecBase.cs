@@ -16,19 +16,21 @@ namespace XspecT.Fixture;
 /// </summary>
 public abstract class SpecBase<TResult> : ITestPipeline<TResult>, IDisposable
 {
-    private readonly Context _context = new();
-    private readonly SpecActor<TResult> _actor = new();
-    private TestResult<TResult> _then;
+    internal protected readonly IPipeline<TResult> _pipeline;
 
-    protected SpecBase() => CultureInfo.CurrentCulture = GetCulture();
+    protected SpecBase(IPipeline<TResult> pipeline)
+    {
+        CultureInfo.CurrentCulture = GetCulture();
+        _pipeline = pipeline;
+    }
 
-    protected bool HasRun => _then != null;
+    protected bool HasRun => _pipeline.HasRun;
 
     /// <summary>
     /// Run the test pipeline, before accessing the result
     /// </summary>
     /// <returns>The test result</returns>
-    public ITestResult<TResult> Then() => TestResult;
+    public ITestResult<TResult> Then() => _pipeline.Then();
 
     /// <summary>
     /// Run the test-pipeline and return the test-class (specification).
@@ -39,29 +41,29 @@ public abstract class SpecBase<TResult> : ITestPipeline<TResult>, IDisposable
     /// <returns></returns>
     public TSpec Then<TSpec>(TSpec me) where TSpec : SpecBase<TResult>
     {
-        Then();
+        _pipeline.Then();
         return me;
     }
 
     public IAndVerify<TResult> Then<TService>(Expression<Action<TService>> expression) where TService : class
-        => TestResult.Verify(expression);
+        => _pipeline.Then(expression);
 
     public IAndVerify<TResult> Then<TService>(Expression<Action<TService>> expression, Times times) where TService : class
-        => TestResult.Verify(expression, times);
+        => _pipeline.Then(expression, times);
 
     public IAndVerify<TResult> Then<TService>(Expression<Action<TService>> expression, Func<Times> times) where TService : class
-        => TestResult.Verify(expression, times);
+        => _pipeline.Then(expression, times);
 
     public IAndVerify<TResult> Then<TService, TReturns>(Expression<Func<TService, TReturns>> expression) where TService : class
-        => TestResult.Verify(expression);
+        => _pipeline.Then(expression);
 
     public IAndVerify<TResult> Then<TService, TReturns>(Expression<Func<TService, TReturns>> expression, Times times)
         where TService : class
-        => TestResult.Verify(expression, times);
+        => _pipeline.Then(expression, times);
 
     public IAndVerify<TResult> Then<TService, TReturns>(Expression<Func<TService, TReturns>> expression, Func<Times> times)
         where TService : class
-        => TestResult.Verify(expression, times);
+        => _pipeline.Then(expression, times);
 
     public void Dispose()
     {
@@ -73,7 +75,7 @@ public abstract class SpecBase<TResult> : ITestPipeline<TResult>, IDisposable
     /// <summary>
     /// Contains the returned value after calling method-under-test
     /// </summary>
-    protected TResult Result => Then().Result;
+    protected TResult Result => _pipeline.Then().Result;
 
     /// <summary>
     /// Override this method to provide tear-down logic after test has run
@@ -86,16 +88,16 @@ public abstract class SpecBase<TResult> : ITestPipeline<TResult>, IDisposable
     protected virtual Task TearDownAsync() => Task.CompletedTask;
 
     protected internal void SetAction(Action act)
-        => SetAction(act ?? throw new SetupFailed("Act cannot be null"), null);
+        => _pipeline.SetAction(act);
 
     protected internal void SetAction(Func<TResult> act)
-        => SetAction(null, act ?? throw new SetupFailed("Act cannot be null"));
+        => _pipeline.SetAction(act);
 
-    protected internal void SetAction(Func<Task> action) => SetAction(() => Execute(action));
+    protected internal void SetAction(Func<Task> action) 
+        => _pipeline.SetAction(() => Execute(action));
 
-    protected internal void SetAction(Func<Task<TResult>> func) => SetAction(() => Execute(func));
-
-    internal protected virtual void Arrange() { }
+    protected internal void SetAction(Func<Task<TResult>> func) 
+        => _pipeline.SetAction(() => Execute(func));
 
     /// <summary>
     /// Alias for A
@@ -131,7 +133,7 @@ public abstract class SpecBase<TResult> : ITestPipeline<TResult>, IDisposable
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected TValue A<TValue>() => _context.Mention<TValue>(0);
+    protected TValue A<TValue>() => _pipeline.Mention<TValue>(0);
 
     /// <summary>
     /// Yields a new customized value of the given type
@@ -139,7 +141,7 @@ public abstract class SpecBase<TResult> : ITestPipeline<TResult>, IDisposable
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
     /// <returns></returns>
-    protected TValue A<TValue>([NotNull] Action<TValue> setup) => Mention(0, setup);
+    protected TValue A<TValue>([NotNull] Action<TValue> setup) => _pipeline.Mention(0, setup);
 
     /// <summary>
     /// Provide a value that can later be mentioned
@@ -147,7 +149,7 @@ public abstract class SpecBase<TResult> : ITestPipeline<TResult>, IDisposable
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
     /// <returns></returns>
-    protected TValue A<TValue>(TValue value) => Mention(0, value);
+    protected TValue A<TValue>(TValue value) => _pipeline.Mention(0, value);
 
     /// <summary>
     /// Will always yield a new model of the given type, unless TValue is an interface. 
@@ -156,7 +158,7 @@ public abstract class SpecBase<TResult> : ITestPipeline<TResult>, IDisposable
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected TValue Another<TValue>() => _context.Create<TValue>();
+    protected TValue Another<TValue>() => _pipeline.Create<TValue>();
 
     /// <summary>
     /// Yields a new customized value of the given type, which cannot be reused
@@ -168,7 +170,7 @@ public abstract class SpecBase<TResult> : ITestPipeline<TResult>, IDisposable
     {
         if (HasRun)
             throw new SetupFailed("Setup to auto-generated values must be provided before Then");
-        return Context.ApplyTo(setup, _context.Create<TValue>());
+        return Context.ApplyTo(setup, _pipeline.Create<TValue>());
     }
 
     /// <summary>
@@ -183,7 +185,7 @@ public abstract class SpecBase<TResult> : ITestPipeline<TResult>, IDisposable
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected TValue ASecond<TValue>() => _context.Mention<TValue>(1);
+    protected TValue ASecond<TValue>() => _pipeline.Mention<TValue>(1);
 
     /// <summary>
     /// Yields a new customized second value of the given type
@@ -191,7 +193,7 @@ public abstract class SpecBase<TResult> : ITestPipeline<TResult>, IDisposable
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
     /// <returns></returns>
-    protected TValue ASecond<TValue>([NotNull] Action<TValue> setup) => Mention(1, setup);
+    protected TValue ASecond<TValue>([NotNull] Action<TValue> setup) => _pipeline.Mention(1, setup);
 
     /// <summary>
     /// Alias for AThird
@@ -205,7 +207,7 @@ public abstract class SpecBase<TResult> : ITestPipeline<TResult>, IDisposable
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected TValue AThird<TValue>() => _context.Mention<TValue>(2);
+    protected TValue AThird<TValue>() => _pipeline.Mention<TValue>(2);
 
     /// <summary>
     /// Yields a new customized third value of the given type
@@ -213,7 +215,7 @@ public abstract class SpecBase<TResult> : ITestPipeline<TResult>, IDisposable
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
     /// <returns></returns>
-    protected TValue AThird<TValue>([NotNull] Action<TValue> setup) => Mention(2, setup);
+    protected TValue AThird<TValue>([NotNull] Action<TValue> setup) => _pipeline.Mention(2, setup);
 
     /// <summary>
     /// Alias for AFourth
@@ -227,7 +229,7 @@ public abstract class SpecBase<TResult> : ITestPipeline<TResult>, IDisposable
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected TValue AFourth<TValue>() => _context.Mention<TValue>(3);
+    protected TValue AFourth<TValue>() => _pipeline.Mention<TValue>(3);
 
     /// <summary>
     /// Yields a new customized fourth value of the given type
@@ -235,7 +237,7 @@ public abstract class SpecBase<TResult> : ITestPipeline<TResult>, IDisposable
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
     /// <returns></returns>
-    protected TValue AFourth<TValue>([NotNull] Action<TValue> setup) => Mention(3, setup);
+    protected TValue AFourth<TValue>([NotNull] Action<TValue> setup) => _pipeline.Mention(3, setup);
 
     /// <summary>
     /// Alias for AFifth
@@ -249,7 +251,7 @@ public abstract class SpecBase<TResult> : ITestPipeline<TResult>, IDisposable
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected TValue AFifth<TValue>() => _context.Mention<TValue>(4);
+    protected TValue AFifth<TValue>() => _pipeline.Mention<TValue>(4);
 
     /// <summary>
     /// Yields a new customized fifth value of the given type
@@ -257,14 +259,14 @@ public abstract class SpecBase<TResult> : ITestPipeline<TResult>, IDisposable
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
     /// <returns></returns>
-    protected TValue AFifth<TValue>([NotNull] Action<TValue> setup) => Mention(4, setup);
+    protected TValue AFifth<TValue>([NotNull] Action<TValue> setup) => _pipeline.Mention(4, setup);
 
     /// <summary>
     /// Yields an array with one element of the given type
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected TValue[] One<TValue>() => _context.MentionMany<TValue>(1);
+    protected TValue[] One<TValue>() => _pipeline.MentionMany<TValue>(1);
 
     /// <summary>
     /// Yields an array with one customized element of the given type
@@ -272,14 +274,14 @@ public abstract class SpecBase<TResult> : ITestPipeline<TResult>, IDisposable
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
     /// <returns></returns>
-    protected TValue[] One<TValue>([NotNull] Action<TValue> setup) => MentionMany(setup, 1);
+    protected TValue[] One<TValue>([NotNull] Action<TValue> setup) => _pipeline.MentionMany(setup, 1);
 
     /// <summary>
     /// Yields an array with two element of the given type
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected TValue[] Two<TValue>() => _context.MentionMany<TValue>(2);
+    protected TValue[] Two<TValue>() => _pipeline.MentionMany<TValue>(2);
 
     /// <summary>
     /// Yields an array with two customized element of the given type
@@ -287,7 +289,7 @@ public abstract class SpecBase<TResult> : ITestPipeline<TResult>, IDisposable
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
     /// <returns></returns>
-    protected TValue[] Two<TValue>([NotNull] Action<TValue> setup) => MentionMany(setup, 2);
+    protected TValue[] Two<TValue>([NotNull] Action<TValue> setup) => _pipeline.MentionMany(setup, 2);
 
     /// <summary>
     /// Yields an array with two individually customized elements of the given type
@@ -295,14 +297,14 @@ public abstract class SpecBase<TResult> : ITestPipeline<TResult>, IDisposable
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
     /// <returns></returns>
-    protected TValue[] Two<TValue>([NotNull] Action<TValue, int> setup) => MentionMany(setup, 2);
+    protected TValue[] Two<TValue>([NotNull] Action<TValue, int> setup) => _pipeline.MentionMany(setup, 2);
 
     /// <summary>
     /// Yields an array with three element of the given type
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected TValue[] Three<TValue>() => _context.MentionMany<TValue>(3);
+    protected TValue[] Three<TValue>() => _pipeline.MentionMany<TValue>(3);
 
     /// <summary>
     /// Yields an array with three customized element of the given type
@@ -310,7 +312,7 @@ public abstract class SpecBase<TResult> : ITestPipeline<TResult>, IDisposable
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
     /// <returns></returns>
-    protected TValue[] Three<TValue>([NotNull] Action<TValue> setup) => MentionMany(setup, 3);
+    protected TValue[] Three<TValue>([NotNull] Action<TValue> setup) => _pipeline.MentionMany(setup, 3);
 
     /// <summary>
     /// Yields an array with three individually customized elements of the given type
@@ -318,14 +320,14 @@ public abstract class SpecBase<TResult> : ITestPipeline<TResult>, IDisposable
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
     /// <returns></returns>
-    protected TValue[] Three<TValue>([NotNull] Action<TValue, int> setup) => MentionMany(setup, 3);
+    protected TValue[] Three<TValue>([NotNull] Action<TValue, int> setup) => _pipeline.MentionMany(setup, 3);
 
     /// <summary>
     /// Yields an array with four element of the given type
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected TValue[] Four<TValue>() => _context.MentionMany<TValue>(4);
+    protected TValue[] Four<TValue>() => _pipeline.MentionMany<TValue>(4);
 
     /// <summary>
     /// Yields an array with four customized element of the given type
@@ -333,7 +335,7 @@ public abstract class SpecBase<TResult> : ITestPipeline<TResult>, IDisposable
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
     /// <returns></returns>
-    protected TValue[] Four<TValue>([NotNull] Action<TValue> setup) => MentionMany(setup, 4);
+    protected TValue[] Four<TValue>([NotNull] Action<TValue> setup) => _pipeline.MentionMany(setup, 4);
 
     /// <summary>
     /// Yields an array with four individually customized elements of the given type
@@ -341,14 +343,14 @@ public abstract class SpecBase<TResult> : ITestPipeline<TResult>, IDisposable
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
     /// <returns></returns>
-    protected TValue[] Four<TValue>([NotNull] Action<TValue, int> setup) => MentionMany(setup, 4);
+    protected TValue[] Four<TValue>([NotNull] Action<TValue, int> setup) => _pipeline.MentionMany(setup, 4);
 
     /// <summary>
     /// Yields an array with five element of the given type
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected TValue[] Five<TValue>() => _context.MentionMany<TValue>(5);
+    protected TValue[] Five<TValue>() => _pipeline.MentionMany<TValue>(5);
 
     /// <summary>
     /// Yields an array with five customized element of the given type
@@ -356,7 +358,7 @@ public abstract class SpecBase<TResult> : ITestPipeline<TResult>, IDisposable
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
     /// <returns></returns>
-    protected TValue[] Five<TValue>([NotNull] Action<TValue> setup) => MentionMany(setup, 5);
+    protected TValue[] Five<TValue>([NotNull] Action<TValue> setup) => _pipeline.MentionMany(setup, 5);
 
     /// <summary>
     /// Yields an array with five individually customized elements of the given type
@@ -364,7 +366,7 @@ public abstract class SpecBase<TResult> : ITestPipeline<TResult>, IDisposable
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
     /// <returns></returns>
-    protected TValue[] Five<TValue>([NotNull] Action<TValue, int> setup) => MentionMany(setup, 5);
+    protected TValue[] Five<TValue>([NotNull] Action<TValue, int> setup) => _pipeline.MentionMany(setup, 5);
 
     /// <summary>
     /// Alias for Three
@@ -389,63 +391,11 @@ public abstract class SpecBase<TResult> : ITestPipeline<TResult>, IDisposable
     /// <returns></returns>
     protected TValue[] Many<TValue>([NotNull] Action<TValue, int> setup) => Three(setup);
 
-    protected TValue The<TValue>(string label) => _context.Mention<TValue>(label);
-
-    protected TValue[] MentionMany<TValue>([NotNull] Action<TValue> setup, int count)
-        => _context.MentionMany(setup, count);
-
-    internal protected TValue CreateInstance<TValue>() where TValue : class
-        => _context.CreateInstance<TValue>();
-
-    internal protected Mock<TObject> GetMock<TObject>() where TObject : class => _context.GetMock<TObject>();
+    protected TValue The<TValue>(string label) => _pipeline.Mention<TValue>(label);
 
     /// <summary>
     /// Override this to set different Culture than InvariantCulture during test
     /// </summary>
     /// <returns></returns>
     protected virtual CultureInfo GetCulture() => CultureInfo.InvariantCulture;
-
-    internal protected void Use<TService>(TService service)
-    {
-        var type = typeof(TService);
-        _context.Use(typeof(TService), service);
-        if (typeof(Task).IsAssignableFrom(type))
-            return;
-        if (typeof(Mock).IsAssignableFrom(type))
-            return;
-        Use(Task.FromResult(service));
-    }
-
-    private ITestPipeline<TResult> SetAction(Action command, Func<TResult> function)
-    {
-        if (HasRun)
-            throw new SetupFailed("When must be called before Then");
-        _actor.When(command, function);
-        return this;
-    }
-
-    private TestResult<TResult> TestResult => _then ??= Run();
-
-    private TestResult<TResult> Run()
-    {
-        Arrange();
-        return _actor.Execute(_context);
-    }
-
-    private TValue Mention<TValue>(int index, [NotNull] Action<TValue> setup)
-    {
-        if (HasRun)
-            throw new SetupFailed("Setup to auto-generated values must be provided before Then");
-        return _context.Mention(index, setup);
-    }
-
-    private TValue Mention<TValue>(int index, TValue value)
-    {
-        if (HasRun)
-            throw new SetupFailed("Setup to auto-generated values must be provided before Then");
-        return _context.Mention(value, index);
-    }
-
-    private TValue[] MentionMany<TValue>([NotNull] Action<TValue, int> setup, int count)
-        => _context.MentionMany(setup, count);
 }

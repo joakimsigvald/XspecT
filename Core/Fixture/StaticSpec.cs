@@ -1,6 +1,6 @@
 ﻿using XspecT.Fixture.Exceptions;
 using XspecT.Fixture.Pipelines;
-
+using XspecT.Internal;
 using static XspecT.Internal.AsyncHelper;
 
 namespace XspecT.Fixture;
@@ -8,6 +8,8 @@ namespace XspecT.Fixture;
 public abstract class StaticSpec<TResult> : SpecBase<TResult>
 {
     private object _arguments;
+
+    protected StaticSpec() : base(new Pipeline<TResult>()) { }
 
     public IStaticTestPipeline<TValue, TResult> Given<TValue>(TValue value)
     {
