@@ -1,6 +1,4 @@
 ﻿using Moq;
-using Moq.AutoMock;
-using Moq.AutoMock.Resolvers;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq.Expressions;
@@ -10,6 +8,7 @@ using XspecT.Internal;
 using XspecT.Verification;
 
 using static XspecT.Internal.AsyncHelper;
+
 namespace XspecT.Fixture;
 
 /// <summary>
@@ -17,19 +16,11 @@ namespace XspecT.Fixture;
 /// </summary>
 public abstract class SpecBase<TResult> : ITestPipeline<TResult>, IDisposable
 {
-    protected readonly AutoMocker Mocker;
-    private readonly Context _context;
-    private readonly SpecActor<TResult> _actor = new ();
+    private readonly Context _context = new();
+    private readonly SpecActor<TResult> _actor = new();
     private TestResult<TResult> _then;
 
-    protected SpecBase()
-    {
-        CultureInfo.CurrentCulture = GetCulture();
-        var defaultProvider = new FluentDefaultProvider();
-        Mocker = CreateAutoMocker(defaultProvider);
-        _context = new Context(Mocker);
-        defaultProvider.SetContext(_context);
-    }
+    protected SpecBase() => CultureInfo.CurrentCulture = GetCulture();
 
     protected bool HasRun => _then != null;
 
@@ -37,40 +28,40 @@ public abstract class SpecBase<TResult> : ITestPipeline<TResult>, IDisposable
     /// Run the test pipeline, before accessing the result
     /// </summary>
     /// <returns>The test result</returns>
-    public TestResult<TResult> Then() => _then ??= Run();
+    public ITestResult<TResult> Then() => TestResult;
 
     /// <summary>
     /// Run the test-pipeline and return the test-class (specification).
     /// Use this method to access any member on the testclass after the test is run, for a more fluent experience
     /// </summary>
     /// <typeparam name="TSpec"></typeparam>
-    /// <param name="spec"></param>
+    /// <param name="me"></param>
     /// <returns></returns>
-    public TSpec Then<TSpec>(TSpec spec) where TSpec : SpecBase<TResult>
+    public TSpec Then<TSpec>(TSpec me) where TSpec : SpecBase<TResult>
     {
         Then();
-        return spec;
+        return me;
     }
 
-    protected AndVerify<TResult> Then<TService>(Expression<Action<TService>> expression) where TService : class
-        => Then().Verify(expression);
+    public IAndVerify<TResult> Then<TService>(Expression<Action<TService>> expression) where TService : class
+        => TestResult.Verify(expression);
 
-    protected AndVerify<TResult> Then<TService>(Expression<Action<TService>> expression, Times times) where TService : class
-        => Then().Verify(expression, times);
+    public IAndVerify<TResult> Then<TService>(Expression<Action<TService>> expression, Times times) where TService : class
+        => TestResult.Verify(expression, times);
 
-    protected AndVerify<TResult> Then<TService>(Expression<Action<TService>> expression, Func<Times> times) where TService : class
-        => Then().Verify(expression, times);
+    public IAndVerify<TResult> Then<TService>(Expression<Action<TService>> expression, Func<Times> times) where TService : class
+        => TestResult.Verify(expression, times);
 
-    protected AndVerify<TResult> Then<TService, TReturns>(Expression<Func<TService, TReturns>> expression) where TService : class
-        => Then().Verify(expression);
+    public IAndVerify<TResult> Then<TService, TReturns>(Expression<Func<TService, TReturns>> expression) where TService : class
+        => TestResult.Verify(expression);
 
-    protected AndVerify<TResult> Then<TService, TReturns>(Expression<Func<TService, TReturns>> expression, Times times)
+    public IAndVerify<TResult> Then<TService, TReturns>(Expression<Func<TService, TReturns>> expression, Times times)
         where TService : class
-        => Then().Verify(expression, times);
+        => TestResult.Verify(expression, times);
 
-    protected AndVerify<TResult> Then<TService, TReturns>(Expression<Func<TService, TReturns>> expression, Func<Times> times)
+    public IAndVerify<TResult> Then<TService, TReturns>(Expression<Func<TService, TReturns>> expression, Func<Times> times)
         where TService : class
-        => Then().Verify(expression, times);
+        => TestResult.Verify(expression, times);
 
     public void Dispose()
     {
@@ -104,15 +95,7 @@ public abstract class SpecBase<TResult> : ITestPipeline<TResult>, IDisposable
 
     protected internal void SetAction(Func<Task<TResult>> func) => SetAction(() => Execute(func));
 
-    private ITestPipeline<TResult> SetAction(Action command, Func<TResult> function)
-    {
-        if (HasRun)
-            throw new SetupFailed("When must be called before Then");
-        _actor.When(command, function);
-        return this;
-    }
-
-    protected internal virtual TestResult<TResult> Run() => _actor.Execute(Mocker);
+    internal protected virtual void Arrange() { }
 
     /// <summary>
     /// Alias for A
@@ -408,6 +391,14 @@ public abstract class SpecBase<TResult> : ITestPipeline<TResult>, IDisposable
 
     protected TValue The<TValue>(string label) => _context.Mention<TValue>(label);
 
+    protected TValue[] MentionMany<TValue>([NotNull] Action<TValue> setup, int count)
+        => _context.MentionMany(setup, count);
+
+    internal protected TValue CreateInstance<TValue>() where TValue : class
+        => _context.CreateInstance<TValue>();
+
+    internal protected Mock<TObject> GetMock<TObject>() where TObject : class => _context.GetMock<TObject>();
+
     /// <summary>
     /// Override this to set different Culture than InvariantCulture during test
     /// </summary>
@@ -425,16 +416,20 @@ public abstract class SpecBase<TResult> : ITestPipeline<TResult>, IDisposable
         Use(Task.FromResult(service));
     }
 
-    protected internal TValue CreateInstance<TValue>() where TValue : class
+    private ITestPipeline<TResult> SetAction(Action command, Func<TResult> function)
     {
-        try
-        {
-            return Mocker.CreateInstance<TValue>();
-        }
-        catch (ArgumentException ex) when (ex.Message.Contains("Did not find a best constructor for"))
-        {
-            throw new CreateSubjectUnderTestFailed(ex.Message.Split('`')[1], ex);
-        }
+        if (HasRun)
+            throw new SetupFailed("When must be called before Then");
+        _actor.When(command, function);
+        return this;
+    }
+
+    private TestResult<TResult> TestResult => _then ??= Run();
+
+    private TestResult<TResult> Run()
+    {
+        Arrange();
+        return _actor.Execute(_context);
     }
 
     private TValue Mention<TValue>(int index, [NotNull] Action<TValue> setup)
@@ -451,28 +446,6 @@ public abstract class SpecBase<TResult> : ITestPipeline<TResult>, IDisposable
         return _context.Mention(value, index);
     }
 
-    protected TValue[] MentionMany<TValue>([NotNull] Action<TValue> setup, int count) 
+    private TValue[] MentionMany<TValue>([NotNull] Action<TValue, int> setup, int count)
         => _context.MentionMany(setup, count);
-    private TValue[] MentionMany<TValue>([NotNull] Action<TValue, int> setup, int count) 
-        => _context.MentionMany(setup, count);
-
-    private static AutoMocker CreateAutoMocker(DefaultValueProvider defaultProvider)
-    {
-        var autoMocker = new AutoMocker(MockBehavior.Loose, DefaultValue.Custom, defaultProvider, false);
-        ReplaceArrayResolver(autoMocker);
-        return autoMocker;
-    }
-
-    private static void ReplaceArrayResolver(AutoMocker autoMocker)
-    {
-        var resolverList = (List<IMockResolver>)autoMocker.Resolvers;
-        var arrayResolverIndex = resolverList.FindIndex(_ => _.GetType() == typeof(ArrayResolver));
-        if (arrayResolverIndex < 0)
-            return;
-
-        //Remove the Moq ArrayResolver, which create an array with one mocked element for reference types
-        resolverList.RemoveAt(arrayResolverIndex);
-        //replace it with ArrayResolver that creates empty array
-        resolverList.Insert(arrayResolverIndex, new EmptyArrayResolver());
-    }
 }

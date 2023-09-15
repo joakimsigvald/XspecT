@@ -1,6 +1,8 @@
 ﻿using AutoFixture;
 using AutoFixture.Kernel;
+using Moq;
 using Moq.AutoMock;
+using Moq.AutoMock.Resolvers;
 using XspecT.Fixture.Exceptions;
 
 namespace XspecT.Internal;
@@ -17,7 +19,7 @@ internal class Context
     private readonly AutoMocker _mocker;
     private readonly IFixture _fixture = CreateAutoFixture();
 
-    public Context(AutoMocker mocker) => _mocker = mocker;
+    internal Context() => _mocker = CreateAutoMocker(new FluentDefaultProvider(this));
 
     internal bool TryUse(Type type, out object val) => _usings.TryGetValue(type, out val);
 
@@ -25,6 +27,18 @@ internal class Context
     {
         _usings[type] = value;
         _mocker.Use(type, value);
+    }
+
+    internal TValue CreateInstance<TValue>() where TValue : class
+    {
+        try
+        {
+            return _mocker.CreateInstance<TValue>();
+        }
+        catch (ArgumentException ex) when (ex.Message.Contains("Did not find a best constructor for"))
+        {
+            throw new CreateSubjectUnderTestFailed(ex.Message.Split('`')[1], ex);
+        }
     }
 
     internal TValue Mention<TValue>(int index, Action<TValue> setup = null)
@@ -129,4 +143,26 @@ internal class Context
         customization.Customize(fixture);
         return fixture;
     }
+
+    private static AutoMocker CreateAutoMocker(DefaultValueProvider defaultProvider)
+    {
+        var autoMocker = new AutoMocker(MockBehavior.Loose, DefaultValue.Custom, defaultProvider, false);
+        ReplaceArrayResolver(autoMocker);
+        return autoMocker;
+    }
+
+    private static void ReplaceArrayResolver(AutoMocker autoMocker)
+    {
+        var resolverList = (List<IMockResolver>)autoMocker.Resolvers;
+        var arrayResolverIndex = resolverList.FindIndex(_ => _.GetType() == typeof(ArrayResolver));
+        if (arrayResolverIndex < 0)
+            return;
+
+        //Remove the Moq ArrayResolver, which create an array with one mocked element for reference types
+        resolverList.RemoveAt(arrayResolverIndex);
+        //replace it with ArrayResolver that creates empty array
+        resolverList.Insert(arrayResolverIndex, new EmptyArrayResolver());
+    }
+
+    internal Mock<TObject> GetMock<TObject>() where TObject : class => _mocker.GetMock<TObject>();
 }

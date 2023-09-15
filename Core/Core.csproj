@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>Base classes and utilities for building Unit tests based on XUnit and Given-When-Then pattern</Description>
+    <Description>Base classes and extension classes for building Unit tests based on XUnit and Given-When-Then pattern</Description>
     <VersionPrefix></VersionPrefix>
     <Authors>Joakim Sigvald</Authors>
     <TargetFramework>net6.0</TargetFramework>
@@ -17,11 +17,11 @@
     <PackageProjectUrl>https://github.com/joakimsigvald/XspecT</PackageProjectUrl>
     <RepositoryUrl>https://github.com/joakimsigvald/XspecT.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageVersion>6.2.1</PackageVersion>
+    <PackageVersion>6.2.2</PackageVersion>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>icon.png</PackageIcon>
-    <PackageReleaseNotes>Provide specific value with Given through a function, so it is provided at the correct point in the pipeline</PackageReleaseNotes>
+    <PackageReleaseNotes>Refactored and created interfaces for pipeline classes</PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AutoFixture" Version="4.18.0" />

@@ -1,5 +1,4 @@
 ﻿using XspecT.Fixture.Exceptions;
-using XspecT.Verification;
 namespace XspecT.Internal;
 
 internal class SpecActor<TResult>
@@ -19,10 +18,10 @@ internal class SpecActor<TResult>
         _function = function;
     }
 
-    internal TestResult<TResult> Execute(Moq.AutoMock.AutoMocker mocker)
+    internal TestResult<TResult> Execute(Context context)
     {
         CatchError(_command ?? GetResult);
-        return new(_result, _error, mocker, _command is null);
+        return new(_result, _error, context, _command is null);
     }
 
     private void GetResult()

@@ -3,14 +3,14 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using XspecT.Fixture.Exceptions;
 using XspecT.Fixture.Pipelines;
-using XspecT.Verification;
+using XspecT.Internal;
 
 namespace XspecT.Fixture;
 
 public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTestPipeline<TSUT, TResult>
     where TSUT : class
 {
-    private readonly List<Action> _arrangements = new();
+    private readonly Arranger _arranger = new();
     protected TSUT SUT { get; private set; }
 
     /// <summary>
@@ -68,7 +68,7 @@ public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTe
     {
         if (HasRun)
             throw new SetupFailed("GivenThat must be called before Then");
-        _arrangements.Insert(0, arrangement);
+        _arranger.Push(arrangement);
         return new GivenSubjectTestPipeline<TSUT, TResult>(this);
     }
 
@@ -83,7 +83,7 @@ public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTe
     {
         if (HasRun)
             throw new SetupFailed("GivenThe must be called before Then");
-        _arrangements.Insert(0, () => A(setup));
+        _arranger.Push(() => A(setup));
         return new GivenSubjectTestPipeline<TSUT, TResult>(this);
     }
 
@@ -91,7 +91,7 @@ public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTe
     {
         if (HasRun)
             throw new SetupFailed("GivenThe must be called before Then");
-        _arrangements.Insert(0, () => A(value()));
+        _arranger.Push(() => A(value()));
         return new GivenSubjectTestPipeline<TSUT, TResult>(this);
     }
 
@@ -160,21 +160,20 @@ public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTe
         => Using(() => Use(setup));
 
     internal void SetupMock<TService>(Action<Mock<TService>> setup) where TService : class
-        => _arrangements.Insert(0, () => setup(Mocker.GetMock<TService>()));
+        => _arranger.Push(() => setup(GetMock<TService>()));
 
     private ISubjectTestPipeline<TSUT, TResult> Using(params Action[] usings)
     {
         if (HasRun)
             throw new SetupFailed("Use must be called before Then");
         foreach (var use in usings)
-            _arrangements.Add(use);
+            _arranger.Add(use);
         return this;
     }
 
-    protected internal override sealed TestResult<TResult> Run()
+    internal protected override sealed void Arrange()
     {
-        foreach (var arrange in _arrangements) arrange();
+        _arranger.Arrange();
         SUT = CreateInstance<TSUT>();
-        return base.Run();
     }
 }
