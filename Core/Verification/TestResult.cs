@@ -1,6 +1,7 @@
 ﻿using Moq;
 using Moq.AutoMock;
 using System.Linq.Expressions;
+using XspecT.Fixture.Exceptions;
 
 namespace XspecT.Verification;
 
@@ -8,16 +9,25 @@ public class TestResult<TResult>
 {
     private readonly Exception _error;
     private readonly AutoMocker _mocker;
+    private readonly bool _hasResult;
     private TResult _result;
 
-    public TestResult(TResult result, Exception error, AutoMocker mocker)
+    public TestResult(TResult result, Exception error, AutoMocker mocker, bool hasResult)
     {
         Result = result;
         _error = error;
         _mocker = mocker;
+        _hasResult = hasResult;
     }
 
-    public TResult Result { get => _error is null ? _result : throw _error; init => _result = value; }
+    public TResult Result
+    {
+        get => _hasResult && _error is null 
+            ? _result 
+            : throw _error 
+            ?? new SetupFailed("Tried to use Result, but an action, or func with different return type, was provided as method under test (When). Try providing a function with the Spec's declared return type instead as parameter to When");
+        init => _result = value;
+    }
 
     public AndThen<TResult> Throws<TError>()
     {

@@ -22,7 +22,7 @@ internal class SpecActor<TResult>
     internal TestResult<TResult> Execute(Moq.AutoMock.AutoMocker mocker)
     {
         CatchError(_command ?? GetResult);
-        return new(_result, _error, mocker);
+        return new(_result, _error, mocker, _command is null);
     }
 
     private void GetResult()

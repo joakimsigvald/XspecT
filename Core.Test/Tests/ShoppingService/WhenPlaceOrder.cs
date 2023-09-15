@@ -44,8 +44,7 @@ public abstract class WhenPlaceOrder : ShoppingServiceSpec<object>
             [Fact]
             public void ThenLogOrderCreated_With_ShopNameAndDivision()
                 => Then<ILogger>(_ => _.Information(
-                    It.Is<string>(s => s.Contains(_shopName) && s.Contains(_division))))
-                .And().Result.Is().Null();
+                    It.Is<string>(s => s.Contains(_shopName) && s.Contains(_division))));
         }
     }
 }
