@@ -3,4 +3,5 @@
 public interface IMyRepository
 {
     MyModel GetModel();
+    MyModel[] GetModels();
 }

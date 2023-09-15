@@ -27,7 +27,7 @@ internal class Context
         _mocker.Use(type, value);
     }
 
-    internal TValue Mention<TValue>(int index, Action<TValue> setup = null) 
+    internal TValue Mention<TValue>(int index, Action<TValue> setup = null)
         => setup is null ? Produce<TValue>(index) : ApplyTo(setup, Produce<TValue>(index));
 
     private TValue Produce<TValue>(int index)
@@ -53,9 +53,16 @@ internal class Context
         : _labeledMentions[type] = new Dictionary<string, object>();
 
     internal TValue Mention<TValue>(TValue value, int index = 0)
-        => Retreive(typeof(TValue), index) is null
-        ? (GetMentions(typeof(TValue))[index] = value) is TValue v ? v : throw new Exception($"Created value has unexpected type or is null: {value}")
-        : throw new SetupFailed($"A {index + 1}th instance of {typeof(TValue).Name} has already been created. Cannot recreate it with new setup");
+    {
+        if ((GetMentions(typeof(TValue))[index] = value) is TValue v)
+        {
+            return v;
+        }
+        else
+        {
+            throw new Exception($"Created value has unexpected type or is null: {value}");
+        }
+    }
 
     internal TValue[] MentionMany<TValue>(int count)
         => Retreive(typeof(TValue[])) is TValue[] arr

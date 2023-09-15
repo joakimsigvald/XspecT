@@ -7,14 +7,14 @@ public class WhenGivenValue : SubjectSpec<MyService, MyModel>
 {
     [Fact]
     public void AsFirstSentence_ThenValueInPipeline()
-        => Given(new MyModel() { Name = A<string>() })
+        => Given(() => new MyModel() { Name = A<string>() })
         .When(_ => MyService.Echo(The<MyModel>()))
         .Then().Result.Name.Is(The<string>());
 
     [Fact]
     public void AsSecondSentence_ThenUseValueInPipeline()
         => Given<IMyRepository>().That(_ => _.GetModel()).Returns(A<MyModel>)
-        .And(new MyModel() { Name = A<string>() })
+        .And(() => new MyModel() { Name = A<string>() })
         .When(_ => _.GetModel())
         .Then().Result.Name.Is(The<string>());
 

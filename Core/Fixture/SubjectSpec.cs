@@ -64,7 +64,7 @@ public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTe
     /// <param name="arrangement"></param>
     /// <returns></returns>
     /// <exception cref="SetupFailed"></exception>
-    public IGivenSubjectTestPipeline<TSUT, TResult> Given(Action arrangement)
+    public IGivenSubjectTestPipeline<TSUT, TResult> GivenThat(Action arrangement)
     {
         if (HasRun)
             throw new SetupFailed("GivenThat must be called before Then");
@@ -87,11 +87,11 @@ public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTe
         return new GivenSubjectTestPipeline<TSUT, TResult>(this);
     }
 
-    public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(TValue value)
+    public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(Func<TValue> value)
     {
         if (HasRun)
             throw new SetupFailed("GivenThe must be called before Then");
-        _arrangements.Insert(0, () => A(value));
+        _arrangements.Insert(0, () => A(value()));
         return new GivenSubjectTestPipeline<TSUT, TResult>(this);
     }
 
