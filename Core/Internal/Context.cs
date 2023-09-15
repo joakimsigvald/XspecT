@@ -42,16 +42,7 @@ internal class Context
         : _labeledMentions[type] = new Dictionary<string, object>();
 
     internal TValue Mention<TValue>(TValue value, int index = 0)
-    {
-        if ((GetMentions(typeof(TValue))[index] = value) is TValue v)
-        {
-            return v;
-        }
-        else
-        {
-            throw new Exception($"Created value has unexpected type or is null: {value}");
-        }
-    }
+        => (GetMentions(typeof(TValue))[index] = value) is TValue v ? v : default;
 
     internal TValue[] MentionMany<TValue>(int count)
         => Retreive(typeof(TValue[])) is TValue[] arr
