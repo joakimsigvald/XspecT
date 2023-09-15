@@ -4,17 +4,17 @@ namespace XspecT.Internal;
 
 internal class FluentDefaultProvider : DefaultValueProvider
 {
-    private readonly Context _context;
+    private readonly TestDataGenerator _testDataGenerator;
 
-    internal FluentDefaultProvider(Context context) => _context = context;
+    internal FluentDefaultProvider(TestDataGenerator context) => _testDataGenerator = context;
 
     protected override object GetDefaultValue(Type type, Mock mock)
-        => _context.TryUse(type, out var val) ? val : GetValue(type, mock);
+        => _testDataGenerator.TryUse(type, out var val) ? val : GetValue(type, mock);
 
     private object GetValue(Type type, Mock mock)
         => IsReturningSelf(type, mock) ? mock.Object
         : IsTask(type) ? GetTask(type, mock)
-        : _context.CreateDefaultValue(type);
+        : _testDataGenerator.CreateDefaultValue(type);
 
     private static bool IsReturningSelf(Type type, Mock mock) => type.IsAssignableFrom(mock.Object.GetType());
 

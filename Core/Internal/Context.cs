@@ -1,9 +1,4 @@
-﻿using AutoFixture;
-using AutoFixture.Kernel;
-using Moq;
-using Moq.AutoMock;
-using Moq.AutoMock.Resolvers;
-using XspecT.Fixture.Exceptions;
+﻿using Moq;
 
 namespace XspecT.Internal;
 
@@ -11,35 +6,15 @@ internal class Context
 {
     private const int _maxValueCount = 5;
 
-    private readonly IDictionary<Type, object> _usings = new Dictionary<Type, object>();
     private readonly IDictionary<Type, object[]> _mentions = new Dictionary<Type, object[]>();
     private readonly IDictionary<Type, IDictionary<string, object>> _labeledMentions
         = new Dictionary<Type, IDictionary<string, object>>();
+    private readonly TestDataGenerator _testDataGenerator = new();
 
-    private readonly AutoMocker _mocker;
-    private readonly IFixture _fixture = CreateAutoFixture();
-
-    internal Context() => _mocker = CreateAutoMocker(new FluentDefaultProvider(this));
-
-    internal bool TryUse(Type type, out object val) => _usings.TryGetValue(type, out val);
-
-    internal void Use(Type type, object value)
-    {
-        _usings[type] = value;
-        _mocker.Use(type, value);
-    }
+    internal void Use(Type type, object value) => _testDataGenerator.Use(type, value);
 
     internal TValue CreateInstance<TValue>() where TValue : class
-    {
-        try
-        {
-            return _mocker.CreateInstance<TValue>();
-        }
-        catch (ArgumentException ex) when (ex.Message.Contains("Did not find a best constructor for"))
-        {
-            throw new CreateSubjectUnderTestFailed(ex.Message.Split('`')[1], ex);
-        }
-    }
+        => _testDataGenerator.CreateInstance<TValue>();
 
     internal TValue Mention<TValue>(int index, Action<TValue> setup = null)
         => setup is null ? Produce<TValue>(index) : ApplyTo(setup, Produce<TValue>(index));
@@ -104,65 +79,15 @@ internal class Context
     internal TValue[] MentionMany<TValue>(Action<TValue, int> setup, int count)
         => Mention(Enumerable.Range(0, count).Select(i => Mention<TValue>(i, _ => setup(_, i))).ToArray());
 
-    internal TValue Create<TValue>()
-        => typeof(TValue).IsInterface
-        ? _mocker.Get<TValue>()
-        : _fixture.Create<TValue>();
-
-    internal object CreateDefaultValue(Type type)
-    {
-        try
-        {
-            return _fixture.Create(type, new SpecimenContext(_fixture));
-        }
-        catch (Exception ex)
-        {
-            try
-            {
-                return Activator.CreateInstance(type);
-            }
-            catch
-            {
-                throw new SetupFailed($"Failed to create value for type {type.Name}", ex);
-            }
-        }
-    }
+    internal TValue Create<TValue>() => _testDataGenerator.Create<TValue>();
 
     private object[] GetMentions(Type type)
         => _mentions.TryGetValue(type, out var val) ? val : _mentions[type] = new object[_maxValueCount];
 
     private object Retreive(Type type, int index = 0)
         => _mentions.TryGetValue(type, out var vals) ? vals[index]
-        : index == 0 && TryUse(type, out var val) ? val
+        : index == 0 && _testDataGenerator.TryUse(type, out var val) ? val
         : null;
 
-    private static IFixture CreateAutoFixture()
-    {
-        AutoFixture.Fixture fixture = new() { RepeatCount = 0 };
-        var customization = new SupportMutableValueTypesCustomization();
-        customization.Customize(fixture);
-        return fixture;
-    }
-
-    private static AutoMocker CreateAutoMocker(DefaultValueProvider defaultProvider)
-    {
-        var autoMocker = new AutoMocker(MockBehavior.Loose, DefaultValue.Custom, defaultProvider, false);
-        ReplaceArrayResolver(autoMocker);
-        return autoMocker;
-    }
-
-    private static void ReplaceArrayResolver(AutoMocker autoMocker)
-    {
-        var resolverList = (List<IMockResolver>)autoMocker.Resolvers;
-        var arrayResolverIndex = resolverList.FindIndex(_ => _.GetType() == typeof(ArrayResolver));
-        if (arrayResolverIndex < 0)
-            return;
-
-        //Remove the Moq ArrayResolver, which create an array with one mocked element for reference types
-        resolverList.RemoveAt(arrayResolverIndex);
-        //replace it with ArrayResolver that creates empty array
-        resolverList.Insert(arrayResolverIndex, new EmptyArrayResolver());
-    }
-
-    internal Mock<TObject> GetMock<TObject>() where TObject : class => _mocker.GetMock<TObject>();
+    internal Mock<TObject> GetMock<TObject>() where TObject : class => _testDataGenerator.GetMock<TObject>();
 }
