@@ -5,5 +5,5 @@ namespace XspecT.Verification;
 public interface IAndThen<TResult>
 {
     ITestResult<TResult> And();
-    TSpec And<TSpec>(TSpec spec) where TSpec : SpecBase<TResult>;
+    TSpec And<TSpec>(TSpec spec) where TSpec : Spec<TResult>;
 }

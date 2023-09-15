@@ -4,12 +4,12 @@ using XspecT.Verification;
 
 namespace XspecT.Fixture.Pipelines;
 
-public abstract class TestPipeline<TResult, TParent> where TParent : SpecBase<TResult>
+public abstract class TestPipeline<TResult, TParent> where TParent : Spec<TResult>
 {
     protected readonly TParent Parent;
     protected TestPipeline(TParent parent) => Parent = parent;
     public ITestResult<TResult> Then() => Parent.Then();
-    public TSpec Then<TSpec>(TSpec spec) where TSpec : SpecBase<TResult>
+    public TSpec Then<TSpec>(TSpec spec) where TSpec : Spec<TResult>
         => Parent.Then(spec);
 
     public IAndVerify<TResult> Then<TService>(
@@ -37,7 +37,7 @@ public abstract class TestPipeline<TResult, TParent> where TParent : SpecBase<TR
         => Parent.Then(expression, times);
 }
 
-public class TestPipeline<TResult> : TestPipeline<TResult, SpecBase<TResult>>
+public class TestPipeline<TResult> : TestPipeline<TResult, Spec<TResult>>
 {
-    protected TestPipeline(SpecBase<TResult> parent) : base(parent) { }
+    protected TestPipeline(Spec<TResult> parent) : base(parent) { }
 }

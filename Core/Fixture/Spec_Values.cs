@@ -1,104 +1,15 @@
-﻿using Moq;
-using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
-using System.Linq.Expressions;
+﻿using System.Diagnostics.CodeAnalysis;
 using XspecT.Fixture.Exceptions;
 using XspecT.Fixture.Pipelines;
 using XspecT.Internal;
-using XspecT.Verification;
-
-using static XspecT.Internal.AsyncHelper;
 
 namespace XspecT.Fixture;
 
 /// <summary>
 /// Not intended for direct override. Override TestStatic or TestSubject instead
 /// </summary>
-public abstract class SpecBase<TResult> : ITestPipeline<TResult>, IDisposable
+public abstract partial class Spec<TResult> : ITestPipeline<TResult>, IDisposable
 {
-    internal protected readonly IPipeline<TResult> _pipeline;
-
-    protected SpecBase(IPipeline<TResult> pipeline)
-    {
-        CultureInfo.CurrentCulture = GetCulture();
-        _pipeline = pipeline;
-    }
-
-    protected bool HasRun => _pipeline.HasRun;
-
-    /// <summary>
-    /// Run the test pipeline, before accessing the result
-    /// </summary>
-    /// <returns>The test result</returns>
-    public ITestResult<TResult> Then() => _pipeline.Then();
-
-    /// <summary>
-    /// Run the test-pipeline and return the test-class (specification).
-    /// Use this method to access any member on the testclass after the test is run, for a more fluent experience
-    /// </summary>
-    /// <typeparam name="TSpec"></typeparam>
-    /// <param name="me"></param>
-    /// <returns></returns>
-    public TSpec Then<TSpec>(TSpec me) where TSpec : SpecBase<TResult>
-    {
-        _pipeline.Then();
-        return me;
-    }
-
-    public IAndVerify<TResult> Then<TService>(Expression<Action<TService>> expression) where TService : class
-        => _pipeline.Then(expression);
-
-    public IAndVerify<TResult> Then<TService>(Expression<Action<TService>> expression, Times times) where TService : class
-        => _pipeline.Then(expression, times);
-
-    public IAndVerify<TResult> Then<TService>(Expression<Action<TService>> expression, Func<Times> times) where TService : class
-        => _pipeline.Then(expression, times);
-
-    public IAndVerify<TResult> Then<TService, TReturns>(Expression<Func<TService, TReturns>> expression) where TService : class
-        => _pipeline.Then(expression);
-
-    public IAndVerify<TResult> Then<TService, TReturns>(Expression<Func<TService, TReturns>> expression, Times times)
-        where TService : class
-        => _pipeline.Then(expression, times);
-
-    public IAndVerify<TResult> Then<TService, TReturns>(Expression<Func<TService, TReturns>> expression, Func<Times> times)
-        where TService : class
-        => _pipeline.Then(expression, times);
-
-    public void Dispose()
-    {
-        TearDown();
-        Execute(TearDownAsync);
-        GC.SuppressFinalize(this);
-    }
-
-    /// <summary>
-    /// Contains the returned value after calling method-under-test
-    /// </summary>
-    protected TResult Result => _pipeline.Then().Result;
-
-    /// <summary>
-    /// Override this method to provide tear-down logic after test has run
-    /// </summary>
-    protected virtual void TearDown() { }
-
-    /// <summary>
-    /// Override this method to provide async tear-down logic after test has run
-    /// </summary>
-    protected virtual Task TearDownAsync() => Task.CompletedTask;
-
-    protected internal void SetAction(Action act)
-        => _pipeline.SetAction(act);
-
-    protected internal void SetAction(Func<TResult> act)
-        => _pipeline.SetAction(act);
-
-    protected internal void SetAction(Func<Task> action) 
-        => _pipeline.SetAction(() => Execute(action));
-
-    protected internal void SetAction(Func<Task<TResult>> func) 
-        => _pipeline.SetAction(() => Execute(func));
-
     /// <summary>
     /// Alias for A
     /// </summary>
@@ -166,12 +77,15 @@ public abstract class SpecBase<TResult> : ITestPipeline<TResult>, IDisposable
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
     /// <returns></returns>
-    protected TValue Another<TValue>([NotNull] Action<TValue> setup)
-    {
-        if (HasRun)
-            throw new SetupFailed("Setup to auto-generated values must be provided before Then");
-        return Context.ApplyTo(setup, _pipeline.Create<TValue>());
-    }
+    protected TValue Another<TValue>([NotNull] Action<TValue> setup) => _pipeline.Create(setup);
+
+    /// <summary>
+    /// Mention a value by label, that can be reused, given the same label
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="label"></param>
+    /// <returns></returns>
+    protected TValue The<TValue>(string label) => _pipeline.Mention<TValue>(label);
 
     /// <summary>
     /// Alias for ASecond
@@ -390,12 +304,4 @@ public abstract class SpecBase<TResult> : ITestPipeline<TResult>, IDisposable
     /// <param name="setup"></param>
     /// <returns></returns>
     protected TValue[] Many<TValue>([NotNull] Action<TValue, int> setup) => Three(setup);
-
-    protected TValue The<TValue>(string label) => _pipeline.Mention<TValue>(label);
-
-    /// <summary>
-    /// Override this to set different Culture than InvariantCulture during test
-    /// </summary>
-    /// <returns></returns>
-    protected virtual CultureInfo GetCulture() => CultureInfo.InvariantCulture;
 }

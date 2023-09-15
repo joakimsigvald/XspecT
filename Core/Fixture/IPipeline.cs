@@ -9,7 +9,6 @@ public interface IPipeline<TResult>
 {
     bool HasRun { get; }
     ITestResult<TResult> Then();
-    TSpec Then<TSpec>(TSpec me) where TSpec : SpecBase<TResult>;
     IAndVerify<TResult> Then<TService>(Expression<Action<TService>> expression) where TService : class;
     IAndVerify<TResult> Then<TService>(Expression<Action<TService>> expression, Times times) where TService : class;
     IAndVerify<TResult> Then<TService>(Expression<Action<TService>> expression, Func<Times> times) where TService : class;

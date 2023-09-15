@@ -7,7 +7,7 @@ using XspecT.Internal;
 
 namespace XspecT.Fixture;
 
-public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTestPipeline<TSUT, TResult>
+public abstract class SubjectSpec<TSUT, TResult> : Spec<TResult>, ISubjectTestPipeline<TSUT, TResult>
     where TSUT : class
 {
     protected SubjectSpec() : base(new SubjectPipeline<TSUT, TResult>()) { }
@@ -21,7 +21,7 @@ public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTe
     /// <returns></returns>
     public ISubjectTestPipeline<TSUT, TResult> When(Action<TSUT> act)
     {
-        SetAction(() => act(SUT));
+        Pipeline.SetAction(() => act(SUT));
         return this;
     }
 
@@ -32,7 +32,7 @@ public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTe
     /// <returns></returns>
     public ISubjectTestPipeline<TSUT, TResult> When(Func<TSUT, TResult> act)
     {
-        SetAction(() => act(SUT));
+        Pipeline.SetAction(() => act(SUT));
         return this;
     }
 
@@ -43,7 +43,7 @@ public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTe
     /// <returns></returns>
     public ISubjectTestPipeline<TSUT, TResult> When(Func<TSUT, Task> action)
     {
-        SetAction(() => action(SUT));
+        Pipeline.SetAction(() => action(SUT));
         return this;
     }
 
@@ -54,7 +54,7 @@ public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTe
     /// <returns></returns>
     public ISubjectTestPipeline<TSUT, TResult> When(Func<TSUT, Task<TResult>> func)
     {
-        SetAction(() => func(SUT));
+        Pipeline.SetAction(() => func(SUT));
         return this;
     }
 
@@ -73,7 +73,7 @@ public abstract class SubjectSpec<TSUT, TResult> : SpecBase<TResult>, ISubjectTe
 
     public IGivenContinuation<TSUT, TResult, TService> Given<TService>() where TService : class
     {
-        if (HasRun)
+        if (Pipeline.HasRun)
             throw new SetupFailed("Given must be called before Then");
         return new GivenContinuation<TSUT, TResult, TService>(this);
     }

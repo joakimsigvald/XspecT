@@ -19,12 +19,6 @@ internal class Pipeline<TResult> : IPipeline<TResult>
 
     public ITestResult<TResult> Then() => TestResult;
 
-    public TSpec Then<TSpec>(TSpec me) where TSpec : SpecBase<TResult>
-    {
-        Then();
-        return me;
-    }
-
     public IAndVerify<TResult> Then<TService>(Expression<Action<TService>> expression) where TService : class
         => TestResult.Verify(expression);
 
