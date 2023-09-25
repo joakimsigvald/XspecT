@@ -16,8 +16,12 @@ public class WhenMockInt : SubjectSpec<StaticIntService, int>
 
     public class GivenItWasProvided : WhenMockInt
     {
-        [Fact] public void Then_It_Has_ProvidedValue() 
-            => Using(0).Then().Result.Is(0);
+        [Theory]
+        [InlineData(0)]
+        [InlineData(int.MinValue)]
+        [InlineData(int.MaxValue)]
+        public void Then_It_Has_ProvidedValue(int value) 
+            => Using(value).Then().Result.Is(value);
     }
 }
 

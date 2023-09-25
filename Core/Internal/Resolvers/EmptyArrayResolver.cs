@@ -1,6 +1,6 @@
 ﻿using Moq.AutoMock.Resolvers;
 
-namespace XspecT.Internal;
+namespace XspecT.Internal.Resolvers;
 
 internal class EmptyArrayResolver : IMockResolver
 {
@@ -13,7 +13,7 @@ internal class EmptyArrayResolver : IMockResolver
 
     private static object CreateEmptyArray(Type type)
     {
-        Type elmType = type.GetElementType() 
+        Type elmType = type.GetElementType()
             ?? throw new InvalidOperationException($"Could not determine element type for '{type}'");
         return Array.CreateInstance(elmType, new int[type.GetArrayRank()]);
     }

@@ -4,6 +4,7 @@ using Moq;
 using Moq.AutoMock;
 using Moq.AutoMock.Resolvers;
 using XspecT.Fixture.Exceptions;
+using XspecT.Internal.Resolvers;
 
 namespace XspecT.Internal;
 
@@ -69,19 +70,23 @@ internal class TestDataGenerator
         return fixture;
     }
 
-    private static AutoMocker CreateAutoMocker(DefaultValueProvider defaultProvider)
+    private AutoMocker CreateAutoMocker(DefaultValueProvider defaultProvider)
     {
         var autoMocker = new AutoMocker(MockBehavior.Loose, DefaultValue.Custom, defaultProvider, false);
-        ReplaceArrayResolver(autoMocker);
+        AddCustomResolvers(autoMocker);
         return autoMocker;
     }
 
-    private static void ReplaceArrayResolver(AutoMocker autoMocker)
+    private void AddCustomResolvers(AutoMocker autoMocker)
     {
         var resolverList = (List<IMockResolver>)autoMocker.Resolvers;
+        ReplaceArrayResolver(resolverList);
+        resolverList.Insert(resolverList.Count - 1, new TupleResolver(this));
+    }
+
+    private static void ReplaceArrayResolver(List<IMockResolver> resolverList)
+    {
         var arrayResolverIndex = resolverList.FindIndex(_ => _.GetType() == typeof(ArrayResolver));
-        if (arrayResolverIndex < 0)
-            return;
 
         //Remove the Moq ArrayResolver, which create an array with one mocked element for reference types
         resolverList.RemoveAt(arrayResolverIndex);
