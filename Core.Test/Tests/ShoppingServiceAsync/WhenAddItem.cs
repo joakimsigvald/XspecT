@@ -1,6 +1,5 @@
 ﻿using XspecT.Test.Subjects;
 using XspecT.Verification;
-using Moq;
 
 namespace XspecT.Test.Tests.AsyncShoppingService;
 
@@ -25,7 +24,7 @@ public abstract class WhenAddItem : ShoppingServiceAsyncSpec<ShoppingCart>
 
     public class GivenCartWithOneItem : WhenAddItem
     {
-        public GivenCartWithOneItem() => GivenThat(() => CartItems = new[] { new ShoppingCartItem("A1") });
+        public GivenCartWithOneItem() => Given(() => CartItems = new[] { new ShoppingCartItem("A1") });
         [Fact] public void ThenDoNotThrow() => Then().DoesNotThrow();
         [Fact] public void ThenCartHasTwoItems() => Result.Items.Length.Is(2);
         [Fact] public void ThenNewItemIsLast() => Result.Items.Last().Sku.Is(NewItem.Sku);

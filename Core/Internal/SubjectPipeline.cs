@@ -31,10 +31,10 @@ internal class SubjectPipeline<TSUT, TResult> : Pipeline<TResult>
         Use(Task.FromResult(service));
     }
 
-    internal void GivenThat(Action arrangement)
+    internal void Given(Action arrangement)
     {
         if (HasRun)
-            throw new SetupFailed("GivenThat must be called before Then");
+            throw new SetupFailed("Given must be called before Then");
         _arranger.Push(arrangement);
     }
 

@@ -45,33 +45,10 @@ public class GivenSubjectTestPipeline<TSUT, TResult>
     public ISubjectTestPipeline<TSUT, TResult> When(Func<TSUT, Task<TResult>> func)
         => Parent.When(func);
 
-    /// <summary>
-    /// Provide arrangement to the test-pipeline that will be executed before the test-method, in reversed chronological order 
-    /// (allowing arrangement added later to be used in arrangement added earlier)
-    /// </summary>
-    /// <param name="arrangement"></param>
-    /// <returns></returns>
-    /// <exception cref="SetupFailed"></exception>
-    public IGivenSubjectTestPipeline<TSUT, TResult> AndThat(Action arrangement)
-        => GivenThat(arrangement);
-
     public IGivenSubjectTestPipeline<TSUT, TResult> And<TValue>(Action<TValue> setup) where TValue : class
         => Given(setup);
 
     public IGivenSubjectTestPipeline<TSUT, TResult> And<TValue>(Func<TValue> value) => Given(value);
-
-    /// <summary>
-    /// Provide arrangement to the test-pipeline that will be executed before the test-method, in reversed chronological order 
-    /// (allowing arrangement added later to be used in arrangement added earlier)
-    /// </summary>
-    /// <param name="arrangement"></param>
-    /// <returns></returns>
-    /// <exception cref="SetupFailed"></exception>
-    public IGivenSubjectTestPipeline<TSUT, TResult> GivenThat(Action arrangement)
-    {
-        Parent.GivenThat(arrangement);
-        return this;
-    }
 
     public IGivenContinuation<TSUT, TResult, TService> Given<TService>() where TService : class
         => Parent.Given<TService>();

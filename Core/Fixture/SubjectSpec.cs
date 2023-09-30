@@ -58,19 +58,6 @@ public abstract class SubjectSpec<TSUT, TResult> : Spec<TResult>, ISubjectTestPi
         return this;
     }
 
-    /// <summary>
-    /// Provide arrangement to the test-pipeline that will be executed before the test-method, in reversed chronological order 
-    /// (allowing arrangement added later to be used in arrangement added earlier)
-    /// </summary>
-    /// <param name="arrangement"></param>
-    /// <returns></returns>
-    /// <exception cref="SetupFailed"></exception>
-    public IGivenSubjectTestPipeline<TSUT, TResult> GivenThat(Action arrangement)
-    {
-        Pipeline.GivenThat(arrangement);
-        return new GivenSubjectTestPipeline<TSUT, TResult>(this);
-    }
-
     public IGivenContinuation<TSUT, TResult, TService> Given<TService>() where TService : class
     {
         if (Pipeline.HasRun)
@@ -80,13 +67,13 @@ public abstract class SubjectSpec<TSUT, TResult> : Spec<TResult>, ISubjectTestPi
 
     public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(Action<TValue> setup) where TValue : class
     {
-        Pipeline.GivenThat(() => A(setup));
+        Pipeline.Given(() => A(setup));
         return new GivenSubjectTestPipeline<TSUT, TResult>(this);
     }
 
     public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(Func<TValue> value)
     {
-        Pipeline.GivenThat(() => A(value()));
+        Pipeline.Given(() => A(value()));
         return new GivenSubjectTestPipeline<TSUT, TResult>(this);
     }
 
