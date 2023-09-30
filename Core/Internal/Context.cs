@@ -9,7 +9,9 @@ internal class Context
     private readonly IDictionary<Type, object[]> _mentions = new Dictionary<Type, object[]>();
     private readonly IDictionary<Type, IDictionary<string, object>> _labeledMentions
         = new Dictionary<Type, IDictionary<string, object>>();
-    private readonly TestDataGenerator _testDataGenerator = new();
+    private readonly TestDataGenerator _testDataGenerator;
+
+    public Context() => _testDataGenerator = new(this);
 
     internal void Use(Type type, object value) => _testDataGenerator.Use(type, value);
 
@@ -18,6 +20,9 @@ internal class Context
 
     internal TValue Mention<TValue>(int index, Action<TValue> setup = null)
         => setup is null ? Produce<TValue>(index) : ApplyTo(setup, Produce<TValue>(index));
+
+    internal object Mention(Type type, int index = 0) 
+        => Retreive(type, index) ?? Mention(type, Create(type), index);
 
     private TValue Produce<TValue>(int index)
         => (TValue)(Retreive(typeof(TValue), index) ?? Mention(Create<TValue>(), index));
@@ -42,12 +47,14 @@ internal class Context
         : _labeledMentions[type] = new Dictionary<string, object>();
 
     internal TValue Mention<TValue>(TValue value, int index = 0)
-        => (GetMentions(typeof(TValue))[index] = value) is TValue v ? v : default;
+        => Mention(typeof(TValue), value, index) is TValue v ? v : default;
 
     internal TValue[] MentionMany<TValue>(int count)
         => Retreive(typeof(TValue[])) is TValue[] arr
         ? Reuse(arr, count)
         : MentionMany((Action<TValue>)null, count);
+
+    private object Mention(Type type, object value, int index = 0) => GetMentions(type)[index] = value;
 
     private TValue[] Reuse<TValue>(TValue[] arr, int count)
         => arr.Length == count ? arr
@@ -71,6 +78,7 @@ internal class Context
         => Mention(Enumerable.Range(0, count).Select(i => Mention<TValue>(i, _ => setup(_, i))).ToArray());
 
     internal TValue Create<TValue>() => _testDataGenerator.Create<TValue>();
+    private object Create(Type type) => _testDataGenerator.CreateDefaultValue(type);
 
     private object[] GetMentions(Type type)
         => _mentions.TryGetValue(type, out var val) ? val : _mentions[type] = new object[_maxValueCount];

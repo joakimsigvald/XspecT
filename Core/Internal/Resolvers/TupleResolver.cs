@@ -4,18 +4,14 @@ namespace XspecT.Internal.Resolvers;
 
 internal class TupleResolver : IMockResolver
 {
-    private readonly TestDataGenerator _dataGenerator;
+    private readonly Context _context;
 
-    internal TupleResolver(TestDataGenerator dataGenerator) => _dataGenerator = dataGenerator;
+    internal TupleResolver(Context context) => _context = context;
 
     public void Resolve(MockResolutionContext context)
     {
         if (context.RequestType.Name != "ValueTuple`2")
             return;
-        var val = GetValue(context.RequestType);
-        context.Value = val;
+        context.Value = _context.Mention(context.RequestType);
     }
-
-    internal object GetValue(Type type)
-        => _dataGenerator.TryUse(type, out var val) ? val : _dataGenerator.CreateDefaultValue(type);
 }

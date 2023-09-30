@@ -13,8 +13,13 @@ internal class TestDataGenerator
     private readonly IDictionary<Type, object> _usings = new Dictionary<Type, object>();
     private readonly IFixture _fixture = CreateAutoFixture();
     private readonly AutoMocker _mocker;
+    private readonly Context _context;
 
-    internal TestDataGenerator() => _mocker = CreateAutoMocker(new FluentDefaultProvider(this));
+    internal TestDataGenerator(Context context)
+    {
+        _context = context;
+        _mocker = CreateAutoMocker(new FluentDefaultProvider(this));
+    }
 
     internal TValue Create<TValue>()
         => typeof(TValue).IsInterface
@@ -81,7 +86,7 @@ internal class TestDataGenerator
     {
         var resolverList = (List<IMockResolver>)autoMocker.Resolvers;
         ReplaceArrayResolver(resolverList);
-        resolverList.Insert(resolverList.Count - 1, new TupleResolver(this));
+        resolverList.Insert(resolverList.Count - 1, new TupleResolver(_context));
     }
 
     private static void ReplaceArrayResolver(List<IMockResolver> resolverList)
