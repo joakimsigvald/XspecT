@@ -1,5 +1,4 @@
 ﻿using XspecT.Fixture;
-using XspecT.Fixture.Exceptions;
 using XspecT.Verification;
 
 namespace XspecT.Test.AutoMock;
@@ -9,9 +8,7 @@ public class WhenMockDateTime : SubjectSpec<StaticDateService, DateTime>
     public WhenMockDateTime() => When(_ => _.GetDate());
     public class GivenItWasNotProvided : WhenMockDateTime
     {
-        [Fact]
-        public void Then_Throws_CreateSubjectUnderTestFailed()
-            => Assert.Throws<CreateSubjectUnderTestFailed>(Then);
+        [Fact] public void Then_It_Has_FirstDateTime() => Then().Result.Is(A<DateTime>());
     }
 
     public class GivenItWasProvided : WhenMockDateTime

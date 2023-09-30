@@ -6,9 +6,8 @@ internal class EmptyArrayResolver : IMockResolver
 {
     public void Resolve(MockResolutionContext context)
     {
-        if (!context.RequestType.IsArray || context.RequestType == typeof(string))
-            return;
-        context.Value = CreateEmptyArray(context.RequestType);
+        if (context.RequestType.IsArray && context.RequestType != typeof(string))
+            context.Value = CreateEmptyArray(context.RequestType);
     }
 
     private static object CreateEmptyArray(Type type)

@@ -86,7 +86,7 @@ internal class TestDataGenerator
     {
         var resolverList = (List<IMockResolver>)autoMocker.Resolvers;
         ReplaceArrayResolver(resolverList);
-        resolverList.Insert(resolverList.Count - 1, new TupleResolver(_context));
+        resolverList.Insert(resolverList.Count - 1, new ValueResolver(_context));
     }
 
     private static void ReplaceArrayResolver(List<IMockResolver> resolverList)

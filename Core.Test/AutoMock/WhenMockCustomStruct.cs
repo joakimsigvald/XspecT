@@ -1,5 +1,4 @@
 ﻿using XspecT.Fixture;
-using XspecT.Fixture.Exceptions;
 using XspecT.Verification;
 
 namespace XspecT.Test.AutoMock;
@@ -9,9 +8,7 @@ public class WhenMockCustomStruct : SubjectSpec<StaticValueService, MyValue<int>
     public WhenMockCustomStruct() => When(_ => _.GetValue());
     public class GivenItWasNotProvided : WhenMockCustomStruct
     {
-        [Fact]
-        public void Then_Throws_CreateSubjectUnderTestFailed()
-            => Assert.Throws<CreateSubjectUnderTestFailed>(Then);
+        [Fact] public void Then_It_Has_FirstCustomStruct() => Then().Result.Is(A<MyValue<int>>());
     }
 
     public class GivenItWasProvided : WhenMockCustomStruct

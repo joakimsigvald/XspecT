@@ -1,5 +1,4 @@
 ﻿using XspecT.Fixture;
-using XspecT.Fixture.Exceptions;
 using XspecT.Verification;
 
 namespace XspecT.Test.AutoMock;
@@ -9,9 +8,7 @@ public class WhenMockString : SubjectSpec<StaticStringService, string>
     public WhenMockString() => When(_ => _.GetValue());
     public class GivenItWasNotProvided : WhenMockString
     {
-        [Fact]
-        public void Then_Throws_CreateSubjectUnderTestFailed()
-            => Assert.Throws<CreateSubjectUnderTestFailed>(Then);
+        [Fact] public void Then_It_Has_FirstString() => Then().Result.Is(A<string>());
     }
 
     public class GivenItWasProvided : WhenMockString
@@ -20,8 +17,7 @@ public class WhenMockString : SubjectSpec<StaticStringService, string>
         [InlineData(null)]
         [InlineData("")]
         [InlineData("hej")]
-        public void Then_It_Has_ProvidedValue(string value) 
-            => Using(value).Then().Result.Is(value);
+        public void Then_It_Has_ProvidedValue(string value) => Using(value).Then().Result.Is(value);
     }
 }
 

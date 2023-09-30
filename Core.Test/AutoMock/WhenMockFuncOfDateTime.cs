@@ -1,5 +1,4 @@
 ﻿using XspecT.Fixture;
-using XspecT.Fixture.Exceptions;
 using XspecT.Verification;
 
 namespace XspecT.Test.AutoMock;
@@ -10,16 +9,12 @@ public class WhenMockFuncOfDateTime : SubjectSpec<DateService, DateTime>
 
     public class GivenItWasNotProvided : WhenMockFuncOfDateTime
     {
-        [Fact]
-        public void Then_Throws_ExecuteMethodUnderTestFailed()
-            => Assert.Throws<ExecuteMethodUnderTestFailed>(Then);
+        [Fact] public void Then_It_Has_FirstDateTime() => Then().Result.Is(A<DateTime>());
     }
 
     public class GivenItWasProvided : WhenMockFuncOfDateTime
     {
-        [Fact]
-        public void Then_It_Has_ProvidedValue()
-            => Using(A<DateTime>()).Then().Result.Is(The<DateTime>());
+        [Fact] public void Then_It_Has_ProvidedValue() => Using(A<DateTime>()).Then().Result.Is(The<DateTime>());
     }
 }
 
