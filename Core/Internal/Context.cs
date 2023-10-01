@@ -72,11 +72,13 @@ internal class Context
     private void Use<TService>(TService service)
     {
         var type = typeof(TService);
-        if (type.IsInterface)
+        if (type.IsInterface && service is Moq.Internals.InterfaceProxy)
             return;
+
         _testDataGenerator.Use(type, service);
         if (typeof(Task).IsAssignableFrom(type) || typeof(Mock).IsAssignableFrom(type))
             return;
+
         Use(Task.FromResult(service));
     }
 
