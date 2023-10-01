@@ -46,6 +46,6 @@ internal class SubjectPipeline<TSUT, TResult> : Pipeline<TResult>
         if (HasRun)
             throw new SetupFailed("Use must be called before Then");
         foreach (var use in usings)
-            _arranger.Add(use);
+            _arranger.Push(use);
     }
 }
