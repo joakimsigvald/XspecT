@@ -10,29 +10,19 @@ namespace XspecT.Internal;
 
 internal class TestDataGenerator
 {
-    private readonly IDictionary<Type, object> _usings = new Dictionary<Type, object>();
     private readonly IFixture _fixture = CreateAutoFixture();
     private readonly AutoMocker _mocker;
     private readonly Context _context;
 
-    internal TestDataGenerator(Context context)
-    {
-        _context = context;
-        _mocker = CreateAutoMocker(new FluentDefaultProvider(this));
-    }
+    internal TestDataGenerator(Context context) 
+        => _mocker = CreateAutoMocker(new FluentDefaultProvider(_context = context));
 
     internal TValue Create<TValue>()
         => typeof(TValue).IsInterface
         ? _mocker.Get<TValue>()
         : _fixture.Create<TValue>();
 
-    internal bool TryUse(Type type, out object val) => _usings.TryGetValue(type, out val);
-
-    internal void Use(Type type, object value)
-    {
-        _usings[type] = value;
-        _mocker.Use(type, value);
-    }
+    internal void Use(Type type, object value) => _mocker.Use(type, value);
 
     internal TValue CreateInstance<TValue>() where TValue : class
     {

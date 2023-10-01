@@ -22,9 +22,6 @@ internal class Context
     internal object Mention(Type type, int index = 0)
         => Retreive(type, index) ?? Mention(type, Create(type), index);
 
-    private TValue Produce<TValue>(int index)
-        => (TValue)(Retreive(typeof(TValue), index) ?? Mention(Create<TValue>(), index));
-
     internal static TValue ApplyTo<TValue>(Action<TValue> setup, TValue value)
     {
         setup?.Invoke(value);
@@ -57,6 +54,21 @@ internal class Context
         ? Reuse(arr, count)
         : MentionMany((Action<TValue>)null, count);
 
+    internal TValue[] MentionMany<TValue>(Action<TValue> setup, int count)
+        => Mention(Enumerable.Range(0, count).Select(i => Mention(i, setup)).ToArray());
+
+    internal TValue[] MentionMany<TValue>(Action<TValue, int> setup, int count)
+        => Mention(Enumerable.Range(0, count).Select(i => Mention<TValue>(i, _ => setup(_, i))).ToArray());
+
+    internal TValue Create<TValue>() => _testDataGenerator.Create<TValue>();
+    internal object Create(Type type) => _testDataGenerator.CreateDefaultValue(type);
+
+    internal object Retreive(Type type, int index = 0)
+        => _mentions.TryGetValue(type, out var vals) ? vals[index] : null;
+
+    private TValue Produce<TValue>(int index)
+        => (TValue)(Retreive(typeof(TValue), index) ?? Mention(Create<TValue>(), index));
+
     private void Use<TService>(TService service)
     {
         var type = typeof(TService);
@@ -85,22 +97,8 @@ internal class Context
         return newArr;
     }
 
-    internal TValue[] MentionMany<TValue>(Action<TValue> setup, int count)
-        => Mention(Enumerable.Range(0, count).Select(i => Mention(i, setup)).ToArray());
-
-    internal TValue[] MentionMany<TValue>(Action<TValue, int> setup, int count)
-        => Mention(Enumerable.Range(0, count).Select(i => Mention<TValue>(i, _ => setup(_, i))).ToArray());
-
-    internal TValue Create<TValue>() => _testDataGenerator.Create<TValue>();
-    private object Create(Type type) => _testDataGenerator.CreateDefaultValue(type);
-
     private object[] GetMentions(Type type)
         => _mentions.TryGetValue(type, out var val) ? val : _mentions[type] = new object[_maxValueCount];
-
-    private object Retreive(Type type, int index = 0)
-        => _mentions.TryGetValue(type, out var vals) ? vals[index]
-        : index == 0 && _testDataGenerator.TryUse(type, out var val) ? val
-        : null;
 
     internal Mock<TObject> GetMock<TObject>() where TObject : class => _testDataGenerator.GetMock<TObject>();
 }
