@@ -13,15 +13,13 @@ internal class Context
 
     public Context() => _testDataGenerator = new(this);
 
-    internal void Use(Type type, object value) => _testDataGenerator.Use(type, value);
-
     internal TValue CreateInstance<TValue>() where TValue : class
         => _testDataGenerator.CreateInstance<TValue>();
 
     internal TValue Mention<TValue>(int index, Action<TValue> setup = null)
         => setup is null ? Produce<TValue>(index) : ApplyTo(setup, Produce<TValue>(index));
 
-    internal object Mention(Type type, int index = 0) 
+    internal object Mention(Type type, int index = 0)
         => Retreive(type, index) ?? Mention(type, Create(type), index);
 
     private TValue Produce<TValue>(int index)
@@ -47,12 +45,28 @@ internal class Context
         : _labeledMentions[type] = new Dictionary<string, object>();
 
     internal TValue Mention<TValue>(TValue value, int index = 0)
-        => Mention(typeof(TValue), value, index) is TValue v ? v : default;
+    {
+        if (index == 0)
+            Use(value);
+        Mention(typeof(TValue), value, index);
+        return value;
+    }
 
     internal TValue[] MentionMany<TValue>(int count)
         => Retreive(typeof(TValue[])) is TValue[] arr
         ? Reuse(arr, count)
         : MentionMany((Action<TValue>)null, count);
+
+    private void Use<TService>(TService service)
+    {
+        var type = typeof(TService);
+        if (type.IsInterface)
+            return;
+        _testDataGenerator.Use(type, service);
+        if (typeof(Task).IsAssignableFrom(type) || typeof(Mock).IsAssignableFrom(type))
+            return;
+        Use(Task.FromResult(service));
+    }
 
     private object Mention(Type type, object value, int index = 0) => GetMentions(type)[index] = value;
 

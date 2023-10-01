@@ -9,7 +9,7 @@ public class WhenMany : SubjectSpec<MyRetreiver, MyModel[]>
 
     public class GivenReferingManyTwice : WhenMany
     {
-        public GivenReferingManyTwice() => Using(Many<MyModel>());
+        public GivenReferingManyTwice() => Given(Many<MyModel>());
         [Fact] public void ThenCanRetreiveThatArray() => Result.Is(Many<MyModel>());
         [Fact] public void ThenArrayHasThreeElements() => Result.Has().Count(3);
         [Fact] public void ThenDifferentReferencesToMany_AreTheSameArray() 
@@ -18,7 +18,7 @@ public class WhenMany : SubjectSpec<MyRetreiver, MyModel[]>
 
     public class GivenReferingManyOfHigherCountSecondTime : WhenMany
     {
-        public GivenReferingManyOfHigherCountSecondTime() => Using(Two<MyModel>());
+        public GivenReferingManyOfHigherCountSecondTime() => Given(Two<MyModel>());
         [Fact] public void ThenItIsDiffeentFromFirst() => Result.Is().Not(Three<MyModel>());
         [Fact] public void ThenArrayHasOriginalCount() => Result.Has().Count(2);
         [Fact] public void ThenLastElementIsCreated() => Then(this).TheThird<MyModel>().Is(Three<MyModel>().Last());
@@ -28,7 +28,7 @@ public class WhenMany : SubjectSpec<MyRetreiver, MyModel[]>
 
     public class GivenReferingManyOfLowerCountSecondTime : WhenMany
     {
-        public GivenReferingManyOfLowerCountSecondTime() => Using(Four<MyModel>());
+        public GivenReferingManyOfLowerCountSecondTime() => Given(Four<MyModel>());
         [Fact] public void ThenItIsDiffeentFromFirst() => Result.Is().Not(Three<MyModel>());
         [Fact] public void ThenArrayHasOriginalCount() => Result.Has().Count(4);
         [Fact] public void ThenDifferentReferencesToManyOfSameCount_HaveSameElements() 

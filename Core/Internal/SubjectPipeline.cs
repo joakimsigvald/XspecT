@@ -20,17 +20,6 @@ internal class SubjectPipeline<TSUT, TResult> : Pipeline<TResult>
 
     internal Mock<TObject> GetMock<TObject>() where TObject : class => _context.GetMock<TObject>();
 
-    internal void Use<TService>(TService service)
-    {
-        var type = typeof(TService);
-        _context.Use(typeof(TService), service);
-        if (typeof(Task).IsAssignableFrom(type))
-            return;
-        if (typeof(Mock).IsAssignableFrom(type))
-            return;
-        Use(Task.FromResult(service));
-    }
-
     internal void Given(Action arrangement)
     {
         if (HasRun)
@@ -40,12 +29,4 @@ internal class SubjectPipeline<TSUT, TResult> : Pipeline<TResult>
 
     internal void SetupMock<TService>(Action<Mock<TService>> setup) where TService : class
         => _arranger.Push(() => setup(GetMock<TService>()));
-
-    internal void Using(params Action[] usings)
-    {
-        if (HasRun)
-            throw new SetupFailed("Use must be called before Then");
-        foreach (var use in usings)
-            _arranger.Push(use);
-    }
 }

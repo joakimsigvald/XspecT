@@ -1,8 +1,4 @@
-﻿using Moq;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq.Expressions;
-using XspecT.Fixture.Exceptions;
-using XspecT.Fixture.Pipelines;
+﻿using XspecT.Fixture.Pipelines;
 
 namespace XspecT.Fixture;
 
@@ -67,68 +63,4 @@ public class GivenSubjectTestPipeline<TSUT, TResult>
         Parent.Given(value);
         return this;
     }
-
-    /// <summary>
-    /// Provide service to the test-pipeline that can be used in auto-mocking
-    /// </summary>
-    /// <typeparam name="TService"></typeparam>
-    /// <param name="service"></param>
-    /// <returns></returns>
-    public ISubjectTestPipeline<TSUT, TResult> Using<TService>([DisallowNull] Func<TService> service)
-        => Parent.Using(service);
-
-    /// <summary>
-    /// Provide service to the test-pipeline that can be used in auto-mocking
-    /// </summary>
-    /// <typeparam name="TService"></typeparam>
-    /// <param name="service"></param>
-    /// <returns></returns>
-    public ISubjectTestPipeline<TSUT, TResult> Using<TService>(TService service)
-        => Parent.Using(service);
-
-    /// <summary>
-    /// Provide services to the test-pipeline that can be used in auto-mocking
-    /// </summary>
-    /// <typeparam name="TService1"></typeparam>
-    /// <typeparam name="TService2"></typeparam>
-    /// <param name="service1"></param>
-    /// <param name="service2"></param>
-    /// <returns></returns>
-    public ISubjectTestPipeline<TSUT, TResult> Using<TService1, TService2>(
-        TService1 service1, TService2 service2)
-        => Parent.Using(service1, service2);
-
-    /// <summary>
-    /// Provide services to the test-pipeline that can be used in auto-mocking
-    /// </summary>
-    /// <typeparam name="TService1"></typeparam>
-    /// <typeparam name="TService2"></typeparam>
-    /// <typeparam name="TService3"></typeparam>
-    /// <param name="service1"></param>
-    /// <param name="service2"></param>
-    /// <param name="service3"></param>
-    /// <returns></returns>
-    public ISubjectTestPipeline<TSUT, TResult> Using<TService1, TService2, TService3>(
-        TService1 service1, TService2 service2, TService3 service3)
-        => Parent.Using(service1, service2, service3);
-
-    /// <summary>
-    /// Provide service to the test-pipeline that can be used in auto-mocking
-    /// </summary>
-    /// <typeparam name="TService"></typeparam>
-    /// <param name="mockedService"></param>
-    /// <returns></returns>
-    public ISubjectTestPipeline<TSUT, TResult> Using<TService>(Mock<TService> mockedService)
-        where TService : class
-        => Parent.Using(mockedService);
-
-    /// <summary>
-    /// Provide service to the test-pipeline that can be used in auto-mocking
-    /// </summary>
-    /// <typeparam name="TService"></typeparam>
-    /// <param name="setup"></param>
-    /// <returns></returns>
-    public ISubjectTestPipeline<TSUT, TResult> Using<TService>(Expression<Func<TService, bool>> setup)
-        where TService : class
-        => Parent.Using(setup);
 }

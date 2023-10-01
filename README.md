@@ -95,7 +95,7 @@ public abstract class WhenVerifyAreEqual : StaticSpec<object>
 * To test an instance method `[MyClass].[MyMethod]`, inherit `XspecT.SubjectSpec<[MyClass], TResult>`.
 * It is recommended practice to create a common baseclass for all tests of `[MyClass]`, named `[MyClass]Spec`.
 * The subject under test (sut) will be created automatically with mocks and default values by AutoMock. 
-You can supply you own constructor arguments by calling `Using` (which will be applied in the same order when test pipeline is executed).
+You can supply you own constructor arguments by calling `Given`.
 * For each method to test, create an abstract class named `When[MyMethod]` inheriting `[MyClass]Spec` in the same way as for static methods.
 
 * To mock behaviour of any dependency, provide the mocking by calling `Given<[TheService]>(_ => _.Setup(...))`. 
@@ -112,7 +112,7 @@ public abstract class ShoppingServiceSpec<TResult> : SubjectSpec<MyProject.Shopp
     protected const int ShopId = 2;
 
     //Specify a value to pass to the constructor
-    protected ShoppingServiceSpec() => Using(ShopId);
+    protected ShoppingServiceSpec() => Given(ShopId);
 }
 
 public abstract class WhenPlaceOrder : ShoppingServiceSpec<object>

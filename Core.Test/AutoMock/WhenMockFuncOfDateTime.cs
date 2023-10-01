@@ -14,7 +14,7 @@ public class WhenMockFuncOfDateTime : SubjectSpec<DateService, DateTime>
 
     public class GivenItWasProvided : WhenMockFuncOfDateTime
     {
-        [Fact] public void Then_It_Has_ProvidedValue() => Using(A<DateTime>()).Then().Result.Is(The<DateTime>());
+        [Fact] public void Then_It_Has_ProvidedValue() => Given(A<DateTime>()).Then().Result.Is(The<DateTime>());
     }
 }
 

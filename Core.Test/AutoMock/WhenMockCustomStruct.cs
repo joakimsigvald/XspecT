@@ -15,7 +15,7 @@ public class WhenMockCustomStruct : SubjectSpec<StaticValueService, MyValue<int>
     {
         [Fact]
         public void Then_It_Has_ProvidedValue()
-            => Using(A<MyValue<int>>()).Then().Result.Is(The<MyValue<int>>());
+            => Given(A<MyValue<int>>()).Then().Result.Is(The<MyValue<int>>());
     }
 }
 

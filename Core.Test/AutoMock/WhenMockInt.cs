@@ -17,7 +17,7 @@ public class WhenMockInt : SubjectSpec<StaticIntService, int>
         [InlineData(0)]
         [InlineData(int.MinValue)]
         [InlineData(int.MaxValue)]
-        public void Then_It_Has_ProvidedValue(int value) => Using(value).Then().Result.Is(value);
+        public void Then_It_Has_ProvidedValue(int value) => Given(value).Then().Result.Is(value);
     }
 }
 
