@@ -54,4 +54,8 @@ public class WhenGet : SubjectSpec<MyRetreiver, MyModel>
     public void AThird_Value_Is_Not_Same_As_ASecond_Value()
         => Given<IMyRepository>().That(_ => _.Get(The<int>())).Returns(ASecond<MyModel>)
         .Then().Result.Is().Not(AThird<MyModel>());
+
+    [Fact]
+    public void A_Value_Is_Same_As_Another_Value_If_Using2()
+        => Given(new MyModel { Id = 1 }).And(new MyModel { Id = 2 }).Then().Result.Id.Is(1);
 }

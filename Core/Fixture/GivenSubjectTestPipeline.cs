@@ -1,8 +1,9 @@
-﻿using XspecT.Fixture.Pipelines;
+﻿using Moq;
+using XspecT.Fixture.Pipelines;
 
 namespace XspecT.Fixture;
 
-public class GivenSubjectTestPipeline<TSUT, TResult> 
+public class GivenSubjectTestPipeline<TSUT, TResult>
     : TestPipeline<TResult, SubjectSpec<TSUT, TResult>>, IGivenSubjectTestPipeline<TSUT, TResult>
     where TSUT : class
 {
@@ -45,6 +46,11 @@ public class GivenSubjectTestPipeline<TSUT, TResult>
         => Given(setup);
 
     public IGivenSubjectTestPipeline<TSUT, TResult> And<TValue>(Func<TValue> value) => Given(value);
+    public IGivenSubjectTestPipeline<TSUT, TResult> And<TValue>(TValue value)
+    {
+        Parent.Given(value);
+        return this;
+    }
 
     public IGivenContinuation<TSUT, TResult, TService> Given<TService>() where TService : class
         => Parent.Given<TService>();
