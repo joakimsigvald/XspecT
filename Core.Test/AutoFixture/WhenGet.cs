@@ -56,6 +56,6 @@ public class WhenGet : SubjectSpec<MyRetreiver, MyModel>
         .Then().Result.Is().Not(AThird<MyModel>());
 
     [Fact]
-    public void A_Value_Is_Same_As_Another_Value_If_Using2()
+    public void WhenGivenTwoValuesOfSameType_UseTheOneProvidedFirst()
         => Given(new MyModel { Id = 1 }).And(new MyModel { Id = 2 }).Then().Result.Id.Is(1);
 }
