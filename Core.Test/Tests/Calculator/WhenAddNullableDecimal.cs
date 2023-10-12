@@ -20,5 +20,12 @@ public abstract class WhenAddNullableDecimal : StaticSpec<decimal?>
     {
         public Given_2_3() => Given<decimal?, decimal?>(2, 3);
         [Fact] public void Then_Return_5() => Result.Is(5);
+        [Fact] public void Then_Not_Return_Null() => Result.Is().NotNull();
+    }
+
+    public class Given_1_Null : WhenAddNullableDecimal
+    {
+        public Given_1_Null() => Given<decimal?, decimal?>(1, null);
+        [Fact] public void Then_Return_Null() => Result.Is().Null();
     }
 }

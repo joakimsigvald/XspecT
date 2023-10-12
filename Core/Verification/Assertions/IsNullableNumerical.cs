@@ -11,6 +11,18 @@ public abstract class IsNullableNumerical<TActual> where TActual : struct, IComp
     /// <summary>
     /// actual.Should().NotBe(expected)
     /// </summary>
+    public AndConstraint<FluentAssertions.Numeric.NullableNumericAssertions<TActual>> Null()
+        => Should().BeNull();
+
+    /// <summary>
+    /// actual.Should().NotBe(expected)
+    /// </summary>
+    public AndConstraint<FluentAssertions.Numeric.NullableNumericAssertions<TActual>> NotNull()
+        => Should().NotBeNull();
+
+    /// <summary>
+    /// actual.Should().NotBe(expected)
+    /// </summary>
     public AndConstraint<FluentAssertions.Numeric.NullableNumericAssertions<TActual>> Not(TActual? expected)
         => Should().NotBe(expected);
 
