@@ -20,10 +20,3 @@ public class WhenMockInt : SubjectSpec<StaticIntService, int>
         public void Then_It_Has_ProvidedValue(int value) => Given(value).Then().Result.Is(value);
     }
 }
-
-public class StaticIntService
-{
-    private readonly int _value;
-    public StaticIntService(int value) => _value = value;
-    public int GetValue() => _value;
-}
