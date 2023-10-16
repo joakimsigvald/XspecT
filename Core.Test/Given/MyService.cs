@@ -14,5 +14,8 @@ public class MyService
     public string GetConnectionString() => _settings.ConnectionString;
     public MyModel GetModel() => _repo.GetModel();
     public MyModel[] GetModels() => _repo.GetModels();
+    public int GetNextId() => _repo.GetNextId();
+    public int[] GetIds() => _repo.GetIds();
+
     public static MyModel Echo(MyModel model) => model;
 }
