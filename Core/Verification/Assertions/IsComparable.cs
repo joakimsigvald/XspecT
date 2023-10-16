@@ -2,7 +2,8 @@
 
 namespace XspecT.Verification.Assertions;
 
-public class IsComparable<TActual> where TActual : IComparable<TActual>
+public class IsComparable<TActual> : Constraint<IsComparable<TActual>>
+    where TActual : IComparable<TActual>
 {
     private readonly TActual _actual;
 
@@ -11,24 +12,36 @@ public class IsComparable<TActual> where TActual : IComparable<TActual>
     /// <summary>
     /// actual.Should().BeGreaterThan(expected)
     /// </summary>
-    public AndConstraint<FluentAssertions.Numeric.ComparableTypeAssertions<TActual>> GreaterThan(TActual expected)
-        => _actual.Should().BeGreaterThan(expected);
+    public ContinueWith<IsComparable<TActual>> GreaterThan(TActual expected)
+    {
+        _actual.Should().BeGreaterThan(expected);
+        return And();
+    }
 
     /// <summary>
     /// actual.Should().BeLessThan(expected)
     /// </summary>
-    public AndConstraint<FluentAssertions.Numeric.ComparableTypeAssertions<TActual>> LessThan(TActual expected)
-        => _actual.Should().BeLessThan(expected);
+    public ContinueWith<IsComparable<TActual>> LessThan(TActual expected)
+    {
+        _actual.Should().BeLessThan(expected);
+        return And();
+    }
 
     /// <summary>
     /// actual.Should().BeLessThanOrEqualTo(expected)
     /// </summary>
-    public AndConstraint<FluentAssertions.Numeric.ComparableTypeAssertions<TActual>> NotGreaterThan(TActual expected)
-        => _actual.Should().BeLessThanOrEqualTo(expected);
+    public ContinueWith<IsComparable<TActual>> NotGreaterThan(TActual expected)
+    {
+        _actual.Should().BeLessThanOrEqualTo(expected);
+        return And();
+    }
 
     /// <summary>
     /// actual.Should().BeGreaterThanOrEqualTo(expected)
     /// </summary>
-    public AndConstraint<FluentAssertions.Numeric.ComparableTypeAssertions<TActual>> NotLessThan(TActual expected)
-        => _actual.Should().BeGreaterThanOrEqualTo(expected);
+    public ContinueWith<IsComparable<TActual>> NotLessThan(TActual expected)
+    {
+        _actual.Should().BeGreaterThanOrEqualTo(expected);
+        return And();
+    }
 }

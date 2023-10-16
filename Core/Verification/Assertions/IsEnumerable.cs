@@ -3,7 +3,7 @@ using FluentAssertions.Collections;
 
 namespace XspecT.Verification.Assertions;
 
-public class IsEnumerable<TItem>
+public class IsEnumerable<TItem> : Constraint<IsEnumerable<TItem>>
 {
     private IEnumerable<TItem> _actual;
 
@@ -12,22 +12,36 @@ public class IsEnumerable<TItem>
     /// <summary>
     /// actual.Should().BeEmpty()
     /// </summary>
-    public AndConstraint<GenericCollectionAssertions<TItem>> Empty() => _actual.Should().BeEmpty();
+    public ContinueWith<IsEnumerable<TItem>> Empty()
+    {
+        _actual.Should().BeEmpty();
+        return And();
+    }
 
     /// <summary>
     /// actual.Should().NotBeEmpty()
     /// </summary>
-    public AndConstraint<GenericCollectionAssertions<TItem>> NotEmpty() => _actual.Should().NotBeEmpty();
+    public ContinueWith<IsEnumerable<TItem>> NotEmpty()
+    {
+        _actual.Should().NotBeEmpty();
+        return And();
+    }
 
     /// <summary>
     /// actual.Should().NotBeSameAs(expected)
     /// </summary>
-    public AndConstraint<GenericCollectionAssertions<TItem>> Not(IEnumerable<TItem> expected)
-        => _actual.Should().NotBeSameAs(expected);
+    public ContinueWith<IsEnumerable<TItem>> Not(IEnumerable<TItem> expected)
+    {
+        _actual.Should().NotBeSameAs(expected);
+        return And();
+    }
 
     /// <summary>
     /// actual.Should().NotBeSameAs(expected)
     /// </summary>
-    public AndConstraint<GenericCollectionAssertions<TItem>> EqualTo(IEnumerable<TItem> expected)
-        => _actual.Should().BeEquivalentTo(expected);
+    public ContinueWith<IsEnumerable<TItem>> EqualTo(IEnumerable<TItem> expected)
+    {
+        _actual.Should().BeEquivalentTo(expected);
+        return And();
+    }
 }

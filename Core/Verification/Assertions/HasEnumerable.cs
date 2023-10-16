@@ -1,10 +1,9 @@
 ﻿using FluentAssertions;
-using FluentAssertions.Collections;
 using System.Linq.Expressions;
 
 namespace XspecT.Verification.Assertions;
 
-public class HasEnumerable<TItem>
+public class HasEnumerable<TItem> : Constraint<HasEnumerable<TItem>>
 {
     private readonly IEnumerable<TItem> _actual;
 
@@ -13,32 +12,48 @@ public class HasEnumerable<TItem>
     /// <summary>
     /// actual.Should().ContainSingle()
     /// </summary>
-    public AndConstraint<GenericCollectionAssertions<TItem>> Single() => _actual.Should().ContainSingle();
+    public ContinueWith<HasEnumerable<TItem>> Single()
+    {
+        _actual.Should().ContainSingle();
+        return And();
+    }
 
     /// <summary>
     /// actual.Should().ContainSingle()
     /// </summary>
-    public AndConstraint<GenericCollectionAssertions<TItem>> Single(Expression<Func<TItem, bool>> predicate)
-        => _actual.Should().ContainSingle(predicate);
+    public ContinueWith<HasEnumerable<TItem>> Single(Expression<Func<TItem, bool>> predicate)
+    {
+        _actual.Should().ContainSingle(predicate);
+        return And();
+    }
 
     /// <summary>
     /// actual.Should().HaveCount(expected)
     /// </summary>
-    public AndConstraint<GenericCollectionAssertions<TItem>> Count(int expected)
-        => _actual.Should().HaveCount(expected);
+    public ContinueWith<HasEnumerable<TItem>> Count(int expected)
+    {
+        _actual.Should().HaveCount(expected);
+        return And();
+    }
 
     /// <summary>
     /// collection.Select((it, i) => (it, i)).Should().OnlyContain(t => predicate(t.it, t.i))
     /// </summary>
-    public AndConstraint<GenericCollectionAssertions<(TItem, int)>> Only(
+    public ContinueWith<HasEnumerable<TItem>> Only(
         Func<TItem, int, bool> predicate, string because = "", params object[] becauseArgs)
-        => _actual.Select((it, i) => (it, i)).
-            Should().OnlyContain(t => predicate(t.it, t.i), because, becauseArgs);
+    {
+        _actual.Select((it, i) => (it, i)).
+                Should().OnlyContain(t => predicate(t.it, t.i), because, becauseArgs);
+        return And();
+    }
 
     /// <summary>
     /// collection.Select((it, i) => (it, i)).Should().OnlyContain(t => predicate(t.it, t.i))
     /// </summary>
-    public AndConstraint<GenericCollectionAssertions<TItem>> Only(
+    public ContinueWith<HasEnumerable<TItem>> Only(
         Func<TItem, bool> predicate, string because = "", params object[] becauseArgs)
-        => _actual.Should().OnlyContain(it => predicate(it), because, becauseArgs);
+    {
+        _actual.Should().OnlyContain(it => predicate(it), because, becauseArgs);
+        return And();
+    }
 }

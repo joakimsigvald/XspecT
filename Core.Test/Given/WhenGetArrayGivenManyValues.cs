@@ -2,7 +2,7 @@
 
 namespace XspecT.Test.Given;
 
-public class WhenGetArrayGivenManyValues : SubjectSpec<MyService, int[]>
+public class WhenGetArrayGivenManyValues : SubjectSpec<MyService, int>
 {
     [Fact]
     public void ThenCanUseTwoValues()

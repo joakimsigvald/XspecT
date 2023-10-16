@@ -2,7 +2,8 @@
 
 namespace XspecT.Verification.Assertions;
 
-public class IsNumerical<TActual> where TActual : struct, IComparable<TActual>
+public class IsNumerical<TActual> : Constraint<IsNumerical<TActual>>
+    where TActual : struct, IComparable<TActual>
 {
     private readonly TActual _actual;
 
@@ -11,30 +12,45 @@ public class IsNumerical<TActual> where TActual : struct, IComparable<TActual>
     /// <summary>
     /// actual.Should().NotBe(expected)
     /// </summary>
-    public AndConstraint<FluentAssertions.Numeric.ComparableTypeAssertions<TActual>> Not(TActual expected)
-        => _actual.Should().NotBe(expected);
+    public ContinueWith<IsNumerical<TActual>> Not(TActual expected)
+    {
+        _actual.Should().NotBe(expected);
+        return And();
+    }
 
     /// <summary>
     /// actual.Should().BeGreaterThan(expected)
     /// </summary>
-    public AndConstraint<FluentAssertions.Numeric.ComparableTypeAssertions<TActual>> GreaterThan(TActual expected)
-        => _actual.Should().BeGreaterThan(expected);
+    public ContinueWith<IsNumerical<TActual>> GreaterThan(TActual expected)
+    {
+        _actual.Should().BeGreaterThan(expected);
+        return And();
+    }
 
     /// <summary>
     /// actual.Should().BeLessThan(expected)
     /// </summary>
-    public AndConstraint<FluentAssertions.Numeric.ComparableTypeAssertions<TActual>> LessThan(TActual expected)
-        => _actual.Should().BeLessThan(expected);
+    public ContinueWith<IsNumerical<TActual>> LessThan(TActual expected)
+    {
+        _actual.Should().BeLessThan(expected);
+        return And();
+    }
 
     /// <summary>
     /// actual.Should().BeLessThanOrEqualTo(expected)
     /// </summary>
-    public AndConstraint<FluentAssertions.Numeric.ComparableTypeAssertions<TActual>> NotGreaterThan(TActual expected)
-        => _actual.Should().BeLessThanOrEqualTo(expected);
+    public ContinueWith<IsNumerical<TActual>> NotGreaterThan(TActual expected)
+    {
+        _actual.Should().BeLessThanOrEqualTo(expected);
+        return And();
+    }
 
     /// <summary>
     /// actual.Should().BeGreaterThanOrEqualTo(expected)
     /// </summary>
-    public AndConstraint<FluentAssertions.Numeric.ComparableTypeAssertions<TActual>> NotLessThan(TActual expected)
-        => _actual.Should().BeGreaterThanOrEqualTo(expected);
+    public ContinueWith<IsNumerical<TActual>> NotLessThan(TActual expected)
+    {
+        _actual.Should().BeGreaterThanOrEqualTo(expected);
+        return And();
+    }
 }

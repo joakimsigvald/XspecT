@@ -2,7 +2,7 @@
 
 namespace XspecT.Verification.Assertions;
 
-public class IsObject
+public class IsObject : Constraint<IsObject>
 {
     private readonly object _actual;
 
@@ -11,36 +11,54 @@ public class IsObject
     /// <summary>
     /// Should().NotBeSameAs(expected)
     /// </summary>
-    public AndConstraint<FluentAssertions.Primitives.ObjectAssertions> Not(object expected)
-        => _actual.Should().NotBeSameAs(expected);
+    public ContinueWith<IsObject> Not(object expected)
+    {
+        _actual.Should().NotBeSameAs(expected);
+        return And();
+    }
 
     /// <summary>
     /// Should().BeNull()
     /// </summary>
-    public AndConstraint<FluentAssertions.Primitives.ObjectAssertions> Null()
-        => _actual.Should().BeNull();
+    public ContinueWith<IsObject> Null()
+    {
+        _actual.Should().BeNull();
+        return And();
+    }
 
     /// <summary>
     /// Should().NotBeNull()
     /// </summary>
-    public AndConstraint<FluentAssertions.Primitives.ObjectAssertions> NotNull()
-        => _actual.Should().NotBeNull();
+    public ContinueWith<IsObject> NotNull()
+    {
+        _actual.Should().NotBeNull();
+        return And();
+    }
 
     /// <summary>
     /// Should().Be(expected)
     /// </summary>
-    public AndConstraint<FluentAssertions.Primitives.ObjectAssertions> EqualTo(object expected)
-        => _actual.Should().Be(expected);
+    public ContinueWith<IsObject> EqualTo(object expected)
+    {
+        _actual.Should().Be(expected);
+        return And();
+    }
 
     /// <summary>
     /// Should().NotBe(expected)
     /// </summary>
-    public AndConstraint<FluentAssertions.Primitives.ObjectAssertions> NotEqualTo(object expected)
-        => _actual.Should().NotBe(expected);
+    public ContinueWith<IsObject> NotEqualTo(object expected)
+    {
+        _actual.Should().NotBe(expected);
+        return And();
+    }
 
     /// <summary>
     /// Should().BeEquivalentTo(expected)
     /// </summary>
-    public AndConstraint<FluentAssertions.Primitives.ObjectAssertions> Like(object expected)
-        => _actual.Should().BeEquivalentTo(expected);
+    public ContinueWith<IsObject> Like(object expected)
+    {
+        _actual.Should().BeEquivalentTo(expected);
+        return And();
+    }
 }

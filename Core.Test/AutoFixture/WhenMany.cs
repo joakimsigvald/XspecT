@@ -31,7 +31,21 @@ public class WhenMany : SubjectSpec<MyRetreiver, MyModel[]>
         public GivenReferingManyOfLowerCountSecondTime() => Given(Four<MyModel>());
         [Fact] public void ThenItIsDiffeentFromFirst() => Result.Is().Not(Three<MyModel>());
         [Fact] public void ThenArrayHasOriginalCount() => Result.Has().Count(4);
-        [Fact] public void ThenDifferentReferencesToManyOfSameCount_HaveSameElements() 
+        [Fact]
+        public void ThenDifferentReferencesToManyOfSameCount_HaveSameElements()
             => Then(this).Three<MyModel>().Is().EqualTo(Three<MyModel>());
     }
+}
+
+
+public class WhenMockReturnsFewerElementsThanPreviouslyMentioned : SubjectSpec<MyRetreiver, MyModel[]>
+{
+    public WhenMockReturnsFewerElementsThanPreviouslyMentioned()
+        => When(_ => _.Create(An<int>()));
+
+    [Fact] public void ThenItIsDiffeentFromFirst() 
+        => Given(3)
+        .And<IMyRepository>().That(_ => _.Create(Three<MyModel>().Length))
+        .Returns(Two<MyModel>)
+        .Then().Result.Has().Count(2);
 }

@@ -2,7 +2,7 @@
 
 namespace XspecT.Verification.Assertions;
 
-public class IsString
+public class IsString : Constraint<IsString>
 {
     private readonly string _actual;
 
@@ -11,42 +11,63 @@ public class IsString
     /// <summary>
     /// actual.Should().BeEquivalentTo(expected)
     /// </summary>
-    public AndConstraint<FluentAssertions.Primitives.StringAssertions> Like(string expected)
-        => _actual.Should().BeEquivalentTo(expected);
+    public ContinueWith<IsString> Like(string expected)
+    {
+        _actual.Should().BeEquivalentTo(expected);
+        return And();
+    }
 
     /// <summary>
     /// actual.Should().BeNull(expected)
     /// </summary>
-    public AndConstraint<FluentAssertions.Primitives.StringAssertions> Null()
-        => _actual.Should().BeNull();
+    public ContinueWith<IsString> Null()
+    {
+        _actual.Should().BeNull();
+        return And();
+    }
 
     /// <summary>
     /// actual.Should().NotBeNull(expected)
     /// </summary>
-    public AndConstraint<FluentAssertions.Primitives.StringAssertions> NotNull()
-        => _actual.Should().NotBeNull();
+    public ContinueWith<IsString> NotNull()
+    {
+        _actual.Should().NotBeNull();
+        return And();
+    }
 
     /// <summary>
     /// actual.Should().BeNullOrEmpty(expected)
     /// </summary>
-    public AndConstraint<FluentAssertions.Primitives.StringAssertions> NullOrEmpty()
-        => _actual.Should().BeNullOrEmpty();
+    public ContinueWith<IsString> NullOrEmpty()
+    {
+        _actual.Should().BeNullOrEmpty();
+        return And();
+    }
 
     /// <summary>
     /// actual.Should().NotBeNullOrEmpty(expected)
     /// </summary>
-    public AndConstraint<FluentAssertions.Primitives.StringAssertions> NotNullOrEmpty()
-        => _actual.Should().NotBeNullOrEmpty();
+    public ContinueWith<IsString> NotNullOrEmpty()
+    {
+        _actual.Should().NotBeNullOrEmpty();
+        return And();
+    }
 
     /// <summary>
     /// actual.Should().BeNullOrWhiteSpace(expected)
     /// </summary>
-    public AndConstraint<FluentAssertions.Primitives.StringAssertions> NullOrWhitespace()
-        => _actual.Should().BeNullOrWhiteSpace();
+    public ContinueWith<IsString> NullOrWhitespace()
+    {
+        _actual.Should().BeNullOrWhiteSpace();
+        return And();
+    }
 
     /// <summary>
     /// actual.Should().NotBeNullOrWhiteSpace(expected)
     /// </summary>
-    public AndConstraint<FluentAssertions.Primitives.StringAssertions> NotNullOrWhitespace()
-        => _actual.Should().NotBeNullOrWhiteSpace();
+    public ContinueWith<IsString> NotNullOrWhitespace()
+    {
+        _actual.Should().NotBeNullOrWhiteSpace();
+        return And();
+    }
 }

@@ -8,4 +8,5 @@ public class MyRetreiver
 
     public MyModel Get(int id) => _repository.Get(id);
     public MyModel[] List() => _repository.List();
+    public MyModel[] Create(int count) => _repository.Create(count);
 }
