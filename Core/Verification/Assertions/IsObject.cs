@@ -2,18 +2,16 @@
 
 namespace XspecT.Verification.Assertions;
 
-public class IsObject : Constraint<IsObject>
+public class IsObject : Constraint<IsObject, object>
 {
-    private readonly object _actual;
-
-    public IsObject(object actual) => _actual = actual;
+    public IsObject(object actual) : base(actual) { }
 
     /// <summary>
     /// Should().NotBeSameAs(expected)
     /// </summary>
     public ContinueWith<IsObject> Not(object expected)
     {
-        _actual.Should().NotBeSameAs(expected);
+        Actual.Should().NotBeSameAs(expected);
         return And();
     }
 
@@ -22,7 +20,7 @@ public class IsObject : Constraint<IsObject>
     /// </summary>
     public ContinueWith<IsObject> Null()
     {
-        _actual.Should().BeNull();
+        Actual.Should().BeNull();
         return And();
     }
 
@@ -31,7 +29,7 @@ public class IsObject : Constraint<IsObject>
     /// </summary>
     public ContinueWith<IsObject> NotNull()
     {
-        _actual.Should().NotBeNull();
+        Actual.Should().NotBeNull();
         return And();
     }
 
@@ -40,7 +38,7 @@ public class IsObject : Constraint<IsObject>
     /// </summary>
     public ContinueWith<IsObject> EqualTo(object expected)
     {
-        _actual.Should().Be(expected);
+        Actual.Should().Be(expected);
         return And();
     }
 
@@ -49,7 +47,7 @@ public class IsObject : Constraint<IsObject>
     /// </summary>
     public ContinueWith<IsObject> NotEqualTo(object expected)
     {
-        _actual.Should().NotBe(expected);
+        Actual.Should().NotBe(expected);
         return And();
     }
 
@@ -58,7 +56,7 @@ public class IsObject : Constraint<IsObject>
     /// </summary>
     public ContinueWith<IsObject> Like(object expected)
     {
-        _actual.Should().BeEquivalentTo(expected);
+        Actual.Should().BeEquivalentTo(expected);
         return And();
     }
 }

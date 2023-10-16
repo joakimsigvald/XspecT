@@ -1,20 +1,17 @@
 ﻿using FluentAssertions;
-using FluentAssertions.Collections;
 
 namespace XspecT.Verification.Assertions;
 
-public class IsEnumerable<TItem> : Constraint<IsEnumerable<TItem>>
+public class IsEnumerable<TItem> : Constraint<IsEnumerable<TItem>, IEnumerable<TItem>>
 {
-    private IEnumerable<TItem> _actual;
-
-    public IsEnumerable(IEnumerable<TItem> actual) => _actual = actual;
+    public IsEnumerable(IEnumerable<TItem> actual) : base(actual) { }
 
     /// <summary>
     /// actual.Should().BeEmpty()
     /// </summary>
     public ContinueWith<IsEnumerable<TItem>> Empty()
     {
-        _actual.Should().BeEmpty();
+        Actual.Should().BeEmpty();
         return And();
     }
 
@@ -23,7 +20,7 @@ public class IsEnumerable<TItem> : Constraint<IsEnumerable<TItem>>
     /// </summary>
     public ContinueWith<IsEnumerable<TItem>> NotEmpty()
     {
-        _actual.Should().NotBeEmpty();
+        Actual.Should().NotBeEmpty();
         return And();
     }
 
@@ -32,7 +29,7 @@ public class IsEnumerable<TItem> : Constraint<IsEnumerable<TItem>>
     /// </summary>
     public ContinueWith<IsEnumerable<TItem>> Not(IEnumerable<TItem> expected)
     {
-        _actual.Should().NotBeSameAs(expected);
+        Actual.Should().NotBeSameAs(expected);
         return And();
     }
 
@@ -41,7 +38,7 @@ public class IsEnumerable<TItem> : Constraint<IsEnumerable<TItem>>
     /// </summary>
     public ContinueWith<IsEnumerable<TItem>> EqualTo(IEnumerable<TItem> expected)
     {
-        _actual.Should().BeEquivalentTo(expected);
+        Actual.Should().BeEquivalentTo(expected);
         return And();
     }
 }

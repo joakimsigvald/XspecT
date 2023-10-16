@@ -160,8 +160,7 @@ public static class AssertionExtensions
     /// <summary>
     /// actual.Should().BeCloseTo(expected, precision)
     /// </summary>
-    public static void Is(
-        this DateTime actual, DateTime expected, TimeSpan precision)
+    public static void Is(this DateTime actual, DateTime expected, TimeSpan precision)
         => actual.Should().BeCloseTo(expected, precision);
 
     /// <summary>

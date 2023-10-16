@@ -2,17 +2,16 @@
 
 namespace XspecT.Verification.Assertions;
 
-public class IsBool : Constraint<IsBool>
+public class IsBool : Constraint<IsBool, bool>
 {
-    private readonly bool _actual;
+    public IsBool(bool actual) : base(actual) { }
 
-    public IsBool(bool actual) => _actual = actual;
     /// <summary>
     /// actual.Should().BeTrue()
     /// </summary>
     public ContinueWith<IsBool> True()
     {
-        _actual.Should().BeTrue();
+        Actual.Should().BeTrue();
         return And();
     }
 
@@ -21,7 +20,7 @@ public class IsBool : Constraint<IsBool>
     /// </summary>
     public ContinueWith<IsBool> False()
     {
-        _actual.Should().BeFalse();
+        Actual.Should().BeFalse();
         return And();
     }
 }

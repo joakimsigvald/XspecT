@@ -3,18 +3,16 @@ using System.Linq.Expressions;
 
 namespace XspecT.Verification.Assertions;
 
-public class HasEnumerable<TItem> : Constraint<HasEnumerable<TItem>>
+public class HasEnumerable<TItem> : Constraint<HasEnumerable<TItem>, IEnumerable<TItem>>
 {
-    private readonly IEnumerable<TItem> _actual;
-
-    public HasEnumerable(IEnumerable<TItem> actual) => _actual = actual;
+    public HasEnumerable(IEnumerable<TItem> actual) : base(actual) { }
 
     /// <summary>
     /// actual.Should().ContainSingle()
     /// </summary>
     public ContinueWith<HasEnumerable<TItem>> Single()
     {
-        _actual.Should().ContainSingle();
+        Actual.Should().ContainSingle();
         return And();
     }
 
@@ -23,7 +21,7 @@ public class HasEnumerable<TItem> : Constraint<HasEnumerable<TItem>>
     /// </summary>
     public ContinueWith<HasEnumerable<TItem>> Single(Expression<Func<TItem, bool>> predicate)
     {
-        _actual.Should().ContainSingle(predicate);
+        Actual.Should().ContainSingle(predicate);
         return And();
     }
 
@@ -32,7 +30,7 @@ public class HasEnumerable<TItem> : Constraint<HasEnumerable<TItem>>
     /// </summary>
     public ContinueWith<HasEnumerable<TItem>> Count(int expected)
     {
-        _actual.Should().HaveCount(expected);
+        Actual.Should().HaveCount(expected);
         return And();
     }
 
@@ -42,7 +40,7 @@ public class HasEnumerable<TItem> : Constraint<HasEnumerable<TItem>>
     public ContinueWith<HasEnumerable<TItem>> Only(
         Func<TItem, int, bool> predicate, string because = "", params object[] becauseArgs)
     {
-        _actual.Select((it, i) => (it, i)).
+        Actual.Select((it, i) => (it, i)).
                 Should().OnlyContain(t => predicate(t.it, t.i), because, becauseArgs);
         return And();
     }
@@ -53,7 +51,7 @@ public class HasEnumerable<TItem> : Constraint<HasEnumerable<TItem>>
     public ContinueWith<HasEnumerable<TItem>> Only(
         Func<TItem, bool> predicate, string because = "", params object[] becauseArgs)
     {
-        _actual.Should().OnlyContain(it => predicate(it), because, becauseArgs);
+        Actual.Should().OnlyContain(it => predicate(it), because, becauseArgs);
         return And();
     }
 }

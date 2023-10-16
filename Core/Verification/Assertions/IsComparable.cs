@@ -2,19 +2,17 @@
 
 namespace XspecT.Verification.Assertions;
 
-public class IsComparable<TActual> : Constraint<IsComparable<TActual>>
+public class IsComparable<TActual> : Constraint<IsComparable<TActual>, TActual>
     where TActual : IComparable<TActual>
 {
-    private readonly TActual _actual;
-
-    public IsComparable(TActual actual) => _actual = actual;
+    public IsComparable(TActual actual) : base(actual) { }
 
     /// <summary>
     /// actual.Should().BeGreaterThan(expected)
     /// </summary>
     public ContinueWith<IsComparable<TActual>> GreaterThan(TActual expected)
     {
-        _actual.Should().BeGreaterThan(expected);
+        Actual.Should().BeGreaterThan(expected);
         return And();
     }
 
@@ -23,7 +21,7 @@ public class IsComparable<TActual> : Constraint<IsComparable<TActual>>
     /// </summary>
     public ContinueWith<IsComparable<TActual>> LessThan(TActual expected)
     {
-        _actual.Should().BeLessThan(expected);
+        Actual.Should().BeLessThan(expected);
         return And();
     }
 
@@ -32,7 +30,7 @@ public class IsComparable<TActual> : Constraint<IsComparable<TActual>>
     /// </summary>
     public ContinueWith<IsComparable<TActual>> NotGreaterThan(TActual expected)
     {
-        _actual.Should().BeLessThanOrEqualTo(expected);
+        Actual.Should().BeLessThanOrEqualTo(expected);
         return And();
     }
 
@@ -41,7 +39,7 @@ public class IsComparable<TActual> : Constraint<IsComparable<TActual>>
     /// </summary>
     public ContinueWith<IsComparable<TActual>> NotLessThan(TActual expected)
     {
-        _actual.Should().BeGreaterThanOrEqualTo(expected);
+        Actual.Should().BeGreaterThanOrEqualTo(expected);
         return And();
     }
 }

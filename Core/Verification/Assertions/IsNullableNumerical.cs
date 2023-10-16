@@ -2,13 +2,11 @@
 
 namespace XspecT.Verification.Assertions;
 
-public abstract class IsNullableNumerical<TActual, TConstrain> : Constraint<TConstrain>
+public abstract class IsNullableNumerical<TActual, TConstrain> : Constraint<TConstrain, TActual?>
     where TActual : struct, IComparable<TActual>
     where TConstrain : IsNullableNumerical<TActual, TConstrain>
 {
-    protected readonly TActual? Actual;
-
-    protected IsNullableNumerical(TActual? actual) => Actual = actual;
+    protected IsNullableNumerical(TActual? actual) : base(actual) { }
 
     /// <summary>
     /// actual.Should().NotBe(expected)
