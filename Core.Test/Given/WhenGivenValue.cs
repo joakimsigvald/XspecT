@@ -23,4 +23,10 @@ public class WhenGivenValue : SubjectSpec<MyService, MyModel>
         => Given<IMyRepository>().That(_ => _.GetModel()).Returns(() => A(new MyModel() { Name = A<string>() }))
         .When(_ => _.GetModel())
         .Then().Result.Name.Is(The<string>());
+
+    [Fact]
+    public void GivenNull_ThenUseNullInPipeline()
+        => Given<IMyRepository>().That(_ => _.GetModel()).Returns(A<MyModel>)
+        .And((MyModel)null)
+        .When(_ => _.GetModel()).Then().Result.Is().Null();
 }

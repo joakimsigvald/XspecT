@@ -9,10 +9,13 @@ internal class FluentDefaultProvider : DefaultValueProvider
     internal FluentDefaultProvider(Context context) => _context = context;
 
     protected override object GetDefaultValue(Type type, Mock mock)
-        => _context.Retreive(type) 
-        ?? (IsReturningSelf(type, mock) ? mock.Object
-        : IsTask(type) ? GetTask(type, mock)
-        : _context.Create(type));
+    {
+        var (val, found) = _context.Retreive(type);
+        return found ? val 
+            : (IsReturningSelf(type, mock) ? mock.Object
+            : IsTask(type) ? GetTask(type, mock)
+            : _context.Create(type));
+    }
 
     private static bool IsReturningSelf(Type type, Mock mock) => type.IsAssignableFrom(mock.Object.GetType());
 

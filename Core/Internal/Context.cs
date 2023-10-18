@@ -4,9 +4,7 @@ namespace XspecT.Internal;
 
 internal class Context
 {
-    private const int _maxValueCount = 5;
-
-    private readonly IDictionary<Type, object[]> _mentions = new Dictionary<Type, object[]>();
+    private readonly IDictionary<Type, IDictionary<int, object>> _numberedMentions = new Dictionary<Type, IDictionary<int, object>>();
     private readonly IDictionary<Type, IDictionary<string, object>> _labeledMentions
         = new Dictionary<Type, IDictionary<string, object>>();
     private readonly TestDataGenerator _testDataGenerator;
@@ -20,7 +18,10 @@ internal class Context
         => setup is null ? Produce<TValue>(index) : ApplyTo(setup, Produce<TValue>(index));
 
     internal object Mention(Type type, int index = 0)
-        => Retreive(type, index) ?? Mention(type, Create(type), index);
+    {
+        var (val, found) = Retreive(type, index);
+        return found ? val : Mention(type, Create(type), index);
+    }
 
     internal static TValue ApplyTo<TValue>(Action<TValue> setup, TValue value)
     {
@@ -50,9 +51,12 @@ internal class Context
     }
 
     internal TValue[] MentionMany<TValue>(int count)
-        => Retreive(typeof(TValue[])) is TValue[] arr
-        ? Reuse(arr, count)
-        : MentionMany((Action<TValue>)null, count);
+    {
+        var (val, found) = Retreive(typeof(TValue[]));
+        return found && val is TValue[] arr
+            ? Reuse(arr, count)
+            : MentionMany((Action<TValue>)null, count);
+    }
 
     internal TValue[] MentionMany<TValue>(Action<TValue> setup, int count)
         => Mention(Enumerable.Range(0, count).Select(i => Mention(i, setup)).ToArray());
@@ -63,11 +67,19 @@ internal class Context
     internal TValue Create<TValue>() => _testDataGenerator.Create<TValue>();
     internal object Create(Type type) => _testDataGenerator.CreateDefaultValue(type);
 
-    internal object Retreive(Type type, int index = 0)
-        => _mentions.TryGetValue(type, out var vals) ? vals[index] : null;
+    internal (object val, bool found) Retreive(Type type, int index = 0)
+    {
+        var typeMap = _numberedMentions.TryGetValue(type, out var map) ? map : null;
+        return typeMap is null 
+            ? (null, false)
+            : typeMap.TryGetValue(index, out var val) ? (val, true) : (null, false);
+    }
 
     private TValue Produce<TValue>(int index)
-        => (TValue)(Retreive(typeof(TValue), index) ?? Mention(Create<TValue>(), index));
+    {
+        var (val, found) = Retreive(typeof(TValue), index);
+        return (TValue)(found ? val : Mention(Create<TValue>(), index));
+    }
 
     private void Use<TService>(TService service)
     {
@@ -98,8 +110,9 @@ internal class Context
         return newArr;
     }
 
-    private object[] GetMentions(Type type)
-        => _mentions.TryGetValue(type, out var val) ? val : _mentions[type] = new object[_maxValueCount];
+    private IDictionary<int, object> GetMentions(Type type)
+        => _numberedMentions.TryGetValue(type, out var val) ? val 
+        : _numberedMentions[type] = new Dictionary<int, object>();
 
     internal Mock<TObject> GetMock<TObject>() where TObject : class => _testDataGenerator.GetMock<TObject>();
 }

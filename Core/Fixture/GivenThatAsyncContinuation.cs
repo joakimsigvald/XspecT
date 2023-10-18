@@ -21,7 +21,7 @@ public class GivenThatAsyncContinuation<TSUT, TResult, TService, TReturns>
 
     public IGivenSubjectTestPipeline<TSUT, TResult> Returns(Func<TReturns> returns)
     {
-        _subjectSpec.SetupMock<TService>(_ => _.Setup(_expression).ReturnsAsync(returns()));
+        _subjectSpec.SetupMock(_expression, returns);
         return new GivenSubjectTestPipeline<TSUT, TResult>(_subjectSpec);
     }
 

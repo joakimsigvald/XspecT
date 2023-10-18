@@ -1,4 +1,5 @@
 ﻿using Moq;
+using System.Linq.Expressions;
 using XspecT.Fixture.Exceptions;
 
 namespace XspecT.Internal;
@@ -29,4 +30,14 @@ internal class SubjectPipeline<TSUT, TResult> : Pipeline<TResult>
 
     internal void SetupMock<TService>(Action<Mock<TService>> setup) where TService : class
         => _arranger.Push(() => setup(GetMock<TService>()));
+
+    internal void SetupMock<TService, TReturns>(
+        Expression<Func<TService, TReturns>> expression, Func<TReturns> returns)
+        where TService : class
+        => _arranger.Push(() => GetMock<TService>().Setup(expression).Returns(returns()));
+
+    internal void SetupMock<TService, TReturns>(
+        Expression<Func<TService, Task<TReturns>>> expression, Func<TReturns> returns)
+        where TService : class
+        => _arranger.Push(() => GetMock<TService>().Setup(expression).ReturnsAsync(returns()));
 }

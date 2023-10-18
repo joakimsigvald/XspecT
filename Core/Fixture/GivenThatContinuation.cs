@@ -20,8 +20,7 @@ public class GivenThatContinuation<TSUT, TResult, TService, TReturns>
 
     public IGivenSubjectTestPipeline<TSUT, TResult> Returns(Func<TReturns> returns)
     {
-        var x = returns();
-        _subjectSpec.SetupMock<TService>(_ => _.Setup(_expression).Returns(returns()));
+        _subjectSpec.SetupMock(_expression, returns);
         return new GivenSubjectTestPipeline<TSUT, TResult>(_subjectSpec);
     }
 
