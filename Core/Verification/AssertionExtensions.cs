@@ -1,20 +1,22 @@
 ﻿using FluentAssertions;
 using XspecT.Verification.Assertions;
+using XspecT.Verification.Assertions.Numerical;
+using XspecT.Verification.Assertions.Time;
 
 namespace XspecT.Verification;
 
 public static class AssertionExtensions
 {
-    public static IsNumerical<byte> Is(this byte actual) => new(actual);
-    public static IsNumerical<sbyte> Is(this sbyte actual) => new(actual);
-    public static IsNumerical<short> Is(this short actual) => new(actual);
-    public static IsNumerical<ushort> Is(this ushort actual) => new(actual);
-    public static IsNumerical<int> Is(this int actual) => new(actual);
-    public static IsNumerical<uint> Is(this uint actual) => new(actual);
-    public static IsNumerical<long> Is(this long actual) => new(actual);
-    public static IsNumerical<ulong> Is(this ulong actual) => new(actual);
-    public static IsNumerical<float> Is(this float actual) => new(actual);
-    public static IsNumerical<double> Is(this double actual) => new(actual);
+    public static IsByte Is(this byte actual) => new(actual);
+    public static IsSByte Is(this sbyte actual) => new(actual);
+    public static IsShort Is(this short actual) => new(actual);
+    public static IsUShort Is(this ushort actual) => new(actual);
+    public static IsInt Is(this int actual) => new(actual);
+    public static IsUInt Is(this uint actual) => new(actual);
+    public static IsLong Is(this long actual) => new(actual);
+    public static IsULong Is(this ulong actual) => new(actual);
+    public static IsFloat Is(this float actual) => new(actual);
+    public static IsDouble Is(this double actual) => new(actual);
     public static IsNullableInt Is(this int? actual) => new(actual);
     public static IsNullableDecimal Is(this decimal? actual) => new(actual);
     public static IsNullableFloat Is(this float? actual) => new(actual);
@@ -130,6 +132,30 @@ public static class AssertionExtensions
         return new(new(actual));
     }
 
+    public static ContinueWith<IsNullableTimeSpan> Is(this TimeSpan? actual, TimeSpan? expected)
+    {
+        actual.Should().Be(expected);
+        return new(new(actual));
+    }
+
+    public static ContinueWith<IsTimeSpan> Is(this TimeSpan? actual, TimeSpan expected)
+    {
+        actual.Should().Be(expected);
+        return new(new(actual.Value));
+    }
+
+    public static ContinueWith<IsNullableDateTime> Is(this DateTime? actual, DateTime? expected)
+    {
+        actual.Should().Be(expected);
+        return new(new(actual));
+    }
+
+    public static ContinueWith<IsDateTime> Is(this DateTime? actual, DateTime expected)
+    {
+        actual.Should().Be(expected);
+        return new(new(actual.Value));
+    }
+
     /// <summary>
     /// actual.Should().BeSameAs(expected)
     /// </summary>
@@ -147,39 +173,6 @@ public static class AssertionExtensions
     public static ContinueWith<IsObject> Is<TValue>(this TValue actual, TValue expected) where TValue : struct
     {
         actual.Should().Be(expected);
-        return new(new(actual));
-    }
-
-    /// <summary>
-    /// actual.Should().BeApproximately(expected, precision)
-    /// </summary>
-    public static ContinueWith<IsNumerical<decimal>> Is(this decimal actual, decimal expected, decimal precision)
-    {
-        actual.Should().BeApproximately(expected, precision);
-        return new(new(actual));
-    }
-
-    /// <summary>
-    /// actual.Should().BeCloseTo(expected, precision)
-    /// </summary>
-    public static void Is(this DateTime actual, DateTime expected, TimeSpan precision)
-        => actual.Should().BeCloseTo(expected, precision);
-
-    /// <summary>
-    /// actual.Should().BeApproximately(expected, precision)
-    /// </summary>
-    public static ContinueWith<IsNumerical<double>> Is(this double actual, double expected, double precision)
-    {
-        actual.Should().BeApproximately(expected, precision);
-        return new(new(actual));
-    }
-
-    /// <summary>
-    /// actual.Should().BeApproximately(expected, precision)
-    /// </summary>
-    public static ContinueWith<IsNumerical<float>> Is(this float actual, float expected, float precision)
-    {
-        actual.Should().BeApproximately(expected, precision);
         return new(new(actual));
     }
 

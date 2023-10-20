@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 
-namespace XspecT.Verification.Assertions;
+namespace XspecT.Verification.Assertions.Time;
 
 public class IsDateTime : Constraint<IsDateTime, DateTime>
 {
@@ -36,13 +36,13 @@ public class IsDateTime : Constraint<IsDateTime, DateTime>
         return And();
     }
 
-    public ContinueWith<IsDateTime> Around(DateTime expected, TimeSpan precision)
+    public ContinueWith<IsDateTime> CloseTo(DateTime expected, TimeSpan precision)
     {
         Actual.Should().BeCloseTo(expected, precision);
         return And();
     }
 
-    public ContinueWith<IsDateTime> NotAround(DateTime expected, TimeSpan precision)
+    public ContinueWith<IsDateTime> NotCloseTo(DateTime expected, TimeSpan precision)
     {
         Actual.Should().NotBeCloseTo(expected, precision);
         return And();

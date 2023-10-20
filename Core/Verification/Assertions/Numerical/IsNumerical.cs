@@ -1,8 +1,9 @@
 ﻿using FluentAssertions;
 
-namespace XspecT.Verification.Assertions;
+namespace XspecT.Verification.Assertions.Numerical;
 
-public class IsNumerical<TActual> : Constraint<IsNumerical<TActual>, TActual>
+public abstract class IsNumerical<TConstraint, TActual> : Constraint<TConstraint, TActual>
+    where TConstraint : IsNumerical<TConstraint, TActual>
     where TActual : struct, IComparable<TActual>
 {
     public IsNumerical(TActual actual) : base(actual) { }
@@ -10,7 +11,7 @@ public class IsNumerical<TActual> : Constraint<IsNumerical<TActual>, TActual>
     /// <summary>
     /// actual.Should().NotBe(expected)
     /// </summary>
-    public ContinueWith<IsNumerical<TActual>> Not(TActual expected)
+    public ContinueWith<TConstraint> Not(TActual expected)
     {
         Actual.Should().NotBe(expected);
         return And();
@@ -19,7 +20,7 @@ public class IsNumerical<TActual> : Constraint<IsNumerical<TActual>, TActual>
     /// <summary>
     /// actual.Should().BeGreaterThan(expected)
     /// </summary>
-    public ContinueWith<IsNumerical<TActual>> GreaterThan(TActual expected)
+    public ContinueWith<TConstraint> GreaterThan(TActual expected)
     {
         Actual.Should().BeGreaterThan(expected);
         return And();
@@ -28,7 +29,7 @@ public class IsNumerical<TActual> : Constraint<IsNumerical<TActual>, TActual>
     /// <summary>
     /// actual.Should().BeLessThan(expected)
     /// </summary>
-    public ContinueWith<IsNumerical<TActual>> LessThan(TActual expected)
+    public ContinueWith<TConstraint> LessThan(TActual expected)
     {
         Actual.Should().BeLessThan(expected);
         return And();
@@ -37,7 +38,7 @@ public class IsNumerical<TActual> : Constraint<IsNumerical<TActual>, TActual>
     /// <summary>
     /// actual.Should().BeLessThanOrEqualTo(expected)
     /// </summary>
-    public ContinueWith<IsNumerical<TActual>> NotGreaterThan(TActual expected)
+    public ContinueWith<TConstraint> NotGreaterThan(TActual expected)
     {
         Actual.Should().BeLessThanOrEqualTo(expected);
         return And();
@@ -46,7 +47,7 @@ public class IsNumerical<TActual> : Constraint<IsNumerical<TActual>, TActual>
     /// <summary>
     /// actual.Should().BeGreaterThanOrEqualTo(expected)
     /// </summary>
-    public ContinueWith<IsNumerical<TActual>> NotLessThan(TActual expected)
+    public ContinueWith<TConstraint> NotLessThan(TActual expected)
     {
         Actual.Should().BeGreaterThanOrEqualTo(expected);
         return And();

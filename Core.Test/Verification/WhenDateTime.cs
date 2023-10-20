@@ -3,19 +3,17 @@ using XspecT.Verification;
 
 namespace XspecT.Test.Verification;
 
-public class WhenTimeSpan : StaticSpec<TimeSpan>
+public class WhenDateTime : StaticSpec<DateTime>
 {
-    [Fact] public void IsSame() => Given(A<TimeSpan>()).When(Echo).Then().Result.Is(The<TimeSpan>());
+    [Fact] public void IsSame() => Given(A<DateTime>()).When(_ => _).Then().Result.Is(The<DateTime>());
     [Fact]
     public void IsNot()
-        => Given(A<TimeSpan>()).When(Echo).Then().Result.Is().Not(Another<TimeSpan>());
+        => Given(A<DateTime>()).When(_ => _).Then().Result.Is().Not(Another<DateTime>());
     [Fact]
-    public void IsLessThanEtc()
-        => Given(A<TimeSpan>()).When(Echo)
-        .Then().Result.Is().LessThan(2 * The<TimeSpan>())
-        .And.GreaterThan(The<TimeSpan>() / 2)
-        .And.NotLessThan(The<TimeSpan>())
-        .And.NotGreaterThan(The<TimeSpan>());
-
-    private static TimeSpan Echo(TimeSpan ts) => ts;
+    public void IsBeforeEtc()
+        => Given(A<DateTime>()).When(_ => _)
+        .Then().Result.Is().Before(The<DateTime>().AddDays(1))
+        .And.After(The<DateTime>().AddDays(-1))
+        .And.NotBefore(The<DateTime>())
+        .And.NotAfter(The<DateTime>());
 }

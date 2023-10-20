@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 
-namespace XspecT.Verification.Assertions;
+namespace XspecT.Verification.Assertions.Time;
 
 public class IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
 {
@@ -36,13 +36,13 @@ public class IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
         return And();
     }
 
-    public ContinueWith<IsTimeSpan> About(TimeSpan expected, TimeSpan precision)
+    public ContinueWith<IsTimeSpan> CloseTo(TimeSpan expected, TimeSpan precision)
     {
         Actual.Should().BeCloseTo(expected, precision);
         return And();
     }
 
-    public ContinueWith<IsTimeSpan> NotAbout(TimeSpan expected, TimeSpan precision)
+    public ContinueWith<IsTimeSpan> NotCloseTo(TimeSpan expected, TimeSpan precision)
     {
         Actual.Should().NotBeCloseTo(expected, precision);
         return And();
