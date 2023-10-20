@@ -20,6 +20,7 @@ public static class AssertionExtensions
     public static IsNullableFloat Is(this float? actual) => new(actual);
     public static IsBool Is(this bool actual) => new(actual);
     public static IsDateTime Is(this DateTime actual) => new(actual);
+    public static IsTimeSpan Is(this TimeSpan actual) => new(actual);
     public static IsString Is(this string actual) => new(actual);
 
     public static IsObject Is(this object actual) => new(actual);
