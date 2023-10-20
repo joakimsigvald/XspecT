@@ -17,11 +17,11 @@
     <PackageProjectUrl>https://github.com/joakimsigvald/XspecT</PackageProjectUrl>
     <RepositoryUrl>https://github.com/joakimsigvald/XspecT.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageVersion>8.0.1</PackageVersion>
+    <PackageVersion>8.1.0</PackageVersion>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>icon.png</PackageIcon>
-    <PackageReleaseNotes>Apply Returns setup in the correct order (inverse of occurence in pipeline)</PackageReleaseNotes>
+    <PackageReleaseNotes>Assertions for DateTime and TimeSpan</PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AutoFixture" Version="4.18.0" />
