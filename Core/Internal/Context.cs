@@ -37,11 +37,6 @@ internal class Context
             : (TValue)(mentions[label] = Create<TValue>());
     }
 
-    internal IDictionary<string, object> ProduceMentions(Type type)
-        => _labeledMentions.TryGetValue(type, out var mentions)
-        ? mentions
-        : _labeledMentions[type] = new Dictionary<string, object>();
-
     internal TValue Mention<TValue>(TValue value, int index = 0)
     {
         if (index == 0)
@@ -55,7 +50,7 @@ internal class Context
         var (val, found) = Retreive(typeof(TValue[]));
         return found && val is TValue[] arr
             ? Reuse(arr, count)
-            : MentionMany((Action<TValue>)null, count);
+            : MentionMany((Action<TValue>)null, count < 0 ? 1 - count : count);
     }
 
     internal TValue[] MentionMany<TValue>(Action<TValue> setup, int count)
@@ -74,6 +69,13 @@ internal class Context
             ? (null, false)
             : typeMap.TryGetValue(index, out var val) ? (val, true) : (null, false);
     }
+
+    internal Mock<TObject> GetMock<TObject>() where TObject : class => _testDataGenerator.GetMock<TObject>();
+
+    private IDictionary<string, object> ProduceMentions(Type type)
+        => _labeledMentions.TryGetValue(type, out var mentions)
+        ? mentions
+        : _labeledMentions[type] = new Dictionary<string, object>();
 
     private TValue Produce<TValue>(int index)
     {
@@ -96,9 +98,9 @@ internal class Context
     private object Mention(Type type, object value, int index = 0) => GetMentions(type)[index] = value;
 
     private TValue[] Reuse<TValue>(TValue[] arr, int count)
-        => arr.Length == count ? arr
-        : arr.Length > count ? arr[..count]
-        : Extend(arr, count);
+        => count < 0 
+        ? (arr.Length + count >= 0 ? arr : Extend(arr, 1 - count))
+        : (arr.Length == count ? arr : arr.Length > count ? arr[..count] : Extend(arr, count));
 
     private TValue[] Extend<TValue>(TValue[] arr, int count)
     {
@@ -113,6 +115,4 @@ internal class Context
     private IDictionary<int, object> GetMentions(Type type)
         => _numberedMentions.TryGetValue(type, out var val) ? val 
         : _numberedMentions[type] = new Dictionary<int, object>();
-
-    internal Mock<TObject> GetMock<TObject>() where TObject : class => _testDataGenerator.GetMock<TObject>();
 }

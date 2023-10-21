@@ -293,7 +293,7 @@ public abstract partial class Spec<TResult> : ITestPipeline<TResult>, IDisposabl
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected TValue[] Many<TValue>() => Three<TValue>();
+    protected TValue[] Many<TValue>() => _pipeline.MentionMany<TValue>(-2);
 
     /// <summary>
     /// Alias for Three
