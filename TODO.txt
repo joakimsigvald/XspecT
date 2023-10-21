@@ -1,5 +1,1 @@
 * Comment all public methods
-* Allow providing value through Given either by function (deferred) or value (direct)
-* Remove Using and use Given instead
-* Remove Given(Action<>) -> always provide given with a value (don't encourage use of local variables or sideeffect, though it is not prevented)
-* Simplify engine based on above three points

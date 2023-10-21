@@ -35,9 +35,9 @@ internal class TestResult<TResult> : ITestResult<TResult>
         return new AndThen<TResult>(this);
     }
 
-    public IAndThen<TResult> Throws<TError>(TError error) where TError : Exception
+    public IAndThen<TResult> Throws<TError>(Func<TError> error) where TError : Exception
     {
-        error.Is(Assert.IsType<TError>(_error));
+        Assert.IsType<TError>(_error).Is(error());
         return new AndThen<TResult>(this);
     }
 
