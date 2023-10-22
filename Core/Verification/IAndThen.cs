@@ -1,9 +1,7 @@
-﻿using XspecT.Fixture;
-
-namespace XspecT.Verification;
+﻿namespace XspecT.Verification;
 
 public interface IAndThen<TResult>
 {
     ITestResult<TResult> And();
-    TSpec And<TSpec>(TSpec spec) where TSpec : Spec<TResult>;
+    TSubject And<TSubject>(TSubject subject);
 }
