@@ -6,5 +6,5 @@ public class CreateSubjectUnderTestFailed : SetupFailed
 
     private static string CreateMessage(string className) => @$"Failed to automatically create mock for {className}. 
 Make sure it has a public constructor. If any of the constructor arguments are struct types, 
-or have generic struct parameters, they have to be provided explicitly using the 'Using' method";
+or have generic struct parameters, they have to be provided explicitly using the 'Given' method";
 }

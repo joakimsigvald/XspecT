@@ -22,22 +22,21 @@ public abstract partial class Spec<TResult> : ITestPipeline<TResult>, IDisposabl
     }
 
     /// <summary>
-    /// Run the test pipeline, before accessing the result
+    /// Run the test-pipeline and return the result
     /// </summary>
     /// <returns>The test result</returns>
     public ITestResult<TResult> Then() => _pipeline.Then();
 
     /// <summary>
-    /// Run the test-pipeline and return the test-class (specification).
-    /// Use this method to access any member on the testclass after the test is run, for a more fluent experience
+    /// Run the test-pipeline and return a given subject to be used in chained assertions.
     /// </summary>
-    /// <typeparam name="TSpec"></typeparam>
-    /// <param name="me"></param>
-    /// <returns></returns>
-    public TSpec Then<TSpec>(TSpec me) where TSpec : Spec<TResult>
+    /// <typeparam name="TSubject"></typeparam>
+    /// <param name="subject"></param>
+    /// <returns>the given subject</returns>
+    public TSubject Then<TSubject>(TSubject subject)
     {
         _pipeline.Then();
-        return me;
+        return subject;
     }
 
     public IAndVerify<TResult> Then<TService>(Expression<Action<TService>> expression) where TService : class

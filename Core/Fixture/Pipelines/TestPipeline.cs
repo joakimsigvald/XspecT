@@ -9,8 +9,8 @@ public abstract class TestPipeline<TResult, TParent> where TParent : Spec<TResul
     protected readonly TParent Parent;
     protected TestPipeline(TParent parent) => Parent = parent;
     public ITestResult<TResult> Then() => Parent.Then();
-    public TSpec Then<TSpec>(TSpec spec) where TSpec : Spec<TResult>
-        => Parent.Then(spec);
+    public TSubject Then<TSubject>(TSubject subject)
+        => Parent.Then(subject);
 
     public IAndVerify<TResult> Then<TService>(
         Expression<Action<TService>> expression) where TService : class

@@ -7,7 +7,7 @@ namespace XspecT.Fixture.Pipelines;
 public interface ITestPipeline<TResult>
 {
     ITestResult<TResult> Then();
-    TSpec Then<TSpec>(TSpec spec) where TSpec : Spec<TResult>;
+    TSubject Then<TSubject>(TSubject subject);
     IAndVerify<TResult> Then<TService>(Expression<Action<TService>> expression) where TService : class;
     IAndVerify<TResult> Then<TService>(Expression<Action<TService>> expression, Times times) where TService : class;
     IAndVerify<TResult> Then<TService>(Expression<Action<TService>> expression, Func<Times> times) where TService : class;

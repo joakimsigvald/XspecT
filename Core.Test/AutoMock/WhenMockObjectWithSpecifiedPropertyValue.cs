@@ -16,7 +16,7 @@ public class WhenMockObjectWithSpecifiedPropertyValue : SubjectSpec<StaticObject
 
         [Fact]
         public void Then_Can_Retreive_The_Object()
-            => Given(A<MyObject>(_ => _.Age = 3)).Then(this).The<MyObject>().Age.Is(3);
+            => Given(A<MyObject>(_ => _.Age = 3)).Then(The<MyObject>()).Age.Is(3);
     }
 }
 
