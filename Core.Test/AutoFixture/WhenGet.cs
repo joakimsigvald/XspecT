@@ -29,11 +29,11 @@ public class WhenGet : SubjectSpec<MyRetreiver, MyModel>
 
     [Fact]
     public void A_Value_Is_Same_As_Any_Using_Value()
-        => Given(new MyModel()).Then().Result.Is(The<MyModel>());
+        => Using(new MyModel()).Then().Result.Is(The<MyModel>());
 
     [Fact]
     public void A_Value_Is_Same_As_Another_Value_If_Using()
-        => Given(Another<MyModel>()).Then().Result.Is(The<MyModel>());
+        => Using(Another<MyModel>()).Then().Result.Is(The<MyModel>());
 
     [Fact]
     public void ASecond_Value_Mentioned_Twice_Is_Same_Value()
@@ -54,8 +54,4 @@ public class WhenGet : SubjectSpec<MyRetreiver, MyModel>
     public void AThird_Value_Is_Not_Same_As_ASecond_Value()
         => Given<IMyRepository>().That(_ => _.Get(The<int>())).Returns(ASecond<MyModel>)
         .Then().Result.Is().Not(AThird<MyModel>());
-
-    [Fact]
-    public void WhenGivenTwoValuesOfSameType_UseTheOneProvidedFirst()
-        => Given(new MyModel { Id = 1 }).And(new MyModel { Id = 2 }).Then().Result.Id.Is(1);
 }

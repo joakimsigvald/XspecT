@@ -76,11 +76,11 @@ internal class Pipeline<TResult> : IPipeline<TResult>
         return _context.Mention(index, setup);
     }
 
-    public TValue Mention<TValue>(int index, TValue value)
+    public TValue Mention<TValue>(int index, TValue value, bool asDefault = false)
     {
         if (HasRun)
             throw new SetupFailed("Setup to auto-generated values must be provided before Then");
-        return _context.Mention(value, index);
+        return _context.Mention(value, index, asDefault);
     }
 
     public TValue[] MentionMany<TValue>([NotNull] Action<TValue, int> setup, int count)

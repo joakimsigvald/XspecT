@@ -10,7 +10,7 @@ internal class FluentDefaultProvider : DefaultValueProvider
 
     protected override object GetDefaultValue(Type type, Mock mock)
     {
-        var (val, found) = _context.Retreive(type);
+        var (val, found) = _context.Use(type);
         return found ? val 
             : (IsReturningSelf(type, mock) ? mock.Object
             : IsTask(type) ? GetTask(type, mock)

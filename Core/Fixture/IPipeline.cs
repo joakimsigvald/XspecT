@@ -28,6 +28,6 @@ public interface IPipeline<TResult>
     TValue Mention<TValue>(string label);
     TValue[] MentionMany<TValue>([NotNull] Action<TValue> setup, int count);
     TValue Mention<TValue>(int index, [NotNull] Action<TValue> setup);
-    TValue Mention<TValue>(int index, TValue value);
+    TValue Mention<TValue>(int index, TValue value, bool asDefault = false);
     TValue[] MentionMany<TValue>([NotNull] Action<TValue, int> setup, int count);
 }

@@ -21,7 +21,7 @@ public class WhenGivenThatThrows : SubjectSpec<MyService, MyModel>
     public void GivenSpecificException_ThenThrowsThatException()
         => When(_ => _.GetModel())
         .Given<IMyRepository>().That(_ => _.GetModel()).Throws(An<Exception>)
-        .Given(new Exception(A<string>()))
+        .Using(new Exception(A<string>()))
         .Then().Throws(The<Exception>).And().Throws<Exception>(_ => _.Message.Is(The<string>()));
 
     [Fact]

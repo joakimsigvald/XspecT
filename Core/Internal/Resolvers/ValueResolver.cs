@@ -11,6 +11,6 @@ internal class ValueResolver : IMockResolver
     public void Resolve(MockResolutionContext context)
     {
         if (context.RequestType.IsValueType || context.RequestType == typeof(string))
-            context.Value = _context.Mention(context.RequestType);
+            context.Value = _context.Mention(context.RequestType, 0);
     }
 }

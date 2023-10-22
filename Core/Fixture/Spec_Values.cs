@@ -58,7 +58,7 @@ public abstract partial class Spec<TResult> : ITestPipeline<TResult>, IDisposabl
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
     /// <returns></returns>
-    protected TValue A<TValue>(TValue value) => _pipeline.Mention(0, value);
+    protected TValue A<TValue>(TValue value, bool asDefault = false) => _pipeline.Mention(0, value, asDefault);
 
     /// <summary>
     /// Will always yield a new model of the given type, unless TValue is an interface. 

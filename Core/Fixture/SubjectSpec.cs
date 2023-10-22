@@ -76,23 +76,11 @@ public abstract class SubjectSpec<TSUT, TResult> : Spec<TResult>, ISubjectTestPi
         return new GivenSubjectTestPipeline<TSUT, TResult>(this);
     }
 
-    public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(TValue value)
+    public IGivenSubjectTestPipeline<TSUT, TResult> Using<TValue>(TValue value)
     {
-        Pipeline.Given(() => A(value));
+        Pipeline.Given(() => A(value, true));
         return new GivenSubjectTestPipeline<TSUT, TResult>(this);
     }
-
-    public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(TValue value1, TValue value2) 
-        => Given(value1).And(() => ASecond(value2));
-
-    public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(TValue value1, TValue value2, TValue value3)
-        => Given(value1, value2).And(() => AThird(value3));
-
-    public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(TValue value1, TValue value2, TValue value3, TValue value4)
-        => Given(value1, value2, value3).And(() => AFourth(value4));
-
-    public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(TValue value1, TValue value2, TValue value3, TValue value4, TValue value5)
-        => Given(value1, value2, value3, value4).And(() => AFifth(value5));
 
     internal void SetupMock<TService>(Action<Mock<TService>> setup) where TService : class
         => Pipeline.SetupMock(setup);

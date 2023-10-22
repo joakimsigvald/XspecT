@@ -1,20 +1,17 @@
 ﻿using XspecT.Fixture;
+using XspecT.Verification;
 
 namespace XspecT.Test.Given;
 
-public class WhenGetArrayGivenManyValues : SubjectSpec<MyService, int>
+public class WhenGetArrayGivenManyValues : SubjectSpec<MyService, int[]>
 {
-    [Fact]
-    public void ThenCanUseTwoValues()
-        => Given<IMyRepository>().That(_ => _.GetIds()).Returns(Two<int>)
-        .When(_ => _.GetNextId())
-        .Given(1, 2, 3)
-        .Then().Result.Equals(new[] { 1, 2 });
+    public WhenGetArrayGivenManyValues() => When(_ => _.GetIds());
 
     [Fact]
-    public void ThenCanUseFiveValues()
-        => Given<IMyRepository>().That(_ => _.GetIds()).Returns(Five<int>)
-        .When(_ => _.GetNextId())
-        .Given(1, 2, 3, 3, 4)
-        .Then().Result.Equals(new[] { 1, 2, 3, 4, 5 });
+    public void ThenCanUseTwoValuesGivenSeparatelyFromMock()
+        => Using(Two<int>()).Then().Result.Is(Two<int>());
+
+    [Fact]
+    public void ThenDoNotUseTwoValuesGivenInDifferentSetup()
+        => Given<MyModel>(_ => _.Values = Two<int>()).Then().Result.Is().Empty();
 }

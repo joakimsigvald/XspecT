@@ -6,7 +6,7 @@ namespace XspecT.Test.AutoMock;
 public class WhenInjectingAnInterfaceWithUsing : SubjectSpec<InterfaceService, int>
 {
     public WhenInjectingAnInterfaceWithUsing() 
-        => Given(new MyComponent(An<IMyLogger>(), An<int>())).When(_ => _.GetValue());
+        => Using(new MyComponent(An<IMyLogger>(), An<int>())).When(_ => _.GetValue());
 
     [Fact] public void ThenGetValue() => Result.Is(The<int>());
     [Fact] public void ThenInterfaceIsMocked() => Then<IMyLogger>(_ => _.LogValue(The<int>()));

@@ -4,6 +4,7 @@ namespace XspecT.Internal;
 
 internal class Context
 {
+    private readonly IDictionary<Type, object> _defaultValues = new Dictionary<Type, object>();
     private readonly IDictionary<Type, IDictionary<int, object>> _numberedMentions = new Dictionary<Type, IDictionary<int, object>>();
     private readonly IDictionary<Type, IDictionary<string, object>> _labeledMentions
         = new Dictionary<Type, IDictionary<string, object>>();
@@ -14,8 +15,8 @@ internal class Context
     internal TValue CreateInstance<TValue>() where TValue : class
         => _testDataGenerator.CreateInstance<TValue>();
 
-    internal TValue Mention<TValue>(int index, Action<TValue> setup = null)
-        => setup is null ? Produce<TValue>(index) : ApplyTo(setup, Produce<TValue>(index));
+    internal TValue Mention<TValue>(int index, Action<TValue> setup = null, bool asDefault = false)
+        => setup is null ? Produce<TValue>(index, asDefault) : ApplyTo(setup, Produce<TValue>(index));
 
     internal object Mention(Type type, int index = 0)
     {
@@ -37,9 +38,9 @@ internal class Context
             : (TValue)(mentions[label] = Create<TValue>());
     }
 
-    internal TValue Mention<TValue>(TValue value, int index = 0)
+    internal TValue Mention<TValue>(TValue value, int index = 0, bool asDefault = false)
     {
-        if (index == 0)
+        if (asDefault)
             Use(value);
         Mention(typeof(TValue), value, index);
         return value;
@@ -65,10 +66,13 @@ internal class Context
     internal (object val, bool found) Retreive(Type type, int index = 0)
     {
         var typeMap = _numberedMentions.TryGetValue(type, out var map) ? map : null;
-        return typeMap is null 
+        return typeMap is null
             ? (null, false)
             : typeMap.TryGetValue(index, out var val) ? (val, true) : (null, false);
     }
+
+    internal (object val, bool found) Use(Type type)
+        => _defaultValues.TryGetValue(type, out var value) ? (value, true) : (null, false);
 
     internal Mock<TObject> GetMock<TObject>() where TObject : class => _testDataGenerator.GetMock<TObject>();
 
@@ -77,10 +81,10 @@ internal class Context
         ? mentions
         : _labeledMentions[type] = new Dictionary<string, object>();
 
-    private TValue Produce<TValue>(int index)
+    private TValue Produce<TValue>(int index, bool asDefault = false)
     {
         var (val, found) = Retreive(typeof(TValue), index);
-        return (TValue)(found ? val : Mention(Create<TValue>(), index));
+        return (TValue)(found ? val : Mention(Create<TValue>(), index, asDefault));
     }
 
     private void Use<TService>(TService service)
@@ -89,6 +93,7 @@ internal class Context
             return;
 
         _testDataGenerator.Use(typeof(TService), service);
+        _defaultValues[typeof(TService)] = service;
         if (typeof(Task).IsAssignableFrom(typeof(TService)))
             return;
 

@@ -18,7 +18,7 @@ public class WhenMockTuple : SubjectSpec<StaticTupleService, (int, string)>
         [InlineData(1, "")]
         [InlineData(2, "hej")]
         public void Then_It_Has_ProvidedValue(int v1, string v2) 
-            => Given((v1, v2)).Then().Result.Is((v1, v2));
+            => Using((v1, v2)).Then().Result.Is((v1, v2));
     }
 }
 

@@ -15,7 +15,7 @@ public class WhenMockDateTime : SubjectSpec<StaticDateService, DateTime>
     {
         [Fact]
         public void Then_It_Has_ProvidedValue()
-            => Given(A<DateTime>()).Then().Result.Is(The<DateTime>());
+            => Using(A<DateTime>()).Then().Result.Is(The<DateTime>());
     }
 }
 

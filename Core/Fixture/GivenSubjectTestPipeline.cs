@@ -1,5 +1,4 @@
-﻿using Moq;
-using XspecT.Fixture.Pipelines;
+﻿using XspecT.Fixture.Pipelines;
 
 namespace XspecT.Fixture;
 
@@ -51,38 +50,13 @@ public class GivenSubjectTestPipeline<TSUT, TResult>
     public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(Func<TValue> value)
         => Parent.Given(value);
 
-    public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(TValue value) => Parent.Given(value);
+    public IGivenSubjectTestPipeline<TSUT, TResult> Using<TValue>(TValue value) => Parent.Using(value);
 
-    public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(TValue value1, TValue value2)
-        => Parent.Given(value1, value2);
-
-    public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(TValue value1, TValue value2, TValue value3)
-        => Parent.Given(value1, value2, value3);
-
-    public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(TValue value1, TValue value2, TValue value3, TValue value4)
-        => Parent.Given(value1, value2, value3, value4);
-
-    public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(TValue value1, TValue value2, TValue value3, TValue value4, TValue value5)
-        => Parent.Given(value1, value2, value3, value4, value5);
 
     public IGivenSubjectTestPipeline<TSUT, TResult> And<TValue>(Action<TValue> setup) where TValue : class
         => Given(setup);
 
     public IGivenSubjectTestPipeline<TSUT, TResult> And<TValue>(Func<TValue> value) => Given(value);
-
-    public IGivenSubjectTestPipeline<TSUT, TResult> And<TValue>(TValue value) => Given(value);
-
-    public IGivenSubjectTestPipeline<TSUT, TResult> And<TValue>(TValue value1, TValue value2)
-        => Given(value1, value2);
-
-    public IGivenSubjectTestPipeline<TSUT, TResult> And<TValue>(TValue value1, TValue value2, TValue value3)
-        => Given(value1, value2, value3);
-
-    public IGivenSubjectTestPipeline<TSUT, TResult> And<TValue>(TValue value1, TValue value2, TValue value3, TValue value4)
-        => Given(value1, value2, value3, value4);
-
-    public IGivenSubjectTestPipeline<TSUT, TResult> And<TValue>(TValue value1, TValue value2, TValue value3, TValue value4, TValue value5)
-        => Given(value1, value2, value3, value4, value5);
 
     public IGivenContinuation<TSUT, TResult, TService> And<TService>() where TService : class
         => Given<TService>();
