@@ -8,10 +8,9 @@ Whether you are beginner or expert in unit-testing, this framework will help you
 ## Usage
 
 It is assumed that you are already familiar with Xunit and Moq, or similar test- and mocking frameworks.
-This package includes FluentAssertions, but also comes with its own, more limited but less wordy assertion methods, based on the verb `Is` instead of `Should`.
-Is-assertions have the same return-types as Should-assertions, so they can be combined in the same sentence.
+This package includes a fluent assertion framework, which is built upon FluentAssertions, but with a less worthy syntax, based on the verb `Is` instead of `Should`.
 
-Is-assertions are recommended for making the tests read more like specifications, listing requirements rather than asserting expected results.
+Is-assertions are recommended ovr Should-assertions for making the tests read more like specifications, listing requirements rather than asserting expected results.
 
 This is an example of a complete test class (*specification*) with one test method (*requirement*):
 ```
@@ -50,14 +49,14 @@ public class CalculatorSpec : StaticSpec<int>
     [Theory]
     [InlineData(1, 1, 2)]
     [InlineData(3, 4, 7)]
-    public void GivenTwoNumbers_WhenAdd_ReturnSum(int x, int y, int sum)
-        => Given(x, y).When(Add).Result.Is(sum);
+    public void GivenTwoNumbers_WhenAdd_ReturnSum(int term1, int term2, int sum)
+        => Given(term1, term2).When(Add).Result.Is(sum);
 
     [Theory]
     [InlineData(1, 1, 1)]
     [InlineData(3, 4, 12)]
-    public void WhenMultiplyThenReturnProduct(int x, int y, int product)
-        => Given(x, y).When(Multiply).Result.Is(product);
+    public void WhenMultiplyThenReturnProduct(int factor1, int factor2, int product)
+        => Given(factor1, factor2).When(Multiply).Result.Is(product);
 }
 ```
 
@@ -95,42 +94,33 @@ public abstract class WhenVerifyAreEqual : StaticSpec<object>
 * To test an instance method `[MyClass].[MyMethod]`, inherit `XspecT.SubjectSpec<[MyClass], TResult>`.
 * It is recommended practice to create a common baseclass for all tests of `[MyClass]`, named `[MyClass]Spec`.
 * The subject under test (sut) will be created automatically with mocks and default values by AutoMock. 
-You can supply you own constructor arguments by calling `Given`.
+You can supply or modify you own constructor arguments by calling `Given`.
 * For each method to test, create an abstract class named `When[MyMethod]` inheriting `[MyClass]Spec` in the same way as for static methods.
 
-* To mock behaviour of any dependency, provide the mocking by calling `Given<[TheService]>(_ => _.Setup(...))`. 
-Each call to `Given` will provide additional arrangement that will be applied on test execution on the inversed order.
+* To mock behaviour of any dependency, provide the mocking by calling `Given<[TheService]>().That(_ => _.[TheMethod](...)).Returns/Throws()`. 
+Each call to `Given` will provide additional arrangement that will be applied on test execution in the inversed order.
 * To verify a call to a dependency, write `Then<[TheService]>([SomeLambdaExpression])`. 
-* Moq framework is used to express both mocking and verification of behaviour.
+* Both mocking and verification of behaviour is based on Moq framework.
  
 Example:
 ```
-namespace MyProject.Test.ShoppingService;
+namespace MyProject.Spec.ShoppingService;
 
-public abstract class ShoppingServiceSpec<TResult> : SubjectSpec<MyProject.ShoppingService, TResult>
+public abstract class WhenPlaceOrder : SubjectSpec<MyProject.ShoppingService, object>
 {
+    protected const int CartId = 123;
     protected const int ShopId = 2;
 
-    //Specify a value to pass to the constructor
-    protected ShoppingServiceSpec() => Given(ShopId);
-}
-
-public abstract class WhenPlaceOrder : ShoppingServiceSpec<object>
-{
     protected WhenPlaceOrder() 
-        // Auto-generate a Cart and use its Id as parameter to PlaceOrder
-        => When(() => SUT.PlaceOrder(A<Cart>().Id))
-        //Setup ICartRepository to return the Cart
-        .Given<ICartRepository>().That(_ => _.GetCart(The<Cart>().Id)).Returns(The<Cart>()));
+        => When(() => SUT.PlaceOrder(CartId))
+        .Given(A<Cart>(_ => _.Id = CartId))
+        .And<ICartRepository>().That(_ => _.GetCart(CartId)).Returns(The<Cart>);
 
-    public class GivenCart : WhenPlaceOrder
-    {
-        //Verify the auto-generated cart was used to create the Order
-        [Fact] public void ThenOrderIsCreated() => Then<IOrderService>(_ => _.CreateOrder(The<Cart>()));
+    [Fact] public void ThenOrderIsCreated() => Then<IOrderService>(_ => _.CreateOrder(The<Cart>()));
 
-        [Fact] public void ThenLogsOrderCreated()
-            => Then<ILogger>(_ => _.Information($"OrderCreated from Cart {The<Cart>().Id} in Shop {ShopId}"));
-    }
+    [Fact] public void ThenLogsOrderCreated()
+        => Given(ShopId) // Shopping service takes a ShopId as constructor argument
+        .Then<ILogger>(_ => _.Information($"OrderCreated from Cart {CartId} in Shop {ShopId}"));
 }
 ```
 
