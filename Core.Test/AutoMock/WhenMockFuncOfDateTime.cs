@@ -9,7 +9,9 @@ public class WhenMockFuncOfDateTime : SubjectSpec<DateService, DateTime>
 
     public class GivenItWasNotProvided : WhenMockFuncOfDateTime
     {
-        [Fact] public void Then_It_Has_FirstDateTime() => Then().Result.Is(A<DateTime>());
+        [Fact] 
+        public void Then_It_Has_RandomDateTime() 
+            => Then().Result.Is().Not(The<DateTime>()).And(Result).Ticks.Is().Not(0);
     }
 
     public class GivenItWasProvided : WhenMockFuncOfDateTime

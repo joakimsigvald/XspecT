@@ -11,6 +11,12 @@ internal class ValueResolver : IMockResolver
     public void Resolve(MockResolutionContext context)
     {
         if (context.RequestType.IsValueType || context.RequestType == typeof(string))
-            context.Value = _context.Mention(context.RequestType, 0);
+            context.Value = GetValue(context.RequestType);
+    }
+
+    private object GetValue(Type type)
+    {
+        var (val, found) = _context.Use(type);
+        return found ? val : _context.Create(type);
     }
 }

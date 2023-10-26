@@ -8,7 +8,9 @@ public class WhenMockCustomStruct : SubjectSpec<StaticValueService, MyValue<int>
     public WhenMockCustomStruct() => When(_ => _.GetValue());
     public class GivenItWasNotProvided : WhenMockCustomStruct
     {
-        [Fact] public void Then_It_Has_FirstCustomStruct() => Then().Result.Is(A<MyValue<int>>());
+        [Fact] 
+        public void Then_It_Has_RandomCustomStruct() 
+            => Then().Result.Is().Not(A<MyValue<int>>()).And(Result).Value.Is().Not(0);
     }
 
     public class GivenItWasProvided : WhenMockCustomStruct

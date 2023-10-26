@@ -76,9 +76,21 @@ public abstract class SubjectSpec<TSUT, TResult> : Spec<TResult>, ISubjectTestPi
         return new GivenSubjectTestPipeline<TSUT, TResult>(this);
     }
 
+    public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(TValue value)
+    {
+        Pipeline.Given(() => A(value));
+        return new GivenSubjectTestPipeline<TSUT, TResult>(this);
+    }
+
     public IGivenSubjectTestPipeline<TSUT, TResult> Using<TValue>(TValue value)
     {
         Pipeline.Given(() => A(value, true));
+        return new GivenSubjectTestPipeline<TSUT, TResult>(this);
+    }
+
+    public IGivenSubjectTestPipeline<TSUT, TResult> Using<TValue>(Func<TValue> value)
+    {
+        Pipeline.Given(() => A(value(), true));
         return new GivenSubjectTestPipeline<TSUT, TResult>(this);
     }
 

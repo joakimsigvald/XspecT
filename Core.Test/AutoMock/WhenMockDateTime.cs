@@ -8,7 +8,9 @@ public class WhenMockDateTime : SubjectSpec<StaticDateService, DateTime>
     public WhenMockDateTime() => When(_ => _.GetDate());
     public class GivenItWasNotProvided : WhenMockDateTime
     {
-        [Fact] public void Then_It_Has_FirstDateTime() => Then().Result.Is(A<DateTime>());
+        [Fact] 
+        public void Then_It_Has_RandomDateTime() 
+            => Then().Result.Is().Not(A<DateTime>()).And(Result).Ticks.Is().Not(0);
     }
 
     public class GivenItWasProvided : WhenMockDateTime
