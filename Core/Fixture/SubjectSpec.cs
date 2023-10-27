@@ -82,16 +82,16 @@ public abstract class SubjectSpec<TSUT, TResult> : Spec<TResult>, ISubjectTestPi
         return new GivenSubjectTestPipeline<TSUT, TResult>(this);
     }
 
-    public IGivenSubjectTestPipeline<TSUT, TResult> Using<TValue>(TValue value)
+    public IUsingSubjectTestPipeline<TSUT, TResult> Using<TValue>(TValue value)
     {
         Pipeline.Given(() => A(value, true));
-        return new GivenSubjectTestPipeline<TSUT, TResult>(this);
+        return new UsingSubjectTestPipeline<TSUT, TResult>(this);
     }
 
-    public IGivenSubjectTestPipeline<TSUT, TResult> Using<TValue>(Func<TValue> value)
+    public IUsingSubjectTestPipeline<TSUT, TResult> Using<TValue>(Func<TValue> value)
     {
         Pipeline.Given(() => A(value(), true));
-        return new GivenSubjectTestPipeline<TSUT, TResult>(this);
+        return new UsingSubjectTestPipeline<TSUT, TResult>(this);
     }
 
     internal void SetupMock<TService>(Action<Mock<TService>> setup) where TService : class

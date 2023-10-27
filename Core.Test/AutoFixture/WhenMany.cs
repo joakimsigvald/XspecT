@@ -69,9 +69,9 @@ public class WhenMockReturnsFewerElementsThanPreviouslyMentioned : SubjectSpec<M
         => When(_ => _.Create(An<int>()));
 
     [Fact]
-    public void ThenItIsDiffeentFromFirst()
+    public void ThenItIsDifferentFromFirst()
         => Using(3)
-        .And<IMyRepository>().That(_ => _.Create(Three<MyModel>().Length))
+        .Given<IMyRepository>().That(_ => _.Create(Three<MyModel>().Length))
         .Returns(Two<MyModel>)
         .Then().Result.Has().Count(2);
 }
