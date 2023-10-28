@@ -29,7 +29,9 @@ public abstract class WhenAddItem : ShoppingServiceAsyncSpec<ShoppingCart>
         [Fact] public void ThenCartHasTwoItems() => Result.Items.Length.Is(2);
         [Fact] public void ThenNewItemIsLast() => Result.Items.Last().Sku.Is(NewItem.Sku);
         [Fact] public void ThenNewItemIsCloned() => Result.Items.Last().Is().Not(NewItem);
-        [Fact] public void ThenItemsAreNotNull() => Result.Items.Has().Only(it => it != null);
-        [Fact] public void ThenItemsHaveLineNumbers() => Result.Items.Has().Only((it, i) => it.LineNumber == i + 1);
+        [Fact] public void ThenItemsAreNotNull() => Result.Items.Has().All(it => it != null);
+        [Fact] public void ThenItemsHaveLineNumbers() => Result.Items.Has().All((it, i) => it.LineNumber == i + 1);
+        [Fact] public void ThenItemsAssertNotNull() => Result.Items.Has().All(it => it.Is().NotNull());
+        [Fact] public void ThenItemsAssertHaveLineNumbers() => Result.Items.Has().All((it, i) => it.LineNumber.Is(i + 1));
     }
 }
