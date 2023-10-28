@@ -5,7 +5,7 @@ namespace XspecT.Test.AutoMock;
 
 public class WhenMockString : SubjectSpec<StaticStringService, string>
 {
-    public WhenMockString() => Using(A<string>).When(_ => _.GetValue());
+    public WhenMockString() => Given(A<string>).When(_ => _.GetValue());
     public class UsingAString : WhenMockString
     {
         [Fact] public void Then_It_Has_TheString() => Then().Result.Is(The<string>());

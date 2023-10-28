@@ -13,6 +13,7 @@ public class GivenSubjectTestPipeline<TSUT, TResult>
         => Given(setup);
 
     public IGivenSubjectTestPipeline<TSUT, TResult> And<TValue>(Func<TValue> value) => Given(value);
+    public IGivenSubjectTestPipeline<TSUT, TResult> And<TValue>(TValue value) => Given(value);
 
     public IGivenContinuation<TSUT, TResult, TService> And<TService>() where TService : class
         => Given<TService>();

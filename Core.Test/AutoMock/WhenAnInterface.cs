@@ -6,7 +6,7 @@ namespace XspecT.Test.AutoMock;
 public class WhenInjectingAnInterfaceWithUsing : SubjectSpec<InterfaceService, int>
 {
     public WhenInjectingAnInterfaceWithUsing()
-        => Using(new MyComponent(An<IMyLogger>(), An<int>())).When(_ => _.GetValue());
+        => Given(new MyComponent(An<IMyLogger>(), An<int>())).When(_ => _.GetValue());
 
     [Fact] public void ThenGetValue() => Result.Is(The<int>());
     [Fact] public void ThenInterfaceIsMocked() => Then<IMyLogger>(_ => _.LogValue(The<int>()));
@@ -15,7 +15,7 @@ public class WhenInjectingAnInterfaceWithUsing : SubjectSpec<InterfaceService, i
 public class WhenUsingConcreteInstanceForInterface : SubjectSpec<InterfaceService, int>
 {
     public WhenUsingConcreteInstanceForInterface()
-        => When(_ => _.GetValue()).Using(() => new MyComponent(An<IMyLogger>(), An<int>()))
+        => When(_ => _.GetValue()).Given(() => new MyComponent(An<IMyLogger>(), An<int>()))
         .And<IMyLogger>(() => new MyInvalidLogger());
 
     [Fact] public void ThenUseTheConcreteInstance() => Then().Throws<InvalidOperationException>();

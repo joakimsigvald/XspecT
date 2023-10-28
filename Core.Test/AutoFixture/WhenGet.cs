@@ -29,11 +29,11 @@ public class WhenGet : SubjectSpec<MyRetreiver, MyModel>
 
     [Fact]
     public void A_Value_Is_Same_As_Any_Using_Value()
-        => Using(new MyModel()).Then().Result.Is(The<MyModel>());
+        => Given(new MyModel()).Then().Result.Is(The<MyModel>());
 
     [Fact]
     public void A_Value_Is_Same_As_Another_Value_If_Using()
-        => Using(Another<MyModel>()).Then().Result.Is(The<MyModel>());
+        => Given(Another<MyModel>()).Then().Result.Is(The<MyModel>());
 
     [Fact]
     public void ASecond_Value_Mentioned_Twice_Is_Same_Value()

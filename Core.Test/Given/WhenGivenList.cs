@@ -15,7 +15,7 @@ public class WhenGivenAList : StaticSpec<List<int>>
 
 public class WhenUsingTwoInts : SubjectSpec<MyListService, List<int>>
 {
-    [Fact] public void ThenReturnTwoInts() => Using(Two<int>().ToList()).When(_ => _.List).Then().Result.Has().Count(2);
+    [Fact] public void ThenReturnTwoInts() => Given(Two<int>().ToList()).When(_ => _.List).Then().Result.Has().Count(2);
 }
 
 public class MyListService

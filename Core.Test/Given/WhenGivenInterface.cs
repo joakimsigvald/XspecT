@@ -7,7 +7,7 @@ public class WhenGivenInterface : SubjectSpec<MyService, string>
 {
     [Fact]
     public void ThenUseValueInPipeline()
-        => Using<IMySettings>(new MySettings { ConnectionString = ASecond<string>()})
+        => Given<IMySettings>(new MySettings { ConnectionString = ASecond<string>()})
         .When(_ => _.GetConnectionString())
         .Then().Result.Is(TheSecond<string>());
 }

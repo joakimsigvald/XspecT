@@ -9,7 +9,7 @@ public class WhenGetArrayGivenManyValues : SubjectSpec<MyService, int[]>
 
     [Fact]
     public void ThenCanUseTwoValuesGivenSeparatelyFromMock()
-        => Using(Two<int>()).Then().Result.Is(Two<int>());
+        => Given(Two<int>()).Then().Result.Is(Two<int>());
 
     [Fact]
     public void ThenDoNotUseTwoValuesGivenInDifferentSetup()

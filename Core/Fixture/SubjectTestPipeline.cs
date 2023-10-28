@@ -47,13 +47,7 @@ public abstract class SubjectTestPipeline<TSUT, TResult>
     public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(Action<TValue> setup) where TValue : class
         => Parent.Given(setup);
 
-    public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(Func<TValue> value)
-        => Parent.Given(value);
+    public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(Func<TValue> value) => Parent.Given(value);
 
-    public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(TValue value)
-        => Parent.Given(value);
-
-    public IUsingSubjectTestPipeline<TSUT, TResult> Using<TValue>(Func<TValue> value) => Parent.Using(value);
-
-    public IUsingSubjectTestPipeline<TSUT, TResult> Using<TValue>(TValue value) => Parent.Using(value);
+    public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(TValue value) => Parent.Given(value);
 }

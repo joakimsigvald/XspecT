@@ -9,14 +9,14 @@ public class WhenMockStringAndInt : SubjectSpec<StaticStringAndIntService, strin
 
     [Fact]
     public void Then_It_Has_TheStringAndInt()
-        => Using(A<string>).And(An<int>).Then().Result.Is($"{The<string>()}:{The<int>()}");
+        => Given(A<string>).And(An<int>).Then().Result.Is($"{The<string>()}:{The<int>()}");
 
     public class GivenStringWasProvided : WhenMockString
     {
         [Theory]
         [InlineData("hej")]
         public void Then_It_Has_ProvidedValue(string value) 
-            => Given(value).Using(A<string>).And(An<int>).Then().Result.Contains(value);
+            => Given(value).And(A<string>).And(An<int>).Then().Result.Contains(value);
     }
 
     public class GivenIntWasProvided : WhenMockString
@@ -25,7 +25,7 @@ public class WhenMockStringAndInt : SubjectSpec<StaticStringAndIntService, strin
         [InlineData(123)]
         [InlineData(456)]
         public void Then_It_Has_ProvidedValue(int value) 
-            => Using(A<string>).And(An<int>).Given(value).Then().Result.Contains($"{value}");
+            => Given(A<string>).And(An<int>).And(value).Then().Result.Contains($"{value}");
     }
 }
 

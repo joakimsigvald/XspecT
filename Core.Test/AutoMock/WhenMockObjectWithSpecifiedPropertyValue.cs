@@ -11,11 +11,11 @@ public class WhenMockObjectWithSpecifiedPropertyValue : SubjectSpec<StaticObject
     {
         [Fact]
         public void Then_It_Has_ProvidedValue()
-            => Using(A<MyObject>(_ => _.Age = 3)).Then().Result.Age.Is(3);
+            => Given(A<MyObject>(_ => _.Age = 3)).Then().Result.Age.Is(3);
 
         [Fact]
         public void Then_Can_Retreive_The_Object()
-            => Using(A<MyObject>(_ => _.Age = 3)).Then(The<MyObject>()).Age.Is(3);
+            => Given(A<MyObject>(_ => _.Age = 3)).Then(The<MyObject>()).Age.Is(3);
     }
 }
 

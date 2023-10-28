@@ -5,7 +5,7 @@ namespace XspecT.Test.AutoMock;
 
 public class WhenMockNTuple : SubjectSpec<StaticNTupleService, (int, string, int, float)>
 {
-    public WhenMockNTuple() => Using(A<(int, string, int, float)>).When(_ => _.GetValue());
+    public WhenMockNTuple() => Given(A<(int, string, int, float)>).When(_ => _.GetValue());
     public class UsingAValue : WhenMockNTuple
     {
         [Fact] public void Then_It_Has_TheValue() => Then().Result.Is(The<(int, string, int, float)>());
