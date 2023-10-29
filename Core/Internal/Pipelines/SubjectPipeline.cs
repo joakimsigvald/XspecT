@@ -1,6 +1,6 @@
 ﻿using Moq;
 using System.Linq.Expressions;
-using XspecT.Fixture.Exceptions;
+using XspecT.Fixture;
 
 namespace XspecT.Internal.Pipelines;
 
@@ -17,7 +17,7 @@ internal class SubjectPipeline<TSUT, TResult> : Pipeline<TResult>
     }
 
     internal TValue CreateInstance<TValue>() where TValue : class
-            => _context.CreateInstance<TValue>();
+        => _context.CreateInstance<TValue>();
 
     internal Mock<TObject> GetMock<TObject>() where TObject : class => _context.GetMock<TObject>();
 

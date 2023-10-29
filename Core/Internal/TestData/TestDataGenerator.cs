@@ -3,8 +3,7 @@ using AutoFixture.Kernel;
 using Moq;
 using Moq.AutoMock;
 using Moq.AutoMock.Resolvers;
-using XspecT.Fixture.Exceptions;
-using XspecT.Internal.Resolvers;
+using XspecT.Fixture;
 
 namespace XspecT.Internal.TestData;
 
@@ -18,9 +17,7 @@ internal class TestDataGenerator
         => _mocker = CreateAutoMocker(new FluentDefaultProvider(_context = context));
 
     internal TValue Create<TValue>()
-=> typeof(TValue).IsInterface
-        ? _mocker.Get<TValue>()
-        : CreateValue<TValue>();
+        => typeof(TValue).IsInterface ? _mocker.Get<TValue>() : CreateValue<TValue>();
 
     internal void Use(Type type, object value) => _mocker.Use(type, value);
 
@@ -85,24 +82,23 @@ internal class TestDataGenerator
     private AutoMocker CreateAutoMocker(DefaultValueProvider defaultProvider)
     {
         var autoMocker = new AutoMocker(MockBehavior.Loose, DefaultValue.Custom, defaultProvider, false);
-        AddCustomResolvers(autoMocker);
+        CustomizeResolvers(autoMocker);
         return autoMocker;
     }
 
-    private void AddCustomResolvers(AutoMocker autoMocker)
+    private void CustomizeResolvers(AutoMocker autoMocker)
     {
         var resolverList = (List<IMockResolver>)autoMocker.Resolvers;
-        ReplaceArrayResolver(resolverList);
-        resolverList.Insert(resolverList.Count - 1, new ValueResolver(_context));
-    }
+        AddValueResolver();
+        ReplaceArrayResolver();
 
-    private static void ReplaceArrayResolver(List<IMockResolver> resolverList)
-    {
-        var arrayResolverIndex = resolverList.FindIndex(_ => _.GetType() == typeof(ArrayResolver));
+        void AddValueResolver() =>
+            resolverList.Insert(resolverList.Count - 1, new ValueResolver(_context));
 
-        //Remove the Moq ArrayResolver, which create an array with one mocked element for reference types
-        resolverList.RemoveAt(arrayResolverIndex);
-        //replace it with ArrayResolver that creates empty array
-        resolverList.Insert(arrayResolverIndex, new EmptyArrayResolver());
+        void ReplaceArrayResolver()
+            => resolverList[GetArrayResolverIndex()] = new EmptyArrayResolver();
+
+        int GetArrayResolverIndex()
+            => resolverList.FindIndex(_ => _.GetType() == typeof(ArrayResolver));
     }
 }

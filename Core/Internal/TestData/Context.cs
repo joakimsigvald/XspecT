@@ -5,7 +5,8 @@ namespace XspecT.Internal.TestData;
 internal class Context
 {
     private readonly IDictionary<Type, object> _defaultValues = new Dictionary<Type, object>();
-    private readonly IDictionary<Type, IDictionary<int, object>> _numberedMentions = new Dictionary<Type, IDictionary<int, object>>();
+    private readonly IDictionary<Type, IDictionary<int, object>> _numberedMentions 
+        = new Dictionary<Type, IDictionary<int, object>>();
     private readonly IDictionary<Type, IDictionary<string, object>> _labeledMentions
         = new Dictionary<Type, IDictionary<string, object>>();
     private readonly TestDataGenerator _testDataGenerator;

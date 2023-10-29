@@ -2,7 +2,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using XspecT.Fixture;
-using XspecT.Fixture.Exceptions;
 using XspecT.Internal.TestData;
 using XspecT.Internal.Verification;
 using XspecT.Verification;
@@ -42,10 +41,18 @@ internal class Pipeline<TResult> : IPipeline<TResult>
         => TestResult.Verify(expression, times);
 
     public void SetAction(Action act)
-        => SetAction(act ?? throw new SetupFailed("Act cannot be null"), null);
+    {
+        if (HasRun)
+            throw new SetupFailed("When must be called before Then");
+        _actor.When(act ?? throw new SetupFailed("Act cannot be null"));
+    }
 
     public void SetAction(Func<TResult> act)
-        => SetAction(null, act ?? throw new SetupFailed("Act cannot be null"));
+    {
+        if (HasRun)
+            throw new SetupFailed("When must be called before Then");
+        _actor.When(act ?? throw new SetupFailed("Act cannot be null"));
+    }
 
     public void SetAction(Func<Task> action) => SetAction(() => Execute(action));
 
@@ -87,13 +94,6 @@ internal class Pipeline<TResult> : IPipeline<TResult>
 
     public TValue[] MentionMany<TValue>([NotNull] Action<TValue, int> setup, int count)
         => _context.MentionMany(setup, count);
-
-    private void SetAction(Action command, Func<TResult> function)
-    {
-        if (HasRun)
-            throw new SetupFailed("When must be called before Then");
-        _actor.When(command, function);
-    }
 
     private TestResult<TResult> TestResult => _then ??= Run();
 

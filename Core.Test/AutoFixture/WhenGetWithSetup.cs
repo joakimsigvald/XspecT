@@ -1,5 +1,4 @@
 ﻿using XspecT.Fixture;
-using XspecT.Fixture.Exceptions;
 using XspecT.Verification;
 
 namespace XspecT.Test.AutoFixture;

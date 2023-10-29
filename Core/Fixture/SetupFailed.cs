@@ -1,4 +1,4 @@
-﻿namespace XspecT.Fixture.Exceptions;
+﻿namespace XspecT.Fixture;
 
 public class SetupFailed : ApplicationException
 {

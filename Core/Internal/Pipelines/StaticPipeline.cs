@@ -1,4 +1,4 @@
-﻿using XspecT.Fixture.Exceptions;
+﻿using XspecT.Fixture;
 
 namespace XspecT.Internal.Pipelines;
 

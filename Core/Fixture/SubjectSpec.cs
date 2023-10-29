@@ -1,6 +1,5 @@
 ﻿using Moq;
 using System.Linq.Expressions;
-using XspecT.Fixture.Exceptions;
 using XspecT.Internal.Pipelines;
 
 namespace XspecT.Fixture;

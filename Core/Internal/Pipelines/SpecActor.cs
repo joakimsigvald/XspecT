@@ -1,4 +1,4 @@
-﻿using XspecT.Fixture.Exceptions;
+﻿using XspecT.Fixture;
 using XspecT.Internal.TestData;
 using XspecT.Internal.Verification;
 
@@ -11,15 +11,9 @@ internal class SpecActor<TResult>
     private Exception _error;
     private TResult _result;
 
-    internal void When(Action command, Func<TResult> function)
-    {
-        if (_command != null || _function != null)
-            throw new SetupFailed("When may only be called once");
-        if (command is null == function is null)
-            throw new SetupFailed("Either Command or Function must be supplied, but not both");
-        _command = command;
-        _function = function;
-    }
+    internal void When(Action command) => _command = command;
+
+    internal void When(Func<TResult> function) => _function = function;
 
     internal TestResult<TResult> Execute(Context context)
     {
