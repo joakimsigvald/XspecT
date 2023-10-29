@@ -61,7 +61,7 @@ internal class Context
         => Mention(Enumerable.Range(0, count).Select(i => Mention<TValue>(i, _ => setup(_, i))).ToArray());
 
     internal TValue Create<TValue>() => _testDataGenerator.Create<TValue>();
-    internal object Create(Type type) => _testDataGenerator.CreateDefaultValue(type);
+    internal object Create(Type type) => _testDataGenerator.Create(type);
 
     internal (object val, bool found) Retreive(Type type, int index = 0)
     {

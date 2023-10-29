@@ -7,7 +7,7 @@ namespace XspecT.Test.AutoMock;
 
 public class WhenGetRecordWithBsonIdFromMock : SubjectSpec<BsonIdService, RecordMongoDb>
 {
-    public WhenGetRecordWithBsonIdFromMock() => When(_ => _.GetRecord());
+    public WhenGetRecordWithBsonIdFromMock() => Given<RecordMongoDb>(_ => _.Value = "123").When(_ => _.GetRecord());
     [Fact] public void ThenGetRecord() => Then().Result.Is().NotNull();
 }
 
@@ -26,4 +26,5 @@ public interface IBsonIdRepository
 public class RecordMongoDb
 {
     [BsonId] public ObjectId Id { get; set; }
+    public string Value { get; set; }
 }

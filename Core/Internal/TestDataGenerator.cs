@@ -14,13 +14,13 @@ internal class TestDataGenerator
     private readonly AutoMocker _mocker;
     private readonly Context _context;
 
-    internal TestDataGenerator(Context context) 
+    internal TestDataGenerator(Context context)
         => _mocker = CreateAutoMocker(new FluentDefaultProvider(_context = context));
 
     internal TValue Create<TValue>()
-        => typeof(TValue).IsInterface
+=> typeof(TValue).IsInterface
         ? _mocker.Get<TValue>()
-        : _fixture.Create<TValue>();
+        : CreateValue<TValue>();
 
     internal void Use(Type type, object value) => _mocker.Use(type, value);
 
@@ -36,7 +36,7 @@ internal class TestDataGenerator
         }
     }
 
-    internal object CreateDefaultValue(Type type)
+    internal object Create(Type type)
     {
         try
         {
@@ -44,14 +44,31 @@ internal class TestDataGenerator
         }
         catch (Exception ex)
         {
-            try
-            {
-                return Activator.CreateInstance(type);
-            }
-            catch
-            {
-                throw new SetupFailed($"Failed to create value for type {type.Name}", ex);
-            }
+            return CreateDefaultValue(type, ex);
+        }
+    }
+
+    private TValue CreateValue<TValue>()
+    {
+        try
+        {
+            return _fixture.Create<TValue>();
+        }
+        catch (Exception ex)
+        {
+            return (TValue)CreateDefaultValue(typeof(TValue), ex);
+        }
+    }
+
+    private static object CreateDefaultValue(Type type, Exception ex)
+    {
+        try
+        {
+            return Activator.CreateInstance(type);
+        }
+        catch
+        {
+            throw new SetupFailed($"Failed to create value for type {type.Name}", ex);
         }
     }
 
