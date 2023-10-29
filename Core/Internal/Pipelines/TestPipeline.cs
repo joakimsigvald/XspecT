@@ -1,10 +1,11 @@
 ﻿using Moq;
 using System.Linq.Expressions;
+using XspecT.Fixture;
 using XspecT.Verification;
 
-namespace XspecT.Fixture.Pipelines;
+namespace XspecT.Internal.Pipelines;
 
-public abstract class TestPipeline<TResult, TParent> where TParent : Spec<TResult>
+internal abstract class TestPipeline<TResult, TParent> where TParent : Spec<TResult>
 {
     protected readonly TParent Parent;
     protected TestPipeline(TParent parent) => Parent = parent;
@@ -37,7 +38,7 @@ public abstract class TestPipeline<TResult, TParent> where TParent : Spec<TResul
         => Parent.Then(expression, times);
 }
 
-public class TestPipeline<TResult> : TestPipeline<TResult, Spec<TResult>>
+internal class TestPipeline<TResult> : TestPipeline<TResult, Spec<TResult>>
 {
     protected TestPipeline(Spec<TResult> parent) : base(parent) { }
 }

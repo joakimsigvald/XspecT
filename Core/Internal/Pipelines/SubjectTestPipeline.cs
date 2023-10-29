@@ -1,8 +1,8 @@
-﻿using XspecT.Fixture.Pipelines;
+﻿using XspecT.Fixture;
 
-namespace XspecT.Fixture;
+namespace XspecT.Internal.Pipelines;
 
-public abstract class SubjectTestPipeline<TSUT, TResult>
+internal abstract class SubjectTestPipeline<TSUT, TResult>
     : TestPipeline<TResult, SubjectSpec<TSUT, TResult>>, ISubjectTestPipeline<TSUT, TResult>
     where TSUT : class
 {

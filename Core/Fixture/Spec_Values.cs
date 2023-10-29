@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using XspecT.Fixture.Pipelines;
+using XspecT.Internal.Pipelines;
 
 namespace XspecT.Fixture;
 

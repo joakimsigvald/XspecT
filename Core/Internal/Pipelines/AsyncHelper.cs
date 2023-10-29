@@ -1,4 +1,4 @@
-﻿namespace XspecT.Internal;
+﻿namespace XspecT.Internal.Pipelines;
 
 internal static class AsyncHelper
 {

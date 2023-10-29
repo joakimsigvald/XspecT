@@ -1,6 +1,6 @@
 ﻿using Moq;
 
-namespace XspecT.Internal;
+namespace XspecT.Internal.TestData;
 
 internal class FluentDefaultProvider : DefaultValueProvider
 {
@@ -11,10 +11,10 @@ internal class FluentDefaultProvider : DefaultValueProvider
     protected override object GetDefaultValue(Type type, Mock mock)
     {
         var (val, found) = _context.Use(type);
-        return found ? val 
-            : (IsReturningSelf(type, mock) ? mock.Object
+        return found ? val
+            : IsReturningSelf(type, mock) ? mock.Object
             : IsTask(type) ? GetTask(type, mock)
-            : _context.Create(type));
+            : _context.Create(type);
     }
 
     private static bool IsReturningSelf(Type type, Mock mock) => type.IsAssignableFrom(mock.Object.GetType());

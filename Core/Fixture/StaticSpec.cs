@@ -1,6 +1,5 @@
-﻿using XspecT.Fixture.Pipelines;
-using XspecT.Internal;
-using static XspecT.Internal.AsyncHelper;
+﻿using XspecT.Internal.Pipelines;
+using static XspecT.Internal.Pipelines.AsyncHelper;
 
 namespace XspecT.Fixture;
 

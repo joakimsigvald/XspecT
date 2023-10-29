@@ -1,5 +1,8 @@
 ﻿using XspecT.Fixture.Exceptions;
-namespace XspecT.Internal;
+using XspecT.Internal.TestData;
+using XspecT.Internal.Verification;
+
+namespace XspecT.Internal.Pipelines;
 
 internal class SpecActor<TResult>
 {
@@ -33,7 +36,7 @@ internal class SpecActor<TResult>
         }
         catch (ArgumentException ex) when (ex.Message.Contains(cue))
         {
-            throw new ExecuteMethodUnderTestFailed(ex.Message.Split(cue)[0].Trim(), ex);
+            throw new SetupFailed($"Failed to run method under test, because an instance of {ex.Message.Split(cue)[0].Trim()} could not be provided.", ex);
         }
     }
 

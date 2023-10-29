@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using XspecT.Verification;
 
-namespace XspecT.Internal;
+namespace XspecT.Internal.Verification;
 
 internal class AndVerify<TResult> : AndThen<TResult>, IAndVerify<TResult>
 {

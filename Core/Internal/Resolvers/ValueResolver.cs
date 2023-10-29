@@ -1,4 +1,5 @@
 ﻿using Moq.AutoMock.Resolvers;
+using XspecT.Internal.TestData;
 
 namespace XspecT.Internal.Resolvers;
 

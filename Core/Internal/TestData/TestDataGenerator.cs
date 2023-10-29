@@ -6,7 +6,7 @@ using Moq.AutoMock.Resolvers;
 using XspecT.Fixture.Exceptions;
 using XspecT.Internal.Resolvers;
 
-namespace XspecT.Internal;
+namespace XspecT.Internal.TestData;
 
 internal class TestDataGenerator
 {
@@ -32,7 +32,7 @@ internal class TestDataGenerator
         }
         catch (ArgumentException ex) when (ex.Message.Contains("Did not find a best constructor for"))
         {
-            throw new CreateSubjectUnderTestFailed(ex.Message.Split('`')[1], ex);
+            throw new SetupFailed($"Failed to auto-generate mock for {ex.Message.Split('`')[1]}.", ex);
         }
     }
 

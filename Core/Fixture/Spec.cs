@@ -1,10 +1,10 @@
 ﻿using Moq;
 using System.Globalization;
 using System.Linq.Expressions;
-using XspecT.Fixture.Pipelines;
+using XspecT.Internal.Pipelines;
 using XspecT.Verification;
 
-using static XspecT.Internal.AsyncHelper;
+using static XspecT.Internal.Pipelines.AsyncHelper;
 
 namespace XspecT.Fixture;
 

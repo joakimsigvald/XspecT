@@ -1,6 +1,6 @@
 ﻿using Moq;
 
-namespace XspecT.Internal;
+namespace XspecT.Internal.TestData;
 
 internal class Context
 {
@@ -103,9 +103,9 @@ internal class Context
     private object Mention(Type type, object value, int index = 0) => GetMentions(type)[index] = value;
 
     private TValue[] Reuse<TValue>(TValue[] arr, int count)
-        => count < 0 
-        ? (arr.Length + count >= 0 ? arr : Extend(arr, 1 - count))
-        : (arr.Length == count ? arr : arr.Length > count ? arr[..count] : Extend(arr, count));
+        => count < 0
+        ? arr.Length + count >= 0 ? arr : Extend(arr, 1 - count)
+        : arr.Length == count ? arr : arr.Length > count ? arr[..count] : Extend(arr, count);
 
     private TValue[] Extend<TValue>(TValue[] arr, int count)
     {
@@ -118,6 +118,6 @@ internal class Context
     }
 
     private IDictionary<int, object> GetMentions(Type type)
-        => _numberedMentions.TryGetValue(type, out var val) ? val 
+        => _numberedMentions.TryGetValue(type, out var val) ? val
         : _numberedMentions[type] = new Dictionary<int, object>();
 }

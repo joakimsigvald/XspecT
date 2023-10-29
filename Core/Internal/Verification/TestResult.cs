@@ -1,9 +1,10 @@
 ﻿using Moq;
 using System.Linq.Expressions;
 using XspecT.Fixture.Exceptions;
+using XspecT.Internal.TestData;
 using XspecT.Verification;
 
-namespace XspecT.Internal;
+namespace XspecT.Internal.Verification;
 
 internal class TestResult<TResult> : ITestResult<TResult>
 {

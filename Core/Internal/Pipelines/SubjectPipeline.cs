@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using XspecT.Fixture.Exceptions;
 
-namespace XspecT.Internal;
+namespace XspecT.Internal.Pipelines;
 
 internal class SubjectPipeline<TSUT, TResult> : Pipeline<TResult>
     where TSUT : class

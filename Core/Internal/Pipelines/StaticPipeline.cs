@@ -1,6 +1,6 @@
 ﻿using XspecT.Fixture.Exceptions;
 
-namespace XspecT.Internal;
+namespace XspecT.Internal.Pipelines;
 
 internal class StaticPipeline<TResult> : Pipeline<TResult>
 {

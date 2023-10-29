@@ -3,11 +3,13 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using XspecT.Fixture;
 using XspecT.Fixture.Exceptions;
+using XspecT.Internal.TestData;
+using XspecT.Internal.Verification;
 using XspecT.Verification;
 
-using static XspecT.Internal.AsyncHelper;
+using static XspecT.Internal.Pipelines.AsyncHelper;
 
-namespace XspecT.Internal;
+namespace XspecT.Internal.Pipelines;
 
 internal class Pipeline<TResult> : IPipeline<TResult>
 {

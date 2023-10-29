@@ -1,4 +1,4 @@
-﻿namespace XspecT.Fixture.Pipelines;
+﻿namespace XspecT.Internal.Pipelines;
 
 public interface IStaticTestPipeline<TValue, TResult> : ITestPipeline<TResult>
 {

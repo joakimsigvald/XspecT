@@ -1,8 +1,9 @@
 ﻿using System.Linq.Expressions;
+using XspecT.Fixture;
 
-namespace XspecT.Fixture;
+namespace XspecT.Internal.Pipelines;
 
-public class GivenContinuation<TSUT, TResult, TService> : IGivenContinuation<TSUT, TResult, TService>
+internal class GivenContinuation<TSUT, TResult, TService> : IGivenContinuation<TSUT, TResult, TService>
     where TSUT : class
     where TService : class
 {
@@ -11,10 +12,10 @@ public class GivenContinuation<TSUT, TResult, TService> : IGivenContinuation<TSU
     public GivenContinuation(SubjectSpec<TSUT, TResult> subjectSpec) => _subjectSpec = subjectSpec;
 
     public IGivenThatContinuation<TSUT, TResult, TService, TReturns> That<TReturns>(
-        Expression<Func<TService, TReturns>> expression) 
+        Expression<Func<TService, TReturns>> expression)
         => new GivenThatContinuation<TSUT, TResult, TService, TReturns>(_subjectSpec, expression);
 
     public IGivenThatContinuation<TSUT, TResult, TService, TReturns> That<TReturns>(
-        Expression<Func<TService, Task<TReturns>>> expression) 
+        Expression<Func<TService, Task<TReturns>>> expression)
         => new GivenThatAsyncContinuation<TSUT, TResult, TService, TReturns>(_subjectSpec, expression);
 }

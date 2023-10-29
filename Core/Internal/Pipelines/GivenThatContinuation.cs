@@ -1,9 +1,9 @@
 ﻿using System.Linq.Expressions;
-using XspecT.Fixture.Pipelines;
+using XspecT.Fixture;
 
-namespace XspecT.Fixture;
+namespace XspecT.Internal.Pipelines;
 
-public class GivenThatContinuation<TSUT, TResult, TService, TReturns>
+internal class GivenThatContinuation<TSUT, TResult, TService, TReturns>
     : IGivenThatContinuation<TSUT, TResult, TService, TReturns>
     where TSUT : class
     where TService : class

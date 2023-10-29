@@ -1,4 +1,6 @@
-﻿namespace XspecT.Fixture.Pipelines;
+﻿using XspecT.Fixture;
+
+namespace XspecT.Internal.Pipelines;
 
 public interface IGivenSubjectTestPipeline<TSUT, TResult> : ISubjectTestPipeline<TSUT, TResult>
     where TSUT : class
