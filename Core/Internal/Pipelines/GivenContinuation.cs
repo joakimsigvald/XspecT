@@ -19,3 +19,17 @@ internal class GivenContinuation<TSUT, TResult, TService> : IGivenContinuation<T
         Expression<Func<TService, Task<TReturns>>> expression)
         => new GivenThatAsyncContinuation<TSUT, TResult, TService, TReturns>(_subjectSpec, expression);
 }
+
+internal class GivenContinuation<TSUT, TResult> : IGivenContinuation<TSUT, TResult>
+    where TSUT : class
+{
+    private readonly SubjectSpec<TSUT, TResult> _subjectSpec;
+
+    public GivenContinuation(SubjectSpec<TSUT, TResult> subjectSpec) => _subjectSpec = subjectSpec;
+
+    public IGivenSubjectTestPipeline<TSUT, TResult> That(Action setup)
+    {
+        _subjectSpec.Given(setup);
+        return new GivenSubjectTestPipeline<TSUT, TResult>(_subjectSpec);
+    }
+}

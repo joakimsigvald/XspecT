@@ -47,12 +47,12 @@ internal class Context
         return value;
     }
 
-    internal TValue[] MentionMany<TValue>(int count)
+    internal TValue[] MentionMany<TValue>(int count, int? minCount)
     {
         var (val, found) = Retreive(typeof(TValue[]));
         return found && val is TValue[] arr
-            ? Reuse(arr, count)
-            : MentionMany((Action<TValue>)null, count < 0 ? 1 - count : count);
+            ? Reuse(arr, count, minCount)
+            : MentionMany((Action<TValue>)null, count);
     }
 
     internal TValue[] MentionMany<TValue>(Action<TValue> setup, int count)
@@ -103,10 +103,10 @@ internal class Context
 
     private object Mention(Type type, object value, int index = 0) => GetMentions(type)[index] = value;
 
-    private TValue[] Reuse<TValue>(TValue[] arr, int count)
-        => count < 0
-        ? arr.Length + count >= 0 ? arr : Extend(arr, 1 - count)
-        : arr.Length == count ? arr : arr.Length > count ? arr[..count] : Extend(arr, count);
+    private TValue[] Reuse<TValue>(TValue[] arr, int count, int? minCount)
+        => arr.Length >= minCount || arr.Length == count ? arr
+        : arr.Length > count ? arr[..count] 
+        : Extend(arr, count);
 
     private TValue[] Extend<TValue>(TValue[] arr, int count)
     {

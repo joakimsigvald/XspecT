@@ -62,6 +62,13 @@ public abstract class SubjectSpec<TSUT, TResult> : Spec<TResult>, ISubjectTestPi
         return new GivenContinuation<TSUT, TResult, TService>(this);
     }
 
+    public IGivenContinuation<TSUT, TResult> Given()
+    {
+        if (Pipeline.HasRun)
+            throw new SetupFailed("Given must be called before Then");
+        return new GivenContinuation<TSUT, TResult>(this);
+    }
+
     public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(Action<TValue> setup) where TValue : class
     {
         Pipeline.Given(() => A(setup));

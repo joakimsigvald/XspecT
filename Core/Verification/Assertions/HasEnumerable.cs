@@ -40,8 +40,7 @@ public class HasEnumerable<TItem> : Constraint<HasEnumerable<TItem>, IEnumerable
     public ContinueWith<HasEnumerable<TItem>> All(
         Func<TItem, int, bool> predicate, string because = "", params object[] becauseArgs)
     {
-        Actual.Select((it, i) => (it, i)).
-                Should().OnlyContain(t => predicate(t.it, t.i), because, becauseArgs);
+        Actual.Select((it, i) => (it, i)).Should().OnlyContain(t => predicate(t.it, t.i), because, becauseArgs);
         return And();
     }
 

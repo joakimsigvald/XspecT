@@ -24,7 +24,7 @@ public interface IPipeline<TResult>
     TValue Mention<TValue>(int index);
     TValue Create<TValue>();
     TValue Create<TValue>([NotNull] Action<TValue> setup);
-    TValue[] MentionMany<TValue>(int count);
+    TValue[] MentionMany<TValue>(int count, int? minCount = null);
     TValue Mention<TValue>(string label);
     TValue[] MentionMany<TValue>([NotNull] Action<TValue> setup, int count);
     TValue Mention<TValue>(int index, [NotNull] Action<TValue> setup);

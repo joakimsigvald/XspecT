@@ -289,25 +289,16 @@ public abstract partial class Spec<TResult> : ITestPipeline<TResult>, IDisposabl
     protected TValue[] Five<TValue>([NotNull] Action<TValue, int> setup) => _pipeline.MentionMany(setup, 5);
 
     /// <summary>
-    /// Alias for Three
+    /// At least one
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected TValue[] Many<TValue>() => _pipeline.MentionMany<TValue>(-2);
+    protected TValue[] Some<TValue>() => _pipeline.MentionMany<TValue>(1, 1);
 
     /// <summary>
-    /// Alias for Three
+    /// At least two
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
-    /// <param name="setup"></param>
     /// <returns></returns>
-    protected TValue[] Many<TValue>([NotNull] Action<TValue> setup) => Three(setup);
-
-    /// <summary>
-    /// Alias for Three
-    /// </summary>
-    /// <typeparam name="TValue"></typeparam>
-    /// <param name="setup"></param>
-    /// <returns></returns>
-    protected TValue[] Many<TValue>([NotNull] Action<TValue, int> setup) => Three(setup);
+    protected TValue[] Many<TValue>() => _pipeline.MentionMany<TValue>(3, 2);
 }
