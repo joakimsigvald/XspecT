@@ -62,6 +62,11 @@ public abstract class SubjectSpec<TSUT, TResult> : Spec<TResult>, ISubjectTestPi
         return new GivenContinuation<TSUT, TResult, TService>(this);
     }
 
+    /// <summary>
+    /// Return continuation for providing any setup as an action
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="SetupFailed"></exception>
     public IGivenContinuation<TSUT, TResult> Given()
     {
         if (Pipeline.HasRun)
@@ -84,6 +89,12 @@ public abstract class SubjectSpec<TSUT, TResult> : Spec<TResult>, ISubjectTestPi
     public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(Func<TValue> value)
     {
         Pipeline.Given(() => A(value(), true));
+        return new GivenSubjectTestPipeline<TSUT, TResult>(this);
+    }
+
+    internal IGivenSubjectTestPipeline<TSUT, TResult> GivenSetup(Action setup)
+    {
+        Pipeline.Given(setup);
         return new GivenSubjectTestPipeline<TSUT, TResult>(this);
     }
 

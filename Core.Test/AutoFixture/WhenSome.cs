@@ -9,7 +9,7 @@ public class WhenSome : SubjectSpec<MyRetreiver, MyModel[]>
 
     public class GivenNoOtherReference : WhenSome
     {
-        [Fact] public void ThenArrayHasOneElements() => Result.Has().Count(1);
+        [Fact] public void ThenArrayHasTwoElements() => Result.Has().Count(2);
     }
 
     public class GivenOneIsMentionedAfter : WhenSome
@@ -18,16 +18,16 @@ public class WhenSome : SubjectSpec<MyRetreiver, MyModel[]>
         [Fact] public void ThenCountIsOne() => Result.Has().Count(1);
     }
 
-    public class GivenTwoIsMentionedAfter : WhenSome
+    public class GivenThreeIsMentionedAfter : WhenSome
     {
-        public GivenTwoIsMentionedAfter() => Given(Two<MyModel>);
-        [Fact] public void ThenCountIsTwo() => Result.Has().Count(2);
+        public GivenThreeIsMentionedAfter() => Given(Three<MyModel>);
+        [Fact] public void ThenCountIsThree() => Result.Has().Count(3);
     }
 
     public class GivenEmptyIsMentionedAfter : WhenSome
     {
         public GivenEmptyIsMentionedAfter() => Given(Array.Empty<MyModel>);
-        [Fact] public void ThenCountIsOne() => Result.Has().Count(1);
+        [Fact] public void ThenCountIsTwo() => Result.Has().Count(2);
     }
 
     public class GivenManyIsMentionedAfter : WhenSome
@@ -51,12 +51,12 @@ public class WhenSome : SubjectSpec<MyRetreiver, MyModel[]>
     public class GivenEmptyIsMentionedBefore : WhenSome
     {
         public GivenEmptyIsMentionedBefore() => Given(Array.Empty<MyModel>).And(Some<MyModel>);
-        [Fact] public void ThenCountIsOne() => Result.Has().Count(1);
+        [Fact] public void ThenCountIsTwo() => Result.Has().Count(2);
     }
 
     public class GivenManyIsMentionedBefore : WhenSome
     {
         public GivenManyIsMentionedBefore() => Given(Many<MyModel>).And(Some<MyModel>);
-        [Fact] public void ThenCountIsTwo() => Result.Has().Count(3);
+        [Fact] public void ThenCountIsTwo() => Result.Has().Count(2);
     }
 }

@@ -5,6 +5,7 @@ namespace XspecT.Internal.Pipelines;
 public interface ISubjectTestPipeline<TSUT, TResult> : ITestPipeline<TResult>
     where TSUT : class
 {
+    IGivenContinuation<TSUT, TResult> Given();
     IGivenContinuation<TSUT, TResult, TService> Given<TService>() where TService : class;
     IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(Action<TValue> setup) where TValue : class;
     IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(Func<TValue> value);

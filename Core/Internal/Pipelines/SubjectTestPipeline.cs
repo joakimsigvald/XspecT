@@ -44,6 +44,8 @@ internal abstract class SubjectTestPipeline<TSUT, TResult>
     public IGivenContinuation<TSUT, TResult, TService> Given<TService>() where TService : class
         => Parent.Given<TService>();
 
+    public IGivenContinuation<TSUT, TResult> Given() => Parent.Given();
+
     public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(Action<TValue> setup) where TValue : class
         => Parent.Given(setup);
 

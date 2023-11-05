@@ -289,14 +289,14 @@ public abstract partial class Spec<TResult> : ITestPipeline<TResult>, IDisposabl
     protected TValue[] Five<TValue>([NotNull] Action<TValue, int> setup) => _pipeline.MentionMany(setup, 5);
 
     /// <summary>
-    /// At least one
+    /// At least one, defaulting to two
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected TValue[] Some<TValue>() => _pipeline.MentionMany<TValue>(1, 1);
+    protected TValue[] Some<TValue>() => _pipeline.MentionMany<TValue>(2, 1);
 
     /// <summary>
-    /// At least two
+    /// At least two, defaulting to three
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>

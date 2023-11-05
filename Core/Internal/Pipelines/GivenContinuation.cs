@@ -28,8 +28,5 @@ internal class GivenContinuation<TSUT, TResult> : IGivenContinuation<TSUT, TResu
     public GivenContinuation(SubjectSpec<TSUT, TResult> subjectSpec) => _subjectSpec = subjectSpec;
 
     public IGivenSubjectTestPipeline<TSUT, TResult> That(Action setup)
-    {
-        _subjectSpec.Given(setup);
-        return new GivenSubjectTestPipeline<TSUT, TResult>(_subjectSpec);
-    }
+        => _subjectSpec.GivenSetup(setup);
 }
