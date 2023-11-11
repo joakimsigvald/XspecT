@@ -7,7 +7,7 @@ namespace XspecT.Fixture;
 public interface IPipeline<TResult>
 {
     /// <summary>
-    /// TODO
+    /// run the test-pipeline and return the result
     /// </summary>
     /// <returns></returns>
     ITestResult<TResult> Then();

@@ -8,20 +8,20 @@ public interface IGivenContinuation<TSUT, TResult, TService>
     where TService : class
 {
     /// <summary>
-    /// TODO
+    /// Provide method invocation to mock
     /// </summary>
     /// <typeparam name="TReturns"></typeparam>
     /// <param name="expression"></param>
-    /// <returns></returns>
+    /// <returns>Continuation for providing method invocation result to mock</returns>
     IGivenThatContinuation<TSUT, TResult, TService, TReturns> That<TReturns>(
         Expression<Func<TService, TReturns>> expression);
 
     /// <summary>
-    /// TODO
+    /// Provide async method invocation to mock
     /// </summary>
     /// <typeparam name="TReturns"></typeparam>
     /// <param name="expression"></param>
-    /// <returns></returns>
+    /// <returns>Continuation for providing method invocation result to mock</returns>
     IGivenThatContinuation<TSUT, TResult, TService, TReturns> That<TReturns>(
         Expression<Func<TService, Task<TReturns>>> expression);
 }
@@ -29,9 +29,9 @@ public interface IGivenContinuation<TSUT, TResult, TService>
 public interface IGivenContinuation<TSUT, TResult> where TSUT : class
 {
     /// <summary>
-    /// TODO
+    /// Provide a setup-action to be applied when running the test-pipeline
     /// </summary>
     /// <param name="setup"></param>
-    /// <returns></returns>
+    /// <returns>The test-pipeline</returns>
     IGivenSubjectTestPipeline<TSUT, TResult> That(Action setup);
 }
