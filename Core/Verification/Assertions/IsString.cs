@@ -4,14 +4,14 @@ namespace XspecT.Verification.Assertions;
 
 public class IsString : Constraint<IsString, string>
 {
-    public IsString(string actual) : base(actual) { }
+    internal IsString(string actual) : base(actual) { }
 
     /// <summary>
     /// actual.Should().BeEquivalentTo(expected)
     /// </summary>
     public ContinueWith<IsString> Like(string expected)
     {
-        Actual.Should().BeEquivalentTo(expected);
+        _actual.Should().BeEquivalentTo(expected);
         return And();
     }
 
@@ -20,7 +20,7 @@ public class IsString : Constraint<IsString, string>
     /// </summary>
     public ContinueWith<IsString> Null()
     {
-        Actual.Should().BeNull();
+        _actual.Should().BeNull();
         return And();
     }
 
@@ -29,7 +29,7 @@ public class IsString : Constraint<IsString, string>
     /// </summary>
     public ContinueWith<IsString> NotNull()
     {
-        Actual.Should().NotBeNull();
+        _actual.Should().NotBeNull();
         return And();
     }
 
@@ -38,7 +38,7 @@ public class IsString : Constraint<IsString, string>
     /// </summary>
     public ContinueWith<IsString> NullOrEmpty()
     {
-        Actual.Should().BeNullOrEmpty();
+        _actual.Should().BeNullOrEmpty();
         return And();
     }
 
@@ -47,7 +47,7 @@ public class IsString : Constraint<IsString, string>
     /// </summary>
     public ContinueWith<IsString> NotNullOrEmpty()
     {
-        Actual.Should().NotBeNullOrEmpty();
+        _actual.Should().NotBeNullOrEmpty();
         return And();
     }
 
@@ -56,7 +56,7 @@ public class IsString : Constraint<IsString, string>
     /// </summary>
     public ContinueWith<IsString> NullOrWhitespace()
     {
-        Actual.Should().BeNullOrWhiteSpace();
+        _actual.Should().BeNullOrWhiteSpace();
         return And();
     }
 
@@ -65,7 +65,7 @@ public class IsString : Constraint<IsString, string>
     /// </summary>
     public ContinueWith<IsString> NotNullOrWhitespace()
     {
-        Actual.Should().NotBeNullOrWhiteSpace();
+        _actual.Should().NotBeNullOrWhiteSpace();
         return And();
     }
 }

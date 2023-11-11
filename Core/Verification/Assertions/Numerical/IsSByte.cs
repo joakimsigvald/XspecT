@@ -2,5 +2,5 @@
 
 public class IsSByte : IsNumerical<IsSByte, sbyte>
 {
-    public IsSByte(sbyte actual) : base(actual) { }
+    internal IsSByte(sbyte actual) : base(actual) { }
 }

@@ -2,5 +2,5 @@
 
 public class IsUInt : IsNumerical<IsUInt, uint>
 {
-    public IsUInt(uint actual) : base(actual) { }
+    internal IsUInt(uint actual) : base(actual) { }
 }

@@ -2,5 +2,5 @@
 
 public class IsULong : IsNumerical<IsULong, ulong>
 {
-    public IsULong(ulong actual) : base(actual) { }
+    internal IsULong(ulong actual) : base(actual) { }
 }

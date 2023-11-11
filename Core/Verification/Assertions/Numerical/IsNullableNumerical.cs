@@ -4,7 +4,7 @@ public abstract class IsNullableNumerical<TActual, TConstrain> : Constraint<TCon
     where TActual : struct, IComparable<TActual>
     where TConstrain : IsNullableNumerical<TActual, TConstrain>
 {
-    protected IsNullableNumerical(TActual? actual) : base(actual) { }
+    internal IsNullableNumerical(TActual? actual) : base(actual) { }
 
     /// <summary>
     /// actual.Should().NotBe(expected)

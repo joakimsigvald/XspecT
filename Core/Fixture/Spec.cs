@@ -13,9 +13,9 @@ namespace XspecT.Fixture;
 /// </summary>
 public abstract partial class Spec<TResult> : ITestPipeline<TResult>, IDisposable
 {
-    internal protected readonly IPipeline<TResult> _pipeline;
+    internal readonly Pipeline<TResult> _pipeline;
 
-    protected Spec(IPipeline<TResult> pipeline)
+    internal Spec(Pipeline<TResult> pipeline)
     {
         CultureInfo.CurrentCulture = GetCulture();
         _pipeline = pipeline;
@@ -39,22 +39,65 @@ public abstract partial class Spec<TResult> : ITestPipeline<TResult>, IDisposabl
         return subject;
     }
 
+    /// <summary>
+    /// TODO
+    /// </summary>
+    /// <typeparam name="TService"></typeparam>
+    /// <param name="expression"></param>
+    /// <returns></returns>
     public IAndVerify<TResult> Then<TService>(Expression<Action<TService>> expression) where TService : class
         => _pipeline.Then(expression);
 
+    /// <summary>
+    /// TODO
+    /// </summary>
+    /// <typeparam name="TService"></typeparam>
+    /// <param name="expression"></param>
+    /// <param name="times"></param>
+    /// <returns></returns>
     public IAndVerify<TResult> Then<TService>(Expression<Action<TService>> expression, Times times) where TService : class
         => _pipeline.Then(expression, times);
 
+    /// <summary>
+    /// TODO
+    /// </summary>
+    /// <typeparam name="TService"></typeparam>
+    /// <param name="expression"></param>
+    /// <param name="times"></param>
+    /// <returns></returns>
     public IAndVerify<TResult> Then<TService>(Expression<Action<TService>> expression, Func<Times> times) where TService : class
         => _pipeline.Then(expression, times);
 
+    /// <summary>
+    /// TODO
+    /// </summary>
+    /// <typeparam name="TService"></typeparam>
+    /// <typeparam name="TReturns"></typeparam>
+    /// <param name="expression"></param>
+    /// <returns></returns>
     public IAndVerify<TResult> Then<TService, TReturns>(Expression<Func<TService, TReturns>> expression) where TService : class
         => _pipeline.Then(expression);
 
+    /// <summary>
+    /// TODO
+    /// </summary>
+    /// <typeparam name="TService"></typeparam>
+    /// <typeparam name="TReturns"></typeparam>
+    /// <param name="expression"></param>
+    /// <param name="times"></param>
+    /// <returns></returns>
     public IAndVerify<TResult> Then<TService, TReturns>(Expression<Func<TService, TReturns>> expression, Times times)
         where TService : class
         => _pipeline.Then(expression, times);
 
+    /// <summary>
+    /// TODO
+    /// </summary>
+    /// <typeparam name="TService"></typeparam>
+    /// <typeparam name="TReturns"></typeparam>
+    /// <param name="expression"></param>
+    /// <param name="times"></param>
+    /// <returns></returns>
     public IAndVerify<TResult> Then<TService, TReturns>(Expression<Func<TService, TReturns>> expression, Func<Times> times)
         where TService : class
         => _pipeline.Then(expression, times);

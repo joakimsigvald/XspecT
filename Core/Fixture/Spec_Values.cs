@@ -107,6 +107,12 @@ public abstract partial class Spec<TResult> : ITestPipeline<TResult>, IDisposabl
     /// <returns></returns>
     protected TValue ASecond<TValue>([NotNull] Action<TValue> setup) => _pipeline.Mention(1, setup);
 
+    /// <summary>
+    /// TODO
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="value"></param>
+    /// <returns></returns>
     protected TValue ASecond<TValue>(TValue value) => _pipeline.Mention(1, value);
 
     /// <summary>
@@ -131,6 +137,12 @@ public abstract partial class Spec<TResult> : ITestPipeline<TResult>, IDisposabl
     /// <returns></returns>
     protected TValue AThird<TValue>([NotNull] Action<TValue> setup) => _pipeline.Mention(2, setup);
 
+    /// <summary>
+    /// TODO
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="value"></param>
+    /// <returns></returns>
     protected TValue AThird<TValue>(TValue value) => _pipeline.Mention(2, value);
 
     /// <summary>
@@ -155,6 +167,12 @@ public abstract partial class Spec<TResult> : ITestPipeline<TResult>, IDisposabl
     /// <returns></returns>
     protected TValue AFourth<TValue>([NotNull] Action<TValue> setup) => _pipeline.Mention(3, setup);
 
+    /// <summary>
+    /// TODO
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="value"></param>
+    /// <returns></returns>
     protected TValue AFourth<TValue>(TValue value) => _pipeline.Mention(3, value);
 
     /// <summary>
@@ -179,6 +197,12 @@ public abstract partial class Spec<TResult> : ITestPipeline<TResult>, IDisposabl
     /// <returns></returns>
     protected TValue AFifth<TValue>([NotNull] Action<TValue> setup) => _pipeline.Mention(4, setup);
 
+    /// <summary>
+    /// TODO
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="value"></param>
+    /// <returns></returns>
     protected TValue AFifth<TValue>(TValue value) => _pipeline.Mention(4, value);
 
     /// <summary>

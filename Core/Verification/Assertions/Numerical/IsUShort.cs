@@ -2,5 +2,5 @@
 
 public class IsUShort : IsNumerical<IsUShort, ushort>
 {
-    public IsUShort(ushort actual) : base(actual) { }
+    internal IsUShort(ushort actual) : base(actual) { }
 }

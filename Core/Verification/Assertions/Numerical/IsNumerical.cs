@@ -6,14 +6,14 @@ public abstract class IsNumerical<TConstraint, TActual> : Constraint<TConstraint
     where TConstraint : IsNumerical<TConstraint, TActual>
     where TActual : struct, IComparable<TActual>
 {
-    public IsNumerical(TActual actual) : base(actual) { }
+    internal IsNumerical(TActual actual) : base(actual) { }
 
     /// <summary>
     /// actual.Should().NotBe(expected)
     /// </summary>
     public ContinueWith<TConstraint> Not(TActual expected)
     {
-        Actual.Should().NotBe(expected);
+        _actual.Should().NotBe(expected);
         return And();
     }
 
@@ -22,7 +22,7 @@ public abstract class IsNumerical<TConstraint, TActual> : Constraint<TConstraint
     /// </summary>
     public ContinueWith<TConstraint> GreaterThan(TActual expected)
     {
-        Actual.Should().BeGreaterThan(expected);
+        _actual.Should().BeGreaterThan(expected);
         return And();
     }
 
@@ -31,7 +31,7 @@ public abstract class IsNumerical<TConstraint, TActual> : Constraint<TConstraint
     /// </summary>
     public ContinueWith<TConstraint> LessThan(TActual expected)
     {
-        Actual.Should().BeLessThan(expected);
+        _actual.Should().BeLessThan(expected);
         return And();
     }
 
@@ -40,7 +40,7 @@ public abstract class IsNumerical<TConstraint, TActual> : Constraint<TConstraint
     /// </summary>
     public ContinueWith<TConstraint> NotGreaterThan(TActual expected)
     {
-        Actual.Should().BeLessThanOrEqualTo(expected);
+        _actual.Should().BeLessThanOrEqualTo(expected);
         return And();
     }
 
@@ -49,7 +49,7 @@ public abstract class IsNumerical<TConstraint, TActual> : Constraint<TConstraint
     /// </summary>
     public ContinueWith<TConstraint> NotLessThan(TActual expected)
     {
-        Actual.Should().BeGreaterThanOrEqualTo(expected);
+        _actual.Should().BeGreaterThanOrEqualTo(expected);
         return And();
     }
 }

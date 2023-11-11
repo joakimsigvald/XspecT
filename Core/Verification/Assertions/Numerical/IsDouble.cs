@@ -4,11 +4,17 @@ namespace XspecT.Verification.Assertions.Numerical;
 
 public class IsDouble : IsNumerical<IsDouble, double>
 {
-    public IsDouble(double actual) : base(actual) { }
+    internal IsDouble(double actual) : base(actual) { }
 
+    /// <summary>
+    /// TODO
+    /// </summary>
+    /// <param name="expected"></param>
+    /// <param name="precision"></param>
+    /// <returns></returns>
     public ContinueWith<IsDouble> Around(double expected, double precision)
     {
-        Actual.Should().BeApproximately(expected, precision);
+        _actual.Should().BeApproximately(expected, precision);
         return And();
     }
 }

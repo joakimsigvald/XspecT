@@ -7,8 +7,14 @@ namespace XspecT.Fixture;
 public abstract class SubjectSpec<TSUT, TResult> : Spec<TResult>, ISubjectTestPipeline<TSUT, TResult>
     where TSUT : class
 {
+    /// <summary>
+    /// TODO
+    /// </summary>
     protected SubjectSpec() : base(new SubjectPipeline<TSUT, TResult>()) { }
-    private SubjectPipeline<TSUT, TResult> Pipeline => (SubjectPipeline<TSUT, TResult>)_pipeline;
+
+    /// <summary>
+    /// TODO
+    /// </summary>
     protected TSUT SUT => Pipeline.SUT;
 
     /// <summary>
@@ -55,6 +61,12 @@ public abstract class SubjectSpec<TSUT, TResult> : Spec<TResult>, ISubjectTestPi
         return this;
     }
 
+    /// <summary>
+    /// TODO
+    /// </summary>
+    /// <typeparam name="TService"></typeparam>
+    /// <returns></returns>
+    /// <exception cref="SetupFailed"></exception>
     public IGivenContinuation<TSUT, TResult, TService> Given<TService>() where TService : class
     {
         if (Pipeline.HasRun)
@@ -74,18 +86,36 @@ public abstract class SubjectSpec<TSUT, TResult> : Spec<TResult>, ISubjectTestPi
         return new GivenContinuation<TSUT, TResult>(this);
     }
 
+    /// <summary>
+    /// TODO
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="setup"></param>
+    /// <returns></returns>
     public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(Action<TValue> setup) where TValue : class
     {
         Pipeline.Given(() => A(setup));
         return new GivenSubjectTestPipeline<TSUT, TResult>(this);
     }
 
+    /// <summary>
+    /// TODO
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="value"></param>
+    /// <returns></returns>
     public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(TValue value)
     {
         Pipeline.Given(() => A(value, true));
         return new GivenSubjectTestPipeline<TSUT, TResult>(this);
     }
 
+    /// <summary>
+    /// TODO
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="value"></param>
+    /// <returns></returns>
     public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(Func<TValue> value)
     {
         Pipeline.Given(() => A(value(), true));
@@ -108,4 +138,6 @@ public abstract class SubjectSpec<TSUT, TResult> : Spec<TResult>, ISubjectTestPi
     internal void SetupMock<TService, TReturns>(
         Expression<Func<TService, Task<TReturns>>> expression, Func<TReturns> returns) where TService : class
         => Pipeline.SetupMock(expression, returns);
+
+    private SubjectPipeline<TSUT, TResult> Pipeline => (SubjectPipeline<TSUT, TResult>)_pipeline;
 }

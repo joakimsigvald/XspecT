@@ -71,7 +71,7 @@ internal class Pipeline<TResult> : IPipeline<TResult>
         return Context.ApplyTo(setup, _context.Create<TValue>());
     }
 
-    public TValue[] MentionMany<TValue>(int count, int? minCount) 
+    public TValue[] MentionMany<TValue>(int count, int? minCount = null) 
         => _context.MentionMany<TValue>(count, minCount);
 
     public TValue Mention<TValue>(string label) => _context.Mention<TValue>(label);

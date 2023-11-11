@@ -4,19 +4,19 @@ namespace XspecT.Verification.Assertions.Time;
 
 public class IsNullableTimeSpan : Constraint<IsNullableTimeSpan, TimeSpan?>
 {
-    public IsNullableTimeSpan(TimeSpan? actual) : base(actual) { }
+    internal IsNullableTimeSpan(TimeSpan? actual) : base(actual) { }
 
     public ContinueWith<IsNullableTimeSpan> Not(TimeSpan unexpected)
     {
-        Actual.Should().NotBe(unexpected);
+        _actual.Should().NotBe(unexpected);
         return And();
     }
 
     public ContinueWith<IsTimeSpan> NotNull()
     {
-        Actual.Should().NotBeNull();
-        return new(new(Actual.Value));
+        _actual.Should().NotBeNull();
+        return new(new(_actual.Value));
     }
 
-    public void Null() => Actual.Should().BeNull();
+    public void Null() => _actual.Should().BeNull();
 }
