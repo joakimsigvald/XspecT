@@ -25,6 +25,15 @@ public class IsEnumerable<TItem> : Constraint<IsEnumerable<TItem>, IEnumerable<T
     }
 
     /// <summary>
+    /// actual.Should().NotBeEmpty()
+    /// </summary>
+    public ContinueWith<IsEnumerable<TItem>> NotNull()
+    {
+        Actual.Should().NotBeEmpty();
+        return And();
+    }
+
+    /// <summary>
     /// actual.Should().NotBeSameAs(expected)
     /// </summary>
     public ContinueWith<IsEnumerable<TItem>> Not(IEnumerable<TItem> expected)
