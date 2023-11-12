@@ -33,7 +33,7 @@ public class WhenSome : SubjectSpec<MyRetreiver, MyModel[]>
     public class GivenManyIsMentionedAfter : WhenSome
     {
         public GivenManyIsMentionedAfter() => Given(Many<MyModel>);
-        [Fact] public void ThenCountIsThree() => Result.Has().Count(3);
+        [Fact] public void ThenCountIsFour() => Result.Has().Count(4);
     }
 
     public class GivenOneIsMentionedBefore : WhenSome

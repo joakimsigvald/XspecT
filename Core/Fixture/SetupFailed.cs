@@ -2,17 +2,8 @@
 
 public class SetupFailed : ApplicationException
 {
-    /// <summary>
-    /// TODO
-    /// </summary>
-    /// <param name="message"></param>
-    public SetupFailed(string message) : base(message) { }
+    internal SetupFailed(string message) : base(message) { }
 
-    /// <summary>
-    /// TODO
-    /// </summary>
-    /// <param name="message"></param>
-    /// <param name="innerException"></param>
-    public SetupFailed(string message, Exception innerException)
+    internal SetupFailed(string message, Exception innerException)
         : base($"{message}, because: {innerException.Message}", innerException) { }
 }

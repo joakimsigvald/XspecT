@@ -8,9 +8,6 @@ using static XspecT.Internal.Pipelines.AsyncHelper;
 
 namespace XspecT.Fixture;
 
-/// <summary>
-/// Not intended for direct override. Override TestStatic or TestSubject instead
-/// </summary>
 public abstract partial class Spec<TResult> : ITestPipeline<TResult>, IDisposable
 {
     internal readonly Pipeline<TResult> _pipeline;
@@ -40,7 +37,7 @@ public abstract partial class Spec<TResult> : ITestPipeline<TResult>, IDisposabl
     }
 
     /// <summary>
-    /// TODO
+    /// Run the test-pipeline and verify mock invocation.
     /// </summary>
     /// <typeparam name="TService"></typeparam>
     /// <param name="expression"></param>
@@ -49,7 +46,7 @@ public abstract partial class Spec<TResult> : ITestPipeline<TResult>, IDisposabl
         => _pipeline.Then(expression);
 
     /// <summary>
-    /// TODO
+    /// Run the test-pipeline and verify mock invocation.
     /// </summary>
     /// <typeparam name="TService"></typeparam>
     /// <param name="expression"></param>
@@ -59,7 +56,7 @@ public abstract partial class Spec<TResult> : ITestPipeline<TResult>, IDisposabl
         => _pipeline.Then(expression, times);
 
     /// <summary>
-    /// TODO
+    /// Run the test-pipeline and verify mock invocation.
     /// </summary>
     /// <typeparam name="TService"></typeparam>
     /// <param name="expression"></param>
@@ -69,7 +66,7 @@ public abstract partial class Spec<TResult> : ITestPipeline<TResult>, IDisposabl
         => _pipeline.Then(expression, times);
 
     /// <summary>
-    /// TODO
+    /// Run the test-pipeline and verify mock invocation.
     /// </summary>
     /// <typeparam name="TService"></typeparam>
     /// <typeparam name="TReturns"></typeparam>
@@ -79,7 +76,7 @@ public abstract partial class Spec<TResult> : ITestPipeline<TResult>, IDisposabl
         => _pipeline.Then(expression);
 
     /// <summary>
-    /// TODO
+    /// Run the test-pipeline and verify mock invocation.
     /// </summary>
     /// <typeparam name="TService"></typeparam>
     /// <typeparam name="TReturns"></typeparam>
@@ -91,7 +88,7 @@ public abstract partial class Spec<TResult> : ITestPipeline<TResult>, IDisposabl
         => _pipeline.Then(expression, times);
 
     /// <summary>
-    /// TODO
+    /// Run the test-pipeline and verify mock invocation.
     /// </summary>
     /// <typeparam name="TService"></typeparam>
     /// <typeparam name="TReturns"></typeparam>

@@ -3,11 +3,11 @@ using static XspecT.Internal.Pipelines.AsyncHelper;
 
 namespace XspecT.Fixture;
 
+/// <summary>
+/// Inherit to setup and run a test-pipeline for static methods
+/// </summary>
 public abstract class StaticSpec<TResult> : Spec<TResult>
 {
-    /// <summary>
-    /// TODO
-    /// </summary>
     protected StaticSpec() : base(new StaticPipeline<TResult>()) { }
 
     /// <summary>

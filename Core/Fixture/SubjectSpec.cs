@@ -106,7 +106,7 @@ public abstract class SubjectSpec<TSUT, TResult> : Spec<TResult>, ISubjectTestPi
     /// <returns></returns>
     public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(TValue value)
     {
-        Pipeline.Given(() => A(value, true));
+        Pipeline.Given(() => ADefault(value));
         return new GivenSubjectTestPipeline<TSUT, TResult>(this);
     }
 
@@ -118,7 +118,7 @@ public abstract class SubjectSpec<TSUT, TResult> : Spec<TResult>, ISubjectTestPi
     /// <returns></returns>
     public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(Func<TValue> value)
     {
-        Pipeline.Given(() => A(value(), true));
+        Pipeline.Given(() => ADefault(value()));
         return new GivenSubjectTestPipeline<TSUT, TResult>(this);
     }
 
@@ -138,6 +138,8 @@ public abstract class SubjectSpec<TSUT, TResult> : Spec<TResult>, ISubjectTestPi
     internal void SetupMock<TService, TReturns>(
         Expression<Func<TService, Task<TReturns>>> expression, Func<TReturns> returns) where TService : class
         => Pipeline.SetupMock(expression, returns);
+
+    private TValue ADefault<TValue>(TValue value) => _pipeline.Mention(0, value, true);
 
     private SubjectPipeline<TSUT, TResult> Pipeline => (SubjectPipeline<TSUT, TResult>)_pipeline;
 }

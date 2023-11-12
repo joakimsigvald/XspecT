@@ -7,13 +7,13 @@ namespace XspecT.Fixture;
 public interface IPipeline<TResult>
 {
     /// <summary>
-    /// run the test-pipeline and return the result
+    /// Run the test-pipeline and return the result
     /// </summary>
     /// <returns></returns>
     ITestResult<TResult> Then();
 
     /// <summary>
-    /// TODO
+    /// Run the test-pipeline and verify mock invocation.
     /// </summary>
     /// <typeparam name="TService"></typeparam>
     /// <param name="expression"></param>
@@ -21,7 +21,7 @@ public interface IPipeline<TResult>
     IAndVerify<TResult> Then<TService>(Expression<Action<TService>> expression) where TService : class;
 
     /// <summary>
-    /// TODO
+    /// Run the test-pipeline and verify mock invocation.
     /// </summary>
     /// <typeparam name="TService"></typeparam>
     /// <param name="expression"></param>
@@ -30,7 +30,7 @@ public interface IPipeline<TResult>
     IAndVerify<TResult> Then<TService>(Expression<Action<TService>> expression, Times times) where TService : class;
 
     /// <summary>
-    /// TODO
+    /// Run the test-pipeline and verify mock invocation.
     /// </summary>
     /// <typeparam name="TService"></typeparam>
     /// <param name="expression"></param>
@@ -39,7 +39,7 @@ public interface IPipeline<TResult>
     IAndVerify<TResult> Then<TService>(Expression<Action<TService>> expression, Func<Times> times) where TService : class;
 
     /// <summary>
-    /// TODO
+    /// Run the test-pipeline and verify mock invocation.
     /// </summary>
     /// <typeparam name="TService"></typeparam>
     /// <typeparam name="TReturns"></typeparam>
@@ -48,7 +48,7 @@ public interface IPipeline<TResult>
     IAndVerify<TResult> Then<TService, TReturns>(Expression<Func<TService, TReturns>> expression) where TService : class;
 
     /// <summary>
-    /// TODO
+    /// Run the test-pipeline and verify mock invocation.
     /// </summary>
     /// <typeparam name="TService"></typeparam>
     /// <typeparam name="TReturns"></typeparam>
@@ -59,7 +59,7 @@ public interface IPipeline<TResult>
         where TService : class;
 
     /// <summary>
-    /// TODO
+    /// Run the test-pipeline and verify mock invocation.
     /// </summary>
     /// <typeparam name="TService"></typeparam>
     /// <typeparam name="TReturns"></typeparam>
