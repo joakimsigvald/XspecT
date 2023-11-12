@@ -27,10 +27,10 @@ public abstract class SubjectSpec<TSUT, TResult> : Spec<TResult>, ISubjectTestPi
     /// </summary>
     /// <param name="act"></param>
     /// <returns></returns>
-    public ISubjectTestPipeline<TSUT, TResult> When(Action<TSUT> act)
+    public IWhenContinuation<TSUT, TResult> When(Action<TSUT> act)
     {
         Pipeline.SetAction(() => act(SUT));
-        return this;
+        return ContinueWhen();
     }
 
     /// <summary>
@@ -38,10 +38,10 @@ public abstract class SubjectSpec<TSUT, TResult> : Spec<TResult>, ISubjectTestPi
     /// </summary>
     /// <param name="act"></param>
     /// <returns></returns>
-    public ISubjectTestPipeline<TSUT, TResult> When(Func<TSUT, TResult> act)
+    public IWhenContinuation<TSUT, TResult> When(Func<TSUT, TResult> act)
     {
         Pipeline.SetAction(() => act(SUT));
-        return this;
+        return ContinueWhen();
     }
 
     /// <summary>
@@ -49,10 +49,10 @@ public abstract class SubjectSpec<TSUT, TResult> : Spec<TResult>, ISubjectTestPi
     /// </summary>
     /// <param name="action"></param>
     /// <returns></returns>
-    public ISubjectTestPipeline<TSUT, TResult> When(Func<TSUT, Task> action)
+    public IWhenContinuation<TSUT, TResult> When(Func<TSUT, Task> action)
     {
         Pipeline.SetAction(() => action(SUT));
-        return this;
+        return ContinueWhen();
     }
 
     /// <summary>
@@ -60,10 +60,10 @@ public abstract class SubjectSpec<TSUT, TResult> : Spec<TResult>, ISubjectTestPi
     /// </summary>
     /// <param name="func"></param>
     /// <returns></returns>
-    public ISubjectTestPipeline<TSUT, TResult> When(Func<TSUT, Task<TResult>> func)
+    public IWhenContinuation<TSUT, TResult> When(Func<TSUT, Task<TResult>> func)
     {
         Pipeline.SetAction(() => func(SUT));
-        return this;
+        return ContinueWhen();
     }
 
     /// <summary>
@@ -143,6 +143,8 @@ public abstract class SubjectSpec<TSUT, TResult> : Spec<TResult>, ISubjectTestPi
     internal void SetupMock<TService, TReturns>(
         Expression<Func<TService, Task<TReturns>>> expression, Func<TReturns> returns) where TService : class
         => Pipeline.SetupMock(expression, returns);
+
+    private IWhenContinuation<TSUT, TResult> ContinueWhen() => new WhenContinuation<TSUT, TResult>(this);
 
     private TValue ADefault<TValue>(TValue value) => _pipeline.Mention(0, value, true);
 

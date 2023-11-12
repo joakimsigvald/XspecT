@@ -11,7 +11,7 @@ namespace XspecT.Internal.Pipelines;
 internal class Pipeline<TResult> : IPipeline<TResult>
 {
     protected readonly Context _context = new();
-    private readonly SpecActor<TResult> _actor = new();
+    private readonly List<SpecActor<TResult>> _actors = new();
     private TestResult<TResult> _then;
 
     public bool HasRun => _then != null;
@@ -42,14 +42,14 @@ internal class Pipeline<TResult> : IPipeline<TResult>
     {
         if (HasRun)
             throw new SetupFailed("When must be called before Then");
-        _actor.When(act ?? throw new SetupFailed("Act cannot be null"));
+        _actors.Add(new SpecActor<TResult>().When(act ?? throw new SetupFailed("Act cannot be null")));
     }
 
     public void SetAction(Func<TResult> act)
     {
         if (HasRun)
             throw new SetupFailed("When must be called before Then");
-        _actor.When(act ?? throw new SetupFailed("Act cannot be null"));
+        _actors.Add(new SpecActor<TResult>().When(act ?? throw new SetupFailed("Act cannot be null")));
     }
 
     public void SetAction(Func<Task> action) => SetAction(() => Execute(action));
@@ -99,6 +99,6 @@ internal class Pipeline<TResult> : IPipeline<TResult>
     private TestResult<TResult> Run()
     {
         Arrange();
-        return _actor.Execute(_context);
+        return _actors.Select(_ => _.Execute(_context)).ToArray().Last();
     }
 }

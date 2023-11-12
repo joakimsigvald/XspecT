@@ -1,2 +1,5 @@
 * Comment all public methods
-* Merge Given and Using (again)?
+* Allow chain of method calls with And: When(_ => MethodA()).And(_ => MethodB())
+* Allow next method call in chain to use result of previous: When(_ => MethodA()).And((_, res) => MethodB(res))
+* When providing concrete class several levels down in component hierarchy, 
+  materialize all components that use that class up to the subject under test (i.e. create concrete instances instead of mocks).

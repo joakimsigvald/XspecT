@@ -16,10 +16,3 @@ public class WhenUsingTwoInts : SubjectSpec<MyListService, List<int>>
 {
     [Fact] public void ThenReturnTwoInts() => Given(Two<int>().ToList()).When(_ => _.List).Then().Result.Has().Count(2);
 }
-
-public class MyListService
-{
-    private readonly List<int> _list;
-    public MyListService(List<int> list) => _list = list;
-    public List<int> List => _list;
-}

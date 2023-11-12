@@ -34,10 +34,14 @@ internal class SubjectPipeline<TSUT, TResult> : Pipeline<TResult>
     internal void SetupMock<TService, TReturns>(
         Expression<Func<TService, TReturns>> expression, Func<TReturns> returns)
         where TService : class
-        => _arranger.Push(() => GetMock<TService>().Setup(expression).Returns(returns()));
+    {
+        _arranger.Push(() => GetMock<TService>().SetupSequence(expression)
+        .Returns(returns).Returns(returns).Returns(returns).Returns(returns).Returns(returns));
+    }
 
     internal void SetupMock<TService, TReturns>(
         Expression<Func<TService, Task<TReturns>>> expression, Func<TReturns> returns)
         where TService : class
-        => _arranger.Push(() => GetMock<TService>().Setup(expression).ReturnsAsync(returns()));
+        => _arranger.Push(() => GetMock<TService>().SetupSequence(expression)
+        .ReturnsAsync(returns).ReturnsAsync(returns).ReturnsAsync(returns).ReturnsAsync(returns).ReturnsAsync(returns));
 }

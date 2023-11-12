@@ -1,10 +1,10 @@
 ﻿namespace XspecT.Internal.Pipelines;
 
-internal abstract class SubjectTestPipeline<TSUT, TResult>
-    : SubjectTestPipelineBase<TSUT, TResult>, ISubjectTestPipeline<TSUT, TResult>
+internal class WhenContinuation<TSUT, TResult>
+    : SubjectTestPipelineBase<TSUT, TResult>, IWhenContinuation<TSUT, TResult>
     where TSUT : class
 {
-    internal SubjectTestPipeline(SubjectSpec<TSUT, TResult> parent)
+    internal WhenContinuation(SubjectSpec<TSUT, TResult> parent)
         : base(parent) { }
 
     /// <summary>
@@ -12,7 +12,7 @@ internal abstract class SubjectTestPipeline<TSUT, TResult>
     /// </summary>
     /// <param name="act"></param>
     /// <returns></returns>
-    public IWhenContinuation<TSUT, TResult> When(Action<TSUT> act)
+    public IWhenContinuation<TSUT, TResult> And(Action<TSUT> act)
         => Parent.When(act);
 
     /// <summary>
@@ -20,7 +20,7 @@ internal abstract class SubjectTestPipeline<TSUT, TResult>
     /// </summary>
     /// <param name="act"></param>
     /// <returns></returns>
-    public IWhenContinuation<TSUT, TResult> When(Func<TSUT, TResult> act)
+    public IWhenContinuation<TSUT, TResult> And(Func<TSUT, TResult> act)
         => Parent.When(act);
 
     /// <summary>
@@ -28,7 +28,7 @@ internal abstract class SubjectTestPipeline<TSUT, TResult>
     /// </summary>
     /// <param name="action"></param>
     /// <returns></returns>
-    public IWhenContinuation<TSUT, TResult> When(Func<TSUT, Task> action)
+    public IWhenContinuation<TSUT, TResult> And(Func<TSUT, Task> action)
         => Parent.When(action);
 
     /// <summary>
@@ -36,6 +36,6 @@ internal abstract class SubjectTestPipeline<TSUT, TResult>
     /// </summary>
     /// <param name="func"></param>
     /// <returns></returns>
-    public IWhenContinuation<TSUT, TResult> When(Func<TSUT, Task<TResult>> func)
+    public IWhenContinuation<TSUT, TResult> And(Func<TSUT, Task<TResult>> func)
         => Parent.When(func);
 }
