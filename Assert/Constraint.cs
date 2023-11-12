@@ -1,6 +1,4 @@
-﻿using FluentAssertions;
-
-namespace XspecT.Assert;
+﻿namespace XspecT.Assert;
 
 /// <summary>
 /// TODO
