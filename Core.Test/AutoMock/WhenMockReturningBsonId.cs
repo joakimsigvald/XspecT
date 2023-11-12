@@ -1,7 +1,6 @@
-﻿using XspecT.Fixture;
-using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
-using XspecT.Verification;
+using XspecT.Assert;
 
 namespace XspecT.Test.AutoMock;
 

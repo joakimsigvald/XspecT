@@ -1,5 +1,4 @@
-﻿using XspecT.Fixture;
-using XspecT.Internal.TestData;
+﻿using XspecT.Internal.TestData;
 using XspecT.Internal.Verification;
 
 namespace XspecT.Internal.Pipelines;

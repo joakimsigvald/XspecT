@@ -1,5 +1,4 @@
-﻿using XspecT.Fixture;
-using XspecT.Verification;
+﻿using XspecT.Assert;
 
 namespace XspecT.Test.AutoFixture;
 
@@ -22,7 +21,7 @@ public class WhenGetWithSetup : SubjectSpec<MyMappingRetreiver, MyModel>
 
     [Fact]
     public void Setup_CannotBeProvided_AfterThen()
-        => Assert.Throws<SetupFailed>(
+        => Xunit.Assert.Throws<SetupFailed>(
             () => Given<IMyMapper>().That(_ => _.Map(A<MyModel>())).Returns(The<MyModel>)
             .Then().Result.Is(A<MyModel>(_ => _.Name = "abc")));
 }

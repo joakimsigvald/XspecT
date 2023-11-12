@@ -1,8 +1,6 @@
 ﻿using Moq;
 using System.Linq.Expressions;
-using XspecT.Fixture;
 using XspecT.Internal.TestData;
-using XspecT.Verification;
 
 namespace XspecT.Internal.Verification;
 
@@ -40,7 +38,7 @@ Try providing a function with the Spec's declared return type instead as paramet
 
     public IAndThen<TResult> Throws<TError>(Func<TError> error) where TError : Exception
     {
-        Assert.IsType<TError>(_error).Is(error());
+        Assert.Equal(error(), Assert.IsType<TError>(_error));
         return And();
     }
 
@@ -53,7 +51,7 @@ Try providing a function with the Spec's declared return type instead as paramet
 
     public IAndThen<TResult> Throws()
     {
-        _error.Is().NotNull();
+        Assert.NotNull(_error);
         return And();
     }
 
@@ -65,7 +63,7 @@ Try providing a function with the Spec's declared return type instead as paramet
 
     public IAndThen<TResult> DoesNotThrow()
     {
-        _error.Is().Null();
+        Assert.Null(_error);
         return And();
     }
 

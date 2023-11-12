@@ -1,5 +1,5 @@
 ﻿using XspecT.Test.Subjects;
-using XspecT.Verification;
+using XspecT.Assert;
 
 namespace XspecT.Test.Tests.AsyncShoppingService;
 

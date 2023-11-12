@@ -1,10 +1,8 @@
 ﻿using Moq;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
-using XspecT.Fixture;
 using XspecT.Internal.TestData;
 using XspecT.Internal.Verification;
-using XspecT.Verification;
 
 using static XspecT.Internal.Pipelines.AsyncHelper;
 

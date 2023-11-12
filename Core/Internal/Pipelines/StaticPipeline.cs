@@ -1,6 +1,4 @@
-﻿using XspecT.Fixture;
-
-namespace XspecT.Internal.Pipelines;
+﻿namespace XspecT.Internal.Pipelines;
 
 internal class StaticPipeline<TResult> : Pipeline<TResult>
 {

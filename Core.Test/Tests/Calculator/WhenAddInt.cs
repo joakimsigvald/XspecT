@@ -1,7 +1,6 @@
-﻿using XspecT.Fixture;
+﻿using XspecT.Assert;
 
 using static XspecT.Test.Subjects.Calculator;
-using XspecT.Verification;
 
 namespace XspecT.Test.Tests.Calculator;
 

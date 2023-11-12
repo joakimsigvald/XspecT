@@ -3,7 +3,7 @@ using AutoFixture.Kernel;
 using Moq;
 using Moq.AutoMock;
 using Moq.AutoMock.Resolvers;
-using XspecT.Fixture;
+using XspecT;
 
 namespace XspecT.Internal.TestData;
 

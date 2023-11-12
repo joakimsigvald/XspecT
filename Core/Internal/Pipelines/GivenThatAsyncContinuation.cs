@@ -1,6 +1,5 @@
 ﻿using Moq;
 using System.Linq.Expressions;
-using XspecT.Fixture;
 
 namespace XspecT.Internal.Pipelines;
 

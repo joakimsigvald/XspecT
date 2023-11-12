@@ -1,6 +1,4 @@
-﻿using XspecT.Fixture;
-
-namespace XspecT.Internal.Pipelines;
+﻿namespace XspecT.Internal.Pipelines;
 
 internal abstract class SubjectTestPipeline<TSUT, TResult>
     : TestPipeline<TResult, SubjectSpec<TSUT, TResult>>, ISubjectTestPipeline<TSUT, TResult>

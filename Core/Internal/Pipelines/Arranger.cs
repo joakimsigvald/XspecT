@@ -1,6 +1,6 @@
 ﻿namespace XspecT.Internal.Pipelines;
 
-public class Arranger
+internal class Arranger
 {
     private readonly List<Action> _arrangements = new();
     internal void Push(Action arrangement) => _arrangements.Insert(0, arrangement);

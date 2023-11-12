@@ -1,6 +1,5 @@
-﻿using XspecT.Fixture;
+﻿using XspecT.Assert;
 using XspecT.Test.Subjects.RecordStructDefaults;
-using XspecT.Verification;
 
 namespace XspecT.Test.Tests.KeyService;
 

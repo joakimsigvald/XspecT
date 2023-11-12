@@ -1,5 +1,4 @@
-﻿using XspecT.Fixture;
-using XspecT.Verification;
+﻿using XspecT.Assert;
 
 namespace XspecT.Test.AutoMock;
 
