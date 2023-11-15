@@ -10,17 +10,8 @@ internal class SpecActor<TResult>
     private Exception _error;
     private TResult _result;
 
-    internal SpecActor<TResult> When(Action command)
-    {
-        _command = command;
-        return this;
-    }
-
-    internal SpecActor<TResult> When(Func<TResult> function)
-    {
-        _function = function;
-        return this;
-    }
+    internal void When(Action command) => _command = command;
+    internal void When(Func<TResult> function) => _function = function;
 
     internal TestResult<TResult> Execute(Context context)
     {

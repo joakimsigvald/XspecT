@@ -1,7 +1,7 @@
 ﻿namespace XspecT.Internal.Pipelines;
 
 internal abstract class SubjectTestPipeline<TSUT, TResult>
-    : SubjectTestPipelineBase<TSUT, TResult>, ISubjectTestPipeline<TSUT, TResult>
+    : TestPipeline<TResult, SubjectSpec<TSUT, TResult>>, ISubjectTestPipeline<TSUT, TResult>
     where TSUT : class
 {
     internal SubjectTestPipeline(SubjectSpec<TSUT, TResult> parent)
@@ -12,7 +12,7 @@ internal abstract class SubjectTestPipeline<TSUT, TResult>
     /// </summary>
     /// <param name="act"></param>
     /// <returns></returns>
-    public IWhenContinuation<TSUT, TResult> When(Action<TSUT> act)
+    public ISubjectTestPipeline<TSUT, TResult> When(Action<TSUT> act)
         => Parent.When(act);
 
     /// <summary>
@@ -20,7 +20,7 @@ internal abstract class SubjectTestPipeline<TSUT, TResult>
     /// </summary>
     /// <param name="act"></param>
     /// <returns></returns>
-    public IWhenContinuation<TSUT, TResult> When(Func<TSUT, TResult> act)
+    public ISubjectTestPipeline<TSUT, TResult> When(Func<TSUT, TResult> act)
         => Parent.When(act);
 
     /// <summary>
@@ -28,7 +28,7 @@ internal abstract class SubjectTestPipeline<TSUT, TResult>
     /// </summary>
     /// <param name="action"></param>
     /// <returns></returns>
-    public IWhenContinuation<TSUT, TResult> When(Func<TSUT, Task> action)
+    public ISubjectTestPipeline<TSUT, TResult> When(Func<TSUT, Task> action)
         => Parent.When(action);
 
     /// <summary>
@@ -36,6 +36,19 @@ internal abstract class SubjectTestPipeline<TSUT, TResult>
     /// </summary>
     /// <param name="func"></param>
     /// <returns></returns>
-    public IWhenContinuation<TSUT, TResult> When(Func<TSUT, Task<TResult>> func)
+    public ISubjectTestPipeline<TSUT, TResult> When(Func<TSUT, Task<TResult>> func)
         => Parent.When(func);
+
+    public IGivenContinuation<TSUT, TResult, TService> Given<TService>() where TService : class
+        => Parent.Given<TService>();
+
+    public IGivenContinuation<TSUT, TResult> Given() => Parent.Given();
+
+    public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(Action<TValue> setup) where TValue : class
+        => Parent.Given(setup);
+
+    public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(Func<TValue> value) => Parent.Given(value);
+
+    public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(TValue value) => Parent.Given(value);
+
 }
