@@ -54,7 +54,7 @@ public abstract partial class Spec<TResult> : ITestPipeline<TResult>, IDisposabl
     /// <typeparam name="TValue"></typeparam>
     /// <param name="value"></param>
     /// <returns></returns>
-    protected TValue A<TValue>(TValue value) => _pipeline.Mention(0, value, false);
+    protected TValue A<TValue>(TValue value) => _pipeline.Mention(0, value);
 
     /// <summary>
     /// Yields a second value of the given type

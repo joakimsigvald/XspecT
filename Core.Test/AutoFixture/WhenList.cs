@@ -6,6 +6,13 @@ public class WhenList : SubjectSpec<MyRetreiver, MyModel[]>
 {
     public WhenList() => When(_ => _.List());
 
+    public class GivenOneSpecificElement : WhenList
+    {
+        private readonly MyModel _theModel = new();
+        public GivenOneSpecificElement() => Given<IMyRepository>().That(_ => _.List()).Returns(() => One(_theModel));
+        [Fact] public void ThenElementCanBeRetreived() => Then().Result.Single().Is(_theModel);
+    }
+
     public class GivenOneElement : WhenList
     {
         public GivenOneElement() => Given<IMyRepository>().That(_ => _.List()).Returns(One<MyModel>);

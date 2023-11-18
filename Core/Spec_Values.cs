@@ -5,6 +5,17 @@ namespace XspecT;
 public abstract partial class Spec<TResult> : ITestPipeline<TResult>, IDisposable
 {
     /// <summary>
+    /// Yields an array with the provided element
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <returns></returns>
+    protected TValue[] One<TValue>(TValue value)
+    {
+        _pipeline.Mention(0, value);
+        return _pipeline.MentionMany<TValue>(1);
+    }
+
+    /// <summary>
     /// Yields an array with one element of the given type
     /// </summary>
     /// <typeparam name="TValue"></typeparam>

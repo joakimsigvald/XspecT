@@ -1,39 +1,24 @@
-﻿using Moq;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
 namespace XspecT.Internal.Pipelines;
 
 internal class GivenThatAsyncContinuation<TSUT, TResult, TService, TReturns>
-    : IGivenThatContinuation<TSUT, TResult, TService, TReturns>
+    : GivenThatCommonContinuation<TSUT, TResult, TService, TReturns>
     where TSUT : class
     where TService : class
 {
-    private readonly SubjectSpec<TSUT, TResult> _subjectSpec;
     private readonly Expression<Func<TService, Task<TReturns>>> _expression;
 
     public GivenThatAsyncContinuation(
         SubjectSpec<TSUT, TResult> subjectSpec, Expression<Func<TService, Task<TReturns>>> expression)
-    {
-        _subjectSpec = subjectSpec;
-        _expression = expression;
-    }
+        : base(subjectSpec) => _expression = expression;
 
-    public IGivenSubjectTestPipeline<TSUT, TResult> Returns(Func<TReturns> returns)
-    {
-        _subjectSpec.SetupMock(_expression, returns);
-        return new GivenSubjectTestPipeline<TSUT, TResult>(_subjectSpec);
-    }
+    protected override void SetupReturns(Func<TReturns> returns)
+        => Spec.SetupMock(_expression, returns);
 
-    public IGivenSubjectTestPipeline<TSUT, TResult> Throws<TException>()
-        where TException : Exception, new()
-    {
-        _subjectSpec.SetupMock<TService>(_ => _.Setup(_expression).Throws<TException>());
-        return new GivenSubjectTestPipeline<TSUT, TResult>(_subjectSpec);
-    }
+    protected override void SetupThrows<TException>()
+        => Spec.SetupMock<TService>(_ => _.Setup(_expression).Throws<TException>());
 
-    public IGivenSubjectTestPipeline<TSUT, TResult> Throws(Func<Exception> ex)
-    {
-        _subjectSpec.SetupMock<TService>(_ => _.Setup(_expression).Throws(ex()));
-        return new GivenSubjectTestPipeline<TSUT, TResult>(_subjectSpec);
-    }
+    protected override void SetupThrows(Func<Exception> ex)
+        => Spec.SetupMock<TService>(_ => _.Setup(_expression).Throws(ex()));
 }
