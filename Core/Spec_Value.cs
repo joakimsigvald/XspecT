@@ -2,7 +2,7 @@
 
 namespace XspecT;
 
-public abstract partial class Spec<TResult> : ITestPipeline<TResult>, IDisposable
+public abstract partial class Spec<TResult> : ITestPipeline<TResult>
 {
     /// <summary>
     /// Yields a value of the given type

@@ -38,60 +38,78 @@ internal class Pipeline<TResult> : IPipeline<TResult>
         where TService : class
         => TestResult.Verify(expression, times);
 
-    public void SetAction(Action act)
+    internal void SetAction(Action act)
     {
         if (HasRun)
             throw new SetupFailed("When must be called before Then");
         _actor.When(act ?? throw new SetupFailed("Act cannot be null"));
     }
 
-    public void SetAction(Func<TResult> act)
+    internal void SetAction(Func<TResult> act)
     {
         if (HasRun)
             throw new SetupFailed("When must be called before Then");
         _actor.When(act ?? throw new SetupFailed("Act cannot be null"));
     }
 
-    public void SetAction(Func<Task> action) => SetAction(() => Execute(action));
+    internal void SetAction(Func<Task> action) => SetAction(() => Execute(action));
 
-    public void SetAction(Func<Task<TResult>> func) => SetAction(() => Execute(func));
+    internal void SetAction(Func<Task<TResult>> func) => SetAction(() => Execute(func));
 
-    protected virtual void Arrange() { }
+    internal void SetSetUp(Action setUp)
+    {
+        if (HasRun)
+            throw new SetupFailed("After must be called before Then");
+        _actor.After(setUp ?? throw new SetupFailed("SetUp cannot be null"));
+    }
 
-    public TValue Mention<TValue>(int index) => _context.Mention<TValue>(index);
+    internal void SetSetUp(Func<Task> setUp) => SetSetUp(() => Execute(setUp));
 
-    public TValue Create<TValue>() => _context.Create<TValue>();
+    internal void SetTearDown(Action tearDown)
+    {
+        if (HasRun)
+            throw new SetupFailed("Before must be called before Then");
+        _actor.Before(tearDown ?? throw new SetupFailed("TearDown cannot be null"));
+    }
 
-    public TValue Create<TValue>([NotNull] Action<TValue> setup)
+    internal void SetTearDown(Func<Task> tearDown) => SetTearDown(() => Execute(tearDown));
+
+    internal virtual void Arrange() { }
+
+    internal TValue Mention<TValue>(int index) => _context.Mention<TValue>(index);
+
+    internal TValue Create<TValue>() => _context.Create<TValue>();
+
+    internal TValue Create<TValue>([NotNull] Action<TValue> setup)
     {
         if (HasRun)
             throw new SetupFailed("Setup to auto-generated values must be provided before Then");
         return Context.ApplyTo(setup, _context.Create<TValue>());
     }
 
-    public TValue[] MentionMany<TValue>(int count, int? minCount = null) 
+    internal TValue[] MentionMany<TValue>(int count, int? minCount = null) 
         => _context.MentionMany<TValue>(count, minCount);
 
-    public TValue Mention<TValue>(string label) => _context.Mention<TValue>(label);
+    internal TValue Mention<TValue>(string label) => _context.Mention<TValue>(label);
 
-    public TValue[] MentionMany<TValue>([NotNull] Action<TValue> setup, int count)
+    internal TValue[] MentionMany<TValue>([NotNull] Action<TValue> setup, int count)
         => _context.MentionMany(setup, count);
 
-    public TValue Mention<TValue>(int index, [NotNull] Action<TValue> setup)
+    internal TValue Mention<TValue>(int index, [NotNull] Action<TValue> setup)
     {
         if (HasRun)
             throw new SetupFailed("Setup to auto-generated values must be provided before Then");
         return _context.Mention(index, setup);
     }
 
-    public TValue Mention<TValue>(int index, TValue value, bool asDefault = false)
+    internal TValue Mention<TValue>(int index, TValue value, bool asDefault = false)
     {
         if (HasRun)
             throw new SetupFailed("Setup to auto-generated values must be provided before Then");
         return _context.Mention(value, index, asDefault);
     }
 
-    public TValue[] MentionMany<TValue>([NotNull] Action<TValue, int> setup, int count)
+    internal TValue[] MentionMany<TValue>([NotNull] Action<TValue, int> setup, int count)
         => _context.MentionMany(setup, count);
 
     private TestResult<TResult> TestResult => _then ??= Run();

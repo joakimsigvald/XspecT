@@ -37,6 +37,35 @@ public interface ISubjectTestPipeline<TSUT, TResult> : ITestPipeline<TResult>
     /// <param name="func"></param>
     /// <returns></returns>
     ISubjectTestPipeline<TSUT, TResult> When(Func<TSUT, Task<TResult>> func);
+
+    /// <summary>
+    /// TODO
+    /// </summary>
+    /// <param name="setUp"></param>
+    /// <returns></returns>
+    ISubjectTestPipeline<TSUT, TResult> After(Action<TSUT> setUp);
+
+    /// <summary>
+    /// TODO
+    /// </summary>
+    /// <param name="setUp"></param>
+    /// <returns></returns>
+    ISubjectTestPipeline<TSUT, TResult> After(Func<TSUT, Task> setUp);
+
+    /// <summary>
+    /// TODO
+    /// </summary>
+    /// <param name="tearDown"></param>
+    /// <returns></returns>
+    ISubjectTestPipeline<TSUT, TResult> Before(Action<TSUT> tearDown);
+
+    /// <summary>
+    /// TODO
+    /// </summary>
+    /// <param name="tearDown"></param>
+    /// <returns></returns>
+    ISubjectTestPipeline<TSUT, TResult> Before(Func<TSUT, Task> tearDown);
+
     /// <summary>
     /// TODO
     /// </summary>
@@ -73,5 +102,4 @@ public interface ISubjectTestPipeline<TSUT, TResult> : ITestPipeline<TResult>
     /// <param name="value"></param>
     /// <returns></returns>
     IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(TValue value);
-
 }

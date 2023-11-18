@@ -39,6 +39,38 @@ internal abstract class SubjectTestPipeline<TSUT, TResult>
     public ISubjectTestPipeline<TSUT, TResult> When(Func<TSUT, Task<TResult>> func)
         => Parent.When(func);
 
+    /// <summary>
+    /// Provide setUp to the test-pipeline
+    /// </summary>
+    /// <param name="setUp"></param>
+    /// <returns></returns>
+    public ISubjectTestPipeline<TSUT, TResult> After(Action<TSUT> setUp)
+        => Parent.When(setUp);
+
+    /// <summary>
+    /// Provide setUp to the test-pipeline
+    /// </summary>
+    /// <param name="setUp"></param>
+    /// <returns></returns>
+    public ISubjectTestPipeline<TSUT, TResult> After(Func<TSUT, Task> setUp)
+        => Parent.When(setUp);
+
+    /// <summary>
+    /// Provide tearDown to the test-pipeline
+    /// </summary>
+    /// <param name="tearDown"></param>
+    /// <returns></returns>
+    public ISubjectTestPipeline<TSUT, TResult> Before(Action<TSUT> tearDown)
+        => Parent.When(tearDown);
+
+    /// <summary>
+    /// Provide tearDown to the test-pipeline
+    /// </summary>
+    /// <param name="tearDown"></param>
+    /// <returns></returns>
+    public ISubjectTestPipeline<TSUT, TResult> Before(Func<TSUT, Task> tearDown)
+        => Parent.When(tearDown);
+
     public IGivenContinuation<TSUT, TResult, TService> Given<TService>() where TService : class
         => Parent.Given<TService>();
 

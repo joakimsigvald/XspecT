@@ -3,15 +3,13 @@ using System.Globalization;
 using System.Linq.Expressions;
 using XspecT.Internal.Pipelines;
 
-using static XspecT.Internal.Pipelines.AsyncHelper;
-
 namespace XspecT;
 
 /// <summary>
 /// TODO
 /// </summary>
 /// <typeparam name="TResult"></typeparam>
-public abstract partial class Spec<TResult> : ITestPipeline<TResult>, IDisposable
+public abstract partial class Spec<TResult> : ITestPipeline<TResult>
 {
     internal readonly Pipeline<TResult> _pipeline;
 
@@ -103,29 +101,9 @@ public abstract partial class Spec<TResult> : ITestPipeline<TResult>, IDisposabl
         => _pipeline.Then(expression, times);
 
     /// <summary>
-    /// TODO
-    /// </summary>
-    public void Dispose()
-    {
-        TearDown();
-        Execute(TearDownAsync);
-        GC.SuppressFinalize(this);
-    }
-
-    /// <summary>
     /// Contains the returned value after calling method-under-test
     /// </summary>
     protected TResult Result => _pipeline.Then().Result;
-
-    /// <summary>
-    /// Override this method to provide tear-down logic after test has run
-    /// </summary>
-    protected virtual void TearDown() { }
-
-    /// <summary>
-    /// Override this method to provide async tear-down logic after test has run
-    /// </summary>
-    protected virtual Task TearDownAsync() => Task.CompletedTask;
 
     /// <summary>
     /// Override this to set different Culture than InvariantCulture during test

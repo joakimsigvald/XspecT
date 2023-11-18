@@ -67,6 +67,50 @@ public abstract class SubjectSpec<TSUT, TResult> : Spec<TResult>, ISubjectTestPi
     }
 
     /// <summary>
+    /// Provide the tearDown to the test-pipeline
+    /// </summary>
+    /// <param name="tearDown"></param>
+    /// <returns></returns>
+    public ISubjectTestPipeline<TSUT, TResult> Before(Action<TSUT> tearDown)
+    {
+        Pipeline.SetTearDown(() => tearDown(SUT));
+        return this;
+    }
+
+    /// <summary>
+    /// Provide the tearDown to the test-pipeline
+    /// </summary>
+    /// <param name="tearDown"></param>
+    /// <returns></returns>
+    public ISubjectTestPipeline<TSUT, TResult> Before(Func<TSUT, Task> tearDown)
+    {
+        Pipeline.SetTearDown(() => tearDown(SUT));
+        return this;
+    }
+
+    /// <summary>
+    /// Provide the setUp to the test-pipeline
+    /// </summary>
+    /// <param name="setUp"></param>
+    /// <returns></returns>
+    public ISubjectTestPipeline<TSUT, TResult> After(Action<TSUT> setUp)
+    {
+        Pipeline.SetSetUp(() => setUp(SUT));
+        return this;
+    }
+
+    /// <summary>
+    /// Provide the setUp to the test-pipeline
+    /// </summary>
+    /// <param name="setUp"></param>
+    /// <returns></returns>
+    public ISubjectTestPipeline<TSUT, TResult> After(Func<TSUT, Task> setUp)
+    {
+        Pipeline.SetSetUp(() => setUp(SUT));
+        return this;
+    }
+
+    /// <summary>
     /// TODO
     /// </summary>
     /// <typeparam name="TService"></typeparam>

@@ -21,12 +21,7 @@ internal class TestResult<TResult> : ITestResult<TResult>
 
     public TResult Result
     {
-        get => _hasResult && _error is null
-            ? _result
-            : throw _error
-            ?? new SetupFailed(
-@"Tried to use Result, but an action, or func with different return type, was provided as method under test (When). 
-Try providing a function with the Spec's declared return type instead as parameter to When");
+        get => _hasResult && _error is null ? _result : throw UnexpectedError;
         init => _result = value;
     }
 
@@ -86,6 +81,11 @@ Try providing a function with the Spec's declared return type instead as paramet
     internal IAndVerify<TResult> Verify<TObject, TReturns>(Expression<Func<TObject, TReturns>> expression, Func<Times> times)
         where TObject : class
         => CombineWithErrorOnFail(() => Mocked<TObject>().Verify(expression, times));
+
+    private Exception UnexpectedError
+        => _error ?? new SetupFailed(
+@"Tried to use Result, but an action, or func with different return type, was provided as method under test (When). 
+Try providing a function with the Spec's declared return type instead as parameter to When");
 
     private Mock<TObject> Mocked<TObject>() where TObject : class => _context.GetMock<TObject>();
 

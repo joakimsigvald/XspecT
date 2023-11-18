@@ -1,6 +1,5 @@
 ﻿using Moq;
 using System.Linq.Expressions;
-using XspecT;
 
 namespace XspecT.Internal.Pipelines;
 
@@ -8,9 +7,9 @@ internal class SubjectPipeline<TSUT, TResult> : Pipeline<TResult>
     where TSUT : class
 {
     private readonly Arranger _arranger = new();
-    public TSUT SUT { get; private set; }
+    internal TSUT SUT { get; private set; }
 
-    protected override void Arrange()
+    internal override sealed void Arrange()
     {
         _arranger.Arrange();
         SUT = CreateInstance<TSUT>();
