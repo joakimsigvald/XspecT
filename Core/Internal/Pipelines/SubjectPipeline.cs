@@ -7,12 +7,12 @@ internal class SubjectPipeline<TSUT, TResult> : Pipeline<TResult>
     where TSUT : class
 {
     private readonly Arranger _arranger = new();
-    internal TSUT SUT { get; private set; }
+    private TSUT _sut;
 
     internal override sealed void Arrange()
     {
         _arranger.Arrange();
-        SUT = CreateInstance<TSUT>();
+        _sut = CreateInstance<TSUT>();
     }
 
     internal TValue CreateInstance<TValue>() where TValue : class
@@ -43,4 +43,13 @@ internal class SubjectPipeline<TSUT, TResult> : Pipeline<TResult>
         where TService : class
         => _arranger.Push(() => GetMock<TService>().SetupSequence(expression)
         .ReturnsAsync(returns).ReturnsAsync(returns).ReturnsAsync(returns).ReturnsAsync(returns).ReturnsAsync(returns));
+
+    internal void SetAction(Action<TSUT> act) => SetAction(() => act(_sut));
+    internal void SetAction(Func<TSUT, TResult> act) => SetAction(() => act(_sut));
+    internal void SetAction(Func<TSUT, Task> action) => SetAction(() => action(_sut));
+    internal void SetAction(Func<TSUT, Task<TResult>> func) => SetAction(() => func(_sut));
+    internal void SetTearDown(Action<TSUT> tearDown) => SetTearDown(() => tearDown(_sut));
+    internal void SetTearDown(Func<TSUT, Task> tearDown) => SetTearDown(() => tearDown(_sut));
+    internal void SetSetUp(Action<TSUT> setUp) => SetSetUp(() => setUp(_sut));
+    internal void SetSetUp(Func<TSUT, Task> setUp) => SetSetUp(() => setUp(_sut));
 }

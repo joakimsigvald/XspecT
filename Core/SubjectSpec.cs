@@ -18,18 +18,13 @@ public abstract class SubjectSpec<TSUT, TResult> : Spec<TResult>, ISubjectTestPi
     protected SubjectSpec() : base(new SubjectPipeline<TSUT, TResult>()) { }
 
     /// <summary>
-    /// TODO
-    /// </summary>
-    protected TSUT SUT => Pipeline.SUT;
-
-    /// <summary>
     /// Provide the method-under-test to the test-pipeline
     /// </summary>
     /// <param name="act"></param>
     /// <returns></returns>
     public ISubjectTestPipeline<TSUT, TResult> When(Action<TSUT> act)
     {
-        Pipeline.SetAction(() => act(SUT));
+        Pipeline.SetAction(act);
         return this;
     }
 
@@ -40,7 +35,7 @@ public abstract class SubjectSpec<TSUT, TResult> : Spec<TResult>, ISubjectTestPi
     /// <returns></returns>
     public ISubjectTestPipeline<TSUT, TResult> When(Func<TSUT, TResult> act)
     {
-        Pipeline.SetAction(() => act(SUT));
+        Pipeline.SetAction(act);
         return this;
     }
 
@@ -51,7 +46,7 @@ public abstract class SubjectSpec<TSUT, TResult> : Spec<TResult>, ISubjectTestPi
     /// <returns></returns>
     public ISubjectTestPipeline<TSUT, TResult> When(Func<TSUT, Task> action)
     {
-        Pipeline.SetAction(() => action(SUT));
+        Pipeline.SetAction(action);
         return this;
     }
 
@@ -62,7 +57,7 @@ public abstract class SubjectSpec<TSUT, TResult> : Spec<TResult>, ISubjectTestPi
     /// <returns></returns>
     public ISubjectTestPipeline<TSUT, TResult> When(Func<TSUT, Task<TResult>> func)
     {
-        Pipeline.SetAction(() => func(SUT));
+        Pipeline.SetAction(func);
         return this;
     }
 
@@ -73,7 +68,7 @@ public abstract class SubjectSpec<TSUT, TResult> : Spec<TResult>, ISubjectTestPi
     /// <returns></returns>
     public ISubjectTestPipeline<TSUT, TResult> Before(Action<TSUT> tearDown)
     {
-        Pipeline.SetTearDown(() => tearDown(SUT));
+        Pipeline.SetTearDown(tearDown);
         return this;
     }
 
@@ -84,7 +79,7 @@ public abstract class SubjectSpec<TSUT, TResult> : Spec<TResult>, ISubjectTestPi
     /// <returns></returns>
     public ISubjectTestPipeline<TSUT, TResult> Before(Func<TSUT, Task> tearDown)
     {
-        Pipeline.SetTearDown(() => tearDown(SUT));
+        Pipeline.SetTearDown(tearDown);
         return this;
     }
 
@@ -95,7 +90,7 @@ public abstract class SubjectSpec<TSUT, TResult> : Spec<TResult>, ISubjectTestPi
     /// <returns></returns>
     public ISubjectTestPipeline<TSUT, TResult> After(Action<TSUT> setUp)
     {
-        Pipeline.SetSetUp(() => setUp(SUT));
+        Pipeline.SetSetUp(setUp);
         return this;
     }
 
@@ -106,7 +101,7 @@ public abstract class SubjectSpec<TSUT, TResult> : Spec<TResult>, ISubjectTestPi
     /// <returns></returns>
     public ISubjectTestPipeline<TSUT, TResult> After(Func<TSUT, Task> setUp)
     {
-        Pipeline.SetSetUp(() => setUp(SUT));
+        Pipeline.SetSetUp(setUp);
         return this;
     }
 
