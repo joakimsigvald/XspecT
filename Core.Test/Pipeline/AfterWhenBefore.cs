@@ -27,4 +27,8 @@ public class AfterWhenBefore : SubjectSpec<MyStateService, int>
     [Fact]
     public void GivenCallThenBeforeWhen_ThenThrowSetupFailed()
         => Xunit.Assert.Throws<SetupFailed>(() => Then().Throws<Exception>());
+
+    [Fact]
+    public void WhenBeforeGivenAfter()
+        => When(_ => ++_.Counter).Before(_ => ++_.Counter).Given(1).After(_ => _.Counter++).Then().Result.Is(2);
 }
