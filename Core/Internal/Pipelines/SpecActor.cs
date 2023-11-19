@@ -44,10 +44,16 @@ internal class SpecActor<TResult>
     {
         if (_setUp is not null)
             _setUp();
-        CatchError(_command ?? GetResult);
-        if (_tearDown is not null)
-            _tearDown();
-        return new(_result, _error, context, _command is null);
+        try
+        {
+            CatchError(_command ?? GetResult);
+            return new(_result, _error, context, _command is null);
+        }
+        finally
+        {
+            if (_tearDown is not null)
+                _tearDown();
+        }
     }
 
     private void GetResult()
