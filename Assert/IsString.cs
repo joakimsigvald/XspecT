@@ -28,6 +28,24 @@ public class IsString : Constraint<IsStringContinuation, string>
     }
 
     /// <summary>
+    /// actual.Should().BeEmpty(expected)
+    /// </summary>
+    public ContinueWith<IsStringContinuation> Empty()
+    {
+        _actual.Should().BeEmpty();
+        return And();
+    }
+
+    /// <summary>
+    /// actual.Should().NotBeEmpty(expected)
+    /// </summary>
+    public ContinueWith<IsStringContinuation> NotEmpty()
+    {
+        _actual.Should().NotBeEmpty();
+        return And();
+    }
+
+    /// <summary>
     /// actual.Should().NotBeNull(expected)
     /// </summary>
     public ContinueWith<IsStringContinuation> NotNull()

@@ -5,6 +5,8 @@ namespace XspecT.Test.Verification;
 
 public class WhenString : StaticSpec<string>
 {
+    [Fact] public void IsEmpty() => "".Is().Empty();
+    [Fact] public void IsNotEmpty() => "x".Is().NotEmpty();
     [Fact] public void DoesContainSubstring() => "abcd".Does().Contain("abc");
     [Fact] public void DoesContainAndContainSubstrings() => "abcd".Does().Contain("abc").And.Contain("bcd");
     [Fact] public void DoesNotContainOtherString() => "abcd".Does().NotContain("xxx");
