@@ -196,6 +196,13 @@ public static class AssertionExtensions
     /// </summary>
     /// <param name="actual"></param>
     /// <returns></returns>
+    public static DoesString Does(this string actual) => new(actual);
+
+    /// <summary>
+    /// TODO
+    /// </summary>
+    /// <param name="actual"></param>
+    /// <returns></returns>
     public static IsObject Is(this object actual) => new(actual);
 
     /// <summary>

@@ -1,2 +1,1 @@
 * Comment all public methods
-* Continuation for enumerable assertions (Has.Count followed by Has.All)

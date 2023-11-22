@@ -1,6 +1,7 @@
 ﻿using XspecT.Assert;
+using Xunit;
 
-namespace XspecT.Test.Verification;
+namespace XspecT.Test.Assert;
 
 public class WhenDateTime : StaticSpec<DateTime>
 {

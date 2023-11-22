@@ -5,14 +5,14 @@ namespace XspecT.Assert;
 /// <summary>
 /// TODO
 /// </summary>
-public class IsString : Constraint<IsString, string>
+public class IsString : Constraint<IsStringContinuation, string>
 {
     internal IsString(string actual) : base(actual) { }
 
     /// <summary>
     /// actual.Should().BeEquivalentTo(expected)
     /// </summary>
-    public ContinueWith<IsString> Like(string expected)
+    public ContinueWith<IsStringContinuation> Like(string expected)
     {
         _actual.Should().BeEquivalentTo(expected);
         return And();
@@ -21,7 +21,7 @@ public class IsString : Constraint<IsString, string>
     /// <summary>
     /// actual.Should().BeNull(expected)
     /// </summary>
-    public ContinueWith<IsString> Null()
+    public ContinueWith<IsStringContinuation> Null()
     {
         _actual.Should().BeNull();
         return And();
@@ -30,7 +30,7 @@ public class IsString : Constraint<IsString, string>
     /// <summary>
     /// actual.Should().NotBeNull(expected)
     /// </summary>
-    public ContinueWith<IsString> NotNull()
+    public ContinueWith<IsStringContinuation> NotNull()
     {
         _actual.Should().NotBeNull();
         return And();
@@ -39,7 +39,7 @@ public class IsString : Constraint<IsString, string>
     /// <summary>
     /// actual.Should().BeNullOrEmpty(expected)
     /// </summary>
-    public ContinueWith<IsString> NullOrEmpty()
+    public ContinueWith<IsStringContinuation> NullOrEmpty()
     {
         _actual.Should().BeNullOrEmpty();
         return And();
@@ -48,7 +48,7 @@ public class IsString : Constraint<IsString, string>
     /// <summary>
     /// actual.Should().NotBeNullOrEmpty(expected)
     /// </summary>
-    public ContinueWith<IsString> NotNullOrEmpty()
+    public ContinueWith<IsStringContinuation> NotNullOrEmpty()
     {
         _actual.Should().NotBeNullOrEmpty();
         return And();
@@ -57,7 +57,7 @@ public class IsString : Constraint<IsString, string>
     /// <summary>
     /// actual.Should().BeNullOrWhiteSpace(expected)
     /// </summary>
-    public ContinueWith<IsString> NullOrWhitespace()
+    public ContinueWith<IsStringContinuation> NullOrWhitespace()
     {
         _actual.Should().BeNullOrWhiteSpace();
         return And();
@@ -66,9 +66,11 @@ public class IsString : Constraint<IsString, string>
     /// <summary>
     /// actual.Should().NotBeNullOrWhiteSpace(expected)
     /// </summary>
-    public ContinueWith<IsString> NotNullOrWhitespace()
+    public ContinueWith<IsStringContinuation> NotNullOrWhitespace()
     {
         _actual.Should().NotBeNullOrWhiteSpace();
         return And();
     }
+
+    internal override IsStringContinuation Continue() => new(_actual);
 }
