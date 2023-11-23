@@ -91,4 +91,15 @@ public class IsString : Constraint<IsStringContinuation, string>
     }
 
     internal override IsStringContinuation Continue() => new(_actual);
+
+    /// <summary>
+    /// TODO
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    public ContinueWith<IsStringContinuation> Not(string value)
+    {
+        _actual.Should().NotBe(value);
+        return And();
+    }
 }
