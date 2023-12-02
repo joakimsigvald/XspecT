@@ -1,7 +1,7 @@
 ﻿namespace XspecT.Assert;
 
 /// <summary>
-/// TODO
+/// Base class for object that allows a chain of assertions to be made on the provided value
 /// </summary>
 public abstract class Constraint<TConstraint, TActual> where TConstraint : Constraint<TConstraint, TActual>
 {

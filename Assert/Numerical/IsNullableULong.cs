@@ -3,7 +3,7 @@
 namespace XspecT.Assert.Numerical;
 
 /// <summary>
-/// TODO
+/// Object that allows an assertions to be made on the provided nullable ulong
 /// </summary>
 public class IsNullableULong : IsNullableNumerical<ulong, IsNullableULong>
 {

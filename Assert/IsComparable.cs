@@ -3,7 +3,7 @@
 namespace XspecT.Assert;
 
 /// <summary>
-/// TODO
+/// Object that allows an assertions to be made on the provided comparable
 /// </summary>
 /// <typeparam name="TActual"></typeparam>
 public class IsComparable<TActual> : Constraint<IsComparable<TActual>, TActual>

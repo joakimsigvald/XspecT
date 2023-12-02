@@ -3,7 +3,7 @@
 namespace XspecT.Assert.Numerical;
 
 /// <summary>
-/// TODO
+/// Base class that allows an assertions to be made on the provided numerical
 /// </summary>
 /// <typeparam name="TConstraint"></typeparam>
 /// <typeparam name="TActual"></typeparam>

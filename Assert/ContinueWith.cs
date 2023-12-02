@@ -1,7 +1,7 @@
 ﻿namespace XspecT.Assert;
 
 /// <summary>
-/// TODO
+/// Return-value from an assertion, that allows another assertion to be chained to the previous (if it succeeded)
 /// </summary>
 /// <typeparam name="TContinuation"></typeparam>
 public class ContinueWith<TContinuation>
@@ -10,7 +10,7 @@ public class ContinueWith<TContinuation>
     internal ContinueWith(TContinuation continuation) => _continuation = continuation;
 
     /// <summary>
-    /// TODO
+    /// Get a continuation to make the next assertion
     /// </summary>
     public TContinuation And => _continuation;
 }

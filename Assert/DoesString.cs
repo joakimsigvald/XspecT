@@ -3,14 +3,14 @@
 namespace XspecT.Assert;
 
 /// <summary>
-/// TODO
+/// Object that allows an assertions to be made on the provided string
 /// </summary>
 public class DoesString : Constraint<DoesString, string>
 {
     internal DoesString(string actual) : base(actual) { }
 
     /// <summary>
-    /// TODO
+    /// Asserts that the string contains the expected string
     /// </summary>
     public ContinueWith<DoesString> Contain(string expected)
     {
@@ -19,7 +19,7 @@ public class DoesString : Constraint<DoesString, string>
     }
 
     /// <summary>
-    /// TODO
+    /// Asserts that the string does not contain the expected string
     /// </summary>
     public ContinueWith<DoesString> NotContain(string other)
     {

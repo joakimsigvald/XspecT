@@ -3,7 +3,7 @@
 namespace XspecT.Assert;
 
 /// <summary>
-/// TODO
+/// Object that allows an assertions to be made on the provided object
 /// </summary>
 public class IsObject : Constraint<IsObject, object>
 {

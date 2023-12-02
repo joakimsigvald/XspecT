@@ -1,7 +1,7 @@
 ﻿namespace XspecT.Assert.Numerical;
 
 /// <summary>
-/// TODO
+/// Object that allows an assertions to be made on the provided byte
 /// </summary>
 public class IsByte : IsNumerical<IsByte, byte>
 {

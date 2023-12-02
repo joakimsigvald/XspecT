@@ -3,7 +3,7 @@
 namespace XspecT.Assert.Time;
 
 /// <summary>
-/// TODO
+/// Object that allows an assertions to be made on the provided nullable TimeSpan
 /// </summary>
 public class IsNullableTimeSpan : Constraint<IsNullableTimeSpan, TimeSpan?>
 {

@@ -3,13 +3,14 @@
 namespace XspecT.Assert;
 
 /// <summary>
-/// TODO
+/// Object that allows an assertions to be made on the provided string
 /// </summary>
 public class IsString : Constraint<IsStringContinuation, string>
 {
     internal IsString(string actual) : base(actual) { }
 
     /// <summary>
+    /// Asserts that the string is equivalent to expected, ignoring casing and leading or trailing whitespace
     /// actual.Should().BeEquivalentTo(expected)
     /// </summary>
     public ContinueWith<IsStringContinuation> Like(string expected)
@@ -19,7 +20,7 @@ public class IsString : Constraint<IsStringContinuation, string>
     }
 
     /// <summary>
-    /// actual.Should().BeNull(expected)
+    /// Asserts that the string is null
     /// </summary>
     public ContinueWith<IsStringContinuation> Null()
     {
@@ -28,7 +29,7 @@ public class IsString : Constraint<IsStringContinuation, string>
     }
 
     /// <summary>
-    /// actual.Should().BeEmpty(expected)
+    /// Asserts that the string is empty
     /// </summary>
     public ContinueWith<IsStringContinuation> Empty()
     {
@@ -37,7 +38,7 @@ public class IsString : Constraint<IsStringContinuation, string>
     }
 
     /// <summary>
-    /// actual.Should().NotBeEmpty(expected)
+    /// Asserts that the string is not empty
     /// </summary>
     public ContinueWith<IsStringContinuation> NotEmpty()
     {
@@ -46,7 +47,7 @@ public class IsString : Constraint<IsStringContinuation, string>
     }
 
     /// <summary>
-    /// actual.Should().NotBeNull(expected)
+    /// Asserts that the string is not null
     /// </summary>
     public ContinueWith<IsStringContinuation> NotNull()
     {
@@ -55,7 +56,7 @@ public class IsString : Constraint<IsStringContinuation, string>
     }
 
     /// <summary>
-    /// actual.Should().BeNullOrEmpty(expected)
+    /// Asserts that the string is null or empty
     /// </summary>
     public ContinueWith<IsStringContinuation> NullOrEmpty()
     {
@@ -64,7 +65,7 @@ public class IsString : Constraint<IsStringContinuation, string>
     }
 
     /// <summary>
-    /// actual.Should().NotBeNullOrEmpty(expected)
+    /// Asserts that the string is not null or empty
     /// </summary>
     public ContinueWith<IsStringContinuation> NotNullOrEmpty()
     {
@@ -73,7 +74,7 @@ public class IsString : Constraint<IsStringContinuation, string>
     }
 
     /// <summary>
-    /// actual.Should().BeNullOrWhiteSpace(expected)
+    /// Asserts that the string does not contain non-whitespace characters
     /// </summary>
     public ContinueWith<IsStringContinuation> NullOrWhitespace()
     {
@@ -82,7 +83,7 @@ public class IsString : Constraint<IsStringContinuation, string>
     }
 
     /// <summary>
-    /// actual.Should().NotBeNullOrWhiteSpace(expected)
+    /// Asserts that the string contains non-whitespace characters
     /// </summary>
     public ContinueWith<IsStringContinuation> NotNullOrWhitespace()
     {
@@ -90,10 +91,8 @@ public class IsString : Constraint<IsStringContinuation, string>
         return And();
     }
 
-    internal override IsStringContinuation Continue() => new(_actual);
-
     /// <summary>
-    /// TODO
+    /// Asserts that the string is not the given value
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
@@ -102,4 +101,6 @@ public class IsString : Constraint<IsStringContinuation, string>
         _actual.Should().NotBe(value);
         return And();
     }
+
+    internal override IsStringContinuation Continue() => new(_actual);
 }

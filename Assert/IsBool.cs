@@ -3,7 +3,7 @@
 namespace XspecT.Assert;
 
 /// <summary>
-/// TODO
+/// Object that allows an assertions to be made on the provided bool
 /// </summary>
 public class IsBool : Constraint<IsBool, bool>
 {

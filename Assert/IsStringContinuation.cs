@@ -1,7 +1,7 @@
 ﻿namespace XspecT.Assert;
 
 /// <summary>
-/// TODO
+/// Object that allows another assertions to be made on the provided string
 /// </summary>
 public class IsStringContinuation : IsString
 {
@@ -10,13 +10,13 @@ public class IsStringContinuation : IsString
     }
 
     /// <summary>
-    /// TODO
+    /// Asserts that the string contains the given string
     /// </summary>
     public ContinueWith<DoesString> Contain(string expected)
         => new DoesString(_actual).Contain(expected);
 
     /// <summary>
-    /// TODO
+    /// Asserts that the string does not contains the given string
     /// </summary>
     public ContinueWith<DoesString> NotContain(string other)
         => new DoesString(_actual).NotContain(other);

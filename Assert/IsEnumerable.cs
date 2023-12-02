@@ -3,7 +3,7 @@
 namespace XspecT.Assert;
 
 /// <summary>
-/// TODO
+/// Object that allows an assertions to be made on the provided enumerable
 /// </summary>
 /// <typeparam name="TItem"></typeparam>
 public class IsEnumerable<TItem> : Constraint<IsEnumerable<TItem>, IEnumerable<TItem>>

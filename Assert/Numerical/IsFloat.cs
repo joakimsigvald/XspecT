@@ -3,14 +3,14 @@
 namespace XspecT.Assert.Numerical;
 
 /// <summary>
-/// TODO
+/// Object that allows an assertions to be made on the provided float
 /// </summary>
 public class IsFloat : IsNumerical<IsFloat, float>
 {
     internal IsFloat(float actual) : base(actual) { }
 
     /// <summary>
-    /// TODO
+    /// Asserts that the float is close to the given value, within the provided precision
     /// </summary>
     /// <param name="expected"></param>
     /// <param name="precision"></param>

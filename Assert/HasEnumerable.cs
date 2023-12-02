@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 namespace XspecT.Assert;
 
 /// <summary>
-/// TODO
+/// Object that allows an assertions to be made on the provided enumerable
 /// </summary>
 public class HasEnumerable<TItem> : Constraint<HasEnumerable<TItem>, IEnumerable<TItem>>
 {
@@ -58,7 +58,7 @@ public class HasEnumerable<TItem> : Constraint<HasEnumerable<TItem>, IEnumerable
     }
 
     /// <summary>
-    /// TODO
+    /// Applies the given assertion to all element of the enumerable
     /// </summary>
     /// <param name="assert"></param>
     /// <returns></returns>
@@ -69,7 +69,7 @@ public class HasEnumerable<TItem> : Constraint<HasEnumerable<TItem>, IEnumerable
     }
 
     /// <summary>
-    /// TODO
+    /// Applies the given assertion to all element of the enumerable
     /// </summary>
     /// <param name="assert"></param>
     /// <returns></returns>

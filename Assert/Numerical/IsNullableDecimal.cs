@@ -3,7 +3,7 @@
 namespace XspecT.Assert.Numerical;
 
 /// <summary>
-/// TODO
+/// Object that allows an assertions to be made on the provided nullable decimal
 /// </summary>
 public class IsNullableDecimal : IsNullableNumerical<decimal, IsNullableDecimal>
 {

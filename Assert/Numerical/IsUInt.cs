@@ -1,7 +1,7 @@
 ﻿namespace XspecT.Assert.Numerical;
 
 /// <summary>
-/// TODO
+/// Object that allows an assertions to be made on the provided uint
 /// </summary>
 public class IsUInt : IsNumerical<IsUInt, uint>
 {

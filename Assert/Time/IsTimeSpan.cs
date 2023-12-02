@@ -3,7 +3,7 @@
 namespace XspecT.Assert.Time;
 
 /// <summary>
-/// TODO
+/// Object that allows an assertions to be made on the provided TimeSpan
 /// </summary>
 public class IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
 {
@@ -30,7 +30,6 @@ public class IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
         _actual.Should().BeLessThan(expected);
         return And();
     }
-
 
     /// <summary>
     /// TODO
