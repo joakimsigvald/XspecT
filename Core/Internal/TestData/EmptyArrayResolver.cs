@@ -10,7 +10,7 @@ internal class EmptyArrayResolver : IMockResolver
             context.Value = CreateEmptyArray(context.RequestType);
     }
 
-    private static object CreateEmptyArray(Type type)
+    private static Array CreateEmptyArray(Type type)
     {
         Type elmType = type.GetElementType()
             ?? throw new InvalidOperationException($"Could not determine element type for '{type}'");

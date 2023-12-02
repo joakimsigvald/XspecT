@@ -5,10 +5,9 @@ internal abstract class StaticTestPipeline<TResult> : TestPipeline<TResult, Stat
     protected StaticTestPipeline(StaticSpec<TResult> parent) : base(parent) { }
 }
 
-internal class StaticTestPipeline<TValue, TResult> : StaticTestPipeline<TResult>, IStaticTestPipeline<TValue, TResult>
+internal class StaticTestPipeline<TValue, TResult>(StaticSpec<TResult> parent) 
+    : StaticTestPipeline<TResult>(parent), IStaticTestPipeline<TValue, TResult>
 {
-    public StaticTestPipeline(StaticSpec<TResult> parent) : base(parent) { }
-
     public IStaticTestPipeline<TValue, TResult> Given(TValue value)
         => Parent.Given(value);
 
@@ -25,11 +24,9 @@ internal class StaticTestPipeline<TValue, TResult> : StaticTestPipeline<TResult>
         => Parent.When(act);
 }
 
-internal class StaticTestPipeline<TValue1, TValue2, TResult>
-    : StaticTestPipeline<TResult>, IStaticTestPipeline<TValue1, TValue2, TResult>
+internal class StaticTestPipeline<TValue1, TValue2, TResult>(StaticSpec<TResult> parent)
+    : StaticTestPipeline<TResult>(parent), IStaticTestPipeline<TValue1, TValue2, TResult>
 {
-    public StaticTestPipeline(StaticSpec<TResult> parent) : base(parent) { }
-
     public IStaticTestPipeline<TValue1, TValue2, TResult> Given(TValue1 value1, TValue2 value2)
         => Parent.Given(value1, value2);
 
@@ -46,11 +43,9 @@ internal class StaticTestPipeline<TValue1, TValue2, TResult>
         => Parent.When(act);
 }
 
-internal class StaticTestPipeline<TValue1, TValue2, TValue3, TResult>
-    : StaticTestPipeline<TResult>, IStaticTestPipeline<TValue1, TValue2, TValue3, TResult>
+internal class StaticTestPipeline<TValue1, TValue2, TValue3, TResult>(StaticSpec<TResult> parent)
+    : StaticTestPipeline<TResult>(parent), IStaticTestPipeline<TValue1, TValue2, TValue3, TResult>
 {
-    public StaticTestPipeline(StaticSpec<TResult> parent) : base(parent) { }
-
     public IStaticTestPipeline<TValue1, TValue2, TValue3, TResult> Given(TValue1 value1, TValue2 value2, TValue3 value3)
         => Parent.Given(value1, value2, value3);
 

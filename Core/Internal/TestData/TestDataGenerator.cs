@@ -3,13 +3,12 @@ using AutoFixture.Kernel;
 using Moq;
 using Moq.AutoMock;
 using Moq.AutoMock.Resolvers;
-using XspecT;
 
 namespace XspecT.Internal.TestData;
 
 internal class TestDataGenerator
 {
-    private readonly IFixture _fixture = CreateAutoFixture();
+    private readonly Fixture _fixture = CreateAutoFixture();
     private readonly AutoMocker _mocker;
     private readonly Context _context;
 
@@ -71,9 +70,9 @@ internal class TestDataGenerator
 
     internal Mock<TObject> GetMock<TObject>() where TObject : class => _mocker.GetMock<TObject>();
 
-    private static IFixture CreateAutoFixture()
+    private static Fixture CreateAutoFixture()
     {
-        AutoFixture.Fixture fixture = new() { RepeatCount = 0 };
+        Fixture fixture = new() { RepeatCount = 0 };
         var customization = new SupportMutableValueTypesCustomization();
         customization.Customize(fixture);
         return fixture;

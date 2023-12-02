@@ -89,7 +89,7 @@ Try providing a function with the Spec's declared return type instead as paramet
 
     private Mock<TObject> Mocked<TObject>() where TObject : class => _context.GetMock<TObject>();
 
-    private IAndVerify<TResult> CombineWithErrorOnFail(Action verify)
+    private AndVerify<TResult> CombineWithErrorOnFail(Action verify)
     {
         try
         {
@@ -104,5 +104,5 @@ Try providing a function with the Spec's declared return type instead as paramet
         }
     }
 
-    private IAndThen<TResult> And() => new AndThen<TResult>(this);
+    private AndThen<TResult> And() => new(this);
 }

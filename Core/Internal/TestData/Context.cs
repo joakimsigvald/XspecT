@@ -4,11 +4,9 @@ namespace XspecT.Internal.TestData;
 
 internal class Context
 {
-    private readonly IDictionary<Type, object> _defaultValues = new Dictionary<Type, object>();
-    private readonly IDictionary<Type, IDictionary<int, object>> _numberedMentions 
-        = new Dictionary<Type, IDictionary<int, object>>();
-    private readonly IDictionary<Type, IDictionary<string, object>> _labeledMentions
-        = new Dictionary<Type, IDictionary<string, object>>();
+    private readonly Dictionary<Type, object> _defaultValues = [];
+    private readonly Dictionary<Type, Dictionary<int, object>> _numberedMentions = [];
+    private readonly Dictionary<Type, Dictionary<string, object>> _labeledMentions = [];
     private readonly TestDataGenerator _testDataGenerator;
 
     public Context() => _testDataGenerator = new(this);
@@ -77,10 +75,8 @@ internal class Context
 
     internal Mock<TObject> GetMock<TObject>() where TObject : class => _testDataGenerator.GetMock<TObject>();
 
-    private IDictionary<string, object> ProduceMentions(Type type)
-        => _labeledMentions.TryGetValue(type, out var mentions)
-        ? mentions
-        : _labeledMentions[type] = new Dictionary<string, object>();
+    private Dictionary<string, object> ProduceMentions(Type type)
+        => _labeledMentions.TryGetValue(type, out var mentions) ? mentions : _labeledMentions[type] = [];
 
     private TValue Produce<TValue>(int index, bool asDefault = false)
     {
@@ -118,7 +114,6 @@ internal class Context
         return newArr;
     }
 
-    private IDictionary<int, object> GetMentions(Type type)
-        => _numberedMentions.TryGetValue(type, out var val) ? val
-        : _numberedMentions[type] = new Dictionary<int, object>();
+    private Dictionary<int, object> GetMentions(Type type)
+        => _numberedMentions.TryGetValue(type, out var val) ? val : _numberedMentions[type] = [];
 }

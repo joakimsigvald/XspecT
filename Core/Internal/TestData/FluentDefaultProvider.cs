@@ -21,7 +21,7 @@ internal class FluentDefaultProvider : DefaultValueProvider
 
     private static bool IsTask(Type type) => typeof(Task).IsAssignableFrom(type);
 
-    private object GetTask(Type type, Mock mock)
+    private Task GetTask(Type type, Mock mock)
         => type == typeof(Task) ? Task.CompletedTask : Task.FromResult(GetTaskValue(type, mock));
 
     private dynamic GetTaskValue(Type type, Mock mock) => GetDefaultValue(type.GenericTypeArguments.Single(), mock);

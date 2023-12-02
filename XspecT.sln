@@ -16,7 +16,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Test", "Core.Test\Core
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Assert", "Assert\Assert.csproj", "{85C49263-59D1-484A-BF24-045E481E5BBF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assert.Test", "Assert.Test\Assert.Test.csproj", "{4E8EE74F-9D9F-4B9F-83CD-83AFA52CE28B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Assert.Test", "Assert.Test\Assert.Test.csproj", "{4E8EE74F-9D9F-4B9F-83CD-83AFA52CE28B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -3,10 +3,8 @@ using System.Linq.Expressions;
 
 namespace XspecT.Internal.Verification;
 
-internal class AndVerify<TResult> : AndThen<TResult>, IAndVerify<TResult>
+internal class AndVerify<TResult>(TestResult<TResult> parent) : AndThen<TResult>(parent), IAndVerify<TResult>
 {
-    public AndVerify(TestResult<TResult> parent) : base(parent) { }
-
     public IAndVerify<TResult> And<TObject>(Expression<Action<TObject>> expression) where TObject : class
         => Parent.Verify(expression);
 
