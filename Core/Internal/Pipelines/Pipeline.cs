@@ -38,6 +38,13 @@ internal class Pipeline<TResult> : IPipeline<TResult>
         where TService : class
         => TestResult.Verify(expression, times);
 
+    internal void SetDefault<TModel>(Action<TModel> setup) where TModel : class
+    {
+        if (HasRun)
+            throw new SetupFailed("Given must be called before Then");
+        _context.SetDefault(setup);
+    }
+
     internal void SetAction(Action act)
     {
         if (HasRun)

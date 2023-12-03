@@ -69,6 +69,14 @@ public interface ISubjectTestPipeline<TSUT, TResult> : ITestPipeline<TResult>
     /// <summary>
     /// TODO
     /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="setup"></param>
+    /// <returns></returns>
+    IGivenSubjectTestPipeline<TSUT, TResult> GivenDefault<TValue>(Action<TValue> setup) where TValue : class;
+
+    /// <summary>
+    /// TODO
+    /// </summary>
     /// <returns></returns>
     IGivenContinuation<TSUT, TResult> Given();
 

@@ -108,6 +108,18 @@ public abstract class SubjectSpec<TSUT, TResult> : Spec<TResult>, ISubjectTestPi
     /// <summary>
     /// TODO
     /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="setup"></param>
+    /// <returns></returns>
+    public IGivenSubjectTestPipeline<TSUT, TResult> GivenDefault<TValue>(Action<TValue> setup) where TValue : class
+    {
+        Pipeline.SetDefault(setup);
+        return new GivenSubjectTestPipeline<TSUT, TResult>(this);
+    }
+
+    /// <summary>
+    /// TODO
+    /// </summary>
     /// <typeparam name="TService"></typeparam>
     /// <returns></returns>
     /// <exception cref="SetupFailed"></exception>

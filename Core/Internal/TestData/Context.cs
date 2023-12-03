@@ -5,6 +5,7 @@ namespace XspecT.Internal.TestData;
 internal class Context
 {
     private readonly Dictionary<Type, object> _defaultValues = [];
+    private readonly Dictionary<Type, Action<object>> _defaultSetups = [];
     private readonly Dictionary<Type, Dictionary<int, object>> _numberedMentions = [];
     private readonly Dictionary<Type, Dictionary<string, object>> _labeledMentions = [];
     private readonly TestDataGenerator _testDataGenerator;
@@ -27,6 +28,15 @@ internal class Context
     {
         setup?.Invoke(value);
         return value;
+    }
+
+    internal void SetDefault<TModel>(Action<TModel> setup) where TModel : class
+    {
+        _defaultSetups[typeof(TModel)] = obj =>
+        {
+            if (obj is not TModel model) return;
+            setup(model);
+        };
     }
 
     internal TValue Mention<TValue>(string label)
@@ -59,7 +69,14 @@ internal class Context
     internal TValue[] MentionMany<TValue>(Action<TValue, int> setup, int count)
         => Mention(Enumerable.Range(0, count).Select(i => Mention<TValue>(i, _ => setup(_, i))).ToArray());
 
-    internal TValue Create<TValue>() => _testDataGenerator.Create<TValue>();
+    internal TValue Create<TValue>()
+    {
+        var newValue = _testDataGenerator.Create<TValue>();
+        if (_defaultSetups.TryGetValue(typeof(TValue), out var setup))
+            setup(newValue);
+        return newValue;
+    }
+
     internal object Create(Type type) => _testDataGenerator.Create(type);
 
     internal (object val, bool found) Retreive(Type type, int index = 0)
