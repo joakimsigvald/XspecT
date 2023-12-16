@@ -1,12 +1,14 @@
 ﻿namespace XspecT.Internal.Pipelines;
 
-internal abstract class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns>(
-    SubjectSpec<TSUT, TResult> subjectSpec)
+internal abstract class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns>
     : IGivenThatContinuation<TSUT, TResult, TService, TReturns>
     where TSUT : class
     where TService : class
 {
-    protected readonly SubjectSpec<TSUT, TResult> Spec = subjectSpec;
+    internal GivenThatCommonContinuation(SubjectSpec<TSUT, TResult> subjectSpec) 
+        => Spec = subjectSpec;
+
+    protected readonly SubjectSpec<TSUT, TResult> Spec;
 
     public IGivenSubjectTestPipeline<TSUT, TResult> Returns(Func<TReturns> returns)
     {

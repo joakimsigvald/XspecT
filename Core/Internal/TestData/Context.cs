@@ -4,10 +4,10 @@ namespace XspecT.Internal.TestData;
 
 internal class Context
 {
-    private readonly Dictionary<Type, object> _defaultValues = [];
-    private readonly Dictionary<Type, Action<object>> _defaultSetups = [];
-    private readonly Dictionary<Type, Dictionary<int, object>> _numberedMentions = [];
-    private readonly Dictionary<Type, Dictionary<string, object>> _labeledMentions = [];
+    private readonly Dictionary<Type, object> _defaultValues = new();
+    private readonly Dictionary<Type, Action<object>> _defaultSetups = new();
+    private readonly Dictionary<Type, Dictionary<int, object>> _numberedMentions = new();
+    private readonly Dictionary<Type, Dictionary<string, object>> _labeledMentions = new();
     private readonly TestDataGenerator _testDataGenerator;
 
     public Context() => _testDataGenerator = new(this);
@@ -93,7 +93,7 @@ internal class Context
     internal Mock<TObject> GetMock<TObject>() where TObject : class => _testDataGenerator.GetMock<TObject>();
 
     private Dictionary<string, object> ProduceMentions(Type type)
-        => _labeledMentions.TryGetValue(type, out var mentions) ? mentions : _labeledMentions[type] = [];
+        => _labeledMentions.TryGetValue(type, out var mentions) ? mentions : _labeledMentions[type] = new();
 
     private TValue Produce<TValue>(int index, bool asDefault = false)
     {
@@ -132,5 +132,5 @@ internal class Context
     }
 
     private Dictionary<int, object> GetMentions(Type type)
-        => _numberedMentions.TryGetValue(type, out var val) ? val : _numberedMentions[type] = [];
+        => _numberedMentions.TryGetValue(type, out var val) ? val : _numberedMentions[type] = new();
 }

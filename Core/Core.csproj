@@ -4,7 +4,7 @@
     <Description>Base classes and extension classes for building Unit tests based on XUnit and Given-When-Then pattern</Description>
     <VersionPrefix></VersionPrefix>
     <Authors>Joakim Sigvald</Authors>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <AssemblyName>XspecT</AssemblyName>
@@ -18,11 +18,11 @@
     <PackageProjectUrl>https://github.com/joakimsigvald/XspecT</PackageProjectUrl>
     <RepositoryUrl>https://github.com/joakimsigvald/XspecT.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageVersion>12.1.1</PackageVersion>
+    <PackageVersion>12.2.0</PackageVersion>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>icon.png</PackageIcon>
-    <PackageReleaseNotes>Added documentation</PackageReleaseNotes>
+    <PackageReleaseNotes>Downgraded from .net8.0 to .net6.0 for compatibility</PackageReleaseNotes>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>

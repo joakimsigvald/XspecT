@@ -1,9 +1,11 @@
 ﻿namespace XspecT.Internal.Pipelines;
 
-internal class GivenSubjectTestPipeline<TSUT, TResult>(SubjectSpec<TSUT, TResult> parent)
-    : SubjectTestPipeline<TSUT, TResult>(parent), IGivenSubjectTestPipeline<TSUT, TResult>
+internal class GivenSubjectTestPipeline<TSUT, TResult>
+    : SubjectTestPipeline<TSUT, TResult>, IGivenSubjectTestPipeline<TSUT, TResult>
     where TSUT : class
 {
+    internal GivenSubjectTestPipeline(SubjectSpec<TSUT, TResult> parent) : base(parent) { }
+
     public IGivenSubjectTestPipeline<TSUT, TResult> And<TValue>(Action<TValue> setup) where TValue : class
         => Given(setup);
 

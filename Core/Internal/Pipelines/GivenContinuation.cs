@@ -2,23 +2,32 @@
 
 namespace XspecT.Internal.Pipelines;
 
-internal class GivenContinuation<TSUT, TResult, TService>(SubjectSpec<TSUT, TResult> subjectSpec) 
-    : IGivenContinuation<TSUT, TResult, TService>
+internal class GivenContinuation<TSUT, TResult, TService> : IGivenContinuation<TSUT, TResult, TService>
     where TSUT : class
     where TService : class
 {
+    private readonly SubjectSpec<TSUT, TResult> _subjectSpec;
+
+    internal GivenContinuation(SubjectSpec<TSUT, TResult> subjectSpec) 
+        => _subjectSpec = subjectSpec;
+
     public IGivenThatContinuation<TSUT, TResult, TService, TReturns> That<TReturns>(
         Expression<Func<TService, TReturns>> expression)
-        => new GivenThatContinuation<TSUT, TResult, TService, TReturns>(subjectSpec, expression);
+        => new GivenThatContinuation<TSUT, TResult, TService, TReturns>(_subjectSpec, expression);
 
     public IGivenThatContinuation<TSUT, TResult, TService, TReturns> That<TReturns>(
         Expression<Func<TService, Task<TReturns>>> expression)
-        => new GivenThatAsyncContinuation<TSUT, TResult, TService, TReturns>(subjectSpec, expression);
+        => new GivenThatAsyncContinuation<TSUT, TResult, TService, TReturns>(_subjectSpec, expression);
 }
 
-internal class GivenContinuation<TSUT, TResult>(SubjectSpec<TSUT, TResult> subjectSpec) 
+internal class GivenContinuation<TSUT, TResult>
     : IGivenContinuation<TSUT, TResult> 
     where TSUT : class
 {
-    public IGivenSubjectTestPipeline<TSUT, TResult> That(Action setup) => subjectSpec.GivenSetup(setup);
+    private readonly SubjectSpec<TSUT, TResult> _subjectSpec;
+
+    internal GivenContinuation(SubjectSpec<TSUT, TResult> subjectSpec)
+        => _subjectSpec = subjectSpec;
+
+    public IGivenSubjectTestPipeline<TSUT, TResult> That(Action setup) => _subjectSpec.GivenSetup(setup);
 }
