@@ -10,7 +10,7 @@ public class IsNullableTimeSpan : Constraint<IsNullableTimeSpan, TimeSpan?>
     internal IsNullableTimeSpan(TimeSpan? actual) : base(actual) { }
 
     /// <summary>
-    /// TODO
+    /// Asserts that the timeSpan is null or not equal to the given value
     /// </summary>
     /// <param name="unexpected"></param>
     /// <returns></returns>
@@ -21,7 +21,7 @@ public class IsNullableTimeSpan : Constraint<IsNullableTimeSpan, TimeSpan?>
     }
 
     /// <summary>
-    /// TODO
+    /// Asserts that the timeSpan is not null
     /// </summary>
     /// <returns></returns>
     public ContinueWith<IsTimeSpan> NotNull()
@@ -31,7 +31,7 @@ public class IsNullableTimeSpan : Constraint<IsNullableTimeSpan, TimeSpan?>
     }
 
     /// <summary>
-    /// TODO
+    /// Asserts that the timeSpan is null
     /// </summary>
     public void Null() => _actual.Should().BeNull();
 }

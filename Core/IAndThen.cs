@@ -1,18 +1,18 @@
 ﻿namespace XspecT;
 
 /// <summary>
-/// TODO
+/// A continuation object to apply additional assertions to a test-run
 /// </summary>
 public interface IAndThen<TResult>
 {
     /// <summary>
-    /// TODO
+    /// Provides the result of the test-run, to apply additional assertions
     /// </summary>
     /// <returns></returns>
     ITestResult<TResult> And();
 
     /// <summary>
-    /// TODO
+    /// Provides any subject to apply additional assertions on
     /// </summary>
     /// <typeparam name="TSubject"></typeparam>
     /// <param name="subject"></param>

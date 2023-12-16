@@ -10,7 +10,7 @@ public class IsDateTime : Constraint<IsDateTime, DateTime>
     internal IsDateTime(DateTime actual) : base(actual) { }
 
     /// <summary>
-    /// TODO
+    /// Asserts that the dateTime is not equal to the given value
     /// </summary>
     /// <param name="unexpected"></param>
     /// <returns></returns>
@@ -21,7 +21,7 @@ public class IsDateTime : Constraint<IsDateTime, DateTime>
     }
 
     /// <summary>
-    /// TODO
+    /// Asserts that the dateTime is before the given value
     /// </summary>
     /// <param name="expected"></param>
     /// <returns></returns>
@@ -32,7 +32,7 @@ public class IsDateTime : Constraint<IsDateTime, DateTime>
     }
 
     /// <summary>
-    /// TODO
+    /// Asserts that the dateTime is after the given value
     /// </summary>
     /// <param name="expected"></param>
     /// <returns></returns>
@@ -43,7 +43,7 @@ public class IsDateTime : Constraint<IsDateTime, DateTime>
     }
 
     /// <summary>
-    /// TODO
+    /// Asserts that the dateTime is at or after the given value
     /// </summary>
     /// <param name="expected"></param>
     /// <returns></returns>
@@ -54,7 +54,7 @@ public class IsDateTime : Constraint<IsDateTime, DateTime>
     }
 
     /// <summary>
-    /// TODO
+    /// Asserts that the dateTime is at or before the given value
     /// </summary>
     /// <param name="expected"></param>
     /// <returns></returns>
@@ -65,7 +65,7 @@ public class IsDateTime : Constraint<IsDateTime, DateTime>
     }
 
     /// <summary>
-    /// TODO
+    /// Asserts that the dateTime is within the specified precision time from the given value
     /// </summary>
     /// <param name="expected"></param>
     /// <param name="precision"></param>
@@ -77,7 +77,7 @@ public class IsDateTime : Constraint<IsDateTime, DateTime>
     }
 
     /// <summary>
-    /// TODO
+    /// Asserts that the dateTime differ more than the specified precision time from the given value
     /// </summary>
     /// <param name="expected"></param>
     /// <param name="precision"></param>

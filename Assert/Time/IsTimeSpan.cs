@@ -10,7 +10,7 @@ public class IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
     internal IsTimeSpan(TimeSpan actual) : base(actual) { }
 
     /// <summary>
-    /// TODO
+    /// Asserts that the timeSpan is not equal to the given value
     /// </summary>
     /// <param name="unexpected"></param>
     /// <returns></returns>
@@ -21,7 +21,7 @@ public class IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
     }
 
     /// <summary>
-    /// TODO
+    /// Asserts that the timeSpan is shorter than the given value
     /// </summary>
     /// <param name="expected"></param>
     /// <returns></returns>
@@ -32,7 +32,7 @@ public class IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
     }
 
     /// <summary>
-    /// TODO
+    /// Asserts that the timeSpan is longer than the given value
     /// </summary>
     /// <param name="expected"></param>
     /// <returns></returns>
@@ -43,7 +43,7 @@ public class IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
     }
 
     /// <summary>
-    /// TODO
+    /// Asserts that the timeSpan is equal to or longer than the given value
     /// </summary>
     /// <param name="expected"></param>
     /// <returns></returns>
@@ -54,7 +54,7 @@ public class IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
     }
 
     /// <summary>
-    /// TODO
+    /// Asserts that the timeSpan is equal to or shorter than the given value
     /// </summary>
     /// <param name="expected"></param>
     /// <returns></returns>
@@ -65,7 +65,7 @@ public class IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
     }
 
     /// <summary>
-    /// TODO
+    /// Asserts that the timeSpan is within the specified precision time from the given value
     /// </summary>
     /// <param name="expected"></param>
     /// <param name="precision"></param>
@@ -77,7 +77,7 @@ public class IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
     }
 
     /// <summary>
-    /// TODO
+    /// Asserts that the timeSpan is not within the specified precision time from the given value
     /// </summary>
     /// <param name="expected"></param>
     /// <param name="precision"></param>
@@ -89,7 +89,7 @@ public class IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
     }
 
     /// <summary>
-    /// TODO
+    /// Asserts that the timeSpan is less than zero
     /// </summary>
     /// <returns></returns>
     public ContinueWith<IsTimeSpan> Negative()
@@ -99,7 +99,7 @@ public class IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
     }
 
     /// <summary>
-    /// TODO
+    /// Asserts that the timeSpan is greater than zero
     /// </summary>
     /// <returns></returns>
     public ContinueWith<IsTimeSpan> Positive()
@@ -109,7 +109,7 @@ public class IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
     }
 
     /// <summary>
-    /// TODO
+    /// Asserts that the timeSpan is zero or greater than zero
     /// </summary>
     /// <returns></returns>
     public ContinueWith<IsTimeSpan> NotNegative()
@@ -119,7 +119,7 @@ public class IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
     }
 
     /// <summary>
-    /// TODO
+    /// Asserts that the timeSpan is zero or less than zero
     /// </summary>
     /// <returns></returns>
     public ContinueWith<IsTimeSpan> NotPositive()

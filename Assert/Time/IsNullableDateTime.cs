@@ -10,7 +10,7 @@ public class IsNullableDateTime : Constraint<IsNullableDateTime, DateTime?>
     internal IsNullableDateTime(DateTime? actual) : base(actual) { }
 
     /// <summary>
-    /// TODO
+    /// Asserts that the dateTime is null or not equal to the given value
     /// </summary>
     /// <param name="unexpected"></param>
     /// <returns></returns>
@@ -21,7 +21,7 @@ public class IsNullableDateTime : Constraint<IsNullableDateTime, DateTime?>
     }
 
     /// <summary>
-    /// TODO
+    /// Asserts that the dateTime is not null
     /// </summary>
     /// <returns></returns>
     public ContinueWith<IsDateTime> NotNull()
@@ -31,7 +31,7 @@ public class IsNullableDateTime : Constraint<IsNullableDateTime, DateTime?>
     }
 
     /// <summary>
-    /// TODO
+    /// Asserts that the dateTime is null
     /// </summary>
     public void Null() => _actual.Should().BeNull();
 }
