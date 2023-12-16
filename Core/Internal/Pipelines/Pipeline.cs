@@ -45,6 +45,13 @@ internal class Pipeline<TResult> : IPipeline<TResult>
         _context.SetDefault(setup);
     }
 
+    internal void SetDefault<TValue>(TValue defaultValue)
+    {
+        if (HasRun)
+            throw new SetupFailed("Given must be called before Then");
+        _context.SetDefault(defaultValue);
+    }
+
     internal void SetAction(Action act)
     {
         if (HasRun)

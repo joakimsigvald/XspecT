@@ -34,6 +34,9 @@ internal abstract class SubjectTestPipeline<TSUT, TResult>
     public IGivenSubjectTestPipeline<TSUT, TResult> GivenDefault<TValue>(Action<TValue> setup) where TValue : class
         => Parent.GivenDefault(setup);
 
+    public IGivenSubjectTestPipeline<TSUT, TResult> GivenDefault<TValue>(TValue defaultValue)
+        => Parent.GivenDefault(defaultValue);
+
     public IGivenContinuation<TSUT, TResult, TService> Given<TService>() where TService : class
         => Parent.Given<TService>();
 

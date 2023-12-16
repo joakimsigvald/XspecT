@@ -5,7 +5,7 @@ namespace XspecT.Internal.TestData;
 internal class Context
 {
     private readonly Dictionary<Type, object> _defaultValues = new();
-    private readonly Dictionary<Type, Action<object>> _defaultSetups = new();
+    private readonly Dictionary<Type, Func<object, object>> _defaultSetups = new();
     private readonly Dictionary<Type, Dictionary<int, object>> _numberedMentions = new();
     private readonly Dictionary<Type, Dictionary<string, object>> _labeledMentions = new();
     private readonly TestDataGenerator _testDataGenerator;
@@ -30,14 +30,16 @@ internal class Context
         return value;
     }
 
-    internal void SetDefault<TModel>(Action<TModel> setup) where TModel : class
-    {
-        _defaultSetups[typeof(TModel)] = obj =>
+    internal void SetDefault<TModel>(Action<TModel> setup) where TModel : class 
+        => _defaultSetups[typeof(TModel)] = obj =>
         {
-            if (obj is not TModel model) return;
-            setup(model);
+            if (obj is TModel model)
+                setup(model);
+            return obj;
         };
-    }
+
+    internal void SetDefault<TModel>(TModel value) 
+        => _defaultSetups[typeof(TModel)] = _ => value;
 
     internal TValue Mention<TValue>(string label)
     {
@@ -72,9 +74,9 @@ internal class Context
     internal TValue Create<TValue>()
     {
         var newValue = _testDataGenerator.Create<TValue>();
-        if (_defaultSetups.TryGetValue(typeof(TValue), out var setup))
-            setup(newValue);
-        return newValue;
+        return _defaultSetups.TryGetValue(typeof(TValue), out var setup) 
+            ? (TValue)setup(newValue)
+            : newValue;
     }
 
     internal object Create(Type type) => _testDataGenerator.Create(type);
@@ -118,7 +120,7 @@ internal class Context
 
     private TValue[] Reuse<TValue>(TValue[] arr, int count, int? minCount)
         => arr.Length >= minCount || arr.Length == count ? arr
-        : arr.Length > count ? arr[..count] 
+        : arr.Length > count ? arr[..count]
         : Extend(arr, count);
 
     private TValue[] Extend<TValue>(TValue[] arr, int count)
