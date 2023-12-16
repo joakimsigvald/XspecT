@@ -29,4 +29,11 @@ public class WhenGivenSetupModelWithDefault : SubjectSpec<MyService, MyModel>
         .When(_ => _.GetModel())
         .Given().That(() => ASecond(_myModel))
         .Then().Result.Is(_myModel);
+
+    [Fact]
+    public void GivenDefaultValue_ThenIgnoreItWhenGenerateModel()
+        => GivenDefault(_defaltName)
+        .And<IMyRepository>().That(_ => _.GetModel()).Returns(ASecond<MyModel>)
+        .When(_ => _.GetModel())
+        .Then().Result.Name.Is().Not(_defaltName);
 }
