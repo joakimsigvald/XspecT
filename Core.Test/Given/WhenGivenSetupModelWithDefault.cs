@@ -5,7 +5,12 @@ namespace XspecT.Test.Given;
 public class WhenGivenSetupModelWithDefault : SubjectSpec<MyService, MyModel>
 {
     private const string _defaltName = "NoName";
-    private static readonly MyModel _myModel = new() { Name = "My model" };
+
+    [Fact]
+    public void GivenDefaultWithAutoMock()
+        => Given<MyModel>(_ => _.Name = _defaltName)
+        .When(_ => _.GetModel())
+        .Then().Result.Name.Is(_defaltName);
 
     [Fact]
     public void GivenDefaultNotOverridden()
@@ -51,8 +56,8 @@ public class WhenGivenSetupModelWithDefault : SubjectSpec<MyService, MyModel>
         => Given<MyModel>(_ => _.Name = _defaltName)
         .And<IMyRepository>().That(_ => _.GetModel()).Returns(ASecond<MyModel>)
         .When(_ => _.GetModel())
-        .Given().That(() => ASecond(_myModel))
-        .Then().Result.Is(_myModel);
+        .Given().That(() => ASecond(new MyModel() { Name = "My model" }))
+        .Then().Result.Name.Is("My model");
 
     [Fact]
     public void GivenDefaultValue_ThenIgnoreItWhenGenerateModel()
@@ -60,4 +65,67 @@ public class WhenGivenSetupModelWithDefault : SubjectSpec<MyService, MyModel>
         .And<IMyRepository>().That(_ => _.GetModel()).Returns(ASecond<MyModel>)
         .When(_ => _.GetModel())
         .Then().Result.Name.Is(_defaltName);
+
+    [Fact]
+    public void GivenProvideDefaultSetupAfterModelIsUsedInWhen_ThenUseSetup()
+        => Given(_defaltName)
+        .And<IMyRepository>().That(_ => _.GetModel()).Returns(ASecond<MyModel>)
+        .When(_ => _.GetModel())
+        .Then().Result.Name.Is(_defaltName);
+}
+
+public class OverrideDefaultSetupAfterWhenReturn : SubjectSpec<MyService, MyModel>
+{
+    private const string _theName = "TheName";
+
+    public OverrideDefaultSetupAfterWhenReturn()
+        => Given<MyModel>(_ => _.Name = "Something")
+        .When(_ => _.GetModel());
+
+    [Fact]
+    public void GivenDefaultSetup_ThenUseOverride()
+        => Given<MyModel>(_ => _.Name = _theName)
+        .Then().Result.Name.Is(_theName);
+}
+
+public class OverrideDefaultValueAfterWhenReturn : SubjectSpec<MyService, MyModel>
+{
+    private const string _theName = "TheName";
+
+    public OverrideDefaultValueAfterWhenReturn()
+        => Given("Something").When(_ => _.GetModel());
+
+    [Fact]
+    public void GivenDefaultValue_ThenUseDefaultValue()
+        => Given<MyModel>(_ => _.Name = _theName).Then().Result.Name.Is(_theName);
+}
+
+public class OverrideDefaultSetupAfterWhenArgument : SubjectSpec<MyService, MyModel>
+{
+    private const string _theName = "TheName";
+
+    public OverrideDefaultSetupAfterWhenArgument()
+        => Given<MyModel>(_ => _.Name = "Something")
+        .When(_ => _.Echo(A<MyModel>()));
+
+    [Fact]
+    public void GivenDefaultSetup_ThenUseOverride()
+        => Given<MyModel>(_ => _.Name = _theName)
+        .Then().Result.Name.Is(_theName);
+}
+
+public class OverrideDefaultValueAfterWhenArgument : SubjectSpec<MyService, MyModel>
+{
+    private const string _theName = "TheName";
+
+    public OverrideDefaultValueAfterWhenArgument()
+        => Given("Something").When(_ => _.Echo(A<MyModel>()));
+
+    [Fact]
+    public void GivenDefaultValue_ThenUseDefaultValue()
+        => Given<MyModel>(_ => _.Name = _theName).Then().Result.Name.Is(_theName);
+
+    [Fact]
+    public void GivenDefaultSetup_ThenUseDefaultValue()
+        => Given(_theName).Then().Result.Name.Is(_theName);
 }

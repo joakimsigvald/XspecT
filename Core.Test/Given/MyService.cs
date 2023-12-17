@@ -8,6 +8,5 @@ public class MyService(IMyRepository repo, IMySettings settings, Func<DateTime> 
     public int GetNextId() => repo.GetNextId();
     public DateTime GetTime() => getTime();
     public int[] GetIds() => repo.GetIds();
-
-    public static MyModel Echo(MyModel model) => model;
+    public MyModel Echo(MyModel model) => model;
 }

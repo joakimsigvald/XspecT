@@ -88,15 +88,10 @@ internal class Context
     internal TValue[] MentionMany<TValue>(Action<TValue, int> setup, int count)
         => Mention(Enumerable.Range(0, count).Select(i => Mention<TValue>(i, _ => setup(_, i))).ToArray());
 
-    internal TValue Create<TValue>()
-    {
-        var newValue = _testDataGenerator.Create<TValue>();
-        return _defaultSetups.TryGetValue(typeof(TValue), out var setup) 
-            ? (TValue)setup(newValue)
-            : newValue;
-    }
+    internal TValue Create<TValue>() 
+        => (TValue)ApplyDefaultSetup(typeof(TValue), _testDataGenerator.Create<TValue>());
 
-    internal object Create(Type type) => _testDataGenerator.Create(type);
+    internal object Create(Type type) => ApplyDefaultSetup(type, _testDataGenerator.Create(type));
 
     internal (object val, bool found) Retreive(Type type, int index = 0)
     {
@@ -110,6 +105,11 @@ internal class Context
         => _defaultValues.TryGetValue(type, out var value) ? (value, true) : (null, false);
 
     internal Mock<TObject> GetMock<TObject>() where TObject : class => _testDataGenerator.GetMock<TObject>();
+
+    private object ApplyDefaultSetup(Type type, object newValue)
+        => _defaultSetups.TryGetValue(type, out var setup)
+        ? setup(newValue)
+        : newValue;
 
     private Dictionary<string, object> ProduceMentions(Type type)
         => _labeledMentions.TryGetValue(type, out var mentions) ? mentions : _labeledMentions[type] = new();
