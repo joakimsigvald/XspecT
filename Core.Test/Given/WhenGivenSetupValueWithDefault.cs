@@ -8,7 +8,7 @@ public class WhenGivenSetupValueWithDefault : SubjectSpec<MyService, int>
 
     [Fact]
     public void GivenDefaultNotOverridden()
-        => GivenDefault(_defaltId)
+        => Given(_defaltId)
         .And<IMyRepository>().That(_ => _.GetNextId()).Returns(ASecond<int>)
         .When(_ => _.GetNextId())
         .Then().Result.Is(_defaltId);
@@ -17,7 +17,7 @@ public class WhenGivenSetupValueWithDefault : SubjectSpec<MyService, int>
     public void GivenDefaultIsOverridden()
         => Given<IMyRepository>().That(_ => _.GetNextId()).Returns(ASecond<int>)
         .When(_ => _.GetNextId())
-        .GivenDefault(_defaltId)
+        .Given(_defaltId)
         .And().That(() => ASecond(2))
         .Then().Result.Is(2);
 }

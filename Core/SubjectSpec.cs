@@ -111,7 +111,7 @@ public abstract class SubjectSpec<TSUT, TResult> : Spec<TResult>, ISubjectTestPi
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
     /// <returns></returns>
-    public IGivenSubjectTestPipeline<TSUT, TResult> GivenDefault<TValue>(Action<TValue> setup) where TValue : class
+    public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(Action<TValue> setup) where TValue : class
     {
         Pipeline.SetDefault(setup);
         return new GivenSubjectTestPipeline<TSUT, TResult>(this);
@@ -123,7 +123,7 @@ public abstract class SubjectSpec<TSUT, TResult> : Spec<TResult>, ISubjectTestPi
     /// <typeparam name="TValue"></typeparam>
     /// <param name="defaultValue"></param>
     /// <returns></returns>
-    public IGivenSubjectTestPipeline<TSUT, TResult> GivenDefault<TValue>(TValue defaultValue)
+    public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(TValue defaultValue)
     {
         Pipeline.SetDefault(defaultValue);
         return new GivenSubjectTestPipeline<TSUT, TResult>(this);
@@ -152,30 +152,6 @@ public abstract class SubjectSpec<TSUT, TResult> : Spec<TResult>, ISubjectTestPi
         if (Pipeline.HasRun)
             throw new SetupFailed("Given must be called before Then");
         return new GivenContinuation<TSUT, TResult>(this);
-    }
-
-    /// <summary>
-    /// TODO
-    /// </summary>
-    /// <typeparam name="TValue"></typeparam>
-    /// <param name="setup"></param>
-    /// <returns></returns>
-    public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(Action<TValue> setup) where TValue : class
-    {
-        Pipeline.Given(() => A(setup));
-        return new GivenSubjectTestPipeline<TSUT, TResult>(this);
-    }
-
-    /// <summary>
-    /// TODO
-    /// </summary>
-    /// <typeparam name="TValue"></typeparam>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(TValue value)
-    {
-        Pipeline.Given(() => ADefault(value));
-        return new GivenSubjectTestPipeline<TSUT, TResult>(this);
     }
 
     /// <summary>

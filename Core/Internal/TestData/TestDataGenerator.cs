@@ -8,12 +8,16 @@ namespace XspecT.Internal.TestData;
 
 internal class TestDataGenerator
 {
-    private readonly Fixture _fixture = CreateAutoFixture();
+    private readonly Fixture _fixture;
     private readonly AutoMocker _mocker;
     private readonly Context _context;
 
     internal TestDataGenerator(Context context)
-        => _mocker = CreateAutoMocker(new FluentDefaultProvider(_context = context));
+    {
+        _context = context;
+        _mocker = CreateAutoMocker();
+        _fixture = CreateAutoFixture();
+    }
 
     internal TValue Create<TValue>()
         => typeof(TValue).IsInterface ? _mocker.Get<TValue>() : CreateValue<TValue>();
@@ -70,17 +74,23 @@ internal class TestDataGenerator
 
     internal Mock<TObject> GetMock<TObject>() where TObject : class => _mocker.GetMock<TObject>();
 
-    private static Fixture CreateAutoFixture()
+    private Fixture CreateAutoFixture()
     {
         Fixture fixture = new() { RepeatCount = 0 };
+        var defaultValueCustimization = new DefaultValueCustimization(_context);
+        fixture.Customizations.Add(defaultValueCustimization);
         var customization = new SupportMutableValueTypesCustomization();
         customization.Customize(fixture);
         return fixture;
     }
 
-    private AutoMocker CreateAutoMocker(DefaultValueProvider defaultProvider)
+    private AutoMocker CreateAutoMocker()
     {
-        var autoMocker = new AutoMocker(MockBehavior.Loose, DefaultValue.Custom, defaultProvider, false);
+        var autoMocker = new AutoMocker(
+            MockBehavior.Loose, 
+            DefaultValue.Custom, 
+            new FluentDefaultProvider(_context), 
+            false);
         CustomizeResolvers(autoMocker);
         return autoMocker;
     }

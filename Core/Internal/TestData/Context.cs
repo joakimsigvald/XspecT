@@ -30,16 +30,33 @@ internal class Context
         return value;
     }
 
-    internal void SetDefault<TModel>(Action<TModel> setup) where TModel : class 
-        => _defaultSetups[typeof(TModel)] = obj =>
-        {
-            if (obj is TModel model)
-                setup(model);
-            return obj;
-        };
+    internal void SetDefault<TModel>(Action<TModel> setup) where TModel : class
+        => AddDefaultSetup(
+            typeof(TModel), 
+            obj =>
+            {
+                if (obj is TModel model)
+                    setup(model);
+                return obj;
+            });
 
-    internal void SetDefault<TModel>(TModel value) 
-        => _defaultSetups[typeof(TModel)] = _ => value;
+    private void AddDefaultSetup(Type type, Func<object, object> setup)
+        => _defaultSetups[type] =
+        _defaultSetups.TryGetValue(type, out var previousSetup)
+        ? MergeDefaultSetups(previousSetup, setup)
+        : setup;
+
+    private static Func<object, object> MergeDefaultSetups(Func<object, object> setup1, Func<object, object> setup2)
+        => obj => setup2(setup1(obj));
+
+    internal void SetDefault<TModel>(TModel value)
+    {
+        _defaultValues[typeof(TModel)] = value;
+        Use(value);
+    }
+
+    internal bool TryGetDefault(Type type, out object val) 
+        => _defaultValues.TryGetValue(type, out val);
 
     internal TValue Mention<TValue>(string label)
     {

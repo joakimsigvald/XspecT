@@ -72,7 +72,7 @@ public interface ISubjectTestPipeline<TSUT, TResult> : ITestPipeline<TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
     /// <returns></returns>
-    IGivenSubjectTestPipeline<TSUT, TResult> GivenDefault<TValue>(Action<TValue> setup) where TValue : class;
+    IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(Action<TValue> setup) where TValue : class;
 
     /// <summary>
     /// TODO
@@ -80,7 +80,7 @@ public interface ISubjectTestPipeline<TSUT, TResult> : ITestPipeline<TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="defaultValue"></param>
     /// <returns></returns>
-    IGivenSubjectTestPipeline<TSUT, TResult> GivenDefault<TValue>(TValue defaultValue);
+    IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(TValue defaultValue);
 
     /// <summary>
     /// TODO
@@ -99,23 +99,7 @@ public interface ISubjectTestPipeline<TSUT, TResult> : ITestPipeline<TResult>
     /// TODO
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
-    /// <param name="setup"></param>
-    /// <returns></returns>
-    IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(Action<TValue> setup) where TValue : class;
-
-    /// <summary>
-    /// TODO
-    /// </summary>
-    /// <typeparam name="TValue"></typeparam>
     /// <param name="value"></param>
     /// <returns></returns>
     IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(Func<TValue> value);
-
-    /// <summary>
-    /// TODO
-    /// </summary>
-    /// <typeparam name="TValue"></typeparam>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(TValue value);
 }

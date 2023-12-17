@@ -31,22 +31,16 @@ internal abstract class SubjectTestPipeline<TSUT, TResult>
     public ISubjectTestPipeline<TSUT, TResult> Before(Func<TSUT, Task> tearDown)
         => Parent.Before(tearDown);
 
-    public IGivenSubjectTestPipeline<TSUT, TResult> GivenDefault<TValue>(Action<TValue> setup) where TValue : class
-        => Parent.GivenDefault(setup);
+    public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(Action<TValue> setup) where TValue : class
+        => Parent.Given(setup);
 
-    public IGivenSubjectTestPipeline<TSUT, TResult> GivenDefault<TValue>(TValue defaultValue)
-        => Parent.GivenDefault(defaultValue);
+    public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(TValue defaultValue)
+        => Parent.Given(defaultValue);
 
     public IGivenContinuation<TSUT, TResult, TService> Given<TService>() where TService : class
         => Parent.Given<TService>();
 
     public IGivenContinuation<TSUT, TResult> Given() => Parent.Given();
 
-    public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(Action<TValue> setup) where TValue : class
-        => Parent.Given(setup);
-
     public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(Func<TValue> value) => Parent.Given(value);
-
-    public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(TValue value) => Parent.Given(value);
-
 }
