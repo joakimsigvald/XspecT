@@ -73,23 +73,23 @@ internal class TestDataGenerator
     }
 
     internal Mock<TObject> GetMock<TObject>() where TObject : class => _mocker.GetMock<TObject>();
+    internal Mock GetMock(Type type) => _mocker.GetMock(type);
 
     private Fixture CreateAutoFixture()
     {
         Fixture fixture = new() { RepeatCount = 0 };
-        var defaultValueCustimization = new DefaultValueCustimization(_context);
-        fixture.Customizations.Add(defaultValueCustimization);
-        var customization = new SupportMutableValueTypesCustomization();
-        customization.Customize(fixture);
+        fixture.Customizations.Add(new DefaultValueCustimization(_context));
+        fixture.Customizations.Add(new InterfaceCustimization(_context));
+        new SupportMutableValueTypesCustomization().Customize(fixture);
         return fixture;
     }
 
     private AutoMocker CreateAutoMocker()
     {
         var autoMocker = new AutoMocker(
-            MockBehavior.Loose, 
-            DefaultValue.Custom, 
-            new FluentDefaultProvider(_context), 
+            MockBehavior.Loose,
+            DefaultValue.Custom,
+            new FluentDefaultProvider(_context),
             false);
         CustomizeResolvers(autoMocker);
         return autoMocker;

@@ -17,7 +17,25 @@ public class WhenUsingConcreteInstanceForInterface : SubjectSpec<InterfaceServic
         => When(_ => _.GetValue()).Given(() => new MyComponent(An<IMyLogger>(), An<int>()))
         .And<IMyLogger>(() => new MyInvalidLogger());
 
-    [Fact] public void ThenUseTheConcreteInstance() => Then().Throws<InvalidOperationException>();
+    [Fact] public void ThenUseTheConcreteInstance() => Then().Throws<ArgumentOutOfRangeException>();
+}
+
+public class WhenIndirectlyUsingConcreteInstanceForInterface : SubjectSpec<InterfaceService, int>
+{
+    public WhenIndirectlyUsingConcreteInstanceForInterface()
+        => When(_ => _.GetValue())
+        .Given(A<MyComponent>)
+        .And<IMyLogger>(() => new MyInvalidLogger());
+
+    [Fact] public void ThenUseTheConcreteInstance() => Then().Throws<ArgumentOutOfRangeException>();
+}
+
+public class WhenUsingConcreteInstanceForInterfaceWithAutoMockedConstructorArgument : SubjectSpec<InterfaceService, int>
+{
+    public WhenUsingConcreteInstanceForInterfaceWithAutoMockedConstructorArgument()
+        => When(_ => _.GetValue()).Given(A<MyComponent>).And(An<int>);
+
+    [Fact] public void ThenAutoMockComponent() => Result.Is(The<int>());
 }
 
 public class InterfaceService
@@ -54,5 +72,5 @@ public interface IMyLogger
 
 public class MyInvalidLogger : IMyLogger
 {
-    public void LogValue(int value) => throw new InvalidOperationException();
+    public void LogValue(int value) => throw new ArgumentOutOfRangeException();
 }

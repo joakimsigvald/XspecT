@@ -105,6 +105,7 @@ internal class Context
         => _defaultValues.TryGetValue(type, out var value) ? (value, true) : (null, false);
 
     internal Mock<TObject> GetMock<TObject>() where TObject : class => _testDataGenerator.GetMock<TObject>();
+    internal Mock GetMock(Type type) => _testDataGenerator.GetMock(type);
 
     private object ApplyDefaultSetup(Type type, object newValue)
         => _defaultSetups.TryGetValue(type, out var setup)
