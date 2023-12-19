@@ -1,4 +1,5 @@
 ﻿using AutoFixture.Kernel;
+using System.Collections;
 
 namespace XspecT.Internal.TestData;
 
@@ -13,7 +14,11 @@ internal class InterfaceCustimization : ISpecimenBuilder
         if (request is Type type && type.IsInterface)
         {
             var (val, found) = _context.Use(type);
-            return found ? val : _context.GetMock(type).Object;
+            try
+            {
+                return found ? val : _context.GetMock(type).Object;
+            }
+            catch { }
         }
         return new NoSpecimen();
     }
