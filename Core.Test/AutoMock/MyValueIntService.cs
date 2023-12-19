@@ -13,4 +13,8 @@ public class MyValueIntService
 
     public Task SetValueAsync(MyValueInt value) => _repo.SetAsync(value);
     public Task<string> GetValueAsync(MyValueInt value) => _repo.GetAsync(value);
+    public IMyValueIntRepo GetRepo() => _repo.GetMe();
+    public Task<IMyValueIntRepo> GetRepoAsync() => _repo.GetMeAsync();
+    public object GetObject() => _repo.GetObject();
+    public Task<object> GetObjectAsync() => _repo.GetObjectAsync();
 }
