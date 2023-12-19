@@ -1,4 +1,5 @@
 ﻿using XspecT.Assert;
+using XspecT.Test.Subjects.Purchase;
 
 namespace XspecT.Test.AutoMock;
 
@@ -9,6 +10,17 @@ public class WhenInjectingAnInterfaceWithUsing : SubjectSpec<InterfaceService, i
 
     [Fact] public void ThenGetValue() => Result.Is(The<int>());
     [Fact] public void ThenInterfaceIsMocked() => Then<IMyLogger>(_ => _.LogValue(The<int>()));
+}
+
+public class WhenUseConcreteInstanceOfInterface : SubjectSpec<InterfaceService, int>
+{
+    public WhenUseConcreteInstanceOfInterface()
+        => Given(CreateService()).And(An<int>).When(_ => _.GetServiceValue());
+
+    [Fact] public void ThenUseIt() => Result.Is(TheSecond<int>());
+
+    protected IMyService CreateService()
+        => new MyService(new MyComponent(A<IMyLogger>(), ASecond<int>()), A<IMyLogger>());
 }
 
 public class WhenUsingConcreteInstanceForInterface : SubjectSpec<InterfaceService, int>
@@ -38,13 +50,39 @@ public class WhenUsingConcreteInstanceForInterfaceWithAutoMockedConstructorArgum
     [Fact] public void ThenAutoMockComponent() => Result.Is(The<int>());
 }
 
+public interface IMyService
+{
+    int GetValue();
+}
+
+public class MyService : IMyService
+{
+    private readonly MyComponent _component;
+    private readonly IMyLogger _logger;
+
+    public MyService(MyComponent component, IMyLogger logger)
+    {
+        _component = component;
+        _logger = logger;
+    }
+
+    public int GetValue() => _component.GetValue();
+}
+
 public class InterfaceService
 {
     private readonly MyComponent _component;
+    private readonly IMyService _service;
 
-    public InterfaceService(MyComponent component) => _component = component;
+    public InterfaceService(MyComponent component, IMyService service)
+    {
+        _component = component;
+        _service = service;
+    }
 
     public int GetValue() => _component.GetValue();
+
+    public int GetServiceValue() => _service.GetValue();
 }
 
 public class MyComponent
