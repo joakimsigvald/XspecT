@@ -11,6 +11,12 @@ internal class GivenContinuation<TSUT, TResult, TService> : IGivenContinuation<T
     internal GivenContinuation(SubjectSpec<TSUT, TResult> subjectSpec) 
         => _subjectSpec = subjectSpec;
 
+    public IGivenSubjectTestPipeline<TSUT, TResult> ReturnsDefault<TReturns>(Func<TReturns> value)
+    {
+        _subjectSpec.SetupMock<TService>(mock => mock.SetReturnsDefault(value()));
+        return new GivenSubjectTestPipeline<TSUT, TResult>(_subjectSpec);
+    }
+
     public IGivenThatContinuation<TSUT, TResult, TService, TReturns> That<TReturns>(
         Expression<Func<TService, TReturns>> expression)
         => new GivenThatContinuation<TSUT, TResult, TService, TReturns>(_subjectSpec, expression);

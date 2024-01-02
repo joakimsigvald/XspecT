@@ -3,12 +3,20 @@
 namespace XspecT;
 
 /// <summary>
-/// TODO
+/// A continuation object to apply additional arrangements to the test-pipeline
 /// </summary>
 public interface IGivenContinuation<TSUT, TResult, TService>
     where TSUT : class
     where TService : class
 {
+    /// <summary>
+    /// TODO
+    /// </summary>
+    /// <typeparam name="TReturns"></typeparam>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    IGivenSubjectTestPipeline<TSUT, TResult> ReturnsDefault<TReturns>(Func<TReturns> value);
+
     /// <summary>
     /// Provide method invocation to mock
     /// </summary>
@@ -29,7 +37,7 @@ public interface IGivenContinuation<TSUT, TResult, TService>
 }
 
 /// <summary>
-/// TODO
+/// A continuation object to apply additional arrangements to the test-pipeline
 /// </summary>
 public interface IGivenContinuation<TSUT, TResult> where TSUT : class
 {
