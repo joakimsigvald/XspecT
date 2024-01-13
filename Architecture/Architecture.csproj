@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Architecture testing framework</Description>
+    <VersionPrefix></VersionPrefix>
+    <Authors>Joakim Sigvald</Authors>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <AssemblyName>XspecT.Architecture</AssemblyName>
+    <RootNamespace>XspecT.Architecture</RootNamespace>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IsPackable>true</IsPackable>
+    <PackageTags>unit test architecture fluent assertion</PackageTags>
+    <PackageIconUrl></PackageIconUrl>
+    <PackageProjectUrl>https://github.com/joakimsigvald/XspecT.git</PackageProjectUrl>
+    <PackageLicenseUrl></PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/joakimsigvald/XspecT</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/joakimsigvald/XspecT.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageVersion>1.0.0</PackageVersion>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageReleaseNotes>First version: Check dependencies between assemblies</PackageReleaseNotes>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\README.md" Pack="true" PackagePath="\" />
+    <None Include="..\icon.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+</Project>
