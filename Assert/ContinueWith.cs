@@ -13,4 +13,9 @@ public class ContinueWith<TContinuation>
     /// Get a continuation to make the next assertion
     /// </summary>
     public TContinuation And => _continuation;
+
+    /// <summary>
+    /// Get a continuation to make the next assertion
+    /// </summary>
+    public TContinuation But => _continuation;
 }

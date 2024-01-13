@@ -29,6 +29,11 @@ public class IsEnumerable<TItem> : Constraint<IsEnumerable<TItem>, IEnumerable<T
     }
 
     /// <summary>
+    /// TODO
+    /// </summary>
+    public TItem Single() => Xunit.Assert.Single(_actual);
+
+    /// <summary>
     /// actual.Should().NotBeEmpty()
     /// </summary>
     public ContinueWith<IsEnumerable<TItem>> NotNull()
@@ -47,11 +52,20 @@ public class IsEnumerable<TItem> : Constraint<IsEnumerable<TItem>, IEnumerable<T
     }
 
     /// <summary>
-    /// actual.Should().NotBeSameAs(expected)
+    /// TODO
     /// </summary>
     public ContinueWith<IsEnumerable<TItem>> EqualTo(IEnumerable<TItem> expected)
     {
         _actual.Should().BeEquivalentTo(expected);
+        return And();
+    }
+
+    /// <summary>
+    /// TODO
+    /// </summary>
+    public ContinueWith<IsEnumerable<TItem>> NotEqualTo(IEnumerable<TItem> expected)
+    {
+        _actual.Should().NotBeEquivalentTo(expected);
         return And();
     }
 }

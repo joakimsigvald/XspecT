@@ -18,14 +18,15 @@
     <PackageProjectUrl>https://github.com/joakimsigvald/XspecT</PackageProjectUrl>
     <RepositoryUrl>https://github.com/joakimsigvald/XspecT.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageVersion>2.1.0</PackageVersion>
+    <PackageVersion>2.2.0</PackageVersion>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>icon.png</PackageIcon>
-    <PackageReleaseNotes>Downgraded from .net8.0 to .net6.0 for compatibility</PackageReleaseNotes>
+    <PackageReleaseNotes>Added more assertions for enumerable and added dependency on xunit package</PackageReleaseNotes>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="xunit" Version="2.6.5" />
     <PackageReference Include="FluentAssertions" Version="6.12.0" />
     <None Include="..\README.md" Pack="true" PackagePath="\" />
     <None Include="..\icon.png" Pack="true" PackagePath="\" />
