@@ -7,13 +7,22 @@ public class TestAssemblyDependencies : ArchSpec
 {
     [Fact]
     public void TestAssemblyDependencyByName()
-        => AssemblyNamed("XspecT.Architecture.Test").Does().DependOn(AssemblyNamed("XspecT.Architecture"));
+        => Assembly.Named("XspecT.Architecture.Test").Does().DependOn(Assembly.Named("XspecT.Architecture"));
 
     [Fact]
     public void TestAssemblyDependencyByType()
-        => AssemblyOf<TestAssemblyDependencies>().Does().DependOn(AssemblyOf<ArchSpec>());
+        => Assembly.Of<TestAssemblyDependencies>().Does().DependOn(Assembly.Of<ArchSpec>());
 
     [Fact]
     public void TestAssemblyNotDependOn()
-        => AssemblyOf<ArchSpec>().Does().NotDependOn(AssemblyOf<TestAssemblyDependencies>());
+        => Assembly.Of<ArchSpec>().Does().NotDependOn(Assembly.Of<TestAssemblyDependencies>());
+}
+
+public class TestType : ArchSpec
+{
+    [Fact]
+    public void TestAssemblyDependencyByName()
+        => Classes.In(Assembly.Named("XspecT.Architecture"))
+        .That().ArePublic().And().AreNotStatic()
+        .Are().NotSealed();
 }
