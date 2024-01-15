@@ -1,4 +1,6 @@
-﻿namespace XspecT.Architecture;
+﻿using XspecT.Architecture.Internal;
+
+namespace XspecT.Architecture;
 
 /// <summary>
 /// TODO
@@ -13,10 +15,10 @@ public class ArchSpec
     /// <summary>
     /// TODO
     /// </summary>
-    protected TypesContinuation Types => new();
+    protected IClassesContinuation Classes => new ClassesContinuation();
 
     /// <summary>
     /// TODO
     /// </summary>
-    protected ClassesContinuation Classes => new();
+    protected InterfacesContinuation Interfaces => new();
 }

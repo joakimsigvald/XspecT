@@ -1,4 +1,6 @@
 ﻿using NetArchTest.Rules;
+using XspecT.Architecture.Assertion;
+
 namespace XspecT.Architecture;
 
 /// <summary>
@@ -6,7 +8,7 @@ namespace XspecT.Architecture;
 /// </summary>
 public class PredicateListContinuation
 {
-    private readonly PredicateList _predicateList;
+    internal readonly PredicateList _predicateList;
 
     internal PredicateListContinuation(PredicateList predicateList) 
         => _predicateList = predicateList;
@@ -16,4 +18,10 @@ public class PredicateListContinuation
     /// </summary>
     /// <returns></returns>
     public Predicates That() => _predicateList.And();
+
+    /// <summary>
+    /// TODO
+    /// </summary>
+    /// <returns></returns>
+    public DoesTypes Does() => new(_predicateList.Should());
 }

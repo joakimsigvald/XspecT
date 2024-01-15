@@ -5,7 +5,8 @@ namespace XspecT.Architecture;
 /// <summary>
 /// TODO
 /// </summary>
-public class AssemblyContinuation {
+public class AssemblyContinuation
+{
     /// <summary>
     /// TODO
     /// </summary>

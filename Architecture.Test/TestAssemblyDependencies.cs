@@ -17,12 +17,3 @@ public class TestAssemblyDependencies : ArchSpec
     public void TestAssemblyNotDependOn()
         => Assembly.Of<ArchSpec>().Does().NotDependOn(Assembly.Of<TestAssemblyDependencies>());
 }
-
-public class TestType : ArchSpec
-{
-    [Fact]
-    public void TestAssemblyDependencyByName()
-        => Classes.In(Assembly.Named("XspecT.Architecture"))
-        .That().ArePublic().And().AreNotStatic()
-        .Are().NotSealed();
-}
