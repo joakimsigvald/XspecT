@@ -10,6 +10,10 @@ public class TestAssemblyDependencies : ArchSpec
         => Assembly.Named("XspecT.Architecture.Test").Does().DependOn(Assembly.Named("XspecT.Architecture"));
 
     [Fact]
+    public void TestIndirectAssemblyDependencyByName()
+        => Assembly.Named("XspecT.Architecture.Test").Does().DependOn(Assembly.Named("XspecT.Assert"));
+
+    [Fact]
     public void TestAssemblyDependencyByType()
         => Assembly.Of<TestAssemblyDependencies>().Does().DependOn(Assembly.Of<ArchSpec>());
 

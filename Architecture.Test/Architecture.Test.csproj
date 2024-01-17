@@ -17,7 +17,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Architecture\Architecture.csproj" />
-    <ProjectReference Include="..\Assert\Assert.csproj" />
     <ProjectReference Include="..\Core\Core.csproj" />
   </ItemGroup>
 

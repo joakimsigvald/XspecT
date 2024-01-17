@@ -14,14 +14,23 @@ public class AssemblyContinuation
     /// <returns></returns>
     public Assembly Named(string name)
     {
-        var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-        var assembly = assemblies.SingleOrDefault(assembly => assembly.GetName().Name == name);
-        if (assembly != null)
-            return assembly;
-        var names = assemblies.Select(ass => ass.GetName().Name).OrderBy(_ => _).ToArray();
-        var similarAssemblyName = names.FirstOrDefault(assemblyName => assemblyName.Contains(name))
-            ?? throw new InvalidExpectation($"No assembly by the name {name} was found. Did you forget to reference the assembly in the test project?");
-        throw new InvalidExpectation($"No assembly by the name {name} was found. Did you mean {similarAssemblyName}?");
+        var rootAssembly = Assembly.GetCallingAssembly();
+        var dependencies = rootAssembly.GetReferencedAssemblies();
+        return FindAssembly() ?? throw new InvalidExpectation(GetErrorMessage());
+
+        Assembly FindAssembly()
+            => dependencies.Select(Assembly.Load).Prepend(rootAssembly)
+            .FirstOrDefault(_ => _.GetName().Name == name);
+
+        string GetErrorMessage()
+        {
+            var names = dependencies.Prepend(rootAssembly.GetName())
+                .Select(_ => _.Name).OrderBy(_ => _).ToArray();
+            var similarAssemblyName = names.FirstOrDefault(assemblyName => assemblyName.Contains(name));
+            return similarAssemblyName is null
+                ? $"No assembly by the name {name} was found. Did you forget to reference the assembly in the test project?"
+                : $"No assembly by the name {name} was found. Did you mean {similarAssemblyName}?";
+        }
     }
 
     /// <summary>
