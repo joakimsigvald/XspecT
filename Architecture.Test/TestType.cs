@@ -9,7 +9,7 @@ public class TestType : ArchSpec
 {
     [Fact]
     public void TestAssemblyDependencyByName()
-        => Classes.In(Assembly.Named("XspecT.Architecture"))
+        => Classes.In(AssemblyNamed("XspecT.Architecture"))
         .That().ArePublic().And().AreNotStatic()
         .Are().NotSealed();
 
@@ -17,8 +17,8 @@ public class TestType : ArchSpec
     public void TestNegativeInterfaceImplementation()
         => Xunit.Assert.Throws<ArchitectureViolation>(() => 
         
-        Classes.In(Assembly.Named("XspecT.Architecture.Test"))
-        .Does().NotImplement(Interfaces.In(Assembly.Named("XspecT.Architecture"))))
+        Classes.In(AssemblyNamed("XspecT.Architecture.Test"))
+        .Does().NotImplement(Interfaces.In(AssemblyNamed("XspecT.Architecture"))))
 
         .Message.Does().Contain(nameof(InvalidImplementation)).And.Contain(nameof(IClassesContinuation));
 }
