@@ -14,7 +14,7 @@ public abstract class StaticSpec<TResult> : Spec<TResult>
     protected StaticSpec() : base(new StaticPipeline<TResult>()) { }
 
     /// <summary>
-    /// TODO
+    /// Provide a default value, that will be applied in all mocks and auto-generated test-data, where no specific value or setup is given.
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="value"></param>

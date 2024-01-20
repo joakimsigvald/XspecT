@@ -1,7 +1,7 @@
 ﻿namespace XspecT;
 
 /// <summary>
-/// TODO
+/// A continuation to mock the result of a method invocation
 /// </summary>
 /// <typeparam name="TSUT"></typeparam>
 /// <typeparam name="TResult"></typeparam>
@@ -12,7 +12,7 @@ public interface IGivenThatContinuation<TSUT, TResult, TService, TReturns>
     where TService : class
 {
     /// <summary>
-    /// Provide a return-value to mock
+    /// Mock the return-value
     /// </summary>
     /// <param name="returns"></param>
     /// <returns></returns>

@@ -106,7 +106,7 @@ public abstract class SubjectSpec<TSUT, TResult> : Spec<TResult>, ISubjectTestPi
     }
 
     /// <summary>
-    /// TODO
+    /// Provide any arrangement to the test, which will be applied during test execution in reverse order of where in the test-pipleine it was provided
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
@@ -118,7 +118,7 @@ public abstract class SubjectSpec<TSUT, TResult> : Spec<TResult>, ISubjectTestPi
     }
 
     /// <summary>
-    /// TODO
+    /// Provide a default value, that will be applied in all mocks and auto-generated test-data, where no specific value or setup is given.
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="defaultValue"></param>
@@ -130,7 +130,7 @@ public abstract class SubjectSpec<TSUT, TResult> : Spec<TResult>, ISubjectTestPi
     }
 
     /// <summary>
-    /// TODO
+    /// A continuation for providing mock-setup for the given type
     /// </summary>
     /// <typeparam name="TService"></typeparam>
     /// <returns></returns>
@@ -155,7 +155,8 @@ public abstract class SubjectSpec<TSUT, TResult> : Spec<TResult>, ISubjectTestPi
     }
 
     /// <summary>
-    /// TODO
+    /// Provide a default value as a lambda, to be evaluated during test execution AFTER any subsequently added arrangement.
+    /// Providing a default value as a lambda, to defer execution, is useful when the default value is created based on test data that is specified later in the test-pipeline.
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="value"></param>

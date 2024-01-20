@@ -10,7 +10,7 @@ public interface IGivenContinuation<TSUT, TResult, TService>
     where TService : class
 {
     /// <summary>
-    /// TODO
+    /// Setup mock to return a value as default for any invocation where no specific mock-setup has been provided
     /// </summary>
     /// <typeparam name="TReturns"></typeparam>
     /// <param name="value"></param>
@@ -18,7 +18,7 @@ public interface IGivenContinuation<TSUT, TResult, TService>
     IGivenSubjectTestPipeline<TSUT, TResult> ReturnsDefault<TReturns>(Func<TReturns> value);
 
     /// <summary>
-    /// Provide method invocation to mock
+    /// Mock the method invocation
     /// </summary>
     /// <typeparam name="TReturns"></typeparam>
     /// <param name="expression"></param>
@@ -37,12 +37,12 @@ public interface IGivenContinuation<TSUT, TResult, TService>
 }
 
 /// <summary>
-/// A continuation object to apply additional arrangements to the test-pipeline
+/// A continuation object to apply additional arrangements to the test
 /// </summary>
 public interface IGivenContinuation<TSUT, TResult> where TSUT : class
 {
     /// <summary>
-    /// Provide a setup-action to be applied when running the test-pipeline
+    /// Provide a setup-action to be applied when executing the test
     /// </summary>
     /// <param name="setup"></param>
     /// <returns>The test-pipeline</returns>

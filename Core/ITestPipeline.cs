@@ -10,17 +10,17 @@ namespace XspecT;
 public interface ITestPipeline<TResult>
 {
     /// <summary>
-    /// TODO
+    /// Runs the test and provides the result. When the test is run, any provided arrengement will be applied in reverse order, then the subject-under-test will be created and the method-under-test called
     /// </summary>
-    /// <returns></returns>
+    /// <returns>The test result, containing any return values or exceptions thrown, upon which assertions can be made</returns>
     ITestResult<TResult> Then();
 
     /// <summary>
-    /// TODO
+    /// Runs the test and provides the result. When the test is run, any provided arrengement will be applied in reverse order, then the subject-under-test will be created and the method-under-test called
     /// </summary>
     /// <typeparam name="TSubject"></typeparam>
     /// <param name="subject"></param>
-    /// <returns></returns>
+    /// <returns>The provided argument is returned, allowing assertions on the provided arguments to be chained</returns>
     TSubject Then<TSubject>(TSubject subject);
 
     /// <summary>

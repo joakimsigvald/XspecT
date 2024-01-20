@@ -29,7 +29,7 @@ public class IsEnumerable<TItem> : Constraint<IsEnumerable<TItem>, IEnumerable<T
     }
 
     /// <summary>
-    /// TODO
+    /// Verifies that the collection contains a single element and returns that element
     /// </summary>
     public TItem Single() => Xunit.Assert.Single(_actual);
 
@@ -52,8 +52,10 @@ public class IsEnumerable<TItem> : Constraint<IsEnumerable<TItem>, IEnumerable<T
     }
 
     /// <summary>
-    /// TODO
+    /// Verifies that the both collection contain the same number of elements and that elements on same position are equal to eachother
     /// </summary>
+    /// <param name="expected">The collection to validate against</param>
+    /// <returns>A continuation for making further assertions</returns>
     public ContinueWith<IsEnumerable<TItem>> EqualTo(IEnumerable<TItem> expected)
     {
         _actual.Should().BeEquivalentTo(expected);
@@ -61,8 +63,10 @@ public class IsEnumerable<TItem> : Constraint<IsEnumerable<TItem>, IEnumerable<T
     }
 
     /// <summary>
-    /// TODO
+    /// Verifies that the collections are not equal
     /// </summary>
+    /// <param name="expected">The collection to validate against</param>
+    /// <returns>A continuation for making further assertions</returns>
     public ContinueWith<IsEnumerable<TItem>> NotEqualTo(IEnumerable<TItem> expected)
     {
         _actual.Should().NotBeEquivalentTo(expected);

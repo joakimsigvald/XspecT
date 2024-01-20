@@ -18,10 +18,10 @@ public interface ISubjectTestPipeline<TSUT, TResult> : ITestPipeline<TResult>
     ISubjectTestPipeline<TSUT, TResult> When(Action<TSUT> act);
 
     /// <summary>
-    /// TODO
+    /// Provide the method-under-test as a lambda expression
     /// </summary>
     /// <param name="act"></param>
-    /// <returns></returns>
+    /// <returns>A continuation for providing further arrangement, or executing the test</returns>
     ISubjectTestPipeline<TSUT, TResult> When(Func<TSUT, TResult> act);
 
     /// <summary>
@@ -67,7 +67,7 @@ public interface ISubjectTestPipeline<TSUT, TResult> : ITestPipeline<TResult>
     ISubjectTestPipeline<TSUT, TResult> Before(Func<TSUT, Task> tearDown);
 
     /// <summary>
-    /// TODO
+    /// Provide any arrangement to the test, which will be applied during test execution in reverse order of where in the test-pipleine it was provided
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
@@ -75,7 +75,7 @@ public interface ISubjectTestPipeline<TSUT, TResult> : ITestPipeline<TResult>
     IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(Action<TValue> setup) where TValue : class;
 
     /// <summary>
-    /// TODO
+    /// Provide a default value, that will be applied in all mocks and auto-generated test-data, where no specific value or setup is given.
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="defaultValue"></param>
@@ -96,7 +96,8 @@ public interface ISubjectTestPipeline<TSUT, TResult> : ITestPipeline<TResult>
     IGivenContinuation<TSUT, TResult, TService> Given<TService>() where TService : class;
 
     /// <summary>
-    /// TODO
+    /// Provide a default value as a lambda, to be evaluated during test execution AFTER any subsequently added arrangement.
+    /// Providing a default value as a lambda, to defer execution, is useful when the default value is created based on test data that is specified later in the test-pipeline.
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="value"></param>

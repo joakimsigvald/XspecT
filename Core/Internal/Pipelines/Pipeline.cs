@@ -8,7 +8,7 @@ using static XspecT.Internal.Pipelines.AsyncHelper;
 
 namespace XspecT.Internal.Pipelines;
 
-internal class Pipeline<TResult> : IPipeline<TResult>
+internal class Pipeline<TResult>
 {
     protected readonly Context _context = new();
     private readonly SpecActor<TResult> _actor = new();
