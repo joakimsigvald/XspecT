@@ -10,7 +10,7 @@ Whether you are beginner or expert in unit-testing, this framework will help you
 It is assumed that you are already familiar with Xunit and Moq, or similar test- and mocking frameworks.
 This package includes a fluent assertion framework, which is built upon FluentAssertions, but with a less worthy syntax, based on the verb `Is` instead of `Should`.
 
-Is-assertions are recommended ovr Should-assertions for making the tests read more like specifications, listing requirements rather than asserting expected results.
+Is-assertions are recommended over Should-assertions for making the tests read more like specifications, listing requirements rather than asserting expected results.
 
 This is an example of a complete test class (*specification*) with one test method (*requirement*):
 ```
@@ -108,19 +108,15 @@ namespace MyProject.Spec.ShoppingService;
 
 public abstract class WhenPlaceOrder : SubjectSpec<MyProject.ShoppingService, object>
 {
-    protected const int CartId = 123;
-    protected const int ShopId = 2;
-
     protected WhenPlaceOrder() 
-        => When(() => SUT.PlaceOrder(CartId))
-        .Given(A<Cart>(_ => _.Id = CartId))
-        .And<ICartRepository>().That(_ => _.GetCart(CartId)).Returns(The<Cart>);
+        => When(_ => _.PlaceOrder(An<int>()))
+        .Given<ICartRepository>().That(_ => _.GetCart(The<int>()))
+        .Returns(() => A<Cart>(_ => _.Id = The<int>()));
 
     [Fact] public void ThenOrderIsCreated() => Then<IOrderService>(_ => _.CreateOrder(The<Cart>()));
 
     [Fact] public void ThenLogsOrderCreated()
-        => Given(ShopId) // Shopping service takes a ShopId as constructor argument
-        .Then<ILogger>(_ => _.Information($"OrderCreated from Cart {CartId} in Shop {ShopId}"));
+        => Then<ILogger>(_ => _.Information($"OrderCreated from Cart {The<int>()}"));
 }
 ```
 
