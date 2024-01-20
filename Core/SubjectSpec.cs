@@ -5,15 +5,15 @@ using XspecT.Internal.Pipelines;
 namespace XspecT;
 
 /// <summary>
-/// TODO
+/// Base-class for specifying and executing a set of test cases for a specific method-under-test on a class instance
 /// </summary>
-/// <typeparam name="TSUT"></typeparam>
-/// <typeparam name="TResult"></typeparam>
+/// <typeparam name="TSUT">The class to instantiate and execute the method-under-test on</typeparam>
+/// <typeparam name="TResult">The return type of the method-under-test</typeparam>
 public abstract class SubjectSpec<TSUT, TResult> : Spec<TResult>, ISubjectTestPipeline<TSUT, TResult>
     where TSUT : class
 {
     /// <summary>
-    /// TODO
+    /// Instantiate the specification (test-class)
     /// </summary>
     protected SubjectSpec() : base(new SubjectPipeline<TSUT, TResult>()) { }
 

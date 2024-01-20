@@ -9,12 +9,12 @@ namespace XspecT;
 public abstract class StaticSpec<TResult> : Spec<TResult>
 {
     /// <summary>
-    /// TODO
+    /// Instantiate the specification (test-class)
     /// </summary>
     protected StaticSpec() : base(new StaticPipeline<TResult>()) { }
 
     /// <summary>
-    /// Provide a default value, that will be applied in all mocks and auto-generated test-data, where no specific value or setup is given.
+    /// Provide the argument for a single argument static method to be tested
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="value"></param>
@@ -26,7 +26,7 @@ public abstract class StaticSpec<TResult> : Spec<TResult>
     }
 
     /// <summary>
-    /// TODO
+    /// Provide arguments for a two-argument static method to be tested
     /// </summary>
     /// <typeparam name="TValue1"></typeparam>
     /// <typeparam name="TValue2"></typeparam>
@@ -40,7 +40,7 @@ public abstract class StaticSpec<TResult> : Spec<TResult>
     }
 
     /// <summary>
-    /// TODO
+    /// Provide arguments for a three-argument static method to be tested
     /// </summary>
     /// <typeparam name="TValue1"></typeparam>
     /// <typeparam name="TValue2"></typeparam>
@@ -57,7 +57,7 @@ public abstract class StaticSpec<TResult> : Spec<TResult>
     }
 
     /// <summary>
-    /// TODO
+    /// Provide the single-argument static action to be tested
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="act"></param>
@@ -69,7 +69,7 @@ public abstract class StaticSpec<TResult> : Spec<TResult>
     }
 
     /// <summary>
-    /// TODO
+    /// Provide the two-argument static action to be tested
     /// </summary>
     /// <typeparam name="TValue1"></typeparam>
     /// <typeparam name="TValue2"></typeparam>
@@ -82,7 +82,7 @@ public abstract class StaticSpec<TResult> : Spec<TResult>
     }
 
     /// <summary>
-    /// TODO
+    /// Provide the three-argument static action to be tested
     /// </summary>
     /// <typeparam name="TValue1"></typeparam>
     /// <typeparam name="TValue2"></typeparam>
@@ -97,7 +97,7 @@ public abstract class StaticSpec<TResult> : Spec<TResult>
     }
 
     /// <summary>
-    /// TODO
+    /// Provide the single-argument static function to be tested
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="act"></param>
@@ -109,7 +109,7 @@ public abstract class StaticSpec<TResult> : Spec<TResult>
     }
 
     /// <summary>
-    /// TODO
+    /// Provide the two-argument static function to be tested
     /// </summary>
     /// <typeparam name="TValue1"></typeparam>
     /// <typeparam name="TValue2"></typeparam>
@@ -122,7 +122,7 @@ public abstract class StaticSpec<TResult> : Spec<TResult>
     }
 
     /// <summary>
-    /// TODO
+    /// Provide the three-argument static function to be tested
     /// </summary>
     /// <typeparam name="TValue1"></typeparam>
     /// <typeparam name="TValue2"></typeparam>
@@ -137,7 +137,7 @@ public abstract class StaticSpec<TResult> : Spec<TResult>
     }
 
     /// <summary>
-    /// TODO
+    /// Provide the single-argument static async action to be tested
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="action"></param>
@@ -146,7 +146,7 @@ public abstract class StaticSpec<TResult> : Spec<TResult>
         => When<TValue>(v => Execute(() => action(v)));
 
     /// <summary>
-    /// TODO
+    /// Provide the two-argument static async action to be tested
     /// </summary>
     /// <typeparam name="TValue1"></typeparam>
     /// <typeparam name="TValue2"></typeparam>
@@ -156,7 +156,7 @@ public abstract class StaticSpec<TResult> : Spec<TResult>
         => When<TValue1, TValue2>((v1, v2) => Execute(() => action(v1, v2)));
 
     /// <summary>
-    /// TODO
+    /// Provide the three-argument static async action to be tested
     /// </summary>
     /// <typeparam name="TValue1"></typeparam>
     /// <typeparam name="TValue2"></typeparam>
@@ -168,7 +168,7 @@ public abstract class StaticSpec<TResult> : Spec<TResult>
         => When<TValue1, TValue2, TValue3>((v1, v2, v3) => Execute(() => action(v1, v2, v3)));
 
     /// <summary>
-    /// TODO
+    /// Provide the single-argument static async function to be tested
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="func"></param>
@@ -177,7 +177,7 @@ public abstract class StaticSpec<TResult> : Spec<TResult>
         => When<TValue>(v => Execute(() => func(v)));
 
     /// <summary>
-    /// TODO
+    /// Provide the two-argument static async function to be tested
     /// </summary>
     /// <typeparam name="TValue1"></typeparam>
     /// <typeparam name="TValue2"></typeparam>
@@ -187,7 +187,7 @@ public abstract class StaticSpec<TResult> : Spec<TResult>
         => When<TValue1, TValue2>((v1, v2) => Execute(() => func(v1, v2)));
 
     /// <summary>
-    /// TODO
+    /// Provide the three-argument static async function to be tested
     /// </summary>
     /// <typeparam name="TValue1"></typeparam>
     /// <typeparam name="TValue2"></typeparam>
@@ -198,8 +198,5 @@ public abstract class StaticSpec<TResult> : Spec<TResult>
         Func<TValue1, TValue2, TValue3, Task<TResult>> func)
         => When<TValue1, TValue2, TValue3>((v1, v2, v3) => Execute(() => func(v1, v2, v3)));
 
-    /// <summary>
-    /// TODO
-    /// </summary>
     private StaticPipeline<TResult> Pipeline => (StaticPipeline<TResult>)_pipeline;
 }

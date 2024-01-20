@@ -1,7 +1,7 @@
 ﻿namespace XspecT;
 
 /// <summary>
-/// TODO
+/// Exception thrown when executing a test with invalid setup
 /// </summary>
 public class SetupFailed : ApplicationException
 {

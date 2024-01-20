@@ -1,7 +1,7 @@
 ﻿namespace XspecT;
 
 /// <summary>
-/// TODO
+/// Handles the test-pipeline specification and execution
 /// </summary>
 /// <typeparam name="TValue"></typeparam>
 /// <typeparam name="TResult"></typeparam>
@@ -44,13 +44,12 @@ public interface IStaticTestPipeline<TValue, TResult> : ITestPipeline<TResult>
 }
 
 /// <summary>
-/// TODO
+/// Handles the test-pipeline specification and execution
 /// </summary>
 /// <typeparam name="TValue1"></typeparam>
 /// <typeparam name="TValue2"></typeparam>
 /// <typeparam name="TResult"></typeparam>
-public interface IStaticTestPipeline<TValue1, TValue2, TResult>
-    : ITestPipeline<TResult>
+public interface IStaticTestPipeline<TValue1, TValue2, TResult> : ITestPipeline<TResult>
 {
     /// <summary>
     /// TODO
@@ -90,7 +89,7 @@ public interface IStaticTestPipeline<TValue1, TValue2, TResult>
 }
 
 /// <summary>
-/// TODO
+/// Handles the test-pipeline specification and execution
 /// </summary>
 /// <typeparam name="TValue1"></typeparam>
 /// <typeparam name="TValue2"></typeparam>

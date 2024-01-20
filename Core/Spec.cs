@@ -6,7 +6,7 @@ using XspecT.Internal.Pipelines;
 namespace XspecT;
 
 /// <summary>
-/// TODO
+/// Handles the test-pipeline specification and execution
 /// </summary>
 /// <typeparam name="TResult"></typeparam>
 public abstract partial class Spec<TResult> : ITestPipeline<TResult>

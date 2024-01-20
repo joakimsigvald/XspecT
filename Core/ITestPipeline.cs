@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 namespace XspecT;
 
 /// <summary>
-/// TODO
+/// Handles the test-pipeline specification and execution
 /// </summary>
 /// <typeparam name="TResult"></typeparam>
 public interface ITestPipeline<TResult>
@@ -24,7 +24,7 @@ public interface ITestPipeline<TResult>
     TSubject Then<TSubject>(TSubject subject);
 
     /// <summary>
-    /// TODO
+    /// Run the test-pipeline and verify mock invocation.
     /// </summary>
     /// <typeparam name="TService"></typeparam>
     /// <param name="expression"></param>
@@ -33,7 +33,7 @@ public interface ITestPipeline<TResult>
         where TService : class;
 
     /// <summary>
-    /// TODO
+    /// Run the test-pipeline and verify mock invocation.
     /// </summary>
     /// <typeparam name="TService"></typeparam>
     /// <param name="expression"></param>
@@ -43,7 +43,7 @@ public interface ITestPipeline<TResult>
         where TService : class;
 
     /// <summary>
-    /// TODO
+    /// Run the test-pipeline and verify mock invocation.
     /// </summary>
     /// <typeparam name="TService"></typeparam>
     /// <param name="expression"></param>
@@ -53,7 +53,7 @@ public interface ITestPipeline<TResult>
         where TService : class;
 
     /// <summary>
-    /// TODO
+    /// Run the test-pipeline and verify mock invocation.
     /// </summary>
     /// <typeparam name="TService"></typeparam>
     /// <typeparam name="TReturns"></typeparam>
@@ -63,7 +63,7 @@ public interface ITestPipeline<TResult>
         where TService : class;
 
     /// <summary>
-    /// TODO
+    /// Run the test-pipeline and verify mock invocation.
     /// </summary>
     /// <typeparam name="TService"></typeparam>
     /// <typeparam name="TReturns"></typeparam>
@@ -74,7 +74,7 @@ public interface ITestPipeline<TResult>
         where TService : class;
 
     /// <summary>
-    /// TODO
+    /// Run the test-pipeline and verify mock invocation.
     /// </summary>
     /// <typeparam name="TService"></typeparam>
     /// <typeparam name="TReturns"></typeparam>
