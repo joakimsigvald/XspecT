@@ -7,18 +7,26 @@ namespace XspecT.Architecture.Test;
 
 public class TestType : ArchSpec
 {
+    public TestType() : base("XspecT") { }
+
     [Fact]
-    public void TestAssemblyDependencyByName()
-        => Classes.In(AssemblyNamed("XspecT.Architecture"))
+    public void TestAssemblyClassesNotSealed()
+        => Assembly("Architecture").Classes
         .That().ArePublic().And().AreNotStatic()
         .Are().NotSealed();
 
     [Fact]
-    public void TestNegativeInterfaceImplementation()
-        => Xunit.Assert.Throws<ArchitectureViolation>(() => 
-        
-        Classes.In(AssemblyNamed("XspecT.Architecture.Test"))
-        .Does().NotImplement(Interfaces.In(AssemblyNamed("XspecT.Architecture"))))
+    public void TestAssemblyClassesSealed()
+        => Xunit.Assert.Throws<ArchitectureViolation>(
+            () => Assembly("Architecture").Classes
+            .That().ArePublic().And().AreNotStatic()
+            .Are().Sealed())
+        .Message.Does().Contain(nameof(ArchSpec));
 
-        .Message.Does().Contain(nameof(InvalidImplementation)).And.Contain(nameof(IClassesContinuation));
+    [Fact]
+    public void TestNegativeInterfaceImplementation()
+        => Xunit.Assert.Throws<ArchitectureViolation>(
+            () => Assembly("Architecture.Test").Classes
+            .Does().NotImplement(Assembly("Architecture").Interfaces))
+        .Message.Does().Contain(nameof(InvalidImplementation)).And.Contain(nameof(IAssemblyReference));
 }

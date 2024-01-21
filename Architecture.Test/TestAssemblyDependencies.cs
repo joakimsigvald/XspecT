@@ -1,27 +1,24 @@
-﻿using XspecT.Architecture.Assertion;
-using Xunit;
+﻿using Xunit;
 
 namespace XspecT.Architecture.Test;
 
 public class TestAssemblyDependencies : ArchSpec
 {
-    [Fact]
-    public void TestAssemblyDependencyByName()
-        => AssemblyNamed("XspecT.Architecture.Test").Does().DependOn(AssemblyNamed("XspecT.Architecture"));
+    public TestAssemblyDependencies() : base("XspecT") { }
 
     [Fact]
-    public void TestIndirectAssemblyDependencyByName()
-        => AssemblyNamed("XspecT.Architecture.Test").Does().DependOn(AssemblyNamed("XspecT.Assert"));
+    public void TestAssemblyDependency()
+        => Assembly("Architecture.Test").DependOn("Architecture");
 
     [Fact]
-    public void TestUnreferencedAssemblyDependencyByName()
-        => AssemblyNamed("XspecT.Assert").Does().DependOn(AssemblyNamed("FluentAssertions"));
+    public void TestIndirectAssemblyDependency()
+        => Assembly("Architecture.Test").DependOn("Assert");
 
     [Fact]
-    public void TestAssemblyDependencyByType()
-        => AssemblyOf<TestAssemblyDependencies>().Does().DependOn(AssemblyOf<ArchSpec>());
+    public void TestUnreferencedAssemblyDependency()
+        => Assembly("Assert").DependOn("FluentAssertions");
 
     [Fact]
-    public void TestAssemblyNotDependOn()
-        => AssemblyOf<ArchSpec>().Does().NotDependOn(AssemblyOf<TestAssemblyDependencies>());
+    public void TestNotDependOn()
+        => Assembly("Architecture").DoNotDependOn("Architecture.Test");
 }
