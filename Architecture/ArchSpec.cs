@@ -29,7 +29,7 @@ public abstract class ArchSpec
     /// <exception cref="InvalidExpectation"></exception>
     public IAssemblyReference Project(string name)
         => new AssemblyReference(
-            this, new AssemblyFinder(_solutionNamespace, name, true).FindAssembly(_testAssembly));
+            this, new AssemblyFinder(_solutionNamespace, name, true).FindAssemblies(_testAssembly));
 
     /// <summary>
     /// Find an assembly, referenced directly or indirectly from test project, by name
@@ -39,5 +39,5 @@ public abstract class ArchSpec
     /// <exception cref="InvalidExpectation"></exception>
     public IAssemblyReference Assembly(string name)
         => new AssemblyReference(
-            this, new AssemblyFinder(_solutionNamespace, name, false).FindAssembly(_testAssembly));
+            this, new AssemblyFinder(_solutionNamespace, name, false).FindAssemblies(_testAssembly));
 }

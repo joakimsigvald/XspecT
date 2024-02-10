@@ -10,12 +10,14 @@ namespace XspecT.Architecture.Internal;
 internal class AssemblyReference : IAssemblyReference
 {
     private readonly ArchSpec _spec;
-    public Assembly Assembly { get; }
+    private (Assembly assembly, string wildcardMatch)[] _matches { get; }
+    public Assembly Assembly => _matches.FirstOrDefault().assembly;
+    private string _wildcardMatch;
 
-    internal AssemblyReference(ArchSpec spec, Assembly assembly)
+    internal AssemblyReference(ArchSpec spec, (Assembly, string)[] matches)
     {
         _spec = spec;
-        Assembly = assembly;
+        _matches = matches;
     }
 
     /// <summary>
@@ -37,10 +39,17 @@ internal class AssemblyReference : IAssemblyReference
     /// <exception cref="ArchitectureViolation"></exception>
     public void DependOn(string projectName)
     {
-        var other = _spec.Project(projectName);
-        var referencedAssemblies = Assembly.GetReferencedAssemblies();
+        foreach (var match in _matches)
+            DependsOn(match, projectName);
+    }
+
+    private void DependsOn((Assembly assembly, string wildcardMatch) match, string projectName)
+    {
+        var specificName = projectName.Replace("*", match.wildcardMatch);
+        var other = _spec.Project(specificName);
+        var referencedAssemblies = match.assembly.GetReferencedAssemblies();
         var _ = referencedAssemblies.SingleOrDefault(name => name.Name == other.Assembly.GetName().Name)
-            ?? throw new ArchitectureViolation($"{Assembly.GetName().Name} does not reference {other.Assembly.GetName().Name}.");
+            ?? throw new ArchitectureViolation($"{match.assembly.GetName().Name} does not reference {other.Assembly.GetName().Name}.");
     }
 
     /// <summary>
@@ -50,33 +59,51 @@ internal class AssemblyReference : IAssemblyReference
     /// <exception cref="ArchitectureViolation"></exception>
     public void Use(string assemblyName)
     {
+        foreach (var assembly in _matches)
+            Uses(assembly, assemblyName);
+    }
+
+    private void Uses((Assembly assembly, string wildcardMatch) match, string assemblyName)
+    {
         var other = _spec.Assembly(assemblyName);
-        var referencedAssemblies = Assembly.GetReferencedAssemblies();
+        var referencedAssemblies = match.assembly.GetReferencedAssemblies();
         var _ = referencedAssemblies.SingleOrDefault(name => name.Name == other.Assembly.GetName().Name)
-            ?? throw new ArchitectureViolation($"{Assembly.GetName().Name} does not reference {other.Assembly.GetName().Name}.");
+            ?? throw new ArchitectureViolation($"{match.assembly.GetName().Name} does not reference {other.Assembly.GetName().Name}.");
     }
 
     /// <summary>
     /// TODO
     /// </summary>
-    public void DoNotDependOn(string otherName)
+    public void DoNotDependOn(string projectName)
+    {
+        foreach (var assembly in _matches)
+            DoesNotDependOn(assembly, projectName);
+    }
+
+    private void DoesNotDependOn((Assembly assembly, string wildcardMatch) match, string otherName)
     {
         var other = _spec.Project(otherName);
-        var referencedAssemblies = Assembly.GetReferencedAssemblies();
+        var referencedAssemblies = match.assembly.GetReferencedAssemblies();
         var referencedAssembly = referencedAssemblies.SingleOrDefault(name => name.Name == other.Assembly.GetName().Name);
         if (referencedAssembly is not null)
-            throw new ArchitectureViolation($"{Assembly.GetName().Name} references {other.Assembly.GetName().Name}.");
+            throw new ArchitectureViolation($"{match.assembly.GetName().Name} references {other.Assembly.GetName().Name}.");
     }
 
     /// <summary>
     /// TODO
     /// </summary>
-    public void DoNotUse(string otherName)
+    public void DoNotUse(string assemblyName)
+    {
+        foreach (var assembly in _matches)
+            DoesNotUse(assembly, assemblyName);
+    }
+
+    private void DoesNotUse((Assembly assembly, string wildcardMatch) match, string otherName)
     {
         var other = _spec.Assembly(otherName);
-        var referencedAssemblies = Assembly.GetReferencedAssemblies();
+        var referencedAssemblies = match.assembly.GetReferencedAssemblies();
         var referencedAssembly = referencedAssemblies.SingleOrDefault(name => name.Name == other.Assembly.GetName().Name);
         if (referencedAssembly is not null)
-            throw new ArchitectureViolation($"{Assembly.GetName().Name} references {other.Assembly.GetName().Name}.");
+            throw new ArchitectureViolation($"{match.assembly.GetName().Name} references {other.Assembly.GetName().Name}.");
     }
 }

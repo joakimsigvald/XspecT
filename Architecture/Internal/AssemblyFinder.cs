@@ -17,22 +17,30 @@ internal class AssemblyFinder
         _isProject = isProject;
     }
 
-    internal Assembly FindAssembly(Assembly root)
-        => IsMatch(root.GetName()) ? root
-        : Find(root) ?? throw new InvalidExpectation(GetErrorMessage());
-
-    private Assembly Find(Assembly root)
+    internal (Assembly assembly, string wildcardMatch)[] FindAssemblies(Assembly root)
     {
-        var directReferences = root.GetReferencedAssemblies();
-        var found = directReferences.FirstOrDefault(IsMatch);
-        return found is null ? FindDescendant(directReferences) : Assembly.Load(found);
+        var res = Find(root).ToList();
+        var (found, wildcardMatch) = GetMatch(root.GetName());
+        if (found)
+            res.Add((root, wildcardMatch));
+        return res.Any() ? res.ToArray() : throw new InvalidExpectation(GetErrorMessage());
     }
 
-    private Assembly FindDescendant(AssemblyName[] directReferences) 
-        => AddNewReferences(directReferences).Where(nr => nr.Name.StartsWith(_solutionNamespace))
-            .Select(Assembly.Load)
-            .Select(Find)
-            .FirstOrDefault(_ => _ != null);
+    private IEnumerable<(Assembly, string)> Find(Assembly root)
+    {
+        var directReferences = root.GetReferencedAssemblies();
+        var found = directReferences
+            .Select(a => (a, match: GetMatch(a)))
+            .Where(t => t.match.found)
+            .Select(t => (Assembly.Load(t.a), t.match.wildcardMatch));
+        return found.Concat(FindDescendant(directReferences));
+    }
+
+    private IEnumerable<(Assembly, string)> FindDescendant(AssemblyName[] directReferences)
+        => AddNewReferences(directReferences)
+        .Where(nr => nr.Name.StartsWith(_solutionNamespace))
+        .Select(Assembly.Load)
+        .SelectMany(Find);
 
     private AssemblyName[] AddNewReferences(AssemblyName[] directReferences)
     {
@@ -43,8 +51,27 @@ internal class AssemblyFinder
         return newReferences;
     }
 
-    private bool IsMatch(AssemblyName projectName)
-        => projectName.Name == (_isProject ? $"{_solutionNamespace}.{_assemblyName}" : _assemblyName);
+    private (bool found, string wildcardMatch) GetMatch(AssemblyName assembyName)
+    {
+        var name = assembyName.Name;
+        if (_assemblyName.Contains('*'))
+        {
+            if (!name.StartsWith(_solutionNamespace))
+                return (false, null);
+            var wildcardIndex = _assemblyName.IndexOf('*');
+            var shortName = name[(_solutionNamespace.Length + 1)..];
+            var prefix = _assemblyName[..wildcardIndex];
+            var postfix = _assemblyName[(wildcardIndex + 1)..];
+            if (!shortName.StartsWith(prefix))
+                return (false, null);
+            if (!shortName.EndsWith(postfix))
+                return (false, null);
+            var wildcardMatch = shortName[prefix.Length..^postfix.Length];
+            return (true, wildcardMatch);
+        }
+        var found = name == (_isProject ? $"{_solutionNamespace}.{_assemblyName}" : _assemblyName);
+        return (found, null);
+    }
 
     private string GetErrorMessage()
     {

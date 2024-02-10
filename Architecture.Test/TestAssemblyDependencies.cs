@@ -15,6 +15,10 @@ public class TestAssemblyDependencies : ArchSpec
         => Project("Architecture.Test").DependOn("Assert");
 
     [Fact]
+    public void TestUnreferencedSolutionProject()
+        => Project("Assert.Test").DependOn("Assert");
+
+    [Fact]
     public void TestUse()
         => Project("Assert").Use("FluentAssertions");
 
@@ -25,4 +29,7 @@ public class TestAssemblyDependencies : ArchSpec
     [Fact]
     public void TestDoNotUse()
         => Project("Architecture").DoNotUse("FluentAssertions");
+
+    [Fact]
+    public void TestWildcardDependency() => Project("*.Test").DependOn("*");
 }
