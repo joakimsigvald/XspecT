@@ -19,6 +19,12 @@ public interface IGivenThatContinuation<TSUT, TResult, TService, TReturns>
     IGivenSubjectTestPipeline<TSUT, TResult> Returns(Func<TReturns> returns);
 
     /// <summary>
+    /// Mock the return-value as default
+    /// </summary>
+    /// <returns></returns>
+    IGivenSubjectTestPipeline<TSUT, TResult> ReturnsDefault();
+
+    /// <summary>
     /// Provide an exception-type to mock
     /// </summary>
     /// <typeparam name="TException"></typeparam>

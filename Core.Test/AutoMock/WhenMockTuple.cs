@@ -21,9 +21,8 @@ public class WhenMockTuple : SubjectSpec<StaticTupleService, (int, string)>
     }
 }
 
-public class StaticTupleService
+public class StaticTupleService((int, string) value)
 {
-    private readonly (int, string) _value;
-    public StaticTupleService((int, string) value) => _value = value;
+    private readonly (int, string) _value = value;
     public (int, string) GetValue() => _value;
 }

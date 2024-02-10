@@ -10,10 +10,9 @@ public class WhenGetRecordWithBsonIdFromMock : SubjectSpec<BsonIdService, Record
     [Fact] public void ThenGetRecord() => Then().Result.Is().NotNull();
 }
 
-public class BsonIdService
+public class BsonIdService(IBsonIdRepository repo)
 {
-    private readonly IBsonIdRepository _repo;
-    public BsonIdService(IBsonIdRepository repo) => _repo = repo;
+    private readonly IBsonIdRepository _repo = repo;
     public Task<RecordMongoDb> GetRecord() => _repo.GetRecord();
 }
 

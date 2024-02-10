@@ -1,8 +1,7 @@
 ﻿namespace XspecT.Test.AutoMock;
 
-public class StaticIntService
+public class StaticIntService(int value)
 {
-    private readonly int _value;
-    public StaticIntService(int value) => _value = value;
+    private readonly int _value = value;
     public int GetValue() => _value;
 }

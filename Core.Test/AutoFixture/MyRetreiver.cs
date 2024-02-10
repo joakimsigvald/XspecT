@@ -1,10 +1,8 @@
 ﻿namespace XspecT.Test.AutoFixture;
 
-public class MyRetreiver
+public class MyRetreiver(IMyRepository repository)
 {
-    private readonly IMyRepository _repository;
-
-    public MyRetreiver(IMyRepository repository) => _repository = repository;
+    private readonly IMyRepository _repository = repository;
 
     public MyModel Get(int id) => _repository.Get(id);
     public MyModel[] List() => _repository.List();

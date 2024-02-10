@@ -2,11 +2,9 @@
 
 namespace XspecT.Test.AutoMock;
 
-public class MyValueIntService
+public class MyValueIntService(IMyValueIntRepo repo)
 {
-    private readonly IMyValueIntRepo _repo;
-
-    public MyValueIntService(IMyValueIntRepo repo) => _repo = repo;
+    private readonly IMyValueIntRepo _repo = repo;
 
     public void SetValue(MyValueInt value) => _repo.Set(value);
     public string GetValue(MyValueInt value) => _repo.Get(value);

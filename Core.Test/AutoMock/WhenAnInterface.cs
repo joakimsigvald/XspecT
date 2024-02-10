@@ -55,46 +55,28 @@ public interface IMyService
     int GetValue();
 }
 
-public class MyService : IMyService
+public class MyService(MyComponent component, IMyLogger logger) : IMyService
 {
-    private readonly MyComponent _component;
-    private readonly IMyLogger _logger;
-
-    public MyService(MyComponent component, IMyLogger logger)
-    {
-        _component = component;
-        _logger = logger;
-    }
+    private readonly MyComponent _component = component;
+    private readonly IMyLogger _logger = logger;
 
     public int GetValue() => _component.GetValue();
 }
 
-public class InterfaceService
+public class InterfaceService(MyComponent component, IMyService service)
 {
-    private readonly MyComponent _component;
-    private readonly IMyService _service;
-
-    public InterfaceService(MyComponent component, IMyService service)
-    {
-        _component = component;
-        _service = service;
-    }
+    private readonly MyComponent _component = component;
+    private readonly IMyService _service = service;
 
     public int GetValue() => _component.GetValue();
 
     public int GetServiceValue() => _service.GetValue();
 }
 
-public class MyComponent
+public class MyComponent(IMyLogger logger, int value)
 {
-    private readonly IMyLogger _logger;
-    private readonly int _value;
-
-    public MyComponent(IMyLogger logger, int value)
-    {
-        _logger = logger;
-        _value = value;
-    }
+    private readonly IMyLogger _logger = logger;
+    private readonly int _value = value;
 
     public int GetValue()
     {

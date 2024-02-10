@@ -16,6 +16,12 @@ internal abstract class GivenThatCommonContinuation<TSUT, TResult, TService, TRe
         return new GivenSubjectTestPipeline<TSUT, TResult>(Spec);
     }
 
+    public IGivenSubjectTestPipeline<TSUT, TResult> ReturnsDefault()
+    {
+        SetupReturns(() => default);
+        return new GivenSubjectTestPipeline<TSUT, TResult>(Spec);
+    }
+
     public IGivenSubjectTestPipeline<TSUT, TResult> Throws<TException>()
         where TException : Exception, new()
     {
