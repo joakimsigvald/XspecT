@@ -18,11 +18,11 @@
     <PackageProjectUrl>https://github.com/joakimsigvald/XspecT</PackageProjectUrl>
     <RepositoryUrl>https://github.com/joakimsigvald/XspecT.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageVersion>1.3.0</PackageVersion>
+    <PackageVersion>1.4.0</PackageVersion>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>icon.png</PackageIcon>
-    <PackageReleaseNotes>Simplified assertion of assembly dependencies and referencing assemblies by name. Removed reference assembly by type</PackageReleaseNotes>
+    <PackageReleaseNotes>Differentiate between dependency between projects and using of external assemblies</PackageReleaseNotes>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>

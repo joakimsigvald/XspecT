@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using XspecT.Architecture.Exceptions;
+﻿using XspecT.Architecture.Exceptions;
 using XspecT.Architecture.Internal;
 
 namespace XspecT.Architecture;
@@ -10,7 +9,7 @@ namespace XspecT.Architecture;
 public abstract class ArchSpec
 {
     private readonly string _solutionNamespace;
-    private readonly Assembly _testAssembly;
+    private readonly System.Reflection.Assembly _testAssembly;
 
     /// <summary>
     /// TODO
@@ -28,7 +27,17 @@ public abstract class ArchSpec
     /// <param name="name">the namespace of the assembly</param>
     /// <returns>The assembly if found</returns>
     /// <exception cref="InvalidExpectation"></exception>
+    public IAssemblyReference Project(string name)
+        => new AssemblyReference(
+            this, new AssemblyFinder(_solutionNamespace, name, true).FindAssembly(_testAssembly));
+
+    /// <summary>
+    /// Find an assembly, referenced directly or indirectly from test project, by name
+    /// </summary>
+    /// <param name="name">the namespace of the assembly</param>
+    /// <returns>The assembly if found</returns>
+    /// <exception cref="InvalidExpectation"></exception>
     public IAssemblyReference Assembly(string name)
         => new AssemblyReference(
-            this, new AssemblyFinder(_solutionNamespace, name).FindAssembly(_testAssembly));
+            this, new AssemblyFinder(_solutionNamespace, name, false).FindAssembly(_testAssembly));
 }

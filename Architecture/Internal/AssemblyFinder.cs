@@ -7,15 +7,17 @@ internal class AssemblyFinder
 {
     private readonly string _solutionNamespace;
     private readonly string _assemblyName;
+    private readonly bool _isProject;
     private readonly List<string> _searchedChildren = new();
 
-    internal AssemblyFinder(string solutionNamespace, string assemblyName)
+    internal AssemblyFinder(string solutionNamespace, string assemblyName, bool isProject)
     {
         _solutionNamespace = solutionNamespace;
         _assemblyName = assemblyName;
+        _isProject = isProject;
     }
 
-    internal Assembly FindAssembly(Assembly root) 
+    internal Assembly FindAssembly(Assembly root)
         => IsMatch(root.GetName()) ? root
         : Find(root) ?? throw new InvalidExpectation(GetErrorMessage());
 
@@ -41,8 +43,8 @@ internal class AssemblyFinder
         return newReferences;
     }
 
-    private bool IsMatch(AssemblyName assemblyName)
-        => new[] { _assemblyName, $"{_solutionNamespace}.{_assemblyName}" }.Contains(assemblyName.Name);
+    private bool IsMatch(AssemblyName projectName)
+        => projectName.Name == (_isProject ? $"{_solutionNamespace}.{_assemblyName}" : _assemblyName);
 
     private string GetErrorMessage()
     {

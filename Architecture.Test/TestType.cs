@@ -11,14 +11,14 @@ public class TestType : ArchSpec
 
     [Fact]
     public void TestAssemblyClassesNotSealed()
-        => Assembly("Architecture").Classes
+        => Project("Architecture").Classes
         .That().ArePublic().And().AreNotStatic()
         .Are().NotSealed();
 
     [Fact]
     public void TestAssemblyClassesSealed()
         => Xunit.Assert.Throws<ArchitectureViolation>(
-            () => Assembly("Architecture").Classes
+            () => Project("Architecture").Classes
             .That().ArePublic().And().AreNotStatic()
             .Are().Sealed())
         .Message.Does().Contain(nameof(ArchSpec));
@@ -26,7 +26,7 @@ public class TestType : ArchSpec
     [Fact]
     public void TestNegativeInterfaceImplementation()
         => Xunit.Assert.Throws<ArchitectureViolation>(
-            () => Assembly("Architecture.Test").Classes
-            .Does().NotImplement(Assembly("Architecture").Interfaces))
+            () => Project("Architecture.Test").Classes
+            .Does().NotImplement(Project("Architecture").Interfaces))
         .Message.Does().Contain(nameof(InvalidImplementation)).And.Contain(nameof(IAssemblyReference));
 }

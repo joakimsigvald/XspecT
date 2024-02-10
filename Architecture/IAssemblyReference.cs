@@ -26,12 +26,24 @@ public interface IAssemblyReference
     /// <summary>
     /// TODO
     /// </summary>
-    /// <param name="otherName"></param>
+    /// <param name="projectName"></param>
     /// <exception cref="ArchitectureViolation"></exception>
-    void DependOn(string otherName);
+    void DependOn(string projectName);
+
+    /// <summary>
+    /// TODO
+    /// </summary>
+    /// <param name="assemblyName"></param>
+    /// <exception cref="ArchitectureViolation"></exception>
+    void Use(string assemblyName);
 
     /// <summary>
     /// TODO
     /// </summary>
     void DoNotDependOn(string otherName);
+
+    /// <summary>
+    /// TODO
+    /// </summary>
+    void DoNotUse(string otherName);
 }

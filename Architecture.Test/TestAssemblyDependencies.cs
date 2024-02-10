@@ -8,17 +8,21 @@ public class TestAssemblyDependencies : ArchSpec
 
     [Fact]
     public void TestAssemblyDependency()
-        => Assembly("Architecture.Test").DependOn("Architecture");
+        => Project("Architecture.Test").DependOn("Architecture");
 
     [Fact]
     public void TestIndirectAssemblyDependency()
-        => Assembly("Architecture.Test").DependOn("Assert");
+        => Project("Architecture.Test").DependOn("Assert");
 
     [Fact]
-    public void TestUnreferencedAssemblyDependency()
-        => Assembly("Assert").DependOn("FluentAssertions");
+    public void TestUse()
+        => Project("Assert").Use("FluentAssertions");
 
     [Fact]
     public void TestNotDependOn()
-        => Assembly("Architecture").DoNotDependOn("Architecture.Test");
+        => Project("Architecture").DoNotDependOn("Architecture.Test");
+
+    [Fact]
+    public void TestDoNotUse()
+        => Project("Architecture").DoNotUse("FluentAssertions");
 }

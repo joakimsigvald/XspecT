@@ -33,11 +33,24 @@ internal class AssemblyReference : IAssemblyReference
     /// <summary>
     /// TODO
     /// </summary>
-    /// <param name="otherName"></param>
+    /// <param name="projectName"></param>
     /// <exception cref="ArchitectureViolation"></exception>
-    public void DependOn(string otherName)
+    public void DependOn(string projectName)
     {
-        var other = _spec.Assembly(otherName);
+        var other = _spec.Project(projectName);
+        var referencedAssemblies = Assembly.GetReferencedAssemblies();
+        var _ = referencedAssemblies.SingleOrDefault(name => name.Name == other.Assembly.GetName().Name)
+            ?? throw new ArchitectureViolation($"{Assembly.GetName().Name} does not reference {other.Assembly.GetName().Name}.");
+    }
+
+    /// <summary>
+    /// TODO
+    /// </summary>
+    /// <param name="assemblyName"></param>
+    /// <exception cref="ArchitectureViolation"></exception>
+    public void Use(string assemblyName)
+    {
+        var other = _spec.Assembly(assemblyName);
         var referencedAssemblies = Assembly.GetReferencedAssemblies();
         var _ = referencedAssemblies.SingleOrDefault(name => name.Name == other.Assembly.GetName().Name)
             ?? throw new ArchitectureViolation($"{Assembly.GetName().Name} does not reference {other.Assembly.GetName().Name}.");
@@ -47,6 +60,18 @@ internal class AssemblyReference : IAssemblyReference
     /// TODO
     /// </summary>
     public void DoNotDependOn(string otherName)
+    {
+        var other = _spec.Project(otherName);
+        var referencedAssemblies = Assembly.GetReferencedAssemblies();
+        var referencedAssembly = referencedAssemblies.SingleOrDefault(name => name.Name == other.Assembly.GetName().Name);
+        if (referencedAssembly is not null)
+            throw new ArchitectureViolation($"{Assembly.GetName().Name} references {other.Assembly.GetName().Name}.");
+    }
+
+    /// <summary>
+    /// TODO
+    /// </summary>
+    public void DoNotUse(string otherName)
     {
         var other = _spec.Assembly(otherName);
         var referencedAssemblies = Assembly.GetReferencedAssemblies();
