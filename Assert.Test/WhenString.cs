@@ -14,6 +14,11 @@ public class WhenString : StaticSpec<string>
     [Fact] public void IsNotNullAndContainSubstring() => "abcd".Is().NotNull().And.Contain("abc");
     [Fact] public void IsNotNullAndNotContainOtherString() => "abcd".Is().NotNull().And.NotContain("xxx");
     [Fact] public void IsNotNullAndNot() => "A".Is().NotNull().And.Not("B");
+    [Fact] public void IsEqual() => "AbC".Is("AbC");
+    [Fact] public void IsLike() => "AbC".Is().Like("aBc").And.Like("AbC");
+    [Fact] public void IsEquivalentTo() => "AbC".Is().EquivalentTo("aBc").And.EquivalentTo("AbC");
+    [Fact] public void IsNotLike() => "AbC".Is().NotLike("bac");
+    [Fact] public void IsNotEquivalentTo() => "AbC".Is().NotEquivalentTo("bac");
 
     [Fact]
     public void DoesContainOtherStringFails()

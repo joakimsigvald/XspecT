@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using System.Linq.Expressions;
 using XspecT.Assert.Numerical;
 using XspecT.Assert.Time;
 
@@ -376,6 +377,15 @@ public static class AssertionExtensions
     public static ContinueWith<IsObject> Is(this object actual, object expected)
     {
         actual.Should().BeSameAs(expected);
+        return new(new(actual));
+    }
+
+    /// <summary>
+    /// Verify that actual object satisfy a giuven predicate
+    /// </summary>
+    public static ContinueWith<IsObject> Match<TValue>(this TValue actual, Expression<Func<TValue, bool>> predicate)
+    {
+        actual.Should().Match(predicate);
         return new(new(actual));
     }
 

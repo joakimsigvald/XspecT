@@ -62,4 +62,31 @@ public class IsObject : Constraint<IsObject, object>
         _actual.Should().BeEquivalentTo(expected);
         return And();
     }
+
+    /// <summary>
+    /// Should().NotBeEquivalentTo(expected)
+    /// </summary>
+    public ContinueWith<IsObject> NotLike(object expected)
+    {
+        _actual.Should().NotBeEquivalentTo(expected);
+        return And();
+    }
+
+    /// <summary>
+    /// Should().BeEquivalentTo(expected)
+    /// </summary>
+    public ContinueWith<IsObject> EquivalentTo(object expected)
+    {
+        _actual.Should().BeEquivalentTo(expected);
+        return And();
+    }
+
+    /// <summary>
+    /// Should().BeEquivalentTo(expected)
+    /// </summary>
+    public ContinueWith<IsObject> NotEquivalentTo(object expected)
+    {
+        _actual.Should().NotBeEquivalentTo(expected);
+        return And();
+    }
 }

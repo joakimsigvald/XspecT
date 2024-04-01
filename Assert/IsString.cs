@@ -20,6 +20,36 @@ public class IsString : Constraint<IsStringContinuation, string>
     }
 
     /// <summary>
+    /// Asserts that the string is not equivalent to expected, ignoring casing and leading or trailing whitespace
+    /// actual.Should().NotBeEquivalentTo(expected)
+    /// </summary>
+    public ContinueWith<IsStringContinuation> NotLike(string expected)
+    {
+        _actual.Should().NotBeEquivalentTo(expected);
+        return And();
+    }
+
+    /// <summary>
+    /// Asserts that the string is equivalent to expected, ignoring casing and leading or trailing whitespace
+    /// actual.Should().BeEquivalentTo(expected)
+    /// </summary>
+    public ContinueWith<IsStringContinuation> EquivalentTo(string expected)
+    {
+        _actual.Should().BeEquivalentTo(expected);
+        return And();
+    }
+
+    /// <summary>
+    /// Asserts that the string is not equivalent to expected, ignoring casing and leading or trailing whitespace
+    /// actual.Should().NotBeEquivalentTo(expected)
+    /// </summary>
+    public ContinueWith<IsStringContinuation> NotEquivalentTo(string expected)
+    {
+        _actual.Should().NotBeEquivalentTo(expected);
+        return And();
+    }
+
+    /// <summary>
     /// Asserts that the string is null
     /// </summary>
     public ContinueWith<IsStringContinuation> Null()
