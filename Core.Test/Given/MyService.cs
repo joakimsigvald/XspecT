@@ -9,4 +9,5 @@ public class MyService(IMyRepository repo, IMySettings settings, Func<DateTime> 
     public DateTime GetTime() => getTime();
     public int[] GetIds() => repo.GetIds();
     public MyModel Echo(MyModel model) => model;
+    public MyEnum Echo(MyEnum value) => value;
 }

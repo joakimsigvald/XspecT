@@ -32,7 +32,7 @@ internal class Context
 
     internal void SetDefault<TModel>(Action<TModel> setup) where TModel : class
         => AddDefaultSetup(
-            typeof(TModel), 
+            typeof(TModel),
             obj =>
             {
                 if (obj is TModel model)
@@ -49,13 +49,7 @@ internal class Context
     private static Func<object, object> MergeDefaultSetups(Func<object, object> setup1, Func<object, object> setup2)
         => obj => setup2(setup1(obj));
 
-    internal void SetDefault<TModel>(TModel value)
-    {
-        _defaultValues[typeof(TModel)] = value;
-        Use(value);
-    }
-
-    internal bool TryGetDefault(Type type, out object val) 
+    internal bool TryGetDefault(Type type, out object val)
         => _defaultValues.TryGetValue(type, out val);
 
     internal TValue Mention<TValue>(string label)
@@ -88,7 +82,7 @@ internal class Context
     internal TValue[] MentionMany<TValue>(Action<TValue, int> setup, int count)
         => Mention(Enumerable.Range(0, count).Select(i => Mention<TValue>(i, _ => setup(_, i))).ToArray());
 
-    internal TValue Create<TValue>() 
+    internal TValue Create<TValue>()
         => (TValue)ApplyDefaultSetup(typeof(TValue), _testDataGenerator.Create<TValue>());
 
     internal object Create(Type type) => ApplyDefaultSetup(type, _testDataGenerator.Create(type));
@@ -96,9 +90,9 @@ internal class Context
     internal (object val, bool found) Retreive(Type type, int index = 0)
     {
         var typeMap = _numberedMentions.TryGetValue(type, out var map) ? map : null;
-        return typeMap is null
-            ? (null, false)
-            : typeMap.TryGetValue(index, out var val) ? (val, true) : (null, false);
+        return typeMap?.TryGetValue(index, out var val) 
+            ?? _defaultValues.TryGetValue(type, out val)
+            ? (val, found: true) : (null, found: false);
     }
 
     internal (object val, bool found) Use(Type type)
@@ -121,13 +115,13 @@ internal class Context
         return (TValue)(found ? val : Mention(Create<TValue>(), index, asDefault));
     }
 
-    private void Use<TService>(TService service)
+    internal void Use<TService>(TService service)
     {
+        _defaultValues[typeof(TService)] = service;
         if (service is Moq.Internals.InterfaceProxy)
             return;
 
         _testDataGenerator.Use(typeof(TService), service);
-        _defaultValues[typeof(TService)] = service;
         if (typeof(Task).IsAssignableFrom(typeof(TService)))
             return;
 

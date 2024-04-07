@@ -49,7 +49,7 @@ internal class Pipeline<TResult>
     {
         if (HasRun)
             throw new SetupFailed("Given must be called before Then");
-        _context.SetDefault(defaultValue);
+        _context.Use(defaultValue);
     }
 
     internal void SetAction(Action act)
