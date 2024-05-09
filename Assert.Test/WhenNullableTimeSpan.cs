@@ -7,13 +7,13 @@ public class WhenNullableTimeSpan : StaticSpec<TimeSpan?>
 {
     [Fact] 
     public void IsSame() 
-        => Given(A<TimeSpan?>()).When(_ => _).Then().Result.Is(The<TimeSpan?>())
+        => When(_ => _, A<TimeSpan?>()).Then().Result.Is(The<TimeSpan?>())
         .And.NotNull();
 
     [Fact]
     public void IsSameNotNullable()
-        => Given(A<TimeSpan?>()).When(_ => _).Then().Result.Is(The<TimeSpan?>().Value)
+        => When(_ => _, A<TimeSpan?>()).Then().Result.Is(The<TimeSpan?>().Value)
         .And.CloseTo(The<TimeSpan?>().Value, TimeSpan.Zero);
 
-    [Fact] public void IsNull() => Given((TimeSpan?)null).When(_ => _).Then().Result.Is().Null();
+    [Fact] public void IsNull() => When(_ => _, (TimeSpan?)null).Then().Result.Is().Null();
 }

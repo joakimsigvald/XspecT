@@ -4,15 +4,11 @@ namespace XspecT.Test.Given;
 
 public class WhenGivenList : StaticSpec<List<int>>
 {
-    [Fact] public void ThenReturnList() => Given(new List<int> { 1, 2, 3 }).When(_ => _).Then().Result.Has().Count(3);
+    [Fact] public void ThenReturnList() 
+        => When(_ => _, new List<int> { 1, 2, 3 }).Then().Result.Has().Count(3);
 }
 
 public class WhenGivenAList : StaticSpec<List<int>>
 {
-    [Fact] public void ThenReturnTheList() => Given(A<List<int>>()).When(_ => _).Then().Result.Is(The<List<int>>());
-}
-
-public class WhenUsingTwoInts : SubjectSpec<MyListService, List<int>>
-{
-    [Fact] public void ThenReturnTwoInts() => Given(Two<int>().ToList()).When(_ => _.List).Then().Result.Has().Count(2);
+    [Fact] public void ThenReturnTheList() => When(_ => _, A<List<int>>()).Then().Result.Is(The<List<int>>());
 }
