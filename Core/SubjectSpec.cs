@@ -90,7 +90,7 @@ public abstract class SubjectSpec<TSUT, TResult> : Spec<TResult>, ISubjectTestPi
     /// <returns></returns>
     public ISubjectTestPipeline<TSUT, TResult> After(Action<TSUT> setUp)
     {
-        Pipeline.SetSetUp(setUp);
+        Pipeline.PrependSetUp(setUp);
         return this;
     }
 
@@ -101,7 +101,7 @@ public abstract class SubjectSpec<TSUT, TResult> : Spec<TResult>, ISubjectTestPi
     /// <returns></returns>
     public ISubjectTestPipeline<TSUT, TResult> After(Func<TSUT, Task> setUp)
     {
-        Pipeline.SetSetUp(setUp);
+        Pipeline.PrependSetUp(setUp);
         return this;
     }
 

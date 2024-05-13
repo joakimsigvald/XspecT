@@ -5,7 +5,7 @@ namespace XspecT.Internal.Pipelines;
 
 internal class SpecActor<TResult>
 {
-    private Action _setUp;
+    private readonly Stack<Action> _setUp = new();
     private Action _command;
     private Func<TResult> _function;
     private Action _tearDown;
@@ -26,12 +26,7 @@ internal class SpecActor<TResult>
         _function = function;
     }
 
-    internal void After(Action setUp)
-    {
-        if (_setUp is not null)
-            throw new SetupFailed("Cannot call After twice in the same pipeline");
-        _setUp = setUp;
-    }
+    internal void After(Action setUp) => _setUp.Push(setUp);
 
     internal void Before(Action tearDown)
     {
@@ -42,8 +37,7 @@ internal class SpecActor<TResult>
 
     internal TestResult<TResult> Execute(Context context)
     {
-        if (_setUp is not null)
-            _setUp();
+        while(_setUp.TryPop(out var setup)) setup();
         try
         {
             CatchError(_command ?? GetResult);

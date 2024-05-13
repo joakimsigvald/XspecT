@@ -13,12 +13,15 @@ public class AfterWhenBefore : SubjectSpec<MyStateService, int>
         => When(_ => ++_.Counter).After(_ => _.Counter++).Then().Result.Is(2);
 
     [Fact]
-    public void GivenWhenExecutedTwice_ThenThrowSetupFailed()
-        => Xunit.Assert.Throws<SetupFailed>(() => When(_ => ++_.Counter).When(_ => _.Counter--));
+    public void FirstAfterIsExecutedAfterSecondAfterBeforeWhen()
+        => When(_ => _.Counter *= 2)
+        .After(_ => _.Counter = 3)
+        .After(_ => _.Counter = 5)
+        .Then().Result.Is(6);
 
     [Fact]
-    public void GiveAfterExecutedTwice_ThenThrowSetupFailed()
-        => Xunit.Assert.Throws<SetupFailed>(() => After(_ => ++_.Counter).After(_ => _.Counter--));
+    public void GivenWhenExecutedTwice_ThenThrowSetupFailed()
+        => Xunit.Assert.Throws<SetupFailed>(() => When(_ => ++_.Counter).When(_ => _.Counter--));
 
     [Fact]
     public void GivenBeforeExecutedTwice_ThenThrowSetupFailed()

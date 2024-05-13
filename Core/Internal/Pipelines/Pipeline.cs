@@ -70,14 +70,14 @@ internal class Pipeline<TResult>
 
     internal void SetAction(Func<Task<TResult>> func) => SetAction(() => Execute(func));
 
-    internal void SetSetUp(Action setUp)
+    internal void PrependSetUp(Action setUp)
     {
         if (HasRun)
             throw new SetupFailed("After must be called before Then");
         _actor.After(setUp ?? throw new SetupFailed("SetUp cannot be null"));
     }
 
-    internal void SetSetUp(Func<Task> setUp) => SetSetUp(() => Execute(setUp));
+    internal void PrependSetUp(Func<Task> setUp) => PrependSetUp(() => Execute(setUp));
 
     internal void SetTearDown(Action tearDown)
     {

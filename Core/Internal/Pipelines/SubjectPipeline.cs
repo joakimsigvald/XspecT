@@ -50,6 +50,6 @@ internal class SubjectPipeline<TSUT, TResult> : Pipeline<TResult>
     internal void SetAction(Func<TSUT, Task<TResult>> func) => SetAction(() => func(_sut));
     internal void SetTearDown(Action<TSUT> tearDown) => SetTearDown(() => tearDown(_sut));
     internal void SetTearDown(Func<TSUT, Task> tearDown) => SetTearDown(() => tearDown(_sut));
-    internal void SetSetUp(Action<TSUT> setUp) => SetSetUp(() => setUp(_sut));
-    internal void SetSetUp(Func<TSUT, Task> setUp) => SetSetUp(() => setUp(_sut));
+    internal void PrependSetUp(Action<TSUT> setUp) => PrependSetUp(() => setUp(_sut));
+    internal void PrependSetUp(Func<TSUT, Task> setUp) => PrependSetUp(() => setUp(_sut));
 }
