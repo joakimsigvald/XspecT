@@ -132,5 +132,27 @@ public class IsString : Constraint<IsStringContinuation, string>
         return And();
     }
 
+    /// <summary>
+    /// Asserts that the string starts with a prefix
+    /// </summary>
+    /// <param name="prefix"></param>
+    /// <returns></returns>
+    public ContinueWith<IsStringContinuation> StartingWith(string prefix)
+    {
+        _actual.Should().StartWith(prefix);
+        return And();
+    }
+
+    /// <summary>
+    /// Asserts that the string ends with a suffix
+    /// </summary>
+    /// <param name="suffix"></param>
+    /// <returns></returns>
+    public ContinueWith<IsStringContinuation> EndingWith(string suffix)
+    {
+        _actual.Should().EndWith(suffix);
+        return And();
+    }
+
     internal override IsStringContinuation Continue() => new(_actual);
 }

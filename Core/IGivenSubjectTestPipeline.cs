@@ -28,6 +28,14 @@ public interface IGivenSubjectTestPipeline<TSUT, TResult> : ISubjectTestPipeline
     IGivenSubjectTestPipeline<TSUT, TResult> And<TValue>(Action<TValue> setup) where TValue : class;
 
     /// <summary>
+    /// Transform any value and use the transformed value as default
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="setup"></param>
+    /// <returns></returns>
+    IGivenSubjectTestPipeline<TSUT, TResult> And<TValue>(Func<TValue, TValue> setup);
+
+    /// <summary>
     /// Provide a default value as a lambda, to be evaluated during test execution AFTER any subsequently added arrangement.
     /// Providing a default value as a lambda, to defer execution, is useful when the default value is created based on test data that is specified later in the test-pipeline.
     /// </summary>

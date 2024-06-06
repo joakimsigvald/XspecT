@@ -118,6 +118,18 @@ public abstract class SubjectSpec<TSUT, TResult> : Spec<TResult>, ISubjectTestPi
     }
 
     /// <summary>
+    /// Transform any value and use the transformed value as default
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="setup"></param>
+    /// <returns></returns>
+    public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(Func<TValue, TValue> setup)
+    {
+        Pipeline.SetDefault(setup);
+        return new GivenSubjectTestPipeline<TSUT, TResult>(this);
+    }
+
+    /// <summary>
     /// Provide a default value, that will be applied in all mocks and auto-generated test-data, where no specific value or setup is given.
     /// </summary>
     /// <typeparam name="TValue"></typeparam>

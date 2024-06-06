@@ -7,7 +7,7 @@ public class WhenGivenValue : SubjectSpec<MyService, MyModel>
     [Fact]
     public void AsFirstSentence_ThenValueInPipeline()
         => Given(() => new MyModel() { Name = A<string>() })
-        .When(_ => _.Echo(The<MyModel>()))
+        .When(_ => MyService.Echo(The<MyModel>()))
         .Then().Result.Name.Is(The<string>());
 
     [Fact]

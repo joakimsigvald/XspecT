@@ -45,6 +45,13 @@ internal class Pipeline<TResult>
         _context.SetDefault(setup);
     }
 
+    internal void SetDefault<TValue>(Func<TValue, TValue> setup)
+    {
+        if (HasRun)
+            throw new SetupFailed("Given must be called before Then");
+        _context.SetDefault(setup);
+    }
+
     internal void SetDefault<TValue>(TValue defaultValue)
     {
         if (HasRun)
@@ -110,6 +117,13 @@ internal class Pipeline<TResult>
         => _context.MentionMany(setup, count);
 
     internal TValue Mention<TValue>(int index, [NotNull] Action<TValue> setup)
+    {
+        if (HasRun)
+            throw new SetupFailed("Setup to auto-generated values must be provided before Then");
+        return _context.Mention(index, setup);
+    }
+
+    internal TValue Mention<TValue>(int index, [NotNull] Func<TValue, TValue> setup)
     {
         if (HasRun)
             throw new SetupFailed("Setup to auto-generated values must be provided before Then");

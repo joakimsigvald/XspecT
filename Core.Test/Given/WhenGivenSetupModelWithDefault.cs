@@ -106,7 +106,7 @@ public class OverrideDefaultSetupAfterWhenArgument : SubjectSpec<MyService, MyMo
 
     public OverrideDefaultSetupAfterWhenArgument()
         => Given<MyModel>(_ => _.Name = "Something")
-        .When(_ => _.Echo(A<MyModel>()));
+        .When(_ => MyService.Echo(A<MyModel>()));
 
     [Fact]
     public void GivenDefaultSetup_ThenUseOverride()
@@ -119,7 +119,7 @@ public class OverrideDefaultValueAfterWhenArgument : SubjectSpec<MyService, MyMo
     private const string _theName = "TheName";
 
     public OverrideDefaultValueAfterWhenArgument()
-        => Given("Something").When(_ => _.Echo(A<MyModel>()));
+        => Given("Something").When(_ => MyService.Echo(A<MyModel>()));
 
     [Fact]
     public void GivenDefaultValue_ThenUseDefaultValue()

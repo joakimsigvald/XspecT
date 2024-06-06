@@ -15,8 +15,14 @@ internal class Context
     internal TValue CreateInstance<TValue>() where TValue : class
         => _testDataGenerator.CreateInstance<TValue>();
 
-    internal TValue Mention<TValue>(int index, Action<TValue> setup = null, bool asDefault = false)
-        => setup is null ? Produce<TValue>(index, asDefault) : ApplyTo(setup, Produce<TValue>(index));
+    internal TValue Mention<TValue>(int index, bool asDefault = false)
+        => Produce<TValue>(index, asDefault);
+
+    internal TValue Mention<TValue>(int index, Action<TValue> setup)
+        => ApplyTo(setup, Produce<TValue>(index));
+
+    internal TValue Mention<TValue>(int index, Func<TValue, TValue> setup)
+        => (TValue)Mention(typeof(TValue), ApplyTo(setup, Produce<TValue>(index)), index);
 
     internal object Mention(Type type, int index = 0)
     {
@@ -26,8 +32,14 @@ internal class Context
 
     internal static TValue ApplyTo<TValue>(Action<TValue> setup, TValue value)
     {
-        setup?.Invoke(value);
+        setup.Invoke(value);
         return value;
+    }
+
+    internal static TValue ApplyTo<TValue>(Func<TValue, TValue> setup, TValue value)
+    {
+        var newValue = setup.Invoke(value);
+        return newValue;
     }
 
     internal void SetDefault<TModel>(Action<TModel> setup) where TModel : class
@@ -39,6 +51,10 @@ internal class Context
                     setup(model);
                 return obj;
             });
+
+    internal void SetDefault<TValue>(Func<TValue, TValue> setup)
+        => AddDefaultSetup(
+            typeof(TValue), _ => setup((TValue)_));
 
     private void AddDefaultSetup(Type type, Func<object, object> setup)
         => _defaultSetups[type] =
@@ -73,8 +89,11 @@ internal class Context
         var (val, found) = Retreive(typeof(TValue[]));
         return found && val is TValue[] arr
             ? Reuse(arr, count, minCount)
-            : MentionMany((Action<TValue>)null, count);
+            : MentionMany<TValue>(count);
     }
+
+    internal TValue[] MentionMany<TValue>(int count)
+        => Mention(Enumerable.Range(0, count).Select(i => Mention<TValue>(i)).ToArray());
 
     internal TValue[] MentionMany<TValue>(Action<TValue> setup, int count)
         => Mention(Enumerable.Range(0, count).Select(i => Mention(i, setup)).ToArray());

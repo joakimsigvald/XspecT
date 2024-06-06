@@ -49,6 +49,22 @@ public abstract partial class Spec<TResult> : ITestPipeline<TResult>
     protected TValue A<TValue>([NotNull] Action<TValue> setup) => _pipeline.Mention(0, setup);
 
     /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="setup"></param>
+    /// <returns></returns>
+    protected TValue An<TValue>([NotNull] Func<TValue, TValue> setup) => A(setup);
+
+    /// <summary>
+    /// Yields a customized value of the given type
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="setup"></param>
+    /// <returns></returns>
+    protected TValue A<TValue>([NotNull] Func<TValue, TValue> setup) => _pipeline.Mention(0, setup);
+
+    /// <summary>
     /// Provide a specific value for the first instance of the given type
     /// </summary>
     /// <typeparam name="TValue"></typeparam>

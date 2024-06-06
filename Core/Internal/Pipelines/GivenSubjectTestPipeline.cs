@@ -32,6 +32,8 @@ internal class GivenSubjectTestPipeline<TSUT, TResult>
 
     public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(Action<TValue> setup) where TValue : class
         => Parent.Given(setup);
+    public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(Func<TValue, TValue> setup)
+        => Parent.Given(setup);
 
     public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(TValue defaultValue)
         => Parent.Given(defaultValue);
@@ -43,6 +45,8 @@ internal class GivenSubjectTestPipeline<TSUT, TResult>
 
     public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(Func<TValue> value) => Parent.Given(value);
     public IGivenSubjectTestPipeline<TSUT, TResult> And<TValue>(Action<TValue> setup) where TValue : class
+        => Given(setup);
+    public IGivenSubjectTestPipeline<TSUT, TResult> And<TValue>(Func<TValue, TValue> setup)
         => Given(setup);
 
     public IGivenSubjectTestPipeline<TSUT, TResult> And<TValue>(Func<TValue> value) => Given(value);
