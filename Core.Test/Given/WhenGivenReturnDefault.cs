@@ -2,7 +2,7 @@
 
 namespace XspecT.Test.Given;
 
-public class WhenGivenReturnDefault : SubjectSpec<MyService, MyModel>
+public class WhenGivenReturnDefault : Spec<MyService, MyModel>
 {
     [Fact]
     public void ThenMockReturnDefault()

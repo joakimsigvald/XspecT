@@ -2,7 +2,7 @@
 
 namespace XspecT.Test.AutoFixture;
 
-public class WhenSome : SubjectSpec<MyRetreiver, MyModel[]>
+public class WhenSome : Spec<MyRetreiver, MyModel[]>
 {
     public WhenSome() => Given(Some<MyModel>).When(_ => _.List());
 

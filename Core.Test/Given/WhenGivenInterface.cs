@@ -2,7 +2,7 @@
 
 namespace XspecT.Test.Given;
 
-public class WhenGivenInterface : SubjectSpec<MyService, string>
+public class WhenGivenInterface : Spec<MyService, string>
 {
     [Fact]
     public void ThenUseValueInPipeline()

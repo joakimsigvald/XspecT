@@ -2,7 +2,7 @@
 
 namespace XspecT.Test.Given;
 
-public class WhenGivenSetupValue : SubjectSpec<MyService, DateTime>
+public class WhenGivenSetupValue : Spec<MyService, DateTime>
 {
     private static readonly DateTime _now = DateTime.Now;
     private static readonly DateTime _anotherTime = DateTime.Now.AddDays(1);

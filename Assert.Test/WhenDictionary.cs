@@ -3,7 +3,7 @@ using Xunit;
 
 namespace XspecT.Test.Verification;
 
-public class WhenDictionary : SubjectSpec<object, Dictionary<string, int>>
+public class WhenDictionary : Spec<object, Dictionary<string, int>>
 {
     [Fact]
     public void IsEqual()

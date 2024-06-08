@@ -10,7 +10,7 @@ internal class GivenThatAsyncContinuation<TSUT, TResult, TService, TReturns>
     private readonly Expression<Func<TService, Task<TReturns>>> _expression;
 
     internal GivenThatAsyncContinuation(
-        SubjectSpec<TSUT, TResult> subjectSpec, Expression<Func<TService, Task<TReturns>>> expression)
+        Spec<TSUT, TResult> subjectSpec, Expression<Func<TService, Task<TReturns>>> expression)
         : base(subjectSpec) => _expression = expression;
 
     protected override void SetupReturns(Func<TReturns> returns)

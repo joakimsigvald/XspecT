@@ -2,7 +2,7 @@
 
 namespace XspecT.Test.AutoMock;
 
-public class WhenApplyTaskOfImplicitlyCastPrimitiveToMock : SubjectSpec<MyValueIntService, object>
+public class WhenApplyTaskOfImplicitlyCastPrimitiveToMock : Spec<MyValueIntService, object>
 {
     public WhenApplyTaskOfImplicitlyCastPrimitiveToMock() 
         => When(_ => _.SetValueAsync(A<MyValueInt>()));

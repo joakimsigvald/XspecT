@@ -3,7 +3,7 @@ using Xunit;
 
 namespace XspecT.Test.Verification;
 
-public class WhenObject : SubjectSpec<object, object>
+public class WhenObject : Spec<object, object>
 {
     internal record MyModel(string Value) { }
     internal record MyArrayModel(params int[] Values) { }

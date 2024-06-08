@@ -3,7 +3,7 @@ using XspecT.Test.Given;
 
 namespace XspecT.Test.AutoMock;
 
-public class WhenMockReturnsValue_GivenTaskOfImplicitlyCastPrimitive : SubjectSpec<MyValueIntService, string>
+public class WhenMockReturnsValue_GivenTaskOfImplicitlyCastPrimitive : Spec<MyValueIntService, string>
 {
     private const string _retVal = "abc";
 

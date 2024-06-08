@@ -3,7 +3,7 @@ using XspecT.Test.Subjects.Purchase;
 
 namespace XspecT.Test.AutoMock;
 
-public class WhenInjectingAnInterfaceWithUsing : SubjectSpec<InterfaceService, int>
+public class WhenInjectingAnInterfaceWithUsing : Spec<InterfaceService, int>
 {
     public WhenInjectingAnInterfaceWithUsing()
         => Given(new MyComponent(An<IMyLogger>(), An<int>())).When(_ => _.GetValue());
@@ -12,7 +12,7 @@ public class WhenInjectingAnInterfaceWithUsing : SubjectSpec<InterfaceService, i
     [Fact] public void ThenInterfaceIsMocked() => Then<IMyLogger>(_ => _.LogValue(The<int>()));
 }
 
-public class WhenUseConcreteInstanceOfInterface : SubjectSpec<InterfaceService, int>
+public class WhenUseConcreteInstanceOfInterface : Spec<InterfaceService, int>
 {
     public WhenUseConcreteInstanceOfInterface()
         => Given(CreateService()).And(An<int>).When(_ => _.GetServiceValue());
@@ -23,7 +23,7 @@ public class WhenUseConcreteInstanceOfInterface : SubjectSpec<InterfaceService, 
         => new MyService(new MyComponent(A<IMyLogger>(), ASecond<int>()), A<IMyLogger>());
 }
 
-public class WhenUsingConcreteInstanceForInterface : SubjectSpec<InterfaceService, int>
+public class WhenUsingConcreteInstanceForInterface : Spec<InterfaceService, int>
 {
     public WhenUsingConcreteInstanceForInterface()
         => When(_ => _.GetValue()).Given(() => new MyComponent(An<IMyLogger>(), An<int>()))
@@ -32,7 +32,7 @@ public class WhenUsingConcreteInstanceForInterface : SubjectSpec<InterfaceServic
     [Fact] public void ThenUseTheConcreteInstance() => Then().Throws<ArgumentOutOfRangeException>();
 }
 
-public class WhenIndirectlyUsingConcreteInstanceForInterface : SubjectSpec<InterfaceService, int>
+public class WhenIndirectlyUsingConcreteInstanceForInterface : Spec<InterfaceService, int>
 {
     public WhenIndirectlyUsingConcreteInstanceForInterface()
         => When(_ => _.GetValue())
@@ -42,7 +42,7 @@ public class WhenIndirectlyUsingConcreteInstanceForInterface : SubjectSpec<Inter
     [Fact] public void ThenUseTheConcreteInstance() => Then().Throws<ArgumentOutOfRangeException>();
 }
 
-public class WhenUsingConcreteInstanceForInterfaceWithAutoMockedConstructorArgument : SubjectSpec<InterfaceService, int>
+public class WhenUsingConcreteInstanceForInterfaceWithAutoMockedConstructorArgument : Spec<InterfaceService, int>
 {
     public WhenUsingConcreteInstanceForInterfaceWithAutoMockedConstructorArgument()
         => When(_ => _.GetValue()).Given(A<MyComponent>).And(An<int>);

@@ -2,7 +2,7 @@
 
 namespace XspecT.Test.Given;
 
-public class WhenGivenSetupModel : SubjectSpec<MyService, MyModel>
+public class WhenGivenSetupModel : Spec<MyService, MyModel>
 {
     private static readonly MyModel _myModel = new() { Name = "My model" };
 

@@ -2,7 +2,7 @@
 
 namespace XspecT.Test.Given;
 
-public class WhenGivenThatThrows : SubjectSpec<MyService, MyModel>
+public class WhenGivenThatThrows : Spec<MyService, MyModel>
 {
     [Fact]
     public void GivenExceptionType_ThenThrowsExceptionOfThatType()

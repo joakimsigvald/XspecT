@@ -1,5 +1,5 @@
 ﻿namespace XspecT.Test.Tests.ShoppingService;
 
-public abstract class ShoppingServiceSpec<TResult> : SubjectSpec<Subjects.ShoppingService, TResult>
+public abstract class ShoppingServiceSpec<TResult> : Spec<Subjects.ShoppingService, TResult>
 {
 }

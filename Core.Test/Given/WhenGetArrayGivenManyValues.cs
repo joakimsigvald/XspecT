@@ -2,7 +2,7 @@
 
 namespace XspecT.Test.Given;
 
-public class WhenGetArrayGivenManyValues : SubjectSpec<MyService, int[]>
+public class WhenGetArrayGivenManyValues : Spec<MyService, int[]>
 {
     public WhenGetArrayGivenManyValues() => When(_ => _.GetIds());
 

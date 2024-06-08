@@ -21,7 +21,7 @@ using static App.Calculator;
 
 namespace App.Test;
 
-public class CalculatorSpec : SubjectSpec<object, int>
+public class CalculatorSpec : Spec<object, int>
 {
     [Fact] public void WhenAdd_1_and_2_ThenSumIs_3() => Given(1, 2).When(Add).Then().Result.Is(3);
 }
@@ -44,7 +44,7 @@ using static App.Calculator;
 
 namespace App.Test;
 
-public class CalculatorSpec : SubjectSpec<object, int>
+public class CalculatorSpec : Spec<object, int>
 {
     [Theory]
     [InlineData(1, 1, 2)]
@@ -74,7 +74,7 @@ Example:
 ```
 namespace MyProject.Test.Validator;
 
-public abstract class WhenVerifyAreEqual : SubjectSpec<object, object>
+public abstract class WhenVerifyAreEqual : Spec<object, object>
 {
     protected WhenVerifyAreEqual() => When<int, int>(MyProject.Validator.VerifyAreEqual);
 
@@ -106,7 +106,7 @@ Example:
 ```
 namespace MyProject.Spec.ShoppingService;
 
-public abstract class WhenPlaceOrder : SubjectSpec<MyProject.ShoppingService, object>
+public abstract class WhenPlaceOrder : Spec<MyProject.ShoppingService, object>
 {
     protected WhenPlaceOrder() 
         => When(_ => _.PlaceOrder(An<int>()))

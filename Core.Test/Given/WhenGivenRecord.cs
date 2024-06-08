@@ -4,7 +4,7 @@ namespace XspecT.Test.Given;
 
 public record MyRecord(int Id, string Name);
 
-public class WhenGivenRecord : SubjectSpec<MyService, MyRecord>
+public class WhenGivenRecord : Spec<MyService, MyRecord>
 {
     [Fact]
     public void GivenSetup_ThenReturnSetupValue()

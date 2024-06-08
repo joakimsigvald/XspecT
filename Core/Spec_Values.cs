@@ -2,7 +2,8 @@
 
 namespace XspecT;
 
-public abstract partial class Spec<TResult> : ITestPipeline<TResult>
+public abstract partial class Spec<TSUT, TResult> : ISubjectTestPipeline<TSUT, TResult>
+    where TSUT : class
 {
     /// <summary>
     /// Yields an array with the provided element

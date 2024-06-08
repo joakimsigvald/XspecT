@@ -5,7 +5,7 @@ using XspecT.Test.Given;
 
 namespace XspecT.Test.AutoMock;
 
-public class WhenMockReturnsValue_GivenImplicitlyCastPrimitive : SubjectSpec<MyValueIntService, string>
+public class WhenMockReturnsValue_GivenImplicitlyCastPrimitive : Spec<MyValueIntService, string>
 {
     private const string _retVal = "abc";
 
@@ -16,19 +16,19 @@ public class WhenMockReturnsValue_GivenImplicitlyCastPrimitive : SubjectSpec<MyV
     [Fact] public void Then_ItReturnsExpectedValue() => Result.Is(_retVal);
 }
 
-public class WhenMockReturnsObject : SubjectSpec<MyValueIntService, object>
+public class WhenMockReturnsObject : Spec<MyValueIntService, object>
 {
     public WhenMockReturnsObject() => When(_ => _.GetObject());
 
     [Fact] public void Then_ReturnAnObject() => Result.GetType().Is(typeof(object));
 }
-public class WhenMockReturnsTaskOfObject : SubjectSpec<MyValueIntService, object>
+public class WhenMockReturnsTaskOfObject : Spec<MyValueIntService, object>
 {
     public WhenMockReturnsTaskOfObject() => When(_ => _.GetObjectAsync());
 
     [Fact] public void Then_ReturnAnObject() => Result.GetType().Is(typeof(object));
 }
-public class WhenMockReturnsSelf : SubjectSpec<MyValueIntService, IMyValueIntRepo>
+public class WhenMockReturnsSelf : Spec<MyValueIntService, IMyValueIntRepo>
 {
     public WhenMockReturnsSelf() => When(_ => _.GetRepo());
 

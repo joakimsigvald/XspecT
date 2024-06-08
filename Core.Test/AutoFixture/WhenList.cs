@@ -2,7 +2,7 @@
 
 namespace XspecT.Test.AutoFixture;
 
-public class WhenList : SubjectSpec<MyRetreiver, MyModel[]>
+public class WhenList : Spec<MyRetreiver, MyModel[]>
 {
     public WhenList() => When(_ => _.List());
 

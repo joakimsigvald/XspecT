@@ -2,7 +2,7 @@
 
 namespace XspecT.Test.AutoMock;
 
-public class WhenMockFuncOfDateTime : SubjectSpec<DateService, DateTime>
+public class WhenMockFuncOfDateTime : Spec<DateService, DateTime>
 {
     public WhenMockFuncOfDateTime() => When(_ => _.GetNow());
 

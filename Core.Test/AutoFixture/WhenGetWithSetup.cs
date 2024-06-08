@@ -2,7 +2,7 @@
 
 namespace XspecT.Test.AutoFixture;
 
-public class WhenGetWithSetup : SubjectSpec<MyMappingRetreiver, MyModel>
+public class WhenGetWithSetup : Spec<MyMappingRetreiver, MyModel>
 {
     public WhenGetWithSetup() 
         => When(_ => _.Get(An<int>()))

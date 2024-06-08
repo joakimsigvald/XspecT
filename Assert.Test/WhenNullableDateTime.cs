@@ -3,7 +3,7 @@ using Xunit;
 
 namespace XspecT.Test.Verification;
 
-public class WhenNullableDateTime : SubjectSpec<object, DateTime?>
+public class WhenNullableDateTime : Spec<object, DateTime?>
 {
     [Fact] 
     public void IsSame() 

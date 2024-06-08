@@ -3,7 +3,7 @@ using Xunit;
 
 namespace XspecT.Test.Verification;
 
-public class WhenArray : SubjectSpec<object, int[]>
+public class WhenArray : Spec<object, int[]>
 {
     [Fact]
     public void IsSameAs()

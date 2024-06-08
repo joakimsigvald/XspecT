@@ -3,7 +3,7 @@ using Xunit;
 
 namespace XspecT.Test.Verification;
 
-public class WhenString : SubjectSpec<object, string>
+public class WhenString : Spec<object, string>
 {
     [Fact] public void IsNot() => "A".Is().Not("B");
     [Fact] public void IsEmpty() => "".Is().Empty();

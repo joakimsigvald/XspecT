@@ -3,7 +3,7 @@ using Xunit;
 
 namespace XspecT.Test.Assert;
 
-public class WhenDateTime : SubjectSpec<object, DateTime>
+public class WhenDateTime : Spec<object, DateTime>
 {
     [Fact] public void IsSame() => When(_ => A<DateTime>()).Then().Result.Is(The<DateTime>());
     [Fact]

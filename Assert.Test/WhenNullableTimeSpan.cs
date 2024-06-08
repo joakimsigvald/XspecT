@@ -3,7 +3,7 @@ using Xunit;
 
 namespace XspecT.Test.Verification;
 
-public class WhenNullableTimeSpan : SubjectSpec<object, TimeSpan?>
+public class WhenNullableTimeSpan : Spec<object, TimeSpan?>
 {
     [Fact] 
     public void IsSame() 

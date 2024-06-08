@@ -2,7 +2,7 @@
 
 namespace XspecT.Test.AutoFixture;
 
-public class WhenMany : SubjectSpec<MyRetreiver, MyModel[]>
+public class WhenMany : Spec<MyRetreiver, MyModel[]>
 {
     public WhenMany() => When(_ => _.List());
 
@@ -62,7 +62,7 @@ public class WhenMany : SubjectSpec<MyRetreiver, MyModel[]>
     }
 }
 
-public class WhenMockReturnsFewerElementsThanPreviouslyMentioned : SubjectSpec<MyRetreiver, MyModel[]>
+public class WhenMockReturnsFewerElementsThanPreviouslyMentioned : Spec<MyRetreiver, MyModel[]>
 {
     public WhenMockReturnsFewerElementsThanPreviouslyMentioned()
         => When(_ => _.Create(An<int>()));

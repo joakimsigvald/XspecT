@@ -2,7 +2,7 @@
 
 namespace XspecT.Test.Pipeline;
 
-public class AfterWhenBefore : SubjectSpec<MyStateService, int>
+public class AfterWhenBefore : Spec<MyStateService, int>
 {
     [Fact]
     public void BeforeIsExecutedAfterWhen()

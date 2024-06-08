@@ -3,7 +3,7 @@ using XspecT.Test.Subjects.RecordStructDefaults;
 
 namespace XspecT.Test.Tests.KeyService;
 
-public class KeyServiceSpec : SubjectSpec<Subjects.RecordStructDefaults.KeyService, Key>
+public class KeyServiceSpec : Spec<Subjects.RecordStructDefaults.KeyService, Key>
 {
 }
 

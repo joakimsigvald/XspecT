@@ -2,7 +2,7 @@
 
 namespace XspecT.Test.AutoMock;
 
-public class WhenMockCustomStruct : SubjectSpec<StaticValueService, MyValue<int>>
+public class WhenMockCustomStruct : Spec<StaticValueService, MyValue<int>>
 {
     public WhenMockCustomStruct() => When(_ => _.GetValue());
     public class GivenItWasNotProvided : WhenMockCustomStruct

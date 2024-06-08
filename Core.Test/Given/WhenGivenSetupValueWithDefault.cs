@@ -2,7 +2,7 @@
 
 namespace XspecT.Test.Given;
 
-public class WhenGivenSetupValueWithDefault : SubjectSpec<MyService, int>
+public class WhenGivenSetupValueWithDefault : Spec<MyService, int>
 {
     private const int _defaltId = 1;
 

@@ -6,9 +6,9 @@ internal class GivenContinuation<TSUT, TResult, TService> : IGivenContinuation<T
     where TSUT : class
     where TService : class
 {
-    private readonly SubjectSpec<TSUT, TResult> _subjectSpec;
+    private readonly Spec<TSUT, TResult> _subjectSpec;
 
-    internal GivenContinuation(SubjectSpec<TSUT, TResult> subjectSpec) 
+    internal GivenContinuation(Spec<TSUT, TResult> subjectSpec) 
         => _subjectSpec = subjectSpec;
 
     public IGivenSubjectTestPipeline<TSUT, TResult> ReturnsDefault<TReturns>(Func<TReturns> value)
@@ -30,9 +30,9 @@ internal class GivenContinuation<TSUT, TResult>
     : IGivenContinuation<TSUT, TResult> 
     where TSUT : class
 {
-    private readonly SubjectSpec<TSUT, TResult> _subjectSpec;
+    private readonly Spec<TSUT, TResult> _subjectSpec;
 
-    internal GivenContinuation(SubjectSpec<TSUT, TResult> subjectSpec)
+    internal GivenContinuation(Spec<TSUT, TResult> subjectSpec)
         => _subjectSpec = subjectSpec;
 
     public IGivenSubjectTestPipeline<TSUT, TResult> That(Action setup) => _subjectSpec.GivenSetup(setup);

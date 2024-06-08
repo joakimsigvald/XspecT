@@ -3,7 +3,7 @@ using XspecT.Test.AutoFixture;
 
 namespace XspecT.Test.AutoMock;
 
-public class WhenReturnsDefaultInt : SubjectSpec<MyDefaultService, int>
+public class WhenReturnsDefaultInt : Spec<MyDefaultService, int>
 {
     [Fact]
     public void ThenReturnZero()
@@ -11,7 +11,7 @@ public class WhenReturnsDefaultInt : SubjectSpec<MyDefaultService, int>
         .When(_ => _.GetInt()).Then().Result.Is(0);
 }
 
-public class WhenReturnsDefaultModel : SubjectSpec<MyDefaultService, MyModel>
+public class WhenReturnsDefaultModel : Spec<MyDefaultService, MyModel>
 {
     [Fact]
     public void ThenReturnNull()

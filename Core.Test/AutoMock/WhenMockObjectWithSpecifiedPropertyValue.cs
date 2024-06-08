@@ -2,7 +2,7 @@
 
 namespace XspecT.Test.AutoMock;
 
-public class WhenMockObjectWithSpecifiedPropertyValue : SubjectSpec<StaticObjectService, MyObject>
+public class WhenMockObjectWithSpecifiedPropertyValue : Spec<StaticObjectService, MyObject>
 {
     public WhenMockObjectWithSpecifiedPropertyValue() => When(_ => _.GetValue());
 

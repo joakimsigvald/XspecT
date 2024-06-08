@@ -2,7 +2,7 @@
 
 namespace XspecT.Test.Given;
 
-public class WhenGivenValue : SubjectSpec<MyService, MyModel>
+public class WhenGivenValue : Spec<MyService, MyModel>
 {
     [Fact]
     public void AsFirstSentence_ThenValueInPipeline()

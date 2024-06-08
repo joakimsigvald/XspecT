@@ -2,7 +2,7 @@
 
 namespace XspecT.Test.Given;
 
-public class WhenGivenFunction : SubjectSpec<MyService, DateTime>
+public class WhenGivenFunction : Spec<MyService, DateTime>
 {
     [Fact]
     public void UsingFunction_CanBeUsedAsDefaultFunction()

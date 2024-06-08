@@ -2,7 +2,7 @@
 
 namespace XspecT.Test.Given;
 
-public class WhenGivenSetupModelWithDefault : SubjectSpec<MyService, MyModel>
+public class WhenGivenSetupModelWithDefault : Spec<MyService, MyModel>
 {
     private const string _defaltName = "NoName";
 
@@ -74,7 +74,7 @@ public class WhenGivenSetupModelWithDefault : SubjectSpec<MyService, MyModel>
         .Then().Result.Name.Is(_defaltName);
 }
 
-public class OverrideDefaultSetupAfterWhenReturn : SubjectSpec<MyService, MyModel>
+public class OverrideDefaultSetupAfterWhenReturn : Spec<MyService, MyModel>
 {
     private const string _theName = "TheName";
 
@@ -88,7 +88,7 @@ public class OverrideDefaultSetupAfterWhenReturn : SubjectSpec<MyService, MyMode
         .Then().Result.Name.Is(_theName);
 }
 
-public class OverrideDefaultValueAfterWhenReturn : SubjectSpec<MyService, MyModel>
+public class OverrideDefaultValueAfterWhenReturn : Spec<MyService, MyModel>
 {
     private const string _theName = "TheName";
 
@@ -100,7 +100,7 @@ public class OverrideDefaultValueAfterWhenReturn : SubjectSpec<MyService, MyMode
         => Given<MyModel>(_ => _.Name = _theName).Then().Result.Name.Is(_theName);
 }
 
-public class OverrideDefaultSetupAfterWhenArgument : SubjectSpec<MyService, MyModel>
+public class OverrideDefaultSetupAfterWhenArgument : Spec<MyService, MyModel>
 {
     private const string _theName = "TheName";
 
@@ -114,7 +114,7 @@ public class OverrideDefaultSetupAfterWhenArgument : SubjectSpec<MyService, MyMo
         .Then().Result.Name.Is(_theName);
 }
 
-public class OverrideDefaultValueAfterWhenArgument : SubjectSpec<MyService, MyModel>
+public class OverrideDefaultValueAfterWhenArgument : Spec<MyService, MyModel>
 {
     private const string _theName = "TheName";
 

@@ -5,10 +5,10 @@ internal abstract class GivenThatCommonContinuation<TSUT, TResult, TService, TRe
     where TSUT : class
     where TService : class
 {
-    internal GivenThatCommonContinuation(SubjectSpec<TSUT, TResult> subjectSpec) 
+    internal GivenThatCommonContinuation(Spec<TSUT, TResult> subjectSpec) 
         => Spec = subjectSpec;
 
-    protected readonly SubjectSpec<TSUT, TResult> Spec;
+    protected readonly Spec<TSUT, TResult> Spec;
 
     public IGivenSubjectTestPipeline<TSUT, TResult> Returns(Func<TReturns> returns)
     {

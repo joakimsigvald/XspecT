@@ -2,7 +2,7 @@
 
 namespace XspecT.Test.AutoMock;
 
-public class WhenConstructorOf_SUTTakeArrayOfObject: SubjectSpec<ArrayService, SomeValue[]>
+public class WhenConstructorOf_SUTTakeArrayOfObject: Spec<ArrayService, SomeValue[]>
 {
     [Fact] public void ThenArrayIsEmpty() => When(_ => _.GetValues()).Then().Result.Is().Empty();
 }

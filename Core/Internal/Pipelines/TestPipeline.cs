@@ -3,7 +3,8 @@ using System.Linq.Expressions;
 
 namespace XspecT.Internal.Pipelines;
 
-internal abstract class TestPipeline<TResult, TParent> where TParent : Spec<TResult>
+internal abstract class TestPipeline<TSUT, TResult, TParent> where TParent : Spec<TSUT, TResult>
+    where TSUT : class
 {
     protected readonly TParent Parent;
     protected TestPipeline(TParent parent) => Parent = parent;
@@ -36,7 +37,8 @@ internal abstract class TestPipeline<TResult, TParent> where TParent : Spec<TRes
         => Parent.Then(expression, times);
 }
 
-internal class TestPipeline<TResult> : TestPipeline<TResult, Spec<TResult>>
+internal class TestPipeline<TSUT, TResult> : TestPipeline<TSUT, TResult, Spec<TSUT, TResult>>
+    where TSUT : class
 {
-    protected TestPipeline(Spec<TResult> parent) : base(parent) { }
+    protected TestPipeline(Spec<TSUT, TResult> parent) : base(parent) { }
 }

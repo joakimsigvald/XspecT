@@ -2,7 +2,7 @@
 
 namespace XspecT.Test.AutoMock;
 
-public class WhenMockTuple : SubjectSpec<StaticTupleService, (int, string)>
+public class WhenMockTuple : Spec<StaticTupleService, (int, string)>
 {
     public WhenMockTuple() => Given(A<(int, string)>).When(_ => _.GetValue());
     public class UsingAValue : WhenMockTuple

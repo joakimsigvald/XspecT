@@ -3,7 +3,7 @@ using Xunit;
 
 namespace XspecT.Test.Verification;
 
-public class WhenTimeSpan : SubjectSpec<object, TimeSpan>
+public class WhenTimeSpan : Spec<object, TimeSpan>
 {
     [Fact] public void IsSame() => When(_ => A<TimeSpan>()).Then().Result.Is(The<TimeSpan>());
     [Fact]

@@ -3,7 +3,7 @@ using Xunit;
 
 namespace XspecT.Test.Verification;
 
-public class WhenList : SubjectSpec<object, List<string>>
+public class WhenList : Spec<object, List<string>>
 {
     [Fact]
     public void IsEqual()

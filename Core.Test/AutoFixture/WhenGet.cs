@@ -2,7 +2,7 @@
 
 namespace XspecT.Test.AutoFixture;
 
-public class WhenGet : SubjectSpec<MyRetreiver, MyModel>
+public class WhenGet : Spec<MyRetreiver, MyModel>
 {
     public WhenGet() => When(_ => _.Get(An<int>()));
 
