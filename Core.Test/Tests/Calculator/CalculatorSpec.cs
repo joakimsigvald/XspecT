@@ -4,21 +4,21 @@ using static XspecT.Test.Subjects.Calculator;
 
 namespace XspecT.Test.Tests.Calculator;
 
-public class CalculatorSpec : StaticSpec<int>
+public class CalculatorSpec : SubjectSpec<object, int>
 {
-    [Fact] public void WhenAddZeros_ThenSumIsZero() => When(Add, 0, 0).Then().Result.Is(0);
+    [Fact] public void WhenAddZeros_ThenSumIsZero() => When(_ => Add(0, 0)).Then().Result.Is(0);
 
-    [Fact] public void WhenAdd_1_and_2_ThenSumIs_3() => When(Add, 1, 2).Then().Result.Is(3);
+    [Fact] public void WhenAdd_1_and_2_ThenSumIs_3() => When(_ => Add(1, 2)).Then().Result.Is(3);
 
     [Theory]
     [InlineData(1, 1, 2)]
     [InlineData(3, 4, 7)]
     public void WhenAdd_ThenReturnSum(int x, int y, int sum)
-        => When(Add, x, y).Then().Result.Is(sum);
+        => When(_ => Add(x, y)).Then().Result.Is(sum);
 
     [Theory]
     [InlineData(1, 1, 1)]
     [InlineData(3, 4, 12)]
     public void WhenMultiply_ThenReturnProduct(int x, int y, int product)
-        => When(Multiply, x, y).Then().Result.Is(product);
+        => When(_ => Multiply(x, y)).Then().Result.Is(product);
 }

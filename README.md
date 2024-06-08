@@ -21,7 +21,7 @@ using static App.Calculator;
 
 namespace App.Test;
 
-public class CalculatorSpec : StaticSpec<int>
+public class CalculatorSpec : SubjectSpec<object, int>
 {
     [Fact] public void WhenAdd_1_and_2_ThenSumIs_3() => Given(1, 2).When(Add).Then().Result.Is(3);
 }
@@ -30,7 +30,7 @@ public class CalculatorSpec : StaticSpec<int>
 ### Test a static method with [Theory]
 
 If you are used to writing one test class per production class and use Theory for test input, you can use a similar style with *XspecT*.
-First you create your test-class overriding `StaticSpec<[ReturnType]>` with the expected return type as generic argument.
+First you create your test-class overriding `SubjectSpec<object, [ReturnType]>` with the expected return type as generic argument.
 Then create a test-method, attributed with `Theory` and `InlineData`, called `When[Something]`. 
 This method call `Given` and `When`, in any order, to setup the test pipeline with test data and the method to test.
 Finally verify the result by calling `Then().Result` (or only `Result`) on the returned pipeline and check the result with `Is`.
@@ -44,7 +44,7 @@ using static App.Calculator;
 
 namespace App.Test;
 
-public class CalculatorSpec : StaticSpec<int>
+public class CalculatorSpec : SubjectSpec<object, int>
 {
     [Theory]
     [InlineData(1, 1, 2)]
@@ -74,7 +74,7 @@ Example:
 ```
 namespace MyProject.Test.Validator;
 
-public abstract class WhenVerifyAreEqual : StaticSpec<object>
+public abstract class WhenVerifyAreEqual : SubjectSpec<object, object>
 {
     protected WhenVerifyAreEqual() => When<int, int>(MyProject.Validator.VerifyAreEqual);
 
