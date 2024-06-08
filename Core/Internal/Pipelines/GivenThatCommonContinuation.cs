@@ -10,29 +10,29 @@ internal abstract class GivenThatCommonContinuation<TSUT, TResult, TService, TRe
 
     protected readonly Spec<TSUT, TResult> Spec;
 
-    public IGivenSubjectTestPipeline<TSUT, TResult> Returns(Func<TReturns> returns)
+    public IGivenTestPipeline<TSUT, TResult> Returns(Func<TReturns> returns)
     {
         SetupReturns(returns);
-        return new GivenSubjectTestPipeline<TSUT, TResult>(Spec);
+        return new GivenTestPipeline<TSUT, TResult>(Spec);
     }
 
-    public IGivenSubjectTestPipeline<TSUT, TResult> ReturnsDefault()
+    public IGivenTestPipeline<TSUT, TResult> ReturnsDefault()
     {
         SetupReturns(() => default);
-        return new GivenSubjectTestPipeline<TSUT, TResult>(Spec);
+        return new GivenTestPipeline<TSUT, TResult>(Spec);
     }
 
-    public IGivenSubjectTestPipeline<TSUT, TResult> Throws<TException>()
+    public IGivenTestPipeline<TSUT, TResult> Throws<TException>()
         where TException : Exception, new()
     {
         SetupThrows<TException>();
-        return new GivenSubjectTestPipeline<TSUT, TResult>(Spec);
+        return new GivenTestPipeline<TSUT, TResult>(Spec);
     }
 
-    public IGivenSubjectTestPipeline<TSUT, TResult> Throws(Func<Exception> ex)
+    public IGivenTestPipeline<TSUT, TResult> Throws(Func<Exception> ex)
     {
         SetupThrows(ex);
-        return new GivenSubjectTestPipeline<TSUT, TResult>(Spec);
+        return new GivenTestPipeline<TSUT, TResult>(Spec);
     }
 
     protected abstract void SetupReturns(Func<TReturns> returns);

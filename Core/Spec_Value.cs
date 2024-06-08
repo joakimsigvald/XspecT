@@ -2,7 +2,7 @@
 
 namespace XspecT;
 
-public abstract partial class Spec<TSUT, TResult> : ISubjectTestPipeline<TSUT, TResult>
+public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     where TSUT : class
 {
     /// <summary>

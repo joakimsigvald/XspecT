@@ -3,7 +3,7 @@
 /// <summary>
 /// A continuation to provide further arrangement
 /// </summary>
-public interface IGivenSubjectTestPipeline<TSUT, TResult> : ISubjectTestPipeline<TSUT, TResult>
+public interface IGivenTestPipeline<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     where TSUT : class
 {
     /// <summary>
@@ -25,7 +25,7 @@ public interface IGivenSubjectTestPipeline<TSUT, TResult> : ISubjectTestPipeline
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
     /// <returns></returns>
-    IGivenSubjectTestPipeline<TSUT, TResult> And<TValue>(Action<TValue> setup) where TValue : class;
+    IGivenTestPipeline<TSUT, TResult> And<TValue>(Action<TValue> setup) where TValue : class;
 
     /// <summary>
     /// Transform any value and use the transformed value as default
@@ -33,7 +33,7 @@ public interface IGivenSubjectTestPipeline<TSUT, TResult> : ISubjectTestPipeline
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
     /// <returns></returns>
-    IGivenSubjectTestPipeline<TSUT, TResult> And<TValue>(Func<TValue, TValue> setup);
+    IGivenTestPipeline<TSUT, TResult> And<TValue>(Func<TValue, TValue> setup);
 
     /// <summary>
     /// Provide a default value as a lambda, to be evaluated during test execution AFTER any subsequently added arrangement.
@@ -42,7 +42,7 @@ public interface IGivenSubjectTestPipeline<TSUT, TResult> : ISubjectTestPipeline
     /// <typeparam name="TValue"></typeparam>
     /// <param name="value"></param>
     /// <returns></returns>
-    IGivenSubjectTestPipeline<TSUT, TResult> And<TValue>(Func<TValue> value);
+    IGivenTestPipeline<TSUT, TResult> And<TValue>(Func<TValue> value);
 
     /// <summary>
     /// Provide a default value as a lambda, to be evaluated during test execution AFTER any subsequently added arrangement.
@@ -50,5 +50,5 @@ public interface IGivenSubjectTestPipeline<TSUT, TResult> : ISubjectTestPipeline
     /// <typeparam name="TValue"></typeparam>
     /// <param name="value"></param>
     /// <returns></returns>
-    IGivenSubjectTestPipeline<TSUT, TResult> And<TValue>(TValue value);
+    IGivenTestPipeline<TSUT, TResult> And<TValue>(TValue value);
 }

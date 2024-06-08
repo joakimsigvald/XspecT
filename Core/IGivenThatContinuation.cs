@@ -16,25 +16,25 @@ public interface IGivenThatContinuation<TSUT, TResult, TService, TReturns>
     /// </summary>
     /// <param name="returns"></param>
     /// <returns></returns>
-    IGivenSubjectTestPipeline<TSUT, TResult> Returns(Func<TReturns> returns);
+    IGivenTestPipeline<TSUT, TResult> Returns(Func<TReturns> returns);
 
     /// <summary>
     /// Mock the return-value as default
     /// </summary>
     /// <returns></returns>
-    IGivenSubjectTestPipeline<TSUT, TResult> ReturnsDefault();
+    IGivenTestPipeline<TSUT, TResult> ReturnsDefault();
 
     /// <summary>
     /// Provide an exception-type to mock
     /// </summary>
     /// <typeparam name="TException"></typeparam>
     /// <returns></returns>
-    IGivenSubjectTestPipeline<TSUT, TResult> Throws<TException>() where TException : Exception, new();
+    IGivenTestPipeline<TSUT, TResult> Throws<TException>() where TException : Exception, new();
 
     /// <summary>
     /// Provide an exception to mock
     /// </summary>
     /// <param name="ex"></param>
     /// <returns></returns>
-    IGivenSubjectTestPipeline<TSUT, TResult> Throws(Func<Exception> ex);
+    IGivenTestPipeline<TSUT, TResult> Throws(Func<Exception> ex);
 }

@@ -15,7 +15,7 @@ public interface IGivenContinuation<TSUT, TResult, TService>
     /// <typeparam name="TReturns"></typeparam>
     /// <param name="value"></param>
     /// <returns></returns>
-    IGivenSubjectTestPipeline<TSUT, TResult> ReturnsDefault<TReturns>(Func<TReturns> value);
+    IGivenTestPipeline<TSUT, TResult> ReturnsDefault<TReturns>(Func<TReturns> value);
 
     /// <summary>
     /// Mock the method invocation
@@ -46,5 +46,5 @@ public interface IGivenContinuation<TSUT, TResult> where TSUT : class
     /// </summary>
     /// <param name="setup"></param>
     /// <returns>The test-pipeline</returns>
-    IGivenSubjectTestPipeline<TSUT, TResult> That(Action setup);
+    IGivenTestPipeline<TSUT, TResult> That(Action setup);
 }

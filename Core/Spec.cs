@@ -10,10 +10,10 @@ namespace XspecT;
 /// </summary>
 /// <typeparam name="TSUT">The class to instantiate and execute the method-under-test on</typeparam>
 /// <typeparam name="TResult">The return type of the method-under-test</typeparam>
-public abstract partial class Spec<TSUT, TResult> : ISubjectTestPipeline<TSUT, TResult>
+public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     where TSUT : class
 {
-    private readonly Pipeline<TResult> _pipeline;
+    private readonly Pipeline<TSUT, TResult> _pipeline;
 
     /// <summary>
     /// 
@@ -21,7 +21,7 @@ public abstract partial class Spec<TSUT, TResult> : ISubjectTestPipeline<TSUT, T
     protected Spec()
     {
         CultureInfo.CurrentCulture = GetCulture();
-        _pipeline = new SubjectPipeline<TSUT, TResult>();
+        _pipeline = new Pipeline<TSUT, TResult>();
     }
 
     /// <summary>
@@ -121,7 +121,7 @@ public abstract partial class Spec<TSUT, TResult> : ISubjectTestPipeline<TSUT, T
     /// </summary>
     /// <param name="act"></param>
     /// <returns></returns>
-    public ISubjectTestPipeline<TSUT, TResult> When(Action<TSUT> act)
+    public ITestPipeline<TSUT, TResult> When(Action<TSUT> act)
     {
         Pipeline.SetAction(act);
         return this;
@@ -132,7 +132,7 @@ public abstract partial class Spec<TSUT, TResult> : ISubjectTestPipeline<TSUT, T
     /// </summary>
     /// <param name="act"></param>
     /// <returns></returns>
-    public ISubjectTestPipeline<TSUT, TResult> When(Func<TSUT, TResult> act)
+    public ITestPipeline<TSUT, TResult> When(Func<TSUT, TResult> act)
     {
         Pipeline.SetAction(act);
         return this;
@@ -143,7 +143,7 @@ public abstract partial class Spec<TSUT, TResult> : ISubjectTestPipeline<TSUT, T
     /// </summary>
     /// <param name="action"></param>
     /// <returns></returns>
-    public ISubjectTestPipeline<TSUT, TResult> When(Func<TSUT, Task> action)
+    public ITestPipeline<TSUT, TResult> When(Func<TSUT, Task> action)
     {
         Pipeline.SetAction(action);
         return this;
@@ -154,7 +154,7 @@ public abstract partial class Spec<TSUT, TResult> : ISubjectTestPipeline<TSUT, T
     /// </summary>
     /// <param name="func"></param>
     /// <returns></returns>
-    public ISubjectTestPipeline<TSUT, TResult> When(Func<TSUT, Task<TResult>> func)
+    public ITestPipeline<TSUT, TResult> When(Func<TSUT, Task<TResult>> func)
     {
         Pipeline.SetAction(func);
         return this;
@@ -165,7 +165,7 @@ public abstract partial class Spec<TSUT, TResult> : ISubjectTestPipeline<TSUT, T
     /// </summary>
     /// <param name="tearDown"></param>
     /// <returns></returns>
-    public ISubjectTestPipeline<TSUT, TResult> Before(Action<TSUT> tearDown)
+    public ITestPipeline<TSUT, TResult> Before(Action<TSUT> tearDown)
     {
         Pipeline.SetTearDown(tearDown);
         return this;
@@ -176,7 +176,7 @@ public abstract partial class Spec<TSUT, TResult> : ISubjectTestPipeline<TSUT, T
     /// </summary>
     /// <param name="tearDown"></param>
     /// <returns></returns>
-    public ISubjectTestPipeline<TSUT, TResult> Before(Func<TSUT, Task> tearDown)
+    public ITestPipeline<TSUT, TResult> Before(Func<TSUT, Task> tearDown)
     {
         Pipeline.SetTearDown(tearDown);
         return this;
@@ -187,7 +187,7 @@ public abstract partial class Spec<TSUT, TResult> : ISubjectTestPipeline<TSUT, T
     /// </summary>
     /// <param name="setUp"></param>
     /// <returns></returns>
-    public ISubjectTestPipeline<TSUT, TResult> After(Action<TSUT> setUp)
+    public ITestPipeline<TSUT, TResult> After(Action<TSUT> setUp)
     {
         Pipeline.PrependSetUp(setUp);
         return this;
@@ -198,7 +198,7 @@ public abstract partial class Spec<TSUT, TResult> : ISubjectTestPipeline<TSUT, T
     /// </summary>
     /// <param name="setUp"></param>
     /// <returns></returns>
-    public ISubjectTestPipeline<TSUT, TResult> After(Func<TSUT, Task> setUp)
+    public ITestPipeline<TSUT, TResult> After(Func<TSUT, Task> setUp)
     {
         Pipeline.PrependSetUp(setUp);
         return this;
@@ -210,10 +210,10 @@ public abstract partial class Spec<TSUT, TResult> : ISubjectTestPipeline<TSUT, T
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
     /// <returns></returns>
-    public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(Action<TValue> setup) where TValue : class
+    public IGivenTestPipeline<TSUT, TResult> Given<TValue>(Action<TValue> setup) where TValue : class
     {
         Pipeline.SetDefault(setup);
-        return new GivenSubjectTestPipeline<TSUT, TResult>(this);
+        return new GivenTestPipeline<TSUT, TResult>(this);
     }
 
     /// <summary>
@@ -222,10 +222,10 @@ public abstract partial class Spec<TSUT, TResult> : ISubjectTestPipeline<TSUT, T
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
     /// <returns></returns>
-    public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(Func<TValue, TValue> setup)
+    public IGivenTestPipeline<TSUT, TResult> Given<TValue>(Func<TValue, TValue> setup)
     {
         Pipeline.SetDefault(setup);
-        return new GivenSubjectTestPipeline<TSUT, TResult>(this);
+        return new GivenTestPipeline<TSUT, TResult>(this);
     }
 
     /// <summary>
@@ -234,10 +234,10 @@ public abstract partial class Spec<TSUT, TResult> : ISubjectTestPipeline<TSUT, T
     /// <typeparam name="TValue"></typeparam>
     /// <param name="defaultValue"></param>
     /// <returns></returns>
-    public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(TValue defaultValue)
+    public IGivenTestPipeline<TSUT, TResult> Given<TValue>(TValue defaultValue)
     {
         Pipeline.SetDefault(defaultValue);
-        return new GivenSubjectTestPipeline<TSUT, TResult>(this);
+        return new GivenTestPipeline<TSUT, TResult>(this);
     }
 
     /// <summary>
@@ -272,16 +272,16 @@ public abstract partial class Spec<TSUT, TResult> : ISubjectTestPipeline<TSUT, T
     /// <typeparam name="TValue"></typeparam>
     /// <param name="value"></param>
     /// <returns></returns>
-    public IGivenSubjectTestPipeline<TSUT, TResult> Given<TValue>(Func<TValue> value)
+    public IGivenTestPipeline<TSUT, TResult> Given<TValue>(Func<TValue> value)
     {
         Pipeline.Given(() => ADefault(value()));
-        return new GivenSubjectTestPipeline<TSUT, TResult>(this);
+        return new GivenTestPipeline<TSUT, TResult>(this);
     }
 
-    internal IGivenSubjectTestPipeline<TSUT, TResult> GivenSetup(Action setup)
+    internal IGivenTestPipeline<TSUT, TResult> GivenSetup(Action setup)
     {
         Pipeline.Given(setup);
-        return new GivenSubjectTestPipeline<TSUT, TResult>(this);
+        return new GivenTestPipeline<TSUT, TResult>(this);
     }
 
     internal void SetupMock<TService>(Action<Mock<TService>> setup) where TService : class
@@ -297,5 +297,5 @@ public abstract partial class Spec<TSUT, TResult> : ISubjectTestPipeline<TSUT, T
 
     private TValue ADefault<TValue>(TValue value) => _pipeline.Mention(0, value, true);
 
-    private SubjectPipeline<TSUT, TResult> Pipeline => (SubjectPipeline<TSUT, TResult>)_pipeline;
+    private Pipeline<TSUT, TResult> Pipeline => (Pipeline<TSUT, TResult>)_pipeline;
 }

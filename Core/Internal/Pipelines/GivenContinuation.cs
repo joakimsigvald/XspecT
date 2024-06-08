@@ -11,10 +11,10 @@ internal class GivenContinuation<TSUT, TResult, TService> : IGivenContinuation<T
     internal GivenContinuation(Spec<TSUT, TResult> subjectSpec) 
         => _subjectSpec = subjectSpec;
 
-    public IGivenSubjectTestPipeline<TSUT, TResult> ReturnsDefault<TReturns>(Func<TReturns> value)
+    public IGivenTestPipeline<TSUT, TResult> ReturnsDefault<TReturns>(Func<TReturns> value)
     {
         _subjectSpec.SetupMock<TService>(mock => mock.SetReturnsDefault(value()));
-        return new GivenSubjectTestPipeline<TSUT, TResult>(_subjectSpec);
+        return new GivenTestPipeline<TSUT, TResult>(_subjectSpec);
     }
 
     public IGivenThatContinuation<TSUT, TResult, TService, TReturns> That<TReturns>(
@@ -35,5 +35,5 @@ internal class GivenContinuation<TSUT, TResult>
     internal GivenContinuation(Spec<TSUT, TResult> subjectSpec)
         => _subjectSpec = subjectSpec;
 
-    public IGivenSubjectTestPipeline<TSUT, TResult> That(Action setup) => _subjectSpec.GivenSetup(setup);
+    public IGivenTestPipeline<TSUT, TResult> That(Action setup) => _subjectSpec.GivenSetup(setup);
 }
