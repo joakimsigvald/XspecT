@@ -5,13 +5,24 @@ using XspecT.Internal.Pipelines;
 
 namespace XspecT;
 
+[Obsolete("Replaced by Spec")]
+public abstract class SubjectSpec<TSUT, TResult> : Spec<TSUT, TResult>
+    where TSUT : class
+{
+}
+
+[Obsolete("Replaced by Spec")]
+public abstract class StaticSpec<TResult> : Spec<object, TResult>
+{
+}
+
 /// <summary>
-/// Base-class for specifying and executing a set of test cases for a specific method-under-test on a class instance
+/// Base-class for specifying and executing a set of test cases for a specific method-under-test
 /// </summary>
-/// <typeparam name="TSUT">The class to instantiate and execute the method-under-test on</typeparam>
+/// <typeparam name="TSUT">The class to instantiate and execute the method-under-test on, use object for static method</typeparam>
 /// <typeparam name="TResult">The return type of the method-under-test</typeparam>
 public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
-    where TSUT : class
+where TSUT : class
 {
     private readonly Pipeline<TSUT, TResult> _pipeline;
 
