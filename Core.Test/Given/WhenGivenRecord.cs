@@ -17,7 +17,8 @@ public class WhenGivenRecord : Spec<MyService, MyRecord>
         => Given<MyRecord>(_ => _ with { Name = A<string>() })
         .And<MyRecord>(_ => _ with { Name = _.Name + ASecond<string>() })
         .When(_ => MyService.Echo(The<MyRecord>()))
-        .Then().Result.Name.Is().StartingWith(The<string>()).And.EndingWith(TheSecond<string>());
+        .Then().Result.Name.Does().StartWith(The<string>())
+        .And.EndWith(TheSecond<string>());
 
     [Fact]
     public void GivenThatSetup_ThenReturnSetupValue()

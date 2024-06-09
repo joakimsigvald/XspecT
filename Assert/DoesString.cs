@@ -26,4 +26,26 @@ public class DoesString : Constraint<DoesString, string>
         _actual.Should().NotContain(other);
         return And();
     }
+
+    /// <summary>
+    /// Asserts that the string starts with a prefix
+    /// </summary>
+    /// <param name="prefix"></param>
+    /// <returns></returns>
+    public ContinueWith<DoesString> StartWith(string prefix)
+    {
+        _actual.Should().StartWith(prefix);
+        return And();
+    }
+
+    /// <summary>
+    /// Asserts that the string ends with a suffix
+    /// </summary>
+    /// <param name="suffix"></param>
+    /// <returns></returns>
+    public ContinueWith<DoesString> EndWith(string suffix)
+    {
+        _actual.Should().EndWith(suffix);
+        return And();
+    }
 }

@@ -27,4 +27,6 @@ public class WhenString : Spec<string>
     [Fact]
     public void DoesNotContainSubstringFails()
         => Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => "abcd".Does().Contain("xxx"));
+    [Fact] public void DoesStartWith() => "abcd".Does().StartWith("ab");
+    [Fact] public void DoesEndWith() => "abcd".Does().EndWith("ab");
 }
