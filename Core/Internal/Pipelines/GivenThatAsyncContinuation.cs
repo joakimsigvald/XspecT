@@ -4,7 +4,6 @@ namespace XspecT.Internal.Pipelines;
 
 internal class GivenThatAsyncContinuation<TSUT, TResult, TService, TReturns>
     : GivenThatCommonContinuation<TSUT, TResult, TService, TReturns>
-    where TSUT : class
     where TService : class
 {
     private readonly Expression<Func<TService, Task<TReturns>>> _expression;

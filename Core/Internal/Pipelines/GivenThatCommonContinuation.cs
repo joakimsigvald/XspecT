@@ -2,7 +2,6 @@
 
 internal abstract class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns>
     : IGivenThatContinuation<TSUT, TResult, TService, TReturns>
-    where TSUT : class
     where TService : class
 {
     internal GivenThatCommonContinuation(Spec<TSUT, TResult> subjectSpec) 

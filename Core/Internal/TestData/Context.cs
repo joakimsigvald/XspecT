@@ -12,7 +12,7 @@ internal class Context
 
     public Context() => _testDataGenerator = new(this);
 
-    internal TValue CreateInstance<TValue>() where TValue : class
+    internal TValue CreateInstance<TValue>()
         => _testDataGenerator.CreateInstance<TValue>();
 
     internal TValue Mention<TValue>(int index, bool asDefault = false)

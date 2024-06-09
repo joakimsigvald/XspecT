@@ -3,7 +3,6 @@
 namespace XspecT.Internal.Pipelines;
 
 internal class GivenContinuation<TSUT, TResult, TService> : IGivenContinuation<TSUT, TResult, TService>
-    where TSUT : class
     where TService : class
 {
     private readonly Spec<TSUT, TResult> _subjectSpec;
@@ -28,7 +27,6 @@ internal class GivenContinuation<TSUT, TResult, TService> : IGivenContinuation<T
 
 internal class GivenContinuation<TSUT, TResult>
     : IGivenContinuation<TSUT, TResult> 
-    where TSUT : class
 {
     private readonly Spec<TSUT, TResult> _subjectSpec;
 

@@ -4,7 +4,7 @@ using static XspecT.Test.Subjects.Calculator;
 
 namespace XspecT.Test.Tests.Calculator;
 
-public abstract class WhenAddInt : Spec<object, int>
+public abstract class WhenAddInt : Spec<int>
 {
     public class Given_1_1 : WhenAddInt
     {
@@ -20,7 +20,7 @@ public abstract class WhenAddInt : Spec<object, int>
     }
 }
 
-public abstract class WhenAddIntAsync : Spec<object, int>
+public abstract class WhenAddIntAsync : Spec<int>
 {
     public class Given_1_1 : WhenAddIntAsync
     {

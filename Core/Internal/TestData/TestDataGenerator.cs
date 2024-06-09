@@ -24,11 +24,14 @@ internal class TestDataGenerator
 
     internal void Use(Type type, object value) => _mocker.Use(type, value);
 
-    internal TValue CreateInstance<TValue>() where TValue : class
+    internal TValue CreateInstance<TValue>()
     {
         try
         {
-            return _mocker.CreateInstance<TValue>();
+            var type = typeof(TValue);
+            if (type.IsClass)
+                return (TValue)_mocker.CreateInstance(type);
+            return Create<TValue>();
         }
         catch (ArgumentException ex) when (ex.Message.Contains("Did not find a best constructor for"))
         {

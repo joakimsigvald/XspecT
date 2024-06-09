@@ -3,7 +3,6 @@
 namespace XspecT;
 
 public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
-    where TSUT : class
 {
     /// <summary>
     /// Yields an array with the provided element

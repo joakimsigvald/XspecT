@@ -4,7 +4,6 @@
 /// A continuation to provide further arrangement
 /// </summary>
 public interface IGivenTestPipeline<TSUT, TResult> : ITestPipeline<TSUT, TResult>
-    where TSUT : class
 {
     /// <summary>
     /// Access the mock of the given type to provide mock-setup

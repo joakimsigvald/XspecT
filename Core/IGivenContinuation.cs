@@ -6,7 +6,6 @@ namespace XspecT;
 /// A continuation object to apply additional arrangements to the test-pipeline
 /// </summary>
 public interface IGivenContinuation<TSUT, TResult, TService>
-    where TSUT : class
     where TService : class
 {
     /// <summary>
@@ -39,7 +38,7 @@ public interface IGivenContinuation<TSUT, TResult, TService>
 /// <summary>
 /// A continuation object to apply additional arrangements to the test
 /// </summary>
-public interface IGivenContinuation<TSUT, TResult> where TSUT : class
+public interface IGivenContinuation<TSUT, TResult>
 {
     /// <summary>
     /// Provide a setup-action to be applied when executing the test

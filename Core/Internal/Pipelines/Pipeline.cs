@@ -9,7 +9,6 @@ using static XspecT.Internal.Pipelines.AsyncHelper;
 namespace XspecT.Internal.Pipelines;
 
 internal class Pipeline<TSUT, TResult>
-    where TSUT : class
 {
     protected readonly Context _context = new();
     private readonly SpecActor<TResult> _actor = new();
@@ -152,10 +151,10 @@ internal class Pipeline<TSUT, TResult>
     internal void Arrange()
     {
         _arranger.Arrange();
-        _sut = CreateInstance<TSUT>();
+        _sut = typeof(TSUT).IsClass ? CreateInstance<TSUT>() : _context.Create<TSUT>();
     }
 
-    internal TValue CreateInstance<TValue>() where TValue : class
+    internal TValue CreateInstance<TValue>()
         => _context.CreateInstance<TValue>();
 
     internal Mock<TObject> GetMock<TObject>() where TObject : class => _context.GetMock<TObject>();

@@ -4,7 +4,7 @@ using static XspecT.Test.Subjects.Calculator;
 
 namespace XspecT.Test.Tests.Calculator;
 
-public class CalculatorSpec : Spec<object, int>
+public class CalculatorSpec : Spec<int>
 {
     [Fact] public void WhenAddZeros_ThenSumIsZero() => When(_ => Add(0, 0)).Then().Result.Is(0);
 

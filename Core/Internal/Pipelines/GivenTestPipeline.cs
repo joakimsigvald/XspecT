@@ -2,7 +2,6 @@
 
 internal class GivenTestPipeline<TSUT, TResult>
     : TestPipeline<TSUT, TResult, Spec<TSUT, TResult>>, IGivenTestPipeline<TSUT, TResult>
-    where TSUT : class
 {
     internal GivenTestPipeline(Spec<TSUT, TResult> parent) : base(parent) { }
 

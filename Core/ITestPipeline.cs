@@ -9,7 +9,6 @@ namespace XspecT;
 /// <typeparam name="TSUT"></typeparam>
 /// <typeparam name="TResult"></typeparam>
 public interface ITestPipeline<TSUT, TResult>
-    where TSUT : class
 {
     /// <summary>
     /// Runs the test and provides the result. When the test is run, any provided arrengement will be applied in reverse order, then the subject-under-test will be created and the method-under-test called

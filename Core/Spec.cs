@@ -7,12 +7,15 @@ namespace XspecT;
 
 [Obsolete("Replaced by Spec")]
 public abstract class SubjectSpec<TSUT, TResult> : Spec<TSUT, TResult>
-    where TSUT : class
 {
 }
 
 [Obsolete("Replaced by Spec")]
 public abstract class StaticSpec<TResult> : Spec<object, TResult>
+{
+}
+
+public abstract class Spec<TSUTandResult> : Spec<TSUTandResult, TSUTandResult>
 {
 }
 
@@ -22,7 +25,6 @@ public abstract class StaticSpec<TResult> : Spec<object, TResult>
 /// <typeparam name="TSUT">The class to instantiate and execute the method-under-test on, use object for static method</typeparam>
 /// <typeparam name="TResult">The return type of the method-under-test</typeparam>
 public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
-where TSUT : class
 {
     private readonly Pipeline<TSUT, TResult> _pipeline;
 
@@ -308,5 +310,5 @@ where TSUT : class
 
     private TValue ADefault<TValue>(TValue value) => _pipeline.Mention(0, value, true);
 
-    private Pipeline<TSUT, TResult> Pipeline => (Pipeline<TSUT, TResult>)_pipeline;
+    private Pipeline<TSUT, TResult> Pipeline => _pipeline;
 }

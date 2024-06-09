@@ -8,7 +8,6 @@
 /// <typeparam name="TService"></typeparam>
 /// <typeparam name="TReturns"></typeparam>
 public interface IGivenThatContinuation<TSUT, TResult, TService, TReturns>
-    where TSUT : class
     where TService : class
 {
     /// <summary>

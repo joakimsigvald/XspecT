@@ -4,7 +4,6 @@ using System.Linq.Expressions;
 namespace XspecT.Internal.Pipelines;
 
 internal abstract class TestPipeline<TSUT, TResult, TParent> where TParent : Spec<TSUT, TResult>
-    where TSUT : class
 {
     protected readonly TParent Parent;
     protected TestPipeline(TParent parent) => Parent = parent;
@@ -35,10 +34,4 @@ internal abstract class TestPipeline<TSUT, TResult, TParent> where TParent : Spe
     public IAndVerify<TResult> Then<TService, TReturns>(
         Expression<Func<TService, TReturns>> expression, Func<Times> times) where TService : class
         => Parent.Then(expression, times);
-}
-
-internal class TestPipeline<TSUT, TResult> : TestPipeline<TSUT, TResult, Spec<TSUT, TResult>>
-    where TSUT : class
-{
-    protected TestPipeline(Spec<TSUT, TResult> parent) : base(parent) { }
 }
