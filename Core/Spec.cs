@@ -267,6 +267,22 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     }
 
     /// <summary>
+    /// Provide an array of default values, that will be applied in all mocks and auto-generated test-data, where no specific value or setup is given.
+    /// It is also mentioned by position so the values can be retreived by A, ASecond, AThird etc.
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="defaultValues"></param>
+    /// <returns></returns>
+    public IGivenTestPipeline<TSUT, TResult> Given<TValue>(params TValue[] defaultValues)
+    {
+        Pipeline.SetDefault(defaultValues);
+        defaultValues
+            .Select((v, i) => Pipeline.Mention(i, v))
+            .ToArray();
+        return new GivenTestPipeline<TSUT, TResult>(this);
+    }
+
+    /// <summary>
     /// A continuation for providing mock-setup for the given type
     /// </summary>
     /// <typeparam name="TService"></typeparam>

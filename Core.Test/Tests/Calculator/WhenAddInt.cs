@@ -18,6 +18,17 @@ public abstract class WhenAddInt : Spec<int>
         public Given_2_3() => When(_ => Add(2, 3));
         [Fact] public void Then_Return_5() => Result.Is(5);
     }
+
+    public class Given_TwoInts : WhenAddInt
+    {
+        public Given_TwoInts() => When(_ => Add(An<int>(), ASecond<int>()));
+
+        [Theory]
+        [InlineData(1, 1, 2)]
+        [InlineData(1, 2, 3)]
+        public void Then_Return_Sum(int t1, int t2, int sum) 
+            => Given(t1, t2).Then().Result.Is(sum);
+    }
 }
 
 public abstract class WhenAddIntAsync : Spec<int>

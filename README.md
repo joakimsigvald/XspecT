@@ -21,18 +21,18 @@ using static App.Calculator;
 
 namespace App.Test;
 
-public class CalculatorSpec : Spec<object, int>
+public class CalculatorSpec : Spec<int>
 {
-    [Fact] public void WhenAdd_1_and_2_ThenSumIs_3() => Given(1, 2).When(Add).Then().Result.Is(3);
+    [Fact] public void WhenAdd_1_and_2_ThenSumIs_3() => When(_ => Add(1, 2)).Then().Result.Is(3);
 }
 ```
 
 ### Test a static method with [Theory]
 
 If you are used to writing one test class per production class and use Theory for test input, you can use a similar style with *XspecT*.
-First you create your test-class overriding `SubjectSpec<object, [ReturnType]>` with the expected return type as generic argument.
+First you create your test-class overriding `Spec<[ReturnType]>` with the expected return type as generic argument.
 Then create a test-method, attributed with `Theory` and `InlineData`, called `When[Something]`. 
-This method call `Given` and `When`, in any order, to setup the test pipeline with test data and the method to test.
+This method call `When` to setup the test pipeline with test data and the method to test.
 Finally verify the result by calling `Then().Result` (or only `Result`) on the returned pipeline and check the result with `Is`.
 
 Example:
@@ -44,19 +44,19 @@ using static App.Calculator;
 
 namespace App.Test;
 
-public class CalculatorSpec : Spec<object, int>
+public class CalculatorSpec : Spec<int>
 {
     [Theory]
     [InlineData(1, 1, 2)]
     [InlineData(3, 4, 7)]
     public void GivenTwoNumbers_WhenAdd_ReturnSum(int term1, int term2, int sum)
-        => Given(term1, term2).When(Add).Result.Is(sum);
+        => When(_ => Add(term1, term2)).Then().Result.Is(sum);
 
     [Theory]
     [InlineData(1, 1, 1)]
     [InlineData(3, 4, 12)]
     public void WhenMultiplyThenReturnProduct(int factor1, int factor2, int product)
-        => Given(factor1, factor2).When(Multiply).Result.Is(product);
+        => When(_ => Multiply(factor1, factor2)).Then().Result.Is(product);
 }
 ```
 
@@ -74,9 +74,10 @@ Example:
 ```
 namespace MyProject.Test.Validator;
 
-public abstract class WhenVerifyAreEqual : Spec<object, object>
+public abstract class WhenVerifyAreEqual : Spec<object>
 {
-    protected WhenVerifyAreEqual() => When<int, int>(MyProject.Validator.VerifyAreEqual);
+    protected WhenVerifyAreEqual() 
+        => When(_ => MyProject.Validator.VerifyAreEqual(An<int>(), ASecond<int>()));
 
     public class Given_1_And_2 : WhenVerifyAreEqual
     {
@@ -91,7 +92,7 @@ public abstract class WhenVerifyAreEqual : Spec<object, object>
 ```
 
 ### Test a class with dependencies
-* To test an instance method `[MyClass].[MyMethod]`, inherit `XspecT.SubjectSpec<[MyClass], TResult>`.
+* To test an instance method `[MyClass].[MyMethod]`, inherit `XspecT.Spec<[MyClass], TResult>`.
 * It is recommended practice to create a common baseclass for all tests of `[MyClass]`, named `[MyClass]Spec`.
 * The subject under test (sut) will be created automatically with mocks and default values by AutoMock. 
 You can supply or modify you own constructor arguments by calling `Given`.
@@ -122,6 +123,6 @@ public abstract class WhenPlaceOrder : Spec<MyProject.ShoppingService, object>
 
 ### Test async methods
 
-All the examples above also works for async methods, with small modifications.
+All the examples above also works for async methods.
 
 More examples can be found as Unit tests in the source code.
