@@ -19,11 +19,8 @@ public class WhenMockFuncOfDateTime : Spec<DateService, DateTime>
     }
 }
 
-public class DateService
+public class DateService(Func<DateTime> now)
 {
-    private readonly Func<DateTime> _now;
-
-    public DateService(Func<DateTime> now) => _now = now;
-
+    private readonly Func<DateTime> _now = now;
     public DateTime GetNow() => _now();
 }

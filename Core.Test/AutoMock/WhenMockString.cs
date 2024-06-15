@@ -20,9 +20,13 @@ public class WhenMockString : Spec<StaticStringService, string>
     }
 }
 
-public class StaticStringService
+public class StaticStringService(string value)
 {
-    private readonly string _value;
-    public StaticStringService(string value) => _value = value;
+    private readonly string _value = value;
     public string GetValue() => _value;
+}
+
+public class WhenSubjectIsString : Spec<string>
+{
+    [Fact] public void ThenUseDefaultString() => Given("abc").When(_ => _).Then().Result.Is("abc");
 }

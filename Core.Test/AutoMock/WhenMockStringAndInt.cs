@@ -28,16 +28,10 @@ public class WhenMockStringAndInt : Spec<StaticStringAndIntService, string>
     }
 }
 
-public class StaticStringAndIntService
+public class StaticStringAndIntService(string strVal, int intVal)
 {
-    private readonly string _strVal;
-    private readonly int _intVal;
-
-    public StaticStringAndIntService(string strVal, int intVal)
-    {
-        _strVal = strVal;
-        _intVal = intVal;
-    }
+    private readonly string _strVal = strVal;
+    private readonly int _intVal = intVal;
 
     public string GetValue() => $"{_strVal}:{_intVal}";
 }

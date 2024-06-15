@@ -6,7 +6,6 @@
     <Authors>Joakim Sigvald</Authors>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
     <AssemblyName>XspecT.Assert</AssemblyName>
     <RootNamespace>XspecT.Assert</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>

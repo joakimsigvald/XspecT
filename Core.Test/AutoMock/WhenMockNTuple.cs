@@ -21,9 +21,8 @@ public class WhenMockNTuple : Spec<StaticNTupleService, (int, string, int, float
     }
 }
 
-public class StaticNTupleService
+public class StaticNTupleService((int, string, int, float) value)
 {
-    private readonly (int, string, int, float) _value;
-    public StaticNTupleService((int, string, int, float) value) => _value = value;
+    private readonly (int, string, int, float) _value = value;
     public (int, string, int, float) GetValue() => _value;
 }

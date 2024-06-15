@@ -151,7 +151,10 @@ internal class Pipeline<TSUT, TResult>
     internal void Arrange()
     {
         _arranger.Arrange();
-        _sut = typeof(TSUT).IsClass ? CreateInstance<TSUT>() : _context.Create<TSUT>();
+        var sutType = typeof(TSUT);
+        _sut = sutType.IsClass && sutType != typeof(string) 
+            ? CreateInstance<TSUT>() 
+            : _context.Create<TSUT>();
     }
 
     internal TValue CreateInstance<TValue>()

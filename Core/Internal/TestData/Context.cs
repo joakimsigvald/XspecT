@@ -53,8 +53,7 @@ internal class Context
             });
 
     internal void SetDefault<TValue>(Func<TValue, TValue> setup)
-        => AddDefaultSetup(
-            typeof(TValue), _ => setup((TValue)_));
+        => AddDefaultSetup(typeof(TValue), _ => setup((TValue)_));
 
     private void AddDefaultSetup(Type type, Func<object, object> setup)
         => _defaultSetups[type] =

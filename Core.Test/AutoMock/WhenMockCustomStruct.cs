@@ -20,10 +20,9 @@ public class WhenMockCustomStruct : Spec<StaticValueService, MyValue<int>>
     }
 }
 
-public class StaticValueService
+public class StaticValueService(MyValue<int> value)
 {
-    private readonly MyValue<int> _value;
-    public StaticValueService(MyValue<int> value) => _value = value;
+    private readonly MyValue<int> _value = value;
     public MyValue<int> GetValue() => _value;
 }
 

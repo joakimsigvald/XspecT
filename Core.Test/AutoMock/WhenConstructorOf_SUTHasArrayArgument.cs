@@ -7,12 +7,9 @@ public class WhenConstructorOf_SUTTakeArrayOfObject: Spec<ArrayService, SomeValu
     [Fact] public void ThenArrayIsEmpty() => When(_ => _.GetValues()).Then().Result.Is().Empty();
 }
 
-public class ArrayService
+public class ArrayService(SomeValue[] values)
 {
-    private readonly SomeValue[] _values;
-
-    public ArrayService(SomeValue[] values) => _values = values;
-
+    private readonly SomeValue[] _values = values;
     public SomeValue[] GetValues() => _values;
 }
 

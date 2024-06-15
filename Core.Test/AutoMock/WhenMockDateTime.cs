@@ -20,9 +20,8 @@ public class WhenMockDateTime : Spec<StaticDateService, DateTime>
     }
 }
 
-public class StaticDateService
+public class StaticDateService(DateTime date)
 {
-    private readonly DateTime _date;
-    public StaticDateService(DateTime date) => _date = date;
+    private readonly DateTime _date = date;
     public DateTime GetDate() => _date;
 }

@@ -18,10 +18,9 @@ public class WhenMockObjectWithSpecifiedPropertyValue : Spec<StaticObjectService
     }
 }
 
-public class StaticObjectService
+public class StaticObjectService(MyObject value)
 {
-    private readonly MyObject _value;
-    public StaticObjectService(MyObject value) => _value = value;
+    private readonly MyObject _value = value;
     public MyObject GetValue() => _value;
 }
 

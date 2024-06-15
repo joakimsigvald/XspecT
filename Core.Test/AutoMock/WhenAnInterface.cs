@@ -19,17 +19,16 @@ public class WhenUseConcreteInstanceOfInterface : Spec<InterfaceService, int>
 
     [Fact] public void ThenUseIt() => Result.Is(TheSecond<int>());
 
-    protected IMyService CreateService()
-        => new MyService(new MyComponent(A<IMyLogger>(), ASecond<int>()), A<IMyLogger>());
+    protected IMyService CreateService() => new MyService(new MyComponent(A<IMyLogger>(), ASecond<int>()));
 }
 
 public class WhenUsingConcreteInstanceForInterface : Spec<InterfaceService, int>
 {
     public WhenUsingConcreteInstanceForInterface()
         => When(_ => _.GetValue()).Given(() => new MyComponent(An<IMyLogger>(), An<int>()))
-        .And<IMyLogger>(() => new MyInvalidLogger());
+        .And<IMyLogger>(() => new MyInvalidLogger<ApplicationException>());
 
-    [Fact] public void ThenUseTheConcreteInstance() => Then().Throws<ArgumentOutOfRangeException>();
+    [Fact] public void ThenUseTheConcreteInstance() => Then().Throws<ApplicationException>();
 }
 
 public class WhenIndirectlyUsingConcreteInstanceForInterface : Spec<InterfaceService, int>
@@ -37,9 +36,9 @@ public class WhenIndirectlyUsingConcreteInstanceForInterface : Spec<InterfaceSer
     public WhenIndirectlyUsingConcreteInstanceForInterface()
         => When(_ => _.GetValue())
         .Given(A<MyComponent>)
-        .And<IMyLogger>(() => new MyInvalidLogger());
+        .And<IMyLogger>(() => new MyInvalidLogger<ApplicationException>());
 
-    [Fact] public void ThenUseTheConcreteInstance() => Then().Throws<ArgumentOutOfRangeException>();
+    [Fact] public void ThenUseTheConcreteInstance() => Then().Throws<ApplicationException>();
 }
 
 public class WhenUsingConcreteInstanceForInterfaceWithAutoMockedConstructorArgument : Spec<InterfaceService, int>
@@ -55,11 +54,9 @@ public interface IMyService
     int GetValue();
 }
 
-public class MyService(MyComponent component, IMyLogger logger) : IMyService
+public class MyService(MyComponent component) : IMyService
 {
     private readonly MyComponent _component = component;
-    private readonly IMyLogger _logger = logger;
-
     public int GetValue() => _component.GetValue();
 }
 
@@ -90,7 +87,8 @@ public interface IMyLogger
     void LogValue(int value);
 }
 
-public class MyInvalidLogger : IMyLogger
+public class MyInvalidLogger<TException> : IMyLogger
+    where TException : Exception, new()
 {
-    public void LogValue(int value) => throw new ArgumentOutOfRangeException();
+    public void LogValue(int value) => throw new TException();
 }
