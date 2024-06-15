@@ -8,7 +8,7 @@ internal class SpecActor<TResult>
     private readonly Stack<Action> _setUp = new();
     private Action _command;
     private Func<TResult> _function;
-    private Action _tearDown;
+    private readonly Stack<Action> _tearDown = new();
     private Exception _error;
     private TResult _result;
 
@@ -28,12 +28,7 @@ internal class SpecActor<TResult>
 
     internal void After(Action setUp) => _setUp.Push(setUp);
 
-    internal void Before(Action tearDown)
-    {
-        if (_tearDown is not null)
-            throw new SetupFailed("Cannot call Before twice in the same pipeline");
-        _tearDown = tearDown;
-    }
+    internal void Before(Action tearDown) => _tearDown.Push(tearDown);
 
     internal TestResult<TResult> Execute(Context context)
     {
@@ -45,8 +40,7 @@ internal class SpecActor<TResult>
         }
         finally
         {
-            if (_tearDown is not null)
-                _tearDown();
+            while (_tearDown.TryPop(out var tearDown)) tearDown();
         }
     }
 

@@ -1,5 +1,4 @@
 ﻿using AutoFixture.Kernel;
-using System.Collections;
 
 namespace XspecT.Internal.TestData;
 

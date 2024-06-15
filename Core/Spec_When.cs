@@ -1,7 +1,4 @@
-﻿using System.Globalization;
-using XspecT.Internal.Pipelines;
-
-namespace XspecT;
+﻿namespace XspecT;
 
 public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
 {

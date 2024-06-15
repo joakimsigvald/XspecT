@@ -24,8 +24,9 @@ public class AfterWhenBefore : Spec<MyStateService, int>
         => Xunit.Assert.Throws<SetupFailed>(() => When(_ => ++_.Counter).When(_ => _.Counter--));
 
     [Fact]
-    public void GivenBeforeExecutedTwice_ThenThrowSetupFailed()
-        => Xunit.Assert.Throws<SetupFailed>(() => Before(_ => ++_.Counter).Before(_ => _.Counter--));
+    public void GivenBeforeExecutedTwice_BothAreExecuted()
+        => When(_ => _.Counter = 1).Before(_ => _.Counter = 3).Before(_ => _.Counter = 2)
+        .Then().Result.Is(1);
 
     [Fact]
     public void GivenCallThenBeforeWhen_ThenThrowSetupFailed()
