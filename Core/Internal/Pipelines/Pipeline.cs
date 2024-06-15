@@ -42,36 +42,31 @@ internal class Pipeline<TSUT, TResult>
 
     internal void SetDefault<TModel>(Action<TModel> setup) where TModel : class
     {
-        if (HasRun)
-            throw new SetupFailed("Given must be called before Then");
+        AssertHasNotRun();
         _context.SetDefault(setup);
     }
 
     internal void SetDefault<TValue>(Func<TValue, TValue> setup)
     {
-        if (HasRun)
-            throw new SetupFailed("Given must be called before Then");
+        AssertHasNotRun();
         _context.SetDefault(setup);
     }
 
     internal void SetDefault<TValue>(TValue defaultValue)
     {
-        if (HasRun)
-            throw new SetupFailed("Given must be called before Then");
+        AssertHasNotRun();
         _context.Use(defaultValue);
     }
 
     internal void SetAction(Action act)
     {
-        if (HasRun)
-            throw new SetupFailed("When must be called before Then");
+        AssertHasNotRun();
         _actor.When(act ?? throw new SetupFailed("Act cannot be null"));
     }
 
     internal void SetAction(Func<TResult> act)
     {
-        if (HasRun)
-            throw new SetupFailed("When must be called before Then");
+        AssertHasNotRun();
         _actor.When(act ?? throw new SetupFailed("Act cannot be null"));
     }
 
@@ -81,8 +76,7 @@ internal class Pipeline<TSUT, TResult>
 
     internal void PrependSetUp(Action setUp)
     {
-        if (HasRun)
-            throw new SetupFailed("After must be called before Then");
+        AssertHasNotRun();
         _actor.After(setUp ?? throw new SetupFailed("SetUp cannot be null"));
     }
 
@@ -90,8 +84,7 @@ internal class Pipeline<TSUT, TResult>
 
     internal void SetTearDown(Action tearDown)
     {
-        if (HasRun)
-            throw new SetupFailed("Before must be called before Then");
+        AssertHasNotRun();
         _actor.Before(tearDown ?? throw new SetupFailed("TearDown cannot be null"));
     }
 
@@ -103,8 +96,7 @@ internal class Pipeline<TSUT, TResult>
 
     internal TValue Create<TValue>([NotNull] Action<TValue> setup)
     {
-        if (HasRun)
-            throw new SetupFailed("Setup to auto-generated values must be provided before Then");
+        AssertHasNotRun();
         return Context.ApplyTo(setup, _context.Create<TValue>());
     }
 
@@ -118,22 +110,19 @@ internal class Pipeline<TSUT, TResult>
 
     internal TValue Mention<TValue>(int index, [NotNull] Action<TValue> setup)
     {
-        if (HasRun)
-            throw new SetupFailed("Setup to auto-generated values must be provided before Then");
+        AssertHasNotRun();
         return _context.Mention(index, setup);
     }
 
     internal TValue Mention<TValue>(int index, [NotNull] Func<TValue, TValue> setup)
     {
-        if (HasRun)
-            throw new SetupFailed("Setup to auto-generated values must be provided before Then");
+        AssertHasNotRun();
         return _context.Mention(index, setup);
     }
 
     internal TValue Mention<TValue>(int index, TValue value, bool asDefault = false)
     {
-        if (HasRun)
-            throw new SetupFailed("Setup to auto-generated values must be provided before Then");
+        AssertHasNotRun();
         return _context.Mention(value, index, asDefault);
     }
 
@@ -164,8 +153,7 @@ internal class Pipeline<TSUT, TResult>
 
     internal void Given(Action arrangement)
     {
-        if (HasRun)
-            throw new SetupFailed("Given must be called before Then");
+        AssertHasNotRun();
         _arranger.Push(arrangement);
     }
 
@@ -194,4 +182,10 @@ internal class Pipeline<TSUT, TResult>
     internal void SetTearDown(Func<TSUT, Task> tearDown) => SetTearDown(() => tearDown(_sut));
     internal void PrependSetUp(Action<TSUT> setUp) => PrependSetUp(() => setUp(_sut));
     internal void PrependSetUp(Func<TSUT, Task> setUp) => PrependSetUp(() => setUp(_sut));
+
+    private void AssertHasNotRun()
+    {
+        if (HasRun)
+            throw new SetupFailed("Cannot provide setup after test pipeline was run");
+    }
 }
