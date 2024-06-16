@@ -12,8 +12,13 @@ internal class Context
 
     public Context() => _testDataGenerator = new(this);
 
-    internal TValue CreateInstance<TValue>()
-        => _testDataGenerator.CreateInstance<TValue>();
+    internal TSUT CreateSUT<TSUT>()
+    {
+        var sutType = typeof(TSUT);
+        return sutType.IsClass && sutType != typeof(string)
+            ? _testDataGenerator.Instantiate<TSUT>()
+            : Create<TSUT>();
+    }
 
     internal TValue Mention<TValue>(int index, bool asDefault = false)
         => Produce<TValue>(index, asDefault);

@@ -24,7 +24,7 @@ internal class TestDataGenerator
 
     internal void Use(Type type, object value) => _mocker.Use(type, value);
 
-    internal TValue CreateInstance<TValue>()
+    internal TValue Instantiate<TValue>()
     {
         try
         {

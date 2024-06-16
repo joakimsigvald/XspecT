@@ -13,6 +13,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
     /// <returns></returns>
+    [Obsolete("Use Given().Default instead")]
     public IGivenTestPipeline<TSUT, TResult> Given<TValue>(Action<TValue> setup) where TValue : class
     {
         _pipeline.SetDefault(setup);
@@ -23,11 +24,12 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// Transform any value and use the transformed value as default
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
-    /// <param name="setup"></param>
+    /// <param name="transform"></param>
     /// <returns></returns>
-    public IGivenTestPipeline<TSUT, TResult> Given<TValue>(Func<TValue, TValue> setup)
+    [Obsolete("Use Given().Default instead")]
+    public IGivenTestPipeline<TSUT, TResult> Given<TValue>(Func<TValue, TValue> transform)
     {
-        _pipeline.SetDefault(setup);
+        _pipeline.SetDefault(transform);
         return new GivenTestPipeline<TSUT, TResult>(this);
     }
 
@@ -37,6 +39,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="defaultValue"></param>
     /// <returns></returns>
+    [Obsolete("Use Given().Default instead")]
     public IGivenTestPipeline<TSUT, TResult> Given<TValue>(TValue defaultValue)
     {
         _pipeline.SetDefault(defaultValue);
@@ -81,6 +84,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="value"></param>
     /// <returns></returns>
+    [Obsolete("Use Given().Default instead")]
     public IGivenTestPipeline<TSUT, TResult> Given<TValue>(Func<TValue> value)
     {
         _pipeline.Given(() => ADefault(value()));
