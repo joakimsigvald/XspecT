@@ -80,12 +80,28 @@ public interface IGivenContinuation<TSUT, TResult>
     IGivenTestPipeline<TSUT, TResult> A<TValue>(TValue value);
 
     /// <summary>
+    /// Provide setup for a value of a given type, that can be mentioned in the test pipeline as A, An, The, or TheFirst.
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="setup"></param>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> A<TValue>(Action<TValue> setup) where TValue : class;
+
+    /// <summary>
     /// Provide a second value of a given type, that can be mentioned in the test pipeline as ASecond or TheSecond.
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="value"></param>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> ASecond<TValue>(TValue value);
+
+    /// <summary>
+    /// Provide setup for a second value of a given type, that can be mentioned in the test pipeline as ASecond or TheSecond.
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="setup"></param>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> ASecond<TValue>(Action<TValue> setup) where TValue : class;
 
     /// <summary>
     /// Provide a third value of a given type, that can be mentioned in the test pipeline as AThird or TheThird.
@@ -96,6 +112,14 @@ public interface IGivenContinuation<TSUT, TResult>
     IGivenTestPipeline<TSUT, TResult> AThird<TValue>(TValue value);
 
     /// <summary>
+    /// Provide setup for a third value of a given type, that can be mentioned in the test pipeline as AThird or TheThird.
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="setup"></param>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> AThird<TValue>(Action<TValue> setup) where TValue : class;
+
+    /// <summary>
     /// Provide a fourth value of a given type, that can be mentioned in the test pipeline as AFourth or TheFourth.
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
@@ -104,10 +128,26 @@ public interface IGivenContinuation<TSUT, TResult>
     IGivenTestPipeline<TSUT, TResult> AFourth<TValue>(TValue value);
 
     /// <summary>
+    /// Provide setup for a fourth value of a given type, that can be mentioned in the test pipeline as AFourth or TheFourth.
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="setup"></param>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> AFourth<TValue>(Action<TValue> setup) where TValue : class;
+
+    /// <summary>
     /// Provide a fifth value of a given type, that can be mentioned in the test pipeline as AFifth or TheFifth.
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="value"></param>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> AFifth<TValue>(TValue value);
+
+    /// <summary>
+    /// Provide setup for a fifth value of a given type, that can be mentioned in the test pipeline as AFifth or TheFifth.
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="setup"></param>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> AFifth<TValue>(Action<TValue> setup) where TValue : class;
 }
