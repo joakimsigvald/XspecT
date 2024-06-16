@@ -5,9 +5,9 @@ namespace XspecT.Internal.TestData;
 
 internal class DefaultValueCustimization : ISpecimenBuilder
 {
-    private readonly Context _context;
+    private readonly DataProvider _context;
 
-    public DefaultValueCustimization(Context context) => _context = context;
+    public DefaultValueCustimization(DataProvider context) => _context = context;
 
     public object Create(object request, ISpecimenContext context) 
         => request is Type type && _context.TryGetDefault(type, out var val)

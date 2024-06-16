@@ -4,9 +4,9 @@ namespace XspecT.Internal.TestData;
 
 internal class InterfaceCustimization : ISpecimenBuilder
 {
-    private readonly Context _context;
+    private readonly DataProvider _context;
 
-    internal InterfaceCustimization(Context context) => _context = context;
+    internal InterfaceCustimization(DataProvider context) => _context = context;
 
     public object Create(object request, ISpecimenContext context)
     {

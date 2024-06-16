@@ -7,7 +7,7 @@ namespace XspecT.Internal.TestData;
 
 internal static class DataGeneratorFactory
 {
-    internal static Fixture CreateAutoFixture(this Context context)
+    internal static Fixture CreateAutoFixture(this DataProvider context)
     {
         Fixture fixture = new() { RepeatCount = 0 };
         fixture.Customizations.Add(new DefaultValueCustimization(context));
@@ -16,7 +16,7 @@ internal static class DataGeneratorFactory
         return fixture;
     }
 
-    internal static AutoMocker CreateAutoMocker(this Context context)
+    internal static AutoMocker CreateAutoMocker(this DataProvider context)
     {
         var autoMocker = new AutoMocker(
             MockBehavior.Loose,
@@ -27,7 +27,7 @@ internal static class DataGeneratorFactory
         return autoMocker;
     }
 
-    private static void CustomizeResolvers(AutoMocker autoMocker, Context context)
+    private static void CustomizeResolvers(AutoMocker autoMocker, DataProvider context)
     {
         var resolverList = (List<IMockResolver>)autoMocker.Resolvers;
         AddValueResolver();

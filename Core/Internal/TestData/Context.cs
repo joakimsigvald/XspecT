@@ -4,29 +4,16 @@ namespace XspecT.Internal.TestData;
 
 internal class Context
 {
-    private readonly Dictionary<Type, object> _defaultValues = new();
-    private readonly Dictionary<Type, Func<object, object>> _defaultSetups = new();
-    private readonly Dictionary<Type, Dictionary<int, object>> _numberedMentions = new();
+    [Obsolete]
     private readonly Dictionary<Type, Dictionary<string, object>> _labeledMentions = new();
-    private readonly TestDataGenerator _testDataGenerator;
-
-    public Context() => _testDataGenerator = new(this.CreateAutoFixture(), this.CreateAutoMocker());
+    private readonly DataProvider _dataProvider = new();
 
     internal TSUT CreateSUT<TSUT>()
     {
         var sutType = typeof(TSUT);
         return sutType.IsClass && sutType != typeof(string)
-            ? Instantiate<TSUT>()
+            ? _dataProvider.Instantiate<TSUT>()
             : Create<TSUT>();
-    }
-
-    internal TValue Instantiate<TValue>()
-    {
-        var type = typeof(TValue);
-        var instance = TryGetDefault(typeof(TValue), out var val)
-            ? val
-            : _testDataGenerator.Instantiate<TValue>();
-        return (TValue)ApplyDefaultSetup(type, instance);
     }
 
     internal TValue Mention<TValue>(int index, bool asDefault = false)
@@ -36,13 +23,7 @@ internal class Context
         => ApplyTo(setup, Produce<TValue>(index));
 
     internal TValue Mention<TValue>(int index, Func<TValue, TValue> setup)
-        => (TValue)Mention(typeof(TValue), ApplyTo(setup, Produce<TValue>(index)), index);
-
-    internal object Mention(Type type, int index = 0)
-    {
-        var (val, found) = Retreive(type, index);
-        return found ? val : Mention(type, Create(type), index);
-    }
+        => (TValue)Mention(typeof(TValue), setup.Invoke(Produce<TValue>(index)), index);
 
     internal static TValue ApplyTo<TValue>(Action<TValue> setup, TValue value)
     {
@@ -50,14 +31,8 @@ internal class Context
         return value;
     }
 
-    internal static TValue ApplyTo<TValue>(Func<TValue, TValue> setup, TValue value)
-    {
-        var newValue = setup.Invoke(value);
-        return newValue;
-    }
-
     internal void SetDefault<TModel>(Action<TModel> setup) where TModel : class
-        => AddDefaultSetup(
+        => _dataProvider.AddDefaultSetup(
             typeof(TModel),
             obj =>
             {
@@ -67,20 +42,9 @@ internal class Context
             });
 
     internal void SetDefault<TValue>(Func<TValue, TValue> setup)
-        => AddDefaultSetup(typeof(TValue), _ => setup((TValue)_));
+        => _dataProvider.AddDefaultSetup(typeof(TValue), _ => setup((TValue)_));
 
-    private void AddDefaultSetup(Type type, Func<object, object> setup)
-        => _defaultSetups[type] =
-        _defaultSetups.TryGetValue(type, out var previousSetup)
-        ? MergeDefaultSetups(previousSetup, setup)
-        : setup;
-
-    private static Func<object, object> MergeDefaultSetups(Func<object, object> setup1, Func<object, object> setup2)
-        => obj => setup2(setup1(obj));
-
-    internal bool TryGetDefault(Type type, out object val)
-        => _defaultValues.TryGetValue(type, out val);
-
+    [Obsolete]
     internal TValue Mention<TValue>(string label)
     {
         var mentions = ProduceMentions(typeof(TValue));
@@ -99,14 +63,11 @@ internal class Context
 
     internal TValue[] MentionMany<TValue>(int count, int? minCount)
     {
-        var (val, found) = Retreive(typeof(TValue[]));
+        var (val, found) = _dataProvider.Retreive(typeof(TValue[]));
         return found && val is TValue[] arr
             ? Reuse(arr, count, minCount)
             : MentionMany<TValue>(count);
     }
-
-    internal TValue[] MentionMany<TValue>(int count)
-        => Mention(Enumerable.Range(0, count).Select(i => Mention<TValue>(i)).ToArray());
 
     internal TValue[] MentionMany<TValue>(Action<TValue> setup, int count)
         => Mention(Enumerable.Range(0, count).Select(i => Mention(i, setup)).ToArray());
@@ -114,53 +75,28 @@ internal class Context
     internal TValue[] MentionMany<TValue>(Action<TValue, int> setup, int count)
         => Mention(Enumerable.Range(0, count).Select(i => Mention<TValue>(i, _ => setup(_, i))).ToArray());
 
-    internal TValue Create<TValue>()
-        => (TValue)ApplyDefaultSetup(typeof(TValue), _testDataGenerator.Create<TValue>());
+    internal TValue Create<TValue>() => _dataProvider.Create<TValue>();
 
-    internal object Create(Type type) => ApplyDefaultSetup(type, _testDataGenerator.Create(type));
+    internal Mock<TObject> GetMock<TObject>() where TObject : class 
+        => _dataProvider.GetMock<TObject>();
 
-    internal (object val, bool found) Retreive(Type type, int index = 0)
-    {
-        var typeMap = _numberedMentions.TryGetValue(type, out var map) ? map : null;
-        return typeMap?.TryGetValue(index, out var val)
-            ?? _defaultValues.TryGetValue(type, out val)
-            ? (val, found: true) : (null, found: false);
-    }
+    internal void Use<TService>(TService service) => _dataProvider.Use(service);
 
-    internal (object val, bool found) Use(Type type)
-        => _defaultValues.TryGetValue(type, out var value) ? (value, true) : (null, false);
-
-    internal Mock<TObject> GetMock<TObject>() where TObject : class => _testDataGenerator.GetMock<TObject>();
-    internal Mock GetMock(Type type) => _testDataGenerator.GetMock(type);
-
-    internal object ApplyDefaultSetup(Type type, object newValue)
-        => _defaultSetups.TryGetValue(type, out var setup)
-        ? setup(newValue)
-        : newValue;
-
+    [Obsolete]
     private Dictionary<string, object> ProduceMentions(Type type)
         => _labeledMentions.TryGetValue(type, out var mentions) ? mentions : _labeledMentions[type] = new();
 
+    private TValue[] MentionMany<TValue>(int count)
+        => Mention(Enumerable.Range(0, count).Select(i => Mention<TValue>(i)).ToArray());
+
     private TValue Produce<TValue>(int index, bool asDefault = false)
     {
-        var (val, found) = Retreive(typeof(TValue), index);
+        var (val, found) = _dataProvider.Retreive(typeof(TValue), index);
         return (TValue)(found ? val : Mention(Create<TValue>(), index, asDefault));
     }
 
-    internal void Use<TService>(TService service)
-    {
-        _defaultValues[typeof(TService)] = service;
-        if (service is Moq.Internals.InterfaceProxy)
-            return;
-
-        _testDataGenerator.Use(typeof(TService), service);
-        if (typeof(Task).IsAssignableFrom(typeof(TService)))
-            return;
-
-        Use(Task.FromResult(service));
-    }
-
-    private object Mention(Type type, object value, int index = 0) => GetMentions(type)[index] = value;
+    private object Mention(Type type, object value, int index = 0)
+        => _dataProvider.GetMentions(type)[index] = value;
 
     private TValue[] Reuse<TValue>(TValue[] arr, int count, int? minCount)
         => arr.Length >= minCount || arr.Length == count ? arr
@@ -176,7 +112,4 @@ internal class Context
             newArr[i] = Mention<TValue>(i);
         return newArr;
     }
-
-    private Dictionary<int, object> GetMentions(Type type)
-        => _numberedMentions.TryGetValue(type, out var val) ? val : _numberedMentions[type] = new();
 }

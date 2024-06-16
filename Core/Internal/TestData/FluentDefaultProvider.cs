@@ -4,9 +4,9 @@ namespace XspecT.Internal.TestData;
 
 internal class FluentDefaultProvider : DefaultValueProvider
 {
-    private readonly Context _context;
+    private readonly DataProvider _context;
 
-    internal FluentDefaultProvider(Context context) => _context = context;
+    internal FluentDefaultProvider(DataProvider context) => _context = context;
 
     protected override object GetDefaultValue(Type type, Mock mock)
     {
