@@ -29,9 +29,10 @@ internal class TestDataGenerator
         try
         {
             var type = typeof(TValue);
-            if (type.IsClass)
-                return (TValue)_mocker.CreateInstance(type);
-            return Create<TValue>();
+            var instance = _context.TryGetDefault(typeof(TValue), out var val)
+                ? val
+                : _mocker.CreateInstance(typeof(TValue));
+            return (TValue)_context.ApplyDefaultSetup(type, instance);
         }
         catch (ArgumentException ex) when (ex.Message.Contains("Did not find a best constructor for"))
         {

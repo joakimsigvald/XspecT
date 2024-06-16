@@ -142,12 +142,9 @@ internal class Pipeline<TSUT, TResult>
         _arranger.Arrange();
         var sutType = typeof(TSUT);
         _sut = sutType.IsClass && sutType != typeof(string) 
-            ? CreateInstance<TSUT>() 
+            ? _context.CreateInstance<TSUT>() 
             : _context.Create<TSUT>();
     }
-
-    internal TValue CreateInstance<TValue>()
-        => _context.CreateInstance<TValue>();
 
     internal Mock<TObject> GetMock<TObject>() where TObject : class => _context.GetMock<TObject>();
 

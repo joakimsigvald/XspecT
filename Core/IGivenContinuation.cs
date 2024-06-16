@@ -46,4 +46,68 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <param name="setup"></param>
     /// <returns>The test-pipeline</returns>
     IGivenTestPipeline<TSUT, TResult> That(Action setup);
+
+    /// <summary>
+    /// Provide a default value, that will be applied in all mocks and auto-generated test-data, where no specific value or setup is given.
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="defaultValue"></param>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> Default<TValue>(TValue defaultValue);
+
+    /// <summary>
+    /// Provide a default setup, that will be applied in all mocks and auto-generated test-data.
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="defaultSetup"></param>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> Default<TValue>(Action<TValue> defaultSetup) where TValue : class;
+
+    /// <summary>
+    /// Provide a default setup, that will be applied in all mocks and auto-generated test-data.
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="defaultSetup"></param>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> Default<TValue>(Func<TValue, TValue> defaultSetup);
+
+    /// <summary>
+    /// Provide a value of a given type, that can be mentioned in the test pipeline as A, An, The, or TheFirst.
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> A<TValue>(TValue value);
+
+    /// <summary>
+    /// Provide a second value of a given type, that can be mentioned in the test pipeline as ASecond or TheSecond.
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> ASecond<TValue>(TValue value);
+
+    /// <summary>
+    /// Provide a third value of a given type, that can be mentioned in the test pipeline as AThird or TheThird.
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> AThird<TValue>(TValue value);
+
+    /// <summary>
+    /// Provide a fourth value of a given type, that can be mentioned in the test pipeline as AFourth or TheFourth.
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> AFourth<TValue>(TValue value);
+
+    /// <summary>
+    /// Provide a fifth value of a given type, that can be mentioned in the test pipeline as AFifth or TheFifth.
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> AFifth<TValue>(TValue value);
 }

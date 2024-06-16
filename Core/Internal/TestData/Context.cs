@@ -108,7 +108,7 @@ internal class Context
     internal (object val, bool found) Retreive(Type type, int index = 0)
     {
         var typeMap = _numberedMentions.TryGetValue(type, out var map) ? map : null;
-        return typeMap?.TryGetValue(index, out var val) 
+        return typeMap?.TryGetValue(index, out var val)
             ?? _defaultValues.TryGetValue(type, out val)
             ? (val, found: true) : (null, found: false);
     }
@@ -119,7 +119,7 @@ internal class Context
     internal Mock<TObject> GetMock<TObject>() where TObject : class => _testDataGenerator.GetMock<TObject>();
     internal Mock GetMock(Type type) => _testDataGenerator.GetMock(type);
 
-    private object ApplyDefaultSetup(Type type, object newValue)
+    internal object ApplyDefaultSetup(Type type, object newValue)
         => _defaultSetups.TryGetValue(type, out var setup)
         ? setup(newValue)
         : newValue;
