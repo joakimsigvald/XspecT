@@ -10,14 +10,23 @@ internal class Context
     private readonly Dictionary<Type, Dictionary<string, object>> _labeledMentions = new();
     private readonly TestDataGenerator _testDataGenerator;
 
-    public Context() => _testDataGenerator = new(this);
+    public Context() => _testDataGenerator = new(this.CreateAutoFixture(), this.CreateAutoMocker());
 
     internal TSUT CreateSUT<TSUT>()
     {
         var sutType = typeof(TSUT);
         return sutType.IsClass && sutType != typeof(string)
-            ? _testDataGenerator.Instantiate<TSUT>()
+            ? Instantiate<TSUT>()
             : Create<TSUT>();
+    }
+
+    internal TValue Instantiate<TValue>()
+    {
+        var type = typeof(TValue);
+        var instance = TryGetDefault(typeof(TValue), out var val)
+            ? val
+            : _testDataGenerator.Instantiate<TValue>();
+        return (TValue)ApplyDefaultSetup(type, instance);
     }
 
     internal TValue Mention<TValue>(int index, bool asDefault = false)

@@ -10,10 +10,8 @@ internal class DefaultValueCustimization : ISpecimenBuilder
     public DefaultValueCustimization(Context context) => _context = context;
 
     public object Create(object request, ISpecimenContext context) 
-        => request is Type type && TryGetDefault(type, out var val)
-        || request is PropertyInfo prop && TryGetDefault(prop.PropertyType, out val)
+        => request is Type type && _context.TryGetDefault(type, out var val)
+        || request is PropertyInfo prop && _context.TryGetDefault(prop.PropertyType, out val)
         ? val
         : new NoSpecimen();
-
-    private bool TryGetDefault(Type type, out object val) => _context.TryGetDefault(type, out val);
 }
