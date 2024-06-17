@@ -10,7 +10,7 @@ public interface IGivenTestPipeline<TSUT, TResult> : ITestPipeline<TSUT, TResult
     /// </summary>
     /// <typeparam name="TService"></typeparam>
     /// <returns>A continuation to provide mock-setup for the given type</returns>
-    IGivenContinuation<TSUT, TResult, TService> And<TService>() where TService : class;
+    IGivenServiceContinuation<TSUT, TResult, TService> And<TService>() where TService : class;
 
     /// <summary>
     /// A continuation to provide further arrangement to the test

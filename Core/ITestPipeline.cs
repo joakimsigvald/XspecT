@@ -167,7 +167,7 @@ public interface ITestPipeline<TSUT, TResult>
     /// </summary>
     /// <typeparam name="TService"></typeparam>
     /// <returns></returns>
-    IGivenContinuation<TSUT, TResult, TService> Given<TService>() where TService : class;
+    IGivenServiceContinuation<TSUT, TResult, TService> Given<TService>() where TService : class;
 
     /// <summary>
     /// Provide a default value as a lambda, to be evaluated during test execution AFTER any subsequently added arrangement.

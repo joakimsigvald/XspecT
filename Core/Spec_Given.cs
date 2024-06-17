@@ -13,7 +13,6 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
     /// <returns></returns>
-    [Obsolete("Use Given().Default instead")]
     public IGivenTestPipeline<TSUT, TResult> Given<TValue>(Action<TValue> setup) where TValue : class
     {
         _pipeline.SetDefault(setup);
@@ -26,7 +25,6 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="transform"></param>
     /// <returns></returns>
-    [Obsolete("Use Given().Default instead")]
     public IGivenTestPipeline<TSUT, TResult> Given<TValue>(Func<TValue, TValue> transform)
     {
         _pipeline.SetDefault(transform);
@@ -39,7 +37,6 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="defaultValue"></param>
     /// <returns></returns>
-    [Obsolete("Use Given().Default instead")]
     public IGivenTestPipeline<TSUT, TResult> Given<TValue>(TValue defaultValue)
     {
         _pipeline.SetDefault(defaultValue);
@@ -66,8 +63,8 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TService"></typeparam>
     /// <returns></returns>
     /// <exception cref="SetupFailed"></exception>
-    public IGivenContinuation<TSUT, TResult, TService> Given<TService>() where TService : class 
-        => new GivenContinuation<TSUT, TResult, TService>(this);
+    public IGivenServiceContinuation<TSUT, TResult, TService> Given<TService>() where TService : class 
+        => new GivenServiceContinuation<TSUT, TResult, TService>(this);
 
     /// <summary>
     /// Return continuation for providing any setup as an action

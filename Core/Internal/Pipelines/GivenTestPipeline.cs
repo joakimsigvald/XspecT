@@ -37,7 +37,7 @@ internal class GivenTestPipeline<TSUT, TResult>
     public IGivenTestPipeline<TSUT, TResult> Given<TValue>(TValue defaultValue)
         => Parent.Given(defaultValue);
 
-    public IGivenContinuation<TSUT, TResult, TService> Given<TService>() where TService : class
+    public IGivenServiceContinuation<TSUT, TResult, TService> Given<TService>() where TService : class
         => Parent.Given<TService>();
 
     public IGivenContinuation<TSUT, TResult> Given() => Parent.Given();
@@ -50,6 +50,6 @@ internal class GivenTestPipeline<TSUT, TResult>
 
     public IGivenTestPipeline<TSUT, TResult> And<TValue>(Func<TValue> value) => Given(value);
     public IGivenTestPipeline<TSUT, TResult> And<TValue>(TValue value) => Given(value);
-    public IGivenContinuation<TSUT, TResult, TService> And<TService>() where TService : class => Given<TService>();
+    public IGivenServiceContinuation<TSUT, TResult, TService> And<TService>() where TService : class => Given<TService>();
     public IGivenContinuation<TSUT, TResult> And() => Given();
 }
