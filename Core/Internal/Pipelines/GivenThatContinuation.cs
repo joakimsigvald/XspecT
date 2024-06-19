@@ -3,18 +3,18 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace XspecT.Internal.Pipelines;
 
-internal class GivenThatContinuation<TSUT, TResult, TService, TReturns, TActualReturns>
-    : IGivenThatContinuation<TSUT, TResult, TService, TReturns>
+internal class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, TActualReturns>
+    : IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns>
     where TService : class
 {
-    private readonly Spec<TSUT, TResult> _spec;
-    protected readonly Moq.Language.Flow.ISetup<TService, TActualReturns> _setup;
+    protected readonly Spec<TSUT, TResult> _spec;
+    protected readonly Moq.Language.Flow.IReturnsThrows<TService, TActualReturns> _continuation;
 
-    internal GivenThatContinuation(
-        Spec<TSUT, TResult> spec, Moq.Language.Flow.ISetup<TService, TActualReturns> setup)
+    internal GivenThatCommonContinuation(
+        Spec<TSUT, TResult> spec, Moq.Language.Flow.IReturnsThrows<TService, TActualReturns> continuation)
     {
         _spec = spec;
-        _setup = setup;
+        _continuation = continuation;
     }
 
     public IGivenTestPipeline<TSUT, TResult> Returns([NotNull] Func<TReturns> returns)
@@ -34,80 +34,65 @@ internal class GivenThatContinuation<TSUT, TResult, TService, TReturns, TActualR
     public IGivenTestPipeline<TSUT, TResult> Throws<TException>()
         where TException : Exception, new()
     {
-        _spec.GivenSetup(() => _setup.Throws<TException>());
+        _spec.GivenSetup(() => _continuation.Throws<TException>());
         return new GivenTestPipeline<TSUT, TResult>(_spec);
     }
 
     public IGivenTestPipeline<TSUT, TResult> Throws(Func<Exception> ex)
     {
-        _spec.GivenSetup(() => _setup.Throws(ex()));
+        _spec.GivenSetup(() => _continuation.Throws(ex()));
         return new GivenTestPipeline<TSUT, TResult>(_spec);
     }
 
-    private void SetupReturns(Func<TReturns> returns) 
+    private void SetupReturns(Func<TReturns> returns)
         => _spec.GivenSetup(() => DoSetupReturns(returns));
 
-    protected virtual void DoSetupReturns(Func<TReturns> returns)
+    protected void DoSetupReturns(Func<TReturns> returns)
     {
-        if (typeof(TActualReturns) == typeof(Task<TReturns>))
-            ((Moq.Language.Flow.ISetup<TService, Task<TReturns>>)_setup).ReturnsAsync(returns);
-        else _setup.Returns(returns);
-    }
-
-    public IGivenTappedContinuation<TSUT, TResult, TService, TReturns, TArg> Tap<TArg>(Action<TArg> callback)
-        => new GivenTappedContinuation<TSUT, TResult, TService, TReturns, TActualReturns, TArg>(_spec, _setup, callback);
-
-    public IGivenTappedContinuation<TSUT, TResult, TService, TReturns, TArg1, TArg2> Tap<TArg1, TArg2>(
-        Action<TArg1, TArg2> callback)
-        => new GivenTappedContinuation<TSUT, TResult, TService, TReturns, TActualReturns, TArg1, TArg2>(
-            _spec, _setup, callback);
-}
-
-internal class GivenTappedContinuation<TSUT, TResult, TService, TReturns, TActualReturns, TArg>
-    : GivenThatContinuation<TSUT, TResult, TService, TReturns, TActualReturns>,
-    IGivenTappedContinuation<TSUT, TResult, TService, TReturns, TArg>
-    where TService : class
-{
-    private readonly Action<TArg> _callback;
-
-    internal GivenTappedContinuation(
-        Spec<TSUT, TResult> spec,
-        Moq.Language.Flow.ISetup<TService, TActualReturns> setup,
-        Action<TArg> callback)
-        : base(spec, setup) => _callback = callback;
-
-    protected override void DoSetupReturns(Func<TReturns> returns)
-    {
-        if (typeof(TActualReturns) == typeof(Task<TReturns>))
-            ((Moq.Language.Flow.ISetup<TService, Task<TReturns>>)_setup)
-                .Callback(_callback)
-                .ReturnsAsync(returns);
-        else _setup
-                .Callback(_callback)
-                .Returns(returns);
+        if (_continuation is Moq.Language.Flow.IReturnsThrows<TService, Task<TReturns>> asyncContinuation)
+            asyncContinuation.ReturnsAsync(returns);
+        else
+            _continuation.Returns(returns);
     }
 }
-internal class GivenTappedContinuation<TSUT, TResult, TService, TReturns, TActualReturns, TArg1, TArg2>
-    : GivenThatContinuation<TSUT, TResult, TService, TReturns, TActualReturns>,
-    IGivenTappedContinuation<TSUT, TResult, TService, TReturns, TArg1, TArg2>
+
+internal class GivenThatContinuation<TSUT, TResult, TService, TReturns, TActualReturns>
+    : GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, TActualReturns>,
+    IGivenThatContinuation<TSUT, TResult, TService, TReturns>
     where TService : class
 {
-    private readonly Action<TArg1, TArg2> _callback;
+    private Moq.Language.Flow.ISetup<TService, TActualReturns> _setup;
 
-    internal GivenTappedContinuation(
-        Spec<TSUT, TResult> spec,
-        Moq.Language.Flow.ISetup<TService, TActualReturns> setup,
+    internal GivenThatContinuation(
+        Spec<TSUT, TResult> spec, Moq.Language.Flow.ISetup<TService, TActualReturns> setup)
+        : base(spec, setup)
+        => _setup = setup;
+
+    public IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns> Tap(Action callback)
+        => new GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, TActualReturns>(
+            _spec, _setup.Callback(callback));
+
+    public IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns> Tap<TArg>(Action<TArg> callback)
+        => new GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, TActualReturns>(
+            _spec, _setup.Callback(callback));
+
+    public IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns> Tap<TArg1, TArg2>(
         Action<TArg1, TArg2> callback)
-        : base(spec, setup) => _callback = callback;
+        => new GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, TActualReturns>(
+            _spec, _setup.Callback(callback));
 
-    protected override void DoSetupReturns(Func<TReturns> returns)
-    {
-        if (typeof(TActualReturns) == typeof(Task<TReturns>))
-            ((Moq.Language.Flow.ISetup<TService, Task<TReturns>>)_setup)
-                .Callback(_callback)
-                .ReturnsAsync(returns);
-        else _setup
-                .Callback(_callback)
-                .Returns(returns);
-    }
+    public IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns> Tap<TArg1, TArg2, TArg3>(
+        Action<TArg1, TArg2, TArg3> callback)
+        => new GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, TActualReturns>(
+            _spec, _setup.Callback(callback));
+
+    public IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns> Tap<TArg1, TArg2, TArg3, TArg4>(
+        Action<TArg1, TArg2, TArg3, TArg4> callback)
+        => new GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, TActualReturns>(
+            _spec, _setup.Callback(callback));
+
+    public IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns> Tap<TArg1, TArg2, TArg3, TArg4, TArg5>(
+        Action<TArg1, TArg2, TArg3, TArg4, TArg5> callback)
+        => new GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, TActualReturns>(
+            _spec, _setup.Callback(callback));
 }
