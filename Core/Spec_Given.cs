@@ -81,7 +81,6 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="value"></param>
     /// <returns></returns>
-    [Obsolete("Use Given().Default instead")]
     public IGivenTestPipeline<TSUT, TResult> Given<TValue>(Func<TValue> value)
     {
         _pipeline.Given(() => ADefault(value()));

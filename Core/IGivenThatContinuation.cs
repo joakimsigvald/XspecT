@@ -1,4 +1,6 @@
-﻿namespace XspecT;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace XspecT;
 
 /// <summary>
 /// A continuation to mock the result of a method invocation
@@ -15,7 +17,7 @@ public interface IGivenThatContinuation<TSUT, TResult, TService, TReturns>
     /// </summary>
     /// <param name="returns"></param>
     /// <returns></returns>
-    IGivenTestPipeline<TSUT, TResult> Returns(Func<TReturns> returns);
+    IGivenTestPipeline<TSUT, TResult> Returns([NotNull] Func<TReturns> returns);
 
     /// <summary>
     /// Mock the return-value as default

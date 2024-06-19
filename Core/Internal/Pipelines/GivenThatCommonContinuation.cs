@@ -1,4 +1,6 @@
-﻿namespace XspecT.Internal.Pipelines;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace XspecT.Internal.Pipelines;
 
 internal abstract class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns>
     : IGivenThatContinuation<TSUT, TResult, TService, TReturns>
@@ -9,8 +11,10 @@ internal abstract class GivenThatCommonContinuation<TSUT, TResult, TService, TRe
 
     protected readonly Spec<TSUT, TResult> Spec;
 
-    public IGivenTestPipeline<TSUT, TResult> Returns(Func<TReturns> returns)
+    public IGivenTestPipeline<TSUT, TResult> Returns([NotNull] Func<TReturns> returns)
     {
+        if (returns is null)
+            throw new SetupFailed($"{nameof(returns)} may not be null");
         SetupReturns(returns);
         return new GivenTestPipeline<TSUT, TResult>(Spec);
     }
