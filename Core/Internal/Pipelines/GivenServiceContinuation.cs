@@ -7,8 +7,7 @@ internal class GivenServiceContinuation<TSUT, TResult, TService> : IGivenService
 {
     private readonly Spec<TSUT, TResult> _spec;
 
-    internal GivenServiceContinuation(Spec<TSUT, TResult> subjectSpec) 
-        => _spec = subjectSpec;
+    internal GivenServiceContinuation(Spec<TSUT, TResult> spec) => _spec = spec;
 
     public IGivenTestPipeline<TSUT, TResult> ReturnsDefault<TReturns>(Func<TReturns> value)
     {

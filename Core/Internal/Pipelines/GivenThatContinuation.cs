@@ -12,10 +12,9 @@ internal class GivenThatContinuation<TSUT, TResult, TService, TReturns, TActualR
     private readonly Moq.Language.Flow.ISetup<TService, TActualReturns> _setup;
 
     internal GivenThatContinuation(
-        Spec<TSUT, TResult> subjectSpec,
-        Expression<Func<TService, TActualReturns>> expression)
+        Spec<TSUT, TResult> spec, Expression<Func<TService, TActualReturns>> expression)
     {
-        _spec = subjectSpec;
+        _spec = spec;
         _setup = _spec.GetMock<TService>().Setup(expression);
     }
 
