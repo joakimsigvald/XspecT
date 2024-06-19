@@ -8,6 +8,7 @@ public class MyValueIntService(IMyValueIntRepo repo)
 
     public void SetValue(MyValueInt value) => _repo.Set(value);
     public string GetValue(MyValueInt value) => _repo.Get(value);
+    public string GetValue2(MyValueInt value1, MyValueInt value2) => _repo.Get2(value1, value2);
 
     public Task SetValueAsync(MyValueInt value) => _repo.SetAsync(value);
     public Task<string> GetValueAsync(MyValueInt value) => _repo.GetAsync(value);
