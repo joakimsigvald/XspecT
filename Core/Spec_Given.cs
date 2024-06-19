@@ -3,7 +3,6 @@ using XspecT.Internal.Pipelines;
 
 namespace XspecT;
 
-
 public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
 {
     /// <summary>
