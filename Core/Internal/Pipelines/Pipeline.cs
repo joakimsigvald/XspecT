@@ -103,6 +103,7 @@ internal class Pipeline<TSUT, TResult>
     internal TValue[] MentionMany<TValue>(int count, int? minCount = null)
         => _context.MentionMany<TValue>(count, minCount);
 
+    [Obsolete]
     internal TValue Mention<TValue>(string label) => _context.Mention<TValue>(label);
 
     internal TValue[] MentionMany<TValue>([NotNull] Action<TValue> setup, int count)
@@ -149,27 +150,6 @@ internal class Pipeline<TSUT, TResult>
     {
         AssertHasNotRun();
         _arranger.Push(arrangement);
-    }
-
-    internal void SetupMock<TService>(Action<Mock<TService>> setup) where TService : class
-        => _arranger.Push(() => setup(GetMock<TService>()));
-
-    internal void SetupMock<TService, TReturns>(
-        Expression<Func<TService, TReturns>> expression, Func<TReturns> returns)
-        where TService : class
-    {
-        //_arranger.Push(() => GetMock<TService>().SetupSequence(expression)
-        //.Returns(returns).Returns(returns).Returns(returns).Returns(returns).Returns(returns));
-        _arranger.Push(() => GetMock<TService>().Setup(expression).Returns(returns));
-    }
-
-    internal void SetupMock<TService, TReturns>(
-        Expression<Func<TService, Task<TReturns>>> expression, Func<TReturns> returns)
-        where TService : class
-    {
-        //_arranger.Push(() => GetMock<TService>().SetupSequence(expression)
-        //    .ReturnsAsync(returns).ReturnsAsync(returns).ReturnsAsync(returns).ReturnsAsync(returns).ReturnsAsync(returns));
-        _arranger.Push(() => GetMock<TService>().Setup(expression).ReturnsAsync(returns));
     }
 
     internal void SetAction(Action<TSUT> act) => SetAction(() => act(_sut));

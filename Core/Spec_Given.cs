@@ -1,5 +1,4 @@
 ﻿using Moq;
-using System.Linq.Expressions;
 using XspecT.Internal.Pipelines;
 
 namespace XspecT;
@@ -87,16 +86,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
         return new GivenTestPipeline<TSUT, TResult>(this);
     }
 
-    internal void SetupMock<TService>(Action<Mock<TService>> setup) where TService : class
-        => _pipeline.SetupMock(setup);
-
-    internal void SetupMock<TService, TReturns>(
-        Expression<Func<TService, TReturns>> expression, Func<TReturns> returns) where TService : class
-        => _pipeline.SetupMock(expression, returns);
-
-    internal void SetupMock<TService, TReturns>(
-        Expression<Func<TService, Task<TReturns>>> expression, Func<TReturns> returns) where TService : class
-        => _pipeline.SetupMock(expression, returns);
+    internal Mock<TService> GetMock<TService>() where TService : class => _pipeline.GetMock<TService>();
 
     internal IGivenTestPipeline<TSUT, TResult> GivenSetup(Action setup)
     {
