@@ -158,15 +158,19 @@ internal class Pipeline<TSUT, TResult>
         Expression<Func<TService, TReturns>> expression, Func<TReturns> returns)
         where TService : class
     {
-        _arranger.Push(() => GetMock<TService>().SetupSequence(expression)
-        .Returns(returns).Returns(returns).Returns(returns).Returns(returns).Returns(returns));
+        //_arranger.Push(() => GetMock<TService>().SetupSequence(expression)
+        //.Returns(returns).Returns(returns).Returns(returns).Returns(returns).Returns(returns));
+        _arranger.Push(() => GetMock<TService>().Setup(expression).Returns(returns));
     }
 
     internal void SetupMock<TService, TReturns>(
         Expression<Func<TService, Task<TReturns>>> expression, Func<TReturns> returns)
         where TService : class
-        => _arranger.Push(() => GetMock<TService>().SetupSequence(expression)
-        .ReturnsAsync(returns).ReturnsAsync(returns).ReturnsAsync(returns).ReturnsAsync(returns).ReturnsAsync(returns));
+    {
+        //_arranger.Push(() => GetMock<TService>().SetupSequence(expression)
+        //    .ReturnsAsync(returns).ReturnsAsync(returns).ReturnsAsync(returns).ReturnsAsync(returns).ReturnsAsync(returns));
+        _arranger.Push(() => GetMock<TService>().Setup(expression).ReturnsAsync(returns));
+    }
 
     internal void SetAction(Action<TSUT> act) => SetAction(() => act(_sut));
     internal void SetAction(Func<TSUT, TResult> act) => SetAction(() => act(_sut));
