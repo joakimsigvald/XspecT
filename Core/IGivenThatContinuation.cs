@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-namespace XspecT;
+﻿namespace XspecT;
 
 /// <summary>
 /// A continuation to mock the result of a method invocation
@@ -73,42 +71,4 @@ public interface IGivenThatContinuation<TSUT, TResult, TService, TReturns>
     /// <returns></returns>
     IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns> Tap<TArg1, TArg2, TArg3, TArg4, TArg5>(
         Action<TArg1, TArg2, TArg3, TArg4, TArg5> callback);
-}
-
-/// <summary>
-/// Provide a callback to tap the mocked function call with no input arguments
-/// </summary>
-/// <typeparam name="TSUT"></typeparam>
-/// <typeparam name="TResult"></typeparam>
-/// <typeparam name="TService"></typeparam>
-/// <typeparam name="TReturns"></typeparam>
-public interface IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns>
-    where TService : class
-{
-    /// <summary>
-    /// Mock the return-value
-    /// </summary>
-    /// <param name="returns"></param>
-    /// <returns></returns>
-    IGivenTestPipeline<TSUT, TResult> Returns([NotNull] Func<TReturns> returns);
-
-    /// <summary>
-    /// Mock the return-value as default
-    /// </summary>
-    /// <returns></returns>
-    IGivenTestPipeline<TSUT, TResult> ReturnsDefault();
-
-    /// <summary>
-    /// Provide an exception-type to mock
-    /// </summary>
-    /// <typeparam name="TException"></typeparam>
-    /// <returns></returns>
-    IGivenTestPipeline<TSUT, TResult> Throws<TException>() where TException : Exception, new();
-
-    /// <summary>
-    /// Provide an exception to mock
-    /// </summary>
-    /// <param name="ex"></param>
-    /// <returns></returns>
-    IGivenTestPipeline<TSUT, TResult> Throws(Func<Exception> ex);
 }
