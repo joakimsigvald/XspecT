@@ -14,7 +14,7 @@ public interface IGivenServiceContinuation<TSUT, TResult, TService>
     /// <typeparam name="TReturns"></typeparam>
     /// <param name="value"></param>
     /// <returns></returns>
-    IGivenTestPipeline<TSUT, TResult> ReturnsDefault<TReturns>(Func<TReturns> value);
+    IGivenThatReturnsContinuation<TSUT, TResult, TService> Returns<TReturns>(Func<TReturns> value);
 
     /// <summary>
     /// Mock the method invocation
