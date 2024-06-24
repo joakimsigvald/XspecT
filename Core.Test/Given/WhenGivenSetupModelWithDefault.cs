@@ -52,6 +52,13 @@ public class WhenGivenSetupModelWithDefault : Spec<MyService, MyModel>
         .Then().Result.Name.Is("Altered");
 
     [Fact]
+    public void GivenDefaultIsNotOverridden()
+        => When(_ => MyService.Echo(A<MyModel>()))
+        .Given<IMyRepository>().That(_ => _.GetModel()).Returns(The<MyModel>)
+        .Given<MyModel>(_ => _.Name = _defaltName)
+        .Then().Result.Name.Is(_defaltName);
+
+    [Fact]
     public void GivenDefaultIsReplaced()
         => Given<MyModel>(_ => _.Name = _defaltName)
         .And<IMyRepository>().That(_ => _.GetModel()).Returns(ASecond<MyModel>)
@@ -72,6 +79,13 @@ public class WhenGivenSetupModelWithDefault : Spec<MyService, MyModel>
         .And<IMyRepository>().That(_ => _.GetModel()).Returns(ASecond<MyModel>)
         .When(_ => _.GetModel())
         .Then().Result.Name.Is(_defaltName);
+
+    [Fact]
+    public void GivenModel_ReferencedAsInputTwice_AndWithDefaultSetup_ThenUseDefultSetup()
+        => When(_ => MyService.Echo(A<MyModel>()))
+        .Given<IMyRepository>().That(_ => _.SetModel(The<MyModel>())).Returns(Another<MyModel>)
+        .Given<MyModel>(_ => _.Id = 123)
+        .Then().Result.Id.Is(123);
 }
 
 public class OverrideDefaultSetupAfterWhenReturn : Spec<MyService, MyModel>

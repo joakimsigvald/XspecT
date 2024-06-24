@@ -27,10 +27,10 @@ internal class GivenServiceContinuation<TSUT, TResult, TService> : IGivenService
     public IGivenThatContinuation<TSUT, TResult, TService, TReturns> That<TReturns>(
         Expression<Func<TService, TReturns>> expression)
         => new GivenThatContinuation<TSUT, TResult, TService, TReturns, TReturns>(
-            _spec, _spec.GetMock<TService>().Setup(expression));
+            _spec, new Lazy<Moq.Language.Flow.ISetup<TService, TReturns>>(() => _spec.GetMock<TService>().Setup(expression)));
 
     public IGivenThatContinuation<TSUT, TResult, TService, TReturns> That<TReturns>(
         Expression<Func<TService, Task<TReturns>>> expression)
         => new GivenThatContinuation<TSUT, TResult, TService, TReturns, Task<TReturns>>(
-            _spec, _spec.GetMock<TService>().Setup(expression));
+            _spec, new Lazy<Moq.Language.Flow.ISetup<TService, Task<TReturns>>>(() => _spec.GetMock<TService>().Setup(expression)));
 }
