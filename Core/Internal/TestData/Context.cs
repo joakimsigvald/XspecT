@@ -81,7 +81,7 @@ internal class Context
     internal Mock<TObject> GetMock<TObject>() where TObject : class 
         => _dataProvider.GetMock<TObject>();
 
-    internal void Use<TService>(TService service) => _dataProvider.Use(service);
+    internal void Use<TService>(TService service, ApplyTo applyTo) => _dataProvider.Use(service, applyTo);
 
     [Obsolete]
     private Dictionary<string, object> ProduceMentions(Type type)

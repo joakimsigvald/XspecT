@@ -1,4 +1,6 @@
-﻿namespace XspecT.Internal.Pipelines;
+﻿using XspecT.Internal.TestData;
+
+namespace XspecT.Internal.Pipelines;
 
 internal class GivenContinuation<TSUT, TResult> : IGivenContinuation<TSUT, TResult> 
 {
@@ -7,7 +9,16 @@ internal class GivenContinuation<TSUT, TResult> : IGivenContinuation<TSUT, TResu
     internal GivenContinuation(Spec<TSUT, TResult> spec) => _spec = spec;
 
     public IGivenTestPipeline<TSUT, TResult> Default<TValue>(TValue defaultValue)
-        => _spec.Given(defaultValue);
+        => _spec.Given(defaultValue, ApplyTo.Values);
+ 
+    public IGivenTestPipeline<TSUT, TResult> Default<TValue>(Func<TValue> defaultValue)
+        => _spec.Given(defaultValue, ApplyTo.Values);
+
+    public IGivenTestPipeline<TSUT, TResult> Using<TValue>(TValue defaultValue)
+        => _spec.Given(defaultValue, ApplyTo.Mocker);
+    
+    public IGivenTestPipeline<TSUT, TResult> Using<TValue>(Func<TValue> defaultValue)
+        => _spec.Given(defaultValue, ApplyTo.Mocker);
 
     public IGivenTestPipeline<TSUT, TResult> Default<TValue>(Action<TValue> defaultSetup)
          where TValue : class

@@ -52,10 +52,10 @@ internal class Pipeline<TSUT, TResult>
         _context.SetDefault(setup);
     }
 
-    internal void SetDefault<TValue>(TValue defaultValue)
+    internal void SetDefault<TValue>(TValue defaultValue, ApplyTo applyTo)
     {
         AssertHasNotRun();
-        _context.Use(defaultValue);
+        _context.Use(defaultValue, applyTo);
     }
 
     internal void SetAction(Action act)

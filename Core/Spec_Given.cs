@@ -1,5 +1,6 @@
 ﻿using Moq;
 using XspecT.Internal.Pipelines;
+using XspecT.Internal.TestData;
 
 namespace XspecT;
 
@@ -36,10 +37,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <param name="defaultValue"></param>
     /// <returns></returns>
     public IGivenTestPipeline<TSUT, TResult> Given<TValue>(TValue defaultValue)
-    {
-        _pipeline.SetDefault(defaultValue);
-        return new GivenTestPipeline<TSUT, TResult>(this);
-    }
+        => Given(defaultValue, ApplyTo.All);
 
     /// <summary>
     /// Provide an array of default values, that will be applied in all mocks and auto-generated test-data, where no specific value or setup is given.
@@ -50,7 +48,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <returns></returns>
     public IGivenTestPipeline<TSUT, TResult> Given<TValue>(params TValue[] defaultValues)
     {
-        _pipeline.SetDefault(defaultValues);
+        _pipeline.SetDefault(defaultValues, ApplyTo.Values);
         defaultValues.Select((v, i) => _pipeline.Mention(i, v)).Count();
         return new GivenTestPipeline<TSUT, TResult>(this);
     }
@@ -80,8 +78,17 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <param name="value"></param>
     /// <returns></returns>
     public IGivenTestPipeline<TSUT, TResult> Given<TValue>(Func<TValue> value)
+        => Given(value, ApplyTo.All);
+
+    internal IGivenTestPipeline<TSUT, TResult> Given<TValue>(TValue defaultValue, ApplyTo applyTo)
     {
-        _pipeline.Given(() => _pipeline.SetDefault(value()));
+        _pipeline.SetDefault(defaultValue, applyTo);
+        return new GivenTestPipeline<TSUT, TResult>(this);
+    }
+
+    internal IGivenTestPipeline<TSUT, TResult> Given<TValue>(Func<TValue> value, ApplyTo applyTo)
+    {
+        _pipeline.Given(() => _pipeline.SetDefault(value(), applyTo));
         return new GivenTestPipeline<TSUT, TResult>(this);
     }
 

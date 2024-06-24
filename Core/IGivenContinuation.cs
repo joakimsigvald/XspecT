@@ -18,7 +18,31 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="value"></param>
     /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> Default<TValue>(Func<TValue> value);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="value"></param>
+    /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> Default<TValue>(TValue value);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> Using<TValue>(TValue value);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> Using<TValue>(Func<TValue> value);
 
     /// <summary>
     /// Provide a default setup, that will be applied in all mocks and auto-generated test-data.

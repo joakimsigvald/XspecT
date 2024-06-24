@@ -34,17 +34,21 @@ internal class DataProvider
         return (TValue)ApplyDefaultSetup(type, instance);
     }
 
-    internal void Use<TValue>(TValue value)
+    internal void Use<TValue>(TValue value, ApplyTo applyTo)
     {
-        _defaultValues[typeof(TValue)] = value;
+        if (applyTo.HasFlag(ApplyTo.Values))
+            _defaultValues[typeof(TValue)] = value;
+
         if (value is Moq.Internals.InterfaceProxy)
             return;
 
-        _testDataGenerator.Use(typeof(TValue), value);
+        if (applyTo.HasFlag(ApplyTo.Mocker))
+            _testDataGenerator.Use(typeof(TValue), value);
+
         if (typeof(Task).IsAssignableFrom(typeof(TValue)))
             return;
 
-        Use(Task.FromResult(value));
+        Use(Task.FromResult(value), applyTo);
     }
 
     internal (object val, bool found) Use(Type type)
