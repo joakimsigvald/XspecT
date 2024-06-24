@@ -81,7 +81,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <returns></returns>
     public IGivenTestPipeline<TSUT, TResult> Given<TValue>(Func<TValue> value)
     {
-        _pipeline.Given(() => ADefault(value()));
+        _pipeline.Given(() => _pipeline.SetDefault(value()));
         return new GivenTestPipeline<TSUT, TResult>(this);
     }
 
@@ -92,6 +92,4 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
         _pipeline.Given(setup);
         return new GivenTestPipeline<TSUT, TResult>(this);
     }
-
-    private TValue ADefault<TValue>(TValue value) => _pipeline.Mention(0, value, true);
 }

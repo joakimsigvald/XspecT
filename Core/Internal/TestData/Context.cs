@@ -16,14 +16,17 @@ internal class Context
             : Create<TSUT>();
     }
 
-    internal TValue Mention<TValue>(int index, bool asDefault = false)
-        => Produce<TValue>(index, asDefault);
-
     internal TValue Mention<TValue>(int index, Action<TValue> setup)
-        => ApplyTo(setup, Produce<TValue>(index));
+        => ApplyTo(setup, Mention<TValue>(index));
 
     internal TValue Mention<TValue>(int index, Func<TValue, TValue> setup)
-        => (TValue)Mention(typeof(TValue), setup.Invoke(Produce<TValue>(index)), index);
+        => (TValue)Mention(typeof(TValue), setup.Invoke(Mention<TValue>(index)), index);
+
+    internal TValue Mention<TValue>(int index)
+    {
+        var (val, found) = _dataProvider.Retreive(typeof(TValue), index);
+        return (TValue)(found ? val : Mention(Create<TValue>(), index));
+    }
 
     internal static TValue ApplyTo<TValue>(Action<TValue> setup, TValue value)
     {
@@ -53,10 +56,8 @@ internal class Context
             : (TValue)(mentions[label] = Create<TValue>());
     }
 
-    internal TValue Mention<TValue>(TValue value, int index = 0, bool asDefault = false)
+    internal TValue Mention<TValue>(TValue value, int index = 0)
     {
-        if (asDefault)
-            Use(value);
         Mention(typeof(TValue), value, index);
         return value;
     }
@@ -65,7 +66,7 @@ internal class Context
     {
         var (val, found) = _dataProvider.Retreive(typeof(TValue[]));
         return found && val is TValue[] arr
-            ? Reuse(arr, count, minCount)
+            ? Mention(Reuse(arr, count, minCount))
             : MentionMany<TValue>(count);
     }
 
@@ -88,12 +89,6 @@ internal class Context
 
     private TValue[] MentionMany<TValue>(int count)
         => Mention(Enumerable.Range(0, count).Select(i => Mention<TValue>(i)).ToArray());
-
-    private TValue Produce<TValue>(int index, bool asDefault = false)
-    {
-        var (val, found) = _dataProvider.Retreive(typeof(TValue), index);
-        return (TValue)(found ? val : Mention(Create<TValue>(), index, asDefault));
-    }
 
     private object Mention(Type type, object value, int index = 0)
         => _dataProvider.GetMentions(type)[index] = value;

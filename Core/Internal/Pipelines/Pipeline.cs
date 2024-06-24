@@ -121,10 +121,10 @@ internal class Pipeline<TSUT, TResult>
         return _context.Mention(index, setup);
     }
 
-    internal TValue Mention<TValue>(int index, TValue value, bool asDefault = false)
+    internal TValue Mention<TValue>(int index, TValue value)
     {
         AssertHasNotRun();
-        return _context.Mention(value, index, asDefault);
+        return _context.Mention(value, index);
     }
 
     internal TValue[] MentionMany<TValue>([NotNull] Action<TValue, int> setup, int count)
