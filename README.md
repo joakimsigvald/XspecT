@@ -8,7 +8,8 @@ Whether you are beginner or expert in unit-testing, this framework will help you
 ## Usage
 
 It is assumed that you are already familiar with Xunit and Moq, or similar test- and mocking frameworks.
-This package includes a fluent assertion framework, which is built upon FluentAssertions, but with a less worthy syntax, based on the verb `Is` instead of `Should`.
+There is an accompanying independent assertion framework called `XspecT.Assert`, which is built upon FluentAssertions, 
+but with a less worthy syntax, based on the verbs `Is`, `Has` and `Does` instead of `Should`.
 
 Is-assertions are recommended over Should-assertions for making the tests read more like specifications, listing requirements rather than asserting expected results.
 
@@ -26,6 +27,8 @@ public class CalculatorSpec : Spec<int>
     [Fact] public void WhenAdd_1_and_2_ThenSumIs_3() => When(_ => Add(1, 2)).Then().Result.Is(3);
 }
 ```
+
+When() is setting up the method to be called and Then() runs the test pipeline and provides the result.
 
 ### Test a static method with [Theory]
 
@@ -67,7 +70,7 @@ The test-project should mimmic the production project's folder structure, but in
 Within that folder, create one test-class per method to test.
 
 ### Test a static void method
-* When testing a static void method, there is no return value to verify in result and by convention the generic TResult parameter is set to object.
+* When testing a static void method, there is no return value to verify in result and by convention the generic TResult parameter should be set to object.
 * However you can use `Throws` or `NotThrows` to verify exceptions thrown.
  
 Example:
@@ -92,14 +95,12 @@ public abstract class WhenVerifyAreEqual : Spec<object>
 ```
 
 ### Test a class with dependencies
-* To test an instance method `[MyClass].[MyMethod]`, inherit `XspecT.Spec<[MyClass], TResult>`.
-* It is recommended practice to create a common baseclass for all tests of `[MyClass]`, named `[MyClass]Spec`.
-* The subject under test (sut) will be created automatically with mocks and default values by AutoMock. 
-You can supply or modify you own constructor arguments by calling `Given`.
-* For each method to test, create an abstract class named `When[MyMethod]` inheriting `[MyClass]Spec` in the same way as for static methods.
+* To test an instance method `[MyClass].[MyMethod]`, create an abstract class named `When[MyMethod]` inheriting `XspecT.Spec<[MyClass], [TheResult]>`.
+* The subject under test will be created automatically with mocks and default values by AutoMock.
+* Subject-under-test is available as the single input parameter to the lambda that is provided to the method `When`
+You can supply or modify you own constructor arguments by calling `Given` or `Given().Using`.
 
-* To mock behaviour of any dependency, provide the mocking by calling `Given<[TheService]>().That(_ => _.[TheMethod](...)).Returns/Throws()`. 
-Each call to `Given` will provide additional arrangement that will be applied on test execution in the inversed order.
+* To mock behaviour of any dependency call `Given<[TheService]>().That(_ => _.[TheMethod](...)).Returns/Throws(...)`. 
 * To verify a call to a dependency, write `Then<[TheService]>([SomeLambdaExpression])`. 
 * Both mocking and verification of behaviour is based on Moq framework.
  
@@ -121,8 +122,6 @@ public abstract class WhenPlaceOrder : Spec<MyProject.ShoppingService, object>
 }
 ```
 
-### Test async methods
-
 All the examples above also works for async methods.
 
-More examples can be found as Unit tests in the source code.
+More examples and features can be found as Unit tests in the source code.
