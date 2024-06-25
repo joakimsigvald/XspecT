@@ -5,7 +5,7 @@ internal class GivenThatContinuation<TSUT, TResult, TService, TReturns, TActualR
     IGivenThatContinuation<TSUT, TResult, TService, TReturns>
     where TService : class
 {
-    private Lazy<Moq.Language.Flow.ISetup<TService, TActualReturns>> _setup;
+    private readonly Lazy<Moq.Language.Flow.ISetup<TService, TActualReturns>> _setup;
 
     internal GivenThatContinuation(
         Spec<TSUT, TResult> spec, Lazy<Moq.Language.Flow.ISetup<TService, TActualReturns>> setup)

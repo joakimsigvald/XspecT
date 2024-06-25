@@ -20,8 +20,8 @@ public class WhenGivenUsingAndDefaultValue : Spec<MyWrapper<string>, (string, st
 
 public class WhenGivenUsingAndDefaultModel : Spec<MyWrapper<MyModel>, (MyModel, MyModel)>
 {
-    private MyModel _first = new() { Id = 1};
-    private MyModel _second = new() { Id = 2 };
+    private readonly MyModel _first = new() { Id = 1};
+    private readonly MyModel _second = new() { Id = 2 };
 
     [Fact]
     public void ThenApplyBothAsValues()
