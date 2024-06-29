@@ -1,6 +1,7 @@
 ﻿using Moq;
 using System.Linq.Expressions;
 using XspecT.Internal.TestData;
+using Xunit.Sdk;
 
 namespace XspecT.Internal.Verification;
 
@@ -27,38 +28,37 @@ internal class TestResult<TResult> : ITestResult<TResult>
 
     public IAndThen<TResult> Throws<TError>()
     {
-        Assert.IsType<TError>(_error);
+        AssertError<TError>();
         return And();
     }
 
     public IAndThen<TResult> Throws<TError>(Func<TError> error) where TError : Exception
     {
-        Assert.Equal(error(), Assert.IsType<TError>(_error));
+        AssertError(error());
         return And();
     }
 
     public IAndThen<TResult> Throws<TError>(Action<TError> assert)
     {
-        var ex = Assert.IsType<TError>(_error);
-        assert(ex);
+        AssertError(assert);
         return And();
     }
 
     public IAndThen<TResult> Throws()
     {
-        Assert.NotNull(_error);
+        AssertError<Exception>();
         return And();
     }
 
     public IAndThen<TResult> DoesNotThrow<TError>()
     {
-        Assert.IsNotType<TError>(_error);
+        AssertNoError<TError>();
         return And();
     }
 
     public IAndThen<TResult> DoesNotThrow()
     {
-        Assert.Null(_error);
+        AssertNoError<Exception>();
         return And();
     }
 
@@ -81,6 +81,39 @@ internal class TestResult<TResult> : ITestResult<TResult>
     internal IAndVerify<TResult> Verify<TObject, TReturns>(Expression<Func<TObject, TReturns>> expression, Func<Times> times)
         where TObject : class
         => CombineWithErrorOnFail(() => Mocked<TObject>().Verify(expression, times));
+
+    private void AssertError<TError>(TError expected)
+        where TError : Exception
+    {
+        var actual = AssertError<TError>();
+        if (expected != actual)
+            throw new XunitException(
+                $"Expected the exception {expected}, but {actual} was thrown");
+    }
+
+    private void AssertError<TError>(Action<TError> assert)
+    {
+        try
+        {
+            assert(AssertError<TError>());
+        }
+        catch (Exception ex)
+        {
+            throw new XunitException($"Thrown exception {typeof(TError)} didn't meet expectations", ex);
+        }
+    }
+
+    private TError AssertError<TError>()
+        => _error is TError err
+        ? err
+        : throw new XunitException(
+            $"Expected {typeof(TError)}, but {_error?.GetType().Name ?? "No exception"} was thrown");
+
+    private void AssertNoError<TError>()
+    {
+        if (_error is TError)
+            throw new XunitException($"Expected not to throw {typeof(TError)}, but threw {_error.GetType().Name}");
+    }
 
     private Exception UnexpectedError
         => _error ?? new SetupFailed(

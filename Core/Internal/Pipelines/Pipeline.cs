@@ -12,11 +12,11 @@ internal class Pipeline<TSUT, TResult>
 {
     protected readonly Context _context = new();
     private readonly SpecActor<TResult> _actor = new();
-    private TestResult<TResult> _then;
+    private TestResult<TResult> _result;
     private readonly Arranger _arranger = new();
     private TSUT _sut;
 
-    public bool HasRun => _then != null;
+    public bool HasRun => _result != null;
 
     public ITestResult<TResult> Then() => TestResult;
 
@@ -130,7 +130,7 @@ internal class Pipeline<TSUT, TResult>
     internal TValue[] MentionMany<TValue>([NotNull] Action<TValue, int> setup, int count)
         => _context.MentionMany(setup, count);
 
-    private TestResult<TResult> TestResult => _then ??= Run();
+    private TestResult<TResult> TestResult => _result ??= Run();
 
     private TestResult<TResult> Run()
     {
