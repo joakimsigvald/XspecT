@@ -4,8 +4,6 @@ namespace XspecT.Internal.TestData;
 
 internal class Context
 {
-    [Obsolete]
-    private readonly Dictionary<Type, Dictionary<string, object>> _labeledMentions = new();
     private readonly DataProvider _dataProvider = new();
 
     internal TSUT CreateSUT<TSUT>()
@@ -47,15 +45,6 @@ internal class Context
     internal void SetDefault<TValue>(Func<TValue, TValue> setup)
         => _dataProvider.AddDefaultSetup(typeof(TValue), _ => setup((TValue)_));
 
-    [Obsolete]
-    internal TValue Mention<TValue>(string label)
-    {
-        var mentions = ProduceMentions(typeof(TValue));
-        return mentions.TryGetValue(label, out var val)
-            ? (TValue)val
-            : (TValue)(mentions[label] = Create<TValue>());
-    }
-
     internal TValue Mention<TValue>(TValue value, int index = 0)
     {
         Mention(typeof(TValue), value, index);
@@ -82,10 +71,6 @@ internal class Context
         => _dataProvider.GetMock<TObject>();
 
     internal void Use<TService>(TService service, ApplyTo applyTo) => _dataProvider.Use(service, applyTo);
-
-    [Obsolete]
-    private Dictionary<string, object> ProduceMentions(Type type)
-        => _labeledMentions.TryGetValue(type, out var mentions) ? mentions : _labeledMentions[type] = new();
 
     private TValue[] MentionMany<TValue>(int count)
         => Mention(Enumerable.Range(0, count).Select(i => Mention<TValue>(i)).ToArray());

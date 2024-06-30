@@ -103,9 +103,6 @@ internal class Pipeline<TSUT, TResult>
     internal TValue[] MentionMany<TValue>(int count, int? minCount = null)
         => _context.MentionMany<TValue>(count, minCount);
 
-    [Obsolete]
-    internal TValue Mention<TValue>(string label) => _context.Mention<TValue>(label);
-
     internal TValue[] MentionMany<TValue>([NotNull] Action<TValue> setup, int count)
         => _context.MentionMany(setup, count);
 

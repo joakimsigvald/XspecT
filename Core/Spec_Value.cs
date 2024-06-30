@@ -238,13 +238,4 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <param name="setup"></param>
     /// <returns></returns>
     protected internal TValue Another<TValue>([NotNull] Action<TValue> setup) => _pipeline.Create(setup);
-
-    /// <summary>
-    /// Yields a value of the given type by label, that can be retrived again given the same label
-    /// </summary>
-    /// <typeparam name="TValue"></typeparam>
-    /// <param name="label"></param>
-    /// <returns></returns>
-    [Obsolete("Use numbered mentions instead and avoid primitive obsession for more descriptive specifications")]
-    protected internal TValue The<TValue>(string label) => _pipeline.Mention<TValue>(label);
 }

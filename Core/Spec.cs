@@ -4,25 +4,6 @@ using XspecT.Internal.Pipelines;
 namespace XspecT;
 
 /// <summary>
-/// SubjectSpec and StaticSpec has been merged to Spec, so replace SubjectSpec with Spec in your tests
-/// </summary>
-/// <typeparam name="TSUT"></typeparam>
-/// <typeparam name="TResult"></typeparam>
-[Obsolete("Replaced by Spec")]
-public abstract class SubjectSpec<TSUT, TResult> : Spec<TSUT, TResult>
-{
-}
-
-/// <summary>
-/// SubjectSpec and StaticSpec has been merged to Spec, so replace StaticSpec with Spec in your tests
-/// </summary>
-/// <typeparam name="TResult"></typeparam>
-[Obsolete("Replaced by Spec")]
-public abstract class StaticSpec<TResult> : Spec<object, TResult>
-{
-}
-
-/// <summary>
 /// Base-class for specifying and executing a set of test cases for a specific method-under-test
 /// </summary>
 /// <typeparam name="TSUTandResult">The return type of the method-under-test is also passed as argument to the test method</typeparam>
