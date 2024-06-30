@@ -8,6 +8,8 @@ public class PurchaseHandler(
     public async Task<PurchaseResponseModel> Purchase(int basketId)
     {
         var checkout = await checkoutProvider.GetExistingCheckout(basketId);
+        if (!checkout.IsOpen)
+            throw new InvalidOperationException("Checkout must be open");
         checkout.IsOpen = false;
         await basketRepository.UpdateStatus(basketId);
         var ev = new BasketPurchasedV1();
