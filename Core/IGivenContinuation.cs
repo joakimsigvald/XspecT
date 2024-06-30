@@ -21,7 +21,7 @@ public interface IGivenContinuation<TSUT, TResult>
     IGivenTestPipeline<TSUT, TResult> Default<TValue>(Func<TValue> value);
 
     /// <summary>
-    /// 
+    /// Provide a default value, that will be used as test data where no specific value is given
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="value"></param>
@@ -29,7 +29,7 @@ public interface IGivenContinuation<TSUT, TResult>
     IGivenTestPipeline<TSUT, TResult> Default<TValue>(TValue value);
 
     /// <summary>
-    /// 
+    /// Provide a value or object instance that will be used when creating subject under test
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="value"></param>
@@ -37,7 +37,7 @@ public interface IGivenContinuation<TSUT, TResult>
     IGivenTestPipeline<TSUT, TResult> Using<TValue>(TValue value);
 
     /// <summary>
-    /// 
+    /// Provide a value or object instance that will be used when creating subject under test
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="value"></param>

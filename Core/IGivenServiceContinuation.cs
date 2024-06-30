@@ -17,15 +17,6 @@ public interface IGivenServiceContinuation<TSUT, TResult, TService>
     IGivenThatReturnsContinuation<TSUT, TResult, TService> Returns<TReturns>(Func<TReturns> value);
 
     /// <summary>
-    /// Obsolete, use Returns instead
-    /// </summary>
-    /// <typeparam name="TReturns"></typeparam>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    [Obsolete("Cal Returns instead")]
-    IGivenTestPipeline<TSUT, TResult> ReturnsDefault<TReturns>(Func<TReturns> value);
-
-    /// <summary>
     /// Mock the method invocation
     /// </summary>
     /// <typeparam name="TReturns"></typeparam>
