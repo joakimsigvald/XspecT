@@ -2,18 +2,15 @@
 
 namespace XspecT.Test.Tests.BasketItemFactory;
 
-public class WhenCreateBasketItems : BasketItemFactorySpec<BasketItem[]>
+public class WhenCreateBasketItems : Spec<Subjects.Shopping.BasketItemFactory, BasketItem[]>
 {
-    private const int _customerId = 1;
-    private const int _companyId = 2;
-    protected NewBasketItem[] NewBasketItems;
-
-    protected WhenCreateBasketItems() => When(_ => _.CreateBasketItems(_customerId, _companyId, NewBasketItems));
+    protected WhenCreateBasketItems() 
+        => When(_ => _.CreateBasketItems(An<int>(), ASecond<int>(), A<NewBasketItem[]>()));
 
     public class GivenItemWithUnknownProduct : WhenCreateBasketItems
     {
         public GivenItemWithUnknownProduct()
-            => Given(() => NewBasketItems = new[] { new NewBasketItem { PartNo = "P123" } });
+            => Given(One<NewBasketItem>());
 
         [Fact] public void ThenThrowBasketItemNotBuyable() => Then().Throws<BasketItemNotBuyable>();
     }
