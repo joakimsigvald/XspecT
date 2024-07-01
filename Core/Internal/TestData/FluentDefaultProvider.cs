@@ -23,7 +23,21 @@ internal class FluentDefaultProvider : DefaultValueProvider
     private static bool IsTask(Type type) => typeof(Task).IsAssignableFrom(type);
 
     private Task GetTask(Type type, Mock mock)
-        => type == typeof(Task) ? Task.CompletedTask : Task.FromResult(GetTaskValue(type, mock));
+        => type == typeof(Task)
+        ? Task.CompletedTask
+        : GetTaskOf(type.GenericTypeArguments.Single(), mock);
 
-    private dynamic GetTaskValue(Type type, Mock mock) => GetDefaultValue(type.GenericTypeArguments.Single(), mock);
+    private Task GetTaskOf(Type valueType, Mock mock)
+    {
+        dynamic value = GetDefaultValue(valueType, mock);
+        if (value is IMocked) 
+        {
+            var mockName = mock.Object.GetType().Name[..^5];
+            throw new SetupFailed(
+                @$"{mockName} returns a Task<{valueType.Name}>. 
+Interface types returned as task must be provided explicitly in the test setup.
+You can provide a default interface instance with 'Given<{mockName}>().Returns(A<{valueType.Name}>)'.");
+        }
+        return Task.FromResult(value);
+    }
 }

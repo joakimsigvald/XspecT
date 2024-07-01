@@ -1,3 +1,2 @@
-* Comment all public methods
-* TestCover self-returning mock
-* Restrict self-returning mock to not return self if return-value is object or task
+* Auto-create object with IEnumerable<TItem>
+* When mock returns Task of interface, throws cast exception Castle-mock to interface
