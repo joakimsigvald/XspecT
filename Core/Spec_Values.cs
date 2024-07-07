@@ -123,12 +123,19 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     protected TValue[] Five<TValue>([NotNull] Action<TValue, int> setup) => _pipeline.MentionMany(setup, 5);
 
     /// <summary>
+    /// Yields an array with zero elements of the given type
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <returns></returns>
+    protected TValue[] Zero<TValue>() => _pipeline.MentionMany<TValue>(0);
+
+    /// <summary>
     /// Yields an array with at least one elements of the given type. 
     /// If such an array exists it will be returned, otherwise and array with two elements will be returned.
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected TValue[] Some<TValue>() => _pipeline.MentionMany<TValue>(2, 1);
+    protected TValue[] Some<TValue>() => _pipeline.MentionMany<TValue>(2, 0);
 
     /// <summary>
     /// Yields an array with at least two elements of the given type. 
@@ -136,5 +143,5 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected TValue[] Many<TValue>() => _pipeline.MentionMany<TValue>(4, 2);
+    protected TValue[] Many<TValue>() => _pipeline.MentionMany<TValue>(3, 2);
 }

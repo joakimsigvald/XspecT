@@ -73,7 +73,8 @@ internal class Context
     internal void Use<TService>(TService service, ApplyTo applyTo) => _dataProvider.Use(service, applyTo);
 
     private TValue[] MentionMany<TValue>(int count)
-        => Mention(Enumerable.Range(0, count).Select(i => Mention<TValue>(i)).ToArray());
+        => count == 0 ? Mention(Array.Empty<TValue>()) 
+        : Mention(Enumerable.Range(0, count).Select(i => Mention<TValue>(i)).ToArray());
 
     private object Mention(Type type, object value, int index = 0)
         => _dataProvider.GetMentions(type)[index] = value;

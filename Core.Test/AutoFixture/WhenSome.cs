@@ -26,13 +26,13 @@ public class WhenSome : Spec<MyRetreiver, MyModel[]>
     public class GivenEmptyIsMentionedAfter : WhenSome
     {
         public GivenEmptyIsMentionedAfter() => Given(Array.Empty<MyModel>);
-        [Fact] public void ThenCountIsTwo() => Result.Has().Count(2);
+        [Fact] public void ThenCountIsZero() => Result.Has().Count(0);
     }
 
     public class GivenManyIsMentionedAfter : WhenSome
     {
         public GivenManyIsMentionedAfter() => Given(Many<MyModel>);
-        [Fact] public void ThenCountIsFour() => Result.Has().Count(4);
+        [Fact] public void ThenCountIsFour() => Result.Has().Count(3);
     }
 
     public class GivenOneIsMentionedBefore : WhenSome

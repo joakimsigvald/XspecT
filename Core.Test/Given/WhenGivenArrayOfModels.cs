@@ -2,7 +2,7 @@
 
 namespace XspecT.Test.Given;
 
-public class WhenGivenArray : Spec<MyService, MyModel[]>
+public class WhenGivenArrayOfModels : Spec<MyService, MyModel[]>
 {
     [Fact]
     public void GivenMentionOfAnyArray_FollowedBy_MentionOfArrayOfSpecificLength_ThenGetArrayOfSpecificLength()

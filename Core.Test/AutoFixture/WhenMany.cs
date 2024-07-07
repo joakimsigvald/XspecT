@@ -10,7 +10,7 @@ public class WhenMany : Spec<MyRetreiver, MyModel[]>
     {
         public GivenReferingManyTwice() => Given(Many<MyModel>());
         [Fact] public void ThenCanRetreiveThatArray() => Result.Is(Many<MyModel>());
-        [Fact] public void ThenArrayHasFourElements() => Result.Has().Count(4);
+        [Fact] public void ThenArrayHasThreeElements() => Result.Has().Count(3);
         [Fact]
         public void ThenDifferentReferencesToMany_AreTheSameArray()
             => Then(Many<MyModel>()).Is(Many<MyModel>());
@@ -56,9 +56,9 @@ public class WhenMany : Spec<MyRetreiver, MyModel[]>
     public class GivenMentionManyAfterOne : WhenMany
     {
         [Fact]
-        public void ThenReturnFourAsMany()
+        public void ThenReturnThreeAsMany()
             => Given<IMyRepository>().That(_ => _.List()).Returns(Many<MyModel>)
-            .And(One<MyModel>).Then().Result.Has().Count(4);
+            .And(One<MyModel>).Then().Result.Has().Count(3);
     }
 }
 
