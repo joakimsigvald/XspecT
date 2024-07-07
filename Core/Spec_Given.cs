@@ -49,7 +49,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     public IGivenTestPipeline<TSUT, TResult> Given<TValue>(params TValue[] defaultValues)
     {
         _pipeline.SetDefault(defaultValues, ApplyTo.All);
-        defaultValues.Select((v, i) => _pipeline.Mention(i, v)).Count();
+        defaultValues.Take(5).Select((v, i) => _pipeline.Mention(i, v)).Count();
         return new GivenTestPipeline<TSUT, TResult>(this);
     }
 
