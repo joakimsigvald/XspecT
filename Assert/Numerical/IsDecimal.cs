@@ -15,6 +15,7 @@ public class IsDecimal : IsNumerical<IsDecimal, decimal>
     /// <param name="expected"></param>
     /// <param name="precision"></param>
     /// <returns></returns>
+    [CustomAssertion]
     public ContinueWith<IsDecimal> Around(decimal expected, decimal precision)
     {
         _actual.Should().BeApproximately(expected, precision);

@@ -12,6 +12,7 @@ public class DoesString : Constraint<DoesString, string>
     /// <summary>
     /// Asserts that the string contains the expected string
     /// </summary>
+    [CustomAssertion]
     public ContinueWith<DoesString> Contain(string expected)
     {
         _actual.Should().Contain(expected);
@@ -21,6 +22,7 @@ public class DoesString : Constraint<DoesString, string>
     /// <summary>
     /// Asserts that the string does not contain the expected string
     /// </summary>
+    [CustomAssertion]
     public ContinueWith<DoesString> NotContain(string other)
     {
         _actual.Should().NotContain(other);
@@ -32,6 +34,7 @@ public class DoesString : Constraint<DoesString, string>
     /// </summary>
     /// <param name="prefix"></param>
     /// <returns></returns>
+    [CustomAssertion]
     public ContinueWith<DoesString> StartWith(string prefix)
     {
         _actual.Should().StartWith(prefix);
@@ -43,6 +46,7 @@ public class DoesString : Constraint<DoesString, string>
     /// </summary>
     /// <param name="suffix"></param>
     /// <returns></returns>
+    [CustomAssertion]
     public ContinueWith<DoesString> EndWith(string suffix)
     {
         _actual.Should().EndWith(suffix);

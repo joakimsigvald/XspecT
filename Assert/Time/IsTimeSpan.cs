@@ -14,6 +14,7 @@ public class IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
     /// </summary>
     /// <param name="unexpected"></param>
     /// <returns></returns>
+    [CustomAssertion]
     public ContinueWith<IsTimeSpan> Not(TimeSpan unexpected)
     {
         _actual.Should().NotBe(unexpected);
@@ -25,6 +26,7 @@ public class IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
     /// </summary>
     /// <param name="expected"></param>
     /// <returns></returns>
+    [CustomAssertion]
     public ContinueWith<IsTimeSpan> LessThan(TimeSpan expected)
     {
         _actual.Should().BeLessThan(expected);
@@ -36,6 +38,7 @@ public class IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
     /// </summary>
     /// <param name="expected"></param>
     /// <returns></returns>
+    [CustomAssertion]
     public ContinueWith<IsTimeSpan> GreaterThan(TimeSpan expected)
     {
         _actual.Should().BeGreaterThan(expected);
@@ -47,6 +50,7 @@ public class IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
     /// </summary>
     /// <param name="expected"></param>
     /// <returns></returns>
+    [CustomAssertion]
     public ContinueWith<IsTimeSpan> NotLessThan(TimeSpan expected)
     {
         _actual.Should().BeGreaterThanOrEqualTo(expected);
@@ -58,6 +62,7 @@ public class IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
     /// </summary>
     /// <param name="expected"></param>
     /// <returns></returns>
+    [CustomAssertion]
     public ContinueWith<IsTimeSpan> NotGreaterThan(TimeSpan expected)
     {
         _actual.Should().BeLessThanOrEqualTo(expected);
@@ -70,6 +75,7 @@ public class IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
     /// <param name="expected"></param>
     /// <param name="precision"></param>
     /// <returns></returns>
+    [CustomAssertion]
     public ContinueWith<IsTimeSpan> CloseTo(TimeSpan expected, TimeSpan precision)
     {
         _actual.Should().BeCloseTo(expected, precision);
@@ -82,6 +88,7 @@ public class IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
     /// <param name="expected"></param>
     /// <param name="precision"></param>
     /// <returns></returns>
+    [CustomAssertion]
     public ContinueWith<IsTimeSpan> NotCloseTo(TimeSpan expected, TimeSpan precision)
     {
         _actual.Should().NotBeCloseTo(expected, precision);
@@ -92,6 +99,7 @@ public class IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
     /// Asserts that the timeSpan is less than zero
     /// </summary>
     /// <returns></returns>
+    [CustomAssertion]
     public ContinueWith<IsTimeSpan> Negative()
     {
         _actual.Should().BeNegative();
@@ -102,6 +110,7 @@ public class IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
     /// Asserts that the timeSpan is greater than zero
     /// </summary>
     /// <returns></returns>
+    [CustomAssertion]
     public ContinueWith<IsTimeSpan> Positive()
     {
         _actual.Should().BePositive();
@@ -112,6 +121,7 @@ public class IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
     /// Asserts that the timeSpan is zero or greater than zero
     /// </summary>
     /// <returns></returns>
+    [CustomAssertion]
     public ContinueWith<IsTimeSpan> NotNegative()
     {
         _actual.Should().BeGreaterThanOrEqualTo(TimeSpan.Zero);
@@ -122,6 +132,7 @@ public class IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
     /// Asserts that the timeSpan is zero or less than zero
     /// </summary>
     /// <returns></returns>
+    [CustomAssertion]
     public ContinueWith<IsTimeSpan> NotPositive()
     {
         _actual.Should().BeLessThanOrEqualTo(TimeSpan.Zero);

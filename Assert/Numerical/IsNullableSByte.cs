@@ -8,5 +8,5 @@ namespace XspecT.Assert.Numerical;
 public class IsNullableSByte : IsNullableNumerical<sbyte, IsNullableSByte>
 {
     internal IsNullableSByte(sbyte? actual) : base(actual) { }
-    internal override FluentAssertions.Numeric.NullableNumericAssertions<sbyte> Should() => _actual.Should();
+    [CustomAssertion] internal override FluentAssertions.Numeric.NullableNumericAssertions<sbyte> Should() => _actual.Should();
 }

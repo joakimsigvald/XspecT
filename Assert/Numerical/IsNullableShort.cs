@@ -8,5 +8,5 @@ namespace XspecT.Assert.Numerical;
 public class IsNullableShort : IsNullableNumerical<short, IsNullableShort>
 {
     internal IsNullableShort(short? actual) : base(actual) { }
-    internal override FluentAssertions.Numeric.NullableNumericAssertions<short> Should() => _actual.Should();
+    [CustomAssertion] internal override FluentAssertions.Numeric.NullableNumericAssertions<short> Should() => _actual.Should();
 }

@@ -1,4 +1,6 @@
-﻿namespace XspecT.Assert;
+﻿using FluentAssertions;
+
+namespace XspecT.Assert;
 
 /// <summary>
 /// Object that allows another assertions to be made on the provided string
@@ -12,12 +14,14 @@ public class IsStringContinuation : IsString
     /// <summary>
     /// Asserts that the string contains the given string
     /// </summary>
+    [CustomAssertion]
     public ContinueWith<DoesString> Contain(string expected)
         => new DoesString(_actual).Contain(expected);
 
     /// <summary>
     /// Asserts that the string does not contains the given string
     /// </summary>
+    [CustomAssertion]
     public ContinueWith<DoesString> NotContain(string other)
         => new DoesString(_actual).NotContain(other);
 }

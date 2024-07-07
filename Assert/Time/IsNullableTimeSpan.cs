@@ -14,6 +14,7 @@ public class IsNullableTimeSpan : Constraint<IsNullableTimeSpan, TimeSpan?>
     /// </summary>
     /// <param name="unexpected"></param>
     /// <returns></returns>
+    [CustomAssertion]
     public ContinueWith<IsNullableTimeSpan> Not(TimeSpan unexpected)
     {
         _actual.Should().NotBe(unexpected);
@@ -24,6 +25,7 @@ public class IsNullableTimeSpan : Constraint<IsNullableTimeSpan, TimeSpan?>
     /// Asserts that the timeSpan is not null
     /// </summary>
     /// <returns></returns>
+    [CustomAssertion]
     public ContinueWith<IsTimeSpan> NotNull()
     {
         _actual.Should().NotBeNull();
@@ -33,5 +35,5 @@ public class IsNullableTimeSpan : Constraint<IsNullableTimeSpan, TimeSpan?>
     /// <summary>
     /// Asserts that the timeSpan is null
     /// </summary>
-    public void Null() => _actual.Should().BeNull();
+    [CustomAssertion] public void Null() => _actual.Should().BeNull();
 }

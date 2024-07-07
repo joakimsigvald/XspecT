@@ -13,6 +13,7 @@ public class HasEnumerable<TItem> : Constraint<HasEnumerable<TItem>, IEnumerable
     /// <summary>
     /// actual.Should().ContainSingle()
     /// </summary>
+    [CustomAssertion]
     public ContinueWith<HasEnumerable<TItem>> Single()
     {
         _actual.Should().ContainSingle();
@@ -22,6 +23,7 @@ public class HasEnumerable<TItem> : Constraint<HasEnumerable<TItem>, IEnumerable
     /// <summary>
     /// actual.Should().ContainSingle()
     /// </summary>
+    [CustomAssertion]
     public ContinueWith<HasEnumerable<TItem>> Single(Expression<Func<TItem, bool>> predicate)
     {
         _actual.Should().ContainSingle(predicate);
@@ -31,6 +33,7 @@ public class HasEnumerable<TItem> : Constraint<HasEnumerable<TItem>, IEnumerable
     /// <summary>
     /// actual.Should().HaveCount(expected)
     /// </summary>
+    [CustomAssertion]
     public ContinueWith<HasEnumerable<TItem>> Count(int expected)
     {
         _actual.Should().HaveCount(expected);
@@ -40,6 +43,7 @@ public class HasEnumerable<TItem> : Constraint<HasEnumerable<TItem>, IEnumerable
     /// <summary>
     /// collection.Select((it, i) => (it, i)).Should().OnlyContain(t => predicate(t.it, t.i))
     /// </summary>
+    [CustomAssertion]
     public ContinueWith<HasEnumerable<TItem>> All(
         Func<TItem, int, bool> predicate, string because = "", params object[] becauseArgs)
     {
@@ -50,6 +54,7 @@ public class HasEnumerable<TItem> : Constraint<HasEnumerable<TItem>, IEnumerable
     /// <summary>
     /// collection.Select((it, i) => (it, i)).Should().OnlyContain(t => predicate(t.it, t.i))
     /// </summary>
+    [CustomAssertion]
     public ContinueWith<HasEnumerable<TItem>> All(
         Func<TItem, bool> predicate, string because = "", params object[] becauseArgs)
     {
@@ -62,6 +67,7 @@ public class HasEnumerable<TItem> : Constraint<HasEnumerable<TItem>, IEnumerable
     /// </summary>
     /// <param name="assert"></param>
     /// <returns></returns>
+    [CustomAssertion]
     public ContinueWith<HasEnumerable<TItem>> All(Action<TItem, int> assert)
     {
         _actual.Select((it, i) => (it, i)).ToList().ForEach(t => assert(t.it, t.i));
@@ -73,6 +79,7 @@ public class HasEnumerable<TItem> : Constraint<HasEnumerable<TItem>, IEnumerable
     /// </summary>
     /// <param name="assert"></param>
     /// <returns></returns>
+    [CustomAssertion]
     public ContinueWith<HasEnumerable<TItem>> All(Action<TItem> assert)
     {
         _actual.ToList().ForEach(assert);

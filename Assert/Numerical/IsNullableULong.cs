@@ -8,5 +8,5 @@ namespace XspecT.Assert.Numerical;
 public class IsNullableULong : IsNullableNumerical<ulong, IsNullableULong>
 {
     internal IsNullableULong(ulong? actual) : base(actual) { }
-    internal override FluentAssertions.Numeric.NullableNumericAssertions<ulong> Should() => _actual.Should();
+    [CustomAssertion] internal override FluentAssertions.Numeric.NullableNumericAssertions<ulong> Should() => _actual.Should();
 }

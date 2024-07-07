@@ -13,6 +13,7 @@ public class IsString : Constraint<IsStringContinuation, string>
     /// Asserts that the string is equivalent to expected, ignoring casing and leading or trailing whitespace
     /// actual.Should().BeEquivalentTo(expected)
     /// </summary>
+    [CustomAssertion]
     public ContinueWith<IsStringContinuation> Like(string expected)
     {
         _actual.Should().BeEquivalentTo(expected);
@@ -23,6 +24,7 @@ public class IsString : Constraint<IsStringContinuation, string>
     /// Asserts that the string is not equivalent to expected, ignoring casing and leading or trailing whitespace
     /// actual.Should().NotBeEquivalentTo(expected)
     /// </summary>
+    [CustomAssertion]
     public ContinueWith<IsStringContinuation> NotLike(string expected)
     {
         _actual.Should().NotBeEquivalentTo(expected);
@@ -33,6 +35,7 @@ public class IsString : Constraint<IsStringContinuation, string>
     /// Asserts that the string is equivalent to expected, ignoring casing and leading or trailing whitespace
     /// actual.Should().BeEquivalentTo(expected)
     /// </summary>
+    [CustomAssertion]
     public ContinueWith<IsStringContinuation> EquivalentTo(string expected)
     {
         _actual.Should().BeEquivalentTo(expected);
@@ -43,6 +46,7 @@ public class IsString : Constraint<IsStringContinuation, string>
     /// Asserts that the string is not equivalent to expected, ignoring casing and leading or trailing whitespace
     /// actual.Should().NotBeEquivalentTo(expected)
     /// </summary>
+    [CustomAssertion]
     public ContinueWith<IsStringContinuation> NotEquivalentTo(string expected)
     {
         _actual.Should().NotBeEquivalentTo(expected);
@@ -52,6 +56,7 @@ public class IsString : Constraint<IsStringContinuation, string>
     /// <summary>
     /// Asserts that the string is null
     /// </summary>
+    [CustomAssertion]
     public ContinueWith<IsStringContinuation> Null()
     {
         _actual.Should().BeNull();
@@ -61,6 +66,7 @@ public class IsString : Constraint<IsStringContinuation, string>
     /// <summary>
     /// Asserts that the string is empty
     /// </summary>
+    [CustomAssertion]
     public ContinueWith<IsStringContinuation> Empty()
     {
         _actual.Should().BeEmpty();
@@ -70,6 +76,7 @@ public class IsString : Constraint<IsStringContinuation, string>
     /// <summary>
     /// Asserts that the string is not empty
     /// </summary>
+    [CustomAssertion]
     public ContinueWith<IsStringContinuation> NotEmpty()
     {
         _actual.Should().NotBeEmpty();
@@ -79,6 +86,7 @@ public class IsString : Constraint<IsStringContinuation, string>
     /// <summary>
     /// Asserts that the string is not null
     /// </summary>
+    [CustomAssertion]
     public ContinueWith<IsStringContinuation> NotNull()
     {
         _actual.Should().NotBeNull();
@@ -88,6 +96,7 @@ public class IsString : Constraint<IsStringContinuation, string>
     /// <summary>
     /// Asserts that the string is null or empty
     /// </summary>
+    [CustomAssertion]
     public ContinueWith<IsStringContinuation> NullOrEmpty()
     {
         _actual.Should().BeNullOrEmpty();
@@ -97,6 +106,7 @@ public class IsString : Constraint<IsStringContinuation, string>
     /// <summary>
     /// Asserts that the string is not null or empty
     /// </summary>
+    [CustomAssertion]
     public ContinueWith<IsStringContinuation> NotNullOrEmpty()
     {
         _actual.Should().NotBeNullOrEmpty();
@@ -106,6 +116,7 @@ public class IsString : Constraint<IsStringContinuation, string>
     /// <summary>
     /// Asserts that the string does not contain non-whitespace characters
     /// </summary>
+    [CustomAssertion]
     public ContinueWith<IsStringContinuation> NullOrWhitespace()
     {
         _actual.Should().BeNullOrWhiteSpace();
@@ -115,6 +126,7 @@ public class IsString : Constraint<IsStringContinuation, string>
     /// <summary>
     /// Asserts that the string contains non-whitespace characters
     /// </summary>
+    [CustomAssertion]
     public ContinueWith<IsStringContinuation> NotNullOrWhitespace()
     {
         _actual.Should().NotBeNullOrWhiteSpace();
@@ -126,6 +138,7 @@ public class IsString : Constraint<IsStringContinuation, string>
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
+    [CustomAssertion]
     public ContinueWith<IsStringContinuation> Not(string value)
     {
         _actual.Should().NotBe(value);
@@ -137,6 +150,7 @@ public class IsString : Constraint<IsStringContinuation, string>
     /// </summary>
     /// <param name="prefix"></param>
     /// <returns></returns>
+    [CustomAssertion]
     public ContinueWith<IsStringContinuation> StartingWith(string prefix)
     {
         _actual.Should().StartWith(prefix);
@@ -148,6 +162,7 @@ public class IsString : Constraint<IsStringContinuation, string>
     /// </summary>
     /// <param name="suffix"></param>
     /// <returns></returns>
+    [CustomAssertion]
     public ContinueWith<IsStringContinuation> EndingWith(string suffix)
     {
         _actual.Should().EndWith(suffix);

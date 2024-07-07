@@ -14,6 +14,7 @@ public class IsDateTime : Constraint<IsDateTime, DateTime>
     /// </summary>
     /// <param name="unexpected"></param>
     /// <returns></returns>
+    [CustomAssertion]
     public ContinueWith<IsDateTime> Not(DateTime unexpected)
     {
         _actual.Should().NotBe(unexpected);
@@ -25,6 +26,7 @@ public class IsDateTime : Constraint<IsDateTime, DateTime>
     /// </summary>
     /// <param name="expected"></param>
     /// <returns></returns>
+    [CustomAssertion]
     public ContinueWith<IsDateTime> Before(DateTime expected)
     {
         _actual.Should().BeBefore(expected);
@@ -36,6 +38,7 @@ public class IsDateTime : Constraint<IsDateTime, DateTime>
     /// </summary>
     /// <param name="expected"></param>
     /// <returns></returns>
+    [CustomAssertion]
     public ContinueWith<IsDateTime> After(DateTime expected)
     {
         _actual.Should().BeAfter(expected);
@@ -47,6 +50,7 @@ public class IsDateTime : Constraint<IsDateTime, DateTime>
     /// </summary>
     /// <param name="expected"></param>
     /// <returns></returns>
+    [CustomAssertion]
     public ContinueWith<IsDateTime> NotBefore(DateTime expected)
     {
         _actual.Should().NotBeBefore(expected);
@@ -58,6 +62,7 @@ public class IsDateTime : Constraint<IsDateTime, DateTime>
     /// </summary>
     /// <param name="expected"></param>
     /// <returns></returns>
+    [CustomAssertion]
     public ContinueWith<IsDateTime> NotAfter(DateTime expected)
     {
         _actual.Should().NotBeAfter(expected);
@@ -70,6 +75,7 @@ public class IsDateTime : Constraint<IsDateTime, DateTime>
     /// <param name="expected"></param>
     /// <param name="precision"></param>
     /// <returns></returns>
+    [CustomAssertion]
     public ContinueWith<IsDateTime> CloseTo(DateTime expected, TimeSpan precision)
     {
         _actual.Should().BeCloseTo(expected, precision);
@@ -82,6 +88,7 @@ public class IsDateTime : Constraint<IsDateTime, DateTime>
     /// <param name="expected"></param>
     /// <param name="precision"></param>
     /// <returns></returns>
+    [CustomAssertion]
     public ContinueWith<IsDateTime> NotCloseTo(DateTime expected, TimeSpan precision)
     {
         _actual.Should().NotBeCloseTo(expected, precision);

@@ -15,6 +15,7 @@ public class IsFloat : IsNumerical<IsFloat, float>
     /// <param name="expected"></param>
     /// <param name="precision"></param>
     /// <returns></returns>
+    [CustomAssertion]
     public ContinueWith<IsFloat> Around(float expected, float precision)
     {
         _actual.Should().BeApproximately(expected, precision);

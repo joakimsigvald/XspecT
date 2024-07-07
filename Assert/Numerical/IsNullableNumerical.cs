@@ -1,4 +1,6 @@
-﻿namespace XspecT.Assert.Numerical;
+﻿using FluentAssertions;
+
+namespace XspecT.Assert.Numerical;
 
 /// <summary>
 /// base class that allows an assertions to be made on the provided nullable numerical
@@ -14,6 +16,7 @@ public abstract class IsNullableNumerical<TActual, TConstrain> : Constraint<TCon
     /// <summary>
     /// actual.Should().NotBe(expected)
     /// </summary>
+    [CustomAssertion]
     public ContinueWith<TConstrain> Null()
     {
         Should().BeNull();
@@ -23,6 +26,7 @@ public abstract class IsNullableNumerical<TActual, TConstrain> : Constraint<TCon
     /// <summary>
     /// actual.Should().NotBe(expected)
     /// </summary>
+    [CustomAssertion]
     public ContinueWith<TConstrain> NotNull()
     {
         Should().NotBeNull();
@@ -32,6 +36,7 @@ public abstract class IsNullableNumerical<TActual, TConstrain> : Constraint<TCon
     /// <summary>
     /// actual.Should().NotBe(expected)
     /// </summary>
+    [CustomAssertion]
     public ContinueWith<TConstrain> Not(TActual? expected)
     {
         Should().NotBe(expected);
@@ -41,6 +46,7 @@ public abstract class IsNullableNumerical<TActual, TConstrain> : Constraint<TCon
     /// <summary>
     /// actual.Should().BeGreaterThan(expected)
     /// </summary>
+    [CustomAssertion]
     public ContinueWith<TConstrain> GreaterThan(TActual expected)
     {
         Should().BeGreaterThan(expected);
@@ -50,6 +56,7 @@ public abstract class IsNullableNumerical<TActual, TConstrain> : Constraint<TCon
     /// <summary>
     /// actual.Should().BeLessThan(expected)
     /// </summary>
+    [CustomAssertion]
     public ContinueWith<TConstrain> LessThan(TActual expected)
     {
         Should().BeLessThan(expected);
@@ -59,6 +66,7 @@ public abstract class IsNullableNumerical<TActual, TConstrain> : Constraint<TCon
     /// <summary>
     /// actual.Should().BeLessThanOrEqualTo(expected)
     /// </summary>
+    [CustomAssertion]
     public ContinueWith<TConstrain> NotGreaterThan(TActual expected)
     {
         Should().BeLessThanOrEqualTo(expected);
@@ -68,11 +76,12 @@ public abstract class IsNullableNumerical<TActual, TConstrain> : Constraint<TCon
     /// <summary>
     /// actual.Should().BeGreaterThanOrEqualTo(expected)
     /// </summary>
+    [CustomAssertion]
     public ContinueWith<TConstrain> NotLessThan(TActual expected)
     {
         Should().BeGreaterThanOrEqualTo(expected);
         return And();
     }
 
-    internal abstract FluentAssertions.Numeric.NullableNumericAssertions<TActual> Should();
+    [CustomAssertion] internal abstract FluentAssertions.Numeric.NullableNumericAssertions<TActual> Should();
 }

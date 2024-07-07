@@ -1,4 +1,6 @@
-﻿namespace XspecT.Assert;
+﻿using FluentAssertions;
+
+namespace XspecT.Assert;
 
 /// <summary>
 /// Base class for object that allows a chain of assertions to be made on the provided value
@@ -7,6 +9,6 @@ public abstract class Constraint<TConstraint, TActual> where TConstraint : Const
 {
     internal readonly TActual _actual;
     internal Constraint(TActual actual) => _actual = actual;
-    internal ContinueWith<TConstraint> And() => new(Continue());
+    [CustomAssertion] internal ContinueWith<TConstraint> And() => new(Continue());
     internal virtual TConstraint Continue() => (TConstraint)this;
 }

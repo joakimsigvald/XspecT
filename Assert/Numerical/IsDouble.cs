@@ -15,6 +15,7 @@ public class IsDouble : IsNumerical<IsDouble, double>
     /// <param name="expected"></param>
     /// <param name="precision"></param>
     /// <returns></returns>
+    [CustomAssertion]
     public ContinueWith<IsDouble> Around(double expected, double precision)
     {
         _actual.Should().BeApproximately(expected, precision);

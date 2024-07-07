@@ -14,6 +14,7 @@ public class IsComparable<TActual> : Constraint<IsComparable<TActual>, TActual>
     /// <summary>
     /// actual.Should().BeGreaterThan(expected)
     /// </summary>
+    [CustomAssertion]
     public ContinueWith<IsComparable<TActual>> GreaterThan(TActual expected)
     {
         _actual.Should().BeGreaterThan(expected);
@@ -23,6 +24,7 @@ public class IsComparable<TActual> : Constraint<IsComparable<TActual>, TActual>
     /// <summary>
     /// actual.Should().BeLessThan(expected)
     /// </summary>
+    [CustomAssertion]
     public ContinueWith<IsComparable<TActual>> LessThan(TActual expected)
     {
         _actual.Should().BeLessThan(expected);
@@ -32,6 +34,7 @@ public class IsComparable<TActual> : Constraint<IsComparable<TActual>, TActual>
     /// <summary>
     /// actual.Should().BeLessThanOrEqualTo(expected)
     /// </summary>
+    [CustomAssertion]
     public ContinueWith<IsComparable<TActual>> NotGreaterThan(TActual expected)
     {
         _actual.Should().BeLessThanOrEqualTo(expected);
@@ -41,6 +44,7 @@ public class IsComparable<TActual> : Constraint<IsComparable<TActual>, TActual>
     /// <summary>
     /// actual.Should().BeGreaterThanOrEqualTo(expected)
     /// </summary>
+    [CustomAssertion]
     public ContinueWith<IsComparable<TActual>> NotLessThan(TActual expected)
     {
         _actual.Should().BeGreaterThanOrEqualTo(expected);

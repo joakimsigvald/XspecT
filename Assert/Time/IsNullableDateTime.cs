@@ -14,6 +14,7 @@ public class IsNullableDateTime : Constraint<IsNullableDateTime, DateTime?>
     /// </summary>
     /// <param name="unexpected"></param>
     /// <returns></returns>
+    [CustomAssertion]
     public ContinueWith<IsNullableDateTime> Not(DateTime unexpected)
     {
         _actual.Should().NotBe(unexpected);
@@ -24,6 +25,7 @@ public class IsNullableDateTime : Constraint<IsNullableDateTime, DateTime?>
     /// Asserts that the dateTime is not null
     /// </summary>
     /// <returns></returns>
+    [CustomAssertion]
     public ContinueWith<IsDateTime> NotNull()
     {
         _actual.Should().NotBeNull();
@@ -33,5 +35,5 @@ public class IsNullableDateTime : Constraint<IsNullableDateTime, DateTime?>
     /// <summary>
     /// Asserts that the dateTime is null
     /// </summary>
-    public void Null() => _actual.Should().BeNull();
+    [CustomAssertion] public void Null() => _actual.Should().BeNull();
 }

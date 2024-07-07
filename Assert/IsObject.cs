@@ -12,6 +12,7 @@ public class IsObject : Constraint<IsObject, object>
     /// <summary>
     /// Should().NotBeSameAs(expected)
     /// </summary>
+    [CustomAssertion]
     public ContinueWith<IsObject> Not(object expected)
     {
         _actual.Should().NotBeSameAs(expected);
@@ -21,6 +22,7 @@ public class IsObject : Constraint<IsObject, object>
     /// <summary>
     /// Should().BeNull()
     /// </summary>
+    [CustomAssertion]
     public ContinueWith<IsObject> Null()
     {
         _actual.Should().BeNull();
@@ -30,6 +32,7 @@ public class IsObject : Constraint<IsObject, object>
     /// <summary>
     /// Should().NotBeNull()
     /// </summary>
+    [CustomAssertion]
     public ContinueWith<IsObject> NotNull()
     {
         _actual.Should().NotBeNull();
@@ -39,6 +42,7 @@ public class IsObject : Constraint<IsObject, object>
     /// <summary>
     /// Should().Be(expected)
     /// </summary>
+    [CustomAssertion]
     public ContinueWith<IsObject> EqualTo(object expected)
     {
         _actual.Should().Be(expected);
@@ -48,6 +52,7 @@ public class IsObject : Constraint<IsObject, object>
     /// <summary>
     /// Should().NotBe(expected)
     /// </summary>
+    [CustomAssertion]
     public ContinueWith<IsObject> NotEqualTo(object expected)
     {
         _actual.Should().NotBe(expected);
@@ -57,6 +62,7 @@ public class IsObject : Constraint<IsObject, object>
     /// <summary>
     /// Should().BeEquivalentTo(expected)
     /// </summary>
+    [CustomAssertion]
     public ContinueWith<IsObject> Like(object expected)
     {
         _actual.Should().BeEquivalentTo(expected);
@@ -66,6 +72,7 @@ public class IsObject : Constraint<IsObject, object>
     /// <summary>
     /// Should().NotBeEquivalentTo(expected)
     /// </summary>
+    [CustomAssertion]
     public ContinueWith<IsObject> NotLike(object expected)
     {
         _actual.Should().NotBeEquivalentTo(expected);
@@ -75,6 +82,7 @@ public class IsObject : Constraint<IsObject, object>
     /// <summary>
     /// Should().BeEquivalentTo(expected)
     /// </summary>
+    [CustomAssertion]
     public ContinueWith<IsObject> EquivalentTo(object expected)
     {
         _actual.Should().BeEquivalentTo(expected);
@@ -84,6 +92,7 @@ public class IsObject : Constraint<IsObject, object>
     /// <summary>
     /// Should().BeEquivalentTo(expected)
     /// </summary>
+    [CustomAssertion]
     public ContinueWith<IsObject> NotEquivalentTo(object expected)
     {
         _actual.Should().NotBeEquivalentTo(expected);

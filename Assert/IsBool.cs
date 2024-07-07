@@ -12,6 +12,7 @@ public class IsBool : Constraint<IsBool, bool>
     /// <summary>
     /// actual.Should().BeTrue()
     /// </summary>
+    [CustomAssertion]
     public ContinueWith<IsBool> True()
     {
         _actual.Should().BeTrue();
@@ -21,6 +22,7 @@ public class IsBool : Constraint<IsBool, bool>
     /// <summary>
     /// actual.Should().BeFalse()
     /// </summary>
+    [CustomAssertion]
     public ContinueWith<IsBool> False()
     {
         _actual.Should().BeFalse();

@@ -13,6 +13,7 @@ public class IsEnumerable<TItem> : Constraint<IsEnumerable<TItem>, IEnumerable<T
     /// <summary>
     /// actual.Should().BeEmpty()
     /// </summary>
+    [CustomAssertion]
     public ContinueWith<IsEnumerable<TItem>> Empty()
     {
         _actual.Should().BeEmpty();
@@ -22,6 +23,7 @@ public class IsEnumerable<TItem> : Constraint<IsEnumerable<TItem>, IEnumerable<T
     /// <summary>
     /// actual.Should().NotBeEmpty()
     /// </summary>
+    [CustomAssertion]
     public ContinueWith<IsEnumerable<TItem>> NotEmpty()
     {
         _actual.Should().NotBeEmpty();
@@ -31,11 +33,12 @@ public class IsEnumerable<TItem> : Constraint<IsEnumerable<TItem>, IEnumerable<T
     /// <summary>
     /// Verifies that the collection contains a single element and returns that element
     /// </summary>
-    public TItem Single() => Xunit.Assert.Single(_actual);
+    [CustomAssertion] public TItem Single() => Xunit.Assert.Single(_actual);
 
     /// <summary>
     /// actual.Should().NotBeEmpty()
     /// </summary>
+    [CustomAssertion]
     public ContinueWith<IsEnumerable<TItem>> NotNull()
     {
         _actual.Should().NotBeEmpty();
@@ -45,6 +48,7 @@ public class IsEnumerable<TItem> : Constraint<IsEnumerable<TItem>, IEnumerable<T
     /// <summary>
     /// actual.Should().NotBeSameAs(expected)
     /// </summary>
+    [CustomAssertion]
     public ContinueWith<IsEnumerable<TItem>> Not(IEnumerable<TItem> expected)
     {
         _actual.Should().NotBeSameAs(expected);
@@ -56,6 +60,7 @@ public class IsEnumerable<TItem> : Constraint<IsEnumerable<TItem>, IEnumerable<T
     /// </summary>
     /// <param name="expected">The collection to validate against</param>
     /// <returns>A continuation for making further assertions</returns>
+    [CustomAssertion]
     public ContinueWith<IsEnumerable<TItem>> EqualTo(IEnumerable<TItem> expected)
     {
         _actual.Should().BeEquivalentTo(expected);
@@ -67,6 +72,7 @@ public class IsEnumerable<TItem> : Constraint<IsEnumerable<TItem>, IEnumerable<T
     /// </summary>
     /// <param name="expected">The collection to validate against</param>
     /// <returns>A continuation for making further assertions</returns>
+    [CustomAssertion]
     public ContinueWith<IsEnumerable<TItem>> NotEqualTo(IEnumerable<TItem> expected)
     {
         _actual.Should().NotBeEquivalentTo(expected);
