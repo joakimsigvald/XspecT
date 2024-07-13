@@ -4,17 +4,23 @@ namespace XspecT.Internal.TestData;
 
 internal class FluentDefaultProvider : DefaultValueProvider
 {
-    private readonly DataProvider _context;
+    private readonly DataProvider _dataProvider;
 
-    internal FluentDefaultProvider(DataProvider context) => _context = context;
+    internal FluentDefaultProvider(DataProvider dataProvider) => _dataProvider = dataProvider;
 
     protected override object GetDefaultValue(Type type, Mock mock)
     {
-        var (val, found) = _context.Use(type);
+        var ex = GetDefaultException();
+        if (ex is not null)
+            throw ex;
+        var (val, found) = _dataProvider.Use(type);
         return found ? val
             : IsReturningSelf(type, mock) ? mock.Object
             : IsTask(type) ? GetTask(type, mock)
-            : _context.Create(type);
+            : _dataProvider.Create(type);
+
+        Exception GetDefaultException()
+            => _dataProvider.GetDefaultException(mock.GetMockedType());
     }
 
     private static bool IsReturningSelf(Type type, Mock mock)
@@ -32,7 +38,7 @@ internal class FluentDefaultProvider : DefaultValueProvider
         dynamic value = GetDefaultValue(valueType, mock);
         if (value is IMocked) 
         {
-            var mockName = mock.Object.GetType().Name[..^5];
+            var mockName = mock.GetMockedType().Name;
             throw new SetupFailed(
                 @$"{mockName} returns a Task<{valueType.Name}>. 
 Interface types returned as task must be provided explicitly in the test setup.

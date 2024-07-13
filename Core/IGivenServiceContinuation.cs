@@ -17,6 +17,20 @@ public interface IGivenServiceContinuation<TSUT, TResult, TService>
     IGivenThatReturnsContinuation<TSUT, TResult, TService> Returns<TReturns>(Func<TReturns> value);
 
     /// <summary>
+    /// Setup mock to throw an exception for any call, unless otherwise specified
+    /// </summary>
+    /// <typeparam name="TException"></typeparam>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> Throws<TException>() where TException : Exception, new();
+
+    /// <summary>
+    /// Setup mock to throw the given exception for any call
+    /// </summary>
+    /// <param name="ex"></param>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> Throws(Func<Exception> ex);
+
+    /// <summary>
     /// Mock the method invocation
     /// </summary>
     /// <typeparam name="TReturns"></typeparam>

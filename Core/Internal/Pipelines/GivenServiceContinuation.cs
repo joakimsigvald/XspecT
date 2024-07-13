@@ -17,6 +17,15 @@ internal class GivenServiceContinuation<TSUT, TResult, TService> : IGivenService
         return new GivenThatReturnsContinuation<TSUT, TResult, TService>(_spec);
     }
 
+    public IGivenTestPipeline<TSUT, TResult> Throws<TException>() where TException : Exception, new() 
+        => Throws(_spec.Another<TException>);
+
+    public IGivenTestPipeline<TSUT, TResult> Throws(Func<Exception> ex)
+    {
+        _spec.SetupThrows<TService>(ex);
+        return new GivenTestPipeline<TSUT, TResult>(_spec);
+    }
+
     public IGivenThatContinuation<TSUT, TResult, TService, TReturns> That<TReturns>(
         Expression<Func<TService, TReturns>> expression)
         => new GivenThatContinuation<TSUT, TResult, TService, TReturns, TReturns>(

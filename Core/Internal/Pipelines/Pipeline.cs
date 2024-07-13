@@ -141,7 +141,8 @@ internal class Pipeline<TSUT, TResult>
         _sut = _context.CreateSUT<TSUT>();
     }
 
-    internal Mock<TObject> GetMock<TObject>() where TObject : class => _context.GetMock<TObject>();
+    internal Mock<TObject> GetMock<TObject>() where TObject : class 
+        => _context.GetMock<TObject>();
 
     internal void Given(Action arrangement)
     {
@@ -162,5 +163,11 @@ internal class Pipeline<TSUT, TResult>
     {
         if (HasRun)
             throw new SetupFailed("Cannot provide setup after test pipeline was run");
+    }
+
+    internal void SetupThrows<TService>(Func<Exception> ex)
+    {
+        AssertHasNotRun();
+        _context.SetupThrows<TService>(ex);
     }
 }

@@ -22,7 +22,7 @@ internal class Context
 
     internal TValue Mention<TValue>(int index)
     {
-        var (val, found) = _dataProvider.Retreive(typeof(TValue), index);
+        var (val, found) = _dataProvider.Retrieve(typeof(TValue), index);
         return (TValue)(found ? val : Mention(Create<TValue>(), index));
     }
 
@@ -53,7 +53,7 @@ internal class Context
 
     internal TValue[] MentionMany<TValue>(int count, int? minCount)
     {
-        var (val, found) = _dataProvider.Retreive(typeof(TValue[]));
+        var (val, found) = _dataProvider.Retrieve(typeof(TValue[]));
         return found && val is TValue[] arr
             ? Mention(Reuse(arr, count, minCount))
             : MentionMany<TValue>(count);
@@ -71,6 +71,9 @@ internal class Context
         => _dataProvider.GetMock<TObject>();
 
     internal void Use<TService>(TService service, ApplyTo applyTo) => _dataProvider.Use(service, applyTo);
+
+    internal void SetupThrows<TService>(Func<Exception> ex)
+        => _dataProvider.SetDefaultException(typeof(TService), ex);
 
     private TValue[] MentionMany<TValue>(int count)
         => count == 0 ? Mention(Array.Empty<TValue>()) 

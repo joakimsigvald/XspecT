@@ -92,11 +92,14 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
         return new GivenTestPipeline<TSUT, TResult>(this);
     }
 
-    internal Mock<TService> GetMock<TService>() where TService : class => _pipeline.GetMock<TService>();
+    internal Mock<TService> GetMock<TService>() where TService : class 
+        => _pipeline.GetMock<TService>();
 
     internal IGivenTestPipeline<TSUT, TResult> GivenSetup(Action setup)
     {
         _pipeline.Given(setup);
         return new GivenTestPipeline<TSUT, TResult>(this);
     }
+
+    internal void SetupThrows<TService>(Func<Exception> ex) => _pipeline.SetupThrows<TService>(ex);
 }

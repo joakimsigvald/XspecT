@@ -5,13 +5,14 @@ namespace XspecT.Internal.TestData;
 internal class DataProvider
 {
     private readonly Dictionary<Type, object> _defaultValues = new();
+    private readonly Dictionary<Type, Func<Exception>> _defaultExceptions = new();
     private readonly Dictionary<Type, Dictionary<int, object>> _numberedMentions = new();
     private readonly TestDataGenerator _testDataGenerator;
     private readonly Dictionary<Type, Func<object, object>> _defaultSetups = new();
 
     public DataProvider() => _testDataGenerator = new(this.CreateAutoFixture(), this.CreateAutoMocker());
 
-    internal (object val, bool found) Retreive(Type type, int index = 0)
+    internal (object val, bool found) Retrieve(Type type, int index = 0)
     {
         var typeMap = _numberedMentions.TryGetValue(type, out var map) ? map : null;
         return typeMap?.TryGetValue(index, out var val)
@@ -68,11 +69,18 @@ internal class DataProvider
 
     internal object Create(Type type) => ApplyDefaultSetup(type, _testDataGenerator.Create(type));
 
-    internal Mock<TObject> GetMock<TObject>() where TObject : class => _testDataGenerator.GetMock<TObject>();
+    internal Mock<TObject> GetMock<TObject>() where TObject : class 
+        => _testDataGenerator.GetMock<TObject>();
     internal Mock GetMock(Type type) => _testDataGenerator.GetMock(type);
 
     internal object ApplyDefaultSetup(Type type, object newValue)
         => _defaultSetups.TryGetValue(type, out var setup)
         ? setup(newValue)
         : newValue;
+
+    internal Exception GetDefaultException(Type type) 
+        => _defaultExceptions.TryGetValue(type, out var ex) ? ex() : null;
+
+    internal void SetDefaultException(Type type, Func<Exception> ex) 
+        => _defaultExceptions[type] = ex;
 }
