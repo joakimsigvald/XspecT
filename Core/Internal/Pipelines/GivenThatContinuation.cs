@@ -1,4 +1,6 @@
-﻿namespace XspecT.Internal.Pipelines;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace XspecT.Internal.Pipelines;
 
 internal class GivenThatContinuation<TSUT, TResult, TService, TReturns, TActualReturns>
     : GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, TActualReturns, Moq.Language.Flow.ISetup<TService, TActualReturns>>,
@@ -14,6 +16,16 @@ internal class GivenThatContinuation<TSUT, TResult, TService, TReturns, TActualR
 
     public IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns> Tap<TArg>(Action<TArg> callback)
         => ContinueWith(() => Continuation.Callback(callback));
+
+    public IGivenThatReturnsContinuation<TSUT, TResult, TService> Returns<TArg>([NotNull] Func<TArg, TReturns> returns)
+    {
+        if (returns is null)
+            throw new SetupFailed($"{nameof(returns)} may not be null");
+        TReturns retVal = default;
+        Action<TArg> callback = _ => retVal = returns(_); 
+        var continuation = ContinueWith(() => Continuation.Callback(callback));
+        return continuation.Returns(() => retVal);
+    }
 
     public IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns> Tap<TArg1, TArg2>(
         Action<TArg1, TArg2> callback)

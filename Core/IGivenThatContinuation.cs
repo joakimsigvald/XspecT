@@ -1,4 +1,6 @@
-﻿namespace XspecT;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace XspecT;
 
 /// <summary>
 /// A continuation to mock the result of a method invocation
@@ -25,6 +27,14 @@ public interface IGivenThatContinuation<TSUT, TResult, TService, TReturns>
     /// <param name="callback"></param>
     /// <returns></returns>
     IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns> Tap<TArg>(Action<TArg> callback);
+
+    /// <summary>
+    /// Mock the return-value
+    /// </summary>
+    /// <param name="returns"></param>
+    /// <typeparam name="TArg"></typeparam>
+    /// <returns></returns>
+    IGivenThatReturnsContinuation<TSUT, TResult, TService> Returns<TArg>([NotNull] Func<TArg, TReturns> returns);
 
     /// <summary>
     /// Provide a callback to tap the mocked function call with two input arguments

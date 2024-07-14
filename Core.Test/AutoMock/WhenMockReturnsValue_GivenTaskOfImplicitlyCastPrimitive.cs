@@ -20,18 +20,22 @@ public class WhenTapMockThatReturnsValueAsync : Spec<MyValueIntService, string>
     private int _tappedValue = 0;
 
     public WhenTapMockThatReturnsValueAsync()
-        => When(_ => _.GetValueAsync(A<MyValueInt>()))
-        .Given<IMyValueIntRepo>()
-        .That(_ => _.GetAsync(The<MyValueInt>()))
-        .Tap((int value) => _tappedValue = value)
-        .Returns(() => _retVal);
+        => When(_ => _.GetValueAsync(A<MyValueInt>()));
 
     [Fact]
     public void ThenTappedValueIsSet()
-    {
-        Then();
-        _tappedValue.Is(The<MyValueInt>());
-    }
+        => Given<IMyValueIntRepo>()
+        .That(_ => _.GetAsync(The<MyValueInt>()))
+        .Tap((int value) => _tappedValue = value)
+        .Returns(() => _retVal)
+        .Then(_tappedValue).Is(The<MyValueInt>());
+
+    //[Fact]
+    //public void ThenCanReturnTappedValue()
+    //    => Given<IMyValueIntRepo>()
+    //    .That(_ => _.GetAsync(The<MyValueInt>()))
+    //    .Returns<int>(i => $"{2 * i}")
+    //    .Then().Result.Is(2 * The<MyValueInt>());
 }
 
 public class WhenTapMockThatReturnsValue : Spec<MyValueIntService, string>
