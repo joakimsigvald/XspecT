@@ -19,23 +19,37 @@ public class WhenTapMockThatReturnsValueAsync : Spec<MyValueIntService, string>
     private const string _retVal = "abc";
     private int _tappedValue = 0;
 
-    public WhenTapMockThatReturnsValueAsync()
-        => When(_ => _.GetValueAsync(A<MyValueInt>()));
-
     [Fact]
     public void ThenTappedValueIsSet()
-        => Given<IMyValueIntRepo>()
-        .That(_ => _.GetAsync(The<MyValueInt>()))
-        .Tap((int value) => _tappedValue = value)
-        .Returns(() => _retVal)
-        .Then(_tappedValue).Is(The<MyValueInt>());
+    {
+        When(_ => _.GetValueAsync(A<MyValueInt>()))
+            .Given<IMyValueIntRepo>()
+            .That(_ => _.GetAsync(The<MyValueInt>()))
+            .Tap((int value) => _tappedValue = value)
+            .Returns(() => _retVal)
+            .Then();
+        _tappedValue.Is(The<MyValueInt>());
+    }
 
-    //[Fact]
-    //public void ThenCanReturnTappedValue()
-    //    => Given<IMyValueIntRepo>()
-    //    .That(_ => _.GetAsync(The<MyValueInt>()))
-    //    .Returns<int>(i => $"{2 * i}")
-    //    .Then().Result.Is(2 * The<MyValueInt>());
+    [Fact]
+    public void ThenCanReturnTappedValueAsync()
+        => When(_ => _.GetValueAsync(A<MyValueInt>()))
+            .Given<IMyValueIntRepo>()
+        .That(_ => _.GetAsync(The<MyValueInt>()))
+        .Returns<int>(i => $"{2 * i}")
+        .And<IMyValueIntRepo>().That(_ => _.Get(The<MyValueInt>()))
+        .Returns<int>(i => $"{3 * i}")
+        .Then().Result.Is($"{2 * The<MyValueInt>()}");
+
+    [Fact]
+    public void ThenCanReturnTappedValue()
+        => When(_ => _.GetValue(A<MyValueInt>()))
+            .Given<IMyValueIntRepo>()
+        .That(_ => _.GetAsync(The<MyValueInt>()))
+        .Returns<int>(i => $"{2 * i}")
+        .And<IMyValueIntRepo>().That(_ => _.Get(The<MyValueInt>()))
+        .Returns<int>(i => $"{3 * i}")
+        .Then().Result.Is($"{3 * The<MyValueInt>()}");
 }
 
 public class WhenTapMockThatReturnsValue : Spec<MyValueIntService, string>
