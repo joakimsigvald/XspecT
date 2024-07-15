@@ -96,7 +96,7 @@ public interface ITestPipeline<TSUT, TResult>
     /// </summary>
     /// <param name="act"></param>
     /// <returns>A continuation for providing further arrangement, or executing the test</returns>
-    ITestPipeline<TSUT, TResult> When(Func<TSUT, TResult> act);
+    ITestPipeline<TSUT, TResult> When(Expression<Func<TSUT, TResult>> act);
 
     /// <summary>
     /// Provide the method-under-test to the test-pipeline

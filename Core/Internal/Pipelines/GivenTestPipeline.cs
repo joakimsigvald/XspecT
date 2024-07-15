@@ -1,4 +1,6 @@
-﻿namespace XspecT.Internal.Pipelines;
+﻿using System.Linq.Expressions;
+
+namespace XspecT.Internal.Pipelines;
 
 internal class GivenTestPipeline<TSUT, TResult>
     : TestPipeline<TSUT, TResult, Spec<TSUT, TResult>>, IGivenTestPipeline<TSUT, TResult>
@@ -8,7 +10,7 @@ internal class GivenTestPipeline<TSUT, TResult>
     public ITestPipeline<TSUT, TResult> When(Action<TSUT> act)
         => Parent.When(act);
 
-    public ITestPipeline<TSUT, TResult> When(Func<TSUT, TResult> act)
+    public ITestPipeline<TSUT, TResult> When(Expression<Func<TSUT, TResult>> act)
         => Parent.When(act);
 
     public ITestPipeline<TSUT, TResult> When(Func<TSUT, Task> action)

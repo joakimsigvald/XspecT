@@ -1,9 +1,24 @@
 ﻿using Moq;
+using System.Text;
 
 namespace XspecT.Internal.TestData;
 
 internal class Context
 {
+    [ThreadStatic]
+    private static StringBuilder _specificationBuilder;
+
+    internal static void AddPhrase(string phrase) 
+    {
+        _specificationBuilder ??= new();
+        _specificationBuilder.Append(phrase);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    internal static string Specification => _specificationBuilder?.ToString() ?? string.Empty;
+
     private readonly DataProvider _dataProvider = new();
 
     internal TSUT CreateSUT<TSUT>()

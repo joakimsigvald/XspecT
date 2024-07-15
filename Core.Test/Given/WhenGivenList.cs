@@ -5,7 +5,7 @@ namespace XspecT.Test.Given;
 public class WhenGivenList : Spec<List<int>>
 {
     [Fact] public void ThenReturnList() 
-        => When(_ => [1, 2, 3]).Then().Result.Has().Count(3);
+        => When(_ => new List<int> { 1, 2, 3 }).Then().Result.Has().Count(3);
 }
 
 public class WhenGivenAList : Spec<List<int>>

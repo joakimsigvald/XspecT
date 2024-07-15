@@ -1,4 +1,7 @@
-﻿namespace XspecT;
+﻿using System.Linq.Expressions;
+using XspecT.Internal.TestData;
+
+namespace XspecT;
 
 public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
 {
@@ -10,6 +13,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     public ITestPipeline<TSUT, TResult> When(Action<TSUT> act)
     {
         _pipeline.SetAction(act);
+        Context.AddPhrase("when");
         return this;
     }
 
@@ -18,9 +22,15 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// </summary>
     /// <param name="act"></param>
     /// <returns></returns>
-    public ITestPipeline<TSUT, TResult> When(Func<TSUT, TResult> act)
+    public ITestPipeline<TSUT, TResult> When(Expression<Func<TSUT, TResult>> act)
     {
-        _pipeline.SetAction(act);
+        _pipeline.SetAction(act.Compile());
+        var body = act.Body;
+        var methodProperty = body.GetType().GetProperty("Method");
+        var method = methodProperty.GetValue(body);
+        var nameProperty = method.GetType().GetProperty("Name");
+        var name = nameProperty.GetValue(method) as string;
+        Context.AddPhrase($"when {name?.ToLower() ?? "Expression"}");
         return this;
     }
 
@@ -32,6 +42,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     public ITestPipeline<TSUT, TResult> When(Func<TSUT, Task> action)
     {
         _pipeline.SetAction(action);
+        Context.AddPhrase("when");
         return this;
     }
 
@@ -43,6 +54,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     public ITestPipeline<TSUT, TResult> When(Func<TSUT, Task<TResult>> func)
     {
         _pipeline.SetAction(func);
+        Context.AddPhrase("when");
         return this;
     }
 

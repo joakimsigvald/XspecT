@@ -1,4 +1,5 @@
 ﻿using XspecT.Assert;
+using Xunit.Sdk;
 
 namespace XspecT.Test.AutoFixture;
 
@@ -10,6 +11,17 @@ public class WhenGet : Spec<MyRetreiver, MyModel>
     public void A_Value_Mentioned_Twice_Is_Same_Value()
         => Given<IMyRepository>().That(_ => _.Get(The<int>())).Returns(A<MyModel>)
         .Then().Result.Is(The<MyModel>());
+
+    [Fact]
+    public void A_Value_Mentioned_Twice_Is_Same_Value_ErrorMessage()
+    {
+        var ex = Xunit.Assert.Throws<XunitException>(
+            () => Given<IMyRepository>().That(_ => _.Get(The<int>())).Returns(A<MyModel>)
+            .Then().Result.Is().Not(The<MyModel>()));
+        Xunit.Assert.Equal(
+            "When get an int, given IMyRepository that get the int returns a MyModel, then result is not the MyModel", 
+            ex.Message);
+    }
 
     [Fact]
     public void Another_Value_Is_Not_Same_As_A_Value()

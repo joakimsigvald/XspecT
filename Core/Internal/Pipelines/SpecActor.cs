@@ -52,6 +52,8 @@ internal class SpecActor<TResult>
         try
         {
             _result = _function();
+            var st = Environment.StackTrace;
+            return;
         }
         catch (ArgumentException ex) when (ex.Message.Contains(cue))
         {
