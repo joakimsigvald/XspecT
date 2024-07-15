@@ -10,4 +10,7 @@ internal static class Extensions
         var mockedTypeProperty = mockType.GetProperty("MockedType", BindingFlags.NonPublic | BindingFlags.Instance);
         return mockedTypeProperty.GetValue(mock) as Type;
     }
+
+    internal static string GetWords(this string str)
+        => string.IsNullOrWhiteSpace(str) ? string.Empty : str.ToLower();
 }

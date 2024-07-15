@@ -24,7 +24,6 @@ public class IsObject : Constraint<IsObject, object>
         catch (XunitException ex)
         {
             throw new XunitException(Context.Specification, ex);
-            throw new XunitException("When get an int, given IMyRepository that get the int returns a MyModel, then result is not the MyModel", ex);
         }
         return And();
     }

@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using XspecT.Internal;
 using XspecT.Internal.TestData;
 
 namespace XspecT;
@@ -13,7 +14,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     public ITestPipeline<TSUT, TResult> When(Action<TSUT> act)
     {
         _pipeline.SetAction(act);
-        Context.AddPhrase("when");
+        _pipeline.Context.AddPhrase("when");
         return this;
     }
 
@@ -25,13 +26,19 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     public ITestPipeline<TSUT, TResult> When(Expression<Func<TSUT, TResult>> act)
     {
         _pipeline.SetAction(act.Compile());
+        _pipeline.Context.AddPhrase($"when {GetMethodName(act)}");
+        return this;
+    }
+
+    private string GetMethodName(Expression<Func<TSUT, TResult>> act)
+    {
+        const string expression = "Expression";
         var body = act.Body;
         var methodProperty = body.GetType().GetProperty("Method");
-        var method = methodProperty.GetValue(body);
-        var nameProperty = method.GetType().GetProperty("Name");
-        var name = nameProperty.GetValue(method) as string;
-        Context.AddPhrase($"when {name?.ToLower() ?? "Expression"}");
-        return this;
+        var method = methodProperty?.GetValue(body);
+        var nameProperty = method?.GetType().GetProperty("Name");
+        var name = nameProperty?.GetValue(method) as string;
+        return name?.GetWords() ?? expression;
     }
 
     /// <summary>
@@ -42,7 +49,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     public ITestPipeline<TSUT, TResult> When(Func<TSUT, Task> action)
     {
         _pipeline.SetAction(action);
-        Context.AddPhrase("when");
+        _pipeline.Context.AddPhrase("when");
         return this;
     }
 
@@ -54,7 +61,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     public ITestPipeline<TSUT, TResult> When(Func<TSUT, Task<TResult>> func)
     {
         _pipeline.SetAction(func);
-        Context.AddPhrase("when");
+        _pipeline.Context.AddPhrase("when");
         return this;
     }
 
