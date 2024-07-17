@@ -1,5 +1,7 @@
 ﻿using Moq;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq.Expressions;
+using XspecT.Internal.TestData;
 
 namespace XspecT.Internal.Pipelines;
 
@@ -9,12 +11,21 @@ internal class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, TA
     where TMock : Moq.Language.Flow.IReturnsThrows<TService, TActualReturns>
 {
     protected readonly Spec<TSUT, TResult> _spec;
+    protected readonly Expression<Func<TService, TActualReturns>> _expression;
     protected readonly Lazy<TMock> _lazyContinuation;
 
     internal GivenThatCommonContinuation(Spec<TSUT, TResult> spec, Lazy<TMock> continuation)
     {
         _spec = spec;
         _lazyContinuation = continuation;
+    }
+
+    internal GivenThatCommonContinuation(
+        Spec<TSUT, TResult> spec, Expression<Func<TService, TActualReturns>> expression)
+    {
+        _spec = spec;
+        _expression = expression;
+        _lazyContinuation = new Lazy<TMock>(() => (TMock)_spec.GetMock<TService>().Setup(expression));
     }
 
     public IGivenThatReturnsContinuation<TSUT, TResult, TService> Returns([NotNull] Func<TReturns> returns)
@@ -50,7 +61,7 @@ internal class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, TA
 
     private void DoSetupReturns(Func<TReturns> returns)
     {
-        //Context.AddPhrase($"given {typeof(TService).Name} that {returns.GetName()}");
+        Context.AddPhrase($"given {typeof(TService).Name} that {_expression.GetName()}");
         if (Continuation is Moq.Language.Flow.IReturnsThrows<TService, Task<TReturns>> asyncContinuation)
             asyncContinuation.ReturnsAsync(returns);
         else

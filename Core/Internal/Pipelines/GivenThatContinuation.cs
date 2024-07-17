@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Linq.Expressions;
 
 namespace XspecT.Internal.Pipelines;
 
@@ -8,8 +9,8 @@ internal class GivenThatContinuation<TSUT, TResult, TService, TReturns, TActualR
     where TService : class
 {
     internal GivenThatContinuation(
-        Spec<TSUT, TResult> spec, Lazy<Moq.Language.Flow.ISetup<TService, TActualReturns>> setup)
-        : base(spec, setup) { }
+        Spec<TSUT, TResult> spec, Expression<Func<TService, TActualReturns>> expression)
+        : base(spec, expression) { }
 
     public IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns> Tap(Action callback)
         => ContinueWith(() => Continuation.Callback(callback));

@@ -22,12 +22,14 @@ internal static class Extensions
 
     internal static string GetName(this LambdaExpression expression)
     {
-        const string defaultExpression = "Expression";
+        const string defaultExpression = "<Expression>";
+        if (expression is null)
+            return defaultExpression;
         var body = expression.Body;
         var methodProperty = body.GetType().GetProperty("Method");
         var method = methodProperty?.GetValue(body);
         var nameProperty = method?.GetType().GetProperty("Name");
         var name = nameProperty?.GetValue(method) as string;
-        return name?.AsWords() ?? defaultExpression;
+        return name?.Capitalize() ?? defaultExpression;
     }
 }
