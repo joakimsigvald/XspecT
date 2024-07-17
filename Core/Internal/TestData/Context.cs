@@ -8,7 +8,7 @@ internal class Context
     [ThreadStatic]
     private static StringBuilder _specificationBuilder;
 
-    internal void AddPhrase(string phrase) 
+    internal static void AddPhrase(string phrase) 
         => _specificationBuilder.Append(phrase);
 
     public Context() => _specificationBuilder = new();

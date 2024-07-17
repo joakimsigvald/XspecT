@@ -14,7 +14,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     public ITestPipeline<TSUT, TResult> When(Action<TSUT> act)
     {
         _pipeline.SetAction(act);
-        _pipeline.Context.AddPhrase("when");
+        Context.AddPhrase("when");
         return this;
     }
 
@@ -26,7 +26,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     public ITestPipeline<TSUT, TResult> When(Expression<Func<TSUT, TResult>> act)
     {
         _pipeline.SetAction(act.Compile());
-        _pipeline.Context.AddPhrase($"when {GetMethodName(act)}");
+        Context.AddPhrase($"when {GetMethodName(act)}");
         return this;
     }
 
@@ -49,7 +49,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     public ITestPipeline<TSUT, TResult> When(Func<TSUT, Task> action)
     {
         _pipeline.SetAction(action);
-        _pipeline.Context.AddPhrase("when");
+        Context.AddPhrase("when");
         return this;
     }
 
@@ -61,7 +61,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     public ITestPipeline<TSUT, TResult> When(Func<TSUT, Task<TResult>> func)
     {
         _pipeline.SetAction(func);
-        _pipeline.Context.AddPhrase("when");
+        Context.AddPhrase("when");
         return this;
     }
 

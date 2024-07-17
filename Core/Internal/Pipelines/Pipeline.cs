@@ -10,13 +10,13 @@ namespace XspecT.Internal.Pipelines;
 
 internal class Pipeline<TSUT, TResult>
 {
+    private readonly Context _context = new();
     private readonly SpecActor<TResult> _actor = new();
     private TestResult<TResult> _result;
     private readonly Arranger _arranger = new();
     private TSUT _sut;
 
     public bool HasRun => _result != null;
-    internal protected Context Context { get; } = new();
 
     public ITestResult<TResult> Then() => TestResult;
 
@@ -43,19 +43,19 @@ internal class Pipeline<TSUT, TResult>
     internal void SetDefault<TModel>(Action<TModel> setup) where TModel : class
     {
         AssertHasNotRun();
-        Context.SetDefault(setup);
+        _context.SetDefault(setup);
     }
 
     internal void SetDefault<TValue>(Func<TValue, TValue> setup)
     {
         AssertHasNotRun();
-        Context.SetDefault(setup);
+        _context.SetDefault(setup);
     }
 
     internal void SetDefault<TValue>(TValue defaultValue, ApplyTo applyTo)
     {
         AssertHasNotRun();
-        Context.Use(defaultValue, applyTo);
+        _context.Use(defaultValue, applyTo);
     }
 
     internal void SetAction(Action act)
@@ -90,59 +90,59 @@ internal class Pipeline<TSUT, TResult>
 
     internal void SetTearDown(Func<Task> tearDown) => SetTearDown(() => Execute(tearDown));
 
-    internal TValue Mention<TValue>(int index) => Context.Mention<TValue>(index);
+    internal TValue Mention<TValue>(int index) => _context.Mention<TValue>(index);
 
-    internal TValue Create<TValue>() => Context.Create<TValue>();
+    internal TValue Create<TValue>() => _context.Create<TValue>();
 
     internal TValue Create<TValue>([NotNull] Action<TValue> setup)
     {
         AssertHasNotRun();
-        return Context.ApplyTo(setup, Context.Create<TValue>());
+        return Context.ApplyTo(setup, _context.Create<TValue>());
     }
 
     internal TValue[] MentionMany<TValue>(int count, int? minCount = null)
-        => Context.MentionMany<TValue>(count, minCount);
+        => _context.MentionMany<TValue>(count, minCount);
 
     internal TValue[] MentionMany<TValue>([NotNull] Action<TValue> setup, int count)
-        => Context.MentionMany(setup, count);
+        => _context.MentionMany(setup, count);
 
     internal TValue Mention<TValue>(int index, [NotNull] Action<TValue> setup)
     {
         AssertHasNotRun();
-        return Context.Mention(index, setup);
+        return _context.Mention(index, setup);
     }
 
     internal TValue Mention<TValue>(int index, [NotNull] Func<TValue, TValue> setup)
     {
         AssertHasNotRun();
-        return Context.Mention(index, setup);
+        return _context.Mention(index, setup);
     }
 
     internal TValue Mention<TValue>(int index, TValue value)
     {
         AssertHasNotRun();
-        return Context.Mention(value, index);
+        return _context.Mention(value, index);
     }
 
     internal TValue[] MentionMany<TValue>([NotNull] Action<TValue, int> setup, int count)
-        => Context.MentionMany(setup, count);
+        => _context.MentionMany(setup, count);
 
     private TestResult<TResult> TestResult => _result ??= Run();
 
     private TestResult<TResult> Run()
     {
         Arrange();
-        return _actor.Execute(Context);
+        return _actor.Execute(_context);
     }
 
     internal void Arrange()
     {
         _arranger.Arrange();
-        _sut = Context.CreateSUT<TSUT>();
+        _sut = _context.CreateSUT<TSUT>();
     }
 
     internal Mock<TObject> GetMock<TObject>() where TObject : class 
-        => Context.GetMock<TObject>();
+        => _context.GetMock<TObject>();
 
     internal void Given(Action arrangement)
     {
@@ -168,6 +168,6 @@ internal class Pipeline<TSUT, TResult>
     internal void SetupThrows<TService>(Func<Exception> ex)
     {
         AssertHasNotRun();
-        Context.SetupThrows<TService>(ex);
+        _context.SetupThrows<TService>(ex);
     }
 }
