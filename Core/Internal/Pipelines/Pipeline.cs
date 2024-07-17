@@ -11,7 +11,7 @@ namespace XspecT.Internal.Pipelines;
 internal class Pipeline<TSUT, TResult>
 {
     private readonly Context _context = new();
-    private readonly SpecActor<TResult> _actor = new();
+    private readonly SpecActor<TSUT, TResult> _actor = new();
     private TestResult<TResult> _result;
     private readonly Arranger _arranger = new();
     private TSUT _sut;
@@ -58,21 +58,17 @@ internal class Pipeline<TSUT, TResult>
         _context.Use(defaultValue, applyTo);
     }
 
-    internal void SetAction(Action act)
-    {
-        AssertHasNotRun();
-        _actor.When(act ?? throw new SetupFailed("Act cannot be null"));
-    }
+    //private void SetAction([NotNull] Expression<Action> act)
+    //    => DoSetAction(act);
 
-    internal void SetAction(Func<TResult> act)
-    {
-        AssertHasNotRun();
-        _actor.When(act ?? throw new SetupFailed("Act cannot be null"));
-    }
+    //private void SetAction([NotNull] Expression<Func<TResult>> act)
+    //    => DoSetAction(act);
 
-    internal void SetAction(Func<Task> action) => SetAction(() => Execute(action));
+    //private void SetAction([NotNull] Expression<Func<Task>> act)
+    //    => DoSetAction(act);
 
-    internal void SetAction(Func<Task<TResult>> func) => SetAction(() => Execute(func));
+    //private void SetAction([NotNull] Expression<Func<Task<TResult>>> act)
+    //    => DoSetAction(act);
 
     internal void PrependSetUp(Action setUp)
     {
@@ -127,14 +123,6 @@ internal class Pipeline<TSUT, TResult>
     internal TValue[] MentionMany<TValue>([NotNull] Action<TValue, int> setup, int count)
         => _context.MentionMany(setup, count);
 
-    private TestResult<TResult> TestResult => _result ??= Run();
-
-    private TestResult<TResult> Run()
-    {
-        Arrange();
-        return _actor.Execute(_context);
-    }
-
     internal void Arrange()
     {
         _arranger.Arrange();
@@ -150,14 +138,28 @@ internal class Pipeline<TSUT, TResult>
         _arranger.Push(arrangement);
     }
 
-    internal void SetAction(Action<TSUT> act) => SetAction(() => act(_sut));
-    internal void SetAction(Func<TSUT, TResult> act) => SetAction(() => act(_sut));
-    internal void SetAction(Func<TSUT, Task> action) => SetAction(() => action(_sut));
-    internal void SetAction(Func<TSUT, Task<TResult>> func) => SetAction(() => func(_sut));
+    internal void SetAction(Expression<Action<TSUT>> act) => DoSetAction(act);
+    internal void SetAction(Expression<Func<TSUT, TResult>> act) => DoSetAction(act);
+    internal void SetAction(Expression<Func<TSUT, Task>> act) => DoSetAction(act);
+    internal void SetAction(Expression<Func<TSUT, Task<TResult>>> act) => DoSetAction(act);
     internal void SetTearDown(Action<TSUT> tearDown) => SetTearDown(() => tearDown(_sut));
     internal void SetTearDown(Func<TSUT, Task> tearDown) => SetTearDown(() => tearDown(_sut));
     internal void PrependSetUp(Action<TSUT> setUp) => PrependSetUp(() => setUp(_sut));
     internal void PrependSetUp(Func<TSUT, Task> setUp) => PrependSetUp(() => setUp(_sut));
+
+    private void DoSetAction(Expression act)
+    {
+        AssertHasNotRun();
+        _actor.When(act ?? throw new SetupFailed("Act cannot be null"));
+    }
+
+    private TestResult<TResult> TestResult => _result ??= Run();
+
+    private TestResult<TResult> Run()
+    {
+        Arrange();
+        return _actor.Execute(_sut, _context);
+    }
 
     private void AssertHasNotRun()
     {

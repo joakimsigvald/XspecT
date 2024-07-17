@@ -7,16 +7,16 @@ internal class GivenTestPipeline<TSUT, TResult>
 {
     internal GivenTestPipeline(Spec<TSUT, TResult> parent) : base(parent) { }
 
-    public ITestPipeline<TSUT, TResult> When(Action<TSUT> act)
+    public ITestPipeline<TSUT, TResult> When(Expression<Action<TSUT>> act)
         => Parent.When(act);
 
     public ITestPipeline<TSUT, TResult> When(Expression<Func<TSUT, TResult>> act)
         => Parent.When(act);
 
-    public ITestPipeline<TSUT, TResult> When(Func<TSUT, Task> action)
+    public ITestPipeline<TSUT, TResult> When(Expression<Func<TSUT, Task>> action)
         => Parent.When(action);
 
-    public ITestPipeline<TSUT, TResult> When(Func<TSUT, Task<TResult>> func)
+    public ITestPipeline<TSUT, TResult> When(Expression<Func<TSUT, Task<TResult>>> func)
         => Parent.When(func);
 
     public ITestPipeline<TSUT, TResult> After(Action<TSUT> setUp)

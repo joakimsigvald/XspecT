@@ -11,7 +11,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// </summary>
     /// <param name="act"></param>
     /// <returns></returns>
-    public ITestPipeline<TSUT, TResult> When(Action<TSUT> act)
+    public ITestPipeline<TSUT, TResult> When(Expression<Action<TSUT>> act)
     {
         _pipeline.SetAction(act);
         Context.AddPhrase("when");
@@ -25,7 +25,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <returns></returns>
     public ITestPipeline<TSUT, TResult> When(Expression<Func<TSUT, TResult>> act)
     {
-        _pipeline.SetAction(act.Compile());
+        _pipeline.SetAction(act);
         Context.AddPhrase($"when {GetMethodName(act)}");
         return this;
     }
@@ -46,7 +46,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// </summary>
     /// <param name="action"></param>
     /// <returns></returns>
-    public ITestPipeline<TSUT, TResult> When(Func<TSUT, Task> action)
+    public ITestPipeline<TSUT, TResult> When(Expression<Func<TSUT, Task>> action)
     {
         _pipeline.SetAction(action);
         Context.AddPhrase("when");
@@ -58,7 +58,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// </summary>
     /// <param name="func"></param>
     /// <returns></returns>
-    public ITestPipeline<TSUT, TResult> When(Func<TSUT, Task<TResult>> func)
+    public ITestPipeline<TSUT, TResult> When(Expression<Func<TSUT, Task<TResult>>> func)
     {
         _pipeline.SetAction(func);
         Context.AddPhrase("when");

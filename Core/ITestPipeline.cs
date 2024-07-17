@@ -89,7 +89,7 @@ public interface ITestPipeline<TSUT, TResult>
     /// </summary>
     /// <param name="act"></param>
     /// <returns></returns>
-    ITestPipeline<TSUT, TResult> When(Action<TSUT> act);
+    ITestPipeline<TSUT, TResult> When(Expression<Action<TSUT>> act);
 
     /// <summary>
     /// Provide the method-under-test as a lambda expression
@@ -103,14 +103,14 @@ public interface ITestPipeline<TSUT, TResult>
     /// </summary>
     /// <param name="action"></param>
     /// <returns></returns>
-    ITestPipeline<TSUT, TResult> When(Func<TSUT, Task> action);
+    ITestPipeline<TSUT, TResult> When(Expression<Func<TSUT, Task>> action);
 
     /// <summary>
     /// Provide the method-under-test to the test-pipeline
     /// </summary>
     /// <param name="func"></param>
     /// <returns></returns>
-    ITestPipeline<TSUT, TResult> When(Func<TSUT, Task<TResult>> func);
+    ITestPipeline<TSUT, TResult> When(Expression<Func<TSUT, Task<TResult>>> func);
 
     /// <summary>
     /// Provide a method to be called BEFORE the method-under-test is called as set-up
