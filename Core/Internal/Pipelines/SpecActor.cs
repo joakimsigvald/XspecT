@@ -61,26 +61,30 @@ internal class SpecActor<TSUT, TResult>
 
         bool ExecuteCommand(Expression<Action<TSUT>> act)
         {
-            act.Compile()(sut);
+            var function = act.Compile();
+            function(sut);
             return false;
         }
 
         bool ExecuteFunction(Expression<Func<TSUT, TResult>> act)
         {
             Context.AddPhrase($" when {GetMethodName(act)}");
-            _result = act.Compile()(sut);
+            var function = act.Compile();
+            _result = function(sut);
             return true;
         }
 
         bool ExecuteCommandAsync(Expression<Func<TSUT, Task>> act)
         {
-            AsyncHelper.Execute(() => act.Compile()(sut));
+            var function = act.Compile();
+            AsyncHelper.Execute(() => function(sut));
             return false;
         }
 
         bool ExecuteFunctionAsync(Expression<Func<TSUT, Task<TResult>>> act)
         {
-            _result = AsyncHelper.Execute(() => act.Compile()(sut));
+            var function = act.Compile();
+            _result = AsyncHelper.Execute(() => function(sut));
             return true;
         }
     }
