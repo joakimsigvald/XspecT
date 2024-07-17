@@ -47,10 +47,10 @@ internal class SpecActor<TSUT, TResult>
         {
             return _act switch
             {
-                Expression<Func<TSUT, Task<TResult>>> fun => ExecuteFunctionAsync(fun.Compile()),
-                Expression<Func<TSUT, Task>> fun => ExecuteCommandAsync(fun.Compile()),
-                Expression<Func<TSUT, TResult>> fun => ExecuteFunction(fun.Compile()),
-                Expression<Action<TSUT>> command => ExecuteCommand(command.Compile()),
+                Expression<Func<TSUT, Task<TResult>>> act => ExecuteFunctionAsync(act),
+                Expression<Func<TSUT, Task>> act => ExecuteCommandAsync(act),
+                Expression<Func<TSUT, TResult>> act => ExecuteFunction(act),
+                Expression<Action<TSUT>> act => ExecuteCommand(act),
                 _ => throw new SetupFailed("Failed to run method under test, unexpected signature")
             };
         }
@@ -59,29 +59,41 @@ internal class SpecActor<TSUT, TResult>
             throw new SetupFailed($"Failed to run method under test, because an instance of {ex.Message.Split(cue)[0].Trim()} could not be provided.", ex);
         }
 
-        bool ExecuteCommand(Action<TSUT> command)
+        bool ExecuteCommand(Expression<Action<TSUT>> act)
         {
-            command(sut);
+            act.Compile()(sut);
             return false;
         }
 
-        bool ExecuteFunction(Func<TSUT, TResult> function)
+        bool ExecuteFunction(Expression<Func<TSUT, TResult>> act)
         {
-            _result = function(sut);
+            Context.AddPhrase($"when {GetMethodName(act)}");
+            _result = act.Compile()(sut);
             return true;
         }
 
-        bool ExecuteCommandAsync(Func<TSUT, Task> function)
+        bool ExecuteCommandAsync(Expression<Func<TSUT, Task>> act)
         {
-            AsyncHelper.Execute(() => function(sut));
+            AsyncHelper.Execute(() => act.Compile()(sut));
             return false;
         }
 
-        bool ExecuteFunctionAsync(Func<TSUT, Task<TResult>> function)
+        bool ExecuteFunctionAsync(Expression<Func<TSUT, Task<TResult>>> act)
         {
-            _result = AsyncHelper.Execute(() => function(sut));
+            _result = AsyncHelper.Execute(() => act.Compile()(sut));
             return true;
         }
+    }
+
+    private static string GetMethodName(Expression<Func<TSUT, TResult>> act)
+    {
+        const string expression = "Expression";
+        var body = act.Body;
+        var methodProperty = body.GetType().GetProperty("Method");
+        var method = methodProperty?.GetValue(body);
+        var nameProperty = method?.GetType().GetProperty("Name");
+        var name = nameProperty?.GetValue(method) as string;
+        return name?.GetWords() ?? expression;
     }
 
     private void CatchError(Action act)
