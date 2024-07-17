@@ -1,6 +1,6 @@
 ﻿namespace XspecT.Test.AutoFixture;
 
-public class MyRetreiver(IMyRepository repository)
+public class MyRetriever(IMyRepository repository)
 {
     private readonly IMyRepository _repository = repository;
 

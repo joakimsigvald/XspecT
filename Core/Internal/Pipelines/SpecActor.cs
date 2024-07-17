@@ -68,7 +68,7 @@ internal class SpecActor<TSUT, TResult>
 
         bool ExecuteFunction(Expression<Func<TSUT, TResult>> act)
         {
-            Context.AddPhrase($" when {GetMethodName(act)}");
+            Context.AddPhrase($"when {act.GetName()}");
             var function = act.Compile();
             _result = function(sut);
             return true;
@@ -87,17 +87,6 @@ internal class SpecActor<TSUT, TResult>
             _result = AsyncHelper.Execute(() => function(sut));
             return true;
         }
-    }
-
-    private static string GetMethodName(Expression<Func<TSUT, TResult>> act)
-    {
-        const string expression = "Expression";
-        var body = act.Body;
-        var methodProperty = body.GetType().GetProperty("Method");
-        var method = methodProperty?.GetValue(body);
-        var nameProperty = method?.GetType().GetProperty("Name");
-        var name = nameProperty?.GetValue(method) as string;
-        return name?.GetWords() ?? expression;
     }
 
     private void CatchError(Action act)

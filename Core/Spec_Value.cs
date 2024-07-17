@@ -26,7 +26,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <returns></returns>
     protected internal TValue An<TValue>()
     {
-        Context.AddPhrase($" an {typeof(TValue).Alias()}");
+        Context.AddFragment($" an {typeof(TValue).Alias()}");
         return A<TValue>();
     }
 

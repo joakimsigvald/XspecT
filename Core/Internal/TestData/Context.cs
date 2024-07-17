@@ -10,8 +10,15 @@ internal class Context
 
     internal static void AddPhrase(string phrase)
     {
+        if (_specificationBuilder is not null)
+            AddFragment(", ");
+        AddFragment(phrase);
+    }
+
+    internal static void AddFragment(string fragment)
+    {
         _specificationBuilder ??= new();
-        _specificationBuilder.Append(phrase);
+        _specificationBuilder.Append(fragment);
     }
 
     public Context() => _specificationBuilder = null;
@@ -19,7 +26,9 @@ internal class Context
     /// <summary>
     /// 
     /// </summary>
-    internal static string Specification => _specificationBuilder?.ToString().TrimStart() ?? string.Empty;
+    internal static string Specification 
+        => _specificationBuilder?.ToString().TrimStart().Capitalize() 
+        ?? string.Empty;
 
     private readonly DataProvider _dataProvider = new();
 
