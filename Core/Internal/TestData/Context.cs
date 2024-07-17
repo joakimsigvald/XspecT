@@ -16,7 +16,7 @@ internal class Context
     /// <summary>
     /// 
     /// </summary>
-    internal static string Specification => _specificationBuilder?.ToString() ?? string.Empty;
+    internal static string Specification => _specificationBuilder?.ToString().TrimStart() ?? string.Empty;
 
     private readonly DataProvider _dataProvider = new();
 

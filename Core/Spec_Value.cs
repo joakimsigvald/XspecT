@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using XspecT.Internal.TestData;
 
 namespace XspecT;
 
@@ -23,7 +24,11 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected internal TValue An<TValue>() => A<TValue>();
+    protected internal TValue An<TValue>()
+    {
+        Context.AddPhrase($" an {typeof(TValue).Alias()}");
+        return A<TValue>();
+    }
 
     /// <summary>
     /// Yields a value of the given type
@@ -54,7 +59,10 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
     /// <returns></returns>
-    protected internal TValue An<TValue>([NotNull] Func<TValue, TValue> setup) => A(setup);
+    protected internal TValue An<TValue>([NotNull] Func<TValue, TValue> setup)
+    {
+        return A(setup);
+    }
 
     /// <summary>
     /// Yields a customized value of the given type

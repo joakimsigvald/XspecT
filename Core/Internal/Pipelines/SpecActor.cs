@@ -67,7 +67,7 @@ internal class SpecActor<TSUT, TResult>
 
         bool ExecuteFunction(Expression<Func<TSUT, TResult>> act)
         {
-            Context.AddPhrase($"when {GetMethodName(act)}");
+            Context.AddPhrase($" when {GetMethodName(act)}");
             _result = act.Compile()(sut);
             return true;
         }
