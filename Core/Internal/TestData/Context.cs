@@ -1,34 +1,10 @@
 ﻿using Moq;
-using System.Text;
 
 namespace XspecT.Internal.TestData;
 
 internal class Context
 {
-    [ThreadStatic]
-    private static StringBuilder _specificationBuilder;
-
-    internal static void AddPhrase(string phrase)
-    {
-        if (_specificationBuilder is not null)
-            AddFragment(", ");
-        AddFragment(phrase);
-    }
-
-    internal static void AddFragment(string fragment)
-    {
-        _specificationBuilder ??= new();
-        _specificationBuilder.Append(fragment);
-    }
-
-    public Context() => _specificationBuilder = null;
-
-    /// <summary>
-    /// 
-    /// </summary>
-    internal static string Specification 
-        => _specificationBuilder?.ToString().TrimStart().Capitalize() 
-        ?? string.Empty;
+    public Context() => Specification.Clear();
 
     private readonly DataProvider _dataProvider = new();
 

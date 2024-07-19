@@ -61,10 +61,17 @@ internal class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, TA
 
     private void DoSetupReturns(Func<TReturns> returns)
     {
-        Context.AddPhrase($"given {typeof(TService).Name} that {_expression.GetName()}");
+        Specification.PushStop();
         if (Continuation is Moq.Language.Flow.IReturnsThrows<TService, Task<TReturns>> asyncContinuation)
             asyncContinuation.ReturnsAsync(returns);
         else
-            Continuation.Returns(returns);
+            Continuation.Returns(() => 
+            {
+                Specification.PushStop();
+                var retVal = returns();
+                Specification.AddSubSection($"returns");
+                return retVal;
+            });
+        Specification.AddSection($"given {typeof(TService).Name} that {_expression.GetName()}");
     }
 }

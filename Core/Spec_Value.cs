@@ -245,7 +245,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
 
     private TValue Mention<TValue>(string article)
     {
-        Context.AddFragment($" {article} {typeof(TValue).Alias()}");
+        Specification.PushFragment($" {article} {typeof(TValue).Alias()}");
         return _pipeline.Mention<TValue>(0);
     }
 }

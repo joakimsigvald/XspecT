@@ -23,7 +23,7 @@ public class IsObject : Constraint<IsObject, object>
         }
         catch (XunitException ex)
         {
-            throw new XunitException(Context.Specification, ex);
+            throw new XunitException(Specification.Description, ex);
         }
         return And();
     }

@@ -68,9 +68,10 @@ internal class SpecActor<TSUT, TResult>
 
         bool ExecuteFunction(Expression<Func<TSUT, TResult>> act)
         {
-            Context.AddPhrase($"when {act.GetName()}");
+            Specification.PushStop();
             var function = act.Compile();
             _result = function(sut);
+            Specification.AddSection($"when {act.GetName()}");
             return true;
         }
 
