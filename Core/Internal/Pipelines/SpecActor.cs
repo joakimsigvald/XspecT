@@ -72,7 +72,7 @@ internal class SpecActor<TSUT, TResult>
         {
             var function = act.Compile();
             _result = function(sut);
-            Specification.AddSection($"when {act.GetName()}");
+            Specification.AddWhen(act);
             return true;
         }
 

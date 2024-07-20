@@ -58,18 +58,6 @@ internal class Pipeline<TSUT, TResult>
         _context.Use(defaultValue, applyTo);
     }
 
-    //private void SetAction([NotNull] Expression<Action> act)
-    //    => DoSetAction(act);
-
-    //private void SetAction([NotNull] Expression<Func<TResult>> act)
-    //    => DoSetAction(act);
-
-    //private void SetAction([NotNull] Expression<Func<Task>> act)
-    //    => DoSetAction(act);
-
-    //private void SetAction([NotNull] Expression<Func<Task<TResult>>> act)
-    //    => DoSetAction(act);
-
     internal void PrependSetUp(Action setUp)
     {
         AssertHasNotRun();

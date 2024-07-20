@@ -17,7 +17,7 @@ public class WhenGet : Spec<MyRetriever, MyModel>
     {
         var ex = Xunit.Assert.Throws<XunitException>(Test);
         Xunit.Assert.Equal(
-            "Given IMyRepository that Get the int returns a MyModel, when Get an int, then result is not the MyModel",
+            "Given IMyRepository that Get with the int returns a MyModel, when Get with an int, then result is not the MyModel",
             ex.Message);
 
         void Test() 

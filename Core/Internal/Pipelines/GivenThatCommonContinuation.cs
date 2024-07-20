@@ -68,41 +68,10 @@ internal class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, TA
         else
             Continuation.Returns(() =>
             {
-                AddReturnsToSpecification(returns);
+                Specification.AddMockReturns(returns);
                 return returns();
             });
         if (_expression is not null)
-            AddGivenToSpecification();
+            Specification.AddMockSetup(_expression);
     }
-
-    private void AddGivenToSpecification()
-    {
-        var description = new StringBuilder();
-        description.Append($"given {typeof(TService).Name} that {_expression.GetName()}");
-        var body = _expression.Body as MethodCallExpression;
-        var arguments = body.Arguments;
-        foreach (var argument in arguments)
-            description.Append(DescribeArgument(argument));
-        Specification.AddSection(description.ToString());
-    }
-
-    private void AddReturnsToSpecification(Func<TReturns> returns)
-    {
-        var description = new StringBuilder();
-        description.Append($"returns");
-        description.Append(DescribeArgument(returns.Method));
-        Specification.AddSubSection(description.ToString());
-    }
-
-    private static string DescribeArgument(Expression expr)
-        => expr switch
-        {
-            MethodCallExpression mce => $" {mce.Method.Name.ToLower()} {mce.Method.ReturnType.Alias()}",
-            UnaryExpression ue => DescribeArgument(ue.Operand),
-            MemberExpression me => "TODO",
-            _ => throw new SetupFailed($"Unknown argument expression: {expr.NodeType}")
-        };
-
-    private static string DescribeArgument(MethodInfo method)
-        => $" {method.Name.ToLower()} {method.ReturnType.Alias()}";
 }

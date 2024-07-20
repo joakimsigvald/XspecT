@@ -19,6 +19,8 @@ public class IsObject : Constraint<IsObject, object>
     {
         try
         {
+            Specification.AddSubSection("is not");
+            Specification.PopFragments();
             _actual.Should().NotBeSameAs(expected);
         }
         catch (XunitException ex)
