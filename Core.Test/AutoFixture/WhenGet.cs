@@ -37,10 +37,20 @@ public class WhenGet : Spec<MyRetriever, MyModel>
  then result is not the second MyModel");
     }
 
-    [Fact]
-    public void Another_Value_Mentioned_Twice_Are_Different_Values()
-        => Given<IMyRepository>().That(_ => _.Get(The<int>())).Returns(Another<MyModel>)
-        .Then().Result.Is().Not(Another<MyModel>());
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public void Another_Value_Mentioned_Twice_Are_Different_Values(bool fail)
+    {
+        Given<IMyRepository>().That(_ => _.Get(The<int>())).Returns(Another<MyModel>)
+            .Then().Result.Is().Not(Another<MyModel>());
+
+        if (fail)
+            VerifyDescription(
+@"Given IMyRepository that Get with the int returns another MyModel,
+ when Get with an int,
+ then result is not another MyModel");
+    }
 
     [Fact]
     public void A_Value_Of_Different_Type_Is_Different_Value()

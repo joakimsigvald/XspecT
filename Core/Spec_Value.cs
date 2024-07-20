@@ -232,7 +232,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected internal TValue Another<TValue>() => _pipeline.Create<TValue>();
+    protected internal TValue Another<TValue>() => _pipeline.Mention<TValue>(-1);
 
     /// <summary>
     /// Yields a customized value of the given type that cannot be retrieved again

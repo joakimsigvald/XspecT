@@ -78,10 +78,8 @@ internal class Pipeline<TSUT, TResult>
     internal TValue Mention<TValue>(int index = 0, [CallerMemberName] string callerName = "")
     {
         Specification.PushFragment($"{callerName.AsWords()} {typeof(TValue).Alias()}");
-        return _context.Mention<TValue>(index);
+        return index < 0 ? _context.Create<TValue>() : _context.Mention<TValue>(index);
     }
-
-    internal TValue Create<TValue>() => _context.Create<TValue>();
 
     internal TValue Create<TValue>([NotNull] Action<TValue> setup)
     {
