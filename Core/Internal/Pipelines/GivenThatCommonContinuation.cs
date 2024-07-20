@@ -66,12 +66,9 @@ internal class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, TA
         if (Continuation is Moq.Language.Flow.IReturnsThrows<TService, Task<TReturns>> asyncContinuation)
             asyncContinuation.ReturnsAsync(returns);
         else
-            Continuation.Returns(() =>
-            {
-                Specification.AddMockReturns(returns);
-                return returns();
-            });
+            Continuation.Returns(returns);
         if (_expression is not null)
             Specification.AddMockSetup(_expression);
+        Specification.AddMockReturns(returns);
     }
 }

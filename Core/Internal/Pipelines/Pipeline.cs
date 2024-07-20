@@ -1,6 +1,7 @@
 ﻿using Moq;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 using XspecT.Internal.TestData;
 using XspecT.Internal.Verification;
 
@@ -74,7 +75,11 @@ internal class Pipeline<TSUT, TResult>
 
     internal void SetTearDown(Func<Task> tearDown) => SetTearDown(() => Execute(tearDown));
 
-    internal TValue Mention<TValue>(int index) => _context.Mention<TValue>(index);
+    internal TValue Mention<TValue>(int index = 0, [CallerMemberName] string callerName = "")
+    {
+        Specification.PushFragment($"{callerName.AsWords()} {typeof(TValue).Alias()}");
+        return _context.Mention<TValue>(index);
+    }
 
     internal TValue Create<TValue>() => _context.Create<TValue>();
 

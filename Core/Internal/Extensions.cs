@@ -13,11 +13,13 @@ internal static class Extensions
     }
 
     internal static string AsWords(this string str)
-        => string.IsNullOrWhiteSpace(str) ? string.Empty : str.ToLower();
+        => string.IsNullOrWhiteSpace(str)
+        ? string.Empty
+        : string.Join(' ', SplitWords(str).Select(word => word.ToLower()));
 
     internal static string Capitalize(this string str)
-        => string.IsNullOrWhiteSpace(str) 
-        ? string.Empty 
+        => string.IsNullOrWhiteSpace(str)
+        ? string.Empty
         : str[..1].ToUpper() + str[1..];
 
     internal static string GetName(this LambdaExpression expression)
@@ -31,5 +33,21 @@ internal static class Extensions
         var nameProperty = method?.GetType().GetProperty("Name");
         var name = nameProperty?.GetValue(method) as string;
         return name?.Capitalize() ?? defaultExpression;
+    }
+
+    private static IEnumerable<string> SplitWords(string camelCase)
+    {
+        int fromIndex = 0;
+        int toIndex = 0;
+        for (var i = 0; i < camelCase.Length; i++)
+        {
+            if (!char.IsUpper(camelCase[i]))
+                continue;
+            toIndex = i;
+            if (toIndex > fromIndex)
+                yield return camelCase[fromIndex..toIndex];
+            fromIndex = toIndex;
+        }
+        yield return camelCase[fromIndex..];
     }
 }

@@ -4,7 +4,10 @@ using System.Text;
 
 namespace XspecT.Internal.TestData;
 
-internal static class Specification
+/// <summary>
+/// 
+/// </summary>
+public static class Specification
 {
     [ThreadStatic]
     private static StringBuilder _specificationBuilder;
@@ -17,7 +20,10 @@ internal static class Specification
         _specificationBuilder = null;
     }
 
-    internal static string Description => Builder.ToString().TrimStart().Capitalize();
+    /// <summary>
+    /// 
+    /// </summary>
+    public static string Description => Builder.ToString().TrimStart().Capitalize();
 
     internal static void AddMockSetup<TService, TActualReturns>(Expression<Func<TService, TActualReturns>> expression)
     {
@@ -55,7 +61,7 @@ internal static class Specification
     internal static void AddSection(string section)
     {
         if (HasText)
-            Builder.Append(",");
+            Builder.Append($",{Environment.NewLine}");
         AddSubSection(section);
     }
 
@@ -77,7 +83,7 @@ internal static class Specification
             var fragment = _fragments.Pop();
             if (fragment is null)
                 return;
-            Builder.Append(fragment);
+            AddSubSection(fragment);
         }
     }
 
@@ -93,7 +99,7 @@ internal static class Specification
         };
 
     private static string DescribeArgument(MethodInfo method)
-        => $" {method.Name.ToLower()} {method.ReturnType.Alias()}";
+        => $" {method.Name.AsWords()} {method.ReturnType.Alias()}";
 
     private static bool HasText => _specificationBuilder is not null;
     private static StringBuilder Builder => _specificationBuilder ??= new();

@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using XspecT.Internal.TestData;
 
 namespace XspecT;
 
@@ -10,28 +9,28 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected internal TValue The<TValue>() => Mention<TValue>("the");
+    protected internal TValue The<TValue>() => _pipeline.Mention<TValue>();
 
     /// <summary>
     /// Yields a value of the given type
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected internal TValue TheFirst<TValue>() => Mention<TValue>("the first");
+    protected internal TValue TheFirst<TValue>() => _pipeline.Mention<TValue>();
 
     /// <summary>
     /// Yields a value of the given type
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected internal TValue An<TValue>() => Mention<TValue>("an");
+    protected internal TValue An<TValue>() => _pipeline.Mention<TValue>();
 
     /// <summary>
     /// Yields a value of the given type
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected internal TValue A<TValue>() => Mention<TValue>("a");
+    protected internal TValue A<TValue>() => _pipeline.Mention<TValue>();
 
     /// <summary>
     /// Yields a customized value of the given type
@@ -81,7 +80,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected internal TValue TheSecond<TValue>() => ASecond<TValue>();
+    protected internal TValue TheSecond<TValue>() => _pipeline.Mention<TValue>(1);
 
     /// <summary>
     /// Yields a second value of the given type
@@ -242,10 +241,4 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <param name="setup"></param>
     /// <returns></returns>
     protected internal TValue Another<TValue>([NotNull] Action<TValue> setup) => _pipeline.Create(setup);
-
-    private TValue Mention<TValue>(string article)
-    {
-        Specification.PushFragment($" {article} {typeof(TValue).Alias()}");
-        return _pipeline.Mention<TValue>(0);
-    }
 }

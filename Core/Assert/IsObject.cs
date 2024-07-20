@@ -17,10 +17,10 @@ public class IsObject : Constraint<IsObject, object>
     [CustomAssertion]
     public ContinueWith<IsObject> Not(object expected)
     {
+        Specification.AddSubSection("is not");
+        Specification.PopFragments();
         try
         {
-            Specification.AddSubSection("is not");
-            Specification.PopFragments();
             _actual.Should().NotBeSameAs(expected);
         }
         catch (XunitException ex)

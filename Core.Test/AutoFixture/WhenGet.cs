@@ -1,4 +1,5 @@
 ﻿using XspecT.Assert;
+using XspecT.Internal.TestData;
 using Xunit.Sdk;
 
 namespace XspecT.Test.AutoFixture;
@@ -17,10 +18,12 @@ public class WhenGet : Spec<MyRetriever, MyModel>
     {
         var ex = Xunit.Assert.Throws<XunitException>(Test);
         Xunit.Assert.Equal(
-            "Given IMyRepository that Get with the int returns a MyModel, when Get with an int, then result is not the MyModel",
-            ex.Message);
+@"Given IMyRepository that Get with the int returns a MyModel,
+ when Get with an int,
+ then result is not the MyModel",
+ex.Message);
 
-        void Test() 
+        void Test()
             => Given<IMyRepository>()
             .That(_ => _.Get(The<int>()))
             .Returns(A<MyModel>)
@@ -29,8 +32,16 @@ public class WhenGet : Spec<MyRetriever, MyModel>
 
     [Fact]
     public void Another_Value_Is_Not_Same_As_A_Value()
-        => Given<IMyRepository>().That(_ => _.Get(Another<int>())).Returns(ASecond<MyModel>)
-        .Then().Result.Is().Not(TheSecond<MyModel>());
+    {
+        Given<IMyRepository>().That(_ => _.Get(Another<int>())).Returns(ASecond<MyModel>)
+            .Then().Result.Is().Not(TheSecond<MyModel>());
+
+        Xunit.Assert.Equal(
+@"Given IMyRepository that Get with another int returns a second MyModel,
+ when Get with an int,
+ then result is not the second MyModel",
+Specification.Description);
+    }
 
     [Fact]
     public void Another_Value_Mentioned_Twice_Are_Different_Values()

@@ -2,6 +2,8 @@
 using System.Linq.Expressions;
 using XspecT.Assert.Numerical;
 using XspecT.Assert.Time;
+using XspecT.Internal.TestData;
+using Xunit.Sdk;
 
 namespace XspecT.Assert;
 
@@ -402,12 +404,21 @@ public static class AssertionExtensions
     [CustomAssertion]
     public static ContinueWith<IsObject> Is(this object actual, object expected)
     {
-        actual.Should().BeSameAs(expected);
+        Specification.AddSubSection("is");
+        Specification.PopFragments();
+        try
+        {
+            actual.Should().BeSameAs(expected);
+        }
+        catch (XunitException ex) 
+        {
+            throw new XunitException(Specification.Description, ex);
+        }
         return new(new(actual));
     }
 
     /// <summary>
-    /// Verify that actual object satisfy a giuven predicate
+    /// Verify that actual object satisfy a given predicate
     /// </summary>
     [CustomAssertion]
     public static ContinueWith<IsObject> Match<TValue>(this TValue actual, Expression<Func<TValue, bool>> predicate)
@@ -440,8 +451,15 @@ public static class AssertionExtensions
     [CustomAssertion]
     public static ContinueWith<IsString> Is(this string actual, string expected)
     {
-        actual.Should().Be(expected);
-        return new(new(actual));
+        try
+        {
+            actual.Should().Be(expected);
+            return new(new(actual));
+        }
+        catch (XunitException ex)
+        {
+            throw new XunitException(Specification.Description, ex);
+        }
     }
 
     /// <summary>
