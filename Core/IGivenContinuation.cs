@@ -1,4 +1,6 @@
-﻿namespace XspecT;
+﻿using System.Linq.Expressions;
+
+namespace XspecT;
 
 /// <summary>
 /// A continuation object to apply additional arrangements to the test
@@ -10,7 +12,8 @@ public interface IGivenContinuation<TSUT, TResult>
     /// </summary>
     /// <param name="setup"></param>
     /// <returns>The test-pipeline</returns>
-    IGivenTestPipeline<TSUT, TResult> That(Action setup);
+    [Obsolete("This method will be removed.")]
+    IGivenTestPipeline<TSUT, TResult> That(Expression<Action> setup);
 
     /// <summary>
     /// Provide a default value, that will be applied in all mocks and auto-generated test-data, where no specific value or setup is given.

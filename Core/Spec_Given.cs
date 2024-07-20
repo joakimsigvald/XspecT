@@ -1,4 +1,5 @@
 ﻿using Moq;
+using System.Linq.Expressions;
 using XspecT.Internal.Pipelines;
 using XspecT.Internal.TestData;
 
@@ -37,11 +38,11 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <param name="defaultValue"></param>
     /// <returns></returns>
     public IGivenTestPipeline<TSUT, TResult> Given<TValue>(TValue defaultValue)
-        => Given(defaultValue, ApplyTo.All);
+        => GivenDefault(defaultValue, ApplyTo.All);
 
     /// <summary>
     /// Provide an array of default values, that will be applied in all mocks and auto-generated test-data, where no specific value or setup is given.
-    /// It is also mentioned by position so the values can be retreived by A, ASecond, AThird etc.
+    /// It is also mentioned by position so the values can be retrieved by A, ASecond, AThird etc.
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="defaultValues"></param>
@@ -78,15 +79,15 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <param name="value"></param>
     /// <returns></returns>
     public IGivenTestPipeline<TSUT, TResult> Given<TValue>(Func<TValue> value)
-        => Given(value, ApplyTo.All);
+        => GivenDefault(value, ApplyTo.All);
 
-    internal IGivenTestPipeline<TSUT, TResult> Given<TValue>(TValue defaultValue, ApplyTo applyTo)
+    internal IGivenTestPipeline<TSUT, TResult> GivenDefault<TValue>(TValue defaultValue, ApplyTo applyTo)
     {
         _pipeline.SetDefault(defaultValue, applyTo);
         return new GivenTestPipeline<TSUT, TResult>(this);
     }
 
-    internal IGivenTestPipeline<TSUT, TResult> Given<TValue>(Func<TValue> value, ApplyTo applyTo)
+    internal IGivenTestPipeline<TSUT, TResult> GivenDefault<TValue>(Func<TValue> value, ApplyTo applyTo)
     {
         _pipeline.Given(() => _pipeline.SetDefault(value(), applyTo));
         return new GivenTestPipeline<TSUT, TResult>(this);
@@ -95,7 +96,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     internal Mock<TService> GetMock<TService>() where TService : class 
         => _pipeline.GetMock<TService>();
 
-    internal IGivenTestPipeline<TSUT, TResult> GivenSetup(Action setup)
+    internal IGivenTestPipeline<TSUT, TResult> GivenSetup(Expression<Action> setup)
     {
         _pipeline.Given(setup);
         return new GivenTestPipeline<TSUT, TResult>(this);

@@ -45,7 +45,7 @@ internal class SpecActor<TSUT, TResult>
         const string cue = "could not resolve to an object. (Parameter 'serviceType')";
         try
         {
-            return _act switch
+            var hasResult = _act switch
             {
                 Expression<Func<TSUT, Task<TResult>>> act => ExecuteFunctionAsync(act),
                 Expression<Func<TSUT, Task>> act => ExecuteCommandAsync(act),
@@ -53,6 +53,8 @@ internal class SpecActor<TSUT, TResult>
                 Expression<Action<TSUT>> act => ExecuteCommand(act),
                 _ => throw new SetupFailed("Failed to run method under test, unexpected signature")
             };
+            Specification.AddSection("then");
+            return hasResult;
         }
         catch (ArgumentException ex) when (ex.Message.Contains(cue))
         {
@@ -68,7 +70,6 @@ internal class SpecActor<TSUT, TResult>
 
         bool ExecuteFunction(Expression<Func<TSUT, TResult>> act)
         {
-            Specification.PushStop();
             var function = act.Compile();
             _result = function(sut);
             Specification.AddSection($"when {act.GetName()}");

@@ -132,7 +132,7 @@ internal class Pipeline<TSUT, TResult>
     internal Mock<TObject> GetMock<TObject>() where TObject : class 
         => _context.GetMock<TObject>();
 
-    internal void Given(Action arrangement)
+    internal void Given(Expression<Action> arrangement)
     {
         AssertHasNotRun();
         _arranger.Push(arrangement);

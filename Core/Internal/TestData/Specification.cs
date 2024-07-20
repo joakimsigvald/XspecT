@@ -7,54 +7,24 @@ internal static class Specification
     [ThreadStatic]
     private static StringBuilder _specificationBuilder;
 
-    [ThreadStatic]
-    private static Stack<string> _fragments;
-
-    internal static void Clear()
-    {
-        _fragments = null;
-        _specificationBuilder = null;
-    }
+    internal static void Clear() => _specificationBuilder = null;
 
     internal static void AddSection(string section)
     {
-        if (_specificationBuilder is not null)
-            AddFragment(",");
+        if (HasText)
+            Builder.Append(",");
         AddSubSection(section);
     }
 
     internal static void AddSubSection(string phrase)
     {
-        if (_specificationBuilder is not null)
-            AddFragment(" ");
-        AddFragment(phrase);
-        while (_fragments?.Count > 0)
-        {
-            var fragment = _fragments.Pop();
-            if (fragment is null)
-                return;
-            AddFragment(fragment);
-        }
+        if (HasText)
+            Builder.Append(" ");
+        Builder.Append(phrase);
     }
 
-    internal static void AddFragment(string fragment)
-    {
-        _specificationBuilder ??= new();
-        _specificationBuilder.Append(fragment);
-    }
+    internal static string Description => Builder.ToString().TrimStart().Capitalize();
 
-    internal static void PushFragment(string fragment)
-    {
-        _fragments ??= new();
-        _fragments.Push(fragment);
-    }
-
-    internal static void PushStop() => PushFragment(null);
-
-    /// <summary>
-    /// 
-    /// </summary>
-    internal static string Description
-        => _specificationBuilder?.ToString().TrimStart().Capitalize()
-        ?? string.Empty;
+    private static bool HasText => _specificationBuilder is not null;
+    private static StringBuilder Builder => _specificationBuilder ??= new();
 }

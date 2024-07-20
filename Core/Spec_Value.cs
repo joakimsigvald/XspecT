@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using XspecT.Internal.TestData;
 
 namespace XspecT;
 
@@ -10,28 +9,28 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected internal TValue The<TValue>() => Mention<TValue>("the");
+    protected internal TValue The<TValue>() => _pipeline.Mention<TValue>(0);
 
     /// <summary>
     /// Yields a value of the given type
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected internal TValue TheFirst<TValue>() => Mention<TValue>("the first");
+    protected internal TValue TheFirst<TValue>() => _pipeline.Mention<TValue>(0);
 
     /// <summary>
     /// Yields a value of the given type
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected internal TValue An<TValue>() => Mention<TValue>("an");
+    protected internal TValue An<TValue>() => _pipeline.Mention<TValue>(0);
 
     /// <summary>
     /// Yields a value of the given type
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected internal TValue A<TValue>() => Mention<TValue>("a");
+    protected internal TValue A<TValue>() => _pipeline.Mention<TValue>(0);
 
     /// <summary>
     /// Yields a customized value of the given type
@@ -229,23 +228,17 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     protected internal TValue AFifth<TValue>([NotNull] Func<TValue, TValue> transform) => _pipeline.Mention(4, transform);
 
     /// <summary>
-    /// Yields a value of the given type that cannot be retreived again
+    /// Yields a value of the given type that cannot be retrieved again
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
     protected internal TValue Another<TValue>() => _pipeline.Create<TValue>();
 
     /// <summary>
-    /// Yields a customized value of the given type that cannot be retreived again
+    /// Yields a customized value of the given type that cannot be retrieved again
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
     /// <returns></returns>
     protected internal TValue Another<TValue>([NotNull] Action<TValue> setup) => _pipeline.Create(setup);
-
-    private TValue Mention<TValue>(string article)
-    {
-        Specification.PushFragment($" {article} {typeof(TValue).Alias()}");
-        return _pipeline.Mention<TValue>(0);
-    }
 }
