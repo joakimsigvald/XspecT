@@ -1,6 +1,5 @@
 ﻿using FluentAssertions;
 using XspecT.Internal.TestData;
-using Xunit.Sdk;
 
 namespace XspecT.Assert;
 
@@ -14,19 +13,9 @@ public class IsObject : Constraint<IsObject, object>
     /// <summary>
     /// Should().NotBeSameAs(expected)
     /// </summary>
-    [CustomAssertion]
     public ContinueWith<IsObject> Not(object expected)
     {
-        Specification.AddSubSection("is not");
-        Specification.PopFragments();
-        try
-        {
-            _actual.Should().NotBeSameAs(expected);
-        }
-        catch (XunitException ex)
-        {
-            throw new XunitException(Specification.Description, ex);
-        }
+        Specification.AddAssert([CustomAssertion] () => _actual.Should().NotBeSameAs(expected), "is not");
         return And();
     }
 

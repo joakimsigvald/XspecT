@@ -401,19 +401,9 @@ public static class AssertionExtensions
     /// <summary>
     /// Verify that actual object is same reference as expected and return continuation for further assertions of the object
     /// </summary>
-    [CustomAssertion]
     public static ContinueWith<IsObject> Is(this object actual, object expected)
     {
-        Specification.AddSubSection("is");
-        Specification.PopFragments();
-        try
-        {
-            actual.Should().BeSameAs(expected);
-        }
-        catch (XunitException ex) 
-        {
-            throw new XunitException(Specification.Description, ex);
-        }
+        Specification.AddAssert([CustomAssertion] () => actual.Should().BeSameAs(expected));
         return new(new(actual));
     }
 

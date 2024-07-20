@@ -1,6 +1,6 @@
 ﻿using XspecT.Assert;
-using XspecT.Internal.TestData;
-using Xunit.Sdk;
+
+using static XspecT.Test.Helper;
 
 namespace XspecT.Test.AutoFixture;
 
@@ -8,39 +8,33 @@ public class WhenGet : Spec<MyRetriever, MyModel>
 {
     public WhenGet() => When(_ => _.Get(An<int>()));
 
-    [Fact]
-    public void A_Value_Mentioned_Twice_Is_Same_Value()
-        => Given<IMyRepository>().That(_ => _.Get(The<int>())).Returns(A<MyModel>)
-        .Then().Result.Is(The<MyModel>());
-
-    [Fact]
-    public void A_Value_Mentioned_Twice_Is_Same_Value_ErrorMessage()
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public void A_Value_Mentioned_Twice_Is_Same_Value(bool describe)
     {
-        var ex = Xunit.Assert.Throws<XunitException>(Test);
-        Xunit.Assert.Equal(
+        Given<IMyRepository>().That(_ => _.Get(The<int>())).Returns(A<MyModel>)
+            .Then().Result.Is(The<MyModel>());
+        if (describe)
+            VerifyDescription(
 @"Given IMyRepository that Get with the int returns a MyModel,
  when Get with an int,
- then result is not the MyModel",
-ex.Message);
-
-        void Test()
-            => Given<IMyRepository>()
-            .That(_ => _.Get(The<int>()))
-            .Returns(A<MyModel>)
-            .Then().Result.Is().Not(The<MyModel>());
+ then result is the MyModel");
     }
 
-    [Fact]
-    public void Another_Value_Is_Not_Same_As_A_Value()
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public void Another_Value_Is_Not_Same_As_A_Value(bool fail)
     {
         Given<IMyRepository>().That(_ => _.Get(Another<int>())).Returns(ASecond<MyModel>)
             .Then().Result.Is().Not(TheSecond<MyModel>());
 
-        Xunit.Assert.Equal(
+        if (fail)
+            VerifyDescription(
 @"Given IMyRepository that Get with another int returns a second MyModel,
  when Get with an int,
- then result is not the second MyModel",
-Specification.Description);
+ then result is not the second MyModel");
     }
 
     [Fact]

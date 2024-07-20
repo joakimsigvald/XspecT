@@ -1,6 +1,8 @@
 ﻿using System.Linq.Expressions;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
+using Xunit.Sdk;
 
 namespace XspecT.Internal.TestData;
 
@@ -47,6 +49,20 @@ public static class Specification
         sb.Append($"when {expression.GetName()}");
         AddMethodArguments(sb, expression.Body as MethodCallExpression);
         AddSection(sb.ToString());
+    }
+
+    internal static void AddAssert(Action assert, [CallerMemberName] string verb = "")
+    {
+        AddSubSection(verb.AsWords());
+        PopFragments();
+        try
+        {
+            assert();
+        }
+        catch (XunitException ex)
+        {
+            throw new XunitException(Description, ex);
+        }
     }
 
     internal static void AddMethodArguments(StringBuilder sb, MethodCallExpression body)
