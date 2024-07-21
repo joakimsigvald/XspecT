@@ -18,7 +18,7 @@ public abstract class WhenRemoveItem : ShoppingServiceAsyncSpec<ShoppingCart>
 
     public class GivenCartWithOneItem : WhenRemoveItem
     {
-        public GivenCartWithOneItem() => Given(() => CartItems = new[] { new ShoppingCartItem("X") });
+        public GivenCartWithOneItem() => Given(() => CartItems = [new ShoppingCartItem("X")]);
         [Fact] public void ThenCartIsEmpty() => Result.Items.Is().Empty();
     }
 }

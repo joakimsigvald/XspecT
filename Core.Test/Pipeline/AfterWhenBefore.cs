@@ -37,11 +37,11 @@ public class AfterWhenBefore : Spec<MyStateService, int>
     public void WhenBeforeGivenAfter()
         => When(_ => AdvanceCounter(_)).Before(_ => ++_.Counter).Given(1).After(_ => _.Counter++).Then().Result.Is(2);
 
-    private int AdvanceCounter(MyStateService service) => ++service.Counter;
+    private static int AdvanceCounter(MyStateService service) => ++service.Counter;
 
-    private int DoubleCounter(MyStateService service)
+    private static int DoubleCounter(MyStateService service)
         => service.Counter *= 2;
 
-    private int SetCounter(MyStateService service, int val)
+    private static int SetCounter(MyStateService service, int val)
         => service.Counter = val;
 }

@@ -22,28 +22,22 @@ internal static class Extensions
         ? string.Empty
         : str[..1].ToUpper() + str[1..];
 
-    internal static string GetName(this LambdaExpression expression)
+    internal static string GetMethodName(this LambdaExpression expression)
     {
-        const string defaultExpression = "<Expression>";
-        if (expression is null)
-            return defaultExpression;
-        var body = expression.Body;
-        var methodProperty = body.GetType().GetProperty("Method");
-        var method = methodProperty?.GetValue(body);
+        var methodProperty = expression.Body.GetType().GetProperty("Method");
+        var method = methodProperty?.GetValue(expression.Body);
         var nameProperty = method?.GetType().GetProperty("Name");
         var name = nameProperty?.GetValue(method) as string;
-        return name?.Capitalize() ?? defaultExpression;
+        return name?.Capitalize() ?? "<Expression>";
     }
 
     private static IEnumerable<string> SplitWords(string camelCase)
     {
         int fromIndex = 0;
-        int toIndex = 0;
-        for (var i = 0; i < camelCase.Length; i++)
+        for (var toIndex = 0; toIndex < camelCase.Length; toIndex++)
         {
-            if (!char.IsUpper(camelCase[i]))
+            if (!char.IsUpper(camelCase[toIndex]))
                 continue;
-            toIndex = i;
             if (toIndex > fromIndex)
                 yield return camelCase[fromIndex..toIndex];
             fromIndex = toIndex;

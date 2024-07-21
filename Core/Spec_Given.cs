@@ -8,7 +8,7 @@ namespace XspecT;
 public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
 {
     /// <summary>
-    /// Provide any arrangement to the test, which will be applied during test execution in reverse order of where in the test-pipleine it was provided
+    /// Provide any arrangement to the test, which will be applied during test execution in reverse order of where in the test-pipeline it was provided
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
@@ -50,7 +50,9 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     public IGivenTestPipeline<TSUT, TResult> Given<TValue>(params TValue[] defaultValues)
     {
         _pipeline.SetDefault(defaultValues, ApplyTo.All);
-        defaultValues.Take(5).Select((v, i) => _pipeline.Mention(i, v)).Count();
+        var mentions = defaultValues.Take(5).Select((value, i) => (i, value));
+        foreach (var (i, value) in mentions)
+            _pipeline.Mention(i, value);
         return new GivenTestPipeline<TSUT, TResult>(this);
     }
 
@@ -83,7 +85,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
 
     internal IGivenTestPipeline<TSUT, TResult> GivenDefault<TValue>(TValue defaultValue, ApplyTo applyTo)
     {
-        Specification.AddSection($"given {typeof(TValue).Alias()}");
+        Specification.AddPhrase($"given {typeof(TValue).Alias()}");
         _pipeline.SetDefault(defaultValue, applyTo);
         return new GivenTestPipeline<TSUT, TResult>(this);
     }

@@ -1,8 +1,8 @@
 ﻿namespace XspecT;
 
-public static class TypeExtensions
+internal static class TypeExtensions
 {
-    public static string Alias(this Type type) 
+    internal static string Alias(this Type type) 
         => _typeAliases.TryGetValue(type, out var alias) ? alias : type.Name;
 
     private static readonly Dictionary<Type, string> _typeAliases = new()

@@ -25,7 +25,7 @@ internal class TestResult<TResult> : ITestResult<TResult>
         get
         {
             Specification.PushStop();
-            Specification.AddSubSection("result");
+            Specification.AddWord("result");
             return _hasResult && _error is null ? _result : throw UnexpectedError;
         }
 

@@ -13,7 +13,7 @@ public class WhenMockObjectWithSpecifiedPropertyValue : Spec<StaticObjectService
             => Given(A<MyObject>(_ => _.Age = 3)).Then().Result.Age.Is(3);
 
         [Fact]
-        public void Then_Can_Retreive_The_Object()
+        public void Then_Can_Retrieve_The_Object()
             => Given(A<MyObject>(_ => _.Age = 3)).Then(The<MyObject>()).Age.Is(3);
     }
 }

@@ -11,13 +11,13 @@ namespace XspecT;
 public interface ITestPipeline<TSUT, TResult>
 {
     /// <summary>
-    /// Runs the test and provides the result. When the test is run, any provided arrengement will be applied in reverse order, then the subject-under-test will be created and the method-under-test called
+    /// Runs the test and provides the result. When the test is run, any provided arrangement will be applied in reverse order, then the subject-under-test will be created and the method-under-test called
     /// </summary>
     /// <returns>The test result, containing any return values or exceptions thrown, upon which assertions can be made</returns>
     ITestResult<TResult> Then();
 
     /// <summary>
-    /// Runs the test and provides the result. When the test is run, any provided arrengement will be applied in reverse order, then the subject-under-test will be created and the method-under-test called
+    /// Runs the test and provides the result. When the test is run, any provided arrangement will be applied in reverse order, then the subject-under-test will be created and the method-under-test called
     /// </summary>
     /// <typeparam name="TSubject"></typeparam>
     /// <param name="subject"></param>
@@ -141,7 +141,7 @@ public interface ITestPipeline<TSUT, TResult>
     ITestPipeline<TSUT, TResult> Before(Func<TSUT, Task> tearDown);
 
     /// <summary>
-    /// Provide any arrangement to the test, which will be applied during test execution in reverse order of where in the test-pipleine it was provided
+    /// Provide any arrangement to the test, which will be applied during test execution in reverse order of where in the test-pipeline it was provided
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>

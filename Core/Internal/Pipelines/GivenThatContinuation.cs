@@ -23,9 +23,10 @@ internal class GivenThatContinuation<TSUT, TResult, TService, TReturns, TActualR
         if (returns is null)
             throw new SetupFailed($"{nameof(returns)} may not be null");
         TReturns retVal = default;
-        Action<TArg> callback = arg => retVal = returns(arg); 
         var continuation = ContinueWith(() => Continuation.Callback(callback));
         return continuation.Returns(() => retVal);
+
+        void callback(TArg arg) => retVal = returns(arg);
     }
 
     public IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns> Tap<TArg1, TArg2>(
@@ -37,9 +38,10 @@ internal class GivenThatContinuation<TSUT, TResult, TService, TReturns, TActualR
         if (returns is null)
             throw new SetupFailed($"{nameof(returns)} may not be null");
         TReturns retVal = default;
-        Action<TArg1, TArg2> callback = (arg1, arg2) => retVal = returns(arg1, arg2);
         var continuation = ContinueWith(() => Continuation.Callback(callback));
         return continuation.Returns(() => retVal);
+
+        void callback(TArg1 arg1, TArg2 arg2) => retVal = returns(arg1, arg2);
     }
 
     public IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns> Tap<TArg1, TArg2, TArg3>(
@@ -51,9 +53,10 @@ internal class GivenThatContinuation<TSUT, TResult, TService, TReturns, TActualR
         if (returns is null)
             throw new SetupFailed($"{nameof(returns)} may not be null");
         TReturns retVal = default;
-        Action<TArg1, TArg2, TArg3> callback = (arg1, arg2, arg3) => retVal = returns(arg1, arg2, arg3);
         var continuation = ContinueWith(() => Continuation.Callback(callback));
         return continuation.Returns(() => retVal);
+
+        void callback(TArg1 arg1, TArg2 arg2, TArg3 arg3) => retVal = returns(arg1, arg2, arg3);
     }
 
     public IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns> Tap<TArg1, TArg2, TArg3, TArg4>(
@@ -65,9 +68,10 @@ internal class GivenThatContinuation<TSUT, TResult, TService, TReturns, TActualR
         if (returns is null)
             throw new SetupFailed($"{nameof(returns)} may not be null");
         TReturns retVal = default;
-        Action<TArg1, TArg2, TArg3, TArg4> callback = (arg1, arg2, arg3, arg4) => retVal = returns(arg1, arg2, arg3, arg4);
         var continuation = ContinueWith(() => Continuation.Callback(callback));
         return continuation.Returns(() => retVal);
+
+        void callback(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4) => retVal = returns(arg1, arg2, arg3, arg4);
     }
 
     public IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns> Tap<TArg1, TArg2, TArg3, TArg4, TArg5>(
@@ -79,9 +83,10 @@ internal class GivenThatContinuation<TSUT, TResult, TService, TReturns, TActualR
         if (returns is null)
             throw new SetupFailed($"{nameof(returns)} may not be null");
         TReturns retVal = default;
-        Action<TArg1, TArg2, TArg3, TArg4, TArg5> callback = (arg1, arg2, arg3, arg4, arg5) => retVal = returns(arg1, arg2, arg3, arg4, arg5);
         var continuation = ContinueWith(() => Continuation.Callback(callback));
         return continuation.Returns(() => retVal);
+
+        void callback(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5) => retVal = returns(arg1, arg2, arg3, arg4, arg5);
     }
 
     public IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns> ContinueWith<TMock>(Func<TMock> callback)

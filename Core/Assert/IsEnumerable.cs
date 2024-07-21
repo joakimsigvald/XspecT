@@ -57,7 +57,7 @@ public class IsEnumerable<TItem> : Constraint<IsEnumerable<TItem>, IEnumerable<T
     }
 
     /// <summary>
-    /// Verifies that the both collection contain the same number of elements and that elements on same position are equal to eachother
+    /// Verifies that the both collection contain the same number of elements and that elements on same position are equal to each other
     /// </summary>
     /// <param name="expected">The collection to validate against</param>
     /// <returns>A continuation for making further assertions</returns>

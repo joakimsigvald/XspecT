@@ -14,11 +14,11 @@ public static class Specification
     [ThreadStatic]
     private static StringBuilder _specificationBuilder;
     [ThreadStatic]
-    private static Stack<string> _fragments;
+    private static Stack<string> _words;
 
     internal static void Clear()
     {
-        _fragments = null;
+        _words = null;
         _specificationBuilder = null;
     }
 
@@ -30,9 +30,9 @@ public static class Specification
     internal static void AddMockSetup<TService, TActualReturns>(Expression<Func<TService, TActualReturns>> expression)
     {
         var sb = new StringBuilder();
-        sb.Append($"given {typeof(TService).Name} that {expression.GetName()}");
+        sb.Append($"given {typeof(TService).Name} that {expression.GetMethodName()}");
         AddMethodArguments(sb, expression.Body as MethodCallExpression);
-        AddSection(sb.ToString());
+        AddPhrase(sb.ToString());
     }
 
     internal static void AddMockReturns<TReturns>(Func<TReturns> returns)
@@ -40,21 +40,21 @@ public static class Specification
         var sb = new StringBuilder();
         sb.Append($"returns");
         sb.Append(DescribeArgument(returns.Method));
-        AddSubSection(sb.ToString());
+        AddWord(sb.ToString());
     }
 
     internal static void AddWhen<TSUT, TResult>(Expression<Func<TSUT, TResult>> expression)
     {
         var sb = new StringBuilder();
-        sb.Append($"when {expression.GetName()}");
+        sb.Append($"when {expression.GetMethodName()}");
         AddMethodArguments(sb, expression.Body as MethodCallExpression);
-        AddSection(sb.ToString());
+        AddPhrase(sb.ToString());
     }
 
     internal static void AddAssert(Action assert, [CallerMemberName] string verb = "")
     {
-        AddSubSection(verb.AsWords());
-        PopFragments();
+        AddWord(verb.AsWords());
+        PopWords();
         try
         {
             assert();
@@ -74,32 +74,32 @@ public static class Specification
             sb.Append(DescribeArgument(argument));
     }
 
-    internal static void AddSection(string section)
+    internal static void AddPhrase(string phrase)
     {
         if (HasText)
             Builder.Append($",{Environment.NewLine}");
-        AddSubSection(section);
+        AddWord(phrase);
     }
 
-    internal static void AddSubSection(string phrase)
+    internal static void AddWord(string word)
     {
-        Builder.Append(" ");
-        Builder.Append(phrase);
+        Builder.Append(' ');
+        Builder.Append(word);
     }
 
-    internal static void PushStop() => PushFragment(null);
+    internal static void PushStop() => PushWord(null);
 
-    internal static void PushFragment(string fragment) 
-        => (_fragments ??= new()).Push(fragment);
+    internal static void PushWord(string fragment) 
+        => (_words ??= new()).Push(fragment);
 
-    internal static void PopFragments()
+    internal static void PopWords()
     {
-        while (_fragments?.Count > 0)
+        while (_words?.Count > 0)
         {
-            var fragment = _fragments.Pop();
-            if (fragment is null)
+            var word = _words.Pop();
+            if (word is null)
                 return;
-            AddSubSection(fragment);
+            AddWord(word);
         }
     }
 
@@ -108,9 +108,9 @@ public static class Specification
         {
             MethodCallExpression mce => $" {mce.Method.Name.ToLower()} {mce.Method.ReturnType.Alias()}",
             UnaryExpression ue => DescribeArgument(ue.Operand),
-            MemberExpression me => "TODO",
-            ParameterExpression pe => "TODO",
-            ConstantExpression ce => "TODO",
+            MemberExpression => "TODO",
+            ParameterExpression => "TODO",
+            ConstantExpression => "TODO",
             _ => throw new SetupFailed($"Unknown argument expression: {expr.NodeType}")
         };
 
