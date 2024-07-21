@@ -30,7 +30,7 @@ public static class Specification
     internal static void AddMockSetup<TService, TActualReturns>(Expression<Func<TService, TActualReturns>> expression)
     {
         var sb = new StringBuilder();
-        sb.Append($"given {typeof(TService).Name} that {expression.GetMethodName()}");
+        sb.Append($"given {typeof(TService).Name}.{expression.GetMethodName()}");
         AddMethodArguments(sb, expression.Body as MethodCallExpression);
         AddPhrase(sb.ToString());
     }
@@ -69,9 +69,10 @@ public static class Specification
     {
         if (body is null)
             return;
-        sb.Append(" with");
+        sb.Append('(');
         foreach (var argument in body.Arguments)
             sb.Append(DescribeArgument(argument));
+        sb.Append(')');
     }
 
     internal static void AddPhrase(string phrase)
@@ -106,7 +107,7 @@ public static class Specification
     private static string DescribeArgument(Expression expr)
         => expr switch
         {
-            MethodCallExpression mce => $" {mce.Method.Name.ToLower()} {mce.Method.ReturnType.Alias()}",
+            MethodCallExpression mce => $"{mce.Method.Name.ToLower()} {mce.Method.ReturnType.Alias()}",
             UnaryExpression ue => DescribeArgument(ue.Operand),
             MemberExpression => "TODO",
             ParameterExpression => "TODO",

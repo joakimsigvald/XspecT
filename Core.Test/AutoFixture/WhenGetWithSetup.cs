@@ -1,5 +1,7 @@
 ﻿using XspecT.Assert;
 
+using static XspecT.Test.Helper;
+
 namespace XspecT.Test.AutoFixture;
 
 public class WhenGetWithSetup : Spec<MyMappingRetreiver, MyModel>
@@ -8,10 +10,21 @@ public class WhenGetWithSetup : Spec<MyMappingRetreiver, MyModel>
         => When(_ => _.Get(An<int>()))
         .Given<IMyRepository>().That(_ => _.Get(The<int>())).Returns(() => A<MyModel>(_ => _.Name = A<string>()));
 
-    [Fact]
-    public void Setup_CanBeProvided_ToPreviouslyMentionedModel()
-        => Given<IMyMapper>().That(_ => _.Map(The<MyModel>())).Returns(The<MyModel>)
-        .Then().Result.Name.Is(The<string>());
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public void Setup_CanBeProvided_ToPreviouslyMentionedModel(bool fail)
+    {
+        Given<IMyMapper>().That(_ => _.Map(The<MyModel>())).Returns(The<MyModel>)
+            .Then().Result.Name.Is(The<string>());
+
+        if (fail)
+            VerifyDescription(
+@"Given IMyRepository.Get(the int) returns a MyModel { Name = a string }
+ and IMyRepository.Map(the MyModel) returns the MyModel
+ when Get(an int),
+ then Result.Name is the string");
+    }
 
     [Fact]
     public void Setup_CanBeProvided_MoreThanOnce_ToSameModel()

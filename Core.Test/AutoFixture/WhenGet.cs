@@ -17,8 +17,8 @@ public class WhenGet : Spec<MyRetriever, MyModel>
             .Then().Result.Is(The<MyModel>());
         if (describe)
             VerifyDescription(
-@"Given IMyRepository that Get with the int returns a MyModel,
- when Get with an int,
+@"Given IMyRepository.Get(the int) returns a MyModel,
+ when Get(an int),
  then result is the MyModel");
     }
 
@@ -32,8 +32,8 @@ public class WhenGet : Spec<MyRetriever, MyModel>
 
         if (fail)
             VerifyDescription(
-@"Given IMyRepository that Get with another int returns a second MyModel,
- when Get with an int,
+@"Given IMyRepository.Get(another int) returns a second MyModel,
+ when Get(an int),
  then result is not the second MyModel");
     }
 
@@ -47,8 +47,8 @@ public class WhenGet : Spec<MyRetriever, MyModel>
 
         if (fail)
             VerifyDescription(
-@"Given IMyRepository that Get with the int returns another MyModel,
- when Get with an int,
+@"Given IMyRepository.Get(the int) returns another MyModel,
+ when Get(an int),
  then result is not another MyModel");
     }
 
@@ -62,8 +62,8 @@ public class WhenGet : Spec<MyRetriever, MyModel>
 
         if (fail)
             VerifyDescription(
-@"Given IMyRepository that Get with the byte returns a second MyModel,
- when Get with an int,
+@"Given IMyRepository.Get(the byte) returns a second MyModel,
+ when Get(an int),
  then result is not the second MyModel");
     }
 
@@ -77,7 +77,7 @@ public class WhenGet : Spec<MyRetriever, MyModel>
         if (fail)
             VerifyDescription(
 @"Given MyModel,
- when Get with an int,
+ when Get(an int),
  then result is the MyModel");
     }
 
@@ -91,7 +91,7 @@ public class WhenGet : Spec<MyRetriever, MyModel>
         if (fail)
             VerifyDescription(
 @"Given MyModel,
- when Get with an int,
+ when Get(an int),
  then result is the MyModel");
     }
 
@@ -105,8 +105,8 @@ public class WhenGet : Spec<MyRetriever, MyModel>
 
         if (fail)
             VerifyDescription(
-@"Given IMyRepository that Get with the int returns a second MyModel,
- when Get with an int,
+@"Given IMyRepository.Get(the int) returns a second MyModel,
+ when Get(an int),
  then result is the second MyModel");
     }
 
@@ -120,8 +120,8 @@ public class WhenGet : Spec<MyRetriever, MyModel>
 
         if (fail)
             VerifyDescription(
-@"Given IMyRepository that Get with the int returns a MyModel,
- when Get with an int,
+@"Given IMyRepository.Get(the int) returns a MyModel,
+ when Get(an int),
  then result is not a second MyModel");
     }
 
@@ -135,8 +135,8 @@ public class WhenGet : Spec<MyRetriever, MyModel>
 
         if (fail)
             VerifyDescription(
-@"Given IMyRepository that Get with the int returns a third MyModel,
- when Get with an int,
+@"Given IMyRepository.Get(the int) returns a third MyModel,
+ when Get(an int),
  then result is the third MyModel");
     }
 
@@ -150,8 +150,8 @@ public class WhenGet : Spec<MyRetriever, MyModel>
 
         if (fail)
             VerifyDescription(
-@"Given IMyRepository that Get with the int returns a second MyModel,
- when Get with an int,
+@"Given IMyRepository.Get(the int) returns a second MyModel,
+ when Get(an int),
  then result is not a third MyModel");
     }
 }
