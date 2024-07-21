@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using XspecT.Internal.TestData;
 
 namespace XspecT.Assert;
 
@@ -60,10 +61,9 @@ public class IsEnumerable<TItem> : Constraint<IsEnumerable<TItem>, IEnumerable<T
     /// </summary>
     /// <param name="expected">The collection to validate against</param>
     /// <returns>A continuation for making further assertions</returns>
-    [CustomAssertion]
     public ContinueWith<IsEnumerable<TItem>> EqualTo(IEnumerable<TItem> expected)
     {
-        _actual.Should().BeEquivalentTo(expected);
+        Specification.AddAssert([CustomAssertion] () => _actual.Should().BeEquivalentTo(expected));
         return And();
     }
 

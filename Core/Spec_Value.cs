@@ -118,7 +118,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected internal TValue TheThird<TValue>() => AThird<TValue>();
+    protected internal TValue TheThird<TValue>() => _pipeline.Mention<TValue>(2);
 
     /// <summary>
     /// Yields a third value of the given type
@@ -156,7 +156,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected internal TValue TheFourth<TValue>() => AFourth<TValue>();
+    protected internal TValue TheFourth<TValue>() => _pipeline.Mention<TValue>(3);
 
     /// <summary>
     /// Yields a fourth value of the given type
@@ -194,7 +194,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected internal TValue TheFifth<TValue>() => AFifth<TValue>();
+    protected internal TValue TheFifth<TValue>() => _pipeline.Mention<TValue>(4);
 
     /// <summary>
     /// Yields a fifth value of the given type

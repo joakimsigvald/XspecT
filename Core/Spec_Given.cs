@@ -83,6 +83,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
 
     internal IGivenTestPipeline<TSUT, TResult> GivenDefault<TValue>(TValue defaultValue, ApplyTo applyTo)
     {
+        Specification.AddSection($"given {typeof(TValue).Alias()}");
         _pipeline.SetDefault(defaultValue, applyTo);
         return new GivenTestPipeline<TSUT, TResult>(this);
     }
