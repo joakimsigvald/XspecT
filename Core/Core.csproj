@@ -4,7 +4,7 @@
     <Description>Base classes and extension classes for building Unit tests based on XUnit and Given-When-Then pattern</Description>
     <VersionPrefix></VersionPrefix>
     <Authors>Joakim Sigvald</Authors>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <AssemblyName>XspecT</AssemblyName>
     <RootNamespace>XspecT</RootNamespace>
