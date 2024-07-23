@@ -12,7 +12,7 @@ public class WhenGivenValueSetup : Spec<MyService, MyModel>
 
     [Fact]
     public void AsSecondSentence_ThenUseSetupInPipeline()
-        => Given<IMyRepository>().That(_ => _.GetModel()).Returns(A<MyModel>)
+        => Given<IMyRepository>().That(_ => _.GetModel()).Returns(() => A<MyModel>())
         .And<MyModel>(_ => _.Name = A<string>())
         .When(_ => _.GetModel())
         .Then().Result.Name.Is(The<string>());

@@ -1,8 +1,6 @@
 ﻿using Moq;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
-using System.Reflection;
-using System.Text;
 using XspecT.Internal.TestData;
 
 namespace XspecT.Internal.Pipelines;
@@ -30,7 +28,7 @@ internal class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, TA
         _lazyContinuation = new Lazy<TMock>(() => (TMock)_spec.GetMock<TService>().Setup(expression));
     }
 
-    public IGivenThatReturnsContinuation<TSUT, TResult, TService> Returns([NotNull] Func<TReturns> returns)
+    public IGivenThatReturnsContinuation<TSUT, TResult, TService> Returns([NotNull] Expression<Func<TReturns>> returns)
     {
         if (returns is null)
             throw new SetupFailed($"{nameof(returns)} may not be null");
@@ -59,14 +57,14 @@ internal class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, TA
 
     protected TMock Continuation => _lazyContinuation.Value;
 
-    private void SetupReturns(Func<TReturns> returns) => _spec.GivenSetup(() => DoSetupReturns(returns));
+    private void SetupReturns(Expression<Func<TReturns>> returns) => _spec.GivenSetup(() => DoSetupReturns(returns));
 
-    private void DoSetupReturns(Func<TReturns> returns)
+    private void DoSetupReturns(Expression<Func<TReturns>> returns)
     {
         if (Continuation is Moq.Language.Flow.IReturnsThrows<TService, Task<TReturns>> asyncContinuation)
-            asyncContinuation.ReturnsAsync(returns);
+            asyncContinuation.ReturnsAsync(returns.Compile());
         else
-            Continuation.Returns(returns);
+            Continuation.Returns(returns.Compile());
         if (_expression is not null)
             Specification.AddMockSetup(_expression);
         Specification.AddMockReturns(returns);

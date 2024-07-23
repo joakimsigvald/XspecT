@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Linq.Expressions;
 
 namespace XspecT;
 
@@ -31,6 +32,15 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     protected TValue[] One<TValue>([NotNull] Action<TValue> setup) => _pipeline.MentionMany(setup, 1);
 
     /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="criteria"></param>
+    /// <returns></returns>
+    protected TValue[] One<TValue>([NotNull] Expression<Func<TValue, bool>> criteria) 
+        => _pipeline.MentionMany(MapToSetup(criteria), 1);
+
+    /// <summary>
     /// Yields an array with two elements of the given type
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
@@ -46,12 +56,30 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     protected TValue[] Two<TValue>([NotNull] Action<TValue> setup) => _pipeline.MentionMany(setup, 2);
 
     /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="criteria"></param>
+    /// <returns></returns>
+    protected TValue[] Two<TValue>([NotNull] Expression<Func<TValue, bool>> criteria) 
+        => _pipeline.MentionMany(MapToSetup(criteria), 2);
+
+    /// <summary>
     /// Yields an array with two individually customized elements of the given type
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
     /// <returns></returns>
     protected TValue[] Two<TValue>([NotNull] Action<TValue, int> setup) => _pipeline.MentionMany(setup, 2);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="criteria"></param>
+    /// <returns></returns>
+    protected TValue[] Two<TValue>([NotNull] Expression<Func<TValue, int, bool>> criteria) 
+        => _pipeline.MentionMany(MapToSetup(criteria), 2);
 
     /// <summary>
     /// Yields an array with three elements of the given type

@@ -6,7 +6,7 @@ public class WhenGivenArrayOfModels : Spec<MyService, MyModel[]>
 {
     [Fact]
     public void GivenMentionOfAnyArray_FollowedBy_MentionOfArrayOfSpecificLength_ThenGetArrayOfSpecificLength()
-        => Given<IMyRepository>().That(_ => _.GetModels()).Returns(A<MyModel[]>)
+        => Given<IMyRepository>().That(_ => _.GetModels()).Returns(() => A<MyModel[]>())
         .And(Two<MyModel>)
         .And<MyModel>(_ => _.Name = A<string>())
         .When(_ => _.GetModels())

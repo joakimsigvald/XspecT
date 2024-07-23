@@ -15,7 +15,7 @@ public class WhenGivenSetupModelWithDefault : Spec<MyService, MyModel>
     [Fact]
     public void GivenDefaultNotOverridden()
         => Given<MyModel>(_ => _.Name = _defaultName)
-        .And<IMyRepository>().That(_ => _.GetModel()).Returns(ASecond<MyModel>)
+        .And<IMyRepository>().That(_ => _.GetModel()).Returns(() => ASecond<MyModel>())
         .When(_ => _.GetModel())
         .Then().Result.Name.Is(_defaultName);
 
@@ -23,7 +23,7 @@ public class WhenGivenSetupModelWithDefault : Spec<MyService, MyModel>
     public void GivenTwoDefaultSetups_ThenApplySecond()
         => Given<MyModel>(_ => _.Name = "123")
         .Given<MyModel>(_ => _.Name = _defaultName)
-        .And<IMyRepository>().That(_ => _.GetModel()).Returns(ASecond<MyModel>)
+        .And<IMyRepository>().That(_ => _.GetModel()).Returns(() => ASecond<MyModel>())
         .When(_ => _.GetModel())
         .Then().Result.Name.Is(_defaultName);
 
@@ -31,7 +31,7 @@ public class WhenGivenSetupModelWithDefault : Spec<MyService, MyModel>
     public void GivenTwoDifferentDefaultSetups_ThenApplyBoth()
         => Given<MyModel>(_ => _.Id = 123)
         .Given<MyModel>(_ => _.Name = _defaultName)
-        .And<IMyRepository>().That(_ => _.GetModel()).Returns(ASecond<MyModel>)
+        .And<IMyRepository>().That(_ => _.GetModel()).Returns(() => ASecond<MyModel>())
         .When(_ => _.GetModel())
         .Then().Result.Name.Is(_defaultName).And(Result).Id.Is(123);
 
@@ -39,13 +39,13 @@ public class WhenGivenSetupModelWithDefault : Spec<MyService, MyModel>
     public void GivenDefaultValueAndDefaultSetup()
         => Given(_defaultName)
         .Given<MyModel>(_ => _.Name = A<string>())
-        .And<IMyRepository>().That(_ => _.GetModel()).Returns(ASecond<MyModel>)
+        .And<IMyRepository>().That(_ => _.GetModel()).Returns(() => ASecond<MyModel>())
         .When(_ => _.GetModel())
         .Then().Result.Name.Is(_defaultName);
 
     [Fact]
     public void GivenDefaultIsOverridden()
-        => Given<IMyRepository>().That(_ => _.GetModel()).Returns(ASecond<MyModel>)
+        => Given<IMyRepository>().That(_ => _.GetModel()).Returns(() => ASecond<MyModel>())
         .When(_ => _.GetModel())
         .Given<MyModel>(_ => _.Name = _defaultName)
         .And().ASecond<MyModel>(_ => _.Name = "Altered")
@@ -54,14 +54,14 @@ public class WhenGivenSetupModelWithDefault : Spec<MyService, MyModel>
     [Fact]
     public void GivenDefaultIsNotOverridden()
         => When(_ => MyService.Echo(A<MyModel>()))
-        .Given<IMyRepository>().That(_ => _.GetModel()).Returns(The<MyModel>)
+        .Given<IMyRepository>().That(_ => _.GetModel()).Returns(() => The<MyModel>())
         .Given<MyModel>(_ => _.Name = _defaultName)
         .Then().Result.Name.Is(_defaultName);
 
     [Fact]
     public void GivenDefaultIsReplaced()
         => Given<MyModel>(_ => _.Name = _defaultName)
-        .And<IMyRepository>().That(_ => _.GetModel()).Returns(ASecond<MyModel>)
+        .And<IMyRepository>().That(_ => _.GetModel()).Returns(() => ASecond<MyModel>())
         .When(_ => _.GetModel())
         .Given().ASecond(new MyModel() { Name = "My model" })
         .Then().Result.Name.Is("My model");
@@ -69,21 +69,21 @@ public class WhenGivenSetupModelWithDefault : Spec<MyService, MyModel>
     [Fact]
     public void GivenDefaultValue_ThenIgnoreItWhenGenerateModel()
         => Given(_defaultName)
-        .And<IMyRepository>().That(_ => _.GetModel()).Returns(ASecond<MyModel>)
+        .And<IMyRepository>().That(_ => _.GetModel()).Returns(() => ASecond<MyModel>())
         .When(_ => _.GetModel())
         .Then().Result.Name.Is(_defaultName);
 
     [Fact]
     public void GivenProvideDefaultSetupAfterModelIsUsedInWhen_ThenUseSetup()
         => Given(_defaultName)
-        .And<IMyRepository>().That(_ => _.GetModel()).Returns(ASecond<MyModel>)
+        .And<IMyRepository>().That(_ => _.GetModel()).Returns(() => ASecond<MyModel>())
         .When(_ => _.GetModel())
         .Then().Result.Name.Is(_defaultName);
 
     [Fact]
     public void GivenModel_ReferencedAsInputTwice_AndWithDefaultSetup_ThenUseDefaultSetup()
         => When(_ => MyService.Echo(A<MyModel>()))
-        .Given<IMyRepository>().That(_ => _.SetModel(The<MyModel>())).Returns(Another<MyModel>)
+        .Given<IMyRepository>().That(_ => _.SetModel(The<MyModel>())).Returns(() => Another<MyModel>())
         .Given<MyModel>(_ => _.Id = 123)
         .Then().Result.Id.Is(123);
 }

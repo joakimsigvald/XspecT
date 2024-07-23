@@ -35,11 +35,11 @@ public static class Specification
         AddPhrase(sb.ToString());
     }
 
-    internal static void AddMockReturns<TReturns>(Func<TReturns> returns)
+    internal static void AddMockReturns<TReturns>(Expression<Func<TReturns>> returns)
     {
         var sb = new StringBuilder();
-        sb.Append($"returns");
-        sb.Append(DescribeArgument(returns.Method));
+        sb.Append("returns ");
+        sb.Append(DescribeArgument(returns));
         AddWord(sb.ToString());
     }
 
@@ -112,11 +112,27 @@ public static class Specification
             MemberExpression => "TODO",
             ParameterExpression => "TODO",
             ConstantExpression => "TODO",
+            LambdaExpression le => DescribeLambdaExpression(le),
             _ => throw new SetupFailed($"Unknown argument expression: {expr.NodeType}")
         };
 
-    private static string DescribeArgument(MethodInfo method)
-        => $" {method.Name.AsWords()} {method.ReturnType.Alias()}";
+    private static string DescribeLambdaExpression(LambdaExpression expr)
+    {
+        var body = expr.Body as MethodCallExpression;
+        var methodName = DescribeArgument(body);
+        if (body.Arguments.Count() == 0)
+            return methodName;
+        return $"{methodName} {{ {DescribeCriteria(body.Arguments[0] as UnaryExpression)} }}";
+    }
+
+    private static string DescribeCriteria(UnaryExpression criteria)
+    {
+        var operand = criteria.Operand as LambdaExpression;
+        var body = operand.Body as BinaryExpression;
+        var left = body.Left as MemberExpression;
+        var prop = left.Member as PropertyInfo;
+        return $"{prop.Name} = {DescribeArgument(body.Right)}";
+    }
 
     private static bool HasText => _specificationBuilder is not null;
     private static StringBuilder Builder => _specificationBuilder ??= new();

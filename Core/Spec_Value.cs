@@ -1,4 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Linq.Expressions;
+using System.Reflection;
 
 namespace XspecT;
 
@@ -31,6 +33,41 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
     protected internal TValue A<TValue>() => _pipeline.Mention<TValue>();
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="criteria"></param>
+    /// <returns></returns>
+    protected internal TValue A<TValue>(Expression<Func<TValue, bool>> criteria) 
+        => _pipeline.Mention(0, MapToSetup(criteria));
+
+    private Action<TValue> MapToSetup<TValue>(Expression<Func<TValue, bool>> criteria)
+    {
+        var body = criteria.Body as BinaryExpression;
+        var left = body.Left as MemberExpression;
+        var prop = left.Member as PropertyInfo;
+        var right = body.Right as MethodCallExpression;
+        return
+            _ => {
+                var value = right.Method.Invoke(this, null);
+                prop.SetValue(_, value);
+            };
+    }
+
+    private Action<TValue> MapToSetup<TValue>(Expression<Func<TValue, int, bool>> criteria)
+    {
+        var body = criteria.Body as BinaryExpression;
+        var left = body.Left as MemberExpression;
+        var prop = left.Member as PropertyInfo;
+        var right = body.Right as MethodCallExpression;
+        return
+            _ => {
+                var value = right.Method.Invoke(this, null);
+                prop.SetValue(_, value);
+            };
+    }
 
     /// <summary>
     /// Yields a customized value of the given type

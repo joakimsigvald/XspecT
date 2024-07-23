@@ -13,7 +13,7 @@ public class WhenGet : Spec<MyRetriever, MyModel>
     [InlineData(true)]
     public void A_Value_Mentioned_Twice_Is_Same_Value(bool describe)
     {
-        Given<IMyRepository>().That(_ => _.Get(The<int>())).Returns(A<MyModel>)
+        Given<IMyRepository>().That(_ => _.Get(The<int>())).Returns(() => A<MyModel>())
             .Then().Result.Is(The<MyModel>());
         if (describe)
             VerifyDescription(
@@ -27,7 +27,7 @@ public class WhenGet : Spec<MyRetriever, MyModel>
     [InlineData(true)]
     public void Another_Value_Is_Not_Same_As_A_Value(bool fail)
     {
-        Given<IMyRepository>().That(_ => _.Get(Another<int>())).Returns(ASecond<MyModel>)
+        Given<IMyRepository>().That(_ => _.Get(Another<int>())).Returns(() => ASecond<MyModel>())
             .Then().Result.Is().Not(TheSecond<MyModel>());
 
         if (fail)
@@ -42,7 +42,7 @@ public class WhenGet : Spec<MyRetriever, MyModel>
     [InlineData(true)]
     public void Another_Value_Mentioned_Twice_Are_Different_Values(bool fail)
     {
-        Given<IMyRepository>().That(_ => _.Get(The<int>())).Returns(Another<MyModel>)
+        Given<IMyRepository>().That(_ => _.Get(The<int>())).Returns(() => Another<MyModel>())
             .Then().Result.Is().Not(Another<MyModel>());
 
         if (fail)
@@ -57,7 +57,7 @@ public class WhenGet : Spec<MyRetriever, MyModel>
     [InlineData(true)]
     public void A_Value_Of_Different_Type_Is_Different_Value(bool fail)
     {
-        Given<IMyRepository>().That(_ => _.Get(The<byte>())).Returns(ASecond<MyModel>)
+        Given<IMyRepository>().That(_ => _.Get(The<byte>())).Returns(() => ASecond<MyModel>())
             .Then().Result.Is().Not(TheSecond<MyModel>());
 
         if (fail)
@@ -100,7 +100,7 @@ public class WhenGet : Spec<MyRetriever, MyModel>
     [InlineData(true)]
     public void ASecond_Value_Mentioned_Twice_Is_Same_Value(bool fail)
     {
-        Given<IMyRepository>().That(_ => _.Get(The<int>())).Returns(ASecond<MyModel>)
+        Given<IMyRepository>().That(_ => _.Get(The<int>())).Returns(() => ASecond<MyModel>())
             .Then().Result.Is(TheSecond<MyModel>());
 
         if (fail)
@@ -115,7 +115,7 @@ public class WhenGet : Spec<MyRetriever, MyModel>
     [InlineData(true)]
     public void ASecond_Value_Is_Not_Same_As_A_Value(bool fail)
     {
-        Given<IMyRepository>().That(_ => _.Get(The<int>())).Returns(A<MyModel>)
+        Given<IMyRepository>().That(_ => _.Get(The<int>())).Returns(() => A<MyModel>())
             .Then().Result.Is().Not(ASecond<MyModel>());
 
         if (fail)
@@ -130,7 +130,7 @@ public class WhenGet : Spec<MyRetriever, MyModel>
     [InlineData(true)]
     public void AThird_Value_Mentioned_Twice_Is_Same_Value(bool fail)
     {
-        Given<IMyRepository>().That(_ => _.Get(The<int>())).Returns(AThird<MyModel>)
+        Given<IMyRepository>().That(_ => _.Get(The<int>())).Returns(() => AThird<MyModel>())
             .Then().Result.Is(TheThird<MyModel>());
 
         if (fail)
@@ -145,7 +145,7 @@ public class WhenGet : Spec<MyRetriever, MyModel>
     [InlineData(true)]
     public void AThird_Value_Is_Not_Same_As_ASecond_Value(bool fail)
     {
-        Given<IMyRepository>().That(_ => _.Get(The<int>())).Returns(ASecond<MyModel>)
+        Given<IMyRepository>().That(_ => _.Get(The<int>())).Returns(() => ASecond<MyModel>())
             .Then().Result.Is().Not(AThird<MyModel>());
 
         if (fail)

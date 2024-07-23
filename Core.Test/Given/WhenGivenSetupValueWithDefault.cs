@@ -9,13 +9,13 @@ public class WhenGivenSetupValueWithDefault : Spec<MyService, int>
     [Fact]
     public void GivenDefaultNotOverridden()
         => Given(_defaultId)
-        .And<IMyRepository>().That(_ => _.GetNextId()).Returns(ASecond<int>)
+        .And<IMyRepository>().That(_ => _.GetNextId()).Returns(() => ASecond<int>())
         .When(_ => _.GetNextId())
         .Then().Result.Is(_defaultId);
 
     [Fact]
     public void GivenDefaultIsOverridden()
-        => Given<IMyRepository>().That(_ => _.GetNextId()).Returns(ASecond<int>)
+        => Given<IMyRepository>().That(_ => _.GetNextId()).Returns(() => ASecond<int>())
         .When(_ => _.GetNextId())
         .Given(_defaultId)
         .And().ASecond(2)

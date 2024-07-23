@@ -9,7 +9,7 @@ public class WhenPurchase : Spec<Subjects.Purchase.PurchaseHandler, PurchaseResp
 {
     protected WhenPurchase() 
         => When(_ => _.Purchase(An<int>()))
-        .Given<ICheckoutProvider>().That(_ => _.GetExistingCheckout(The<int>())).Returns(A<Checkout>)
+        .Given<ICheckoutProvider>().That(_ => _.GetExistingCheckout(The<int>())).Returns(() => A<Checkout>())
         .And<IBasketRepository>().That(_ => _.GetEditable(The<int>())).Returns(() => The<Checkout>().Basket);
 
     public class GivenEditableBasket : WhenPurchase

@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Linq.Expressions;
 
 namespace XspecT;
 
@@ -17,7 +18,7 @@ public interface IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns>
     /// </summary>
     /// <param name="returns"></param>
     /// <returns></returns>
-    IGivenThatReturnsContinuation<TSUT, TResult, TService> Returns([NotNull] Func<TReturns> returns);
+    IGivenThatReturnsContinuation<TSUT, TResult, TService> Returns([NotNull] Expression<Func<TReturns>> returns);
 
     /// <summary>
     /// Mock the return-value as default

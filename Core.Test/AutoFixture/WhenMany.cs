@@ -41,7 +41,7 @@ public class WhenMany : Spec<MyRetriever, MyModel[]>
     {
         [Fact]
         public void ThenReturnTwoAsMany()
-            => Given<IMyRepository>().That(_ => _.List()).Returns(Many<MyModel>)
+            => Given<IMyRepository>().That(_ => _.List()).Returns(() => Many<MyModel>())
             .And(Two<MyModel>).Then().Result.Has().Count(2);
     }
 
@@ -49,7 +49,7 @@ public class WhenMany : Spec<MyRetriever, MyModel[]>
     {
         [Fact]
         public void ThenReturnFourAsMany()
-            => Given<IMyRepository>().That(_ => _.List()).Returns(Many<MyModel>)
+            => Given<IMyRepository>().That(_ => _.List()).Returns(() => Many<MyModel>())
             .And(Four<MyModel>).Then().Result.Has().Count(4);
     }
 
@@ -57,7 +57,7 @@ public class WhenMany : Spec<MyRetriever, MyModel[]>
     {
         [Fact]
         public void ThenReturnThreeAsMany()
-            => Given<IMyRepository>().That(_ => _.List()).Returns(Many<MyModel>)
+            => Given<IMyRepository>().That(_ => _.List()).Returns(() => Many<MyModel>())
             .And(One<MyModel>).Then().Result.Has().Count(3);
     }
 }
@@ -71,6 +71,6 @@ public class WhenMockReturnsFewerElementsThanPreviouslyMentioned : Spec<MyRetrie
     public void ThenItIsDifferentFromFirst()
         => Given(3)
         .And<IMyRepository>().That(_ => _.Create(Three<MyModel>().Length))
-        .Returns(Two<MyModel>)
+        .Returns(() => Two<MyModel>())
         .Then().Result.Has().Count(2);
 }
