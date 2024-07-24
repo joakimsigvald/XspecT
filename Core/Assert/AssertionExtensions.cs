@@ -3,7 +3,6 @@ using System.Linq.Expressions;
 using XspecT.Assert.Numerical;
 using XspecT.Assert.Time;
 using XspecT.Internal.TestData;
-using Xunit.Sdk;
 
 namespace XspecT.Assert;
 
@@ -215,7 +214,8 @@ public static class AssertionExtensions
     /// </summary>
     /// <param name="actual"></param>
     /// <returns></returns>
-    [CustomAssertion] public static IsObject Is(this object actual) => new(actual);
+    [CustomAssertion] public static IsObject Is(this object actual, [System.Runtime.CompilerServices.CallerArgumentExpression("actual")] string callerExpr = null) 
+        => new(actual, callerExpr);
 
     /// <summary>
     /// Get available assertions for the given enumerable
@@ -401,9 +401,10 @@ public static class AssertionExtensions
     /// <summary>
     /// Verify that actual object is same reference as expected and return continuation for further assertions of the object
     /// </summary>
-    public static ContinueWith<IsObject> Is(this object actual, object expected)
+    public static ContinueWith<IsObject> Is(
+        this object actual, object expected, [System.Runtime.CompilerServices.CallerArgumentExpression("actual")] string callerExpr = null)
     {
-        Specification.AddAssert([CustomAssertion] () => actual.Should().BeSameAs(expected));
+        Specification.AddAssert([CustomAssertion] () => actual.Should().BeSameAs(expected), callerExpr);
         return new(new(actual));
     }
 
@@ -438,18 +439,11 @@ public static class AssertionExtensions
     /// <summary>
     /// Verify that actual string is same as expected and return continuation for further assertions of the string
     /// </summary>
-    [CustomAssertion]
-    public static ContinueWith<IsString> Is(this string actual, string expected)
+    public static ContinueWith<IsString> Is(
+        this string actual, string expected, [System.Runtime.CompilerServices.CallerArgumentExpression("actual")] string callerExpr = null)
     {
-        try
-        {
-            actual.Should().Be(expected);
-            return new(new(actual));
-        }
-        catch (XunitException ex)
-        {
-            throw new XunitException(Specification.Description, ex);
-        }
+        Specification.AddAssert([CustomAssertion] () => actual.Should().Be(expected), callerExpr);
+        return new(new(actual));
     }
 
     /// <summary>

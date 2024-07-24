@@ -8,14 +8,14 @@ namespace XspecT.Assert;
 /// </summary>
 public class IsObject : Constraint<IsObject, object>
 {
-    internal IsObject(object actual) : base(actual) { }
+    internal IsObject(object actual, string callerExpr = null) : base(actual, callerExpr) { }
 
     /// <summary>
     /// Should().NotBeSameAs(expected)
     /// </summary>
     public ContinueWith<IsObject> Not(object expected)
     {
-        Specification.AddAssert([CustomAssertion] () => _actual.Should().NotBeSameAs(expected), "is not");
+        Specification.AddAssert([CustomAssertion] () => _actual.Should().NotBeSameAs(expected), _callerExpr, "is not");
         return And();
     }
 

@@ -51,8 +51,9 @@ public static class Specification
         AddPhrase(sb.ToString());
     }
 
-    internal static void AddAssert(Action assert, [CallerMemberName] string verb = "")
+    internal static void AddAssert(Action assert, string actual = null, [CallerMemberName] string verb = "")
     {
+        AddActual(actual);
         AddWord(verb.AsWords());
         PopWords();
         try
@@ -90,7 +91,7 @@ public static class Specification
 
     internal static void PushStop() => PushWord(null);
 
-    internal static void PushWord(string fragment) 
+    internal static void PushWord(string fragment)
         => (_words ??= new()).Push(fragment);
 
     internal static void PopWords()
@@ -104,10 +105,19 @@ public static class Specification
         }
     }
 
+    private static void AddActual(string callerExpr)
+    {
+        if (callerExpr is null)
+            return;
+        var propNames = callerExpr.Split('.').Reverse().TakeWhile(prop => prop != "Then()");
+        var actual = string.Join('.', propNames.Reverse());
+        AddWord(actual);
+    }
+
     private static string DescribeArgument(Expression expr)
         => expr switch
         {
-            MethodCallExpression mce => $"{mce.Method.Name.ToLower()} {mce.Method.ReturnType.Alias()}",
+            MethodCallExpression mce => $"{mce.Method.Name.AsWords()} {mce.Method.ReturnType.Alias()}",
             UnaryExpression ue => DescribeArgument(ue.Operand),
             MemberExpression => "TODO",
             ParameterExpression => "TODO",

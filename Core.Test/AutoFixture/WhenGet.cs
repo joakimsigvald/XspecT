@@ -19,7 +19,7 @@ public class WhenGet : Spec<MyRetriever, MyModel>
             VerifyDescription(
 @"Given IMyRepository.Get(the int) returns a MyModel,
  when Get(an int),
- then result is the MyModel");
+ then Result is the MyModel");
     }
 
     [Theory]
@@ -34,7 +34,7 @@ public class WhenGet : Spec<MyRetriever, MyModel>
             VerifyDescription(
 @"Given IMyRepository.Get(another int) returns a second MyModel,
  when Get(an int),
- then result is not the second MyModel");
+ then Result is not the second MyModel");
     }
 
     [Theory]
@@ -49,7 +49,7 @@ public class WhenGet : Spec<MyRetriever, MyModel>
             VerifyDescription(
 @"Given IMyRepository.Get(the int) returns another MyModel,
  when Get(an int),
- then result is not another MyModel");
+ then Result is not another MyModel");
     }
 
     [Theory]
@@ -64,7 +64,7 @@ public class WhenGet : Spec<MyRetriever, MyModel>
             VerifyDescription(
 @"Given IMyRepository.Get(the byte) returns a second MyModel,
  when Get(an int),
- then result is not the second MyModel");
+ then Result is not the second MyModel");
     }
 
     [Theory]
@@ -78,7 +78,7 @@ public class WhenGet : Spec<MyRetriever, MyModel>
             VerifyDescription(
 @"Given MyModel,
  when Get(an int),
- then result is the MyModel");
+ then Result is the MyModel");
     }
 
     [Theory]
@@ -92,7 +92,7 @@ public class WhenGet : Spec<MyRetriever, MyModel>
             VerifyDescription(
 @"Given MyModel,
  when Get(an int),
- then result is the MyModel");
+ then Result is the MyModel");
     }
 
     [Theory]
@@ -107,7 +107,7 @@ public class WhenGet : Spec<MyRetriever, MyModel>
             VerifyDescription(
 @"Given IMyRepository.Get(the int) returns a second MyModel,
  when Get(an int),
- then result is the second MyModel");
+ then Result is the second MyModel");
     }
 
     [Theory]
@@ -122,7 +122,7 @@ public class WhenGet : Spec<MyRetriever, MyModel>
             VerifyDescription(
 @"Given IMyRepository.Get(the int) returns a MyModel,
  when Get(an int),
- then result is not a second MyModel");
+ then Result is not a second MyModel");
     }
 
     [Theory]
@@ -137,7 +137,7 @@ public class WhenGet : Spec<MyRetriever, MyModel>
             VerifyDescription(
 @"Given IMyRepository.Get(the int) returns a third MyModel,
  when Get(an int),
- then result is the third MyModel");
+ then Result is the third MyModel");
     }
 
     [Theory]
@@ -152,6 +152,6 @@ public class WhenGet : Spec<MyRetriever, MyModel>
             VerifyDescription(
 @"Given IMyRepository.Get(the int) returns a second MyModel,
  when Get(an int),
- then result is not a third MyModel");
+ then Result is not a third MyModel");
     }
 }
