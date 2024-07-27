@@ -1,7 +1,7 @@
 ﻿using Moq;
 using System.Linq.Expressions;
 
-namespace XspecT;
+namespace XspecT.Continuations;
 
 /// <summary>
 /// A continuation object to apply additional assertions on the return-value of a test-run

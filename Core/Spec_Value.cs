@@ -38,10 +38,10 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// 
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
-    /// <param name="criteria"></param>
+    /// <param name="setup"></param>
     /// <returns></returns>
-    protected internal TValue A<TValue>(Expression<Func<TValue, bool>> criteria) 
-        => _pipeline.Mention(0, MapToSetup(criteria));
+    protected internal TValue A<TValue>(Action<TValue> setup) 
+        => _pipeline.Mention(0, setup);
 
     private Action<TValue> MapToSetup<TValue>(Expression<Func<TValue, bool>> criteria)
     {
@@ -76,14 +76,6 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <param name="setup"></param>
     /// <returns></returns>
     protected internal TValue An<TValue>([NotNull] Action<TValue> setup) => A(setup);
-
-    /// <summary>
-    /// Yields a customized value of the given type
-    /// </summary>
-    /// <typeparam name="TValue"></typeparam>
-    /// <param name="setup"></param>
-    /// <returns></returns>
-    protected internal TValue A<TValue>([NotNull] Action<TValue> setup) => _pipeline.Mention(0, setup);
 
     /// <summary>
     /// 

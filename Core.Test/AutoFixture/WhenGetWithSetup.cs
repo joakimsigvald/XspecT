@@ -8,7 +8,7 @@ public class WhenGetWithSetup : Spec<MyMappingRetreiver, MyModel>
 {
     public WhenGetWithSetup() 
         => When(_ => _.Get(An<int>()))
-        .Given<IMyRepository>().That(_ => _.Get(The<int>())).Returns(() => A<MyModel>(_ => _.Name == A<string>()));
+        .Given<IMyRepository>().That(_ => _.Get(The<int>())).Returns(() => A<MyModel>(_ => _.Name = A<string>()));
 
     [Theory]
     [InlineData(false)]
@@ -29,7 +29,7 @@ public class WhenGetWithSetup : Spec<MyMappingRetreiver, MyModel>
     [Fact]
     public void Setup_CanBeProvided_MoreThanOnce_ToSameModel()
         => Given<IMyMapper>().That(_ => _.Map(The<MyModel>()))
-        .Returns(() => A<MyModel>(_ => _.Id == An<int>()))
+        .Returns(() => A<MyModel>(_ => _.Id = An<int>()))
         .Then().Result.Name.Is(The<string>()).And(Result).Id.Is(The<int>());
 
     [Fact]

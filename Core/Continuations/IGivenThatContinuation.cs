@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace XspecT;
+namespace XspecT.Continuations;
 
 /// <summary>
 /// A continuation to mock the result of a method invocation

@@ -1,5 +1,6 @@
 ﻿using Moq;
 using System.Linq.Expressions;
+using XspecT.Continuations;
 using XspecT.Internal.TestData;
 using Xunit.Sdk;
 

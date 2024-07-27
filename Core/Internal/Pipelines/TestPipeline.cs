@@ -1,5 +1,6 @@
 ﻿using Moq;
 using System.Linq.Expressions;
+using XspecT.Continuations;
 
 namespace XspecT.Internal.Pipelines;
 

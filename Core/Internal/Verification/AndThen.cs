@@ -1,4 +1,6 @@
-﻿namespace XspecT.Internal.Verification;
+﻿using XspecT.Continuations;
+
+namespace XspecT.Internal.Verification;
 
 internal class AndThen<TResult> : IAndThen<TResult>
 {

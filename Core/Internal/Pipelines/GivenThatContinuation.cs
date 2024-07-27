@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
+using XspecT.Continuations;
 
 namespace XspecT.Internal.Pipelines;
 

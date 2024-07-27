@@ -1,4 +1,4 @@
-﻿namespace XspecT;
+﻿namespace XspecT.Continuations;
 
 /// <summary>
 /// A continuation to provide further arrangement

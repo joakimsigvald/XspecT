@@ -1,6 +1,8 @@
 ﻿using Moq;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
+using XspecT.Continuations;
 using XspecT.Internal.TestData;
 
 namespace XspecT.Internal.Pipelines;
@@ -28,11 +30,11 @@ internal class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, TA
         _lazyContinuation = new Lazy<TMock>(() => (TMock)_spec.GetMock<TService>().Setup(expression));
     }
 
-    public IGivenThatReturnsContinuation<TSUT, TResult, TService> Returns([NotNull] Expression<Func<TReturns>> returns)
+    public IGivenThatReturnsContinuation<TSUT, TResult, TService> Returns([NotNull] Func<TReturns> returns, [CallerArgumentExpression("returns")] string returnsExpr = null)
     {
         if (returns is null)
             throw new SetupFailed($"{nameof(returns)} may not be null");
-        SetupReturns(returns);
+        SetupReturns(returns, returnsExpr);
         return new GivenThatReturnsContinuation<TSUT, TResult, TService>(_spec);
     }
 
@@ -57,16 +59,17 @@ internal class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, TA
 
     protected TMock Continuation => _lazyContinuation.Value;
 
-    private void SetupReturns(Expression<Func<TReturns>> returns) => _spec.GivenSetup(() => DoSetupReturns(returns));
+    private void SetupReturns(Func<TReturns> returns, string returnsExpr = null) 
+        => _spec.GivenSetup(() => DoSetupReturns(returns, returnsExpr));
 
-    private void DoSetupReturns(Expression<Func<TReturns>> returns)
+    private void DoSetupReturns(Func<TReturns> returns, string returnsExpr = null)
     {
         if (Continuation is Moq.Language.Flow.IReturnsThrows<TService, Task<TReturns>> asyncContinuation)
-            asyncContinuation.ReturnsAsync(returns.Compile());
+            asyncContinuation.ReturnsAsync(returns);
         else
-            Continuation.Returns(returns.Compile());
+            Continuation.Returns(returns);
         if (_expression is not null)
             Specification.AddMockSetup(_expression);
-        Specification.AddMockReturns(returns);
+        Specification.AddMockReturns(returnsExpr);
     }
 }

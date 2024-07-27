@@ -2,9 +2,9 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
+using XspecT.Continuations;
 using XspecT.Internal.TestData;
 using XspecT.Internal.Verification;
-
 using static XspecT.Internal.Pipelines.AsyncHelper;
 
 namespace XspecT.Internal.Pipelines;

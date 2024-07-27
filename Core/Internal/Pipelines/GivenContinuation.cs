@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using XspecT.Continuations;
 using XspecT.Internal.TestData;
 
 namespace XspecT.Internal.Pipelines;

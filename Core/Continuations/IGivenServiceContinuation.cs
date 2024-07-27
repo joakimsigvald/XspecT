@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace XspecT;
+namespace XspecT.Continuations;
 
 /// <summary>
 /// A continuation object to apply additional arrangements to the test-pipeline

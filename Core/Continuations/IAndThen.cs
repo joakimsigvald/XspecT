@@ -1,4 +1,4 @@
-﻿namespace XspecT;
+﻿namespace XspecT.Continuations;
 
 /// <summary>
 /// A continuation object to apply additional assertions to a test-run

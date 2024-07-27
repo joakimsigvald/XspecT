@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace XspecT;
+namespace XspecT.Continuations;
 
 /// <summary>
 /// Provide a callback to tap the mocked function call with no input arguments

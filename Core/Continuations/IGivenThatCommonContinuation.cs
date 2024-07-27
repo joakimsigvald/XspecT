@@ -1,7 +1,8 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 
-namespace XspecT;
+namespace XspecT.Continuations;
 
 /// <summary>
 /// Provide a callback to tap the mocked function call with no input arguments
@@ -18,7 +19,7 @@ public interface IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns>
     /// </summary>
     /// <param name="returns"></param>
     /// <returns></returns>
-    IGivenThatReturnsContinuation<TSUT, TResult, TService> Returns([NotNull] Expression<Func<TReturns>> returns);
+    IGivenThatReturnsContinuation<TSUT, TResult, TService> Returns([NotNull] Func<TReturns> returns, [CallerArgumentExpression("returns")] string returnsExpr = null);
 
     /// <summary>
     /// Mock the return-value as default

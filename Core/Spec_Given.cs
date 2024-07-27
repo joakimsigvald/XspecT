@@ -1,5 +1,7 @@
 ﻿using Moq;
 using System.Linq.Expressions;
+using XspecT.Continuations;
+using XspecT.Internal;
 using XspecT.Internal.Pipelines;
 using XspecT.Internal.TestData;
 

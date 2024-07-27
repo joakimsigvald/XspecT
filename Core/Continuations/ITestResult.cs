@@ -1,4 +1,4 @@
-﻿namespace XspecT;
+﻿namespace XspecT.Continuations;
 
 /// <summary>
 /// An object containing the result of a test-run

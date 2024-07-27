@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using Xunit.Sdk;
 
 namespace XspecT.Internal.TestData;
@@ -9,7 +10,7 @@ namespace XspecT.Internal.TestData;
 /// <summary>
 /// 
 /// </summary>
-public static class Specification
+public static partial class Specification
 {
     [ThreadStatic]
     private static StringBuilder _specificationBuilder;
@@ -35,11 +36,11 @@ public static class Specification
         AddPhrase(sb.ToString());
     }
 
-    internal static void AddMockReturns<TReturns>(Expression<Func<TReturns>> returns)
+    internal static void AddMockReturns(string returnsExpr)
     {
         var sb = new StringBuilder();
         sb.Append("returns ");
-        sb.Append(DescribeArgument(returns));
+        sb.Append(returnsExpr.ParseReturnsExpression());
         AddWord(sb.ToString());
     }
 
@@ -126,6 +127,34 @@ public static class Specification
             _ => throw new SetupFailed($"Unknown argument expression: {expr.NodeType}")
         };
 
+    //private static string DescribeArgument(string returnsExpr)
+    //{
+    //    if (returnsExpr.StartsWith("() => "))
+    //        return DescribeArgument(returnsExpr[6..]);
+    //    if (returnsExpr.IndexOf('<') > 0 && returnsExpr.IndexOf('<') < returnsExpr.IndexOf('>'))
+    //    {
+    //        var parts = returnsExpr.Split('<', 2, StringSplitOptions.RemoveEmptyEntries);
+    //        var verb = parts[0];
+    //        parts = parts[1].Split('>', 2, StringSplitOptions.RemoveEmptyEntries);
+    //        var type = parts[0];
+    //        if (parts.Length == 2)
+    //        {
+    //            var constraint = parts[1];
+    //            if (constraint.Length > 2)
+    //                return $"{verb.AsWords()} {type} {{ {DescribeConstraint(constraint)} }}";
+    //        }
+    //        return $"{verb.AsWords()} {type}";
+    //    }
+    //    return returnsExpr;
+    //}
+
+    //private static string DescribeConstraint(string constraint)
+    //{
+    //    Regex arrow = ArrowRegex();
+    //    var parts = ArrowRegex().Split(constraint, 2);
+    //    return constraint;
+    //}
+
     private static string DescribeLambdaExpression(LambdaExpression expr)
     {
         var body = expr.Body as MethodCallExpression;
@@ -146,4 +175,7 @@ public static class Specification
 
     private static bool HasText => _specificationBuilder is not null;
     private static StringBuilder Builder => _specificationBuilder ??= new();
+
+    [GeneratedRegex("=>")]
+    private static partial Regex ArrowRegex();
 }

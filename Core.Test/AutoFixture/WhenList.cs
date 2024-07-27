@@ -49,7 +49,7 @@ public class WhenList : Spec<MyRetriever, MyModel[]>
     public class GivenTwoElementsWithIndexedSetup : WhenList
     {
         public GivenTwoElementsWithIndexedSetup() 
-            => Given<IMyRepository>().That(_ => _.List()).Returns(() => Two<MyModel>((_, i) => _.Name == $"X{i + 1}"));
+            => Given<IMyRepository>().That(_ => _.List()).Returns(() => Two<MyModel>((_, i) => _.Name = $"X{i + 1}"));
         [Fact] public void ThenArrayHasTwoElements() => Then().Result.Has().Count(2);
         [Fact] public void ThenFirstElementHaveSetup() => Then().Result.First().Name.Is("X1");
         [Fact] public void ThenSecondElementHaveSetup() => Then().Result.Last().Name.Is("X2");
