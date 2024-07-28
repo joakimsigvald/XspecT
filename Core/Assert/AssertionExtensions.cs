@@ -430,8 +430,11 @@ public static class AssertionExtensions
     /// Verify that actual struct is same as expected and return continuation for further assertions of the struct
     /// </summary>
     [CustomAssertion]
-    public static ContinueWith<IsObject> Is<TValue>(this TValue actual, TValue expected) where TValue : struct
+    public static ContinueWith<IsObject> Is<TValue>(
+        this TValue actual, TValue expected, [System.Runtime.CompilerServices.CallerArgumentExpression("actual")] string callerExpr = null) 
+        where TValue : struct
     {
+        Specification.AddAssert([CustomAssertion] () => actual.Should().Be(expected), callerExpr);
         actual.Should().Be(expected);
         return new(new(actual));
     }
@@ -454,5 +457,10 @@ public static class AssertionExtensions
     /// <param name="_"></param>
     /// <param name="actual"></param>
     /// <returns></returns>
-    [CustomAssertion] public static TActual And<TActual, TContinuation>(this ContinueWith<TContinuation> _, TActual actual) => actual;
+    [CustomAssertion]
+    public static TActual And<TActual, TContinuation>(this ContinueWith<TContinuation> _, TActual actual)
+    {
+        Specification.AddWord("and");
+        return actual;
+    }
 }

@@ -6,7 +6,7 @@ namespace XspecT;
 /// <summary>
 /// 
 /// </summary>
-public static partial class ReturnsExpressionParser
+public static partial class ExpressionParser
 {
     /// <summary>
     /// 
@@ -24,6 +24,22 @@ public static partial class ReturnsExpressionParser
         if (TryParseLambdaExpression(expr, out description))
             return description;
         return expr;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="callerExpr"></param>
+    /// <returns></returns>
+    public static string ParseActual(this string callerExpr)
+    {
+        if (string.IsNullOrEmpty(callerExpr))
+            return callerExpr;
+        var propNames = callerExpr.Split('.').Reverse().TakeWhile(prop => prop != "Then()").ToArray();
+        var andSegment = propNames.SkipWhile(prop => !prop.StartsWith("And(")).FirstOrDefault();
+        if (andSegment is not null)
+            propNames = propNames.TakeWhile(prop => prop != andSegment).Append(andSegment[4..^1]).ToArray();
+        return string.Join('.', propNames.Reverse());
     }
 
     private static bool TryParseMentionExpression(string expr, out string description)

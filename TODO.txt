@@ -1,2 +1,4 @@
 * Auto-create object with IEnumerable<TItem>
 * When mock returns Task of interface, throws cast exception Castle-mock to interface
+* Use Xunit Equals for string instead of FluentAssertions
+* Make Specification lazy so it is not generated until asked for

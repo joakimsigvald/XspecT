@@ -2,7 +2,6 @@
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
-using System.Text.RegularExpressions;
 using Xunit.Sdk;
 
 namespace XspecT.Internal.TestData;
@@ -54,7 +53,7 @@ public static partial class Specification
 
     internal static void AddAssert(Action assert, string actual = null, [CallerMemberName] string verb = "")
     {
-        AddActual(actual);
+        AddWord(actual.ParseActual());
         AddWord(verb.AsWords());
         PopWords();
         try
@@ -106,15 +105,6 @@ public static partial class Specification
         }
     }
 
-    private static void AddActual(string callerExpr)
-    {
-        if (callerExpr is null)
-            return;
-        var propNames = callerExpr.Split('.').Reverse().TakeWhile(prop => prop != "Then()");
-        var actual = string.Join('.', propNames.Reverse());
-        AddWord(actual);
-    }
-
     private static string DescribeArgument(Expression expr)
         => expr switch
         {
@@ -127,41 +117,13 @@ public static partial class Specification
             _ => throw new SetupFailed($"Unknown argument expression: {expr.NodeType}")
         };
 
-    //private static string DescribeArgument(string returnsExpr)
-    //{
-    //    if (returnsExpr.StartsWith("() => "))
-    //        return DescribeArgument(returnsExpr[6..]);
-    //    if (returnsExpr.IndexOf('<') > 0 && returnsExpr.IndexOf('<') < returnsExpr.IndexOf('>'))
-    //    {
-    //        var parts = returnsExpr.Split('<', 2, StringSplitOptions.RemoveEmptyEntries);
-    //        var verb = parts[0];
-    //        parts = parts[1].Split('>', 2, StringSplitOptions.RemoveEmptyEntries);
-    //        var type = parts[0];
-    //        if (parts.Length == 2)
-    //        {
-    //            var constraint = parts[1];
-    //            if (constraint.Length > 2)
-    //                return $"{verb.AsWords()} {type} {{ {DescribeConstraint(constraint)} }}";
-    //        }
-    //        return $"{verb.AsWords()} {type}";
-    //    }
-    //    return returnsExpr;
-    //}
-
-    //private static string DescribeConstraint(string constraint)
-    //{
-    //    Regex arrow = ArrowRegex();
-    //    var parts = ArrowRegex().Split(constraint, 2);
-    //    return constraint;
-    //}
-
     private static string DescribeLambdaExpression(LambdaExpression expr)
     {
         var body = expr.Body as MethodCallExpression;
         var methodName = DescribeArgument(body);
-        if (body.Arguments.Count() == 0)
-            return methodName;
-        return $"{methodName} {{ {DescribeCriteria(body.Arguments[0] as UnaryExpression)} }}";
+        return body.Arguments.Count == 0 
+            ? methodName 
+            : $"{methodName} {{ {DescribeCriteria(body.Arguments[0] as UnaryExpression)} }}";
     }
 
     private static string DescribeCriteria(UnaryExpression criteria)
@@ -175,7 +137,4 @@ public static partial class Specification
 
     private static bool HasText => _specificationBuilder is not null;
     private static StringBuilder Builder => _specificationBuilder ??= new();
-
-    [GeneratedRegex("=>")]
-    private static partial Regex ArrowRegex();
 }

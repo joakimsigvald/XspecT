@@ -1,4 +1,4 @@
-﻿namespace XspecT.Test.ReturnsExpressionParser;
+﻿namespace XspecT.Test.ExpressionParser;
 
 public class WhenParseReturnsExpression : Spec<string>
 {
