@@ -1,6 +1,4 @@
-﻿using XspecT.Assert;
-
-namespace XspecT.Test.Assert;
+﻿namespace XspecT.Test.Assert;
 
 public class WhenNullableDateTime : Spec<DateTime?>
 {

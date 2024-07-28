@@ -1,6 +1,4 @@
-﻿using XspecT.Assert;
-
-namespace XspecT.Test.Given;
+﻿namespace XspecT.Test.Given;
 
 public class WhenGivenArrayOfModels : Spec<MyService, MyModel[]>
 {

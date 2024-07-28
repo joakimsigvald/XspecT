@@ -1,6 +1,4 @@
-﻿using XspecT.Assert;
-
-namespace XspecT.Test.Given;
+﻿namespace XspecT.Test.Given;
 
 public class WhenUsingTwoInts : Spec<MyListService, List<int>>
 {

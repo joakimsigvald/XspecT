@@ -8,8 +8,5 @@ public class WhenParseActualExpression : Spec<string>
     [InlineData("Then().Result.Name", "Result.Name")]
     [InlineData("And(Result).Id", "Result.Id")]
     public void ThenReturnDescription(string returnsExpr, string expected)
-    {
-        var actual = returnsExpr.ParseActual();
-        Xunit.Assert.Equal(expected, actual);
-    }
+        => When(_ => returnsExpr.ParseActual()).Then().Result.Is(expected);
 }

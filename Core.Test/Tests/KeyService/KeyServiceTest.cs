@@ -1,5 +1,4 @@
-﻿using XspecT.Assert;
-using XspecT.Test.Subjects.RecordStructDefaults;
+﻿using XspecT.Test.Subjects.RecordStructDefaults;
 
 namespace XspecT.Test.Tests.KeyService;
 

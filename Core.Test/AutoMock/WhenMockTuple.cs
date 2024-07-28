@@ -1,6 +1,4 @@
-﻿using XspecT.Assert;
-
-namespace XspecT.Test.AutoMock;
+﻿namespace XspecT.Test.AutoMock;
 
 public class WhenMockTuple : Spec<StaticTupleService, (int, string)>
 {

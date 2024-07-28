@@ -1,6 +1,4 @@
-﻿using XspecT.Assert;
-
-using static XspecT.Test.Helper;
+﻿using static XspecT.Test.Helper;
 
 namespace XspecT.Test.AutoFixture;
 

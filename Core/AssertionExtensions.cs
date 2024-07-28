@@ -1,10 +1,11 @@
 ﻿using FluentAssertions;
 using System.Linq.Expressions;
+using XspecT.Assert;
 using XspecT.Assert.Numerical;
 using XspecT.Assert.Time;
 using XspecT.Internal.TestData;
 
-namespace XspecT.Assert;
+namespace XspecT;
 
 /// <summary>
 /// Fluent assertions with verbs Is, Has and Does
@@ -214,7 +215,8 @@ public static class AssertionExtensions
     /// </summary>
     /// <param name="actual"></param>
     /// <returns></returns>
-    [CustomAssertion] public static IsObject Is(this object actual, [System.Runtime.CompilerServices.CallerArgumentExpression("actual")] string callerExpr = null) 
+    [CustomAssertion]
+    public static IsObject Is(this object actual, [System.Runtime.CompilerServices.CallerArgumentExpression("actual")] string callerExpr = null)
         => new(actual, callerExpr);
 
     /// <summary>
@@ -431,7 +433,7 @@ public static class AssertionExtensions
     /// </summary>
     [CustomAssertion]
     public static ContinueWith<IsObject> Is<TValue>(
-        this TValue actual, TValue expected, [System.Runtime.CompilerServices.CallerArgumentExpression("actual")] string callerExpr = null) 
+        this TValue actual, TValue expected, [System.Runtime.CompilerServices.CallerArgumentExpression("actual")] string callerExpr = null)
         where TValue : struct
     {
         Specification.AddAssert([CustomAssertion] () => actual.Should().Be(expected), callerExpr);
@@ -445,7 +447,7 @@ public static class AssertionExtensions
     public static ContinueWith<IsString> Is(
         this string actual, string expected, [System.Runtime.CompilerServices.CallerArgumentExpression("actual")] string callerExpr = null)
     {
-        Specification.AddAssert([CustomAssertion] () => actual.Should().Be(expected), callerExpr);
+        Specification.AddAssert(() => Xunit.Assert.Equal(expected, actual), callerExpr);
         return new(new(actual));
     }
 

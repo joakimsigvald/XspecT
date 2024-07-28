@@ -1,5 +1,4 @@
-﻿using XspecT.Assert;
-using XspecT.Test.Subjects.Purchase;
+﻿using XspecT.Test.Subjects.Purchase;
 
 namespace XspecT.Test.AutoMock;
 

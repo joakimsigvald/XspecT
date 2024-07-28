@@ -1,6 +1,4 @@
-﻿using XspecT.Assert;
-
-using static XspecT.Test.Subjects.Calculator;
+﻿using static XspecT.Test.Subjects.Calculator;
 
 namespace XspecT.Test.Tests.Calculator;
 
