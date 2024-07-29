@@ -37,7 +37,7 @@ internal class DataProvider
 
     internal void Use<TValue>(TValue value, ApplyTo applyTo)
     {
-        if (applyTo.HasFlag(ApplyTo.Values))
+        if (applyTo.HasFlag(ApplyTo.Defaults))
             _defaultValues[typeof(TValue)] = value;
 
         if (value is Moq.Internals.InterfaceProxy)

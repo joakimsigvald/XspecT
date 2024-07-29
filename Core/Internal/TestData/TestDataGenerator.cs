@@ -63,7 +63,7 @@ internal class TestDataGenerator
         {
             return Activator.CreateInstance(type);
         }
-        catch
+        catch (ArgumentException ae)
         {
             throw new SetupFailed($"Failed to create value for type {type.Name}", ex);
         }
