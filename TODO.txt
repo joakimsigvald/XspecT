@@ -1,4 +1,2 @@
-* Auto-create object with IEnumerable<TItem>
-* When mock returns Task of interface, throws cast exception Castle-mock to interface
 * Make Specification lazy so it is not generated until asked for
 * Return different pipeline after setup and run, and remove the HasRun guard clauses

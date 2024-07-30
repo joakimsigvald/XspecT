@@ -18,8 +18,9 @@ public interface IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns>
     /// Mock the return-value
     /// </summary>
     /// <param name="returns"></param>
+    /// <param name="returnsExpr"></param>
     /// <returns></returns>
-    IGivenThatReturnsContinuation<TSUT, TResult, TService> Returns([NotNull] Func<TReturns> returns, [CallerArgumentExpression("returns")] string returnsExpr = null);
+    IGivenThatReturnsContinuation<TSUT, TResult, TService> Returns([NotNull] Func<TReturns> returns, [CallerArgumentExpression(nameof(returns))] string returnsExpr = null);
 
     /// <summary>
     /// Mock the return-value as default

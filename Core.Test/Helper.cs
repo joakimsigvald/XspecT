@@ -1,5 +1,4 @@
-﻿using XspecT.Internal.TestData;
-namespace XspecT.Test;
+﻿namespace XspecT.Test;
 
 internal static class Helper
 {

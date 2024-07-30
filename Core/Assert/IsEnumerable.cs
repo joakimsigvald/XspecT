@@ -1,5 +1,4 @@
 ﻿using FluentAssertions;
-using XspecT.Internal.TestData;
 
 namespace XspecT.Assert;
 

@@ -53,7 +53,7 @@ internal class SpecActor<TSUT, TResult>
                 Expression<Action<TSUT>> act => ExecuteCommand(act),
                 _ => throw new SetupFailed("Failed to run method under test, unexpected signature")
             };
-            Specification.AddPhrase("then");
+            Specification.AddThen();
             return hasResult;
         }
         catch (ArgumentException ex) when (ex.Message.Contains(cue))

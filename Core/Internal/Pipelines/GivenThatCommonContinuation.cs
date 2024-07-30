@@ -3,7 +3,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using XspecT.Continuations;
-using XspecT.Internal.TestData;
 
 namespace XspecT.Internal.Pipelines;
 

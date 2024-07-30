@@ -3,7 +3,6 @@ using System.Linq.Expressions;
 using XspecT.Assert;
 using XspecT.Assert.Numerical;
 using XspecT.Assert.Time;
-using XspecT.Internal.TestData;
 
 namespace XspecT;
 
@@ -214,9 +213,10 @@ public static class AssertionExtensions
     /// Get available assertions for the given object
     /// </summary>
     /// <param name="actual"></param>
+    /// <param name="callerExpr"></param>
     /// <returns></returns>
     [CustomAssertion]
-    public static IsObject Is(this object actual, [System.Runtime.CompilerServices.CallerArgumentExpression("actual")] string callerExpr = null)
+    public static IsObject Is(this object actual, [System.Runtime.CompilerServices.CallerArgumentExpression(nameof(actual))] string callerExpr = null)
         => new(actual, callerExpr);
 
     /// <summary>
@@ -406,8 +406,8 @@ public static class AssertionExtensions
     public static ContinueWith<IsObject> Is(
         this object actual, 
         object expected,
-        [System.Runtime.CompilerServices.CallerArgumentExpression("actual")] string actualExpr = null,
-        [System.Runtime.CompilerServices.CallerArgumentExpression("expected")] string expectedExpr = null)
+        [System.Runtime.CompilerServices.CallerArgumentExpression(nameof(actual))] string actualExpr = null,
+        [System.Runtime.CompilerServices.CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
         Specification.AddAssert(
             [CustomAssertion] () => actual.Should().BeSameAs(expected),
@@ -441,8 +441,8 @@ public static class AssertionExtensions
     public static ContinueWith<IsObject> Is<TValue>(
         this TValue actual, 
         TValue expected,
-        [System.Runtime.CompilerServices.CallerArgumentExpression("actual")] string actualExpr = null,
-        [System.Runtime.CompilerServices.CallerArgumentExpression("expected")] string expectedExpr = null)
+        [System.Runtime.CompilerServices.CallerArgumentExpression(nameof(actual))] string actualExpr = null,
+        [System.Runtime.CompilerServices.CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
         where TValue : struct
     {
         Specification.AddAssert([CustomAssertion] () => actual.Should().Be(expected), actualExpr, expectedExpr);
@@ -456,8 +456,8 @@ public static class AssertionExtensions
     public static ContinueWith<IsString> Is(
         this string actual, 
         string expected,
-        [System.Runtime.CompilerServices.CallerArgumentExpression("actual")] string actualExpr = null,
-        [System.Runtime.CompilerServices.CallerArgumentExpression("expected")] string expectedExpr = null)
+        [System.Runtime.CompilerServices.CallerArgumentExpression(nameof(actual))] string actualExpr = null,
+        [System.Runtime.CompilerServices.CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
         Specification.AddAssert(() => Xunit.Assert.Equal(expected, actual), actualExpr, expectedExpr);
         return new(new(actual));
@@ -474,7 +474,7 @@ public static class AssertionExtensions
     [CustomAssertion]
     public static TActual And<TActual, TContinuation>(this ContinueWith<TContinuation> _, TActual actual)
     {
-        Specification.AddWord("and");
+        Specification.AddAnd();
         return actual;
     }
 }
