@@ -23,12 +23,7 @@ internal class TestResult<TResult> : ITestResult<TResult>
 
     public TResult Result
     {
-        get
-        {
-            Specification.PushStop();
-            return _hasResult && _error is null ? _result : throw UnexpectedError;
-        }
-
+        get => _hasResult && _error is null ? _result : throw UnexpectedError;
         init => _result = value;
     }
 

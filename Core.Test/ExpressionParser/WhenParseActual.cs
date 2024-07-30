@@ -1,6 +1,6 @@
 ﻿namespace XspecT.Test.ExpressionParser;
 
-public class WhenParseActualExpression : Spec<string>
+public class WhenParseActual : Spec<string>
 {
     [Theory]
     [InlineData(null, null)]

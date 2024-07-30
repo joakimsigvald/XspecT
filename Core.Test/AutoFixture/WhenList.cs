@@ -1,4 +1,6 @@
-﻿namespace XspecT.Test.AutoFixture;
+﻿using static XspecT.Test.Helper;
+
+namespace XspecT.Test.AutoFixture;
 
 public class WhenList : Spec<MyRetriever, MyModel[]>
 {
@@ -8,7 +10,20 @@ public class WhenList : Spec<MyRetriever, MyModel[]>
     {
         private readonly MyModel _theModel = new();
         public GivenOneSpecificElement() => Given<IMyRepository>().That(_ => _.List()).Returns(() => One(_theModel));
-        [Fact] public void ThenElementCanBeRetrieved() => Then().Result.Single().Is(_theModel);
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void ThenElementCanBeRetrieved(bool fail)
+        {
+            Then().Result.Single().Is(_theModel);
+
+            if (fail)
+                VerifyDescription(
+    @"Given IMyRepository.List() returns One(_theModel),
+ when List(),
+ then Result.Single() is _theModel");
+        }
     }
 
     public class GivenOneElement : WhenList

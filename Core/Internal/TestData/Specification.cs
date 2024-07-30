@@ -13,14 +13,8 @@ public static partial class Specification
 {
     [ThreadStatic]
     private static StringBuilder _specificationBuilder;
-    [ThreadStatic]
-    private static Stack<string> _words;
 
-    internal static void Clear()
-    {
-        _words = null;
-        _specificationBuilder = null;
-    }
+    internal static void Clear() => _specificationBuilder = null;
 
     /// <summary>
     /// 
@@ -39,7 +33,7 @@ public static partial class Specification
     {
         var sb = new StringBuilder();
         sb.Append("returns ");
-        sb.Append(returnsExpr.ParseReturnsExpression());
+        sb.Append(returnsExpr.ParseValue());
         AddWord(sb.ToString());
     }
 
@@ -51,11 +45,15 @@ public static partial class Specification
         AddPhrase(sb.ToString());
     }
 
-    internal static void AddAssert(Action assert, string actual = null, [CallerMemberName] string verb = "")
+    internal static void AddAssert(
+        Action assert,
+        string actual = null,
+        string expected = null,
+        [CallerMemberName] string verb = "")
     {
         AddWord(actual.ParseActual());
         AddWord(verb.AsWords());
-        PopWords();
+        AddWord(expected.ParseValue());
         try
         {
             assert();
@@ -87,22 +85,6 @@ public static partial class Specification
     {
         Builder.Append(' ');
         Builder.Append(word);
-    }
-
-    internal static void PushStop() => PushWord(null);
-
-    internal static void PushWord(string fragment)
-        => (_words ??= new()).Push(fragment);
-
-    internal static void PopWords()
-    {
-        while (_words?.Count > 0)
-        {
-            var word = _words.Pop();
-            if (word is null)
-                return;
-            AddWord(word);
-        }
     }
 
     private static string DescribeArgument(Expression expr)

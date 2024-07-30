@@ -404,9 +404,15 @@ public static class AssertionExtensions
     /// Verify that actual object is same reference as expected and return continuation for further assertions of the object
     /// </summary>
     public static ContinueWith<IsObject> Is(
-        this object actual, object expected, [System.Runtime.CompilerServices.CallerArgumentExpression("actual")] string callerExpr = null)
+        this object actual, 
+        object expected,
+        [System.Runtime.CompilerServices.CallerArgumentExpression("actual")] string actualExpr = null,
+        [System.Runtime.CompilerServices.CallerArgumentExpression("expected")] string expectedExpr = null)
     {
-        Specification.AddAssert([CustomAssertion] () => actual.Should().BeSameAs(expected), callerExpr);
+        Specification.AddAssert(
+            [CustomAssertion] () => actual.Should().BeSameAs(expected),
+            actualExpr,
+            expectedExpr);
         return new(new(actual));
     }
 
@@ -433,10 +439,13 @@ public static class AssertionExtensions
     /// </summary>
     [CustomAssertion]
     public static ContinueWith<IsObject> Is<TValue>(
-        this TValue actual, TValue expected, [System.Runtime.CompilerServices.CallerArgumentExpression("actual")] string callerExpr = null)
+        this TValue actual, 
+        TValue expected,
+        [System.Runtime.CompilerServices.CallerArgumentExpression("actual")] string actualExpr = null,
+        [System.Runtime.CompilerServices.CallerArgumentExpression("expected")] string expectedExpr = null)
         where TValue : struct
     {
-        Specification.AddAssert([CustomAssertion] () => actual.Should().Be(expected), callerExpr);
+        Specification.AddAssert([CustomAssertion] () => actual.Should().Be(expected), actualExpr, expectedExpr);
         actual.Should().Be(expected);
         return new(new(actual));
     }
@@ -445,9 +454,12 @@ public static class AssertionExtensions
     /// Verify that actual string is same as expected and return continuation for further assertions of the string
     /// </summary>
     public static ContinueWith<IsString> Is(
-        this string actual, string expected, [System.Runtime.CompilerServices.CallerArgumentExpression("actual")] string callerExpr = null)
+        this string actual, 
+        string expected,
+        [System.Runtime.CompilerServices.CallerArgumentExpression("actual")] string actualExpr = null,
+        [System.Runtime.CompilerServices.CallerArgumentExpression("expected")] string expectedExpr = null)
     {
-        Specification.AddAssert(() => Xunit.Assert.Equal(expected, actual), callerExpr);
+        Specification.AddAssert(() => Xunit.Assert.Equal(expected, actual), actualExpr, expectedExpr);
         return new(new(actual));
     }
 

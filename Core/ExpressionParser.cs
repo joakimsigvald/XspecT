@@ -13,7 +13,7 @@ public static partial class ExpressionParser
     /// </summary>
     /// <param name="expr"></param>
     /// <returns></returns>
-    public static string ParseReturnsExpression(this string expr)
+    public static string ParseValue(this string expr)
     {
         if (string.IsNullOrEmpty(expr))
             return expr;
@@ -29,13 +29,13 @@ public static partial class ExpressionParser
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="callerExpr"></param>
+    /// <param name="actualExpr"></param>
     /// <returns></returns>
-    public static string ParseActual(this string callerExpr)
+    public static string ParseActual(this string actualExpr)
     {
-        if (string.IsNullOrEmpty(callerExpr))
-            return callerExpr;
-        var propNames = callerExpr.Split('.').Reverse().TakeWhile(prop => prop != "Then()").ToArray();
+        if (string.IsNullOrEmpty(actualExpr))
+            return actualExpr;
+        var propNames = actualExpr.Split('.').Reverse().TakeWhile(prop => prop != "Then()").ToArray();
         var andSegment = propNames.SkipWhile(prop => !prop.StartsWith("And(")).FirstOrDefault();
         if (andSegment is not null)
             propNames = propNames.TakeWhile(prop => prop != andSegment).Append(andSegment[4..^1]).ToArray();
@@ -54,7 +54,7 @@ public static partial class ExpressionParser
         description = $"{verb.AsWords()} {type}";
         var constraint = match.Groups[3].Value;
         if (constraint.Length > 2)
-            description += $" {{ {ParseReturnsExpression(constraint[1..^1])} }}";
+            description += $" {{ {ParseValue(constraint[1..^1])} }}";
         return true;
     }
 
@@ -65,7 +65,7 @@ public static partial class ExpressionParser
         if (!match.Success)
             return false;
 
-        description = $"{match.Groups[3].Value} = {ParseReturnsExpression(match.Groups[4].Value)}";
+        description = $"{match.Groups[3].Value} = {ParseValue(match.Groups[4].Value)}";
         return true;
     }
 
@@ -76,7 +76,7 @@ public static partial class ExpressionParser
         if (!match.Success)
             return false;
 
-        description = ParseReturnsExpression(match.Groups[2].Value);
+        description = ParseValue(match.Groups[2].Value);
         return true;
     }
 
