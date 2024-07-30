@@ -11,10 +11,10 @@ internal class GivenContinuation<TSUT, TResult> : IGivenContinuation<TSUT, TResu
     internal GivenContinuation(Spec<TSUT, TResult> spec) => _spec = spec;
 
     public IGivenTestPipeline<TSUT, TResult> Default<TValue>(TValue defaultValue)
-        => _spec.Given(defaultValue, ApplyTo.Defaults);
+        => _spec.GivenDefault(defaultValue, ApplyTo.Defaults);
  
     public IGivenTestPipeline<TSUT, TResult> Default<TValue>(Func<TValue> defaultValue)
-        => _spec.Given(defaultValue, ApplyTo.Defaults);
+        => _spec.GivenDefault(defaultValue, ApplyTo.Defaults);
 
     public IGivenTestPipeline<TSUT, TResult> Using<TValue>(TValue defaultValue)
         => _spec.GivenDefault(defaultValue, ApplyTo.Mocker);

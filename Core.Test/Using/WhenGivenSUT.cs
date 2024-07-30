@@ -1,5 +1,4 @@
-﻿using XspecT.Assert;
-using XspecT.Test.Given;
+﻿using XspecT.Test.Given;
 
 namespace XspecT.Test.Using;
 
@@ -8,7 +7,7 @@ public class WhenGivenSUT : Spec<MyService, (int, string)>
     public WhenGivenSUT()
         => Given(new MyService(An<IMyRepository>(), new MySettings { ConnectionString = A<string>() }, () => DateTime.Now))
             .And<IMyRepository>().That(_ => _.GetNextId()).Returns(An<int>)
-        .When(_ => (_.GetNextId(), _.GetConnectionString()));
+        .When(_ => new (_.GetNextId(), _.GetConnectionString()));
 
     [Fact]
     public void ThenUseSUT()
