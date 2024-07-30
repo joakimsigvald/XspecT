@@ -11,7 +11,7 @@ internal static class DataGeneratorFactory
     {
         Fixture fixture = new() { RepeatCount = 0 };
         fixture.Customizations.Add(new DefaultValueCustimization(context));
-        fixture.Customizations.Add(new InterfaceCustimization(context));
+        fixture.Customizations.Add(new InterfaceCustomization(context));
         new SupportMutableValueTypesCustomization().Customize(fixture);
         return fixture;
     }

@@ -36,7 +36,7 @@ internal class FluentDefaultProvider : DefaultValueProvider
     private Task GetTaskOf(Type valueType, Mock mock)
     {
         dynamic value = GetDefaultValue(valueType, mock);
-        if (value is IMocked) 
+        if (value.GetType() != valueType) 
         {
             var mockName = mock.GetMockedType().Name;
             throw new SetupFailed(
