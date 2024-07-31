@@ -44,11 +44,33 @@ public class WhenList : Spec<MyRetriever, MyModel[]>
  then Result is the MyModel[]");
         }
 
-        [Fact] public void ThenArrayHasSingleElement() 
-            => Then().Result.Has().Count(1);
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void ThenArrayHasSingleElement(bool fail)
+        {
+            Then().Result.Has().Count(1);
 
-        [Fact] public void ThenElementCanBeRetrievedSeparately() 
-            => Then().Result.Single().Is(The<MyModel>());
+            if (fail)
+                VerifyDescription(
+    @"Given IMyRepository.List() returns one MyModel,
+ when List(),
+ then Result has count 1");
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void ThenElementCanBeRetrievedSeparately(bool fail)
+        {
+            Then().Result.Single().Is(The<MyModel>());
+
+            if (fail)
+                VerifyDescription(
+    @"Given IMyRepository.List() returns one MyModel,
+ when List(),
+ then Result.Single() is the MyModel");
+        }
     }
 
     public class GivenOneElementWithSetup : WhenList

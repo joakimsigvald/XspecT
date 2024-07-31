@@ -432,7 +432,11 @@ public static class AssertionExtensions
     /// <typeparam name="TItem"></typeparam>
     /// <param name="actual"></param>
     /// <returns></returns>
-    [CustomAssertion] public static HasEnumerable<TItem> Has<TItem>(this IEnumerable<TItem> actual) => new(actual);
+    [CustomAssertion]
+    public static HasEnumerable<TItem> Has<TItem>(
+        this IEnumerable<TItem> actual,
+        [System.Runtime.CompilerServices.CallerArgumentExpression(nameof(actual))] string actualExpr = null) 
+        => new(actual, actualExpr);
 
     /// <summary>
     /// Verify that actual struct is same as expected and return continuation for further assertions of the struct
