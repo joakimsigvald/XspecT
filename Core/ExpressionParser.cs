@@ -17,7 +17,9 @@ public static partial class ExpressionParser
     {
         if (string.IsNullOrEmpty(expr))
             return expr;
-        if (TryParseMentionExpression(expr, out string description))
+        if (TryParseMentionTypeExpression(expr, out string description))
+            return description;
+        if (TryParseMentionValueExpression(expr, out description))
             return description;
         if (TryParseAssignmentExpression(expr, out description))
             return description;
@@ -42,10 +44,10 @@ public static partial class ExpressionParser
         return string.Join('.', propNames.Reverse());
     }
 
-    private static bool TryParseMentionExpression(string expr, out string description)
+    private static bool TryParseMentionTypeExpression(string expr, out string description)
     {
         description = null;
-        var match = MentionRegex().Match(expr);
+        var match = MentionTypeRegex().Match(expr);
         if (!match.Success)
             return false;
 
@@ -55,6 +57,19 @@ public static partial class ExpressionParser
         var constraint = match.Groups[3].Value;
         if (constraint.Length > 2)
             description += $" {{ {ParseValue(constraint[1..^1])} }}";
+        return true;
+    }
+
+    private static bool TryParseMentionValueExpression(string expr, out string description)
+    {
+        description = null;
+        var match = MentionValueRegex().Match(expr);
+        if (!match.Success)
+            return false;
+
+        var verb = match.Groups[1].Value;
+        var value = match.Groups[2].Value;
+        description = $"{verb.AsWords()} {value}";
         return true;
     }
 
@@ -80,8 +95,11 @@ public static partial class ExpressionParser
         return true;
     }
 
-    [GeneratedRegex(@"^(\w+)<(\w+)>(.*)$")]
-    private static partial Regex MentionRegex();
+    [GeneratedRegex(@"^(\w+)<(\w+(?:\[])?)>(.*)$")]
+    private static partial Regex MentionTypeRegex();
+
+    [GeneratedRegex(@"^(\w+)\((.+)\)$")]
+    private static partial Regex MentionValueRegex();
 
     [GeneratedRegex(@"^(\w+)\s*=>\s*(\w+)\.(\w+)\s*=\s*(.+)$")]
     private static partial Regex AssignmentRegex();
