@@ -8,7 +8,7 @@ namespace XspecT.Assert;
 /// <typeparam name="TItem"></typeparam>
 public class IsEnumerable<TItem> : Constraint<IsEnumerable<TItem>, IEnumerable<TItem>>
 {
-    internal IsEnumerable(IEnumerable<TItem> actual) : base(actual) { }
+    internal IsEnumerable(IEnumerable<TItem> actual, string actualExpr = null) : base(actual, actualExpr) { }
 
     /// <summary>
     /// actual.Should().BeEmpty()
@@ -49,9 +49,11 @@ public class IsEnumerable<TItem> : Constraint<IsEnumerable<TItem>, IEnumerable<T
     /// actual.Should().NotBeSameAs(expected)
     /// </summary>
     [CustomAssertion]
-    public ContinueWith<IsEnumerable<TItem>> Not(IEnumerable<TItem> expected)
+    public ContinueWith<IsEnumerable<TItem>> Not(
+        IEnumerable<TItem> expected, 
+        [System.Runtime.CompilerServices.CallerArgumentExpression("expected")] string expectedExpr = null)
     {
-        _actual.Should().NotBeSameAs(expected);
+        Specification.AddAssert([CustomAssertion] () => _actual.Should().NotBeSameAs(expected), _actualExpr, expectedExpr, "is not");
         return And();
     }
 

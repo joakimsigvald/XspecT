@@ -105,7 +105,12 @@ public static class Specification
 
     internal static void AddAnd() => Add(sb => sb.AddWord("and"));
 
-    internal static void AddThen() => Add(sb => sb.AddPhrase("then"));
+    internal static void AddThen(string subjectExpr)
+    {
+        Add(sb => sb.AddPhrase("then"));
+        if (subjectExpr != null)
+            Add(sb => sb.AddWord(subjectExpr.ParseValue()));
+    }
 
     internal static void AddGiven(string valueExpr) 
         => Add(sb => sb.AddPhrase($"given {valueExpr.ParseValue()}"));
@@ -130,6 +135,8 @@ public static class Specification
 
     private static void AddWord(this StringBuilder sb, string word)
     {
+        if (string.IsNullOrEmpty(word))
+            return;
         sb.Append(' ');
         sb.Append(word);
     }

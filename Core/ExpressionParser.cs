@@ -41,12 +41,15 @@ public static partial class ExpressionParser
     {
         if (string.IsNullOrEmpty(actualExpr))
             return actualExpr;
-        var propNames = actualExpr.Split('.').Reverse().TakeWhile(prop => prop != "Then()").ToArray();
+        var propNames = actualExpr.Split('.').Reverse().TakeWhile(prop => !IsThenExpr(prop)).ToArray();
         var andSegment = propNames.SkipWhile(prop => !prop.StartsWith("And(")).FirstOrDefault();
         if (andSegment is not null)
             propNames = propNames.TakeWhile(prop => prop != andSegment).Append(andSegment[4..^1]).ToArray();
         return string.Join('.', propNames.Reverse());
     }
+
+    private static bool IsThenExpr(string expr)
+        => ThenRegex().Match(expr).Success;
 
     private static bool TryParseMentionTypeExpression(string expr, out string description)
     {
@@ -145,4 +148,7 @@ public static partial class ExpressionParser
 
     [GeneratedRegex("^[$@]*\"(.+)\"")]
     private static partial Regex StringRegex();
+
+    [GeneratedRegex(@"^Then\(.*\)$")]
+    private static partial Regex ThenRegex();
 }

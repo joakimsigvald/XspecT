@@ -36,7 +36,7 @@ public class HasEnumerable<TItem> : Constraint<HasEnumerable<TItem>, IEnumerable
     [CustomAssertion]
     public ContinueWith<HasEnumerable<TItem>> Count(int expected, [System.Runtime.CompilerServices.CallerArgumentExpression("expected")] string expectedExpr = null)
     {
-        Specification.AddAssert([CustomAssertion] () => _actual.Should().HaveCount(expected), _callerExpr, expectedExpr, "has count");
+        Specification.AddAssert([CustomAssertion] () => _actual.Should().HaveCount(expected), _actualExpr, expectedExpr, "has count");
         _actual.Should().HaveCount(expected);
         return And();
     }

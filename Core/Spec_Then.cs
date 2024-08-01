@@ -1,5 +1,6 @@
 ﻿using Moq;
 using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 using XspecT.Continuations;
 
 namespace XspecT;
@@ -17,10 +18,13 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// </summary>
     /// <typeparam name="TSubject"></typeparam>
     /// <param name="subject"></param>
+    /// <param name="subjectExpr"></param>
     /// <returns>the given subject</returns>
-    public TSubject Then<TSubject>(TSubject subject)
+    public TSubject Then<TSubject>(
+        TSubject subject,
+        [CallerArgumentExpression(nameof(subject))] string subjectExpr = null)
     {
-        _pipeline.Then();
+        _pipeline.Then(subjectExpr);
         return subject;
     }
 

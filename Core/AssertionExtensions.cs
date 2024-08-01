@@ -213,19 +213,25 @@ public static class AssertionExtensions
     /// Get available assertions for the given object
     /// </summary>
     /// <param name="actual"></param>
-    /// <param name="callerExpr"></param>
+    /// <param name="actualExpr"></param>
     /// <returns></returns>
     [CustomAssertion]
-    public static IsObject Is(this object actual, [System.Runtime.CompilerServices.CallerArgumentExpression(nameof(actual))] string callerExpr = null)
-        => new(actual, callerExpr);
+    public static IsObject Is(
+        this object actual, 
+        [System.Runtime.CompilerServices.CallerArgumentExpression(nameof(actual))] string actualExpr = null)
+        => new(actual, actualExpr);
 
     /// <summary>
     /// Get available assertions for the given enumerable
     /// </summary>
     /// <typeparam name="TItem"></typeparam>
     /// <param name="actual"></param>
+    /// <param name="actualExpr"></param>
     /// <returns></returns>
-    [CustomAssertion] public static IsEnumerable<TItem> Is<TItem>(this IEnumerable<TItem> actual) => new(actual);
+    [CustomAssertion] public static IsEnumerable<TItem> Is<TItem>(
+        this IEnumerable<TItem> actual, 
+        [System.Runtime.CompilerServices.CallerArgumentExpression(nameof(actual))] string actualExpr = null)
+        => new(actual, actualExpr);
 
     /// <summary>
     /// Get available assertions for the given comparable

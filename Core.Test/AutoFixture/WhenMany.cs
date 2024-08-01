@@ -24,24 +24,66 @@ public class WhenMany : Spec<MyRetriever, MyModel[]>
         public void ThenArrayHasThreeElements()
         {
             Result.Has().Count(3);
+            VerifyDescription(
+@"Given many MyModel,
+ when List(),
+ then Result has count 3");
         }
 
         [Fact]
         public void ThenDifferentReferencesToMany_AreTheSameArray()
         {
             Then(Many<MyModel>()).Is(Many<MyModel>());
+            VerifyDescription(
+@"Given many MyModel,
+ when List(),
+ then many MyModel is many MyModel");
         }
     }
 
     public class GivenReferringManyOfHigherCountSecondTime : WhenMany
     {
         public GivenReferringManyOfHigherCountSecondTime() => Given(Two<MyModel>());
-        [Fact] public void ThenItIsDifferentFromFirst() => Result.Is().Not(Three<MyModel>());
-        [Fact] public void ThenArrayHasOriginalCount() => Result.Has().Count(2);
-        [Fact] public void ThenLastElementIsCreated() => Then(TheThird<MyModel>()).Is(Three<MyModel>().Last());
+
         [Fact]
+        public void ThenItIsDifferentFromFirst()
+        {
+            Result.Is().Not(Three<MyModel>());
+            VerifyDescription(
+@"Given two MyModel,
+ when List(),
+ then Result is not three MyModel");
+        }
+
+        [Fact]
+        public void ThenArrayHasOriginalCount()
+        {
+            Result.Has().Count(2);
+            VerifyDescription(
+@"Given two MyModel,
+ when List(),
+ then Result has count 2");
+        }
+
+        [Fact]//TODO
+        public void ThenLastElementIsCreated()
+        {
+            Then(TheThird<MyModel>()).Is(Three<MyModel>().Last());
+            VerifyDescription(
+@"Given two MyModel,
+ when List(),
+ then the third MyModel is three MyModel Last");
+        }
+
+        [Fact]//TODO
         public void ThenDifferentReferencesToManyOfSameCount_HaveSameElements()
-            => Then(Three<MyModel>()).Is().EqualTo(Three<MyModel>());
+        {
+            Then(Three<MyModel>()).Is().EqualTo(Three<MyModel>());
+            VerifyDescription(
+@"Given two MyModel,
+ when List(),
+ then three MyModel is equal to three MyModel");
+        }
     }
 
     public class GivenReferringManyOfLowerCountSecondTime : WhenMany
