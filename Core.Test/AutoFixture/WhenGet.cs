@@ -55,7 +55,7 @@ public class WhenGet : Spec<MyRetriever, MyModel>
     {
         Given(new MyModel()).Then().Result.Is(The<MyModel>());
         VerifyDescription(
-@"Given MyModel,
+@"Given new MyModel(),
  when Get(an int),
  then Result is the MyModel");
     }
@@ -65,7 +65,7 @@ public class WhenGet : Spec<MyRetriever, MyModel>
     {
         Given(Another<MyModel>()).Then().Result.Is(The<MyModel>());
         VerifyDescription(
-@"Given MyModel,
+@"Given another MyModel,
  when Get(an int),
  then Result is the MyModel");
     }

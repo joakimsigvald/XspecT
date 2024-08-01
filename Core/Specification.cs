@@ -107,7 +107,8 @@ public static class Specification
 
     internal static void AddThen() => Add(sb => sb.AddPhrase("then"));
 
-    internal static void AddGiven<TValue>() => Add(sb => sb.AddPhrase($"given {typeof(TValue).Alias()}"));
+    internal static void AddGiven(string valueExpr) 
+        => Add(sb => sb.AddPhrase($"given {valueExpr.ParseValue()}"));
 
     private static void Add(Action<StringBuilder> apply) => Applications.Add(apply);
 

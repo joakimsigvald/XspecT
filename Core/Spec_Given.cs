@@ -1,7 +1,7 @@
 ﻿using Moq;
 using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 using XspecT.Continuations;
-using XspecT.Internal;
 using XspecT.Internal.Pipelines;
 using XspecT.Internal.TestData;
 
@@ -38,9 +38,15 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="defaultValue"></param>
+    /// <param name="defaultValueExpr"></param>
     /// <returns></returns>
-    public IGivenTestPipeline<TSUT, TResult> Given<TValue>(TValue defaultValue)
-        => GivenDefault(defaultValue, ApplyTo.All);
+    public IGivenTestPipeline<TSUT, TResult> Given<TValue>(
+        TValue defaultValue,
+        [CallerArgumentExpression(nameof(defaultValue))] string defaultValueExpr = null)
+    {
+        Specification.AddGiven(defaultValueExpr);
+        return GivenDefault(defaultValue, ApplyTo.All);
+    }
 
     /// <summary>
     /// Provide an array of default values, that will be applied in all mocks and auto-generated test-data, where no specific value or setup is given.
@@ -48,9 +54,14 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="defaultValues"></param>
+    /// <param name="defaultValuesExpr"></param>
+    /// <param name=""></param>
     /// <returns></returns>
-    public IGivenTestPipeline<TSUT, TResult> Given<TValue>(params TValue[] defaultValues)
+    public IGivenTestPipeline<TSUT, TResult> Given<TValue>(
+        TValue[] defaultValues,
+        [CallerArgumentExpression(nameof(defaultValues))] string defaultValuesExpr = null)
     {
+        Specification.AddGiven(defaultValuesExpr);
         _pipeline.SetDefault(defaultValues, ApplyTo.All);
         var mentions = defaultValues.Take(5).Select((value, i) => (i, value));
         foreach (var (i, value) in mentions)
@@ -87,7 +98,6 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
 
     internal IGivenTestPipeline<TSUT, TResult> GivenDefault<TValue>(TValue defaultValue, ApplyTo applyTo)
     {
-        Specification.AddGiven<TValue>();
         _pipeline.SetDefault(defaultValue, applyTo);
         return new GivenTestPipeline<TSUT, TResult>(this);
     }

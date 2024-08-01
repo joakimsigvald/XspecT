@@ -25,7 +25,7 @@ public abstract class WhenAddInt : Spec<int>
         [InlineData(1, 1, 2)]
         [InlineData(1, 2, 3)]
         public void Then_Return_Sum(int t1, int t2, int sum) 
-            => Given(t1, t2).Then().Result.Is(sum);
+            => Given([t1, t2]).Then().Result.Is(sum);
     }
 }
 

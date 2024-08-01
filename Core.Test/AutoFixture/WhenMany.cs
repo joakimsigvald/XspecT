@@ -1,4 +1,6 @@
-﻿namespace XspecT.Test.AutoFixture;
+﻿using static XspecT.Test.Helper;
+
+namespace XspecT.Test.AutoFixture;
 
 public class WhenMany : Spec<MyRetriever, MyModel[]>
 {
@@ -7,11 +9,28 @@ public class WhenMany : Spec<MyRetriever, MyModel[]>
     public class GivenReferringManyTwice : WhenMany
     {
         public GivenReferringManyTwice() => Given(Many<MyModel>());
-        [Fact] public void ThenCanRetrieveThatArray() => Result.Is(Many<MyModel>());
-        [Fact] public void ThenArrayHasThreeElements() => Result.Has().Count(3);
+
+        [Fact]
+        public void ThenCanRetrieveThatArray()
+        {
+            Result.Is(Many<MyModel>());
+            VerifyDescription(
+@"Given many MyModel,
+ when List(),
+ then Result is many MyModel");
+        }
+
+        [Fact]
+        public void ThenArrayHasThreeElements()
+        {
+            Result.Has().Count(3);
+        }
+
         [Fact]
         public void ThenDifferentReferencesToMany_AreTheSameArray()
-            => Then(Many<MyModel>()).Is(Many<MyModel>());
+        {
+            Then(Many<MyModel>()).Is(Many<MyModel>());
+        }
     }
 
     public class GivenReferringManyOfHigherCountSecondTime : WhenMany

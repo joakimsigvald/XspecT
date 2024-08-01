@@ -1,5 +1,6 @@
 ﻿using Moq;
 using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 using XspecT.Continuations;
 
 namespace XspecT;
@@ -154,8 +155,11 @@ public interface ITestPipeline<TSUT, TResult>
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="defaultValue"></param>
+    /// <param name="defaultValueExpr"></param>
     /// <returns></returns>
-    IGivenTestPipeline<TSUT, TResult> Given<TValue>(TValue defaultValue);
+    IGivenTestPipeline<TSUT, TResult> Given<TValue>(
+        TValue defaultValue,
+        [CallerArgumentExpression(nameof(defaultValue))] string defaultValueExpr = null);
 
     /// <summary>
     /// A continuation to provide further arrangement

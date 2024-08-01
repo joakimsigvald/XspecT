@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 using XspecT.Continuations;
 
 namespace XspecT.Internal.Pipelines;
@@ -37,8 +38,10 @@ internal class GivenTestPipeline<TSUT, TResult>
     public IGivenTestPipeline<TSUT, TResult> Given<TValue>(Func<TValue, TValue> setup)
         => Parent.Given(setup);
 
-    public IGivenTestPipeline<TSUT, TResult> Given<TValue>(TValue defaultValue)
-        => Parent.Given(defaultValue);
+    public IGivenTestPipeline<TSUT, TResult> Given<TValue>(
+        TValue defaultValue,
+        [CallerArgumentExpression(nameof(defaultValue))] string defaultValueExpr = null)
+        => Parent.Given(defaultValue, defaultValueExpr);
 
     public IGivenServiceContinuation<TSUT, TResult, TService> Given<TService>() where TService : class
         => Parent.Given<TService>();
