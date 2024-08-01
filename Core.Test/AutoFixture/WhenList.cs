@@ -50,7 +50,6 @@ public class WhenList : Spec<MyRetriever, MyModel[]>
         public void ThenElementCanBeRetrievedSeparately()
         {
             Then().Result.Single().Is(The<MyModel>());
-
             VerifyDescription(
 @"Given IMyRepository.List() returns one MyModel,
  when List(),
@@ -61,9 +60,17 @@ public class WhenList : Spec<MyRetriever, MyModel[]>
     public class GivenOneElementWithSetup : WhenList
     {
         public GivenOneElementWithSetup()
-            => Given<IMyRepository>().That(_ => _.List()).Returns(() => One<MyModel>(_ => _.Name == A<string>()));
+            => Given<IMyRepository>().That(_ => _.List()).Returns(() => One<MyModel>(_ => _.Name = A<string>()));
 
-        [Fact] public void ThenArrayHasSingleElementWithSetup() => Then().Result.Single().Name.Is(The<string>());
+        [Fact]
+        public void ThenArrayHasSingleElementWithSetup()
+        {
+            Then().Result.Single().Name.Is(The<string>());
+            VerifyDescription(
+@"Given IMyRepository.List() returns one MyModel { Name = a string },
+ when List(),
+ then Result.Single().Name is the string");
+        }
     }
 
     public class GivenTwoElements : WhenList

@@ -31,14 +31,14 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <returns></returns>
     protected TValue[] One<TValue>([NotNull] Action<TValue> setup) => _pipeline.MentionMany(setup, 1);
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <typeparam name="TValue"></typeparam>
-    /// <param name="criteria"></param>
-    /// <returns></returns>
-    protected TValue[] One<TValue>([NotNull] Expression<Func<TValue, bool>> criteria) 
-        => _pipeline.MentionMany(MapToSetup(criteria), 1);
+    ///// <summary>
+    ///// 
+    ///// </summary>
+    ///// <typeparam name="TValue"></typeparam>
+    ///// <param name="criteria"></param>
+    ///// <returns></returns>
+    //protected TValue[] One<TValue>([NotNull] Expression<Func<TValue, bool>> criteria) 
+    //    => _pipeline.MentionMany(MapToSetup(criteria), 1);
 
     /// <summary>
     /// Yields an array with two elements of the given type
