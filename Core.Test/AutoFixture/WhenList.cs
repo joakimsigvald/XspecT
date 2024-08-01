@@ -11,16 +11,12 @@ public class WhenList : Spec<MyRetriever, MyModel[]>
         private readonly MyModel _theModel = new();
         public GivenOneSpecificElement() => Given<IMyRepository>().That(_ => _.List()).Returns(() => One(_theModel));
 
-        [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
-        public void ThenElementCanBeRetrieved(bool fail)
+        [Fact]
+        public void ThenElementCanBeRetrieved()
         {
             Then().Result.Single().Is(_theModel);
-
-            if (fail)
-                VerifyDescription(
-    @"Given IMyRepository.List() returns one _theModel,
+            VerifyDescription(
+@"Given IMyRepository.List() returns one _theModel,
  when List(),
  then Result.Single() is _theModel");
         }
@@ -30,44 +26,33 @@ public class WhenList : Spec<MyRetriever, MyModel[]>
     {
         public GivenOneElement() => Given<IMyRepository>().That(_ => _.List()).Returns(() => One<MyModel>());
 
-        [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
-        public void ThenCanRetrieveThatArray(bool fail)
+        [Fact]
+        public void ThenCanRetrieveThatArray()
         {
             Then().Result.Is(The<MyModel[]>());
-
-            if (fail)
-                VerifyDescription(
-    @"Given IMyRepository.List() returns one MyModel,
+            VerifyDescription(
+@"Given IMyRepository.List() returns one MyModel,
  when List(),
  then Result is the MyModel[]");
         }
 
-        [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
-        public void ThenArrayHasSingleElement(bool fail)
+        [Fact]
+        public void ThenArrayHasSingleElement()
         {
             Then().Result.Has().Count(1);
-
-            if (fail)
-                VerifyDescription(
-    @"Given IMyRepository.List() returns one MyModel,
+            VerifyDescription(
+@"Given IMyRepository.List() returns one MyModel,
  when List(),
  then Result has count 1");
         }
 
-        [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
-        public void ThenElementCanBeRetrievedSeparately(bool fail)
+        [Fact]
+        public void ThenElementCanBeRetrievedSeparately()
         {
             Then().Result.Single().Is(The<MyModel>());
 
-            if (fail)
-                VerifyDescription(
-    @"Given IMyRepository.List() returns one MyModel,
+            VerifyDescription(
+@"Given IMyRepository.List() returns one MyModel,
  when List(),
  then Result.Single() is the MyModel");
         }
@@ -91,7 +76,7 @@ public class WhenList : Spec<MyRetriever, MyModel[]>
 
     public class GivenTwoElementsWithSetup : WhenList
     {
-        public GivenTwoElementsWithSetup() 
+        public GivenTwoElementsWithSetup()
             => Given<IMyRepository>().That(_ => _.List()).Returns(() => Two<MyModel>(_ => _.Name == A<string>()));
         [Fact] public void ThenArrayHasTwoElements() => Then().Result.Has().Count(2);
         [Fact] public void ThenFirstElementHaveSetup() => Then().Result.First().Name.Is(The<string>());
@@ -100,7 +85,7 @@ public class WhenList : Spec<MyRetriever, MyModel[]>
 
     public class GivenTwoElementsWithIndexedSetup : WhenList
     {
-        public GivenTwoElementsWithIndexedSetup() 
+        public GivenTwoElementsWithIndexedSetup()
             => Given<IMyRepository>().That(_ => _.List()).Returns(() => Two<MyModel>((_, i) => _.Name = $"X{i + 1}"));
         [Fact] public void ThenArrayHasTwoElements() => Then().Result.Has().Count(2);
         [Fact] public void ThenFirstElementHaveSetup() => Then().Result.First().Name.Is("X1");
