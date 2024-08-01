@@ -9,6 +9,8 @@ public class WhenParseValue : Spec<string>
     [InlineData("() => A<MyModel>()", "a MyModel")]
     [InlineData("() => A<MyModel>(_ => _.Name = A<string>())", "a MyModel { Name = a string }")]
     [InlineData("One(_theModel)", "one _theModel")]
+    [InlineData("(_, i) => _.Name = $\"X{i + 1}\"", "Name = X{i + 1}")]
+    [InlineData("(a, b) => a.Name = $\"X{b + 1}\"", "Name = X{b + 1}")]
     public void ThenReturnDescription(string returnsExpr, string expected)
         => When(_ => returnsExpr.ParseValue())
         .Then().Result.Is(expected);

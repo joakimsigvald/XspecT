@@ -76,48 +76,192 @@ public class WhenList : Spec<MyRetriever, MyModel[]>
     public class GivenTwoElements : WhenList
     {
         public GivenTwoElements() => Given<IMyRepository>().That(_ => _.List()).Returns(() => Two<MyModel>());
-        [Fact] public void ThenArrayHasTwoElements() => Then().Result.Has().Count(2);
-        [Fact] public void ThenTheElementsAreDifferent() => Then().Result.First().Is().Not(Result.Last());
-        [Fact] public void ThenSecondElementCanBeRetrievedSeparately() => Then().Result.Last().Is(TheSecond<MyModel>());
+
+        [Fact]
+        public void ThenArrayHasTwoElements()
+        {
+            Then().Result.Has().Count(2);
+            VerifyDescription(
+@"Given IMyRepository.List() returns two MyModel,
+ when List(),
+ then Result has count 2");
+        }
+
+        [Fact]
+        public void ThenTheElementsAreDifferent()
+        {
+            Then().Result.First().Is().Not(Result.Last());
+            VerifyDescription(
+@"Given IMyRepository.List() returns two MyModel,
+ when List(),
+ then Result.First() is not Result.Last()");
+        }
+
+        [Fact]
+        public void ThenSecondElementCanBeRetrievedSeparately()
+        {
+            Then().Result.Last().Is(TheSecond<MyModel>());
+            VerifyDescription(
+@"Given IMyRepository.List() returns two MyModel,
+ when List(),
+ then Result.Last() is the second MyModel");
+        }
     }
 
     public class GivenTwoElementsWithSetup : WhenList
     {
         public GivenTwoElementsWithSetup()
-            => Given<IMyRepository>().That(_ => _.List()).Returns(() => Two<MyModel>(_ => _.Name == A<string>()));
-        [Fact] public void ThenArrayHasTwoElements() => Then().Result.Has().Count(2);
-        [Fact] public void ThenFirstElementHaveSetup() => Then().Result.First().Name.Is(The<string>());
-        [Fact] public void ThenSecondElementHaveSetup() => Then().Result.Last().Name.Is(The<string>());
+            => Given<IMyRepository>().That(_ => _.List()).Returns(() => Two<MyModel>(_ => _.Name = A<string>()));
+
+        [Fact]
+        public void ThenArrayHasTwoElements()
+        {
+            Then().Result.Has().Count(2);
+            VerifyDescription(
+@"Given IMyRepository.List() returns two MyModel { Name = a string },
+ when List(),
+ then Result has count 2");
+        }
+
+        [Fact]
+        public void ThenFirstElementHaveSetup()
+        {
+            Then().Result.First().Name.Is(The<string>());
+            VerifyDescription(
+@"Given IMyRepository.List() returns two MyModel { Name = a string },
+ when List(),
+ then Result.First().Name is the string");
+        }
+
+        [Fact]
+        public void ThenSecondElementHaveSetup()
+        {
+            Then().Result.Last().Name.Is(The<string>());
+            VerifyDescription(
+@"Given IMyRepository.List() returns two MyModel { Name = a string },
+ when List(),
+ then Result.Last().Name is the string");
+        }
     }
 
     public class GivenTwoElementsWithIndexedSetup : WhenList
     {
         public GivenTwoElementsWithIndexedSetup()
             => Given<IMyRepository>().That(_ => _.List()).Returns(() => Two<MyModel>((_, i) => _.Name = $"X{i + 1}"));
-        [Fact] public void ThenArrayHasTwoElements() => Then().Result.Has().Count(2);
-        [Fact] public void ThenFirstElementHaveSetup() => Then().Result.First().Name.Is("X1");
-        [Fact] public void ThenSecondElementHaveSetup() => Then().Result.Last().Name.Is("X2");
+
+        [Fact]
+        public void ThenArrayHasTwoElements()
+        {
+            Then().Result.Has().Count(2);
+            VerifyDescription(
+@"Given IMyRepository.List() returns two MyModel { Name = X{i + 1} },
+ when List(),
+ then Result has count 2");
+        }
+
+        [Fact]
+        public void ThenFirstElementHaveSetup()
+        {
+            Then().Result.First().Name.Is("X1");
+            VerifyDescription(
+@"Given IMyRepository.List() returns two MyModel { Name = X{i + 1} },
+ when List(),
+ then Result.First().Name is X1");
+        }
+
+        [Fact]
+        public void ThenSecondElementHaveSetup()
+        {
+            Then().Result.Last().Name.Is("X2");
+            VerifyDescription(
+@"Given IMyRepository.List() returns two MyModel { Name = X{i + 1} },
+ when List(),
+ then Result.Last().Name is X2");
+        }
     }
 
     public class GivenThreeElements : WhenList
     {
         public GivenThreeElements() => Given<IMyRepository>().That(_ => _.List()).Returns(() => Three<MyModel>());
-        [Fact] public void ThenArrayHasThreeElements() => Then().Result.Has().Count(3);
-        [Fact] public void ThenTheElementsAreDifferent() => Then().Result.First().Is().Not(Result.Last());
-        [Fact] public void ThenThirdElementCanBeRetrievedSeparately() => Then().Result.Last().Is(TheThird<MyModel>());
+
+        [Fact]
+        public void ThenArrayHasThreeElements()
+        {
+            Then().Result.Has().Count(3);
+            VerifyDescription(
+@"Given IMyRepository.List() returns three MyModel,
+ when List(),
+ then Result has count 3");
+        }
+
+        [Fact]
+        public void ThenTheElementsAreDifferent()
+        {
+            Then().Result.First().Is().Not(Result.Last());
+            VerifyDescription(
+@"Given IMyRepository.List() returns three MyModel,
+ when List(),
+ then Result.First() is not Result.Last()");
+        }
+
+        [Fact]
+        public void ThenThirdElementCanBeRetrievedSeparately()
+        {
+            Then().Result.Last().Is(TheThird<MyModel>());
+            VerifyDescription(
+@"Given IMyRepository.List() returns three MyModel,
+ when List(),
+ then Result.Last() is the third MyModel");
+        }
     }
 
     public class GivenFourElements : WhenList
     {
         public GivenFourElements() => Given<IMyRepository>().That(_ => _.List()).Returns(() => Four<MyModel>());
-        [Fact] public void ThenArrayHasFourElements() => Then().Result.Has().Count(4);
-        [Fact] public void ThenFourthElementCanBeRetrievedSeparately() => Then().Result.Last().Is(TheFourth<MyModel>());
+
+        [Fact]
+        public void ThenArrayHasFourElements()
+        {
+            Then().Result.Has().Count(4);
+            VerifyDescription(
+@"Given IMyRepository.List() returns four MyModel,
+ when List(),
+ then Result has count 4");
+        }
+
+        [Fact]
+        public void ThenFourthElementCanBeRetrievedSeparately()
+        {
+            Then().Result.Last().Is(TheFourth<MyModel>());
+            VerifyDescription(
+@"Given IMyRepository.List() returns four MyModel,
+ when List(),
+ then Result.Last() is the fourth MyModel");
+        }
     }
 
     public class GivenFiveElements : WhenList
     {
         public GivenFiveElements() => Given<IMyRepository>().That(_ => _.List()).Returns(() => Five<MyModel>());
-        [Fact] public void ThenArrayHasFiveElements() => Then().Result.Has().Count(5);
-        [Fact] public void ThenFifthElementCanBeRetrievedSeparately() => Then().Result.Last().Is(TheFifth<MyModel>());
+
+        [Fact]
+        public void ThenArrayHasFiveElements()
+        {
+            Then().Result.Has().Count(5);
+            VerifyDescription(
+@"Given IMyRepository.List() returns five MyModel,
+ when List(),
+ then Result has count 5");
+        }
+
+        [Fact]
+        public void ThenFifthElementCanBeRetrievedSeparately()
+        {
+            Then().Result.Last().Is(TheFifth<MyModel>());
+            VerifyDescription(
+@"Given IMyRepository.List() returns five MyModel,
+ when List(),
+ then Result.Last() is the fifth MyModel");
+        }
     }
 }

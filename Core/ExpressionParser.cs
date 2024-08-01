@@ -23,7 +23,11 @@ public static partial class ExpressionParser
             return description;
         if (TryParseAssignmentExpression(expr, out description))
             return description;
+        if (TryParseIndexedAssignmentExpression(expr, out description))
+            return description;
         if (TryParseLambdaExpression(expr, out description))
+            return description;
+        if (TryParseStringExpression(expr, out description))
             return description;
         return expr;
     }
@@ -84,6 +88,24 @@ public static partial class ExpressionParser
         return true;
     }
 
+    private static bool TryParseIndexedAssignmentExpression(string expr, out string description)
+    {
+        description = null;
+        var match = IndexedAssignmentRegex().Match(expr);
+        if (!match.Success)
+            return false;
+
+        var objArg = match.Groups[1].Value;
+        var objRef = match.Groups[2].Value;
+        if (objArg != objRef)
+            return false;
+
+        var propRef = match.Groups[3].Value;
+        var valueExpr = match.Groups[4].Value;
+        description = $"{propRef} = {ParseValue(valueExpr)}";
+        return true;
+    }
+
     private static bool TryParseLambdaExpression(string expr, out string description)
     {
         description = null;
@@ -92,6 +114,17 @@ public static partial class ExpressionParser
             return false;
 
         description = ParseValue(match.Groups[2].Value);
+        return true;
+    }
+
+    private static bool TryParseStringExpression(string expr, out string description)
+    {
+        description = null;
+        var match = StringRegex().Match(expr);
+        if (!match.Success)
+            return false;
+
+        description = match.Groups[1].Value;
         return true;
     }
 
@@ -104,6 +137,12 @@ public static partial class ExpressionParser
     [GeneratedRegex(@"^(\w+)\s*=>\s*(\w+)\.(\w+)\s*=\s*(.+)$")]
     private static partial Regex AssignmentRegex();
 
+    [GeneratedRegex(@"^\((\w+),\s*\w+\)\s*=>\s*(\w+)\.(\w+)\s*=\s*(.+)$")]
+    private static partial Regex IndexedAssignmentRegex();
+
     [GeneratedRegex(@"^(\(\)\s*=>\s*)(.+)$")]
     private static partial Regex LambdaRegex();
+
+    [GeneratedRegex("^[$@]*\"(.+)\"")]
+    private static partial Regex StringRegex();
 }
