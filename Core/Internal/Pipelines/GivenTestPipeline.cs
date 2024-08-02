@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using Moq;
+using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using XspecT.Continuations;
 
@@ -48,13 +49,21 @@ internal class GivenTestPipeline<TSUT, TResult>
 
     public IGivenContinuation<TSUT, TResult> Given() => Parent.Given();
 
-    public IGivenTestPipeline<TSUT, TResult> Given<TValue>(Func<TValue> value) => Parent.Given(value);
+    public IGivenTestPipeline<TSUT, TResult> Given<TValue>(
+        Func<TValue> defaultValue,
+        [CallerArgumentExpression(nameof(defaultValue))] string defaultValueExpr = null) 
+        => Parent.Given(defaultValue, defaultValueExpr);
+
     public IGivenTestPipeline<TSUT, TResult> And<TValue>(Action<TValue> setup) where TValue : class
         => Given(setup);
     public IGivenTestPipeline<TSUT, TResult> And<TValue>(Func<TValue, TValue> setup)
         => Given(setup);
 
-    public IGivenTestPipeline<TSUT, TResult> And<TValue>(Func<TValue> value) => Given(value);
+    public IGivenTestPipeline<TSUT, TResult> And<TValue>(
+        Func<TValue> defaultValue,
+        [CallerArgumentExpression(nameof(defaultValue))] string defaultValueExpr = null)
+        => Parent.Given(defaultValue, defaultValueExpr);
+
     public IGivenTestPipeline<TSUT, TResult> And<TValue>(TValue value) => Given(value);
     public IGivenServiceContinuation<TSUT, TResult, TService> And<TService>() where TService : class => Given<TService>();
     public IGivenContinuation<TSUT, TResult> And() => Given();

@@ -53,7 +53,7 @@ public class IsEnumerable<TItem> : Constraint<IsEnumerable<TItem>, IEnumerable<T
         IEnumerable<TItem> expected, 
         [System.Runtime.CompilerServices.CallerArgumentExpression("expected")] string expectedExpr = null)
     {
-        Specification.AddAssert([CustomAssertion] () => _actual.Should().NotBeSameAs(expected), _actualExpr, expectedExpr, "is not");
+        AddAssert([CustomAssertion] () => _actual.Should().NotBeSameAs(expected), expectedExpr, "is not");
         return And();
     }
 
@@ -61,10 +61,13 @@ public class IsEnumerable<TItem> : Constraint<IsEnumerable<TItem>, IEnumerable<T
     /// Verifies that the both collection contain the same number of elements and that elements on same position are equal to each other
     /// </summary>
     /// <param name="expected">The collection to validate against</param>
+    /// <param name="expectedExpr"></param>
     /// <returns>A continuation for making further assertions</returns>
-    public ContinueWith<IsEnumerable<TItem>> EqualTo(IEnumerable<TItem> expected)
+    public ContinueWith<IsEnumerable<TItem>> EqualTo(
+        IEnumerable<TItem> expected,
+        [System.Runtime.CompilerServices.CallerArgumentExpression("expected")] string expectedExpr = null)
     {
-        Specification.AddAssert([CustomAssertion] () => _actual.Should().BeEquivalentTo(expected));
+        AddAssert([CustomAssertion] () => _actual.Should().BeEquivalentTo(expected), expectedExpr, "is equal to");
         return And();
     }
 

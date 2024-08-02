@@ -1,4 +1,6 @@
-﻿namespace XspecT.Continuations;
+﻿using System.Runtime.CompilerServices;
+
+namespace XspecT.Continuations;
 
 /// <summary>
 /// A continuation to provide further arrangement
@@ -39,9 +41,12 @@ public interface IGivenTestPipeline<TSUT, TResult> : ITestPipeline<TSUT, TResult
     /// Providing a default value as a lambda, to defer execution, is useful when the default value is created based on test data that is specified later in the test-pipeline.
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
-    /// <param name="value"></param>
+    /// <param name="defaultValue"></param>
+    /// <param name="defaultValueExpr"></param>
     /// <returns></returns>
-    IGivenTestPipeline<TSUT, TResult> And<TValue>(Func<TValue> value);
+    IGivenTestPipeline<TSUT, TResult> And<TValue>(
+        Func<TValue> defaultValue,
+        [CallerArgumentExpression(nameof(defaultValue))] string defaultValueExpr = null);
 
     /// <summary>
     /// Provide a default value as a lambda, to be evaluated during test execution AFTER any subsequently added arrangement.

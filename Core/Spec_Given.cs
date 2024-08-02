@@ -91,10 +91,16 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// Providing a default value as a lambda, to defer execution, is useful when the default value is created based on test data that is specified later in the test-pipeline.
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
-    /// <param name="value"></param>
+    /// <param name="defaultValue"></param>
+    /// <param name="defaultValueExpr"></param>
     /// <returns></returns>
-    public IGivenTestPipeline<TSUT, TResult> Given<TValue>(Func<TValue> value)
-        => GivenDefault(value, ApplyTo.All);
+    public IGivenTestPipeline<TSUT, TResult> Given<TValue>(
+        Func<TValue> defaultValue,
+        [CallerArgumentExpression(nameof(defaultValue))] string defaultValueExpr = null)
+    {
+        Specification.AddGiven(defaultValueExpr);
+        return GivenDefault(defaultValue, ApplyTo.All);
+    }
 
     internal IGivenTestPipeline<TSUT, TResult> GivenDefault<TValue>(TValue defaultValue, ApplyTo applyTo)
     {

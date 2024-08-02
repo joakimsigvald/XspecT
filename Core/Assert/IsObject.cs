@@ -15,7 +15,7 @@ public class IsObject : Constraint<IsObject, object>
     public ContinueWith<IsObject> Not(
         object expected, [System.Runtime.CompilerServices.CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Specification.AddAssert([CustomAssertion] () => _actual.Should().NotBeSameAs(expected), _actualExpr, expectedExpr, "is not");
+        AddAssert([CustomAssertion] () => _actual.Should().NotBeSameAs(expected), expectedExpr, "is not");
         return And();
     }
 

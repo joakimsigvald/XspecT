@@ -8,7 +8,7 @@ namespace XspecT.Assert;
 public abstract class Constraint<TConstraint, TActual> where TConstraint : Constraint<TConstraint, TActual>
 {
     internal readonly TActual _actual;
-    internal readonly string _actualExpr;
+    private readonly string _actualExpr;
 
     internal Constraint(TActual actual, string actualExpr = null)
     {
@@ -18,4 +18,8 @@ public abstract class Constraint<TConstraint, TActual> where TConstraint : Const
 
     [CustomAssertion] internal ContinueWith<TConstraint> And() => new(Continue());
     internal virtual TConstraint Continue() => (TConstraint)this;
+
+    internal void AddAssert(Action assert, string expectedExpr, string verb) 
+        => Specification.AddAssert(assert, _actualExpr, expectedExpr, verb);
+
 }

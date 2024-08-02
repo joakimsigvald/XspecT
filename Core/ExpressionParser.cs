@@ -60,11 +60,18 @@ public static partial class ExpressionParser
 
         var verb = match.Groups[1].Value;
         var type = match.Groups[2].Value;
+        var continuation = match.Groups[3].Value;
+
         description = $"{verb.AsWords()} {type}";
-        var constraint = match.Groups[3].Value;
-        if (constraint.Length > 2)
-            description += $" {{ {ParseValue(constraint[1..^1])} }}";
+        if (HasConstraint())
+            description += $" {{ {ParseValue(continuation[1..^1])} }}";
+        if (HasDrilldown())
+            description = $"{continuation[1..]} of {description}";
         return true;
+
+        bool HasConstraint() => continuation.StartsWith('(') && continuation.EndsWith(')');
+
+        bool HasDrilldown() => continuation.StartsWith('.');
     }
 
     private static bool TryParseMentionValueExpression(string expr, out string description)
@@ -131,7 +138,7 @@ public static partial class ExpressionParser
         return true;
     }
 
-    [GeneratedRegex(@"^(\w+)<(\w+(?:\[])?)>(.*)$")]
+    [GeneratedRegex(@"^(\w+)<(\w+(?:\[])?)>(?:\(\))?(.*)$")]
     private static partial Regex MentionTypeRegex();
 
     [GeneratedRegex(@"^(\w+)\((.+)\)$")]

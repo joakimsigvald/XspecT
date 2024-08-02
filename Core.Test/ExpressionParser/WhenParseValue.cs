@@ -11,6 +11,7 @@ public class WhenParseValue : Spec<string>
     [InlineData("One(_theModel)", "one _theModel")]
     [InlineData("(_, i) => _.Name = $\"X{i + 1}\"", "Name = X{i + 1}")]
     [InlineData("(a, b) => a.Name = $\"X{b + 1}\"", "Name = X{b + 1}")]
+    [InlineData("Three<MyModel>().Last()", "Last() of three MyModel")]
     public void ThenReturnDescription(string returnsExpr, string expected)
         => When(_ => returnsExpr.ParseValue())
         .Then().Result.Is(expected);
