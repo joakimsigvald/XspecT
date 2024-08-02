@@ -40,19 +40,6 @@ public static class Specification
         return sb.ToString().Trim(',').Trim().Capitalize();
     }
 
-    internal static void AddMockSetup<TService, TActualReturns>(Expression<Func<TService, TActualReturns>> expression)
-    {
-        Add(AddMockSetup);
-
-        void AddMockSetup(StringBuilder descriptionBuilder)
-        {
-            var sb = new StringBuilder();
-            sb.Append($"given {typeof(TService).Name}.{expression.GetMethodName()}");
-            AddMethodArguments(sb, expression.Body as MethodCallExpression);
-            descriptionBuilder.AddPhrase(sb.ToString());
-        }
-    }
-
     internal static void AddMockSetup<TService>(string callExpr)
     {
         Add(AddMockSetup);

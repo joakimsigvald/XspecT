@@ -1,2 +1,2 @@
 * Return different pipeline after setup and run, and remove the HasRun guard clauses
-* Verbode mode (static) that prints description after running each test
+* Verbose mode (static) that prints description after running each test
