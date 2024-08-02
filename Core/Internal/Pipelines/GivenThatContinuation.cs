@@ -10,8 +10,10 @@ internal class GivenThatContinuation<TSUT, TResult, TService, TReturns, TActualR
     where TService : class
 {
     internal GivenThatContinuation(
-        Spec<TSUT, TResult> spec, Expression<Func<TService, TActualReturns>> expression)
-        : base(spec, expression) { }
+        Spec<TSUT, TResult> spec, 
+        Expression<Func<TService, TActualReturns>> call,
+        string callExpr = null)
+        : base(spec, call, callExpr) { }
 
     public IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns> Tap(Action callback)
         => ContinueWith(() => Continuation.Callback(callback));

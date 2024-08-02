@@ -17,6 +17,7 @@ internal class GivenThatReturnsContinuation<TSUT, TResult, TService>
     public IGivenThatContinuation<TSUT, TResult, TService, TReturns> AndThat<TReturns>(Expression<Func<TService, TReturns>> expression)
         => _serviceContinuation.That(expression);
 
-    public IGivenThatContinuation<TSUT, TResult, TService, TReturns> AndThat<TReturns>(Expression<Func<TService, Task<TReturns>>> expression)
+    public IGivenThatContinuation<TSUT, TResult, TService, TReturns> AndThat<TReturns>(
+        Expression<Func<TService, Task<TReturns>>> expression)
         => _serviceContinuation.That(expression);
 }

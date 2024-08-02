@@ -53,6 +53,19 @@ public static class Specification
         }
     }
 
+    internal static void AddMockSetup<TService>(string callExpr)
+    {
+        Add(AddMockSetup);
+
+        void AddMockSetup(StringBuilder descriptionBuilder)
+        {
+            var sb = new StringBuilder();
+            sb.Append($"given {typeof(TService).Name}.");
+            sb.Append(callExpr.ParseCall());
+            descriptionBuilder.AddPhrase(sb.ToString());
+        }
+    }
+
     internal static void AddMockReturns(string returnsExpr)
     {
         Add(AddMockReturns);

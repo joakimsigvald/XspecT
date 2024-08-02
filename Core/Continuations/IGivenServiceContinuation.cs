@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 
 namespace XspecT.Continuations;
 
@@ -34,17 +35,21 @@ public interface IGivenServiceContinuation<TSUT, TResult, TService>
     /// Mock the method invocation
     /// </summary>
     /// <typeparam name="TReturns"></typeparam>
-    /// <param name="expression"></param>
+    /// <param name="call"></param>
+    /// <param name="callExpr"></param>
     /// <returns>Continuation for providing method invocation result to mock</returns>
     IGivenThatContinuation<TSUT, TResult, TService, TReturns> That<TReturns>(
-        Expression<Func<TService, TReturns>> expression);
+        Expression<Func<TService, TReturns>> call,
+        [CallerArgumentExpression(nameof(call))] string callExpr = null);
 
     /// <summary>
     /// Provide async method invocation to mock
     /// </summary>
     /// <typeparam name="TReturns"></typeparam>
-    /// <param name="expression"></param>
+    /// <param name="call"></param>
+    /// <param name="callExpr"></param>
     /// <returns>Continuation for providing method invocation result to mock</returns>
     IGivenThatContinuation<TSUT, TResult, TService, TReturns> That<TReturns>(
-        Expression<Func<TService, Task<TReturns>>> expression);
+        Expression<Func<TService, Task<TReturns>>> call,
+        [CallerArgumentExpression(nameof(call))] string callExpr = null);
 }

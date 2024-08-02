@@ -25,9 +25,25 @@ public static partial class ExpressionParser
             return description;
         if (TryParseIndexedAssignmentExpression(expr, out description))
             return description;
-        if (TryParseLambdaExpression(expr, out description))
+        if (TryParseZeroArgLambdaExpression(expr, out description))
             return description;
         if (TryParseStringExpression(expr, out description))
+            return description;
+        return expr;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="expr"></param>
+    /// <returns></returns>
+    public static string ParseCall(this string expr)
+    {
+        if (string.IsNullOrEmpty(expr))
+            return expr;
+        if (TryParseOneArgLambdaExpression(expr, out string description))
+            return description;
+        if (TryParseMethodCallExpression(expr, out description))
             return description;
         return expr;
     }
@@ -116,14 +132,43 @@ public static partial class ExpressionParser
         return true;
     }
 
-    private static bool TryParseLambdaExpression(string expr, out string description)
+    private static bool TryParseZeroArgLambdaExpression(string expr, out string description)
     {
         description = null;
-        var match = LambdaRegex().Match(expr);
+        var match = ZeroArgLambdaRegex().Match(expr);
         if (!match.Success)
             return false;
 
         description = ParseValue(match.Groups[2].Value);
+        return true;
+    }
+
+    private static bool TryParseOneArgLambdaExpression(string expr, out string description)
+    {
+        description = null;
+        var match = OneArgLambdaRegex().Match(expr);
+        if (!match.Success)
+            return false;
+
+        var objArg = match.Groups[1].Value;
+        var objRef = match.Groups[2].Value;
+        if (objArg != objRef)
+            return false;
+
+        description = ParseCall(match.Groups[3].Value);
+        return true;
+    }
+
+    private static bool TryParseMethodCallExpression(string expr, out string description)
+    {
+        description = null;
+        var match = MethodCallRegex().Match(expr);
+        if (!match.Success)
+            return false;
+
+        var methodName = match.Groups[1].Value;
+        var methodArgs = match.Groups[2].Value;
+        description = $"{methodName}({ParseValue(methodArgs)})";
         return true;
     }
 
@@ -151,7 +196,13 @@ public static partial class ExpressionParser
     private static partial Regex IndexedAssignmentRegex();
 
     [GeneratedRegex(@"^(\(\)\s*=>\s*)(.+)$")]
-    private static partial Regex LambdaRegex();
+    private static partial Regex ZeroArgLambdaRegex();
+
+    [GeneratedRegex(@"^(\w+)\s*=>\s*(\w+)\.(.+)$")]
+    private static partial Regex OneArgLambdaRegex();
+
+    [GeneratedRegex(@"^(\w+)\((.+)\)$")]
+    private static partial Regex MethodCallRegex();
 
     [GeneratedRegex("^[$@]*\"(.+)\"")]
     private static partial Regex StringRegex();

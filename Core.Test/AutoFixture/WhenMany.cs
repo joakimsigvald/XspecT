@@ -172,17 +172,17 @@ public class WhenMockReturnsFewerElementsThanPreviouslyMentioned : Spec<MyRetrie
     public WhenMockReturnsFewerElementsThanPreviouslyMentioned()
         => When(_ => _.Create(An<int>()));
 
-    [Fact]//TODO
+    [Fact]
     public void ThenItIsDifferentFromFirst()
     {
         Given(3)
             .And<IMyRepository>().That(_ => _.Create(Three<MyModel>().Length))
-            .Returns(() => Two<MyModel>())
+            .Returns(Two<MyModel>)
             .Then().Result.Has().Count(2);
         VerifyDescription(
 @"Given 3,
  given IMyRepository.Create(Length of three MyModel) returns two MyModel,
- when List(),
+ when Create(an int),
  then Result has count 2");
     }
 }

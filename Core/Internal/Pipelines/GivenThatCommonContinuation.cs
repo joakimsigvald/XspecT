@@ -12,21 +12,23 @@ internal class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, TA
     where TMock : Moq.Language.Flow.IReturnsThrows<TService, TActualReturns>
 {
     protected readonly Spec<TSUT, TResult> _spec;
-    protected readonly Expression<Func<TService, TActualReturns>> _expression;
     protected readonly Lazy<TMock> _lazyContinuation;
+    private readonly string _callExpr;
 
-    internal GivenThatCommonContinuation(Spec<TSUT, TResult> spec, Lazy<TMock> continuation)
+    internal GivenThatCommonContinuation(
+        Spec<TSUT, TResult> spec, Lazy<TMock> continuation, string callExpr = null)
     {
         _spec = spec;
         _lazyContinuation = continuation;
+        _callExpr = callExpr;
     }
 
     internal GivenThatCommonContinuation(
-        Spec<TSUT, TResult> spec, Expression<Func<TService, TActualReturns>> expression)
+        Spec<TSUT, TResult> spec, 
+        Expression<Func<TService, TActualReturns>> call, 
+        string callExpr = null)
+        : this(spec, new Lazy<TMock>(() => (TMock)spec.GetMock<TService>().Setup(call)), callExpr)
     {
-        _spec = spec;
-        _expression = expression;
-        _lazyContinuation = new Lazy<TMock>(() => (TMock)_spec.GetMock<TService>().Setup(expression));
     }
 
     public IGivenThatReturnsContinuation<TSUT, TResult, TService> Returns([NotNull] Func<TReturns> returns, [CallerArgumentExpression("returns")] string returnsExpr = null)
@@ -67,8 +69,8 @@ internal class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, TA
             asyncContinuation.ReturnsAsync(returns);
         else
             Continuation.Returns(returns);
-        if (_expression is not null)
-            Specification.AddMockSetup(_expression);
+        if (_callExpr is not null)
+            Specification.AddMockSetup<TService>(_callExpr);
         Specification.AddMockReturns(returnsExpr);
     }
 }
