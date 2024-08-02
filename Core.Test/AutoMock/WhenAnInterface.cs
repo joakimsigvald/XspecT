@@ -1,4 +1,4 @@
-﻿using XspecT.Test.Subjects.Purchase;
+﻿using static XspecT.Test.Helper;
 
 namespace XspecT.Test.AutoMock;
 
@@ -7,7 +7,16 @@ public class WhenInjectingAnInterfaceWithUsing : Spec<InterfaceService, int>
     public WhenInjectingAnInterfaceWithUsing()
         => Given(new MyComponent(An<IMyLogger>(), An<int>())).When(_ => _.GetValue());
 
-    [Fact] public void ThenGetValue() => Result.Is(The<int>());
+    [Fact]
+    public void ThenGetValue() //TODO: Handle more than one argument
+    {
+        Result.Is(The<int>());
+        VerifyDescription(
+@"Given new MyComponent(an IMyLogger, an int),
+ when GetValue(),
+ then Result is the int");
+    }
+
     [Fact] public void ThenInterfaceIsMocked() => Then<IMyLogger>(_ => _.LogValue(The<int>()));
 }
 
