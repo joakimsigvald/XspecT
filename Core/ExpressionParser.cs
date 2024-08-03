@@ -29,6 +29,8 @@ public static partial class ExpressionParser
             return description;
         if (TryParseStringExpression(expr, out description))
             return description;
+        if (TryParseMethodCallExpression(expr, out description))
+            return description;
         return expr;
     }
 
@@ -168,7 +170,8 @@ public static partial class ExpressionParser
 
         var methodName = match.Groups[1].Value;
         var methodArgs = match.Groups[2].Value;
-        description = $"{methodName}({ParseValue(methodArgs)})";
+        var args = methodArgs.Split(',').Select(arg => ParseValue(arg.Trim()));
+        description = $"{methodName}({string.Join(", ", args)})";
         return true;
     }
 
@@ -201,7 +204,7 @@ public static partial class ExpressionParser
     [GeneratedRegex(@"^(\w+)\s*=>\s*(\w+)\.(.+)$")]
     private static partial Regex OneArgLambdaRegex();
 
-    [GeneratedRegex(@"^(\w+)\((.+)\)$")]
+    [GeneratedRegex(@"^((?:new\s+)?\w+)\((.+)\)$")]
     private static partial Regex MethodCallRegex();
 
     [GeneratedRegex("^[$@]*\"(.+)\"")]

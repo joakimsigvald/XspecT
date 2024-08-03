@@ -8,7 +8,7 @@ public class WhenInjectingAnInterfaceWithUsing : Spec<InterfaceService, int>
         => Given(new MyComponent(An<IMyLogger>(), An<int>())).When(_ => _.GetValue());
 
     [Fact]
-    public void ThenGetValue() //TODO: Handle more than one argument
+    public void ThenGetValue()
     {
         Result.Is(The<int>());
         VerifyDescription(

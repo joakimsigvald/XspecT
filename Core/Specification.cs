@@ -13,7 +13,6 @@ namespace XspecT;
 public static class Specification
 {
     //[ThreadStatic]
-    //private static StringBuilder _specificationBuilder;
     [ThreadStatic]
     private static string _description;
     [ThreadStatic]
@@ -22,7 +21,6 @@ public static class Specification
     internal static void Clear()
     {
         _description = null;
-        //_specificationBuilder = null;
         _applications = null;
     }
 
