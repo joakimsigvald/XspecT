@@ -64,15 +64,15 @@ public static class Specification
         }
     }
 
-    internal static void AddWhen<TSUT, TResult>(Expression<Func<TSUT, TResult>> expression)
+    internal static void AddWhen<TDelegate>(Expression<TDelegate> act)
     {
         Add(AddWhen);
 
         void AddWhen(StringBuilder descriptionBuilder)
         {
             var sb = new StringBuilder();
-            sb.Append($"when {expression.GetMethodName()}");
-            AddMethodArguments(sb, expression.Body as MethodCallExpression);
+            sb.Append($"when {act.GetMethodName()}");
+            AddMethodArguments(sb, act.Body as MethodCallExpression);
             descriptionBuilder.AddPhrase(sb.ToString());
         }
     }

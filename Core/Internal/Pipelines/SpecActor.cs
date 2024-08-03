@@ -64,6 +64,7 @@ internal class SpecActor<TSUT, TResult>
         bool ExecuteCommand(Expression<Action<TSUT>> act)
         {
             var function = act.Compile();
+            Specification.AddWhen(act);
             function(sut);
             return false;
         }
