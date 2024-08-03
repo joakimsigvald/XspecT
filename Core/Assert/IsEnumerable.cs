@@ -16,6 +16,7 @@ public class IsEnumerable<TItem> : Constraint<IsEnumerable<TItem>, IEnumerable<T
     [CustomAssertion]
     public ContinueWith<IsEnumerable<TItem>> Empty()
     {
+        AddAssert([CustomAssertion] () => _actual.Should().BeEmpty(), "is empty");
         _actual.Should().BeEmpty();
         return And();
     }
@@ -53,7 +54,7 @@ public class IsEnumerable<TItem> : Constraint<IsEnumerable<TItem>, IEnumerable<T
         IEnumerable<TItem> expected, 
         [System.Runtime.CompilerServices.CallerArgumentExpression("expected")] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => _actual.Should().NotBeSameAs(expected), expectedExpr, "is not");
+        AddAssert([CustomAssertion] () => _actual.Should().NotBeSameAs(expected), "is not", expectedExpr);
         return And();
     }
 
@@ -67,7 +68,7 @@ public class IsEnumerable<TItem> : Constraint<IsEnumerable<TItem>, IEnumerable<T
         IEnumerable<TItem> expected,
         [System.Runtime.CompilerServices.CallerArgumentExpression("expected")] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => _actual.Should().BeEquivalentTo(expected), expectedExpr, "is equal to");
+        AddAssert([CustomAssertion] () => _actual.Should().BeEquivalentTo(expected), "is equal to", expectedExpr);
         return And();
     }
 

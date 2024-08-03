@@ -19,7 +19,7 @@ public abstract class Constraint<TConstraint, TActual> where TConstraint : Const
     [CustomAssertion] internal ContinueWith<TConstraint> And() => new(Continue());
     internal virtual TConstraint Continue() => (TConstraint)this;
 
-    internal void AddAssert(Action assert, string expectedExpr, string verb) 
+    internal void AddAssert(Action assert, string verb, string expectedExpr = null) 
         => Specification.AddAssert(assert, _actualExpr, expectedExpr, verb);
 
 }
