@@ -1,14 +1,24 @@
-﻿using XspecT.Test.AutoFixture;
+﻿using static XspecT.Test.Helper;
+using XspecT.Test.AutoFixture;
 
 namespace XspecT.Test.AutoMock;
 
 public class WhenGivenUsingAndDefaultValue : Spec<MyWrapper<string>, (string, string)>
 {
-    [Fact]
+    [Fact]//TODO
     public void ThenApplyBothAsValues()
-        => Given().Default("ABC").And().Using("DEF")
-        .When(_ => _.GetValues(A<string>()))
-        .Then().Result.Is(("DEF", "ABC"));
+    {
+        Given().Default("ABC").And().Using("DEF")
+            .When(_ => _.GetValues(A<string>()))
+            .Then().Result.Is(("DEF", "ABC"));
+        VerifyDescription(
+            """
+            Given default "ABC"
+             given using "DEF"
+             when GetValues(a string),
+             then Result is ("DEF", "ABC")
+            """);
+    }
 
     [Fact]
     public void ThenApplyBothAsLambdas()
