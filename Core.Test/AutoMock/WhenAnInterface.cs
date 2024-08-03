@@ -72,7 +72,16 @@ public class WhenIndirectlyUsingConcreteInstanceForInterface : Spec<InterfaceSer
         .Given(A<MyComponent>)
         .And<IMyLogger>(() => new MyInvalidLogger<ApplicationException>());
 
-    [Fact] public void ThenUseTheConcreteInstance() => Then().Throws<ApplicationException>();
+    [Fact]
+    public void ThenUseTheConcreteInstance()
+    {
+        Then().Throws<ApplicationException>();
+        VerifyDescription(
+@"Given a MyComponent,
+ given new MyInvalidLogger<ApplicationException>(),
+ when GetValue(),
+ then throws ApplicationException");
+    }
 }
 
 public class WhenUsingConcreteInstanceForInterfaceWithAutoMockedConstructorArgument : Spec<InterfaceService, int>
@@ -80,7 +89,16 @@ public class WhenUsingConcreteInstanceForInterfaceWithAutoMockedConstructorArgum
     public WhenUsingConcreteInstanceForInterfaceWithAutoMockedConstructorArgument()
         => When(_ => _.GetValue()).Given(A<MyComponent>).And(An<int>);
 
-    [Fact] public void ThenAutoMockComponent() => Result.Is(The<int>());
+    [Fact]
+    public void ThenAutoMockComponent()
+    {
+        Result.Is(The<int>());
+        VerifyDescription(
+@"Given a MyComponent,
+ given an int,
+ when GetValue(),
+ then Result is the int");
+    }
 }
 
 public interface IMyService
