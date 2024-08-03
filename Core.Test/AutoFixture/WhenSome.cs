@@ -28,8 +28,8 @@ public class WhenSome : Spec<MyRetriever, MyModel[]>
         {
             Result.Has().Count(1);
             VerifyDescription(
-@"Given some MyModel,
- given one MyModel,
+@"Given one MyModel,
+ given some MyModel,
  when List(),
  then Result has count 1");
         }
@@ -44,8 +44,8 @@ public class WhenSome : Spec<MyRetriever, MyModel[]>
         {
             Result.Has().Count(3);
             VerifyDescription(
-@"Given some MyModel,
- given three MyModel,
+@"Given three MyModel,
+ given some MyModel,
  when List(),
  then Result has count 3");
         }
@@ -60,8 +60,8 @@ public class WhenSome : Spec<MyRetriever, MyModel[]>
         {
             Result.Has().Count(0);
             VerifyDescription(
-@"Given some MyModel,
- given Array.Empty<MyModel>,
+@"Given Array.Empty<MyModel>,
+ given some MyModel,
  when List(),
  then Result has count 0");
         }
@@ -76,8 +76,8 @@ public class WhenSome : Spec<MyRetriever, MyModel[]>
         {
             Result.Has().Count(3);
             VerifyDescription(
-@"Given some MyModel,
- given many MyModel,
+@"Given many MyModel,
+ given some MyModel,
  when List(),
  then Result has count 3");
         }

@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using XspecT.Internal;
+using XspecT.Internal.TestData;
 using Xunit.Sdk;
 
 namespace XspecT;
@@ -110,8 +111,20 @@ public static class Specification
             Add(sb => sb.AddWord(subjectExpr.ParseValue()));
     }
 
-    internal static void AddGiven(string valueExpr) 
-        => Add(sb => sb.AddPhrase($"given {valueExpr.ParseValue()}"));
+    internal static void AddGiven(string valueExpr, ApplyTo applyTo)
+    {
+        Add(sb => sb.AddPhrase(string.Join(' ', GetWords())));
+
+        IEnumerable<string> GetWords()
+        {
+            yield return "given";
+            if (applyTo == ApplyTo.Default)
+                yield return "default";
+            else if (applyTo == ApplyTo.Using)
+                yield return "using";
+            yield return valueExpr.ParseValue();
+        }
+    }
 
     internal static void AddVerify<TService>(string expressionExpr) 
         => Add(sb => sb.AddWord($"{typeof(TService).Name}.{expressionExpr.ParseCall()}"));

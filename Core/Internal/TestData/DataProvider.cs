@@ -37,13 +37,13 @@ internal class DataProvider
 
     internal void Use<TValue>(TValue value, ApplyTo applyTo)
     {
-        if (applyTo.HasFlag(ApplyTo.Defaults))
+        if (applyTo.HasFlag(ApplyTo.Default))
             _defaultValues[typeof(TValue)] = value;
 
         if (value is Moq.Internals.InterfaceProxy)
             return;
 
-        if (applyTo.HasFlag(ApplyTo.Mocker))
+        if (applyTo.HasFlag(ApplyTo.Using))
             _testDataGenerator.Use(typeof(TValue), value);
 
         if (typeof(Task).IsAssignableFrom(typeof(TValue)))

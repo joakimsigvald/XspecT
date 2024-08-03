@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 
 namespace XspecT.Continuations;
 
@@ -19,33 +20,45 @@ public interface IGivenContinuation<TSUT, TResult>
     /// Provide a default value, that will be applied in all mocks and auto-generated test-data, where no specific value or setup is given.
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
-    /// <param name="value"></param>
+    /// <param name="defaultValue"></param>
+    /// <param name="defaultValueExpr"></param>
     /// <returns></returns>
-    IGivenTestPipeline<TSUT, TResult> Default<TValue>(Func<TValue> value);
+    IGivenTestPipeline<TSUT, TResult> Default<TValue>(
+        Func<TValue> defaultValue,
+        [CallerArgumentExpression(nameof(defaultValue))] string defaultValueExpr = null);
 
     /// <summary>
     /// Provide a default value, that will be used as test data where no specific value is given
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
-    /// <param name="value"></param>
+    /// <param name="defaultValue"></param>
+    /// <param name="defaultValueExpr"></param>
     /// <returns></returns>
-    IGivenTestPipeline<TSUT, TResult> Default<TValue>(TValue value);
+    IGivenTestPipeline<TSUT, TResult> Default<TValue>(
+        TValue defaultValue,
+        [CallerArgumentExpression(nameof(defaultValue))] string defaultValueExpr = null);
 
     /// <summary>
     /// Provide a value or object instance that will be used when creating subject under test
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
-    /// <param name="value"></param>
+    /// <param name="defaultValue"></param>
+    /// <param name="defaultValueExpr"></param>
     /// <returns></returns>
-    IGivenTestPipeline<TSUT, TResult> Using<TValue>(TValue value);
+    IGivenTestPipeline<TSUT, TResult> Using<TValue>(
+        TValue defaultValue, 
+        [CallerArgumentExpression(nameof(defaultValue))] string defaultValueExpr = null);
 
     /// <summary>
     /// Provide a value or object instance that will be used when creating subject under test
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
-    /// <param name="value"></param>
+    /// <param name="defaultValue"></param>
+    /// <param name="defaultValueExpr"></param>
     /// <returns></returns>
-    IGivenTestPipeline<TSUT, TResult> Using<TValue>(Func<TValue> value);
+    IGivenTestPipeline<TSUT, TResult> Using<TValue>(
+        Func<TValue> defaultValue, 
+        [CallerArgumentExpression(nameof(defaultValue))] string defaultValueExpr = null);
 
     /// <summary>
     /// Provide a default setup, that will be applied in all mocks and auto-generated test-data.

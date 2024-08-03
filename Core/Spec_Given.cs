@@ -42,11 +42,8 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <returns></returns>
     public IGivenTestPipeline<TSUT, TResult> Given<TValue>(
         TValue defaultValue,
-        [CallerArgumentExpression(nameof(defaultValue))] string defaultValueExpr = null)
-    {
-        Specification.AddGiven(defaultValueExpr);
-        return GivenDefault(defaultValue, ApplyTo.All);
-    }
+        [CallerArgumentExpression(nameof(defaultValue))] string defaultValueExpr = null) 
+        => GivenDefault(defaultValue, ApplyTo.All, defaultValueExpr);
 
     /// <summary>
     /// Provide an array of default values, that will be applied in all mocks and auto-generated test-data, where no specific value or setup is given.
@@ -61,8 +58,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
         TValue[] defaultValues,
         [CallerArgumentExpression(nameof(defaultValues))] string defaultValuesExpr = null)
     {
-        Specification.AddGiven(defaultValuesExpr);
-        _pipeline.SetDefault(defaultValues, ApplyTo.All);
+        _pipeline.SetDefault(defaultValues, ApplyTo.All, defaultValuesExpr);
         var mentions = defaultValues.Take(5).Select((value, i) => (i, value));
         foreach (var (i, value) in mentions)
             _pipeline.Mention(i, value);
@@ -96,21 +92,18 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <returns></returns>
     public IGivenTestPipeline<TSUT, TResult> Given<TValue>(
         Func<TValue> defaultValue,
-        [CallerArgumentExpression(nameof(defaultValue))] string defaultValueExpr = null)
-    {
-        Specification.AddGiven(defaultValueExpr);
-        return GivenDefault(defaultValue, ApplyTo.All);
-    }
+        [CallerArgumentExpression(nameof(defaultValue))] string defaultValueExpr = null) 
+        => GivenDefault(defaultValue, ApplyTo.All, defaultValueExpr);
 
-    internal IGivenTestPipeline<TSUT, TResult> GivenDefault<TValue>(TValue defaultValue, ApplyTo applyTo)
+    internal IGivenTestPipeline<TSUT, TResult> GivenDefault<TValue>(TValue defaultValue, ApplyTo applyTo, string defaultValueExpr)
     {
-        _pipeline.SetDefault(defaultValue, applyTo);
+        _pipeline.SetDefault(defaultValue, applyTo, defaultValueExpr);
         return new GivenTestPipeline<TSUT, TResult>(this);
     }
 
-    internal IGivenTestPipeline<TSUT, TResult> GivenDefault<TValue>(Func<TValue> value, ApplyTo applyTo)
+    internal IGivenTestPipeline<TSUT, TResult> GivenDefault<TValue>(Func<TValue> value, ApplyTo applyTo, string defaultValueExpr)
     {
-        _pipeline.Given(() => _pipeline.SetDefault(value(), applyTo));
+        _pipeline.Given(() => _pipeline.SetDefault(value(), applyTo, defaultValueExpr));
         return new GivenTestPipeline<TSUT, TResult>(this);
     }
 
