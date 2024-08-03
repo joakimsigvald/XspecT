@@ -1,13 +1,21 @@
-﻿namespace XspecT.Test.AutoMock;
+﻿using static XspecT.Test.Helper;
+namespace XspecT.Test.AutoMock;
 
 public class WhenMockCustomStruct : Spec<StaticValueService, MyValue<int>>
 {
     public WhenMockCustomStruct() => When(_ => _.GetValue());
     public class GivenItWasNotProvided : WhenMockCustomStruct
     {
-        [Fact] 
-        public void Then_It_Has_RandomCustomStruct() 
-            => Then().Result.Is().Not(A<MyValue<int>>()).And(Result).Value.Is().Not(0);
+        [Fact]
+        public void Then_It_Has_RandomCustomStruct()
+        {
+            Then().Result.Is().Not(A<MyValue<int>>()).And(Result).Value.Is().Not(0);
+            VerifyDescription(
+                """
+                When GetValue()
+                Then Result is not a MyValue<int> and Result.Value is not 0
+                """);
+        }
     }
 
     public class GivenItWasProvided : WhenMockCustomStruct

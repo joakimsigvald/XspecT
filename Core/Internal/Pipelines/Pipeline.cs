@@ -82,7 +82,7 @@ internal class Pipeline<TSUT, TResult>
 
     internal void SetTearDown(Func<Task> tearDown) => SetTearDown(() => Execute(tearDown));
 
-    internal TValue Mention<TValue>(int index = 0, [CallerMemberName] string callerName = "") 
+    internal TValue Mention<TValue>(int index = 0) 
         => index < 0 ? _context.Create<TValue>() : _context.Mention<TValue>(index);
 
     internal TValue Create<TValue>([NotNull] Action<TValue> setup)
