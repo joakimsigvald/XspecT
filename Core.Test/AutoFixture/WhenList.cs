@@ -16,9 +16,9 @@ public class WhenList : Spec<MyRetriever, MyModel[]>
         {
             Then().Result.Single().Is(_theModel);
             VerifyDescription(
-@"Given IMyRepository.List() returns one _theModel,
- when List(),
- then Result.Single() is _theModel");
+@"Given IMyRepository.List() returns one _theModel
+When List()
+Then Result.Single() is _theModel");
         }
     }
 
@@ -31,9 +31,9 @@ public class WhenList : Spec<MyRetriever, MyModel[]>
         {
             Then().Result.Is(The<MyModel[]>());
             VerifyDescription(
-@"Given IMyRepository.List() returns one MyModel,
- when List(),
- then Result is the MyModel[]");
+@"Given IMyRepository.List() returns one MyModel
+When List()
+Then Result is the MyModel[]");
         }
 
         [Fact]
@@ -41,9 +41,9 @@ public class WhenList : Spec<MyRetriever, MyModel[]>
         {
             Then().Result.Has().Count(1);
             VerifyDescription(
-@"Given IMyRepository.List() returns one MyModel,
- when List(),
- then Result has count 1");
+@"Given IMyRepository.List() returns one MyModel
+When List()
+Then Result has count 1");
         }
 
         [Fact]
@@ -51,9 +51,9 @@ public class WhenList : Spec<MyRetriever, MyModel[]>
         {
             Then().Result.Single().Is(The<MyModel>());
             VerifyDescription(
-@"Given IMyRepository.List() returns one MyModel,
- when List(),
- then Result.Single() is the MyModel");
+@"Given IMyRepository.List() returns one MyModel
+When List()
+Then Result.Single() is the MyModel");
         }
     }
 
@@ -67,9 +67,9 @@ public class WhenList : Spec<MyRetriever, MyModel[]>
         {
             Then().Result.Single().Name.Is(The<string>());
             VerifyDescription(
-@"Given IMyRepository.List() returns one MyModel { Name = a string },
- when List(),
- then Result.Single().Name is the string");
+@"Given IMyRepository.List() returns one MyModel { Name = a string }
+When List()
+Then Result.Single().Name is the string");
         }
     }
 
@@ -82,9 +82,9 @@ public class WhenList : Spec<MyRetriever, MyModel[]>
         {
             Then().Result.Has().Count(2);
             VerifyDescription(
-@"Given IMyRepository.List() returns two MyModel,
- when List(),
- then Result has count 2");
+@"Given IMyRepository.List() returns two MyModel
+When List()
+Then Result has count 2");
         }
 
         [Fact]
@@ -92,9 +92,9 @@ public class WhenList : Spec<MyRetriever, MyModel[]>
         {
             Then().Result.First().Is().Not(Result.Last());
             VerifyDescription(
-@"Given IMyRepository.List() returns two MyModel,
- when List(),
- then Result.First() is not Result.Last()");
+@"Given IMyRepository.List() returns two MyModel
+When List()
+Then Result.First() is not Result.Last()");
         }
 
         [Fact]
@@ -102,9 +102,9 @@ public class WhenList : Spec<MyRetriever, MyModel[]>
         {
             Then().Result.Last().Is(TheSecond<MyModel>());
             VerifyDescription(
-@"Given IMyRepository.List() returns two MyModel,
- when List(),
- then Result.Last() is the second MyModel");
+@"Given IMyRepository.List() returns two MyModel
+When List()
+Then Result.Last() is the second MyModel");
         }
     }
 
@@ -118,9 +118,9 @@ public class WhenList : Spec<MyRetriever, MyModel[]>
         {
             Then().Result.Has().Count(2);
             VerifyDescription(
-@"Given IMyRepository.List() returns two MyModel { Name = a string },
- when List(),
- then Result has count 2");
+@"Given IMyRepository.List() returns two MyModel { Name = a string }
+When List()
+Then Result has count 2");
         }
 
         [Fact]
@@ -128,9 +128,9 @@ public class WhenList : Spec<MyRetriever, MyModel[]>
         {
             Then().Result.First().Name.Is(The<string>());
             VerifyDescription(
-@"Given IMyRepository.List() returns two MyModel { Name = a string },
- when List(),
- then Result.First().Name is the string");
+@"Given IMyRepository.List() returns two MyModel { Name = a string }
+When List()
+Then Result.First().Name is the string");
         }
 
         [Fact]
@@ -138,9 +138,9 @@ public class WhenList : Spec<MyRetriever, MyModel[]>
         {
             Then().Result.Last().Name.Is(The<string>());
             VerifyDescription(
-@"Given IMyRepository.List() returns two MyModel { Name = a string },
- when List(),
- then Result.Last().Name is the string");
+@"Given IMyRepository.List() returns two MyModel { Name = a string }
+When List()
+Then Result.Last().Name is the string");
         }
     }
 
@@ -154,9 +154,9 @@ public class WhenList : Spec<MyRetriever, MyModel[]>
         {
             Then().Result.Has().Count(2);
             VerifyDescription(
-@"Given IMyRepository.List() returns two MyModel { Name = X{i + 1} },
- when List(),
- then Result has count 2");
+@"Given IMyRepository.List() returns two MyModel { Name = X{i + 1} }
+When List()
+Then Result has count 2");
         }
 
         [Fact]
@@ -164,9 +164,9 @@ public class WhenList : Spec<MyRetriever, MyModel[]>
         {
             Then().Result.First().Name.Is("X1");
             VerifyDescription(
-@"Given IMyRepository.List() returns two MyModel { Name = X{i + 1} },
- when List(),
- then Result.First().Name is X1");
+@"Given IMyRepository.List() returns two MyModel { Name = X{i + 1} }
+When List()
+Then Result.First().Name is X1");
         }
 
         [Fact]
@@ -174,9 +174,9 @@ public class WhenList : Spec<MyRetriever, MyModel[]>
         {
             Then().Result.Last().Name.Is("X2");
             VerifyDescription(
-@"Given IMyRepository.List() returns two MyModel { Name = X{i + 1} },
- when List(),
- then Result.Last().Name is X2");
+@"Given IMyRepository.List() returns two MyModel { Name = X{i + 1} }
+When List()
+Then Result.Last().Name is X2");
         }
     }
 
@@ -189,9 +189,9 @@ public class WhenList : Spec<MyRetriever, MyModel[]>
         {
             Then().Result.Has().Count(3);
             VerifyDescription(
-@"Given IMyRepository.List() returns three MyModel,
- when List(),
- then Result has count 3");
+@"Given IMyRepository.List() returns three MyModel
+When List()
+Then Result has count 3");
         }
 
         [Fact]
@@ -199,9 +199,9 @@ public class WhenList : Spec<MyRetriever, MyModel[]>
         {
             Then().Result.First().Is().Not(Result.Last());
             VerifyDescription(
-@"Given IMyRepository.List() returns three MyModel,
- when List(),
- then Result.First() is not Result.Last()");
+@"Given IMyRepository.List() returns three MyModel
+When List()
+Then Result.First() is not Result.Last()");
         }
 
         [Fact]
@@ -209,9 +209,9 @@ public class WhenList : Spec<MyRetriever, MyModel[]>
         {
             Then().Result.Last().Is(TheThird<MyModel>());
             VerifyDescription(
-@"Given IMyRepository.List() returns three MyModel,
- when List(),
- then Result.Last() is the third MyModel");
+@"Given IMyRepository.List() returns three MyModel
+When List()
+Then Result.Last() is the third MyModel");
         }
     }
 
@@ -224,9 +224,9 @@ public class WhenList : Spec<MyRetriever, MyModel[]>
         {
             Then().Result.Has().Count(4);
             VerifyDescription(
-@"Given IMyRepository.List() returns four MyModel,
- when List(),
- then Result has count 4");
+@"Given IMyRepository.List() returns four MyModel
+When List()
+Then Result has count 4");
         }
 
         [Fact]
@@ -234,9 +234,9 @@ public class WhenList : Spec<MyRetriever, MyModel[]>
         {
             Then().Result.Last().Is(TheFourth<MyModel>());
             VerifyDescription(
-@"Given IMyRepository.List() returns four MyModel,
- when List(),
- then Result.Last() is the fourth MyModel");
+@"Given IMyRepository.List() returns four MyModel
+When List()
+Then Result.Last() is the fourth MyModel");
         }
     }
 
@@ -249,9 +249,9 @@ public class WhenList : Spec<MyRetriever, MyModel[]>
         {
             Then().Result.Has().Count(5);
             VerifyDescription(
-@"Given IMyRepository.List() returns five MyModel,
- when List(),
- then Result has count 5");
+@"Given IMyRepository.List() returns five MyModel
+When List()
+Then Result has count 5");
         }
 
         [Fact]
@@ -259,9 +259,9 @@ public class WhenList : Spec<MyRetriever, MyModel[]>
         {
             Then().Result.Last().Is(TheFifth<MyModel>());
             VerifyDescription(
-@"Given IMyRepository.List() returns five MyModel,
- when List(),
- then Result.Last() is the fifth MyModel");
+@"Given IMyRepository.List() returns five MyModel
+When List()
+Then Result.Last() is the fifth MyModel");
         }
     }
 }

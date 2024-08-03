@@ -14,7 +14,7 @@ public class WhenApplyTaskOfImplicitlyCastPrimitiveToMock : Spec<MyValueIntServi
     {
         Then<IMyValueIntRepo>(_ => _.SetAsync(The<MyValueInt>()));
         VerifyDescription(
-@"When SetValueAsync(a MyValueInt),
- then IMyValueIntRepo.SetAsync(the MyValueInt)");
+@"When SetValueAsync(a MyValueInt)
+Then IMyValueIntRepo.SetAsync(the MyValueInt)");
     }
 }

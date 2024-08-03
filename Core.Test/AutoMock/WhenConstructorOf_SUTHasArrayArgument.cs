@@ -9,8 +9,8 @@ public class WhenConstructorOf_SUTTakeArrayOfObject: Spec<ArrayService, SomeValu
     {
         When(_ => _.GetValues()).Then().Result.Is().Empty();
         VerifyDescription(
-@"When GetValues(),
- then Result is empty");
+@"When GetValues()
+Then Result is empty");
     }
 }
 

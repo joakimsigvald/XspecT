@@ -12,9 +12,9 @@ public class WhenGet : Spec<MyRetriever, MyModel>
         Given<IMyRepository>().That(_ => _.Get(The<int>())).Returns(A<MyModel>)
             .Then().Result.Is(The<MyModel>());
         VerifyDescription(
-@"Given IMyRepository.Get(the int) returns a MyModel,
- when Get(an int),
- then Result is the MyModel");
+@"Given IMyRepository.Get(the int) returns a MyModel
+When Get(an int)
+Then Result is the MyModel");
     }
 
     [Fact]
@@ -23,9 +23,9 @@ public class WhenGet : Spec<MyRetriever, MyModel>
         Given<IMyRepository>().That(_ => _.Get(Another<int>())).Returns(ASecond<MyModel>)
             .Then().Result.Is().Not(TheSecond<MyModel>());
         VerifyDescription(
-@"Given IMyRepository.Get(another int) returns a second MyModel,
- when Get(an int),
- then Result is not the second MyModel");
+@"Given IMyRepository.Get(another int) returns a second MyModel
+When Get(an int)
+Then Result is not the second MyModel");
     }
 
     [Fact]
@@ -34,9 +34,9 @@ public class WhenGet : Spec<MyRetriever, MyModel>
         Given<IMyRepository>().That(_ => _.Get(The<int>())).Returns(Another<MyModel>)
             .Then().Result.Is().Not(Another<MyModel>());
         VerifyDescription(
-@"Given IMyRepository.Get(the int) returns another MyModel,
- when Get(an int),
- then Result is not another MyModel");
+@"Given IMyRepository.Get(the int) returns another MyModel
+When Get(an int)
+Then Result is not another MyModel");
     }
 
     [Fact]
@@ -45,9 +45,9 @@ public class WhenGet : Spec<MyRetriever, MyModel>
         Given<IMyRepository>().That(_ => _.Get(The<byte>())).Returns(ASecond<MyModel>)
             .Then().Result.Is().Not(TheSecond<MyModel>());
         VerifyDescription(
-@"Given IMyRepository.Get(the byte) returns a second MyModel,
- when Get(an int),
- then Result is not the second MyModel");
+@"Given IMyRepository.Get(the byte) returns a second MyModel
+When Get(an int)
+Then Result is not the second MyModel");
     }
 
     [Fact]
@@ -55,9 +55,9 @@ public class WhenGet : Spec<MyRetriever, MyModel>
     {
         Given(new MyModel()).Then().Result.Is(The<MyModel>());
         VerifyDescription(
-@"Given new MyModel(),
- when Get(an int),
- then Result is the MyModel");
+@"Given new MyModel()
+When Get(an int)
+Then Result is the MyModel");
     }
 
     [Fact]
@@ -65,9 +65,9 @@ public class WhenGet : Spec<MyRetriever, MyModel>
     {
         Given(Another<MyModel>()).Then().Result.Is(The<MyModel>());
         VerifyDescription(
-@"Given another MyModel,
- when Get(an int),
- then Result is the MyModel");
+@"Given another MyModel
+When Get(an int)
+Then Result is the MyModel");
     }
 
     [Fact]
@@ -76,9 +76,9 @@ public class WhenGet : Spec<MyRetriever, MyModel>
         Given<IMyRepository>().That(_ => _.Get(The<int>())).Returns(ASecond<MyModel>)
             .Then().Result.Is(TheSecond<MyModel>());
         VerifyDescription(
-@"Given IMyRepository.Get(the int) returns a second MyModel,
- when Get(an int),
- then Result is the second MyModel");
+@"Given IMyRepository.Get(the int) returns a second MyModel
+When Get(an int)
+Then Result is the second MyModel");
     }
 
     [Fact]
@@ -87,9 +87,9 @@ public class WhenGet : Spec<MyRetriever, MyModel>
         Given<IMyRepository>().That(_ => _.Get(The<int>())).Returns(A<MyModel>)
             .Then().Result.Is().Not(ASecond<MyModel>());
         VerifyDescription(
-@"Given IMyRepository.Get(the int) returns a MyModel,
- when Get(an int),
- then Result is not a second MyModel");
+@"Given IMyRepository.Get(the int) returns a MyModel
+When Get(an int)
+Then Result is not a second MyModel");
     }
 
     [Fact]
@@ -98,9 +98,9 @@ public class WhenGet : Spec<MyRetriever, MyModel>
         Given<IMyRepository>().That(_ => _.Get(The<int>())).Returns(AThird<MyModel>)
             .Then().Result.Is(TheThird<MyModel>());
         VerifyDescription(
-@"Given IMyRepository.Get(the int) returns a third MyModel,
- when Get(an int),
- then Result is the third MyModel");
+@"Given IMyRepository.Get(the int) returns a third MyModel
+When Get(an int)
+Then Result is the third MyModel");
     }
 
     [Fact]
@@ -109,8 +109,8 @@ public class WhenGet : Spec<MyRetriever, MyModel>
         Given<IMyRepository>().That(_ => _.Get(The<int>())).Returns(ASecond<MyModel>)
             .Then().Result.Is().Not(AThird<MyModel>());
         VerifyDescription(
-@"Given IMyRepository.Get(the int) returns a second MyModel,
- when Get(an int),
- then Result is not a third MyModel");
+@"Given IMyRepository.Get(the int) returns a second MyModel
+When Get(an int)
+Then Result is not a third MyModel");
     }
 }

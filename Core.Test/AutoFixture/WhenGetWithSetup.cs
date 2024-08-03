@@ -14,10 +14,10 @@ public class WhenGetWithSetup : Spec<MyMappingRetreiver, MyModel>
         Given<IMyMapper>().That(_ => _.Map(A<MyModel>())).Returns(() => The<MyModel>())
             .Then().Result.Name.Is(The<string>());
         VerifyDescription(
-@"Given IMyMapper.Map(a MyModel) returns the MyModel,
- given IMyRepository.Get(the int) returns a MyModel { Name = a string },
- when Get(an int),
- then Result.Name is the string");
+@"Given IMyMapper.Map(a MyModel) returns the MyModel
+ and IMyRepository.Get(the int) returns a MyModel { Name = a string }
+When Get(an int)
+Then Result.Name is the string");
     }
 
     [Fact]
@@ -27,10 +27,10 @@ public class WhenGetWithSetup : Spec<MyMappingRetreiver, MyModel>
             .Returns(() => A<MyModel>(_ => _.Id = An<int>()))
             .Then().Result.Name.Is(The<string>()).And(Result).Id.Is(The<int>());
         VerifyDescription(
-@"Given IMyMapper.Map(the MyModel) returns a MyModel { Id = an int },
- given IMyRepository.Get(the int) returns a MyModel { Name = a string },
- when Get(an int),
- then Result.Name is the string and Result.Id is the int");
+@"Given IMyMapper.Map(the MyModel) returns a MyModel { Id = an int }
+ and IMyRepository.Get(the int) returns a MyModel { Name = a string }
+When Get(an int)
+Then Result.Name is the string and Result.Id is the int");
     }
 
     [Fact]

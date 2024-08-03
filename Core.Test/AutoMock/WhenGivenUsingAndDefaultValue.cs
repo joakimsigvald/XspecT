@@ -13,10 +13,10 @@ public class WhenGivenUsingAndDefaultValue : Spec<MyWrapper<string>, (string, st
             .Then().Result.Is(("DEF", "ABC"));
         VerifyDescription(
             """
-            Given default ABC,
-             given using DEF,
-             when GetValues(a string),
-             then Result is ("DEF", "ABC")
+            Given default ABC
+             and using DEF
+            When GetValues(a string)
+            Then Result is ("DEF", "ABC")
             """);
     }
 

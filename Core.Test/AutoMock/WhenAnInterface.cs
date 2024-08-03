@@ -12,9 +12,9 @@ public class WhenInjectingAnInterfaceWithUsing : Spec<InterfaceService, int>
     {
         Result.Is(The<int>());
         VerifyDescription(
-@"Given new MyComponent(an IMyLogger, an int),
- when GetValue(),
- then Result is the int");
+@"Given new MyComponent(an IMyLogger, an int)
+When GetValue()
+Then Result is the int");
     }
 
     [Fact]
@@ -22,9 +22,9 @@ public class WhenInjectingAnInterfaceWithUsing : Spec<InterfaceService, int>
     {
         Then<IMyLogger>(_ => _.LogValue(The<int>()));
         VerifyDescription(
-@"Given new MyComponent(an IMyLogger, an int),
- when GetValue(),
- then IMyLogger.LogValue(the int)");
+@"Given new MyComponent(an IMyLogger, an int)
+When GetValue()
+Then IMyLogger.LogValue(the int)");
     }
 }
 
@@ -38,10 +38,10 @@ public class WhenUseConcreteInstanceOfInterface : Spec<InterfaceService, int>
     {
         Result.Is(TheSecond<int>());
         VerifyDescription(
-@"Given CreateService(),
- given an int,
- when GetServiceValue(),
- then Result is the second int");
+@"Given CreateService()
+ and an int
+When GetServiceValue()
+Then Result is the second int");
     }
 
     protected IMyService CreateService() => new MyService(new MyComponent(A<IMyLogger>(), ASecond<int>()));
@@ -58,10 +58,10 @@ public class WhenUsingConcreteInstanceForInterface : Spec<InterfaceService, int>
     {
         Then().Throws<ApplicationException>();
         VerifyDescription(
-@"Given new MyInvalidLogger<ApplicationException>(),
- given new MyComponent(an IMyLogger, an int),
- when GetValue(),
- then throws ApplicationException");
+@"Given new MyInvalidLogger<ApplicationException>()
+ and new MyComponent(an IMyLogger, an int)
+When GetValue()
+Then throws ApplicationException");
     }
 }
 
@@ -77,10 +77,10 @@ public class WhenIndirectlyUsingConcreteInstanceForInterface : Spec<InterfaceSer
     {
         Then().Throws<ApplicationException>();
         VerifyDescription(
-@"Given new MyInvalidLogger<ApplicationException>(),
- given a MyComponent,
- when GetValue(),
- then throws ApplicationException");
+@"Given new MyInvalidLogger<ApplicationException>()
+ and a MyComponent
+When GetValue()
+Then throws ApplicationException");
     }
 }
 
@@ -94,10 +94,10 @@ public class WhenUsingConcreteInstanceForInterfaceWithAutoMockedConstructorArgum
     {
         Result.Is(The<int>());
         VerifyDescription(
-@"Given an int,
- given a MyComponent,
- when GetValue(),
- then Result is the int");
+@"Given an int
+ and a MyComponent
+When GetValue()
+Then Result is the int");
     }
 }
 

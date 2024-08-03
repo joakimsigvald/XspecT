@@ -13,7 +13,7 @@ public class WhenApplyImplicitlyCastPrimitiveToMock : Spec<MyValueIntService, ob
     {
         Then<IMyValueIntRepo>(_ => _.Set(The<MyValueInt>()));
         VerifyDescription(
-@"When SetValue(a MyValueInt),
- then IMyValueIntRepo.Set(the MyValueInt)");
+@"When SetValue(a MyValueInt)
+Then IMyValueIntRepo.Set(the MyValueInt)");
     }
 }

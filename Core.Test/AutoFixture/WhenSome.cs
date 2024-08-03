@@ -13,9 +13,9 @@ public class WhenSome : Spec<MyRetriever, MyModel[]>
         {
             Result.Has().Count(2);
             VerifyDescription(
-@"Given some MyModel,
- when List(),
- then Result has count 2");
+@"Given some MyModel
+When List()
+Then Result has count 2");
         }
     }
 
@@ -28,10 +28,10 @@ public class WhenSome : Spec<MyRetriever, MyModel[]>
         {
             Result.Has().Count(1);
             VerifyDescription(
-@"Given one MyModel,
- given some MyModel,
- when List(),
- then Result has count 1");
+@"Given one MyModel
+ and some MyModel
+When List()
+Then Result has count 1");
         }
     }
 
@@ -44,10 +44,10 @@ public class WhenSome : Spec<MyRetriever, MyModel[]>
         {
             Result.Has().Count(3);
             VerifyDescription(
-@"Given three MyModel,
- given some MyModel,
- when List(),
- then Result has count 3");
+@"Given three MyModel
+ and some MyModel
+When List()
+Then Result has count 3");
         }
     }
 
@@ -60,10 +60,10 @@ public class WhenSome : Spec<MyRetriever, MyModel[]>
         {
             Result.Has().Count(0);
             VerifyDescription(
-@"Given Array.Empty<MyModel>,
- given some MyModel,
- when List(),
- then Result has count 0");
+@"Given Array.Empty<MyModel>
+ and some MyModel
+When List()
+Then Result has count 0");
         }
     }
 
@@ -76,10 +76,10 @@ public class WhenSome : Spec<MyRetriever, MyModel[]>
         {
             Result.Has().Count(3);
             VerifyDescription(
-@"Given many MyModel,
- given some MyModel,
- when List(),
- then Result has count 3");
+@"Given many MyModel
+ and some MyModel
+When List()
+Then Result has count 3");
         }
     }
 
@@ -92,11 +92,11 @@ public class WhenSome : Spec<MyRetriever, MyModel[]>
         {
             Result.Has().Count(1);
             VerifyDescription(
-@"Given some MyModel,
- given one MyModel,
- given some MyModel,
- when List(),
- then Result has count 1");
+@"Given some MyModel
+ and one MyModel
+ and some MyModel
+When List()
+Then Result has count 1");
         }
     }
 
@@ -109,11 +109,11 @@ public class WhenSome : Spec<MyRetriever, MyModel[]>
         {
             Result.Has().Count(2);
             VerifyDescription(
-@"Given some MyModel,
- given two MyModel,
- given some MyModel,
- when List(),
- then Result has count 2");
+@"Given some MyModel
+ and two MyModel
+ and some MyModel
+When List()
+Then Result has count 2");
         }
     }
 
@@ -126,11 +126,11 @@ public class WhenSome : Spec<MyRetriever, MyModel[]>
         {
             Result.Has().Count(2);
             VerifyDescription(
-@"Given some MyModel,
- given Array.Empty<MyModel>,
- given some MyModel,
- when List(),
- then Result has count 2");
+@"Given some MyModel
+ and Array.Empty<MyModel>
+ and some MyModel
+When List()
+Then Result has count 2");
         }
     }
 
@@ -143,11 +143,11 @@ public class WhenSome : Spec<MyRetriever, MyModel[]>
         {
             Result.Has().Count(2);
             VerifyDescription(
-@"Given some MyModel,
- given many MyModel,
- given some MyModel,
- when List(),
- then Result has count 2");
+@"Given some MyModel
+ and many MyModel
+ and some MyModel
+When List()
+Then Result has count 2");
         }
     }
 }

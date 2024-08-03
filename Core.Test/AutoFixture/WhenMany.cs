@@ -15,9 +15,9 @@ public class WhenMany : Spec<MyRetriever, MyModel[]>
         {
             Result.Is(Many<MyModel>());
             VerifyDescription(
-@"Given many MyModel,
- when List(),
- then Result is many MyModel");
+@"Given many MyModel
+When List()
+Then Result is many MyModel");
         }
 
         [Fact]
@@ -25,9 +25,9 @@ public class WhenMany : Spec<MyRetriever, MyModel[]>
         {
             Result.Has().Count(3);
             VerifyDescription(
-@"Given many MyModel,
- when List(),
- then Result has count 3");
+@"Given many MyModel
+When List()
+Then Result has count 3");
         }
 
         [Fact]
@@ -35,9 +35,9 @@ public class WhenMany : Spec<MyRetriever, MyModel[]>
         {
             Then(Many<MyModel>()).Is(Many<MyModel>());
             VerifyDescription(
-@"Given many MyModel,
- when List(),
- then many MyModel is many MyModel");
+@"Given many MyModel
+When List()
+Then many MyModel is many MyModel");
         }
     }
 
@@ -50,9 +50,9 @@ public class WhenMany : Spec<MyRetriever, MyModel[]>
         {
             Result.Is().Not(Three<MyModel>());
             VerifyDescription(
-@"Given two MyModel,
- when List(),
- then Result is not three MyModel");
+@"Given two MyModel
+When List()
+Then Result is not three MyModel");
         }
 
         [Fact]
@@ -60,9 +60,9 @@ public class WhenMany : Spec<MyRetriever, MyModel[]>
         {
             Result.Has().Count(2);
             VerifyDescription(
-@"Given two MyModel,
- when List(),
- then Result has count 2");
+@"Given two MyModel
+When List()
+Then Result has count 2");
         }
 
         [Fact]
@@ -70,9 +70,9 @@ public class WhenMany : Spec<MyRetriever, MyModel[]>
         {
             Then(TheThird<MyModel>()).Is(Three<MyModel>().Last());
             VerifyDescription(
-@"Given two MyModel,
- when List(),
- then the third MyModel is Last() of three MyModel");
+@"Given two MyModel
+When List()
+Then the third MyModel is Last() of three MyModel");
         }
 
         [Fact]
@@ -80,9 +80,9 @@ public class WhenMany : Spec<MyRetriever, MyModel[]>
         {
             Then(Three<MyModel>()).Is().EqualTo(Three<MyModel>());
             VerifyDescription(
-@"Given two MyModel,
- when List(),
- then three MyModel is equal to three MyModel");
+@"Given two MyModel
+When List()
+Then three MyModel is equal to three MyModel");
         }
     }
 
@@ -95,9 +95,9 @@ public class WhenMany : Spec<MyRetriever, MyModel[]>
         {
             Result.Is().Not(Three<MyModel>());
             VerifyDescription(
-@"Given four MyModel,
- when List(),
- then Result is not three MyModel");
+@"Given four MyModel
+When List()
+Then Result is not three MyModel");
         }
 
         [Fact]
@@ -105,9 +105,9 @@ public class WhenMany : Spec<MyRetriever, MyModel[]>
         {
             Result.Has().Count(4);
             VerifyDescription(
-@"Given four MyModel,
- when List(),
- then Result has count 4");
+@"Given four MyModel
+When List()
+Then Result has count 4");
         }
 
         [Fact]
@@ -115,9 +115,9 @@ public class WhenMany : Spec<MyRetriever, MyModel[]>
         {
             Then(Three<MyModel>()).Is().EqualTo(Three<MyModel>());
             VerifyDescription(
-@"Given four MyModel,
- when List(),
- then three MyModel is equal to three MyModel");
+@"Given four MyModel
+When List()
+Then three MyModel is equal to three MyModel");
         }
     }
 
@@ -129,10 +129,10 @@ public class WhenMany : Spec<MyRetriever, MyModel[]>
             Given<IMyRepository>().That(_ => _.List()).Returns(Many<MyModel>)
                     .And(Two<MyModel>).Then().Result.Has().Count(2);
             VerifyDescription(
-@"Given two MyModel,
- given IMyRepository.List() returns many MyModel,
- when List(),
- then Result has count 2");
+@"Given two MyModel
+ and IMyRepository.List() returns many MyModel
+When List()
+Then Result has count 2");
         }
     }
 
@@ -144,10 +144,10 @@ public class WhenMany : Spec<MyRetriever, MyModel[]>
             Given<IMyRepository>().That(_ => _.List()).Returns(() => Many<MyModel>())
                     .And(Four<MyModel>).Then().Result.Has().Count(4);
             VerifyDescription(
-@"Given four MyModel,
- given IMyRepository.List() returns many MyModel,
- when List(),
- then Result has count 4");
+@"Given four MyModel
+ and IMyRepository.List() returns many MyModel
+When List()
+Then Result has count 4");
         }
     }
 
@@ -159,10 +159,10 @@ public class WhenMany : Spec<MyRetriever, MyModel[]>
             Given<IMyRepository>().That(_ => _.List()).Returns(Many<MyModel>)
                     .And(One<MyModel>).Then().Result.Has().Count(3);
             VerifyDescription(
-@"Given one MyModel,
- given IMyRepository.List() returns many MyModel,
- when List(),
- then Result has count 3");
+@"Given one MyModel
+ and IMyRepository.List() returns many MyModel
+When List()
+Then Result has count 3");
         }
     }
 }
@@ -180,9 +180,9 @@ public class WhenMockReturnsFewerElementsThanPreviouslyMentioned : Spec<MyRetrie
             .Returns(Two<MyModel>)
             .Then().Result.Has().Count(2);
         VerifyDescription(
-@"Given 3,
- given IMyRepository.Create(Length of three MyModel) returns two MyModel,
- when Create(an int),
- then Result has count 2");
+@"Given 3
+ and IMyRepository.Create(Length of three MyModel) returns two MyModel
+When Create(an int)
+Then Result has count 2");
     }
 }
