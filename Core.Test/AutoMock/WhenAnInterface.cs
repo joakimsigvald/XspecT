@@ -33,7 +33,16 @@ public class WhenUseConcreteInstanceOfInterface : Spec<InterfaceService, int>
     public WhenUseConcreteInstanceOfInterface()
         => Given(CreateService()).And(An<int>).When(_ => _.GetServiceValue());
 
-    [Fact] public void ThenUseIt() => Result.Is(TheSecond<int>());
+    [Fact]
+    public void ThenUseIt()
+    {
+        Result.Is(TheSecond<int>());
+        VerifyDescription(
+@"Given CreateService(),
+ given an int,
+ when GetServiceValue(),
+ then Result is the second int");
+    }
 
     protected IMyService CreateService() => new MyService(new MyComponent(A<IMyLogger>(), ASecond<int>()));
 }
@@ -44,7 +53,16 @@ public class WhenUsingConcreteInstanceForInterface : Spec<InterfaceService, int>
         => When(_ => _.GetValue()).Given(() => new MyComponent(An<IMyLogger>(), An<int>()))
         .And<IMyLogger>(() => new MyInvalidLogger<ApplicationException>());
 
-    [Fact] public void ThenUseTheConcreteInstance() => Then().Throws<ApplicationException>();
+    [Fact]
+    public void ThenUseTheConcreteInstance()
+    {
+        Then().Throws<ApplicationException>();
+        VerifyDescription(
+@"Given new MyComponent(an IMyLogger, an int),
+ given new MyInvalidLogger<ApplicationException>(),
+ when GetValue(),
+ then throws ApplicationException");
+    }
 }
 
 public class WhenIndirectlyUsingConcreteInstanceForInterface : Spec<InterfaceService, int>

@@ -71,8 +71,8 @@ internal class SpecActor<TSUT, TResult>
         bool ExecuteFunction(Expression<Func<TSUT, TResult>> act)
         {
             var function = act.Compile();
-            _result = function(sut);
             Specification.AddWhen(act);
+            _result = function(sut);
             return true;
         }
 
