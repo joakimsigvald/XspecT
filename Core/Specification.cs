@@ -113,6 +113,9 @@ public static class Specification
     internal static void AddGiven(string valueExpr) 
         => Add(sb => sb.AddPhrase($"given {valueExpr.ParseValue()}"));
 
+    internal static void AddVerify<TService>(string expressionExpr) 
+        => Add(sb => sb.AddWord($"{typeof(TService).Name}.{expressionExpr.ParseCall()}"));
+
     private static void Add(Action<StringBuilder> apply) => Applications.Add(apply);
 
     private static void AddMethodArguments(StringBuilder sb, MethodCallExpression body)

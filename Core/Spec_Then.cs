@@ -33,9 +33,13 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// </summary>
     /// <typeparam name="TService"></typeparam>
     /// <param name="expression"></param>
+    /// <param name="expressionExpr"></param>
     /// <returns></returns>
-    public IAndVerify<TResult> Then<TService>(Expression<Action<TService>> expression) where TService : class
-        => _pipeline.Then(expression);
+    public IAndVerify<TResult> Then<TService>(
+        Expression<Action<TService>> expression,
+        [CallerArgumentExpression(nameof(expression))] string expressionExpr = null) 
+        where TService : class
+        => _pipeline.Then(expression, expressionExpr);
 
     /// <summary>
     /// Run the test-pipeline and verify mock invocation.

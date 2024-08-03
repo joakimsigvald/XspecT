@@ -26,8 +26,9 @@ internal class Pipeline<TSUT, TResult>
         return TestResult;
     }
 
-    public IAndVerify<TResult> Then<TService>(Expression<Action<TService>> expression) where TService : class
-        => TestResult.Verify(expression);
+    public IAndVerify<TResult> Then<TService>(Expression<Action<TService>> expression, string expressionExpr = null) 
+        where TService : class
+        => TestResult.Verify(expression, expressionExpr);
 
     public IAndVerify<TResult> Then<TService>(Expression<Action<TService>> expression, Times times) where TService : class
         => TestResult.Verify(expression, times);

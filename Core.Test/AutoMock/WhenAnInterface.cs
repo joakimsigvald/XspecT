@@ -17,7 +17,15 @@ public class WhenInjectingAnInterfaceWithUsing : Spec<InterfaceService, int>
  then Result is the int");
     }
 
-    [Fact] public void ThenInterfaceIsMocked() => Then<IMyLogger>(_ => _.LogValue(The<int>()));
+    [Fact]
+    public void ThenInterfaceIsMocked()
+    {
+        Then<IMyLogger>(_ => _.LogValue(The<int>()));
+        VerifyDescription(
+@"Given new MyComponent(an IMyLogger, an int),
+ when GetValue(),
+ then IMyLogger.LogValue(the int)");
+    }
 }
 
 public class WhenUseConcreteInstanceOfInterface : Spec<InterfaceService, int>

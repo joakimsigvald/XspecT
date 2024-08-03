@@ -33,8 +33,10 @@ public interface ITestPipeline<TSUT, TResult>
     /// </summary>
     /// <typeparam name="TService"></typeparam>
     /// <param name="expression"></param>
+    /// <param name="expressionExpr"></param>
     /// <returns></returns>
-    IAndVerify<TResult> Then<TService>(Expression<Action<TService>> expression)
+    IAndVerify<TResult> Then<TService>(Expression<Action<TService>> expression,
+        [CallerArgumentExpression(nameof(expression))] string expressionExpr = null)
         where TService : class;
 
     /// <summary>
