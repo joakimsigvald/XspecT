@@ -51,8 +51,12 @@ public static class AssertionExtensions
     /// Get available assertions for the characteristics of the given string
     /// </summary>
     /// <param name="actual"></param>
+    /// <param name="actualExpr"></param>
     /// <returns></returns>
-    public static DoesString Does(this string actual) => new(actual);
+    public static DoesString Does(
+        this string actual,
+        [CallerArgumentExpression(nameof(actual))] string actualExpr = null) 
+        => new(actual, actualExpr);
 
     /// <summary>
     /// Get available assertions for the given object

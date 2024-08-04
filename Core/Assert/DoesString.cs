@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using System.Runtime.CompilerServices;
 
 namespace XspecT.Assert;
 
@@ -7,14 +8,16 @@ namespace XspecT.Assert;
 /// </summary>
 public class DoesString : Constraint<DoesString, string>
 {
-    internal DoesString(string actual) : base(actual) { }
+    internal DoesString(string actual, string actualExpr = null) : base(actual, actualExpr) { }
 
     /// <summary>
     /// Asserts that the string contains the expected string
     /// </summary>
     [CustomAssertion]
-    public ContinueWith<DoesString> Contain(string expected)
+    public ContinueWith<DoesString> Contain(
+        string expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
+        AddAssert([CustomAssertion] () => _actual.Should().Contain(expected), "does contain", expectedExpr);
         _actual.Should().Contain(expected);
         return And();
     }

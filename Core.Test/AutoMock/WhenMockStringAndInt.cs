@@ -1,4 +1,5 @@
-﻿namespace XspecT.Test.AutoMock;
+﻿using static XspecT.Test.Helper;
+namespace XspecT.Test.AutoMock;
 
 public class WhenMockStringAndInt : Spec<StaticStringAndIntService, string>
 {
@@ -6,23 +7,52 @@ public class WhenMockStringAndInt : Spec<StaticStringAndIntService, string>
 
     [Fact]
     public void Then_It_Has_TheStringAndInt()
-        => Given(A<string>).And(An<int>).Then().Result.Is($"{The<string>()}:{The<int>()}");
+    {
+        Given(A<string>).And(An<int>).Then().Result.Is($"{The<string>()}:{The<int>()}");
+        VerifyDescription(
+            """
+            Given an int
+             and a string
+            When GetValue()
+            Then Result is "{The<string>()}:{The<int>()}"
+            """);
+    }
 
-    public class GivenStringWasProvided : WhenMockString
+    public class GivenStringWasProvided : WhenMockStringAndInt
     {
         [Theory]
         [InlineData("hej")]
-        public void Then_It_Has_ProvidedValue(string value) 
-            => Given(value).And(A<string>).And(An<int>).Then().Result.Contains(value);
+        public void Then_It_Has_ProvidedValue(string value)
+        {
+            Given(value).And(A<string>).And(An<int>).Then().Result.Does().Contain(value);
+            VerifyDescription(
+                """
+                Given value
+                 and an int
+                 and a string
+                When GetValue()
+                Then Result does contain value
+                """);
+        }
     }
 
-    public class GivenIntWasProvided : WhenMockString
+    public class GivenIntWasProvided : WhenMockStringAndInt
     {
         [Theory]
         [InlineData(123)]
         [InlineData(456)]
-        public void Then_It_Has_ProvidedValue(int value) 
-            => Given(A<string>).And(An<int>).And(value).Then().Result.Contains($"{value}");
+        public void Then_It_Has_ProvidedValue(int value)
+        {
+            Given(A<string>).And(An<int>).And(value).Then().Result.Does().Contain($"{value}");
+            VerifyDescription(
+                """
+                Given value
+                 and an int
+                 and a string
+                When GetValue()
+                Then Result does contain "{value}"
+                """);
+        }
     }
 }
 
