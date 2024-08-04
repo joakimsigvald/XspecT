@@ -1,4 +1,5 @@
-﻿using XspecT.Test.Given;
+﻿using static XspecT.Test.Helper;
+using XspecT.Test.Given;
 
 namespace XspecT.Test.AutoMock;
 
@@ -10,7 +11,17 @@ public class WhenMockReturnsValue_GivenTaskOfImplicitlyCastPrimitive : Spec<MyVa
         => When(_ => _.GetValueAsync(A<MyValueInt>()))
         .Given<IMyValueIntRepo>().That(_ => _.GetAsync(The<MyValueInt>())).Returns(() => _retVal);
 
-    [Fact] public void Then_ItReturnsExpectedValue() => Result.Is(_retVal);
+    [Fact]
+    public void Then_ItReturnsExpectedValue()
+    {
+        Result.Is(_retVal);
+        VerifyDescription(
+            """
+            Given IMyValueIntRepo.GetAsync(the MyValueInt) returns _retVal
+            When GetValueAsync(a MyValueInt)
+            Then Result is _retVal
+            """);
+    }
 }
 
 public class WhenTapMockThatReturnsValueAsync : Spec<MyValueIntService, string>
@@ -19,7 +30,7 @@ public class WhenTapMockThatReturnsValueAsync : Spec<MyValueIntService, string>
     private int _tappedValue = 0;
 
     [Fact]
-    public void ThenTappedValueIsSet()
+    public void ThenTappedValueIsSet() //TODO
     {
         When(_ => _.GetValueAsync(A<MyValueInt>()))
             .Given<IMyValueIntRepo>()
@@ -28,6 +39,12 @@ public class WhenTapMockThatReturnsValueAsync : Spec<MyValueIntService, string>
             .Returns(() => _retVal)
             .Then();
         _tappedValue.Is(The<MyValueInt>());
+        VerifyDescription(
+            """
+            Given IMyValueIntRepo.GetAsync(the MyValueInt) returns _retVal
+            When GetValueAsync(a MyValueInt)
+            Then
+            """);
     }
 
     [Fact]
