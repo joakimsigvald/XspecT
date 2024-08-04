@@ -1,4 +1,5 @@
-﻿namespace XspecT.Test.AutoMock;
+﻿using static XspecT.Test.Helper;
+namespace XspecT.Test.AutoMock;
 
 public class WhenMockObjectWithSpecifiedPropertyValue : Spec<StaticObjectService, MyObject>
 {
@@ -8,11 +9,27 @@ public class WhenMockObjectWithSpecifiedPropertyValue : Spec<StaticObjectService
     {
         [Fact]
         public void Then_It_Has_ProvidedValue()
-            => Given(A<MyObject>(_ => _.Age = 3)).Then().Result.Age.Is(3);
+        {
+            Given(A<MyObject>(_ => _.Age = 3)).Then().Result.Age.Is(3);
+            VerifyDescription(
+                """
+                Given a MyObject { Age = 3 }
+                When GetValue()
+                Then Result.Age is 3
+                """);
+        }
 
         [Fact]
         public void Then_Can_Retrieve_The_Object()
-            => Given(A<MyObject>(_ => _.Age = 3)).Then(The<MyObject>()).Age.Is(3);
+        {
+            Given(A<MyObject>(_ => _.Age = 3)).Then(The<MyObject>()).Age.Is(3);
+            VerifyDescription(
+                """
+                Given a MyObject { Age = 3 }
+                When GetValue()
+                Then the MyObject's Age is 3
+                """);
+        }
     }
 }
 

@@ -186,7 +186,7 @@ public static partial class ExpressionParser
         return true;
     }
 
-    [GeneratedRegex(@"^(\w+)<([\w\[\]<>]+)>(?:\(\))?(.*)$")]
+    [GeneratedRegex(@"^(\w+)<([\w\[\]\(\),\s<>]+)>(?:\(\))?(.*)$")]
     private static partial Regex MentionTypeRegex();
 
     [GeneratedRegex(@"^(\w+)\((.+)\)$")]

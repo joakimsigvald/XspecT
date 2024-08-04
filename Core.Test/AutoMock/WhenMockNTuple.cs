@@ -1,11 +1,22 @@
-﻿namespace XspecT.Test.AutoMock;
+﻿using static XspecT.Test.Helper;
+namespace XspecT.Test.AutoMock;
 
 public class WhenMockNTuple : Spec<StaticNTupleService, (int, string, int, float)>
 {
     public WhenMockNTuple() => Given(A<(int, string, int, float)>).When(_ => _.GetValue());
     public class UsingAValue : WhenMockNTuple
     {
-        [Fact] public void Then_It_Has_TheValue() => Then().Result.Is(The<(int, string, int, float)>());
+        [Fact]
+        public void Then_It_Has_TheValue()
+        {
+            Then().Result.Is(The<(int, string, int, float)>());
+            VerifyDescription(
+                """
+                Given a (int, string, int, float)
+                When GetValue()
+                Then Result is the (int, string, int, float)
+                """);
+        }
     }
 
     public class GivenItWasProvided : WhenMockNTuple
@@ -15,7 +26,16 @@ public class WhenMockNTuple : Spec<StaticNTupleService, (int, string, int, float
         [InlineData(1, "", 2, 3)]
         [InlineData(2, "hej", 3, 4)]
         public void Then_It_Has_ProvidedValue(int v1, string v2, int v3, float v4)
-            => Given((v1, v2, v3, v4)).Then().Result.Is((v1, v2, v3, v4));
+        {
+            Given((v1, v2, v3, v4)).Then().Result.Is((v1, v2, v3, v4));
+            VerifyDescription(
+                """
+                Given (v1, v2, v3, v4)
+                 and a (int, string, int, float)
+                When GetValue()
+                Then Result is (v1, v2, v3, v4)
+                """);
+        }
     }
 }
 

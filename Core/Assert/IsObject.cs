@@ -23,9 +23,9 @@ public class IsObject : Constraint<IsObject, object>
     /// <summary>
     /// Should().BeNull()
     /// </summary>
-    [CustomAssertion]
     public ContinueWith<IsObject> Null()
     {
+        AddAssert([CustomAssertion] () => _actual.Should().BeNull(), "is null");
         _actual.Should().BeNull();
         return And();
     }
@@ -33,10 +33,9 @@ public class IsObject : Constraint<IsObject, object>
     /// <summary>
     /// Should().NotBeNull()
     /// </summary>
-    [CustomAssertion]
     public ContinueWith<IsObject> NotNull()
     {
-        _actual.Should().NotBeNull();
+        AddAssert([CustomAssertion] () => _actual.Should().NotBeNull(), "is not null");
         return And();
     }
 

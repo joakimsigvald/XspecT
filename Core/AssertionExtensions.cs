@@ -187,7 +187,6 @@ public static class AssertionExtensions
     /// <summary>
     /// Verify that actual struct is same as expected and return continuation for further assertions of the struct
     /// </summary>
-    [CustomAssertion]
     public static ContinueWith<IsObject> Is<TValue>(
         this TValue actual, 
         TValue expected,

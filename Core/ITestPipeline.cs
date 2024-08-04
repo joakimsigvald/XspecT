@@ -151,8 +151,12 @@ public interface ITestPipeline<TSUT, TResult>
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
+    /// <param name="setupExpr"></param>
     /// <returns></returns>
-    IGivenTestPipeline<TSUT, TResult> Given<TValue>(Action<TValue> setup) where TValue : class;
+    IGivenTestPipeline<TSUT, TResult> Given<TValue>(
+        Action<TValue> setup,
+        [CallerArgumentExpression(nameof(setup))] string setupExpr = null) 
+        where TValue : class;
 
     /// <summary>
     /// Provide a default value, that will be applied in all mocks and auto-generated test-data, where no specific value or setup is given.

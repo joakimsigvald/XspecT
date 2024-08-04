@@ -47,8 +47,10 @@ internal class Pipeline<TSUT, TResult>
         where TService : class
         => TestResult.Verify(expression, times);
 
-    internal void SetDefault<TModel>(Action<TModel> setup) where TModel : class
+    internal void SetDefault<TModel>(
+        Action<TModel> setup, string setupExpr = null) where TModel : class
     {
+        Specification.AddGivenSetup<TModel>(setupExpr);
         AssertHasNotRun();
         _context.SetDefault(setup);
     }

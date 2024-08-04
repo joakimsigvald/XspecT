@@ -34,8 +34,11 @@ internal class GivenTestPipeline<TSUT, TResult>
     public ITestPipeline<TSUT, TResult> Before(Func<TSUT, Task> tearDown)
         => Parent.Before(tearDown);
 
-    public IGivenTestPipeline<TSUT, TResult> Given<TValue>(Action<TValue> setup) where TValue : class
-        => Parent.Given(setup);
+    public IGivenTestPipeline<TSUT, TResult> Given<TValue>(
+        Action<TValue> setup,
+        [CallerArgumentExpression(nameof(setup))] string setupExpr = null) where TValue : class
+        => Parent.Given(setup, setupExpr);
+
     public IGivenTestPipeline<TSUT, TResult> Given<TValue>(Func<TValue, TValue> setup)
         => Parent.Given(setup);
 

@@ -11,6 +11,7 @@ internal class SpecificationBuilder
     private readonly List<Action> _applications = [];
     private readonly StringBuilder _descriptionBuilder = new();
     private int _givenCount;
+    private bool _isThenReferencingSubject = false;
 
     public string Description => _description ??= Build();
 
@@ -38,15 +39,23 @@ internal class SpecificationBuilder
 
     internal void AddAssert(string actual, string verb, string expected)
     {
-        AddWord(actual.ParseActual());
+        AddWord(actual.ParseActual(), _isThenReferencingSubject ? "'s " : " ");
         AddWord(verb.AsWords());
         AddWord(expected.ParseValue());
     }
 
-    internal void AddAnd() => AddWord("and");
+    internal void AddAnd()
+    {
+        AddWord("and");
+        _isThenReferencingSubject = false;
+    }
 
     internal void AddThen(string subjectExpr)
-        => AddSentence($"then {subjectExpr.ParseValue()}".Trim());
+    {
+        AddSentence("then");
+        AddWord(subjectExpr.ParseValue());
+        _isThenReferencingSubject = !string.IsNullOrEmpty(subjectExpr);
+    }
 
     internal void AddGiven(string valueExpr, ApplyTo applyTo)
     {
@@ -63,6 +72,9 @@ internal class SpecificationBuilder
         }
     }
 
+    internal void AddGivenSetup<TModel>(string setupExpr)
+        => AddPhrase($"{Given} {typeof(TModel).Name} {{ {setupExpr.ParseValue()} }}");
+
     internal void AddVerify<TService>(string expressionExpr)
         => AddWord($"{typeof(TService).Name}.{expressionExpr.ParseCall()}");
 
@@ -75,11 +87,11 @@ internal class SpecificationBuilder
     private void AddSentence(string phrase)
         => _descriptionBuilder.Append($"{Environment.NewLine}{phrase.Capitalize()}");
 
-    private void AddWord(string word)
+    private void AddWord(string word, string binder = " ")
     {
         if (string.IsNullOrEmpty(word))
             return;
-        _descriptionBuilder.Append(' ');
+        _descriptionBuilder.Append(binder);
         _descriptionBuilder.Append(word);
     }
 

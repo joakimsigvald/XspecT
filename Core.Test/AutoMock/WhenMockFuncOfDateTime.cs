@@ -1,4 +1,5 @@
-﻿namespace XspecT.Test.AutoMock;
+﻿using static XspecT.Test.Helper;
+namespace XspecT.Test.AutoMock;
 
 public class WhenMockFuncOfDateTime : Spec<DateService, DateTime>
 {
@@ -6,14 +7,31 @@ public class WhenMockFuncOfDateTime : Spec<DateService, DateTime>
 
     public class GivenItWasNotProvided : WhenMockFuncOfDateTime
     {
-        [Fact] 
-        public void Then_It_Has_RandomDateTime() 
-            => Then().Result.Is().Not(The<DateTime>()).And(Result).Ticks.Is().Not(0);
+        [Fact]
+        public void Then_It_Has_RandomDateTime()
+        {
+            Then().Result.Is().Not(The<DateTime>()).And(Result).Ticks.Is().Not(0);
+            VerifyDescription(
+                """
+                When GetNow()
+                Then Result is not the DateTime and Result.Ticks is not 0
+                """);
+        }
     }
 
     public class GivenItWasProvided : WhenMockFuncOfDateTime
     {
-        [Fact] public void Then_It_Has_ProvidedValue() => Given(A<DateTime>()).Then().Result.Is(The<DateTime>());
+        [Fact]
+        public void Then_It_Has_ProvidedValue()
+        {
+            Given(A<DateTime>()).Then().Result.Is(The<DateTime>());
+            VerifyDescription(
+                """
+                Given a DateTime
+                When GetNow()
+                Then Result is the DateTime
+                """);
+        }
     }
 }
 

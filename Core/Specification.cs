@@ -55,6 +55,9 @@ public static class Specification
     internal static void AddGiven(string valueExpr, ApplyTo applyTo) 
         => Builder.Add(() => Builder.AddGiven(valueExpr, applyTo));
 
+    internal static void AddGivenSetup<TModel>(string setupExpr)
+        => Builder.Add(() => Builder.AddGivenSetup<TModel>(setupExpr));
+
     internal static void AddVerify<TService>(string expressionExpr) 
         => Builder.Add(() => Builder.AddVerify<TService>(expressionExpr));
 

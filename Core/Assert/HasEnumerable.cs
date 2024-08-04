@@ -33,7 +33,6 @@ public class HasEnumerable<TItem> : Constraint<HasEnumerable<TItem>, IEnumerable
     /// <summary>
     /// actual.Should().HaveCount(expected)
     /// </summary>
-    [CustomAssertion]
     public ContinueWith<HasEnumerable<TItem>> Count(int expected, [System.Runtime.CompilerServices.CallerArgumentExpression("expected")] string expectedExpr = null)
     {
         AddAssert([CustomAssertion] () => _actual.Should().HaveCount(expected), "has count", expectedExpr);
@@ -68,7 +67,6 @@ public class HasEnumerable<TItem> : Constraint<HasEnumerable<TItem>, IEnumerable
     /// </summary>
     /// <param name="assert"></param>
     /// <returns></returns>
-    [CustomAssertion]
     public ContinueWith<HasEnumerable<TItem>> All(Action<TItem, int> assert)
     {
         _actual.Select((it, i) => (it, i)).ToList().ForEach(t => assert(t.it, t.i));
@@ -80,7 +78,6 @@ public class HasEnumerable<TItem> : Constraint<HasEnumerable<TItem>, IEnumerable
     /// </summary>
     /// <param name="assert"></param>
     /// <returns></returns>
-    [CustomAssertion]
     public ContinueWith<HasEnumerable<TItem>> All(Action<TItem> assert)
     {
         _actual.ToList().ForEach(assert);

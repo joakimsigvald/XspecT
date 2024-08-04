@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using System.Runtime.CompilerServices;
 
 namespace XspecT.Assert;
 
@@ -13,7 +14,6 @@ public class IsEnumerable<TItem> : Constraint<IsEnumerable<TItem>, IEnumerable<T
     /// <summary>
     /// actual.Should().BeEmpty()
     /// </summary>
-    [CustomAssertion]
     public ContinueWith<IsEnumerable<TItem>> Empty()
     {
         AddAssert([CustomAssertion] () => _actual.Should().BeEmpty(), "is empty");
@@ -34,7 +34,7 @@ public class IsEnumerable<TItem> : Constraint<IsEnumerable<TItem>, IEnumerable<T
     /// <summary>
     /// Verifies that the collection contains a single element and returns that element
     /// </summary>
-    [CustomAssertion] public TItem Single() => Xunit.Assert.Single(_actual);
+    public TItem Single() => Xunit.Assert.Single(_actual);
 
     /// <summary>
     /// actual.Should().NotBeEmpty()
@@ -49,10 +49,9 @@ public class IsEnumerable<TItem> : Constraint<IsEnumerable<TItem>, IEnumerable<T
     /// <summary>
     /// actual.Should().NotBeSameAs(expected)
     /// </summary>
-    [CustomAssertion]
     public ContinueWith<IsEnumerable<TItem>> Not(
         IEnumerable<TItem> expected, 
-        [System.Runtime.CompilerServices.CallerArgumentExpression("expected")] string expectedExpr = null)
+        [CallerArgumentExpression("expected")] string expectedExpr = null)
     {
         AddAssert([CustomAssertion] () => _actual.Should().NotBeSameAs(expected), "is not", expectedExpr);
         return And();

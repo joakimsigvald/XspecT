@@ -14,10 +14,14 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
+    /// <param name="setupExpr"></param>
     /// <returns></returns>
-    public IGivenTestPipeline<TSUT, TResult> Given<TValue>(Action<TValue> setup) where TValue : class
+    public IGivenTestPipeline<TSUT, TResult> Given<TValue>(
+        Action<TValue> setup,
+        [CallerArgumentExpression(nameof(setup))] string setupExpr = null) 
+        where TValue : class
     {
-        _pipeline.SetDefault(setup);
+        _pipeline.SetDefault(setup, setupExpr);
         return new GivenTestPipeline<TSUT, TResult>(this);
     }
 

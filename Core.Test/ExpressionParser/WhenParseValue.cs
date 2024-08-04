@@ -16,6 +16,7 @@ public class WhenParseValue : Spec<string>
     [InlineData("Three<MyModel>().Last()", "Last() of three MyModel")]
     [InlineData("new MyComponent(An<IMyLogger>(), An<int>())", "new MyComponent(an IMyLogger, an int)")]
     [InlineData("A<MyValue<int>>()", "a MyValue<int>")]
+    [InlineData("A<(int, string, int, float)>", "a (int, string, int, float)")]
     public void ThenReturnDescription(string valueExpr, string expected)
         => When(_ => valueExpr.ParseValue())
         .Then().Result.Is(expected);

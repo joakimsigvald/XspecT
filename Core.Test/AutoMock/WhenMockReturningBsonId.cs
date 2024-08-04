@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿using static XspecT.Test.Helper;
+using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
 
 namespace XspecT.Test.AutoMock;
@@ -6,7 +7,17 @@ namespace XspecT.Test.AutoMock;
 public class WhenGetRecordWithBsonIdFromMock : Spec<BsonIdService, RecordMongoDb>
 {
     public WhenGetRecordWithBsonIdFromMock() => Given<RecordMongoDb>(_ => _.Value = "123").When(_ => _.GetRecord());
-    [Fact] public void ThenGetRecord() => Then().Result.Is().NotNull();
+    [Fact]
+    public void ThenGetRecord()
+    {
+        Then().Result.Is().NotNull();
+        VerifyDescription(
+            """
+            Given RecordMongoDb { Value = 123 }
+            When GetRecord()
+            Then Result is not null
+            """);
+    }
 }
 
 public class BsonIdService(IBsonIdRepository repo)
