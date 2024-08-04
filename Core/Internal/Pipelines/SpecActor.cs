@@ -1,5 +1,4 @@
-﻿using System.Linq.Expressions;
-using XspecT.Internal.TestData;
+﻿using XspecT.Internal.TestData;
 using XspecT.Internal.Verification;
 
 namespace XspecT.Internal.Pipelines;
@@ -7,16 +6,18 @@ namespace XspecT.Internal.Pipelines;
 internal class SpecActor<TSUT, TResult>
 {
     private readonly Stack<Action> _setUp = new();
-    private Expression _act;
+    private Delegate _act;
+    private string _actExpr;
     private readonly Stack<Action> _tearDown = new();
     private Exception _error;
     private TResult _result;
 
-    internal void When(Expression act)
+    internal void When(Delegate act, string actExpr = null)
     {
         if (_act is not null)
             throw new SetupFailed("Cannot call When twice in the same pipeline");
         _act = act;
+        _actExpr = actExpr;
     }
 
     internal void After(Action setUp) => _setUp.Push(setUp);
@@ -45,12 +46,13 @@ internal class SpecActor<TSUT, TResult>
         const string cue = "could not resolve to an object. (Parameter 'serviceType')";
         try
         {
+            Specification.AddWhen(_actExpr);
             var hasResult = _act switch
             {
-                Expression<Func<TSUT, Task<TResult>>> act => ExecuteFunctionAsync(act),
-                Expression<Func<TSUT, Task>> act => ExecuteCommandAsync(act),
-                Expression<Func<TSUT, TResult>> act => ExecuteFunction(act),
-                Expression<Action<TSUT>> act => ExecuteCommand(act),
+                Func<TSUT, Task<TResult>> act => ExecuteFunctionAsync(act),
+                Func<TSUT, Task> act => ExecuteCommandAsync(act),
+                Func<TSUT, TResult> act => ExecuteFunction(act),
+                Action<TSUT> act => ExecuteCommand(act),
                 _ => throw new SetupFailed("Failed to run method under test, unexpected signature")
             };
             Specification.AddThen(subjectExpr);
@@ -61,31 +63,27 @@ internal class SpecActor<TSUT, TResult>
             throw new SetupFailed($"Failed to run method under test, because an instance of {ex.Message.Split(cue)[0].Trim()} could not be provided.", ex);
         }
 
-        bool ExecuteCommand(Expression<Action<TSUT>> act)
+        bool ExecuteCommand(Action<TSUT> act)
         {
-            Specification.AddWhen(act);
-            act.Compile()(sut);
+            act(sut);
             return false;
         }
 
-        bool ExecuteFunction(Expression<Func<TSUT, TResult>> act)
+        bool ExecuteFunction(Func<TSUT, TResult> act)
         {
-            Specification.AddWhen(act);
-            _result = act.Compile()(sut);
+            _result = act(sut);
             return true;
         }
 
-        bool ExecuteCommandAsync(Expression<Func<TSUT, Task>> act)
+        bool ExecuteCommandAsync(Func<TSUT, Task> act)
         {
-            Specification.AddWhen(act);
-            AsyncHelper.Execute(() => act.Compile()(sut));
+            AsyncHelper.Execute(() => act(sut));
             return false;
         }
 
-        bool ExecuteFunctionAsync(Expression<Func<TSUT, Task<TResult>>> act)
+        bool ExecuteFunctionAsync(Func<TSUT, Task<TResult>> act)
         {
-            Specification.AddWhen(act);
-            _result = AsyncHelper.Execute(() => act.Compile()(sut));
+            _result = AsyncHelper.Execute(() => act(sut));
             return true;
         }
     }

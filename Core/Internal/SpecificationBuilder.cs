@@ -1,7 +1,4 @@
-﻿using FluentAssertions.Common;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Text;
+﻿using System.Text;
 using XspecT.Internal.TestData;
 
 namespace XspecT.Internal;
@@ -30,13 +27,8 @@ internal class SpecificationBuilder
     internal void AddMockReturns(string returnsExpr)
         => AddWord($"returns {returnsExpr.ParseValue()}");
 
-    internal void AddWhen<TDelegate>(Expression<TDelegate> act)
-    {
-        var sb = new StringBuilder();
-        sb.Append($"when {act.GetMethodName()}");
-        AddMethodArguments(sb, act.Body as MethodCallExpression);
-        AddSentence(sb.ToString());
-    }
+    internal void AddWhen(string actExpr) 
+        => AddSentence($"when {actExpr.ParseCall()}");
 
     internal void AddAssert(string actual, string verb, string expected)
     {
@@ -99,44 +91,4 @@ internal class SpecificationBuilder
     }
 
     private string Given => 0 == _givenCount++ ? "given" : "and";
-
-    private static void AddMethodArguments(StringBuilder sb, MethodCallExpression body)
-    {
-        if (body is null)
-            return;
-        sb.Append('(');
-        foreach (var argument in body.Arguments)
-            sb.Append(DescribeArgument(argument));
-        sb.Append(')');
-    }
-
-    private static string DescribeArgument(Expression expr)
-        => expr switch
-        {
-            MethodCallExpression mce => $"{mce.Method.Name.AsWords()} {mce.Method.ReturnType.Alias()}",
-            UnaryExpression ue => DescribeArgument(ue.Operand),
-            MemberExpression => "TODO",
-            ParameterExpression => "TODO",
-            ConstantExpression => "TODO",
-            LambdaExpression le => DescribeLambdaExpression(le),
-            _ => throw new SetupFailed($"Unknown argument expression: {expr.NodeType}")
-        };
-
-    private static string DescribeLambdaExpression(LambdaExpression expr)
-    {
-        var body = expr.Body as MethodCallExpression;
-        var methodName = DescribeArgument(body);
-        return body.Arguments.Count == 0
-            ? methodName
-            : $"{methodName} {{ {DescribeCriteria(body.Arguments[0] as UnaryExpression)} }}";
-    }
-
-    private static string DescribeCriteria(UnaryExpression criteria)
-    {
-        var operand = criteria.Operand as LambdaExpression;
-        var body = operand.Body as BinaryExpression;
-        var left = body.Left as MemberExpression;
-        var prop = left.Member as PropertyInfo;
-        return $"{prop.Name} = {DescribeArgument(body.Right)}";
-    }
 }

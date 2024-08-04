@@ -94,29 +94,37 @@ public interface ITestPipeline<TSUT, TResult>
     /// Provide the method-under-test to the test-pipeline
     /// </summary>
     /// <param name="act"></param>
+    /// <param name="actExpr"></param>
     /// <returns></returns>
-    ITestPipeline<TSUT, TResult> When(Expression<Action<TSUT>> act);
+    ITestPipeline<TSUT, TResult> When(Action<TSUT> act,
+        [CallerArgumentExpression(nameof(act))] string actExpr = null);
 
     /// <summary>
     /// Provide the method-under-test as a lambda expression
     /// </summary>
     /// <param name="act"></param>
+    /// <param name="actExpr"></param>
     /// <returns>A continuation for providing further arrangement, or executing the test</returns>
-    ITestPipeline<TSUT, TResult> When(Expression<Func<TSUT, TResult>> act);
+    ITestPipeline<TSUT, TResult> When(Func<TSUT, TResult> act,
+        [CallerArgumentExpression(nameof(act))] string actExpr = null);
 
     /// <summary>
     /// Provide the method-under-test to the test-pipeline
     /// </summary>
-    /// <param name="action"></param>
+    /// <param name="act"></param>
+    /// <param name="actExpr"></param>
     /// <returns></returns>
-    ITestPipeline<TSUT, TResult> When(Expression<Func<TSUT, Task>> action);
+    ITestPipeline<TSUT, TResult> When(Func<TSUT, Task> act,
+        [CallerArgumentExpression(nameof(act))] string actExpr = null);
 
     /// <summary>
     /// Provide the method-under-test to the test-pipeline
     /// </summary>
-    /// <param name="func"></param>
+    /// <param name="act"></param>
+    /// <param name="actExpr"></param>
     /// <returns></returns>
-    ITestPipeline<TSUT, TResult> When(Expression<Func<TSUT, Task<TResult>>> func);
+    ITestPipeline<TSUT, TResult> When(Func<TSUT, Task<TResult>> act,
+        [CallerArgumentExpression(nameof(act))] string actExpr = null);
 
     /// <summary>
     /// Provide a method to be called BEFORE the method-under-test is called as set-up

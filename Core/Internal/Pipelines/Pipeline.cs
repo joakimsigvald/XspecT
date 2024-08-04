@@ -1,7 +1,6 @@
 ﻿using Moq;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
 using XspecT.Continuations;
 using XspecT.Internal.TestData;
 using XspecT.Internal.Verification;
@@ -135,20 +134,16 @@ internal class Pipeline<TSUT, TResult>
         _arranger.Push(arrangement);
     }
 
-    internal void SetAction(Expression<Action<TSUT>> act) => DoSetAction(act);
-    internal void SetAction(Expression<Func<TSUT, TResult>> act) => DoSetAction(act);
-    internal void SetAction(Expression<Func<TSUT, Task>> act) => DoSetAction(act);
-    internal void SetAction(Expression<Func<TSUT, Task<TResult>>> act) => DoSetAction(act);
+    internal void SetAction(Delegate act, string actExpr)
+    {
+        AssertHasNotRun();
+        _actor.When(act ?? throw new SetupFailed("Act cannot be null"), actExpr);
+    }
+
     internal void SetTearDown(Action<TSUT> tearDown) => SetTearDown(() => tearDown(_sut));
     internal void SetTearDown(Func<TSUT, Task> tearDown) => SetTearDown(() => tearDown(_sut));
     internal void PrependSetUp(Action<TSUT> setUp) => PrependSetUp(() => setUp(_sut));
     internal void PrependSetUp(Func<TSUT, Task> setUp) => PrependSetUp(() => setUp(_sut));
-
-    private void DoSetAction(Expression act)
-    {
-        AssertHasNotRun();
-        _actor.When(act ?? throw new SetupFailed("Act cannot be null"));
-    }
 
     private TestResult<TResult> TestResult => _result ??= Run();
 

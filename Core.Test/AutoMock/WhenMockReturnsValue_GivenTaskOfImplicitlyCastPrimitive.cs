@@ -126,7 +126,7 @@ public class WhenTapMockWithTwoArguments : Spec<MyValueIntService, string>
     }
 
     [Fact]
-    public void ThenTappedValueIsSet()//TODO
+    public void ThenTappedValueIsSet()
     {
         Then();
         _tappedValue.Is(The<MyValueInt>()+ TheSecond<MyValueInt>());

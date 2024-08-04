@@ -1,6 +1,4 @@
-﻿using FluentAssertions.Common;
-using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using XspecT.Internal;
 using XspecT.Internal.TestData;
 using Xunit.Sdk;
@@ -28,8 +26,7 @@ public static class Specification
     internal static void AddMockReturns(string returnsExpr) 
         => Builder.Add(() => Builder.AddMockReturns(returnsExpr));
 
-    internal static void AddWhen<TDelegate>(Expression<TDelegate> act) 
-        => Builder.Add(() => Builder.AddWhen(act));
+    internal static void AddWhen(string actExpr) => Builder.Add(() => Builder.AddWhen(actExpr));
 
     internal static void AddAssert(
         Action assert,
