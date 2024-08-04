@@ -154,9 +154,11 @@ Then Result.Last().Name is the string");
         {
             Then().Result.Has().Count(2);
             VerifyDescription(
-@"Given IMyRepository.List() returns two MyModel { Name = X{i + 1} }
-When List()
-Then Result has count 2");
+                """
+                Given IMyRepository.List() returns two MyModel { Name = "X{i + 1}" }
+                When List()
+                Then Result has count 2
+                """);
         }
 
         [Fact]
@@ -164,9 +166,11 @@ Then Result has count 2");
         {
             Then().Result.First().Name.Is("X1");
             VerifyDescription(
-@"Given IMyRepository.List() returns two MyModel { Name = X{i + 1} }
+"""
+Given IMyRepository.List() returns two MyModel { Name = "X{i + 1}" }
 When List()
-Then Result.First().Name is X1");
+Then Result.First().Name is "X1"
+""");
         }
 
         [Fact]
@@ -174,9 +178,11 @@ Then Result.First().Name is X1");
         {
             Then().Result.Last().Name.Is("X2");
             VerifyDescription(
-@"Given IMyRepository.List() returns two MyModel { Name = X{i + 1} }
+"""
+Given IMyRepository.List() returns two MyModel { Name = "X{i + 1}" }
 When List()
-Then Result.Last().Name is X2");
+Then Result.Last().Name is "X2"
+""");
         }
     }
 

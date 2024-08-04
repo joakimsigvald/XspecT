@@ -13,8 +13,8 @@ public class WhenGivenUsingAndDefaultValue : Spec<MyWrapper<string>, (string, st
             .Then().Result.Is(("DEF", "ABC"));
         VerifyDescription(
             """
-            Given default ABC
-             and using DEF
+            Given default "ABC"
+             and using "DEF"
             When GetValues(a string)
             Then Result is ("DEF", "ABC")
             """);
@@ -28,8 +28,8 @@ public class WhenGivenUsingAndDefaultValue : Spec<MyWrapper<string>, (string, st
             .Then().Result.Is(("DEF", "ABC"));
         VerifyDescription(
             """
-            Given using DEF
-             and default ABC
+            Given using "DEF"
+             and default "ABC"
             When GetValues(a string)
             Then Result is ("DEF", "ABC")
             """);

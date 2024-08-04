@@ -182,7 +182,7 @@ public static partial class ExpressionParser
         if (!match.Success)
             return false;
 
-        description = match.Groups[1].Value;
+        description = $"\"{match.Groups[1].Value}\"" ;
         return true;
     }
 

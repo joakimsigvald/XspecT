@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using FluentAssertions.Common;
+using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using XspecT.Internal;
 using XspecT.Internal.TestData;
@@ -62,6 +63,8 @@ public static class Specification
         => Builder.Add(() => Builder.AddVerify<TService>(expressionExpr));
 
     internal static void AddThrows<TError>() => Builder.Add(Builder.AddThrows<TError>);
+
+    internal static void AddTap(string expr) => Builder.Add(() => Builder.AddTap(expr));
 
     private static SpecificationBuilder Builder => _builder ??= new();
 }

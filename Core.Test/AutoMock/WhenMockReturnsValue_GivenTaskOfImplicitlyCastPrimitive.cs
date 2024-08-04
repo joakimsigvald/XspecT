@@ -30,7 +30,7 @@ public class WhenTapMockThatReturnsValueAsync : Spec<MyValueIntService, string>
     private int _tappedValue = 0;
 
     [Fact]
-    public void ThenTappedValueIsSet() //TODO
+    public void ThenTappedValueIsSet()
     {
         When(_ => _.GetValueAsync(A<MyValueInt>()))
             .Given<IMyValueIntRepo>()
@@ -41,31 +41,49 @@ public class WhenTapMockThatReturnsValueAsync : Spec<MyValueIntService, string>
         _tappedValue.Is(The<MyValueInt>());
         VerifyDescription(
             """
-            Given IMyValueIntRepo.GetAsync(the MyValueInt) returns _retVal
+            Given IMyValueIntRepo.GetAsync(the MyValueInt) tap((int value) => _tappedValue = value) returns _retVal
             When GetValueAsync(a MyValueInt)
-            Then
+            Then _tappedValue is the MyValueInt
             """);
     }
 
     [Fact]
     public void ThenCanReturnTappedValueAsync()
-        => When(_ => _.GetValueAsync(A<MyValueInt>()))
-            .Given<IMyValueIntRepo>()
-        .That(_ => _.GetAsync(The<MyValueInt>()))
-        .Returns<int>(i => $"{2 * i}")
-        .And<IMyValueIntRepo>().That(_ => _.Get(The<MyValueInt>()))
-        .Returns<int>(i => $"{3 * i}")
-        .Then().Result.Is($"{2 * The<MyValueInt>()}");
+    {
+        When(_ => _.GetValueAsync(A<MyValueInt>()))
+                .Given<IMyValueIntRepo>()
+            .That(_ => _.GetAsync(The<MyValueInt>()))
+            .Returns<int>(i => $"{2 * i}")
+            .And<IMyValueIntRepo>().That(_ => _.Get(The<MyValueInt>()))
+            .Returns<int>(i => $"{3 * i}")
+            .Then().Result.Is($"{2 * The<MyValueInt>()}");
+        VerifyDescription(
+            """
+            Given IMyValueIntRepo.Get(the MyValueInt) returns i => $"{3 * i}"
+             and IMyValueIntRepo.GetAsync(the MyValueInt) returns i => $"{2 * i}"
+            When GetValueAsync(a MyValueInt)
+            Then Result is "{2 * The<MyValueInt>()}"
+            """);
+    }
 
     [Fact]
     public void ThenCanReturnTappedValue()
-        => When(_ => _.GetValue(A<MyValueInt>()))
-            .Given<IMyValueIntRepo>()
-        .That(_ => _.GetAsync(The<MyValueInt>()))
-        .Returns<int>(i => $"{2 * i}")
-        .And<IMyValueIntRepo>().That(_ => _.Get(The<MyValueInt>()))
-        .Returns<int>(i => $"{3 * i}")
-        .Then().Result.Is($"{3 * The<MyValueInt>()}");
+    {
+        When(_ => _.GetValue(A<MyValueInt>()))
+                .Given<IMyValueIntRepo>()
+            .That(_ => _.GetAsync(The<MyValueInt>()))
+            .Returns<int>(i => $"{2 * i}")
+            .And<IMyValueIntRepo>().That(_ => _.Get(The<MyValueInt>()))
+            .Returns<int>(i => $"{3 * i}")
+            .Then().Result.Is($"{3 * The<MyValueInt>()}");
+        VerifyDescription(
+            """
+            Given IMyValueIntRepo.Get(the MyValueInt) returns i => $"{3 * i}"
+             and IMyValueIntRepo.GetAsync(the MyValueInt) returns i => $"{2 * i}"
+            When GetValue(a MyValueInt)
+            Then Result is "{3 * The<MyValueInt>()}"
+            """);
+    }
 }
 
 public class WhenTapMockThatReturnsValue : Spec<MyValueIntService, string>
@@ -77,7 +95,7 @@ public class WhenTapMockThatReturnsValue : Spec<MyValueIntService, string>
         => When(_ => _.GetValue(A<MyValueInt>()))
         .Given<IMyValueIntRepo>()
         .That(_ => _.Get(The<MyValueInt>()))
-        .Tap((int value) => _tappedValue = value)
+        .Tap<int>(i => _tappedValue = i)
         .Returns(() => _retVal);
 
     [Fact]
@@ -85,6 +103,12 @@ public class WhenTapMockThatReturnsValue : Spec<MyValueIntService, string>
     {
         Then();
         _tappedValue.Is(The<MyValueInt>());
+        VerifyDescription(
+            """
+            Given IMyValueIntRepo.Get(the MyValueInt) tap(i => _tappedValue = i) returns _retVal
+            When GetValue(a MyValueInt)
+            Then _tappedValue is the MyValueInt
+            """);
     }
 }
 public class WhenTapMockWithTwoArguments : Spec<MyValueIntService, string>
@@ -93,16 +117,24 @@ public class WhenTapMockWithTwoArguments : Spec<MyValueIntService, string>
     private int _tappedValue = 0;
 
     public WhenTapMockWithTwoArguments()
-        => When(_ => _.GetValue2(A<MyValueInt>(), ASecond<MyValueInt>()))
-        .Given<IMyValueIntRepo>()
-        .That(_ => _.Get2(The<MyValueInt>(), TheSecond<MyValueInt>()))
-        .Tap((int v1, int v2) => _tappedValue = v1 + v2)
-        .Returns(() => _retVal);
+    {
+        When(_ => _.GetValue2(A<MyValueInt>(), ASecond<MyValueInt>()))
+            .Given<IMyValueIntRepo>()
+            .That(_ => _.Get2(The<MyValueInt>(), TheSecond<MyValueInt>()))
+            .Tap((int v1, int v2) => _tappedValue = v1 + v2)
+            .Returns(() => _retVal);
+    }
 
     [Fact]
-    public void ThenTappedValueIsSet()
+    public void ThenTappedValueIsSet()//TODO
     {
         Then();
         _tappedValue.Is(The<MyValueInt>()+ TheSecond<MyValueInt>());
+        VerifyDescription(
+            """
+            Given IMyValueIntRepo.Get2(the MyValueInt, the second MyValueInt) tap((int v1, int v2) => _tappedValue = v1 + v2) returns _retVal
+            When GetValue2(a MyValueInt, a second MyValueInt)
+            Then _tappedValue is the MyValueInt
+            """);
     }
 }

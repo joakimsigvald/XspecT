@@ -13,14 +13,16 @@ internal class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, TA
 {
     protected readonly Spec<TSUT, TResult> _spec;
     protected readonly Lazy<TMock> _lazyContinuation;
-    private readonly string _callExpr;
+    protected readonly string _callExpr;
+    protected readonly string _tapExpr;
 
     internal GivenThatCommonContinuation(
-        Spec<TSUT, TResult> spec, Lazy<TMock> continuation, string callExpr = null)
+        Spec<TSUT, TResult> spec, Lazy<TMock> continuation, string callExpr, string tapExpr = null)
     {
         _spec = spec;
         _lazyContinuation = continuation;
         _callExpr = callExpr;
+        _tapExpr = tapExpr;
     }
 
     internal GivenThatCommonContinuation(
@@ -31,7 +33,8 @@ internal class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, TA
     {
     }
 
-    public IGivenThatReturnsContinuation<TSUT, TResult, TService> Returns([NotNull] Func<TReturns> returns, [CallerArgumentExpression("returns")] string returnsExpr = null)
+    public IGivenThatReturnsContinuation<TSUT, TResult, TService> Returns(
+        [NotNull] Func<TReturns> returns, [CallerArgumentExpression("returns")] string returnsExpr = null)
     {
         if (returns is null)
             throw new SetupFailed($"{nameof(returns)} may not be null");
@@ -41,7 +44,7 @@ internal class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, TA
 
     public IGivenThatReturnsContinuation<TSUT, TResult, TService> ReturnsDefault()
     {
-        SetupReturns(() => default);
+        SetupReturns(() => default, null);
         return new GivenThatReturnsContinuation<TSUT, TResult, TService>(_spec);
     }
 
@@ -60,10 +63,10 @@ internal class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, TA
 
     protected TMock Continuation => _lazyContinuation.Value;
 
-    private void SetupReturns(Func<TReturns> returns, string returnsExpr = null) 
+    private void SetupReturns(Func<TReturns> returns, string returnsExpr) 
         => _spec.GivenSetup(() => DoSetupReturns(returns, returnsExpr));
 
-    private void DoSetupReturns(Func<TReturns> returns, string returnsExpr = null)
+    private void DoSetupReturns(Func<TReturns> returns, string returnsExpr)
     {
         if (Continuation is Moq.Language.Flow.IReturnsThrows<TService, Task<TReturns>> asyncContinuation)
             asyncContinuation.ReturnsAsync(returns);
@@ -71,6 +74,8 @@ internal class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, TA
             Continuation.Returns(returns);
         if (_callExpr is not null)
             Specification.AddMockSetup<TService>(_callExpr);
+        if (_tapExpr is not null)
+            Specification.AddTap(_tapExpr);
         Specification.AddMockReturns(returnsExpr);
     }
 }

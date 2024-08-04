@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using FluentAssertions.Common;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using XspecT.Internal.TestData;
@@ -80,6 +81,8 @@ internal class SpecificationBuilder
 
     internal void AddThrows<TError>()
         => AddSentence($"then throws {typeof(TError).Name}");
+
+    internal void AddTap(string expr) => AddWord($"tap({expr})");
 
     private void AddPhrase(string phrase)
         => _descriptionBuilder.Append($"{Environment.NewLine} {phrase}");

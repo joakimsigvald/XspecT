@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 
 namespace XspecT.Continuations;
 
@@ -17,24 +18,33 @@ public interface IGivenThatContinuation<TSUT, TResult, TService, TReturns>
     /// Provide a callback to tap the mocked function call with no input arguments
     /// </summary>
     /// <param name="callback"></param>
+    /// <param name="callbackExpr"></param>
     /// <returns></returns>
-    IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns> Tap(Action callback);
+    IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns> Tap(
+        Action callback,
+        [CallerArgumentExpression(nameof(callback))] string callbackExpr = null);
 
     /// <summary>
     /// Provide a callback to tap the mocked function call with one input argument
     /// </summary>
     /// <typeparam name="TArg"></typeparam>
     /// <param name="callback"></param>
+    /// <param name="callbackExpr"></param>
     /// <returns></returns>
-    IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns> Tap<TArg>(Action<TArg> callback);
+    IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns> Tap<TArg>(
+        Action<TArg> callback,
+        [CallerArgumentExpression(nameof(callback))] string callbackExpr = null);
 
     /// <summary>
     /// Mock the return-value given one input parameter
     /// </summary>
     /// <param name="returns"></param>
+    /// <param name="returnsExpr"></param>
     /// <typeparam name="TArg"></typeparam>
     /// <returns></returns>
-    IGivenThatReturnsContinuation<TSUT, TResult, TService> Returns<TArg>([NotNull] Func<TArg, TReturns> returns);
+    IGivenThatReturnsContinuation<TSUT, TResult, TService> Returns<TArg>(
+        [NotNull] Func<TArg, TReturns> returns,
+        [CallerArgumentExpression(nameof(returns))] string returnsExpr = null);
 
     /// <summary>
     /// Provide a callback to tap the mocked function call with two input arguments
@@ -42,9 +52,11 @@ public interface IGivenThatContinuation<TSUT, TResult, TService, TReturns>
     /// <typeparam name="TArg1"></typeparam>
     /// <typeparam name="TArg2"></typeparam>
     /// <param name="callback"></param>
+    /// <param name="callbackExpr"></param>
     /// <returns></returns>
     IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns> Tap<TArg1, TArg2>(
-        Action<TArg1, TArg2> callback);
+        Action<TArg1, TArg2> callback,
+        [CallerArgumentExpression(nameof(callback))] string callbackExpr = null);
 
     /// <summary>
     /// Mock the return-value given two input parameters
@@ -63,9 +75,11 @@ public interface IGivenThatContinuation<TSUT, TResult, TService, TReturns>
     /// <typeparam name="TArg2"></typeparam>
     /// <typeparam name="TArg3"></typeparam>
     /// <param name="callback"></param>
+    /// <param name="callbackExpr"></param>
     /// <returns></returns>
     IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns> Tap<TArg1, TArg2, TArg3>(
-        Action<TArg1, TArg2, TArg3> callback);
+        Action<TArg1, TArg2, TArg3> callback,
+        [CallerArgumentExpression(nameof(callback))] string callbackExpr = null);
 
     /// <summary>
     /// Mock the return-value given three input parameters
@@ -86,9 +100,11 @@ public interface IGivenThatContinuation<TSUT, TResult, TService, TReturns>
     /// <typeparam name="TArg3"></typeparam>
     /// <typeparam name="TArg4"></typeparam>
     /// <param name="callback"></param>
+    /// <param name="callbackExpr"></param>
     /// <returns></returns>
     IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns> Tap<TArg1, TArg2, TArg3, TArg4>(
-        Action<TArg1, TArg2, TArg3, TArg4> callback);
+        Action<TArg1, TArg2, TArg3, TArg4> callback,
+        [CallerArgumentExpression(nameof(callback))] string callbackExpr = null);
 
     /// <summary>
     /// Mock the return-value given four input parameters
@@ -111,9 +127,11 @@ public interface IGivenThatContinuation<TSUT, TResult, TService, TReturns>
     /// <typeparam name="TArg4"></typeparam>
     /// <typeparam name="TArg5"></typeparam>
     /// <param name="callback"></param>
+    /// <param name="callbackExpr"></param>
     /// <returns></returns>
     IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns> Tap<TArg1, TArg2, TArg3, TArg4, TArg5>(
-        Action<TArg1, TArg2, TArg3, TArg4, TArg5> callback);
+        Action<TArg1, TArg2, TArg3, TArg4, TArg5> callback,
+        [CallerArgumentExpression(nameof(callback))] string callbackExpr = null);
 
     /// <summary>
     /// Mock the return-value given five input parameters
