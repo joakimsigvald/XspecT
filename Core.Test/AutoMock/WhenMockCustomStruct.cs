@@ -22,7 +22,15 @@ public class WhenMockCustomStruct : Spec<StaticValueService, MyValue<int>>
     {
         [Fact]
         public void Then_It_Has_ProvidedValue()
-            => Given(A<MyValue<int>>()).Then().Result.Is(The<MyValue<int>>());
+        {
+            Given(A<MyValue<int>>()).Then().Result.Is(The<MyValue<int>>());
+            VerifyDescription(
+                """
+                Given a MyValue<int>
+                When GetValue()
+                Then Result is the MyValue<int>
+                """);
+        }
     }
 }
 

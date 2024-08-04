@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using System.Runtime.CompilerServices;
 
 namespace XspecT.Assert;
 
@@ -13,7 +14,7 @@ public class IsObject : Constraint<IsObject, object>
     /// Should().NotBeSameAs(expected)
     /// </summary>
     public ContinueWith<IsObject> Not(
-        object expected, [System.Runtime.CompilerServices.CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
+        object expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
         AddAssert([CustomAssertion] () => _actual.Should().NotBeSameAs(expected), "is not", expectedExpr);
         return And();

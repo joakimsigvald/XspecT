@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using System.Runtime.CompilerServices;
 
 namespace XspecT.Assert.Numerical;
 
@@ -11,15 +12,15 @@ public abstract class IsNumerical<TConstraint, TActual> : Constraint<TConstraint
     where TConstraint : IsNumerical<TConstraint, TActual>
     where TActual : struct, IComparable<TActual>
 {
-    internal IsNumerical(TActual actual) : base(actual) { }
+    internal IsNumerical(TActual actual, string actualExpr = null) : base(actual, actualExpr) { }
 
     /// <summary>
     /// actual.Should().NotBe(expected)
     /// </summary>
-    [CustomAssertion]
-    public ContinueWith<TConstraint> Not(TActual expected)
+    public ContinueWith<TConstraint> Not(
+        TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        _actual.Should().NotBe(expected);
+        AddAssert([CustomAssertion] () => _actual.Should().NotBe(expected), "is not", expectedExpr);
         return And();
     }
 

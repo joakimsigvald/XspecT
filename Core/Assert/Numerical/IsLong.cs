@@ -5,5 +5,5 @@
 /// </summary>
 public class IsLong : IsNumerical<IsLong, long>
 {
-    internal IsLong(long actual) : base(actual) { }
+    internal IsLong(long actual, string actualExpr = null) : base(actual, actualExpr) { }
 }

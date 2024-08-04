@@ -5,5 +5,5 @@
 /// </summary>
 public class IsInt : IsNumerical<IsInt, int>
 {
-    internal IsInt(int actual) : base(actual) { }
+    internal IsInt(int actual, string actualExpr = null) : base(actual, actualExpr) { }
 }

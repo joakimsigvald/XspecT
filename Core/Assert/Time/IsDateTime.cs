@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using System.Runtime.CompilerServices;
 
 namespace XspecT.Assert.Time;
 
@@ -7,17 +8,18 @@ namespace XspecT.Assert.Time;
 /// </summary>
 public class IsDateTime : Constraint<IsDateTime, DateTime>
 {
-    internal IsDateTime(DateTime actual) : base(actual) { }
+    internal IsDateTime(DateTime actual, string actualExpr = null) : base(actual, actualExpr) { }
 
     /// <summary>
     /// Asserts that the dateTime is not equal to the given value
     /// </summary>
-    /// <param name="unexpected"></param>
+    /// <param name="expected"></param>
+    /// <param name="expectedExpr"></param>
     /// <returns></returns>
-    [CustomAssertion]
-    public ContinueWith<IsDateTime> Not(DateTime unexpected)
+    public ContinueWith<IsDateTime> Not(
+        DateTime expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        _actual.Should().NotBe(unexpected);
+        AddAssert([CustomAssertion] () => _actual.Should().NotBe(expected), "is not", expectedExpr);
         return And();
     }
 

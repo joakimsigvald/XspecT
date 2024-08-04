@@ -1,20 +1,36 @@
-﻿namespace XspecT.Test.AutoMock;
+﻿using static XspecT.Test.Helper;
+namespace XspecT.Test.AutoMock;
 
 public class WhenMockDateTime : Spec<StaticDateService, DateTime>
 {
     public WhenMockDateTime() => When(_ => _.GetDate());
     public class GivenItWasNotProvided : WhenMockDateTime
     {
-        [Fact] 
-        public void Then_It_Has_RandomDateTime() 
-            => Then().Result.Is().Not(A<DateTime>()).And(Result).Ticks.Is().Not(0);
+        [Fact]
+        public void Then_It_Has_RandomDateTime()
+        {
+            Then().Result.Is().Not(A<DateTime>()).And(Result).Ticks.Is().Not(0);
+            VerifyDescription(
+                """
+                When GetDate()
+                Then Result is not a DateTime and Result.Ticks is not 0
+                """);
+        }
     }
 
     public class GivenItWasProvided : WhenMockDateTime
     {
         [Fact]
         public void Then_It_Has_ProvidedValue()
-            => Given(A<DateTime>()).Then().Result.Is(The<DateTime>());
+        {
+            Given(A<DateTime>()).Then().Result.Is(The<DateTime>());
+            VerifyDescription(
+                """
+                Given a DateTime
+                When GetDate()
+                Then Result is the DateTime
+                """);
+        }
     }
 }
 
