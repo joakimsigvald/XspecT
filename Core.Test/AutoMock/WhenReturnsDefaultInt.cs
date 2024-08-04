@@ -1,4 +1,5 @@
-﻿using XspecT.Test.AutoFixture;
+﻿using static XspecT.Test.Helper;
+using XspecT.Test.AutoFixture;
 
 namespace XspecT.Test.AutoMock;
 
@@ -6,16 +7,32 @@ public class WhenReturnsDefaultInt : Spec<MyDefaultService, int>
 {
     [Fact]
     public void ThenReturnZero()
-        => Given<IDefaultRetriever>().That(_ => _.GetInt()).ReturnsDefault()
-        .When(_ => _.GetInt()).Then().Result.Is(0);
+    {
+        Given<IDefaultRetriever>().That(_ => _.GetInt()).ReturnsDefault()
+            .When(_ => _.GetInt()).Then().Result.Is(0);
+        VerifyDescription(
+            """
+            Given IDefaultRetriever.GetInt() returns default
+            When GetInt()
+            Then Result is 0
+            """);
+    }
 }
 
 public class WhenReturnsDefaultModel : Spec<MyDefaultService, MyModel>
 {
     [Fact]
     public void ThenReturnNull()
-        => Given<IDefaultRetriever>().That(_ => _.GetModel()).ReturnsDefault()
-        .When(_ => _.GetModel()).Then().Result.Is().Null();
+    {
+        Given<IDefaultRetriever>().That(_ => _.GetModel()).ReturnsDefault()
+            .When(_ => _.GetModel()).Then().Result.Is().Null();
+        VerifyDescription(
+            """
+            Given IDefaultRetriever.GetModel() returns default
+            When GetModel()
+            Then Result is null
+            """);
+    }
 }
 
 public interface IDefaultRetriever

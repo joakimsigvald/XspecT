@@ -14,8 +14,11 @@ public interface IGivenServiceContinuation<TSUT, TResult, TService>
     /// </summary>
     /// <typeparam name="TReturns"></typeparam>
     /// <param name="value"></param>
+    /// <param name="valueExpr"></param>
     /// <returns></returns>
-    IGivenThatReturnsContinuation<TSUT, TResult, TService> Returns<TReturns>(Func<TReturns> value);
+    IGivenThatReturnsContinuation<TSUT, TResult, TService> Returns<TReturns>(
+        Func<TReturns> value,
+        [CallerArgumentExpression(nameof(value))] string valueExpr = null);
 
     /// <summary>
     /// Setup mock to throw an exception for any call, unless otherwise specified

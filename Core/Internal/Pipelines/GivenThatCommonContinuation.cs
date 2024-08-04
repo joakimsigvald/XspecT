@@ -43,10 +43,7 @@ internal class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, TA
     }
 
     public IGivenThatReturnsContinuation<TSUT, TResult, TService> ReturnsDefault()
-    {
-        SetupReturns(() => default, null);
-        return new GivenThatReturnsContinuation<TSUT, TResult, TService>(_spec);
-    }
+        => Returns(() => default);
 
     public IGivenThatReturnsContinuation<TSUT, TResult, TService> Throws<TException>()
         where TException : Exception, new()

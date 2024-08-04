@@ -11,7 +11,9 @@ internal class GivenServiceContinuation<TSUT, TResult, TService> : IGivenService
 
     internal GivenServiceContinuation(Spec<TSUT, TResult> spec) => _spec = spec;
 
-    public IGivenThatReturnsContinuation<TSUT, TResult, TService> Returns<TReturns>(Func<TReturns> value)
+    public IGivenThatReturnsContinuation<TSUT, TResult, TService> Returns<TReturns>(
+        Func<TReturns> value,
+        [CallerArgumentExpression(nameof(value))] string valueExpr = null)
     {
         var theValue = value();
         _spec.GivenSetup(() => _spec.GetMock<TService>().SetReturnsDefault(theValue));
