@@ -87,5 +87,5 @@ internal class GivenContinuation<TSUT, TResult> : IGivenContinuation<TSUT, TResu
     public IGivenTestPipeline<TSUT, TResult> AFifth<TValue>(Func<TValue, TValue> transform)
         => That(() => _spec.AFifth(transform));
 
-    public IGivenTestPipeline<TSUT, TResult> That(Action setup) => _spec.GivenSetup(setup);
+    public IGivenTestPipeline<TSUT, TResult> That(Action setup) => _spec.PushArrangement(setup);
 }

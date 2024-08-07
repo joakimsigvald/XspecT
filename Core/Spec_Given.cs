@@ -88,16 +88,22 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
 
     internal IGivenTestPipeline<TSUT, TResult> Given<TValue>(Func<TValue> value, ApplyTo applyTo)
     {
-        _pipeline.Given(() => _pipeline.SetDefault(value(), applyTo));
+        _pipeline.PushArrangement(() => _pipeline.SetDefault(value(), applyTo));
         return new GivenTestPipeline<TSUT, TResult>(this);
     }
 
     internal Mock<TService> GetMock<TService>() where TService : class 
         => _pipeline.GetMock<TService>();
 
-    internal IGivenTestPipeline<TSUT, TResult> GivenSetup(Action setup)
+    internal IGivenTestPipeline<TSUT, TResult> PushArrangement(Action setup)
     {
-        _pipeline.Given(setup);
+        _pipeline.PushArrangement(setup);
+        return new GivenTestPipeline<TSUT, TResult>(this);
+    }
+
+    internal IGivenTestPipeline<TSUT, TResult> AddArrangement(Action setup)
+    {
+        _pipeline.AddArrangement(setup);
         return new GivenTestPipeline<TSUT, TResult>(this);
     }
 

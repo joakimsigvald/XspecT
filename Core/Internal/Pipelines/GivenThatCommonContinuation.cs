@@ -34,19 +34,19 @@ internal class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, TA
     public IGivenThatReturnsContinuation<TSUT, TResult, TService> Throws<TException>()
         where TException : Exception, new()
     {
-        _spec.GivenSetup(() => Continuation.Throws<TException>());
+        _spec.AddArrangement(() => Continuation.Throws<TException>());
         return new GivenThatReturnsContinuation<TSUT, TResult, TService>(_spec);
     }
 
     public IGivenThatReturnsContinuation<TSUT, TResult, TService> Throws(Func<Exception> ex)
     {
-        _spec.GivenSetup(() => Continuation.Throws(ex()));
+        _spec.AddArrangement(() => Continuation.Throws(ex()));
         return new GivenThatReturnsContinuation<TSUT, TResult, TService>(_spec);
     }
 
     protected TMock Continuation => _lazyContinuation.Value;
 
-    private void SetupReturns(Func<TReturns> returns) => _spec.GivenSetup(() => DoSetupReturns(returns));
+    private void SetupReturns(Func<TReturns> returns) => _spec.AddArrangement(() => DoSetupReturns(returns));
 
     private void DoSetupReturns(Func<TReturns> returns)
     {
