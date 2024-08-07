@@ -1,2 +1,5 @@
 * Return different pipeline after setup and run, and remove the HasRun guard clauses
 * Verbose mode (static) that prints description after running each test
+* Return different values on each call by:
+Given<Service>.That(_ => _.DoesSomething()).Returns(1).AndThen().Returns(2).AndThen().Throws(new Exception()),
+
