@@ -1,5 +1,4 @@
 ﻿using Moq;
-using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using XspecT.Continuations;
 using XspecT.Internal.Pipelines;
@@ -107,16 +106,22 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
 
     internal IGivenTestPipeline<TSUT, TResult> GivenDefault<TValue>(Func<TValue> value, ApplyTo applyTo, string defaultValueExpr)
     {
-        _pipeline.Given(() => _pipeline.SetDefault(value(), applyTo, defaultValueExpr));
+        _pipeline.ArrangeFirst(() => _pipeline.SetDefault(value(), applyTo, defaultValueExpr));
         return new GivenTestPipeline<TSUT, TResult>(this);
     }
 
     internal Mock<TService> GetMock<TService>() where TService : class 
         => _pipeline.GetMock<TService>();
 
-    internal IGivenTestPipeline<TSUT, TResult> GivenSetup(Expression<Action> setup)
+    internal IGivenTestPipeline<TSUT, TResult> ArrangeFirst(Action setup)
     {
-        _pipeline.Given(setup);
+        _pipeline.ArrangeFirst(setup);
+        return new GivenTestPipeline<TSUT, TResult>(this);
+    }
+
+    internal IGivenTestPipeline<TSUT, TResult> ArrangeLast(Action setup)
+    {
+        _pipeline.ArrangeLast(setup);
         return new GivenTestPipeline<TSUT, TResult>(this);
     }
 

@@ -1,5 +1,4 @@
-﻿using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using XspecT.Continuations;
 using XspecT.Internal.TestData;
 
@@ -39,65 +38,65 @@ internal class GivenContinuation<TSUT, TResult> : IGivenContinuation<TSUT, TResu
         => _spec.Given(defaultSetup);
 
     public IGivenTestPipeline<TSUT, TResult> A<TValue>(TValue value)
-        => _spec.GivenSetup(() => _spec.A(value));
+        => _spec.ArrangeFirst(() => _spec.A(value));
 
     public IGivenTestPipeline<TSUT, TResult> A<TValue>(Action<TValue> setup)
          where TValue : class
-        => _spec.GivenSetup(() => _spec.A(setup));
+        => _spec.ArrangeFirst(() => _spec.A(setup));
 
     public IGivenTestPipeline<TSUT, TResult> A<TValue>(Func<TValue, TValue> transform)
-        => _spec.GivenSetup(() => _spec.A(transform));
+        => _spec.ArrangeFirst(() => _spec.A(transform));
 
     public IGivenTestPipeline<TSUT, TResult> An<TValue>(TValue value)
-        => _spec.GivenSetup(() => _spec.A(value));
+        => _spec.ArrangeFirst(() => _spec.A(value));
 
     public IGivenTestPipeline<TSUT, TResult> An<TValue>(Action<TValue> setup)
          where TValue : class
-        => _spec.GivenSetup(() => _spec.A(setup));
+        => _spec.ArrangeFirst(() => _spec.A(setup));
 
     public IGivenTestPipeline<TSUT, TResult> An<TValue>(Func<TValue, TValue> transform)
-        => _spec.GivenSetup(() => _spec.A(transform));
+        => _spec.ArrangeFirst(() => _spec.A(transform));
 
     public IGivenTestPipeline<TSUT, TResult> ASecond<TValue>(TValue value)
-        => _spec.GivenSetup(() => _spec.ASecond(value));
+        => _spec.ArrangeFirst(() => _spec.ASecond(value));
 
     public IGivenTestPipeline<TSUT, TResult> ASecond<TValue>(Action<TValue> setup)
          where TValue : class
-        => _spec.GivenSetup(() => _spec.ASecond(setup));
+        => _spec.ArrangeFirst(() => _spec.ASecond(setup));
 
     public IGivenTestPipeline<TSUT, TResult> ASecond<TValue>(Func<TValue, TValue> transform)
-        => _spec.GivenSetup(() => _spec.ASecond(transform));
+        => _spec.ArrangeFirst(() => _spec.ASecond(transform));
 
     public IGivenTestPipeline<TSUT, TResult> AThird<TValue>(TValue value)
-        => _spec.GivenSetup(() => _spec.AThird(value));
+        => _spec.ArrangeFirst(() => _spec.AThird(value));
 
     public IGivenTestPipeline<TSUT, TResult> AThird<TValue>(Action<TValue> setup)
          where TValue : class
-        => _spec.GivenSetup(() => _spec.AThird(setup));
+        => _spec.ArrangeFirst(() => _spec.AThird(setup));
 
     public IGivenTestPipeline<TSUT, TResult> AThird<TValue>(Func<TValue, TValue> transform)
-        => _spec.GivenSetup(() => _spec.AThird(transform));
+        => _spec.ArrangeFirst(() => _spec.AThird(transform));
 
     public IGivenTestPipeline<TSUT, TResult> AFourth<TValue>(TValue value)
-        => _spec.GivenSetup(() => _spec.AFourth(value));
+        => _spec.ArrangeFirst(() => _spec.AFourth(value));
 
     public IGivenTestPipeline<TSUT, TResult> AFourth<TValue>(Action<TValue> setup)
          where TValue : class
-        => _spec.GivenSetup(() => _spec.AFourth(setup));
+        => _spec.ArrangeFirst(() => _spec.AFourth(setup));
 
     public IGivenTestPipeline<TSUT, TResult> AFourth<TValue>(Func<TValue, TValue> transform)
-        => _spec.GivenSetup(() => _spec.AFourth(transform));
+        => _spec.ArrangeFirst(() => _spec.AFourth(transform));
 
     public IGivenTestPipeline<TSUT, TResult> AFifth<TValue>(TValue value)
-        => _spec.GivenSetup(() => _spec.AFifth(value));
+        => _spec.ArrangeFirst(() => _spec.AFifth(value));
 
     public IGivenTestPipeline<TSUT, TResult> AFifth<TValue>(Action<TValue> setup)
          where TValue : class
-        => _spec.GivenSetup(() => _spec.AFifth(setup));
+        => _spec.ArrangeFirst(() => _spec.AFifth(setup));
 
     public IGivenTestPipeline<TSUT, TResult> AFifth<TValue>(Func<TValue, TValue> transform)
-        => _spec.GivenSetup(() => _spec.AFifth(transform));
+        => _spec.ArrangeFirst(() => _spec.AFifth(transform));
 
     [Obsolete]
-    public IGivenTestPipeline<TSUT, TResult> That(Expression<Action> setup) => _spec.GivenSetup(setup);
+    public IGivenTestPipeline<TSUT, TResult> That(Action setup) => _spec.ArrangeFirst(setup);
 }

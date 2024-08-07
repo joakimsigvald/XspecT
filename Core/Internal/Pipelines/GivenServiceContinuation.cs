@@ -16,8 +16,8 @@ internal class GivenServiceContinuation<TSUT, TResult, TService> : IGivenService
         [CallerArgumentExpression(nameof(value))] string valueExpr = null)
     {
         var theValue = value();
-        _spec.GivenSetup(() => _spec.GetMock<TService>().SetReturnsDefault(theValue));
-        _spec.GivenSetup(() => _spec.GetMock<TService>().SetReturnsDefault(Task.FromResult(theValue)));
+        _spec.ArrangeLast(() => _spec.GetMock<TService>().SetReturnsDefault(theValue));
+        _spec.ArrangeLast(() => _spec.GetMock<TService>().SetReturnsDefault(Task.FromResult(theValue)));
         return new GivenThatReturnsContinuation<TSUT, TResult, TService>(_spec);
     }
 
