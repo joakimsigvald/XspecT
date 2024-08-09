@@ -22,7 +22,7 @@ internal class SpecificationBuilder
     }
 
     internal void AddMockSetup<TService>(string callExpr)
-        => AddPhrase($"{Given} {typeof(TService).Name}.{callExpr.ParseCall()}");
+        => AddPhrase($"{Given} {NameOf<TService>()}.{callExpr.ParseCall()}");
 
     internal void AddMockReturns(string returnsExpr)
         => AddWord($"returns {returnsExpr.ParseValue()}");
@@ -66,13 +66,12 @@ internal class SpecificationBuilder
     }
 
     internal void AddGivenSetup<TModel>(string setupExpr)
-        => AddPhrase($"{Given} {typeof(TModel).Name} {{ {setupExpr.ParseValue()} }}");
-
+        => AddPhrase($"{Given} {NameOf<TModel>()} {{ {setupExpr.ParseValue()} }}");
     internal void AddVerify<TService>(string expressionExpr)
-        => AddWord($"{typeof(TService).Name}.{expressionExpr.ParseCall()}");
+        => AddWord($"{NameOf<TService>()}.{expressionExpr.ParseCall()}");
 
     internal void AddThrows<TError>()
-        => AddSentence($"then throws {typeof(TError).Name}");
+        => AddSentence($"then throws {NameOf<TError>()}");
 
     internal void AddTap(string expr) => AddWord($"tap({expr})");
 
@@ -89,6 +88,11 @@ internal class SpecificationBuilder
         _descriptionBuilder.Append(binder);
         _descriptionBuilder.Append(word);
     }
+
+    internal void AddMockReturnsDefault<TService>(string returnsExpr)
+        => _descriptionBuilder.Append($"{Given} {NameOf<TService>()} returns {returnsExpr.ParseValue()}");
+
+    private static string NameOf<T>() => typeof(T).Alias(); 
 
     private string Given => 0 == _givenCount++ ? "given" : "and";
 }

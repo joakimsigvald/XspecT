@@ -60,19 +60,21 @@ internal class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, TA
 
     protected TMock Continuation => _lazyContinuation.Value;
 
-    private void SetupReturns(Func<TReturns> returns, string returnsExpr) 
-        => _spec.ArrangeLast(() => DoSetupReturns(returns, returnsExpr));
-
-    private void DoSetupReturns(Func<TReturns> returns, string returnsExpr)
+    private void SetupReturns(Func<TReturns> returns, string returnsExpr)
     {
-        if (Continuation is Moq.Language.Flow.IReturnsThrows<TService, Task<TReturns>> asyncContinuation)
-            asyncContinuation.ReturnsAsync(returns);
-        else
-            Continuation.Returns(returns);
-        if (_callExpr is not null)
-            Specification.AddMockSetup<TService>(_callExpr);
-        if (_tapExpr is not null)
-            Specification.AddTap(_tapExpr);
-        Specification.AddMockReturns(returnsExpr);
+        _spec.ArrangeLast(DoSetupReturns);
+
+        void DoSetupReturns()
+        {
+            if (Continuation is Moq.Language.Flow.IReturnsThrows<TService, Task<TReturns>> asyncContinuation)
+                asyncContinuation.ReturnsAsync(returns);
+            else
+                Continuation.Returns(returns);
+            if (_callExpr is not null)
+                Specification.AddMockSetup<TService>(_callExpr);
+            if (_tapExpr is not null)
+                Specification.AddTap(_tapExpr);
+            Specification.AddMockReturns(returnsExpr);
+        }
     }
 }

@@ -12,13 +12,19 @@ internal class GivenServiceContinuation<TSUT, TResult, TService> : IGivenService
     internal GivenServiceContinuation(Spec<TSUT, TResult> spec) => _spec = spec;
 
     public IGivenThatReturnsContinuation<TSUT, TResult, TService> Returns<TReturns>(
-        Func<TReturns> value,
-        [CallerArgumentExpression(nameof(value))] string valueExpr = null)
+        Func<TReturns> returns,
+        [CallerArgumentExpression(nameof(returns))] string returnsExpr = null)
     {
-        var theValue = value();
-        _spec.ArrangeLast(() => _spec.GetMock<TService>().SetReturnsDefault(theValue));
-        _spec.ArrangeLast(() => _spec.GetMock<TService>().SetReturnsDefault(Task.FromResult(theValue)));
+        var theValue = returns();
+        _spec.ArrangeLast(DoSetupReturnsDefault);
         return new GivenThatReturnsContinuation<TSUT, TResult, TService>(_spec);
+
+        void DoSetupReturnsDefault()
+        {
+            _spec.GetMock<TService>().SetReturnsDefault(theValue);
+            _spec.GetMock<TService>().SetReturnsDefault(Task.FromResult(theValue));
+            Specification.AddMockReturnsDefault<TService>(returnsExpr);
+        }
     }
 
     public IGivenTestPipeline<TSUT, TResult> Throws<TException>() where TException : Exception, new()

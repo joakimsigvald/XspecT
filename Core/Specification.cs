@@ -63,5 +63,8 @@ public static class Specification
 
     internal static void AddTap(string expr) => Builder.Add(() => Builder.AddTap(expr));
 
+    internal static void AddMockReturnsDefault<TService>(string returnsExpr)
+         => Builder.Add(() => Builder.AddMockReturnsDefault<TService>(returnsExpr));
+
     private static SpecificationBuilder Builder => _builder ??= new();
 }
