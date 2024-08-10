@@ -63,8 +63,11 @@ internal class GivenTestPipeline<TSUT, TResult>
         [CallerArgumentExpression(nameof(defaultValue))] string defaultValueExpr = null) 
         => Parent.Given(defaultValue, defaultValueExpr);
 
-    public IGivenTestPipeline<TSUT, TResult> And<TValue>(Action<TValue> setup) where TValue : class
-        => Given(setup);
+    public IGivenTestPipeline<TSUT, TResult> And<TValue>(
+        Action<TValue> setup,
+        [CallerArgumentExpression(nameof(setup))] string setupExpr = null) where TValue : class
+        => Given(setup, setupExpr);
+
     public IGivenTestPipeline<TSUT, TResult> And<TValue>(Func<TValue, TValue> setup)
         => Given(setup);
 

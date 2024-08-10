@@ -1,6 +1,4 @@
-﻿using static XspecT.Test.Helper;
-
-using XspecT.Test.Given;
+﻿using XspecT.Test.Given;
 
 namespace XspecT.Test.AutoMock;
 

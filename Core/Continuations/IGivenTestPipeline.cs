@@ -21,12 +21,15 @@ public interface IGivenTestPipeline<TSUT, TResult> : ITestPipeline<TSUT, TResult
     IGivenContinuation<TSUT, TResult> And();
 
     /// <summary>
-    /// Provide any arrangement to the test, which will be applied during test execution in reverse order of where in the test-pipleine it was provided
+    /// Provide any arrangement to the test, which will be applied during test execution in reverse order of where in the test-pipeline it was provided
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
+    /// <param name="setupExpr"></param>
     /// <returns></returns>
-    IGivenTestPipeline<TSUT, TResult> And<TValue>(Action<TValue> setup) where TValue : class;
+    IGivenTestPipeline<TSUT, TResult> And<TValue>(
+        Action<TValue> setup,
+        [CallerArgumentExpression(nameof(setup))] string setupExpr = null) where TValue : class;
 
     /// <summary>
     /// Transform any value and use the transformed value as default

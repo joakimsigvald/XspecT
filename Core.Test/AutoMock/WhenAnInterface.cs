@@ -1,6 +1,4 @@
-﻿using static XspecT.Test.Helper;
-
-namespace XspecT.Test.AutoMock;
+﻿namespace XspecT.Test.AutoMock;
 
 public class WhenInjectingAnInterfaceWithUsing : Spec<InterfaceService, int>
 {

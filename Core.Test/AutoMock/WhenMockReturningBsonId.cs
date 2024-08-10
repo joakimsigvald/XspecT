@@ -1,5 +1,4 @@
-﻿using static XspecT.Test.Helper;
-using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
 
 namespace XspecT.Test.AutoMock;
