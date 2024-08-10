@@ -27,10 +27,13 @@ Then Result.Name is the string");
             .Returns(() => A<MyModel>(_ => _.Id = An<int>()))
             .Then().Result.Name.Is(The<string>()).And(Result).Id.Is(The<int>());
         VerifyDescription(
-@"Given IMyRepository.Get(the int) returns a MyModel { Name = a string }
- and IMyMapper.Map(the MyModel) returns a MyModel { Id = an int }
-When Get(an int)
-Then Result.Name is the string and Result.Id is the int");
+            """
+            Given IMyRepository.Get(the int) returns a MyModel { Name = a string }
+             and IMyMapper.Map(the MyModel) returns a MyModel { Id = an int }
+            When Get(an int)
+            Then Result.Name is the string
+             and Result.Id is the int
+            """);
     }
 
     [Fact]

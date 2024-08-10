@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 using XspecT.Continuations;
 
 namespace XspecT.Internal.Pipelines;
@@ -14,10 +15,13 @@ internal class GivenThatReturnsContinuation<TSUT, TResult, TService>
     public IGivenTestPipeline<TSUT, TResult> AndReturnsDefault<TReturns>(Func<TReturns> value)
         => _serviceContinuation.Returns(value);
 
-    public IGivenThatContinuation<TSUT, TResult, TService, TReturns> AndThat<TReturns>(Expression<Func<TService, TReturns>> expression)
-        => _serviceContinuation.That(expression);
+    public IGivenThatContinuation<TSUT, TResult, TService, TReturns> AndThat<TReturns>(
+        Expression<Func<TService, TReturns>> call,
+        [CallerArgumentExpression(nameof(call))] string callExpr = null)
+        => _serviceContinuation.That(call, callExpr);
 
     public IGivenThatContinuation<TSUT, TResult, TService, TReturns> AndThat<TReturns>(
-        Expression<Func<TService, Task<TReturns>>> expression)
-        => _serviceContinuation.That(expression);
+        Expression<Func<TService, Task<TReturns>>> call,
+        [CallerArgumentExpression(nameof(call))] string callExpr = null) 
+        => _serviceContinuation.That(call, callExpr);
 }

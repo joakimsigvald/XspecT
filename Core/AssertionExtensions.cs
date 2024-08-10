@@ -227,7 +227,7 @@ public static class AssertionExtensions
     [CustomAssertion]
     public static TActual And<TActual, TContinuation>(this ContinueWith<TContinuation> _, TActual actual)
     {
-        Specification.AddAnd();
+        Specification.AddThen();
         return actual;
     }
 }
