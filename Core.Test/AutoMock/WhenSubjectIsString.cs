@@ -9,7 +9,7 @@ public class WhenSubjectIsString : Spec<string>
         VerifyDescription(
             """
             Given "abc"
-            When _ => _
+            When _
             Then Result is "abc"
             """);
     }

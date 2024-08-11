@@ -43,9 +43,11 @@ public static partial class ExpressionParser
     {
         if (string.IsNullOrEmpty(expr))
             return expr;
-        if (TryParseOneArgLambdaExpression(expr, out string description))
+        if (TryParseOneArgLambdaInstanceMethodExpression(expr, out string description))
             return description;
         if (TryParseMethodCallExpression(expr, out description))
+            return description;
+        if (TryParseOneArgLambdaValueExpression(expr, out description))
             return description;
         return expr;
     }
@@ -157,10 +159,10 @@ public static partial class ExpressionParser
         return true;
     }
 
-    private static bool TryParseOneArgLambdaExpression(string expr, out string description)
+    private static bool TryParseOneArgLambdaInstanceMethodExpression(string expr, out string description)
     {
         description = null;
-        var match = OneArgLambdaRegex().Match(expr);
+        var match = OneArgLambdaInstanceMethodRegex().Match(expr);
         if (!match.Success || match.Groups.Count != 4)
             return false;
 
@@ -172,6 +174,17 @@ public static partial class ExpressionParser
         else if (objArg == "_")
             description = $"{objRef}.{ParseCall(call)}";
         else return false;
+        return true;
+    }
+
+    private static bool TryParseOneArgLambdaValueExpression(string expr, out string description)
+    {
+        description = null;
+        var match = OneArgLambdaValueRegex().Match(expr);
+        if (!match.Success)
+            return false;
+
+        description = ParseValue(match.Groups[2].Value);
         return true;
     }
 
@@ -216,7 +229,10 @@ public static partial class ExpressionParser
     private static partial Regex ZeroArgLambdaRegex();
 
     [GeneratedRegex(@"^(\w+)\s*=>\s*(\w+)\.(.+)$")]
-    private static partial Regex OneArgLambdaRegex();
+    private static partial Regex OneArgLambdaInstanceMethodRegex();
+
+    [GeneratedRegex(@"^(\w+)\s*=>\s*(.+)$")]
+    private static partial Regex OneArgLambdaValueRegex();
 
     [GeneratedRegex(@"^((?:new\s+)?\w+)\((.+)\)$")]
     private static partial Regex MethodCallRegex();

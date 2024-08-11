@@ -4,7 +4,15 @@ public class WhenGivenInterface : Spec<MyService, string>
 {
     [Fact]
     public void ThenUseValueInPipeline()
-        => Given<IMySettings>(new MySettings { ConnectionString = ASecond<string>()})
-        .When(_ => _.GetConnectionString())
-        .Then().Result.Is(TheSecond<string>());
+    {
+        Given<IMySettings>(new MySettings { ConnectionString = ASecond<string>() })
+            .When(_ => _.GetConnectionString())
+            .Then().Result.Is(TheSecond<string>());
+        VerifyDescription(
+            """
+            Given new MySettings { ConnectionString = ASecond<string>() }
+            When GetConnectionString()
+            Then Result is the second string
+            """);
+    }
 }
