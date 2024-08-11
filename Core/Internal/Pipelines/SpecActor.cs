@@ -24,13 +24,13 @@ internal class SpecActor<TSUT, TResult>
 
     internal void Before(Action tearDown) => _tearDown.Push(tearDown);
 
-    internal TestResult<TResult> Execute(TSUT sut, Context context, string subjectExpr)
+    internal TestResult<TResult> Execute(TSUT sut, Context context)
     {
         while(_setUp.TryPop(out var setup)) setup();
         try
         {
             bool hasResult = false;
-            CatchError(() => hasResult = GetResult(sut, subjectExpr));
+            CatchError(() => hasResult = GetResult(sut));
             return new(_result, _error, context, hasResult);
         }
         finally
@@ -39,7 +39,7 @@ internal class SpecActor<TSUT, TResult>
         }
     }
 
-    private bool GetResult(TSUT sut, string subjectExpr)
+    private bool GetResult(TSUT sut)
     {
         if (_act is null)
             throw new SetupFailed("When must be called before Then");
@@ -55,7 +55,7 @@ internal class SpecActor<TSUT, TResult>
                 Action<TSUT> act => ExecuteCommand(act),
                 _ => throw new SetupFailed("Failed to run method under test, unexpected signature")
             };
-            Specification.AddThen(subjectExpr);
+            Specification.AddThen();
             return hasResult;
         }
         catch (ArgumentException ex) when (ex.Message.Contains(cue))

@@ -2,7 +2,6 @@
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using XspecT.Assert;
-using XspecT.Assert.Numerical;
 using XspecT.Assert.Time;
 
 namespace XspecT;
@@ -23,14 +22,13 @@ public static class AssertionExtensions
     /// Get available assertions for the given value
     /// </summary>
     /// <param name="actual"></param>
+    /// <param name="ignore"></param>
     /// <param name="actualExpr"></param>
-    /// <param name="ignore1">This argument is ignored (used to control method overload precedence)</param>
-    /// <param name="ignore2">This argument is ignored (used to control method overload precedence)</param>
     /// <returns></returns>
     public static IsDateTime Is(
         this DateTime actual,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
-        string ignore1 = null, string ignore2 = null) 
+        DateTime? ignore = null,
+        [CallerArgumentExpression(nameof(actual))] string actualExpr = null) 
         => new(actual, actualExpr);
 
     /// <summary>
@@ -44,8 +42,14 @@ public static class AssertionExtensions
     /// Get available assertions for the given string
     /// </summary>
     /// <param name="actual"></param>
+    /// <param name="ignore"></param>
+    /// <param name="actualExpr"></param>
     /// <returns></returns>
-    public static IsString Is(this string actual) => new(actual);
+    public static IsString Is(
+        this string actual,
+        object ignore = null,
+        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
+        => new(actual, actualExpr);
 
     /// <summary>
     /// Get available assertions for the characteristics of the given string
@@ -86,14 +90,13 @@ public static class AssertionExtensions
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="actual"></param>
+    /// <param name="ignore"></param>
     /// <param name="actualExpr"></param>
-    /// <param name="ignore1">This argument is ignored (used to control method overload precedence)</param>
-    /// <param name="ignore2">This argument is ignored (used to control method overload precedence)</param>
     /// <returns></returns>
     public static IsComparable<TValue> Is<TValue>(
         this TValue actual,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
-        string ignore1 = null, string ignore2 = null)
+        object ignore = null,
+        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
         where TValue : IComparable<TValue>
         => new(actual);
 
@@ -231,7 +234,7 @@ public static class AssertionExtensions
         TActual actual,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
     {
-        Specification.AddThen(actualExpr);
+        Specification.AddThen();
         return actual;
     }
 }

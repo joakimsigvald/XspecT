@@ -11,7 +11,6 @@ internal class SpecificationBuilder
     private int _givenCount;
     private int _thenCount;
     private string _currentMockSetup;
-    private bool _isThenReferencingSubject = false;
 
     public string Description => _description ??= Build();
 
@@ -37,17 +36,12 @@ internal class SpecificationBuilder
 
     internal void AddAssert(string actual, string verb, string expected)
     {
-        AddWord(actual.ParseActual(), _isThenReferencingSubject ? "'s " : " ");
+        AddWord(actual.ParseActual());
         AddWord(verb.AsWords());
         AddWord(expected.ParseValue());
     }
 
-    internal void AddThen(string subjectExpr)
-    {
-        AddPhraseOrSentence(Then);
-        AddWord(subjectExpr.ParseValue());
-        _isThenReferencingSubject = !string.IsNullOrEmpty(subjectExpr);
-    }
+    internal void AddThen() => AddPhraseOrSentence(Then);
 
     internal void AddGiven(string valueExpr, ApplyTo applyTo)
     {

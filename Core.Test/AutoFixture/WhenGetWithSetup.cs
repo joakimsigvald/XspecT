@@ -30,7 +30,7 @@ Then Result.Name is the string");
              and IMyMapper.Map(the MyModel) returns a MyModel { Id = an int }
             When Get(an int)
             Then Result.Name is the string
-             and Result.Id is the int
+             and Result's Id is the int
             """);
     }
 

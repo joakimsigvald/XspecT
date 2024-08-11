@@ -59,11 +59,23 @@ public static partial class ExpressionParser
     {
         if (string.IsNullOrEmpty(actualExpr))
             return actualExpr;
-        var propNames = actualExpr.Split('.').Reverse().TakeWhile(prop => !IsThenExpr(prop)).ToArray();
-        var andSegment = propNames.SkipWhile(prop => !prop.StartsWith("And(")).FirstOrDefault();
-        if (andSegment is not null)
-            propNames = propNames.TakeWhile(prop => prop != andSegment).Append(andSegment[4..^1]).ToArray();
-        return string.Join('.', propNames.Reverse());
+        string prefix = null;
+        var propNames = actualExpr.Split('.').Reverse().ToList();
+        var thenValueRegex = ThenValueRegex();
+        var thenValueSegment = propNames.SkipWhile(prop => !thenValueRegex.IsMatch(prop)).FirstOrDefault();
+        if (thenValueSegment is not null) 
+        {
+            propNames = propNames.TakeWhile(prop => prop != thenValueSegment).ToList();
+            var valueMatch = thenValueRegex.Match(thenValueSegment);
+            if (valueMatch.Groups.Count == 2 && !string.IsNullOrEmpty(valueMatch.Groups[1].Value))
+                prefix = valueMatch.Groups[1].Value.ParseValue();
+        }
+        propNames.Reverse();
+        if (prefix is null)
+            return string.Join('.', propNames);
+        if (propNames.Count == 0)
+            return prefix;
+        return $"{prefix}'s {string.Join('.', propNames)}";
     }
 
     private static bool IsThenExpr(string expr)
@@ -214,4 +226,7 @@ public static partial class ExpressionParser
 
     [GeneratedRegex(@"^Then\(.*\)$")]
     private static partial Regex ThenRegex();
+
+    [GeneratedRegex(@"^(?:Then|And)\((.*)\)$")]
+    private static partial Regex ThenValueRegex();
 }

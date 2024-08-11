@@ -46,8 +46,7 @@ public static class Specification
         }
     }
 
-    internal static void AddThen(string subjectExpr = null) 
-        => Builder.Add(() => Builder.AddThen(subjectExpr));
+    internal static void AddThen() => Builder.Add(Builder.AddThen);
 
     internal static void AddGiven(string valueExpr, ApplyTo applyTo) 
         => Builder.Add(() => Builder.AddGiven(valueExpr, applyTo));

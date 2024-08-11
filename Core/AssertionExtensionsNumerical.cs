@@ -44,14 +44,13 @@ public static class AssertionExtensionsNumerical
     /// Get available assertions for the given value
     /// </summary>
     /// <param name="actual"></param>
+    /// <param name="ignore"></param>
     /// <param name="actualExpr"></param>
-    /// <param name="ignore1">This argument is ignored (used to control method overload precedence)</param>
-    /// <param name="ignore2">This argument is ignored (used to control method overload precedence)</param>
     /// <returns></returns>
     public static IsInt Is(
         this int actual,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
-        string ignore1 = null, string ignore2 = null) 
+        int? ignore = null,
+        [CallerArgumentExpression(nameof(actual))] string actualExpr = null) 
         => new(actual, actualExpr);
 
     /// <summary>
@@ -65,14 +64,13 @@ public static class AssertionExtensionsNumerical
     /// Get available assertions for the given value
     /// </summary>
     /// <param name="actual"></param>
+    /// <param name="ignore"></param>
     /// <param name="actualExpr"></param>
-    /// <param name="ignore1">This argument is ignored (used to control method overload precedence)</param>
-    /// <param name="ignore2">This argument is ignored (used to control method overload precedence)</param>
     /// <returns></returns>
     public static Assert.Numerical.IsLong Is(
         this long actual,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
-        string ignore1 = null, string ignore2 = null) 
+        long? ignore = null,
+        [CallerArgumentExpression(nameof(actual))] string actualExpr = null) 
         => new(actual, actualExpr);
 
     /// <summary>

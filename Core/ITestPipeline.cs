@@ -23,10 +23,8 @@ public interface ITestPipeline<TSUT, TResult>
     /// </summary>
     /// <typeparam name="TSubject"></typeparam>
     /// <param name="subject"></param>
-    /// <param name="subjectExpr"></param>
     /// <returns>The provided argument is returned, allowing assertions on the provided arguments to be chained</returns>
-    TSubject Then<TSubject>(TSubject subject,
-        [CallerArgumentExpression(nameof(subject))] string subjectExpr = null);
+    TSubject Then<TSubject>(TSubject subject);
 
     /// <summary>
     /// Run the test-pipeline and verify mock invocation.

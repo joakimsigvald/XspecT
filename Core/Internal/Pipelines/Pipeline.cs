@@ -15,15 +15,10 @@ internal class Pipeline<TSUT, TResult>
     private TestResult<TResult> _result;
     private readonly Arranger _arranger = new();
     private TSUT _sut;
-    private string _subjectExpr;
 
     public bool HasRun => _result != null;
 
-    public ITestResult<TResult> Then(string subjectExpr = null)
-    {
-        _subjectExpr = subjectExpr;
-        return TestResult;
-    }
+    public ITestResult<TResult> Then() => TestResult;
 
     public IAndVerify<TResult> Then<TService>(Expression<Action<TService>> expression, string expressionExpr = null) 
         where TService : class
@@ -156,7 +151,7 @@ internal class Pipeline<TSUT, TResult>
     private TestResult<TResult> Run()
     {
         Arrange();
-        return _actor.Execute(_sut, _context, _subjectExpr);
+        return _actor.Execute(_sut, _context);
     }
 
     private void AssertHasNotRun()

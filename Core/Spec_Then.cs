@@ -18,13 +18,10 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// </summary>
     /// <typeparam name="TSubject"></typeparam>
     /// <param name="subject"></param>
-    /// <param name="subjectExpr"></param>
     /// <returns>the given subject</returns>
-    public TSubject Then<TSubject>(
-        TSubject subject,
-        [CallerArgumentExpression(nameof(subject))] string subjectExpr = null)
+    public TSubject Then<TSubject>(TSubject subject)
     {
-        _pipeline.Then(subjectExpr);
+        _pipeline.Then();
         return subject;
     }
 

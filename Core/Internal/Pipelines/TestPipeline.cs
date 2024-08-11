@@ -10,9 +10,7 @@ internal abstract class TestPipeline<TSUT, TResult, TParent> where TParent : Spe
     protected readonly TParent Parent;
     protected TestPipeline(TParent parent) => Parent = parent;
     public ITestResult<TResult> Then() => Parent.Then();
-    public TSubject Then<TSubject>(
-        TSubject subject, [CallerArgumentExpression(nameof(subject))] string subjectExpr = null)
-        => Parent.Then(subject, subjectExpr);
+    public TSubject Then<TSubject>(TSubject subject) => Parent.Then(subject);
 
     public IAndVerify<TResult> Then<TService>(
         Expression<Action<TService>> expression,

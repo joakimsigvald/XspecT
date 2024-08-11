@@ -17,7 +17,7 @@ public class WhenGivenArrayOfModels : Spec<MyService, MyModel[]>
              and IMyRepository.GetModels() returns a MyModel[]
             When GetModels()
             Then Result is two MyModel
-             and Result.First().Name is the string
+             and Result's First().Name is the string
             """);
     }
 
