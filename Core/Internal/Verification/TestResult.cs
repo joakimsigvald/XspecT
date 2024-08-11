@@ -3,6 +3,7 @@ using System.Linq.Expressions;
 using XspecT.Continuations;
 using XspecT.Internal.TestData;
 using Xunit.Sdk;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace XspecT.Internal.Verification;
 
@@ -60,6 +61,7 @@ internal class TestResult<TResult> : ITestResult<TResult>
 
     public IAndThen<TResult> DoesNotThrow()
     {
+        Specification.AddAssert();
         AssertNoError<Exception>();
         return And();
     }

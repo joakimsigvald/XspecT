@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using Moq;
+using System.Runtime.CompilerServices;
 
 namespace XspecT.Continuations;
 
@@ -55,7 +56,10 @@ public interface IGivenTestPipeline<TSUT, TResult> : ITestPipeline<TSUT, TResult
     /// Provide a default value as a lambda, to be evaluated during test execution AFTER any subsequently added arrangement.
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
-    /// <param name="value"></param>
+    /// <param name="defaultValue"></param>
+    /// <param name="defaultValueExpr"></param>
     /// <returns></returns>
-    IGivenTestPipeline<TSUT, TResult> And<TValue>(TValue value);
+    IGivenTestPipeline<TSUT, TResult> And<TValue>(
+        TValue defaultValue,
+        [CallerArgumentExpression(nameof(defaultValue))] string defaultValueExpr = null);
 }

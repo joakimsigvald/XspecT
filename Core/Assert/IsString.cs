@@ -7,7 +7,7 @@ namespace XspecT.Assert;
 /// </summary>
 public class IsString : Constraint<IsStringContinuation, string>
 {
-    internal IsString(string actual) : base(actual) { }
+    internal IsString(string actual, string actualExpr = null) : base(actual, actualExpr) { }
 
     /// <summary>
     /// Asserts that the string is equivalent to expected, ignoring casing and leading or trailing whitespace
@@ -109,6 +109,7 @@ public class IsString : Constraint<IsStringContinuation, string>
     [CustomAssertion]
     public ContinueWith<IsStringContinuation> NotNullOrEmpty()
     {
+        AddAssert([CustomAssertion] () => _actual.Should().NotBeNullOrEmpty(), "is not null or empty");
         _actual.Should().NotBeNullOrEmpty();
         return And();
     }

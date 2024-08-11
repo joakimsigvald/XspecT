@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using FluentAssertions.Common;
+using System.Runtime.CompilerServices;
 using XspecT.Internal;
 using XspecT.Internal.TestData;
 using Xunit.Sdk;
@@ -63,6 +64,9 @@ public static class Specification
 
     internal static void AddMockReturnsDefault<TService>(string returnsExpr)
          => Builder.Add(() => Builder.AddMockReturnsDefault<TService>(returnsExpr));
+
+    internal static void AddAssert([CallerMemberName] string assertName = null)
+         => Builder.Add(() => Builder.AddAssert(assertName));
 
     private static SpecificationBuilder Builder => _builder ??= new();
 }

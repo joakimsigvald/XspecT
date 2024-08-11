@@ -223,11 +223,15 @@ public static class AssertionExtensions
     /// <typeparam name="TContinuation"></typeparam>
     /// <param name="_"></param>
     /// <param name="actual"></param>
+    /// <param name="actualExpr"></param>
     /// <returns></returns>
     [CustomAssertion]
-    public static TActual And<TActual, TContinuation>(this ContinueWith<TContinuation> _, TActual actual)
+    public static TActual And<TActual, TContinuation>(
+        this ContinueWith<TContinuation> _, 
+        TActual actual,
+        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
     {
-        Specification.AddThen();
+        Specification.AddThen(actualExpr);
         return actual;
     }
 }

@@ -23,9 +23,17 @@ public class WhenGivenArrayOfModels : Spec<MyService, MyModel[]>
 
     [Fact]
     public void GivenDefaultEnumerableProvided_CanGetTaskOfEnumerable()
-        => When(_ => _.GetModelsAsync())
-        .Given<IMyRepository>().Returns(An<IEnumerable<MyModel>>)
-        .Then().DoesNotThrow();
+    {
+        When(_ => _.GetModelsAsync())
+            .Given<IMyRepository>().Returns(An<IEnumerable<MyModel>>)
+            .Then().DoesNotThrow();
+        VerifyDescription(
+            """
+            Given IMyRepository returns an IEnumerable<MyModel>
+            When GetModelsAsync()
+            Then does not throw
+            """);
+    }
 
     [Fact]
     public void GivenDefaultEnumerableNotProvided_WhenGetTaskOfEnumerable_ThrowSetupFailed()

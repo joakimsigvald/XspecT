@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using Moq;
+using System.Runtime.CompilerServices;
 using XspecT.Continuations;
 
 namespace XspecT.Internal.Pipelines;
@@ -74,9 +75,13 @@ internal class GivenTestPipeline<TSUT, TResult>
     public IGivenTestPipeline<TSUT, TResult> And<TValue>(
         Func<TValue> defaultValue,
         [CallerArgumentExpression(nameof(defaultValue))] string defaultValueExpr = null)
-        => Parent.Given(defaultValue, defaultValueExpr);
+        => Given(defaultValue, defaultValueExpr);
 
-    public IGivenTestPipeline<TSUT, TResult> And<TValue>(TValue value) => Given(value);
+    public IGivenTestPipeline<TSUT, TResult> And<TValue>(
+        TValue defaultValue, 
+        [CallerArgumentExpression(nameof(defaultValue))] string defaultValueExpr = null) 
+        => Given(defaultValue, defaultValueExpr);
+
     public IGivenServiceContinuation<TSUT, TResult, TService> And<TService>() where TService : class => Given<TService>();
     public IGivenContinuation<TSUT, TResult> And() => Given();
 }

@@ -79,6 +79,8 @@ internal class SpecificationBuilder
 
     internal void AddTap(string expr) => AddWord($"tap({expr})");
 
+    internal void AddAssert(string assertName) => AddWord(assertName.AsWords());
+
     private string GetMockName<TService>(char binder)
     {
         var nextMockSetup = NameOf<TService>();

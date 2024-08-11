@@ -149,15 +149,17 @@ public static partial class ExpressionParser
     {
         description = null;
         var match = OneArgLambdaRegex().Match(expr);
-        if (!match.Success)
+        if (!match.Success || match.Groups.Count != 4)
             return false;
 
         var objArg = match.Groups[1].Value;
         var objRef = match.Groups[2].Value;
-        if (objArg != objRef)
-            return false;
-
-        description = ParseCall(match.Groups[3].Value);
+        var call = match.Groups[3].Value;
+        if (objArg == objRef)
+            description = ParseCall(call);
+        else if (objArg == "_")
+            description = $"{objRef}.{ParseCall(call)}";
+        else return false;
         return true;
     }
 
@@ -182,7 +184,7 @@ public static partial class ExpressionParser
         if (!match.Success)
             return false;
 
-        description = $"\"{match.Groups[1].Value}\"" ;
+        description = $"\"{match.Groups[1].Value}\"";
         return true;
     }
 
