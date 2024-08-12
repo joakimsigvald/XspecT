@@ -17,19 +17,23 @@ public static partial class ExpressionParser
     {
         if (string.IsNullOrEmpty(expr))
             return expr;
-        if (TryParseMentionTypeExpression(expr, out string description))
+        if (TryParseMentionType(expr, out string description))
             return description;
-        if (TryParseMentionValueExpression(expr, out description))
+        if (TryParseMentionValue(expr, out description))
             return description;
-        if (TryParseAssignmentExpression(expr, out description))
+        if (TryParseAssignmentLambda(expr, out description))
             return description;
-        if (TryParseIndexedAssignmentExpression(expr, out description))
+        if (TryParseIndexedAssignment(expr, out description))
             return description;
-        if (TryParseZeroArgLambdaExpression(expr, out description))
+        if (TryParseZeroArgLambda(expr, out description))
             return description;
-        if (TryParseStringExpression(expr, out description))
+        if (TryParseString(expr, out description))
             return description;
-        if (TryParseMethodCallExpression(expr, out description))
+        if (TryParseMethodCall(expr, out description))
+            return description;
+        if (TryParseWith(expr, out description))
+            return description;
+        if (TryParseAssignment(expr, out description))
             return description;
         return expr;
     }
@@ -45,7 +49,7 @@ public static partial class ExpressionParser
             return expr;
         if (TryParseOneArgLambdaInstanceMethodExpression(expr, out string description))
             return description;
-        if (TryParseMethodCallExpression(expr, out description))
+        if (TryParseMethodCall(expr, out description))
             return description;
         if (TryParseOneArgLambdaValueExpression(expr, out description))
             return description;
@@ -83,7 +87,7 @@ public static partial class ExpressionParser
     private static bool IsThenExpr(string expr)
         => ThenRegex().Match(expr).Success;
 
-    private static bool TryParseMentionTypeExpression(string expr, out string description)
+    private static bool TryParseMentionType(string expr, out string description)
     {
         description = null;
         var match = MentionTypeRegex().Match(expr);
@@ -106,7 +110,7 @@ public static partial class ExpressionParser
         bool HasDrilldown() => continuation.StartsWith('.');
     }
 
-    private static bool TryParseMentionValueExpression(string expr, out string description)
+    private static bool TryParseMentionValue(string expr, out string description)
     {
         description = null;
         var match = MentionValueRegex().Match(expr);
@@ -119,18 +123,32 @@ public static partial class ExpressionParser
         return true;
     }
 
-    private static bool TryParseAssignmentExpression(string expr, out string description)
+    private static bool TryParseAssignmentLambda(string expr, out string description)
+    {
+        description = null;
+        var match = AssignmentLambdaRegex().Match(expr);
+        if (!match.Success)
+            return false;
+        var property = match.Groups[3].Value;
+        var value = match.Groups[4].Value;
+
+        description = $"{property} = {value.ParseValue()}";
+        return true;
+    }
+
+    private static bool TryParseAssignment(string expr, out string description)
     {
         description = null;
         var match = AssignmentRegex().Match(expr);
         if (!match.Success)
             return false;
-
-        description = $"{match.Groups[3].Value} = {ParseValue(match.Groups[4].Value)}";
+        var property = match.Groups[1].Value;
+        var value = match.Groups[2].Value;
+        description = $"{property} = {value.ParseValue()}";
         return true;
     }
 
-    private static bool TryParseIndexedAssignmentExpression(string expr, out string description)
+    private static bool TryParseIndexedAssignment(string expr, out string description)
     {
         description = null;
         var match = IndexedAssignmentRegex().Match(expr);
@@ -148,7 +166,7 @@ public static partial class ExpressionParser
         return true;
     }
 
-    private static bool TryParseZeroArgLambdaExpression(string expr, out string description)
+    private static bool TryParseZeroArgLambda(string expr, out string description)
     {
         description = null;
         var match = ZeroArgLambdaRegex().Match(expr);
@@ -188,7 +206,7 @@ public static partial class ExpressionParser
         return true;
     }
 
-    private static bool TryParseMethodCallExpression(string expr, out string description)
+    private static bool TryParseMethodCall(string expr, out string description)
     {
         description = null;
         var match = MethodCallRegex().Match(expr);
@@ -202,7 +220,39 @@ public static partial class ExpressionParser
         return true;
     }
 
-    private static bool TryParseStringExpression(string expr, out string description)
+    private static bool TryParseWith(string expr, out string description)
+    {
+        description = null;
+        var match = WithLambdaRegex().Match(expr);
+        if (!match.Success)
+            return false;
+
+        var objArg = match.Groups[1].Value;
+        var objRef = match.Groups[2].Value;
+        if (objArg != objRef)
+            return false;
+        var transform = match.Groups[3].Value.Trim();
+        description = transform.ParseValue();
+        return true;
+    }
+
+    private static bool TryParseAssingment(string expr, out string description)
+    {
+        description = null;
+        var match = WithLambdaRegex().Match(expr);
+        if (!match.Success)
+            return false;
+
+        var objArg = match.Groups[1].Value;
+        var objRef = match.Groups[2].Value;
+        if (objArg != objRef)
+            return false;
+        var transform = match.Groups[3].Value;
+        description = transform.ParseValue();
+        return true;
+    }
+
+    private static bool TryParseString(string expr, out string description)
     {
         description = null;
         var match = StringRegex().Match(expr);
@@ -220,6 +270,9 @@ public static partial class ExpressionParser
     private static partial Regex MentionValueRegex();
 
     [GeneratedRegex(@"^(\w+)\s*=>\s*(\w+)\.(\w+)\s*=\s*(.+)$")]
+    private static partial Regex AssignmentLambdaRegex();
+
+    [GeneratedRegex(@"^(\w+)\s*=\s+(.+)$")]
     private static partial Regex AssignmentRegex();
 
     [GeneratedRegex(@"^\((\w+),\s*\w+\)\s*=>\s*(\w+)\.(\w+)\s*=\s*(.+)$")]
@@ -236,6 +289,9 @@ public static partial class ExpressionParser
 
     [GeneratedRegex(@"^((?:new\s+)?\w+)\((.+)\)$")]
     private static partial Regex MethodCallRegex();
+
+    [GeneratedRegex(@"^(\w+)\s*=>\s*(\w+)\s*with\s*\{(.+)\}$")]
+    private static partial Regex WithLambdaRegex();
 
     [GeneratedRegex("^[$@]*\"(.+)\"")]
     private static partial Regex StringRegex();

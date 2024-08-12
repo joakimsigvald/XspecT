@@ -1,6 +1,4 @@
-﻿using XspecT.Test.AutoMock;
-
-namespace XspecT.Test.ExpressionParser;
+﻿namespace XspecT.Test.ExpressionParser;
 
 public class WhenParseValue : Spec<string>
 {
@@ -17,6 +15,7 @@ public class WhenParseValue : Spec<string>
     [InlineData("new MyComponent(An<IMyLogger>(), An<int>())", "new MyComponent(an IMyLogger, an int)")]
     [InlineData("A<MyValue<int>>()", "a MyValue<int>")]
     [InlineData("A<(int, string, int, float)>", "a (int, string, int, float)")]
+    [InlineData("i => $\"{2 * i}\"", "i => $\"{2 * i}\"")]
     public void ThenReturnDescription(string valueExpr, string expected)
         => When(_ => valueExpr.ParseValue())
         .Then().Result.Is(expected);

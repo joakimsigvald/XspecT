@@ -29,10 +29,13 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="transform"></param>
+    /// <param name="transformExpr"></param>
     /// <returns></returns>
-    public IGivenTestPipeline<TSUT, TResult> Given<TValue>(Func<TValue, TValue> transform)
+    public IGivenTestPipeline<TSUT, TResult> Given<TValue>(
+        Func<TValue, TValue> transform,
+        [CallerArgumentExpression(nameof(transform))] string transformExpr = null)
     {
-        _pipeline.SetDefault(transform);
+        _pipeline.SetDefault(transform, transformExpr);
         return new GivenTestPipeline<TSUT, TResult>(this);
     }
 

@@ -1,6 +1,7 @@
 ﻿using Moq;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 using XspecT.Continuations;
 using XspecT.Internal.TestData;
 using XspecT.Internal.Verification;
@@ -49,10 +50,12 @@ internal class Pipeline<TSUT, TResult>
         _context.SetDefault(setup);
     }
 
-    internal void SetDefault<TValue>(Func<TValue, TValue> setup)
+    internal void SetDefault<TValue>(
+        Func<TValue, TValue> transform, string transformExpr = null)
     {
+        Specification.AddGivenSetup<TValue>(transformExpr);
         AssertHasNotRun();
-        _context.SetDefault(setup);
+        _context.SetDefault(transform);
     }
 
     internal void SetDefault<TValue>(TValue defaultValue, ApplyTo applyTo, string defaultValuesExpr)
