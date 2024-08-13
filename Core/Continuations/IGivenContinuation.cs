@@ -1,5 +1,4 @@
-﻿using Moq;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 
 namespace XspecT.Continuations;
 
@@ -65,32 +64,46 @@ public interface IGivenContinuation<TSUT, TResult>
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
+    /// <param name="setupExpr"></param>
     /// <returns></returns>
-    IGivenTestPipeline<TSUT, TResult> Default<TValue>(Action<TValue> setup) where TValue : class;
+    IGivenTestPipeline<TSUT, TResult> Default<TValue>(
+        Action<TValue> setup,
+        [CallerArgumentExpression(nameof(setup))] string setupExpr = null)
+        where TValue : class;
 
     /// <summary>
     /// Provide a default transform, that will be applied in all mocks and auto-generated test-data.
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="transform"></param>
+    /// <param name="transformExpr"></param>
     /// <returns></returns>
-    IGivenTestPipeline<TSUT, TResult> Default<TValue>(Func<TValue, TValue> transform);
+    IGivenTestPipeline<TSUT, TResult> Default<TValue>(
+        Func<TValue, TValue> transform,
+        [CallerArgumentExpression(nameof(transform))] string transformExpr = null);
 
     /// <summary>
     /// Provide a value of a given type, that can be mentioned in the test pipeline as A, An, The, or TheFirst.
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="value"></param>
+    /// <param name="valuExpr"></param>
     /// <returns></returns>
-    IGivenTestPipeline<TSUT, TResult> A<TValue>(TValue value);
+    IGivenTestPipeline<TSUT, TResult> A<TValue>(
+        TValue value,
+        [CallerArgumentExpression(nameof(value))] string valuExpr = null);
 
     /// <summary>
     /// Provide setup for a value of a given type, that can be mentioned in the test pipeline as A, An, The, or TheFirst.
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
+    /// <param name="setupExpr"></param>
     /// <returns></returns>
-    IGivenTestPipeline<TSUT, TResult> A<TValue>(Action<TValue> setup) where TValue : class;
+    IGivenTestPipeline<TSUT, TResult> A<TValue>(
+        Action<TValue> setup,
+        [CallerArgumentExpression(nameof(setup))] string setupExpr = null)
+        where TValue : class;
 
     /// <summary>
     /// Provide transform for a value of a given type, that can be mentioned in the test pipeline as A, An, The, or TheFirst.
@@ -108,118 +121,168 @@ public interface IGivenContinuation<TSUT, TResult>
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="value"></param>
+    /// <param name="valuExpr"></param>
     /// <returns></returns>
-    IGivenTestPipeline<TSUT, TResult> An<TValue>(TValue value);
+    IGivenTestPipeline<TSUT, TResult> An<TValue>(
+        TValue value,
+        [CallerArgumentExpression(nameof(value))] string valuExpr = null);
 
     /// <summary>
     /// Provide setup for a value of a given type, that can be mentioned in the test pipeline as A, An, The, or TheFirst.
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
+    /// <param name="setupExpr"></param>
     /// <returns></returns>
-    IGivenTestPipeline<TSUT, TResult> An<TValue>(Action<TValue> setup) where TValue : class;
+    IGivenTestPipeline<TSUT, TResult> An<TValue>(
+        Action<TValue> setup,
+        [CallerArgumentExpression(nameof(setup))] string setupExpr = null)
+        where TValue : class;
 
     /// <summary>
     /// Provide transform for a value of a given type, that can be mentioned in the test pipeline as A, An, The, or TheFirst.
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="transform"></param>
+    /// <param name="transformExpr"></param>
     /// <returns></returns>
-    IGivenTestPipeline<TSUT, TResult> An<TValue>(Func<TValue, TValue> transform);
+    IGivenTestPipeline<TSUT, TResult> An<TValue>(
+        Func<TValue, TValue> transform,
+        [CallerArgumentExpression(nameof(transform))] string transformExpr = null);
 
     /// <summary>
     /// Provide a second value of a given type, that can be mentioned in the test pipeline as ASecond or TheSecond.
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="value"></param>
+    /// <param name="valueExpr"></param>
     /// <returns></returns>
-    IGivenTestPipeline<TSUT, TResult> ASecond<TValue>(TValue value);
+    IGivenTestPipeline<TSUT, TResult> ASecond<TValue>(
+        TValue value,
+        [CallerArgumentExpression(nameof(value))] string valueExpr = null);
 
     /// <summary>
     /// Provide setup for a second value of a given type, that can be mentioned in the test pipeline as ASecond or TheSecond.
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
+    /// <param name="setupExpr"></param>
     /// <returns></returns>
-    IGivenTestPipeline<TSUT, TResult> ASecond<TValue>(Action<TValue> setup) where TValue : class;
+    IGivenTestPipeline<TSUT, TResult> ASecond<TValue>(
+        Action<TValue> setup,
+        [CallerArgumentExpression(nameof(setup))] string setupExpr = null)
+        where TValue : class;
 
     /// <summary>
     /// Provide transform for a second value of a given type, that can be mentioned in the test pipeline as ASecond or TheSecond.
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="transform"></param>
+    /// <param name="transformExpr"></param>
     /// <returns></returns>
-    IGivenTestPipeline<TSUT, TResult> ASecond<TValue>(Func<TValue, TValue> transform);
+    IGivenTestPipeline<TSUT, TResult> ASecond<TValue>(
+        Func<TValue, TValue> transform,
+        [CallerArgumentExpression(nameof(transform))] string transformExpr = null);
 
     /// <summary>
     /// Provide a third value of a given type, that can be mentioned in the test pipeline as AThird or TheThird.
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="value"></param>
+    /// <param name="valuExpr"></param>
     /// <returns></returns>
-    IGivenTestPipeline<TSUT, TResult> AThird<TValue>(TValue value);
+    IGivenTestPipeline<TSUT, TResult> AThird<TValue>(
+        TValue value,
+        [CallerArgumentExpression(nameof(value))] string valuExpr = null);
 
     /// <summary>
     /// Provide setup for a third value of a given type, that can be mentioned in the test pipeline as AThird or TheThird.
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
+    /// <param name="setupExpr"></param>
     /// <returns></returns>
-    IGivenTestPipeline<TSUT, TResult> AThird<TValue>(Action<TValue> setup) where TValue : class;
+    IGivenTestPipeline<TSUT, TResult> AThird<TValue>(
+        Action<TValue> setup,
+        [CallerArgumentExpression(nameof(setup))] string setupExpr = null)
+        where TValue : class;
 
     /// <summary>
     /// Provide transform for a third value of a given type, that can be mentioned in the test pipeline as AThird or TheThird.
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="transform"></param>
+    /// <param name="transformExpr"></param>
     /// <returns></returns>
-    IGivenTestPipeline<TSUT, TResult> AThird<TValue>(Func<TValue, TValue> transform);
+    IGivenTestPipeline<TSUT, TResult> AThird<TValue>(
+        Func<TValue, TValue> transform,
+        [CallerArgumentExpression(nameof(transform))] string transformExpr = null);
 
     /// <summary>
     /// Provide a fourth value of a given type, that can be mentioned in the test pipeline as AFourth or TheFourth.
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="value"></param>
+    /// <param name="valuExpr"></param>
     /// <returns></returns>
-    IGivenTestPipeline<TSUT, TResult> AFourth<TValue>(TValue value);
+    IGivenTestPipeline<TSUT, TResult> AFourth<TValue>(
+        TValue value,
+        [CallerArgumentExpression(nameof(value))] string valuExpr = null);
 
     /// <summary>
     /// Provide setup for a fourth value of a given type, that can be mentioned in the test pipeline as AFourth or TheFourth.
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
+    /// <param name="setupExpr"></param>
     /// <returns></returns>
-    IGivenTestPipeline<TSUT, TResult> AFourth<TValue>(Action<TValue> setup) where TValue : class;
+    IGivenTestPipeline<TSUT, TResult> AFourth<TValue>(
+        Action<TValue> setup,
+        [CallerArgumentExpression(nameof(setup))] string setupExpr = null)
+        where TValue : class;
 
     /// <summary>
     /// Provide transform for a fourth value of a given type, that can be mentioned in the test pipeline as AFourth or TheFourth.
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="transform"></param>
+    /// <param name="transformExpr"></param>
     /// <returns></returns>
-    IGivenTestPipeline<TSUT, TResult> AFourth<TValue>(Func<TValue, TValue> transform);
+    IGivenTestPipeline<TSUT, TResult> AFourth<TValue>(
+        Func<TValue, TValue> transform,
+        [CallerArgumentExpression(nameof(transform))] string transformExpr = null);
 
     /// <summary>
     /// Provide a fifth value of a given type, that can be mentioned in the test pipeline as AFifth or TheFifth.
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="value"></param>
+    /// <param name="valuExpr"></param>
     /// <returns></returns>
-    IGivenTestPipeline<TSUT, TResult> AFifth<TValue>(TValue value);
+    IGivenTestPipeline<TSUT, TResult> AFifth<TValue>(
+        TValue value,
+        [CallerArgumentExpression(nameof(value))] string valuExpr = null);
 
     /// <summary>
     /// Provide setup for a fifth value of a given type, that can be mentioned in the test pipeline as AFifth or TheFifth.
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
+    /// <param name="setupExpr"></param>
     /// <returns></returns>
-    IGivenTestPipeline<TSUT, TResult> AFifth<TValue>(Action<TValue> setup) where TValue : class;
+    IGivenTestPipeline<TSUT, TResult> AFifth<TValue>(
+        Action<TValue> setup,
+        [CallerArgumentExpression(nameof(setup))] string setupExpr = null)
+        where TValue : class;
 
     /// <summary>
     /// Provide transform for a fifth value of a given type, that can be mentioned in the test pipeline as AFifth or TheFifth.
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="transform"></param>
+    /// <param name="transformExpr"></param>
     /// <returns></returns>
-    IGivenTestPipeline<TSUT, TResult> AFifth<TValue>(Func<TValue, TValue> transform);
+    IGivenTestPipeline<TSUT, TResult> AFifth<TValue>(
+        Func<TValue, TValue> transform,
+        [CallerArgumentExpression(nameof(transform))] string transformExpr = null);
 }

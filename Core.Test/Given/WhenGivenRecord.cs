@@ -59,8 +59,8 @@ public class WhenGivenRecord : Spec<MyService, MyRecord>
             .Then().Result.Name.Does().StartWith(The<string>()).And.EndWith(TheSecond<string>());
         VerifyDescription(
             """
-            Given a MyRecord { Name = _.Name + ASecond<string>() }
-             and a MyRecord { Name = a string }
+            Given a MyRecord { Name = a string }
+             and a MyRecord { Name = _.Name + ASecond<string>() }
             When MyService.Echo(the MyRecord)
             Then Result.Name starts with the string and ends with the second string
             """);
