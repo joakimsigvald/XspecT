@@ -11,7 +11,7 @@ public abstract record IsNullableNumerical<TActual, TConstrain> : Constraint<TCo
     where TActual : struct, IComparable<TActual>
     where TConstrain : IsNullableNumerical<TActual, TConstrain>
 {
-    internal IsNullableNumerical(TActual? actual) : base(actual, "") { }
+    internal IsNullableNumerical(TActual? actual, string actualExpr = null) : base(actual, actualExpr, "is") { }
 
     /// <summary>
     /// actual.Should().NotBe(expected)

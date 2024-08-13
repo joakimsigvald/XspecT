@@ -6,16 +6,35 @@ public class WhenGivenSetupValueWithDefault : Spec<MyService, int>
 
     [Fact]
     public void GivenDefaultNotOverridden()
-        => Given(_defaultId)
-        .And<IMyRepository>().That(_ => _.GetNextId()).Returns(() => ASecond<int>())
-        .When(_ => _.GetNextId())
-        .Then().Result.Is(_defaultId);
+    {
+        Given(_defaultId)
+            .And<IMyRepository>().That(_ => _.GetNextId()).Returns(() => ASecond<int>())
+            .When(_ => _.GetNextId())
+            .Then().Result.Is(_defaultId);
+        VerifyDescription(
+            """
+            Given _defaultId
+             and IMyRepository.GetNextId() returns a second int
+            When GetNextId()
+            Then Result is _defaultId
+            """);
+    }
 
     [Fact]
     public void GivenDefaultIsOverridden()
-        => Given<IMyRepository>().That(_ => _.GetNextId()).Returns(() => ASecond<int>())
-        .When(_ => _.GetNextId())
-        .Given(_defaultId)
-        .And().ASecond(2)
-        .Then().Result.Is(2);
+    {
+        Given<IMyRepository>().That(_ => _.GetNextId()).Returns(() => ASecond<int>())
+            .When(_ => _.GetNextId())
+            .Given(_defaultId)
+            .And().ASecond(2)
+            .Then().Result.Is(2);
+        VerifyDescription(
+            """
+            Given _defaultId
+             and a second int { 2 }
+             and IMyRepository.GetNextId() returns a second int
+            When GetNextId()
+            Then Result is 2
+            """);
+    }
 }

@@ -8,7 +8,7 @@ namespace XspecT.Assert;
 /// </summary>
 public record DoesString : Constraint<DoesString, string>
 {
-    internal DoesString(string actual, string actualExpr = null) : base(actual, actualExpr) { }
+    internal DoesString(string actual, string actualExpr = null) : base(actual, actualExpr, "does") { }
 
     /// <summary>
     /// Asserts that the string contains the expected string
@@ -17,7 +17,7 @@ public record DoesString : Constraint<DoesString, string>
     public ContinueWith<DoesString> Contain(
         string expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().Contain(expected), "contains", expectedExpr);
+        AddAssert([CustomAssertion] () => Actual.Should().Contain(expected), expectedExpr, "contains");
         Actual.Should().Contain(expected);
         return And();
     }
@@ -42,7 +42,7 @@ public record DoesString : Constraint<DoesString, string>
     public ContinueWith<DoesString> StartWith(
         string expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().StartWith(expected), "starts with", expectedExpr);
+        AddAssert([CustomAssertion] () => Actual.Should().StartWith(expected), expectedExpr, "starts with");
         Actual.Should().StartWith(expected);
         return And();
     }
@@ -57,7 +57,7 @@ public record DoesString : Constraint<DoesString, string>
     public ContinueWith<DoesString> EndWith(
         string expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().EndWith(expected), "ends with", expectedExpr);
+        AddAssert([CustomAssertion] () => Actual.Should().EndWith(expected), expectedExpr, "ends with");
         return And();
     }
 }

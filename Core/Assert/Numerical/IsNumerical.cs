@@ -12,7 +12,7 @@ public abstract record IsNumerical<TConstraint, TActual> : Constraint<TConstrain
     where TConstraint : IsNumerical<TConstraint, TActual>
     where TActual : struct, IComparable<TActual>
 {
-    internal IsNumerical(TActual actual, string actualExpr = null) : base(actual, actualExpr) { }
+    internal IsNumerical(TActual actual, string actualExpr = null) : base(actual, actualExpr, "is") { }
 
     /// <summary>
     /// actual.Should().NotBe(expected)
@@ -20,7 +20,7 @@ public abstract record IsNumerical<TConstraint, TActual> : Constraint<TConstrain
     public ContinueWith<TConstraint> Not(
         TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().NotBe(expected), "is not", expectedExpr);
+        AddAssert([CustomAssertion] () => Actual.Should().NotBe(expected), expectedExpr);
         return And();
     }
 

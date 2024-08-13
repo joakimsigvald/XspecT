@@ -7,7 +7,7 @@ namespace XspecT.Assert.Time;
 /// </summary>
 public record IsNullableDateTime : Constraint<IsNullableDateTime, DateTime?>
 {
-    internal IsNullableDateTime(DateTime? actual) : base(actual, "") { }
+    internal IsNullableDateTime(DateTime? actual, string actualExpr = null) : base(actual, actualExpr, "is") { }
 
     /// <summary>
     /// Asserts that the dateTime is null or not equal to the given value

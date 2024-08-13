@@ -8,7 +8,7 @@ namespace XspecT.Assert;
 /// </summary>
 public record IsObject : Constraint<IsObject, object>
 {
-    internal IsObject(object actual, string actualExpr = null) : base(actual, actualExpr) { }
+    internal IsObject(object actual, string actualExpr = null) : base(actual, actualExpr, "is") { }
 
     /// <summary>
     /// Should().NotBeSameAs(expected)
@@ -16,7 +16,7 @@ public record IsObject : Constraint<IsObject, object>
     public ContinueWith<IsObject> Not(
         object expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().NotBeSameAs(expected), "is not", expectedExpr);
+        AddAssert([CustomAssertion] () => Actual.Should().NotBeSameAs(expected), expectedExpr);
         return And();
     }
 
@@ -25,7 +25,7 @@ public record IsObject : Constraint<IsObject, object>
     /// </summary>
     public ContinueWith<IsObject> Null()
     {
-        AddAssert([CustomAssertion] () => Actual.Should().BeNull(), "is null");
+        AddAssert([CustomAssertion] () => Actual.Should().BeNull());
         Actual.Should().BeNull();
         return And();
     }
@@ -35,7 +35,7 @@ public record IsObject : Constraint<IsObject, object>
     /// </summary>
     public ContinueWith<IsObject> NotNull()
     {
-        AddAssert([CustomAssertion] () => Actual.Should().NotBeNull(), "is not null");
+        AddAssert([CustomAssertion] () => Actual.Should().NotBeNull());
         return And();
     }
 

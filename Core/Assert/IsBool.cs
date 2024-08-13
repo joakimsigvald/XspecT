@@ -7,7 +7,7 @@ namespace XspecT.Assert;
 /// </summary>
 public record IsBool : Constraint<IsBool, bool>
 {
-    internal IsBool(bool actual) : base(actual, "") { }
+    internal IsBool(bool actual, string actualExpr = null) : base(actual, actualExpr, "is") { }
 
     /// <summary>
     /// actual.Should().BeTrue()

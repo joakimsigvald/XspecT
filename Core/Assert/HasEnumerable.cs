@@ -8,7 +8,7 @@ namespace XspecT.Assert;
 /// </summary>
 public record HasEnumerable<TItem> : Constraint<HasEnumerable<TItem>, IEnumerable<TItem>>
 {
-    internal HasEnumerable(IEnumerable<TItem> actual, string actualExpr) : base(actual, actualExpr) { }
+    internal HasEnumerable(IEnumerable<TItem> actual, string actualExpr) : base(actual, actualExpr, "has") { }
 
     /// <summary>
     /// actual.Should().ContainSingle()
@@ -33,9 +33,9 @@ public record HasEnumerable<TItem> : Constraint<HasEnumerable<TItem>, IEnumerabl
     /// <summary>
     /// actual.Should().HaveCount(expected)
     /// </summary>
-    public ContinueWith<HasEnumerable<TItem>> Count(int expected, [System.Runtime.CompilerServices.CallerArgumentExpression("expected")] string expectedExpr = null)
+    public ContinueWith<HasEnumerable<TItem>> Count(int expected, [System.Runtime.CompilerServices.CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().HaveCount(expected), "has count", expectedExpr);
+        AddAssert([CustomAssertion] () => Actual.Should().HaveCount(expected), expectedExpr);
         Actual.Should().HaveCount(expected);
         return And();
     }

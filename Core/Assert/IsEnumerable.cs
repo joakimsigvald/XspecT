@@ -9,14 +9,14 @@ namespace XspecT.Assert;
 /// <typeparam name="TItem"></typeparam>
 public record IsEnumerable<TItem> : Constraint<IsEnumerable<TItem>, IEnumerable<TItem>>
 {
-    internal IsEnumerable(IEnumerable<TItem> actual, string actualExpr = null) : base(actual, actualExpr) { }
+    internal IsEnumerable(IEnumerable<TItem> actual, string actualExpr = null) : base(actual, actualExpr, "is") { }
 
     /// <summary>
     /// actual.Should().BeEmpty()
     /// </summary>
     public ContinueWith<IsEnumerable<TItem>> Empty()
     {
-        AddAssert([CustomAssertion] () => Actual.Should().BeEmpty(), "is empty");
+        AddAssert([CustomAssertion] () => Actual.Should().BeEmpty());
         Actual.Should().BeEmpty();
         return And();
     }
@@ -51,9 +51,9 @@ public record IsEnumerable<TItem> : Constraint<IsEnumerable<TItem>, IEnumerable<
     /// </summary>
     public ContinueWith<IsEnumerable<TItem>> Not(
         IEnumerable<TItem> expected, 
-        [CallerArgumentExpression("expected")] string expectedExpr = null)
+        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().NotBeSameAs(expected), "is not", expectedExpr);
+        AddAssert([CustomAssertion] () => Actual.Should().NotBeSameAs(expected), expectedExpr);
         return And();
     }
 
@@ -65,9 +65,9 @@ public record IsEnumerable<TItem> : Constraint<IsEnumerable<TItem>, IEnumerable<
     /// <returns>A continuation for making further assertions</returns>
     public ContinueWith<IsEnumerable<TItem>> EqualTo(
         IEnumerable<TItem> expected,
-        [System.Runtime.CompilerServices.CallerArgumentExpression("expected")] string expectedExpr = null)
+        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().BeEquivalentTo(expected), "is equal to", expectedExpr);
+        AddAssert([CustomAssertion] () => Actual.Should().BeEquivalentTo(expected), expectedExpr);
         return And();
     }
 

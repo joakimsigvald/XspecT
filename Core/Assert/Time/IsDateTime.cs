@@ -8,7 +8,7 @@ namespace XspecT.Assert.Time;
 /// </summary>
 public record IsDateTime : Constraint<IsDateTime, DateTime>
 {
-    internal IsDateTime(DateTime actual, string actualExpr = null) : base(actual, actualExpr) { }
+    internal IsDateTime(DateTime actual, string actualExpr = null) : base(actual, actualExpr, "is") { }
 
     /// <summary>
     /// Asserts that the dateTime is not equal to the given value
@@ -19,7 +19,7 @@ public record IsDateTime : Constraint<IsDateTime, DateTime>
     public ContinueWith<IsDateTime> Not(
         DateTime expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().NotBe(expected), "is not", expectedExpr);
+        AddAssert([CustomAssertion] () => Actual.Should().NotBe(expected), expectedExpr);
         return And();
     }
 
