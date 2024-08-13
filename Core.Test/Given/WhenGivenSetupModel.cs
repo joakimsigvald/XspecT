@@ -41,7 +41,7 @@ public class WhenGivenSetupModel : Spec<MyService, MyModel>
     {
         Given<IMyRepository>().That(_ => _.GetModels()).Returns(() => One<MyModel>())
             .When(_ => _.GetModel()) //Unspecified default value
-            .Given().A((MyModel)null)
+            .Given().A((MyModel)null) //First specific model is null
             .Then().Result.Is().NotNull(); //Not the provide null mentioned value
         VerifyDescription(
             """
