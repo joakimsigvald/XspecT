@@ -51,11 +51,11 @@ internal class SpecificationBuilder
         IEnumerable<string> GetWords()
         {
             yield return Given;
-            if (applyTo == ApplyTo.Default)
-                yield return "default";
-            else if (applyTo == ApplyTo.Using)
+            if (applyTo == ApplyTo.Using)
                 yield return "using";
             yield return valueExpr.ParseValue();
+            if (applyTo == ApplyTo.Default)
+                yield return "as default";
         }
     }
 

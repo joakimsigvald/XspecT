@@ -12,7 +12,7 @@ public class WhenGivenUsingAndDefaultValue : Spec<MyWrapper<string>, (string, st
             .Then().Result.Is(("DEF", "ABC"));
         VerifyDescription(
             """
-            Given default "ABC"
+            Given "ABC" as default
              and using "DEF"
             When GetValues(a string)
             Then Result is ("DEF", "ABC")
@@ -28,7 +28,7 @@ public class WhenGivenUsingAndDefaultValue : Spec<MyWrapper<string>, (string, st
         VerifyDescription(
             """
             Given using "DEF"
-             and default "ABC"
+             and "ABC" as default
             When GetValues(a string)
             Then Result is ("DEF", "ABC")
             """);
@@ -48,7 +48,7 @@ public class WhenGivenUsingAndDefaultModel : Spec<MyWrapper<MyModel>, (MyModel, 
             .Then().Result.Is((_second, _first));
         VerifyDescription(
             """
-            Given default _first
+            Given _first as default
              and using _second
             When GetValues(a MyModel)
             Then Result is (_second, _first)
@@ -64,7 +64,7 @@ public class WhenGivenUsingAndDefaultModel : Spec<MyWrapper<MyModel>, (MyModel, 
         VerifyDescription(
             """
             Given using _second
-             and default _first
+             and _first as default
             When GetValues(a MyModel)
             Then Result is (_second, _first)
             """);

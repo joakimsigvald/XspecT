@@ -86,42 +86,93 @@ public class WhenGivenStaticModel : Spec<MyModel>
     [Theory]
     [InlineData("abc", 123)]
     public void GivenDefaultSetupAndSpecificSetup_ThenUseBothSetupsOnTheModel(string name, int id)
-        => Given().Default<MyModel>(_ => _.Name = name).And().A<MyModel>(_ => _.Id = id)
-        .When(_ => The<MyModel>())
-        .Then().Result.Name.Is(name).And(Result).Id.Is(id);
+    {
+        Given().Default<MyModel>(_ => _.Name = name).And().A<MyModel>(_ => _.Id = id)
+            .When(_ => The<MyModel>())
+            .Then().Result.Name.Is(name).And(Result).Id.Is(id);
+        VerifyDescription(
+            """
+            Given MyModel { Name = name }
+             and a MyModel { Id = id }
+            When the MyModel
+            Then Result.Name is name
+             and Result's Id is id
+            """);
+    }
 
     [Theory]
     [InlineData("abc", "def")]
     public void GivenDefaultSetupOverriddenBySpecificSetup_ThenUseSpecificSetupOnTheModel(string defaultName, string name)
-        => Given().Default<MyModel>(_ => _.Name = defaultName).And().A<MyModel>(_ => _.Name = name)
-        .When(_ => The<MyModel>())
-        .Then().Result.Name.Is(name);
+    {
+        Given().Default<MyModel>(_ => _.Name = defaultName).And().A<MyModel>(_ => _.Name = name)
+            .When(_ => The<MyModel>())
+            .Then().Result.Name.Is(name);
+        VerifyDescription(
+            """
+            Given MyModel { Name = defaultName }
+             and a MyModel { Name = name }
+            When the MyModel
+            Then Result.Name is name
+            """);
+    }
 
     [Theory]
     [InlineData("abc")]
     public void GivenSetupSecondModel_ThenApplySetupOn_TheSecondModel(string name)
-        => Given().ASecond<MyModel>(_ => _.Name = name)
-        .When(_ => TheSecond<MyModel>())
-        .Then().Result.Name.Is(name);
+    {
+        Given().ASecond<MyModel>(_ => _.Name = name)
+            .When(_ => TheSecond<MyModel>())
+            .Then().Result.Name.Is(name);
+        VerifyDescription(
+            """
+            Given a second MyModel { Name = name }
+            When the second MyModel
+            Then Result.Name is name
+            """);
+    }
 
     [Theory]
     [InlineData("abc")]
     public void GivenSetupThirdModel_ThenApplySetupOn_TheThirdModel(string name)
-        => Given().AThird<MyModel>(_ => _.Name = name)
-        .When(_ => TheThird<MyModel>())
-        .Then().Result.Name.Is(name);
+    {
+        Given().AThird<MyModel>(_ => _.Name = name)
+            .When(_ => TheThird<MyModel>())
+            .Then().Result.Name.Is(name);
+        VerifyDescription(
+            """
+            Given a third MyModel { Name = name }
+            When the third MyModel
+            Then Result.Name is name
+            """);
+    }
 
     [Theory]
     [InlineData("abc")]
     public void GivenSetupFourthModel_ThenApplySetupOn_TheFourthModel(string name)
-        => Given().AFourth<MyModel>(_ => _.Name = name)
-        .When(_ => TheFourth<MyModel>())
-        .Then().Result.Name.Is(name);
+    {
+        Given().AFourth<MyModel>(_ => _.Name = name)
+            .When(_ => TheFourth<MyModel>())
+            .Then().Result.Name.Is(name);
+        VerifyDescription(
+            """
+            Given a fourth MyModel { Name = name }
+            When the fourth MyModel
+            Then Result.Name is name
+            """);
+    }
 
     [Theory]
     [InlineData("abc")]
     public void GivenSetupFifthModel_ThenApplySetupOn_TheFifthModel(string name)
-        => Given().AFifth<MyModel>(_ => _.Name = name)
-        .When(_ => TheFifth<MyModel>())
-        .Then().Result.Name.Is(name);
+    {
+        Given().AFifth<MyModel>(_ => _.Name = name)
+            .When(_ => TheFifth<MyModel>())
+            .Then().Result.Name.Is(name);
+        VerifyDescription(
+            """
+            Given a fifth MyModel { Name = name }
+            When the fifth MyModel
+            Then Result.Name is name
+            """);
+    }
 }

@@ -5,12 +5,28 @@ public class WhenGivenStaticPrimitive : Spec<string>
     [Theory]
     [InlineData("abc")]
     public void GivenDefaultValue_ThenUseDefault(string value)
-        => Given().Default(value).When(_ => _).Then().Result.Is(value);
+    {
+        Given().Default(value).When(_ => _).Then().Result.Is(value);
+        VerifyDescription(
+            """
+            Given value as default
+            When _
+            Then Result is value
+            """);
+    }
 
     [Theory]
     [InlineData("abc")]
     public void GivenDefaultSetup_ThenUseDefaultSetup(string value)
-        => Given().Default<string>(_ => value).When(_ => _).Then().Result.Is(value);
+    {
+        Given().Default<string>(_ => value).When(_ => _).Then().Result.Is(value);
+        VerifyDescription(
+            """
+            Given value as default
+            When _
+            Then Result is value
+            """);
+    }
 
     [Theory]
     [InlineData("abc", "def")]
