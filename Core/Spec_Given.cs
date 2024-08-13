@@ -113,6 +113,19 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
         return new GivenTestPipeline<TSUT, TResult>(this);
     }
 
+    internal IGivenTestPipeline<TSUT, TResult> Mention<TValue>(
+        Action mention,
+        string mentionExpr,
+        [CallerMemberName] string article = null)
+    {
+        _pipeline.ArrangeFirst(() =>
+        {
+            Specification.AddGiven<TValue>(mentionExpr, article);
+            mention();
+        });
+        return new GivenTestPipeline<TSUT, TResult>(this);
+    }
+
     internal Mock<TService> GetMock<TService>() where TService : class 
         => _pipeline.GetMock<TService>();
 

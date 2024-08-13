@@ -38,9 +38,17 @@ public class WhenGivenRecord : Spec<MyService, MyRecord>
 
     [Fact]
     public void GivenThatSetup_ThenReturnSetupValue()
-        => Given().A<MyRecord>(_ => _ with { Name = A<string>() })
-        .When(_ => MyService.Echo(The<MyRecord>()))
-        .Then().Result.Name.Is(The<string>());
+    {
+        Given().A<MyRecord>(_ => _ with { Name = A<string>() })
+            .When(_ => MyService.Echo(The<MyRecord>()))
+            .Then().Result.Name.Is(The<string>());
+        VerifyDescription(
+            """
+            Given a MyRecord { Name = a string }
+            When MyService.Echo(the MyRecord)
+            Then Result.Name is the string
+            """);
+    }
 
     [Fact]
     public void GivenTwoThatSetup_ThenReturnFirstSetupAppliedToSecondSetup()

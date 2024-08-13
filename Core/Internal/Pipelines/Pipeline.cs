@@ -45,7 +45,7 @@ internal class Pipeline<TSUT, TResult>
     internal void SetDefault<TModel>(
         Action<TModel> setup, string setupExpr = null) where TModel : class
     {
-        Specification.AddGivenSetup<TModel>(setupExpr);
+        Specification.AddGiven<TModel>(setupExpr);
         AssertHasNotRun();
         _context.SetDefault(setup);
     }
@@ -53,7 +53,7 @@ internal class Pipeline<TSUT, TResult>
     internal void SetDefault<TValue>(
         Func<TValue, TValue> transform, string transformExpr = null)
     {
-        Specification.AddGivenSetup<TValue>(transformExpr);
+        Specification.AddGiven<TValue>(transformExpr);
         AssertHasNotRun();
         _context.SetDefault(transform);
     }

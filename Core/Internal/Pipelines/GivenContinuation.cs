@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using Moq;
+using System.Runtime.CompilerServices;
 using XspecT.Continuations;
 using XspecT.Internal.TestData;
 
@@ -44,8 +45,10 @@ internal class GivenContinuation<TSUT, TResult> : IGivenContinuation<TSUT, TResu
          where TValue : class
         => _spec.ArrangeFirst(() => _spec.A(setup));
 
-    public IGivenTestPipeline<TSUT, TResult> A<TValue>(Func<TValue, TValue> transform)
-        => _spec.ArrangeFirst(() => _spec.A(transform));
+    public IGivenTestPipeline<TSUT, TResult> A<TValue>(
+        Func<TValue, TValue> transform,
+        [CallerArgumentExpression(nameof(transform))] string transformExpr = null)
+        => _spec.Mention<TValue>(() => _spec.A(transform), transformExpr);
 
     public IGivenTestPipeline<TSUT, TResult> An<TValue>(TValue value)
         => _spec.ArrangeFirst(() => _spec.A(value));

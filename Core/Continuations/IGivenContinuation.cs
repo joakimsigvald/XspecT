@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using Moq;
+using System.Runtime.CompilerServices;
 
 namespace XspecT.Continuations;
 
@@ -96,8 +97,11 @@ public interface IGivenContinuation<TSUT, TResult>
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="transform"></param>
+    /// <param name="transformExpr"></param>
     /// <returns></returns>
-    IGivenTestPipeline<TSUT, TResult> A<TValue>(Func<TValue, TValue> transform);
+    IGivenTestPipeline<TSUT, TResult> A<TValue>(
+        Func<TValue, TValue> transform,
+        [CallerArgumentExpression(nameof(transform))] string transformExpr = null);
 
     /// <summary>
     /// Provide a value of a given type, that can be mentioned in the test pipeline as A, An, The, or TheFirst.
