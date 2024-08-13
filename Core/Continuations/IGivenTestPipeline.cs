@@ -37,8 +37,11 @@ public interface IGivenTestPipeline<TSUT, TResult> : ITestPipeline<TSUT, TResult
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
+    /// <param name="setupExpr"></param>
     /// <returns></returns>
-    IGivenTestPipeline<TSUT, TResult> And<TValue>(Func<TValue, TValue> setup);
+    IGivenTestPipeline<TSUT, TResult> And<TValue>(
+        Func<TValue, TValue> setup,
+        [CallerArgumentExpression(nameof(setup))] string setupExpr = null) where TValue : class;
 
     /// <summary>
     /// Provide a default value as a lambda, to be evaluated during test execution AFTER any subsequently added arrangement.

@@ -6,7 +6,7 @@ namespace XspecT.Assert;
 /// <summary>
 /// Object that allows an assertions to be made on the provided object
 /// </summary>
-public class IsObject : Constraint<IsObject, object>
+public record IsObject : Constraint<IsObject, object>
 {
     internal IsObject(object actual, string actualExpr = null) : base(actual, actualExpr) { }
 
@@ -16,7 +16,7 @@ public class IsObject : Constraint<IsObject, object>
     public ContinueWith<IsObject> Not(
         object expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => _actual.Should().NotBeSameAs(expected), "is not", expectedExpr);
+        AddAssert([CustomAssertion] () => Actual.Should().NotBeSameAs(expected), "is not", expectedExpr);
         return And();
     }
 
@@ -25,8 +25,8 @@ public class IsObject : Constraint<IsObject, object>
     /// </summary>
     public ContinueWith<IsObject> Null()
     {
-        AddAssert([CustomAssertion] () => _actual.Should().BeNull(), "is null");
-        _actual.Should().BeNull();
+        AddAssert([CustomAssertion] () => Actual.Should().BeNull(), "is null");
+        Actual.Should().BeNull();
         return And();
     }
 
@@ -35,7 +35,7 @@ public class IsObject : Constraint<IsObject, object>
     /// </summary>
     public ContinueWith<IsObject> NotNull()
     {
-        AddAssert([CustomAssertion] () => _actual.Should().NotBeNull(), "is not null");
+        AddAssert([CustomAssertion] () => Actual.Should().NotBeNull(), "is not null");
         return And();
     }
 
@@ -45,7 +45,7 @@ public class IsObject : Constraint<IsObject, object>
     [CustomAssertion]
     public ContinueWith<IsObject> EqualTo(object expected)
     {
-        _actual.Should().Be(expected);
+        Actual.Should().Be(expected);
         return And();
     }
 
@@ -55,7 +55,7 @@ public class IsObject : Constraint<IsObject, object>
     [CustomAssertion]
     public ContinueWith<IsObject> NotEqualTo(object expected)
     {
-        _actual.Should().NotBe(expected);
+        Actual.Should().NotBe(expected);
         return And();
     }
 
@@ -65,7 +65,7 @@ public class IsObject : Constraint<IsObject, object>
     [CustomAssertion]
     public ContinueWith<IsObject> Like(object expected)
     {
-        _actual.Should().BeEquivalentTo(expected);
+        Actual.Should().BeEquivalentTo(expected);
         return And();
     }
 
@@ -75,7 +75,7 @@ public class IsObject : Constraint<IsObject, object>
     [CustomAssertion]
     public ContinueWith<IsObject> NotLike(object expected)
     {
-        _actual.Should().NotBeEquivalentTo(expected);
+        Actual.Should().NotBeEquivalentTo(expected);
         return And();
     }
 
@@ -85,7 +85,7 @@ public class IsObject : Constraint<IsObject, object>
     [CustomAssertion]
     public ContinueWith<IsObject> EquivalentTo(object expected)
     {
-        _actual.Should().BeEquivalentTo(expected);
+        Actual.Should().BeEquivalentTo(expected);
         return And();
     }
 
@@ -95,7 +95,7 @@ public class IsObject : Constraint<IsObject, object>
     [CustomAssertion]
     public ContinueWith<IsObject> NotEquivalentTo(object expected)
     {
-        _actual.Should().NotBeEquivalentTo(expected);
+        Actual.Should().NotBeEquivalentTo(expected);
         return And();
     }
 }

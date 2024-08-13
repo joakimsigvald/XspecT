@@ -84,9 +84,6 @@ public static partial class ExpressionParser
         return $"{prefix}'s {string.Join('.', propNames)}";
     }
 
-    private static bool IsThenExpr(string expr)
-        => ThenRegex().Match(expr).Success;
-
     private static bool TryParseMentionType(string expr, out string description)
     {
         description = null;
@@ -132,18 +129,6 @@ public static partial class ExpressionParser
         var property = match.Groups[3].Value;
         var value = match.Groups[4].Value;
 
-        description = $"{property} = {value.ParseValue()}";
-        return true;
-    }
-
-    private static bool TryParseAssignment(string expr, out string description)
-    {
-        description = null;
-        var match = AssignmentRegex().Match(expr);
-        if (!match.Success)
-            return false;
-        var property = match.Groups[1].Value;
-        var value = match.Groups[2].Value;
         description = $"{property} = {value.ParseValue()}";
         return true;
     }
@@ -232,23 +217,20 @@ public static partial class ExpressionParser
         if (objArg != objRef)
             return false;
         var transform = match.Groups[3].Value.Trim();
-        description = transform.ParseValue();
+        var assignments = transform.Split(',').Select(s => s.Trim().ParseValue());
+        description = string.Join(", ", assignments);
         return true;
     }
 
-    private static bool TryParseAssingment(string expr, out string description)
+    private static bool TryParseAssignment(string expr, out string description)
     {
         description = null;
-        var match = WithLambdaRegex().Match(expr);
+        var match = AssignmentRegex().Match(expr);
         if (!match.Success)
             return false;
-
-        var objArg = match.Groups[1].Value;
-        var objRef = match.Groups[2].Value;
-        if (objArg != objRef)
-            return false;
-        var transform = match.Groups[3].Value;
-        description = transform.ParseValue();
+        var property = match.Groups[1].Value;
+        var value = match.Groups[2].Value;
+        description = $"{property} = {value.ParseValue()}";
         return true;
     }
 
@@ -295,9 +277,6 @@ public static partial class ExpressionParser
 
     [GeneratedRegex("^[$@]*\"(.+)\"")]
     private static partial Regex StringRegex();
-
-    [GeneratedRegex(@"^Then\(.*\)$")]
-    private static partial Regex ThenRegex();
 
     [GeneratedRegex(@"^(?:Then|And)\((.*)\)$")]
     private static partial Regex ThenValueRegex();

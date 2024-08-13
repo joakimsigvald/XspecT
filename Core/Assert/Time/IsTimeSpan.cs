@@ -5,9 +5,9 @@ namespace XspecT.Assert.Time;
 /// <summary>
 /// Object that allows an assertions to be made on the provided TimeSpan
 /// </summary>
-public class IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
+public record IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
 {
-    internal IsTimeSpan(TimeSpan actual) : base(actual) { }
+    internal IsTimeSpan(TimeSpan actual) : base(actual, "") { }
 
     /// <summary>
     /// Asserts that the timeSpan is not equal to the given value
@@ -17,7 +17,7 @@ public class IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
     [CustomAssertion]
     public ContinueWith<IsTimeSpan> Not(TimeSpan unexpected)
     {
-        _actual.Should().NotBe(unexpected);
+        Actual.Should().NotBe(unexpected);
         return And();
     }
 
@@ -29,7 +29,7 @@ public class IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
     [CustomAssertion]
     public ContinueWith<IsTimeSpan> LessThan(TimeSpan expected)
     {
-        _actual.Should().BeLessThan(expected);
+        Actual.Should().BeLessThan(expected);
         return And();
     }
 
@@ -41,7 +41,7 @@ public class IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
     [CustomAssertion]
     public ContinueWith<IsTimeSpan> GreaterThan(TimeSpan expected)
     {
-        _actual.Should().BeGreaterThan(expected);
+        Actual.Should().BeGreaterThan(expected);
         return And();
     }
 
@@ -53,7 +53,7 @@ public class IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
     [CustomAssertion]
     public ContinueWith<IsTimeSpan> NotLessThan(TimeSpan expected)
     {
-        _actual.Should().BeGreaterThanOrEqualTo(expected);
+        Actual.Should().BeGreaterThanOrEqualTo(expected);
         return And();
     }
 
@@ -65,7 +65,7 @@ public class IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
     [CustomAssertion]
     public ContinueWith<IsTimeSpan> NotGreaterThan(TimeSpan expected)
     {
-        _actual.Should().BeLessThanOrEqualTo(expected);
+        Actual.Should().BeLessThanOrEqualTo(expected);
         return And();
     }
 
@@ -78,7 +78,7 @@ public class IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
     [CustomAssertion]
     public ContinueWith<IsTimeSpan> CloseTo(TimeSpan expected, TimeSpan precision)
     {
-        _actual.Should().BeCloseTo(expected, precision);
+        Actual.Should().BeCloseTo(expected, precision);
         return And();
     }
 
@@ -91,7 +91,7 @@ public class IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
     [CustomAssertion]
     public ContinueWith<IsTimeSpan> NotCloseTo(TimeSpan expected, TimeSpan precision)
     {
-        _actual.Should().NotBeCloseTo(expected, precision);
+        Actual.Should().NotBeCloseTo(expected, precision);
         return And();
     }
 
@@ -102,7 +102,7 @@ public class IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
     [CustomAssertion]
     public ContinueWith<IsTimeSpan> Negative()
     {
-        _actual.Should().BeNegative();
+        Actual.Should().BeNegative();
         return And();
     }
 
@@ -113,7 +113,7 @@ public class IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
     [CustomAssertion]
     public ContinueWith<IsTimeSpan> Positive()
     {
-        _actual.Should().BePositive();
+        Actual.Should().BePositive();
         return And();
     }
 
@@ -124,7 +124,7 @@ public class IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
     [CustomAssertion]
     public ContinueWith<IsTimeSpan> NotNegative()
     {
-        _actual.Should().BeGreaterThanOrEqualTo(TimeSpan.Zero);
+        Actual.Should().BeGreaterThanOrEqualTo(TimeSpan.Zero);
         return And();
     }
 
@@ -135,7 +135,7 @@ public class IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
     [CustomAssertion]
     public ContinueWith<IsTimeSpan> NotPositive()
     {
-        _actual.Should().BeLessThanOrEqualTo(TimeSpan.Zero);
+        Actual.Should().BeLessThanOrEqualTo(TimeSpan.Zero);
         return And();
     }
 }

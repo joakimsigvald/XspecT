@@ -5,9 +5,9 @@ namespace XspecT.Assert;
 /// <summary>
 /// Object that allows an assertions to be made on the provided bool
 /// </summary>
-public class IsBool : Constraint<IsBool, bool>
+public record IsBool : Constraint<IsBool, bool>
 {
-    internal IsBool(bool actual) : base(actual) { }
+    internal IsBool(bool actual) : base(actual, "") { }
 
     /// <summary>
     /// actual.Should().BeTrue()
@@ -15,7 +15,7 @@ public class IsBool : Constraint<IsBool, bool>
     [CustomAssertion]
     public ContinueWith<IsBool> True()
     {
-        _actual.Should().BeTrue();
+        Actual.Should().BeTrue();
         return And();
     }
 
@@ -25,7 +25,7 @@ public class IsBool : Constraint<IsBool, bool>
     [CustomAssertion]
     public ContinueWith<IsBool> False()
     {
-        _actual.Should().BeFalse();
+        Actual.Should().BeFalse();
         return And();
     }
 }

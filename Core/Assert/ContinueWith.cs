@@ -4,7 +4,7 @@
 /// Return-value from an assertion, that allows another assertion to be chained to the previous (if it succeeded)
 /// </summary>
 /// <typeparam name="TContinuation"></typeparam>
-public class ContinueWith<TContinuation>
+public class ContinueWith<TContinuation> where TContinuation : Constraint
 {
     private readonly TContinuation _continuation;
     internal ContinueWith(TContinuation continuation) => _continuation = continuation;
@@ -12,10 +12,10 @@ public class ContinueWith<TContinuation>
     /// <summary>
     /// Get a continuation to make the next assertion
     /// </summary>
-    public TContinuation And => _continuation;
+    public TContinuation And => _continuation with { ActualExpr = "and" };
 
     /// <summary>
     /// Get a continuation to make the next assertion
     /// </summary>
-    public TContinuation But => _continuation;
+    public TContinuation But => _continuation with { ActualExpr = "but" };
 }

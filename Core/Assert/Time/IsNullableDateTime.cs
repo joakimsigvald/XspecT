@@ -5,9 +5,9 @@ namespace XspecT.Assert.Time;
 /// <summary>
 /// Object that allows an assertions to be made on the provided nullable DateTime
 /// </summary>
-public class IsNullableDateTime : Constraint<IsNullableDateTime, DateTime?>
+public record IsNullableDateTime : Constraint<IsNullableDateTime, DateTime?>
 {
-    internal IsNullableDateTime(DateTime? actual) : base(actual) { }
+    internal IsNullableDateTime(DateTime? actual) : base(actual, "") { }
 
     /// <summary>
     /// Asserts that the dateTime is null or not equal to the given value
@@ -17,7 +17,7 @@ public class IsNullableDateTime : Constraint<IsNullableDateTime, DateTime?>
     [CustomAssertion]
     public ContinueWith<IsNullableDateTime> Not(DateTime unexpected)
     {
-        _actual.Should().NotBe(unexpected);
+        Actual.Should().NotBe(unexpected);
         return And();
     }
 
@@ -28,12 +28,12 @@ public class IsNullableDateTime : Constraint<IsNullableDateTime, DateTime?>
     [CustomAssertion]
     public ContinueWith<IsDateTime> NotNull()
     {
-        _actual.Should().NotBeNull();
-        return new(new(_actual.Value));
+        Actual.Should().NotBeNull();
+        return new(new(Actual.Value));
     }
 
     /// <summary>
     /// Asserts that the dateTime is null
     /// </summary>
-    [CustomAssertion] public void Null() => _actual.Should().BeNull();
+    [CustomAssertion] public void Null() => Actual.Should().BeNull();
 }

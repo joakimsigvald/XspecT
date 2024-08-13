@@ -6,7 +6,7 @@ namespace XspecT.Assert.Time;
 /// <summary>
 /// Object that allows an assertions to be made on the provided DateTime
 /// </summary>
-public class IsDateTime : Constraint<IsDateTime, DateTime>
+public record IsDateTime : Constraint<IsDateTime, DateTime>
 {
     internal IsDateTime(DateTime actual, string actualExpr = null) : base(actual, actualExpr) { }
 
@@ -19,7 +19,7 @@ public class IsDateTime : Constraint<IsDateTime, DateTime>
     public ContinueWith<IsDateTime> Not(
         DateTime expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => _actual.Should().NotBe(expected), "is not", expectedExpr);
+        AddAssert([CustomAssertion] () => Actual.Should().NotBe(expected), "is not", expectedExpr);
         return And();
     }
 
@@ -31,7 +31,7 @@ public class IsDateTime : Constraint<IsDateTime, DateTime>
     [CustomAssertion]
     public ContinueWith<IsDateTime> Before(DateTime expected)
     {
-        _actual.Should().BeBefore(expected);
+        Actual.Should().BeBefore(expected);
         return And();
     }
 
@@ -43,7 +43,7 @@ public class IsDateTime : Constraint<IsDateTime, DateTime>
     [CustomAssertion]
     public ContinueWith<IsDateTime> After(DateTime expected)
     {
-        _actual.Should().BeAfter(expected);
+        Actual.Should().BeAfter(expected);
         return And();
     }
 
@@ -55,7 +55,7 @@ public class IsDateTime : Constraint<IsDateTime, DateTime>
     [CustomAssertion]
     public ContinueWith<IsDateTime> NotBefore(DateTime expected)
     {
-        _actual.Should().NotBeBefore(expected);
+        Actual.Should().NotBeBefore(expected);
         return And();
     }
 
@@ -67,7 +67,7 @@ public class IsDateTime : Constraint<IsDateTime, DateTime>
     [CustomAssertion]
     public ContinueWith<IsDateTime> NotAfter(DateTime expected)
     {
-        _actual.Should().NotBeAfter(expected);
+        Actual.Should().NotBeAfter(expected);
         return And();
     }
 
@@ -80,7 +80,7 @@ public class IsDateTime : Constraint<IsDateTime, DateTime>
     [CustomAssertion]
     public ContinueWith<IsDateTime> CloseTo(DateTime expected, TimeSpan precision)
     {
-        _actual.Should().BeCloseTo(expected, precision);
+        Actual.Should().BeCloseTo(expected, precision);
         return And();
     }
 
@@ -93,7 +93,7 @@ public class IsDateTime : Constraint<IsDateTime, DateTime>
     [CustomAssertion]
     public ContinueWith<IsDateTime> NotCloseTo(DateTime expected, TimeSpan precision)
     {
-        _actual.Should().NotBeCloseTo(expected, precision);
+        Actual.Should().NotBeCloseTo(expected, precision);
         return And();
     }
 }

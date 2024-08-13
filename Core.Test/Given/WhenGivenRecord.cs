@@ -20,11 +20,21 @@ public class WhenGivenRecord : Spec<MyService, MyRecord>
 
     [Fact]
     public void GivenTwoSetup_ThenReturnSecondSetupAppliedToFirstSetup()
-        => Given<MyRecord>(_ => _ with { Name = A<string>() })
-        .And<MyRecord>(_ => _ with { Name = _.Name + ASecond<string>() })
-        .When(_ => MyService.Echo(The<MyRecord>()))
-        .Then().Result.Name.Does().StartWith(The<string>())
-        .And.EndWith(TheSecond<string>());
+    {
+        Given<MyRecord>(_ => _ with { Name = A<string>(), Id = 1 })
+            .And<MyRecord>(_ => _ with { Name = _.Name + ASecond<string>() })
+            .When(_ => MyService.Echo(The<MyRecord>()))
+            .Then().Result.Name.Does().StartWith(The<string>())
+            .And.EndWith(TheSecond<string>())
+            ;
+        VerifyDescription(
+            """
+            Given MyRecord { Name = a string, Id = 1 }
+             and MyRecord { Name = _.Name + ASecond<string>() }
+            When MyService.Echo(the MyRecord)
+            Then Result.Name starts with the string and ends with the second string
+            """);
+    }
 
     [Fact]
     public void GivenThatSetup_ThenReturnSetupValue()

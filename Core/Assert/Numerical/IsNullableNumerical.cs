@@ -7,11 +7,11 @@ namespace XspecT.Assert.Numerical;
 /// </summary>
 /// <typeparam name="TActual"></typeparam>
 /// <typeparam name="TConstrain"></typeparam>
-public abstract class IsNullableNumerical<TActual, TConstrain> : Constraint<TConstrain, TActual?>
+public abstract record IsNullableNumerical<TActual, TConstrain> : Constraint<TConstrain, TActual?>
     where TActual : struct, IComparable<TActual>
     where TConstrain : IsNullableNumerical<TActual, TConstrain>
 {
-    internal IsNullableNumerical(TActual? actual) : base(actual) { }
+    internal IsNullableNumerical(TActual? actual) : base(actual, "") { }
 
     /// <summary>
     /// actual.Should().NotBe(expected)

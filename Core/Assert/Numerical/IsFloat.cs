@@ -5,7 +5,7 @@ namespace XspecT.Assert.Numerical;
 /// <summary>
 /// Object that allows an assertions to be made on the provided float
 /// </summary>
-public class IsFloat : IsNumerical<IsFloat, float>
+public record IsFloat : IsNumerical<IsFloat, float>
 {
     internal IsFloat(float actual) : base(actual) { }
 
@@ -18,7 +18,7 @@ public class IsFloat : IsNumerical<IsFloat, float>
     [CustomAssertion]
     public ContinueWith<IsFloat> Around(float expected, float precision)
     {
-        _actual.Should().BeApproximately(expected, precision);
+        Actual.Should().BeApproximately(expected, precision);
         return And();
     }
 }

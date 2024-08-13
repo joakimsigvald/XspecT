@@ -230,9 +230,10 @@ public static class AssertionExtensions
     /// <returns></returns>
     [CustomAssertion]
     public static TActual And<TActual, TContinuation>(
-        this ContinueWith<TContinuation> _, 
+        this ContinueWith<TContinuation> _,
         TActual actual,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
+        where TContinuation : Constraint
     {
         Specification.AddThen();
         return actual;

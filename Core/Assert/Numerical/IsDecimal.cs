@@ -5,7 +5,7 @@ namespace XspecT.Assert.Numerical;
 /// <summary>
 /// Object that allows an assertions to be made on the provided decimal
 /// </summary>
-public class IsDecimal : IsNumerical<IsDecimal, decimal>
+public record IsDecimal : IsNumerical<IsDecimal, decimal>
 {
     internal IsDecimal(decimal actual) : base(actual) { }
 
@@ -18,7 +18,7 @@ public class IsDecimal : IsNumerical<IsDecimal, decimal>
     [CustomAssertion]
     public ContinueWith<IsDecimal> Around(decimal expected, decimal precision)
     {
-        _actual.Should().BeApproximately(expected, precision);
+        Actual.Should().BeApproximately(expected, precision);
         return And();
     }
 }
