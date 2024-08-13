@@ -17,7 +17,7 @@ public record DoesString : Constraint<DoesString, string>
     public ContinueWith<DoesString> Contain(
         string expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().Contain(expected), "does contain", expectedExpr);
+        AddAssert([CustomAssertion] () => Actual.Should().Contain(expected), "contains", expectedExpr);
         Actual.Should().Contain(expected);
         return And();
     }

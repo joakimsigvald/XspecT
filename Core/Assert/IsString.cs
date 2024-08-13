@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using System.Runtime.CompilerServices;
 
 namespace XspecT.Assert;
 
@@ -149,24 +150,30 @@ public record IsString : Constraint<IsStringContinuation, string>
     /// <summary>
     /// Asserts that the string starts with a prefix
     /// </summary>
-    /// <param name="prefix"></param>
+    /// <param name="expected"></param>
+    /// <param name="expectedExpr"></param>
     /// <returns></returns>
     [CustomAssertion]
-    public ContinueWith<IsStringContinuation> StartingWith(string prefix)
+    [Obsolete("Use Does.StartWith instead")]
+    public ContinueWith<IsStringContinuation> StartingWith(
+        string expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Actual.Should().StartWith(prefix);
+        AddAssert([CustomAssertion] () => Actual.Should().StartWith(expected), "starts with", expectedExpr);
         return And();
     }
 
     /// <summary>
     /// Asserts that the string ends with a suffix
     /// </summary>
-    /// <param name="suffix"></param>
+    /// <param name="expected"></param>
+    /// <param name="expectedExpr"></param>
     /// <returns></returns>
     [CustomAssertion]
-    public ContinueWith<IsStringContinuation> EndingWith(string suffix)
+    [Obsolete("Use Does.EndWith instead")]
+    public ContinueWith<IsStringContinuation> EndingWith(
+        string expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Actual.Should().EndWith(suffix);
+        AddAssert([CustomAssertion] () => Actual.Should().EndWith(expected), "ends with", expectedExpr);
         return And();
     }
 

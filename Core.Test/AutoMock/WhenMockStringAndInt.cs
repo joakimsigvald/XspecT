@@ -30,7 +30,7 @@ public class WhenMockStringAndInt : Spec<StaticStringAndIntService, string>
                  and an int
                  and a string
                 When GetValue()
-                Then Result does contain value
+                Then Result contains value
                 """);
         }
     }
@@ -49,7 +49,7 @@ public class WhenMockStringAndInt : Spec<StaticStringAndIntService, string>
                  and an int
                  and a string
                 When GetValue()
-                Then Result does contain "{value}"
+                Then Result contains "{value}"
                 """);
         }
     }
