@@ -29,16 +29,20 @@ internal class GivenTestPipeline<TSUT, TResult>
         [CallerArgumentExpression(nameof(act))] string actExpr = null)
         => Parent.When(act, actExpr);
 
-    public ITestPipeline<TSUT, TResult> After(Action<TSUT> setUp)
+    public ITestPipeline<TSUT, TResult> After(
+        Action<TSUT> setUp, [CallerArgumentExpression(nameof(setUp))] string setUpExpr = null)
         => Parent.After(setUp);
 
-    public ITestPipeline<TSUT, TResult> After(Func<TSUT, Task> setUp)
+    public ITestPipeline<TSUT, TResult> After(
+        Func<TSUT, Task> setUp, [CallerArgumentExpression(nameof(setUp))] string setUpExpr = null)
         => Parent.After(setUp);
 
-    public ITestPipeline<TSUT, TResult> Before(Action<TSUT> tearDown)
+    public ITestPipeline<TSUT, TResult> Before(
+        Action<TSUT> tearDown, [CallerArgumentExpression(nameof(tearDown))] string tearDownExpr = null)
         => Parent.Before(tearDown);
 
-    public ITestPipeline<TSUT, TResult> Before(Func<TSUT, Task> tearDown)
+    public ITestPipeline<TSUT, TResult> Before(
+        Func<TSUT, Task> tearDown, [CallerArgumentExpression(nameof(tearDown))] string tearDownExpr = null)
         => Parent.Before(tearDown);
 
     public IGivenTestPipeline<TSUT, TResult> Given<TValue>(

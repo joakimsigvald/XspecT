@@ -64,8 +64,10 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// Provide the tearDown to the test-pipeline
     /// </summary>
     /// <param name="tearDown"></param>
+    /// <param name="tearDownExpr"></param>
     /// <returns></returns>
-    public ITestPipeline<TSUT, TResult> Before(Action<TSUT> tearDown)
+    public ITestPipeline<TSUT, TResult> Before(
+        Action<TSUT> tearDown, [CallerArgumentExpression(nameof(tearDown))] string tearDownExpr = null)
     {
         _pipeline.SetTearDown(tearDown);
         return this;
@@ -75,8 +77,10 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// Provide the tearDown to the test-pipeline
     /// </summary>
     /// <param name="tearDown"></param>
+    /// <param name="tearDownExpr"></param>
     /// <returns></returns>
-    public ITestPipeline<TSUT, TResult> Before(Func<TSUT, Task> tearDown)
+    public ITestPipeline<TSUT, TResult> Before(
+        Func<TSUT, Task> tearDown, [CallerArgumentExpression(nameof(tearDown))] string tearDownExpr = null)
     {
         _pipeline.SetTearDown(tearDown);
         return this;
@@ -86,8 +90,10 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// Provide the setUp to the test-pipeline
     /// </summary>
     /// <param name="setUp"></param>
+    /// <param name="setUpExpr"></param>
     /// <returns></returns>
-    public ITestPipeline<TSUT, TResult> After(Action<TSUT> setUp)
+    public ITestPipeline<TSUT, TResult> After(
+        Action<TSUT> setUp, [CallerArgumentExpression(nameof(setUp))] string setUpExpr = null)
     {
         _pipeline.PrependSetUp(setUp);
         return this;
@@ -97,8 +103,10 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// Provide the setUp to the test-pipeline
     /// </summary>
     /// <param name="setUp"></param>
+    /// <param name="setUpExpr"></param>
     /// <returns></returns>
-    public ITestPipeline<TSUT, TResult> After(Func<TSUT, Task> setUp)
+    public ITestPipeline<TSUT, TResult> After(
+        Func<TSUT, Task> setUp, [CallerArgumentExpression(nameof(setUp))] string setUpExpr = null)
     {
         _pipeline.PrependSetUp(setUp);
         return this;

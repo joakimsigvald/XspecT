@@ -129,28 +129,32 @@ public interface ITestPipeline<TSUT, TResult>
     /// </summary>
     /// <param name="setUp">the method to call as setup before executing the method-under-test</param>
     /// <returns>A continuation to provide further arrangement to the test-pipeline</returns>
-    ITestPipeline<TSUT, TResult> After(Action<TSUT> setUp);
+    ITestPipeline<TSUT, TResult> After(Action<TSUT> setUp,
+        [CallerArgumentExpression(nameof(setUp))] string setUpExpr = null);
 
     /// <summary>
     /// Provide an async method to be called BEFORE the method-under-test is called as set-up
     /// </summary>
     /// <param name="setUp">the method to call as setup before executing the method-under-test</param>
     /// <returns>A continuation to provide further arrangement to the test-pipeline</returns>
-    ITestPipeline<TSUT, TResult> After(Func<TSUT, Task> setUp);
+    ITestPipeline<TSUT, TResult> After(Func<TSUT, Task> setUp,
+        [CallerArgumentExpression(nameof(setUp))] string setUpExpr = null);
 
     /// <summary>
     /// Provide a method to be called AFTER the method-under-test is called as tear-down
     /// </summary>
     /// <param name="tearDown">the method to call as teardown after executing the method-under-test</param>
     /// <returns>A continuation to provide further arrangement to the test-pipeline</returns>
-    ITestPipeline<TSUT, TResult> Before(Action<TSUT> tearDown);
+    ITestPipeline<TSUT, TResult> Before(Action<TSUT> tearDown,
+        [CallerArgumentExpression(nameof(tearDown))] string tearDownExpr = null);
 
     /// <summary>
     /// Provide an async method to be called AFTER the method-under-test is called as tear-down
     /// </summary>
     /// <param name="tearDown">the method to call as teardown after executing the method-under-test</param>
     /// <returns>A continuation to provide further arrangement to the test-pipeline</returns>
-    ITestPipeline<TSUT, TResult> Before(Func<TSUT, Task> tearDown);
+    ITestPipeline<TSUT, TResult> Before(Func<TSUT, Task> tearDown,
+        [CallerArgumentExpression(nameof(tearDown))] string tearDownExpr = null);
 
     /// <summary>
     /// Provide any arrangement to the test, which will be applied during test execution in reverse order of where in the test-pipeline it was provided

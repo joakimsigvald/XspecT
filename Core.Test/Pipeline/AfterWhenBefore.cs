@@ -4,7 +4,15 @@ public class AfterWhenBefore : Spec<MyStateService, int>
 {
     [Fact]
     public void BeforeIsExecutedAfterWhen()
-        => When(_ => AdvanceCounter(_)).Before(_ => _.Counter--).Then().Result.Is(1);
+    {
+        When(AdvanceCounter).Before(_ => _.Counter--).Then().Result.Is(1);
+        Description.Is(
+            """
+            When AdvanceCounter
+            Before _.Counter--
+            Then Result is 1
+            """);
+    }
 
     [Fact]
     public void AfterIsExecutedBeforeWhen()
