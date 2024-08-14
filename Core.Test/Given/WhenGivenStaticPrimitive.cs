@@ -22,7 +22,7 @@ public class WhenGivenStaticPrimitive : Spec<string>
         Given().Default<string>(_ => value).When(_ => _).Then().Result.Is(value);
         VerifyDescription(
             """
-            Given value as default
+            Given string { value }
             When _
             Then Result is value
             """);

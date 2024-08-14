@@ -58,8 +58,8 @@ public class WhenTapMockThatReturnsValueAsync : Spec<MyValueIntService, string>
             .Then().Result.Is($"{2 * The<MyValueInt>()}");
         VerifyDescription(
             """
-            Given IMyValueIntRepo.GetAsync(the MyValueInt) returns i => $"{2 * i}"
-             and Get(the MyValueInt) returns i => $"{3 * i}"
+            Given IMyValueIntRepo.GetAsync(the MyValueInt) returns "{2 * i}"
+             and Get(the MyValueInt) returns "{3 * i}"
             When GetValueAsync(a MyValueInt)
             Then Result is "{2 * The<MyValueInt>()}"
             """);
@@ -77,8 +77,8 @@ public class WhenTapMockThatReturnsValueAsync : Spec<MyValueIntService, string>
             .Then().Result.Is($"{3 * The<MyValueInt>()}");
         VerifyDescription(
             """
-            Given IMyValueIntRepo.GetAsync(the MyValueInt) returns i => $"{2 * i}"
-             and Get(the MyValueInt) returns i => $"{3 * i}"
+            Given IMyValueIntRepo.GetAsync(the MyValueInt) returns "{2 * i}"
+             and Get(the MyValueInt) returns "{3 * i}"
             When GetValue(a MyValueInt)
             Then Result is "{3 * The<MyValueInt>()}"
             """);

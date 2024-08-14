@@ -35,6 +35,8 @@ public static partial class ExpressionParser
             return description;
         if (TryParseAssignment(expr, out description))
             return description;
+        if (TryParseOneArgLambdaValueExpression(expr, out description))
+            return description;
         return expr;
     }
 

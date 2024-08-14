@@ -59,12 +59,10 @@ internal class SpecificationBuilder
         }
     }
 
-    internal void AddGiven<TModel>(string setupExpr, string article = null)
+    internal void AddGiven<TModel>(string setupExpr, string article)
     {
         _currentMockSetup = null;
-        var articleStr = string.IsNullOrEmpty(article)
-            ? string.Empty
-            : $"{article.AsWords()} "; 
+        var articleStr = string.IsNullOrEmpty(article) ? string.Empty : $"{article.AsWords()} ";
         AddPhraseOrSentence($"{Given} {articleStr}{NameOf<TModel>()} {{ {setupExpr.ParseValue()} }}");
     }
 
