@@ -44,8 +44,10 @@ internal class TestResult<TResult> : ITestResult<TResult>
         return And();
     }
 
-    public IAndThen<TResult> Throws<TError>(Action<TError> assert)
+    public IAndThen<TResult> Throws<TError>(
+        Action<TError> assert)
     {
+        Specification.AddAssertThrows<TError>("where");
         AssertError(assert);
         return And();
     }

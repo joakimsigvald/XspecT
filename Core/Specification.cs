@@ -69,8 +69,8 @@ public static class Specification
     internal static void AddVerify<TService>(string expressionExpr) 
         => Builder.Add(() => Builder.AddVerify<TService>(expressionExpr));
 
-    internal static void AddAssertThrows<TError>()
-        => Builder.Add(Builder.AddAssertThrows<TError>);
+    internal static void AddAssertThrows<TError>(string binder = null)
+        => Builder.Add(() => Builder.AddAssertThrows<TError>(binder));
 
     internal static void AddAssertThrows(string expectedExpr)
         => Builder.Add(() => Builder.AddAssertThrows(expectedExpr));

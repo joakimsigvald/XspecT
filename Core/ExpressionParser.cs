@@ -101,7 +101,7 @@ public static partial class ExpressionParser
         if (HasConstraint())
             description += $" {{ {ParseValue(continuation[1..^1])} }}";
         if (HasDrilldown())
-            description = $"{continuation[1..]} of {description}";
+            description = $"{description}'s {continuation[1..]}";
         return true;
 
         bool HasConstraint() => continuation.StartsWith('(') && continuation.EndsWith(')');

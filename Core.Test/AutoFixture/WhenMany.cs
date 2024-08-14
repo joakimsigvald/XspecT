@@ -70,7 +70,7 @@ Then Result has count 2");
             Description.Is(
 @"Given two MyModel
 When List()
-Then the third MyModel is Last() of three MyModel");
+Then the third MyModel is three MyModel's Last()");
         }
 
         [Fact]
@@ -179,7 +179,7 @@ public class WhenMockReturnsFewerElementsThanPreviouslyMentioned : Spec<MyRetrie
             .Then().Result.Has().Count(2);
         Description.Is(
 @"Given 3
- and IMyRepository.Create(Length of three MyModel) returns two MyModel
+ and IMyRepository.Create(three MyModel's Length) returns two MyModel
 When Create(an int)
 Then Result has count 2");
     }

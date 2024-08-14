@@ -81,11 +81,11 @@ internal class SpecificationBuilder
     internal void AddVerify<TService>(string expressionExpr)
         => AddWord($"{NameOf<TService>()}.{expressionExpr.ParseCall()}");
 
-    internal void AddAssertThrows<TError>()
-        => AddSentence($"{Then} throws {NameOf<TError>()}");
+    internal void AddAssertThrows<TError>(string binder)
+        => AddPhraseOrSentence($"{Then} throws {NameOf<TError>()} {binder}".Trim());
 
     internal void AddAssertThrows(string expectedExpr)
-        => AddSentence($"{Then} throws {expectedExpr.ParseValue()}");
+        => AddPhraseOrSentence($"{Then} throws {expectedExpr.ParseValue()}");
 
     internal void AddTap(string expr) => AddWord($"tap({expr})");
 

@@ -70,7 +70,8 @@ public class WhenGivenThatThrows : Spec<MyService, MyModel>
             Given new Exception(a string)
              and IMyRepository.GetModel() throws an Exception
             When GetModel()
-            Then throws the Exception and throws Exception { Message is the string }
+            Then throws the Exception
+             and throws Exception where _.Message is the string
             """);
     }
 
@@ -80,5 +81,11 @@ public class WhenGivenThatThrows : Spec<MyService, MyModel>
         When(_ => _.GetModel())
              .Given<IMyRepository>().That(_ => _.GetModel()).Throws(A<NotFound>)
              .Then().Throws<NotFound>(_ => _.Message.Is(The<NotFound>().Message));
+        Description.Is(
+            """
+            Given IMyRepository.GetModel() throws a NotFound
+            When GetModel()
+            Then throws NotFound where _.Message is the NotFound's Message
+            """);
     }
 }
