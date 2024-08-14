@@ -11,7 +11,7 @@ public class WhenGivenReturnDefault : Spec<MyService, MyModel>
         Description.Is(
             """
             Given IMyRepository returns a MyModel
-            When GetModel()
+            When _.GetModel()
             Then Result is the MyModel
             """);
     }

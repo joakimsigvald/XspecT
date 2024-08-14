@@ -15,7 +15,7 @@ public class WhenGivenSetupValueWithDefault : Spec<MyService, int>
             """
             Given _defaultId
              and IMyRepository.GetNextId() returns a second int
-            When GetNextId()
+            When _.GetNextId()
             Then Result is _defaultId
             """);
     }
@@ -33,7 +33,7 @@ public class WhenGivenSetupValueWithDefault : Spec<MyService, int>
             Given _defaultId
              and a second int { 2 }
              and IMyRepository.GetNextId() returns a second int
-            When GetNextId()
+            When _.GetNextId()
             Then Result is 2
             """);
     }

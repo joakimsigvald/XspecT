@@ -12,7 +12,7 @@ public class WhenMockTuple : Spec<StaticTupleService, (int, string)>
             Description.Is(
                 """
                 Given a (int, string)
-                When GetValue()
+                When _.GetValue()
                 Then Result is the (int, string)
                 """);
         }
@@ -31,7 +31,7 @@ public class WhenMockTuple : Spec<StaticTupleService, (int, string)>
                 """
                 Given (v1, v2)
                  and a (int, string)
-                When GetValue()
+                When _.GetValue()
                 Then Result is (v1, v2)
                 """);
         }

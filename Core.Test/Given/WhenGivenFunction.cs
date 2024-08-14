@@ -10,7 +10,7 @@ public class WhenGivenFunction : Spec<MyService, DateTime>
         Description.Is(
             """
             Given a DateTime
-            When GetTime()
+            When _.GetTime()
             Then Result is the DateTime
             """);
     }
@@ -23,7 +23,7 @@ public class WhenGivenFunction : Spec<MyService, DateTime>
         Description.Is(
             """
             Given a DateTime
-            When GetTime()
+            When _.GetTime()
             Then Result is the DateTime
             """);
     }

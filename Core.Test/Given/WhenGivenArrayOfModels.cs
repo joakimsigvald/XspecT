@@ -15,7 +15,7 @@ public class WhenGivenArrayOfModels : Spec<MyService, MyModel[]>
             Given MyModel { Name = a string }
              and two MyModel
              and IMyRepository.GetModels() returns a MyModel[]
-            When GetModels()
+            When _.GetModels()
             Then Result is two MyModel
              and Result's First().Name is the string
             """);
@@ -30,7 +30,7 @@ public class WhenGivenArrayOfModels : Spec<MyService, MyModel[]>
         Description.Is(
             """
             Given IMyRepository returns an IEnumerable<MyModel>
-            When GetModelsAsync()
+            When _.GetModelsAsync()
             Then does not throw
             """);
     }

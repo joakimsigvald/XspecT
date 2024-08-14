@@ -44,12 +44,13 @@ public static partial class ExpressionParser
     /// 
     /// </summary>
     /// <param name="expr"></param>
+    /// <param name="skipSubjectRef"></param>
     /// <returns></returns>
-    public static string ParseCall(this string expr)
+    public static string ParseCall(this string expr, bool skipSubjectRef = false)
     {
         if (string.IsNullOrEmpty(expr))
             return expr;
-        if (TryParseOneArgLambdaInstanceMethodExpression(expr, out string description))
+        if (TryParseOneArgLambdaInstanceMethodExpression(expr, skipSubjectRef, out string description))
             return description;
         if (TryParseMethodCall(expr, out description))
             return description;
@@ -164,7 +165,8 @@ public static partial class ExpressionParser
         return true;
     }
 
-    private static bool TryParseOneArgLambdaInstanceMethodExpression(string expr, out string description)
+    private static bool TryParseOneArgLambdaInstanceMethodExpression(
+        string expr, bool skipSubjectRef, out string description)
     {
         description = null;
         var match = OneArgLambdaInstanceMethodRegex().Match(expr);
@@ -174,10 +176,10 @@ public static partial class ExpressionParser
         var objArg = match.Groups[1].Value;
         var objRef = match.Groups[2].Value;
         var call = match.Groups[3].Value;
-        if (objArg == objRef)
-            description = ParseCall(call);
-        else if (objArg == "_")
-            description = $"{objRef}.{ParseCall(call)}";
+        if (objArg == objRef || objArg == "_")
+            description = skipSubjectRef
+                ? ParseCall(call)
+                : $"{objRef}.{ParseCall(call)}";
         else return false;
         return true;
     }

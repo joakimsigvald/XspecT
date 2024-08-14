@@ -41,6 +41,10 @@ public static class Specification
 
     internal static void AddWhen(string actExpr) => Builder.Add(() => Builder.AddWhen(actExpr));
 
+    internal static void AddAfter(string setUpExpr) => Builder.Add(() => Builder.AddAfter(setUpExpr));
+
+    internal static void AddBefore(string tearDownExpr) => Builder.Add(() => Builder.AddBefore(tearDownExpr));
+
     internal static void AddAssert(
         Action assert,
         string actual = null,

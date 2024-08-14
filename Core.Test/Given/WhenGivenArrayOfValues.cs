@@ -9,7 +9,7 @@ public class WhenGivenArrayOfValues : Spec<MyService, IEnumerable<int>>
         Description.Is(
             """
             Given two int
-            When GetIds()
+            When _.GetIds()
             Then Result is two int
             """);
     }
@@ -21,7 +21,7 @@ public class WhenGivenArrayOfValues : Spec<MyService, IEnumerable<int>>
         Description.Is(
             """
             Given MyModel { Values = two int }
-            When GetIds()
+            When _.GetIds()
             Then Result is empty
             """);
     }
@@ -35,7 +35,7 @@ public class WhenGivenArrayOfValues : Spec<MyService, IEnumerable<int>>
         Description.Is(
             """
             Given MyModel { Values = two int }
-            When GetModel().Values
+            When _.GetModel().Values
             Then Result is two int
             """);
     }
@@ -51,7 +51,7 @@ public class WhenGivenArrayOfValues : Spec<MyService, IEnumerable<int>>
             """
             Given MyModel { Values = some int }
              and one int
-            When GetModel().Values
+            When _.GetModel().Values
             Then Result is one int
             """);
     }
@@ -67,7 +67,7 @@ public class WhenGivenArrayOfValues : Spec<MyService, IEnumerable<int>>
             """
             Given MyModel { Values = some int }
              and zero int
-            When GetModel().Values
+            When _.GetModel().Values
             Then Result is zero int
             """);
     }

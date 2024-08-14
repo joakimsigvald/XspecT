@@ -11,7 +11,7 @@ public class WhenGet : Spec<MyRetriever, MyModel>
             .Then().Result.Is(The<MyModel>());
         Description.Is(
 @"Given IMyRepository.Get(the int) returns a MyModel
-When Get(an int)
+When _.Get(an int)
 Then Result is the MyModel");
     }
 
@@ -22,7 +22,7 @@ Then Result is the MyModel");
             .Then().Result.Is().Not(TheSecond<MyModel>());
         Description.Is(
 @"Given IMyRepository.Get(another int) returns a second MyModel
-When Get(an int)
+When _.Get(an int)
 Then Result is not the second MyModel");
     }
 
@@ -33,7 +33,7 @@ Then Result is not the second MyModel");
             .Then().Result.Is().Not(Another<MyModel>());
         Description.Is(
 @"Given IMyRepository.Get(the int) returns another MyModel
-When Get(an int)
+When _.Get(an int)
 Then Result is not another MyModel");
     }
 
@@ -44,7 +44,7 @@ Then Result is not another MyModel");
             .Then().Result.Is().Not(TheSecond<MyModel>());
         Description.Is(
 @"Given IMyRepository.Get(the byte) returns a second MyModel
-When Get(an int)
+When _.Get(an int)
 Then Result is not the second MyModel");
     }
 
@@ -54,7 +54,7 @@ Then Result is not the second MyModel");
         Given(new MyModel()).Then().Result.Is(The<MyModel>());
         Description.Is(
 @"Given new MyModel()
-When Get(an int)
+When _.Get(an int)
 Then Result is the MyModel");
     }
 
@@ -64,7 +64,7 @@ Then Result is the MyModel");
         Given(Another<MyModel>()).Then().Result.Is(The<MyModel>());
         Description.Is(
 @"Given another MyModel
-When Get(an int)
+When _.Get(an int)
 Then Result is the MyModel");
     }
 
@@ -75,7 +75,7 @@ Then Result is the MyModel");
             .Then().Result.Is(TheSecond<MyModel>());
         Description.Is(
 @"Given IMyRepository.Get(the int) returns a second MyModel
-When Get(an int)
+When _.Get(an int)
 Then Result is the second MyModel");
     }
 
@@ -86,7 +86,7 @@ Then Result is the second MyModel");
             .Then().Result.Is().Not(ASecond<MyModel>());
         Description.Is(
 @"Given IMyRepository.Get(the int) returns a MyModel
-When Get(an int)
+When _.Get(an int)
 Then Result is not a second MyModel");
     }
 
@@ -97,7 +97,7 @@ Then Result is not a second MyModel");
             .Then().Result.Is(TheThird<MyModel>());
         Description.Is(
 @"Given IMyRepository.Get(the int) returns a third MyModel
-When Get(an int)
+When _.Get(an int)
 Then Result is the third MyModel");
     }
 
@@ -108,7 +108,7 @@ Then Result is the third MyModel");
             .Then().Result.Is().Not(AThird<MyModel>());
         Description.Is(
 @"Given IMyRepository.Get(the int) returns a second MyModel
-When Get(an int)
+When _.Get(an int)
 Then Result is not a third MyModel");
     }
 }

@@ -15,7 +15,7 @@ public class WhenList : Spec<MyRetriever, MyModel[]>
             Then().Result.Single().Is(_theModel);
             Description.Is(
 @"Given IMyRepository.List() returns one _theModel
-When List()
+When _.List()
 Then Result.Single() is _theModel");
         }
     }
@@ -30,7 +30,7 @@ Then Result.Single() is _theModel");
             Then().Result.Is(The<MyModel[]>());
             Description.Is(
 @"Given IMyRepository.List() returns one MyModel
-When List()
+When _.List()
 Then Result is the MyModel[]");
         }
 
@@ -40,7 +40,7 @@ Then Result is the MyModel[]");
             Then().Result.Has().Count(1);
             Description.Is(
 @"Given IMyRepository.List() returns one MyModel
-When List()
+When _.List()
 Then Result has count 1");
         }
 
@@ -50,7 +50,7 @@ Then Result has count 1");
             Then().Result.Single().Is(The<MyModel>());
             Description.Is(
 @"Given IMyRepository.List() returns one MyModel
-When List()
+When _.List()
 Then Result.Single() is the MyModel");
         }
     }
@@ -66,7 +66,7 @@ Then Result.Single() is the MyModel");
             Then().Result.Single().Name.Is(The<string>());
             Description.Is(
 @"Given IMyRepository.List() returns one MyModel { Name = a string }
-When List()
+When _.List()
 Then Result.Single().Name is the string");
         }
     }
@@ -81,7 +81,7 @@ Then Result.Single().Name is the string");
             Then().Result.Has().Count(2);
             Description.Is(
 @"Given IMyRepository.List() returns two MyModel
-When List()
+When _.List()
 Then Result has count 2");
         }
 
@@ -91,7 +91,7 @@ Then Result has count 2");
             Then().Result.First().Is().Not(Result.Last());
             Description.Is(
 @"Given IMyRepository.List() returns two MyModel
-When List()
+When _.List()
 Then Result.First() is not Result.Last()");
         }
 
@@ -101,7 +101,7 @@ Then Result.First() is not Result.Last()");
             Then().Result.Last().Is(TheSecond<MyModel>());
             Description.Is(
 @"Given IMyRepository.List() returns two MyModel
-When List()
+When _.List()
 Then Result.Last() is the second MyModel");
         }
     }
@@ -117,7 +117,7 @@ Then Result.Last() is the second MyModel");
             Then().Result.Has().Count(2);
             Description.Is(
 @"Given IMyRepository.List() returns two MyModel { Name = a string }
-When List()
+When _.List()
 Then Result has count 2");
         }
 
@@ -127,7 +127,7 @@ Then Result has count 2");
             Then().Result.First().Name.Is(The<string>());
             Description.Is(
 @"Given IMyRepository.List() returns two MyModel { Name = a string }
-When List()
+When _.List()
 Then Result.First().Name is the string");
         }
 
@@ -137,7 +137,7 @@ Then Result.First().Name is the string");
             Then().Result.Last().Name.Is(The<string>());
             Description.Is(
 @"Given IMyRepository.List() returns two MyModel { Name = a string }
-When List()
+When _.List()
 Then Result.Last().Name is the string");
         }
     }
@@ -154,7 +154,7 @@ Then Result.Last().Name is the string");
             Description.Is(
                 """
                 Given IMyRepository.List() returns two MyModel { Name = "X{i + 1}" }
-                When List()
+                When _.List()
                 Then Result has count 2
                 """);
         }
@@ -166,7 +166,7 @@ Then Result.Last().Name is the string");
             Description.Is(
 """
 Given IMyRepository.List() returns two MyModel { Name = "X{i + 1}" }
-When List()
+When _.List()
 Then Result.First().Name is "X1"
 """);
         }
@@ -178,7 +178,7 @@ Then Result.First().Name is "X1"
             Description.Is(
 """
 Given IMyRepository.List() returns two MyModel { Name = "X{i + 1}" }
-When List()
+When _.List()
 Then Result.Last().Name is "X2"
 """);
         }
@@ -194,7 +194,7 @@ Then Result.Last().Name is "X2"
             Then().Result.Has().Count(3);
             Description.Is(
 @"Given IMyRepository.List() returns three MyModel
-When List()
+When _.List()
 Then Result has count 3");
         }
 
@@ -204,7 +204,7 @@ Then Result has count 3");
             Then().Result.First().Is().Not(Result.Last());
             Description.Is(
 @"Given IMyRepository.List() returns three MyModel
-When List()
+When _.List()
 Then Result.First() is not Result.Last()");
         }
 
@@ -214,7 +214,7 @@ Then Result.First() is not Result.Last()");
             Then().Result.Last().Is(TheThird<MyModel>());
             Description.Is(
 @"Given IMyRepository.List() returns three MyModel
-When List()
+When _.List()
 Then Result.Last() is the third MyModel");
         }
     }
@@ -229,7 +229,7 @@ Then Result.Last() is the third MyModel");
             Then().Result.Has().Count(4);
             Description.Is(
 @"Given IMyRepository.List() returns four MyModel
-When List()
+When _.List()
 Then Result has count 4");
         }
 
@@ -239,7 +239,7 @@ Then Result has count 4");
             Then().Result.Last().Is(TheFourth<MyModel>());
             Description.Is(
 @"Given IMyRepository.List() returns four MyModel
-When List()
+When _.List()
 Then Result.Last() is the fourth MyModel");
         }
     }
@@ -254,7 +254,7 @@ Then Result.Last() is the fourth MyModel");
             Then().Result.Has().Count(5);
             Description.Is(
 @"Given IMyRepository.List() returns five MyModel
-When List()
+When _.List()
 Then Result has count 5");
         }
 
@@ -264,7 +264,7 @@ Then Result has count 5");
             Then().Result.Last().Is(TheFifth<MyModel>());
             Description.Is(
 @"Given IMyRepository.List() returns five MyModel
-When List()
+When _.List()
 Then Result.Last() is the fifth MyModel");
         }
     }

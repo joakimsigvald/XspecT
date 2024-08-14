@@ -14,7 +14,7 @@ public class WhenGetWithSetup : Spec<MyMappingRetreiver, MyModel>
         Description.Is(
 @"Given IMyRepository.Get(the int) returns a MyModel { Name = a string }
  and IMyMapper.Map(a MyModel) returns the MyModel
-When Get(an int)
+When _.Get(an int)
 Then Result.Name is the string");
     }
 
@@ -28,7 +28,7 @@ Then Result.Name is the string");
             """
             Given IMyRepository.Get(the int) returns a MyModel { Name = a string }
              and IMyMapper.Map(the MyModel) returns a MyModel { Id = an int }
-            When Get(an int)
+            When _.Get(an int)
             Then Result.Name is the string
              and Result's Id is the int
             """);

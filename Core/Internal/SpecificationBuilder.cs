@@ -23,7 +23,7 @@ internal class SpecificationBuilder
     }
 
     internal void AddMockSetup<TService>(string callExpr) 
-        => AddPhraseOrSentence($"{Given} {GetMockName<TService>('.')}{callExpr.ParseCall()}");
+        => AddPhraseOrSentence($"{Given} {GetMockName<TService>('.')}{callExpr.ParseCall(true)}");
 
     internal void AddMockReturnsDefault<TService>(string returnsExpr)
         => AddPhraseOrSentence($"{Given} {GetMockName<TService>(' ')}returns {returnsExpr.ParseValue()}");
@@ -43,8 +43,14 @@ internal class SpecificationBuilder
     internal void AddMockThrows(string expectedExpr)
         => AddWord($"throws {expectedExpr.ParseValue()}");
 
-    internal void AddWhen(string actExpr) 
+    internal void AddWhen(string actExpr)
         => AddSentence($"when {actExpr.ParseCall()}");
+
+    internal void AddAfter(string setUpExpr)
+        => AddSentence($"after {setUpExpr.ParseCall()}");
+
+    internal void AddBefore(string tearDownExpr)
+        => AddSentence($"before {tearDownExpr.ParseCall()}");
 
     internal void AddAssert(string actual, string verb, string expected)
     {
@@ -79,7 +85,7 @@ internal class SpecificationBuilder
     }
 
     internal void AddVerify<TService>(string expressionExpr)
-        => AddWord($"{NameOf<TService>()}.{expressionExpr.ParseCall()}");
+        => AddWord($"{NameOf<TService>()}.{expressionExpr.ParseCall(true)}");
 
     internal void AddAssertThrows<TError>(string binder)
         => AddPhraseOrSentence($"{Then} throws {NameOf<TError>()} {binder}".Trim());

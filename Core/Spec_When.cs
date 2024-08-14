@@ -69,7 +69,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     public ITestPipeline<TSUT, TResult> Before(
         Action<TSUT> tearDown, [CallerArgumentExpression(nameof(tearDown))] string tearDownExpr = null)
     {
-        _pipeline.SetTearDown(tearDown);
+        _pipeline.SetTearDown(tearDown, tearDownExpr);
         return this;
     }
 
@@ -82,7 +82,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     public ITestPipeline<TSUT, TResult> Before(
         Func<TSUT, Task> tearDown, [CallerArgumentExpression(nameof(tearDown))] string tearDownExpr = null)
     {
-        _pipeline.SetTearDown(tearDown);
+        _pipeline.SetTearDown(tearDown, tearDownExpr);
         return this;
     }
 
@@ -95,7 +95,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     public ITestPipeline<TSUT, TResult> After(
         Action<TSUT> setUp, [CallerArgumentExpression(nameof(setUp))] string setUpExpr = null)
     {
-        _pipeline.PrependSetUp(setUp);
+        _pipeline.PrependSetUp(setUp, setUpExpr);
         return this;
     }
 
@@ -108,7 +108,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     public ITestPipeline<TSUT, TResult> After(
         Func<TSUT, Task> setUp, [CallerArgumentExpression(nameof(setUp))] string setUpExpr = null)
     {
-        _pipeline.PrependSetUp(setUp);
+        _pipeline.PrependSetUp(setUp, setUpExpr);
         return this;
     }
 }

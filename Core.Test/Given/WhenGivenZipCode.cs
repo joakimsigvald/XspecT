@@ -11,7 +11,7 @@ public class WhenGivenZipCode : Spec<MyValueTypeModel, MyZipCode>
         Description.Is(
             """
             Given a MyZipCode
-            When ZipCode
+            When _.ZipCode
             Then Result is the MyZipCode
              and Result's Primitive is not less than 0 and less than 100_000
             """);

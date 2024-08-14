@@ -12,7 +12,7 @@ public class WhenSome : Spec<MyRetriever, MyModel[]>
             Result.Has().Count(2);
             Description.Is(
 @"Given some MyModel
-When List()
+When _.List()
 Then Result has count 2");
         }
     }
@@ -28,7 +28,7 @@ Then Result has count 2");
             Description.Is(
 @"Given one MyModel
  and some MyModel
-When List()
+When _.List()
 Then Result has count 1");
         }
     }
@@ -44,7 +44,7 @@ Then Result has count 1");
             Description.Is(
 @"Given three MyModel
  and some MyModel
-When List()
+When _.List()
 Then Result has count 3");
         }
     }
@@ -60,7 +60,7 @@ Then Result has count 3");
             Description.Is(
 @"Given Array.Empty<MyModel>
  and some MyModel
-When List()
+When _.List()
 Then Result has count 0");
         }
     }
@@ -76,7 +76,7 @@ Then Result has count 0");
             Description.Is(
 @"Given many MyModel
  and some MyModel
-When List()
+When _.List()
 Then Result has count 3");
         }
     }
@@ -93,7 +93,7 @@ Then Result has count 3");
 @"Given some MyModel
  and one MyModel
  and some MyModel
-When List()
+When _.List()
 Then Result has count 1");
         }
     }
@@ -110,7 +110,7 @@ Then Result has count 1");
 @"Given some MyModel
  and two MyModel
  and some MyModel
-When List()
+When _.List()
 Then Result has count 2");
         }
     }
@@ -127,7 +127,7 @@ Then Result has count 2");
 @"Given some MyModel
  and Array.Empty<MyModel>
  and some MyModel
-When List()
+When _.List()
 Then Result has count 2");
         }
     }
@@ -144,7 +144,7 @@ Then Result has count 2");
 @"Given some MyModel
  and many MyModel
  and some MyModel
-When List()
+When _.List()
 Then Result has count 2");
         }
     }

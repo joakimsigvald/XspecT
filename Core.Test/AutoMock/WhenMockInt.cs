@@ -12,7 +12,7 @@ public class WhenMockInt : Spec<StaticIntService, int>
             Description.Is(
                 """
                 Given an int
-                When GetValue()
+                When _.GetValue()
                 Then Result is the int
                 """);
         }
@@ -31,7 +31,7 @@ public class WhenMockInt : Spec<StaticIntService, int>
                 """
                 Given value
                  and an int
-                When GetValue()
+                When _.GetValue()
                 Then Result is value
                 """);
         }

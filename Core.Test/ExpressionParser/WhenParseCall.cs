@@ -5,7 +5,7 @@ public class WhenParseCall : Spec<string>
     [Theory]
     [InlineData(null, null)]
     [InlineData("", "")]
-    [InlineData("_ => _.Get(The<int>())", "Get(the int)")]
+    [InlineData("_ => _.Get(The<int>())", "_.Get(the int)")]
     [InlineData("Get(The<int>())", "Get(the int)")]
     [InlineData("_ => MyService.Echo(The<MyEnum>())", "MyService.Echo(the MyEnum)")]
     [InlineData("_ => [1, 2, 3]", "[1, 2, 3]")]

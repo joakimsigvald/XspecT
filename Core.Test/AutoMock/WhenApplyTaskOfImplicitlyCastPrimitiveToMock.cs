@@ -12,7 +12,7 @@ public class WhenApplyTaskOfImplicitlyCastPrimitiveToMock : Spec<MyValueIntServi
     {
         Then<IMyValueIntRepo>(_ => _.SetAsync(The<MyValueInt>()));
         Description.Is(
-@"When SetValueAsync(a MyValueInt)
+@"When _.SetValueAsync(a MyValueInt)
 Then IMyValueIntRepo.SetAsync(the MyValueInt)");
     }
 }

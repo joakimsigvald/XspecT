@@ -12,7 +12,7 @@ public class WhenMockStringAndInt : Spec<StaticStringAndIntService, string>
             """
             Given an int
              and a string
-            When GetValue()
+            When _.GetValue()
             Then Result is "{The<string>()}:{The<int>()}"
             """);
     }
@@ -29,7 +29,7 @@ public class WhenMockStringAndInt : Spec<StaticStringAndIntService, string>
                 Given value
                  and an int
                  and a string
-                When GetValue()
+                When _.GetValue()
                 Then Result contains value
                 """);
         }
@@ -48,7 +48,7 @@ public class WhenMockStringAndInt : Spec<StaticStringAndIntService, string>
                 Given value
                  and an int
                  and a string
-                When GetValue()
+                When _.GetValue()
                 Then Result contains "{value}"
                 """);
         }

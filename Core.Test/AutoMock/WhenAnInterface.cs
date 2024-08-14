@@ -11,7 +11,7 @@ public class WhenInjectingAnInterfaceWithUsing : Spec<InterfaceService, int>
         Result.Is(The<int>());
         Description.Is(
 @"Given new MyComponent(an IMyLogger, an int)
-When GetValue()
+When _.GetValue()
 Then Result is the int");
     }
 
@@ -21,7 +21,7 @@ Then Result is the int");
         Then<IMyLogger>(_ => _.LogValue(The<int>()));
         Description.Is(
 @"Given new MyComponent(an IMyLogger, an int)
-When GetValue()
+When _.GetValue()
 Then IMyLogger.LogValue(the int)");
     }
 }
@@ -38,7 +38,7 @@ public class WhenUseConcreteInstanceOfInterface : Spec<InterfaceService, int>
         Description.Is(
 @"Given CreateService()
  and an int
-When GetServiceValue()
+When _.GetServiceValue()
 Then Result is the second int");
     }
 
@@ -58,7 +58,7 @@ public class WhenUsingConcreteInstanceForInterface : Spec<InterfaceService, int>
         Description.Is(
 @"Given new MyInvalidLogger<ApplicationException>()
  and new MyComponent(an IMyLogger, an int)
-When GetValue()
+When _.GetValue()
 Then throws ApplicationException");
     }
 }
@@ -77,7 +77,7 @@ public class WhenIndirectlyUsingConcreteInstanceForInterface : Spec<InterfaceSer
         Description.Is(
 @"Given new MyInvalidLogger<ApplicationException>()
  and a MyComponent
-When GetValue()
+When _.GetValue()
 Then throws ApplicationException");
     }
 }
@@ -94,7 +94,7 @@ public class WhenUsingConcreteInstanceForInterfaceWithAutoMockedConstructorArgum
         Description.Is(
 @"Given an int
  and a MyComponent
-When GetValue()
+When _.GetValue()
 Then Result is the int");
     }
 }

@@ -5,14 +5,16 @@ namespace XspecT.Internal.Pipelines;
 
 internal class SpecActor<TSUT, TResult>
 {
+    private string _setUpExpr;
     private readonly Stack<Action> _setUp = new();
     private Delegate _act;
     private string _actExpr;
+    private string _tearDownExpr;
     private readonly Stack<Action> _tearDown = new();
     private Exception _error;
     private TResult _result;
 
-    internal void When(Delegate act, string actExpr = null)
+    internal void When(Delegate act, string actExpr)
     {
         if (_act is not null)
             throw new SetupFailed("Cannot call When twice in the same pipeline");
@@ -20,9 +22,17 @@ internal class SpecActor<TSUT, TResult>
         _actExpr = actExpr;
     }
 
-    internal void After(Action setUp) => _setUp.Push(setUp);
+    internal void After(Action setUp, string setUpExpr)
+    {
+        _setUp.Push(setUp);
+        _setUpExpr = setUpExpr;
+    }
 
-    internal void Before(Action tearDown) => _tearDown.Push(tearDown);
+    internal void Before(Action tearDown, string tearDownExpr)
+    {
+        _tearDown.Push(tearDown);
+        _tearDownExpr = tearDownExpr;
+    }
 
     internal TestResult<TResult> Execute(TSUT sut, Context context)
     {
@@ -47,6 +57,10 @@ internal class SpecActor<TSUT, TResult>
         try
         {
             Specification.AddWhen(_actExpr);
+            if (_setUpExpr is not null)
+                Specification.AddAfter(_setUpExpr);
+            if (_tearDownExpr is not null)
+                Specification.AddBefore(_tearDownExpr);
             var hasResult = _act switch
             {
                 Func<TSUT, Task<TResult>> act => ExecuteFunctionAsync(act),

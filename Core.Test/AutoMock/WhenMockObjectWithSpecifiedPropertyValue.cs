@@ -13,7 +13,7 @@ public class WhenMockObjectWithSpecifiedPropertyValue : Spec<StaticObjectService
             Description.Is(
                 """
                 Given a MyObject { Age = 3 }
-                When GetValue()
+                When _.GetValue()
                 Then Result.Age is 3
                 """);
         }
@@ -25,7 +25,7 @@ public class WhenMockObjectWithSpecifiedPropertyValue : Spec<StaticObjectService
             Description.Is(
                 """
                 Given a MyObject { Age = 3 }
-                When GetValue()
+                When _.GetValue()
                 Then the MyObject's Age is 3
                 """);
         }

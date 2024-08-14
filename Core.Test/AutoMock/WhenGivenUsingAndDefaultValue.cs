@@ -14,7 +14,7 @@ public class WhenGivenUsingAndDefaultValue : Spec<MyWrapper<string>, (string, st
             """
             Given "ABC" as default
              and using "DEF"
-            When GetValues(a string)
+            When _.GetValues(a string)
             Then Result is ("DEF", "ABC")
             """);
     }
@@ -29,7 +29,7 @@ public class WhenGivenUsingAndDefaultValue : Spec<MyWrapper<string>, (string, st
             """
             Given using "DEF"
              and "ABC" as default
-            When GetValues(a string)
+            When _.GetValues(a string)
             Then Result is ("DEF", "ABC")
             """);
     }
@@ -50,7 +50,7 @@ public class WhenGivenUsingAndDefaultModel : Spec<MyWrapper<MyModel>, (MyModel, 
             """
             Given _first as default
              and using _second
-            When GetValues(a MyModel)
+            When _.GetValues(a MyModel)
             Then Result is (_second, _first)
             """);
     }
@@ -65,7 +65,7 @@ public class WhenGivenUsingAndDefaultModel : Spec<MyWrapper<MyModel>, (MyModel, 
             """
             Given using _second
              and _first as default
-            When GetValues(a MyModel)
+            When _.GetValues(a MyModel)
             Then Result is (_second, _first)
             """);
     }

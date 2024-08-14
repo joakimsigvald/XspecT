@@ -128,6 +128,7 @@ public interface ITestPipeline<TSUT, TResult>
     /// Provide a method to be called BEFORE the method-under-test is called as set-up
     /// </summary>
     /// <param name="setUp">the method to call as setup before executing the method-under-test</param>
+    /// <param name="setUpExpr"></param>
     /// <returns>A continuation to provide further arrangement to the test-pipeline</returns>
     ITestPipeline<TSUT, TResult> After(Action<TSUT> setUp,
         [CallerArgumentExpression(nameof(setUp))] string setUpExpr = null);
@@ -136,6 +137,7 @@ public interface ITestPipeline<TSUT, TResult>
     /// Provide an async method to be called BEFORE the method-under-test is called as set-up
     /// </summary>
     /// <param name="setUp">the method to call as setup before executing the method-under-test</param>
+    /// <param name="setUpExpr"></param>
     /// <returns>A continuation to provide further arrangement to the test-pipeline</returns>
     ITestPipeline<TSUT, TResult> After(Func<TSUT, Task> setUp,
         [CallerArgumentExpression(nameof(setUp))] string setUpExpr = null);
@@ -144,6 +146,7 @@ public interface ITestPipeline<TSUT, TResult>
     /// Provide a method to be called AFTER the method-under-test is called as tear-down
     /// </summary>
     /// <param name="tearDown">the method to call as teardown after executing the method-under-test</param>
+    /// <param name="tearDownExpr"></param>
     /// <returns>A continuation to provide further arrangement to the test-pipeline</returns>
     ITestPipeline<TSUT, TResult> Before(Action<TSUT> tearDown,
         [CallerArgumentExpression(nameof(tearDown))] string tearDownExpr = null);
@@ -152,6 +155,7 @@ public interface ITestPipeline<TSUT, TResult>
     /// Provide an async method to be called AFTER the method-under-test is called as tear-down
     /// </summary>
     /// <param name="tearDown">the method to call as teardown after executing the method-under-test</param>
+    /// <param name="tearDownExpr"></param>
     /// <returns>A continuation to provide further arrangement to the test-pipeline</returns>
     ITestPipeline<TSUT, TResult> Before(Func<TSUT, Task> tearDown,
         [CallerArgumentExpression(nameof(tearDown))] string tearDownExpr = null);

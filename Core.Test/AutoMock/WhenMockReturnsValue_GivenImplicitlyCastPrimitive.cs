@@ -17,7 +17,7 @@ public class WhenMockReturnsValue_GivenImplicitlyCastPrimitive : Spec<MyValueInt
         Description.Is(
             """
             Given IMyValueIntRepo.Get(the MyValueInt) returns _retVal
-            When GetValue(a MyValueInt)
+            When _.GetValue(a MyValueInt)
             Then Result is _retVal
             """);
     }
@@ -33,7 +33,7 @@ public class WhenMockReturnsObject : Spec<MyValueIntService, object>
         Result.GetType().Is(typeof(object));
         Description.Is(
             """
-            When GetObject()
+            When _.GetObject()
             Then Result.GetType() is typeof object
             """);
     }
@@ -48,7 +48,7 @@ public class WhenMockReturnsTaskOfObject : Spec<MyValueIntService, object>
         Result.GetType().Is(typeof(object));
         Description.Is(
             """
-            When GetObjectAsync()
+            When _.GetObjectAsync()
             Then Result.GetType() is typeof object
             """);
     }
@@ -63,7 +63,7 @@ public class WhenMockReturnsSelf : Spec<MyValueIntService, IMyValueIntRepo>
         Result.GetObject().GetType().Is(typeof(object));
         Description.Is(
             """
-            When GetRepo()
+            When _.GetRepo()
             Then Result.GetObject().GetType() is typeof object
             """);
     }

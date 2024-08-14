@@ -11,7 +11,7 @@ public class WhenMockDateTime : Spec<StaticDateService, DateTime>
             Then().Result.Is().Not(A<DateTime>()).And(Result).Ticks.Is().Not(0);
             Description.Is(
                 """
-                When GetDate()
+                When _.GetDate()
                 Then Result is not a DateTime
                  and Result's Ticks is not 0
                 """);
@@ -27,7 +27,7 @@ public class WhenMockDateTime : Spec<StaticDateService, DateTime>
             Description.Is(
                 """
                 Given a DateTime
-                When GetDate()
+                When _.GetDate()
                 Then Result is the DateTime
                 """);
         }

@@ -11,7 +11,7 @@ public class WhenGivenInterface : Spec<MyService, string>
         Description.Is(
             """
             Given new MySettings { ConnectionString = ASecond<string>() }
-            When GetConnectionString()
+            When _.GetConnectionString()
             Then Result is the second string
             """);
     }
