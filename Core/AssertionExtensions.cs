@@ -12,95 +12,6 @@ namespace XspecT;
 public static class AssertionExtensions
 {
     /// <summary>
-    /// Get available assertions for the given value
-    /// </summary>
-    /// <param name="actual"></param>
-    /// <returns></returns>
-    public static IsBool Is(this bool actual) => new(actual);
-
-    /// <summary>
-    /// Get available assertions for the given value
-    /// </summary>
-    /// <param name="actual"></param>
-    /// <param name="ignore"></param>
-    /// <param name="actualExpr"></param>
-    /// <returns></returns>
-    public static IsDateTime Is(
-        this DateTime actual,
-        DateTime? ignore = null,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null) 
-        => new(actual, actualExpr);
-
-    /// <summary>
-    /// Get available assertions for the given value
-    /// </summary>
-    /// <param name="actual"></param>
-    /// <returns></returns>
-    public static IsTimeSpan Is(this TimeSpan actual) => new(actual);
-
-    /// <summary>
-    /// Get available assertions for the given string
-    /// </summary>
-    /// <param name="actual"></param>
-    /// <param name="ignore"></param>
-    /// <param name="actualExpr"></param>
-    /// <returns></returns>
-    public static IsString Is(
-        this string actual,
-        object ignore = null,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new(actual, actualExpr);
-
-    /// <summary>
-    /// Get available assertions for the characteristics of the given string
-    /// </summary>
-    /// <param name="actual"></param>
-    /// <param name="actualExpr"></param>
-    /// <returns></returns>
-    public static DoesString Does(
-        this string actual,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null) 
-        => new(actual, actualExpr);
-
-    /// <summary>
-    /// Get available assertions for the given object
-    /// </summary>
-    /// <param name="actual"></param>
-    /// <param name="actualExpr"></param>
-    /// <returns></returns>
-    public static IsObject Is(
-        this object actual, 
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new(actual, actualExpr);
-
-    /// <summary>
-    /// Get available assertions for the given enumerable
-    /// </summary>
-    /// <typeparam name="TItem"></typeparam>
-    /// <param name="actual"></param>
-    /// <param name="actualExpr"></param>
-    /// <returns></returns>
-    public static IsEnumerable<TItem> Is<TItem>(
-        this IEnumerable<TItem> actual, 
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new(actual, actualExpr);
-
-    /// <summary>
-    /// Get available assertions for the given comparable
-    /// </summary>
-    /// <typeparam name="TValue"></typeparam>
-    /// <param name="actual"></param>
-    /// <param name="ignore"></param>
-    /// <param name="actualExpr"></param>
-    /// <returns></returns>
-    public static IsComparable<TValue> Is<TValue>(
-        this TValue actual,
-        object ignore = null,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        where TValue : IComparable<TValue>
-        => new(actual);
-
-    /// <summary>
     /// Verify that actual is expected timeSpan and return continuation for further assertions of the value
     /// </summary>
     /// <param name="actual"></param>
@@ -120,7 +31,8 @@ public static class AssertionExtensions
     /// <param name="expected"></param>
     /// <returns></returns>
     [CustomAssertion]
-    public static ContinueWith<IsTimeSpan> Is(this TimeSpan? actual, TimeSpan expected)
+    public static ContinueWith<IsTimeSpan> Is(
+        this TimeSpan? actual, TimeSpan expected)
     {
         actual.Should().Be(expected);
         return new(new(actual.Value));
@@ -146,7 +58,8 @@ public static class AssertionExtensions
     /// <param name="expected"></param>
     /// <returns></returns>
     [CustomAssertion]
-    public static ContinueWith<IsDateTime> Is(this DateTime? actual, DateTime expected)
+    public static ContinueWith<IsDateTime> Is(
+        this DateTime? actual, DateTime expected)
     {
         actual.Should().Be(expected);
         return new(new(actual.Value));
@@ -179,19 +92,6 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    /// Get available assertions for enumerable
-    /// </summary>
-    /// <typeparam name="TItem"></typeparam>
-    /// <param name="actual"></param>
-    /// <param name="actualExpr"></param>
-    /// <returns></returns>
-    [CustomAssertion]
-    public static HasEnumerable<TItem> Has<TItem>(
-        this IEnumerable<TItem> actual,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null) 
-        => new(actual, actualExpr);
-
-    /// <summary>
     /// Verify that actual struct is same as expected and return continuation for further assertions of the struct
     /// </summary>
     public static ContinueWith<IsObject> Is<TValue>(
@@ -217,25 +117,5 @@ public static class AssertionExtensions
     {
         Specification.AddAssert(() => Xunit.Assert.Equal(expected, actual), actualExpr, expectedExpr);
         return new(new(actual));
-    }
-
-    /// <summary>
-    /// Provide actual of any type to continue the chain of assertions on the new value
-    /// </summary>
-    /// <typeparam name="TActual"></typeparam>
-    /// <typeparam name="TContinuation"></typeparam>
-    /// <param name="_"></param>
-    /// <param name="actual"></param>
-    /// <param name="actualExpr"></param>
-    /// <returns></returns>
-    [CustomAssertion]
-    public static TActual And<TActual, TContinuation>(
-        this ContinueWith<TContinuation> _,
-        TActual actual,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        where TContinuation : Constraint
-    {
-        Specification.AddThen();
-        return actual;
     }
 }

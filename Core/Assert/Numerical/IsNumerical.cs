@@ -12,7 +12,7 @@ public abstract record IsNumerical<TConstraint, TActual> : Constraint<TConstrain
     where TConstraint : IsNumerical<TConstraint, TActual>
     where TActual : struct, IComparable<TActual>
 {
-    internal IsNumerical(TActual actual, string actualExpr = null) : base(actual, actualExpr, "is") { }
+    internal IsNumerical(TActual actual, string actualExpr = null) : base(actual, actualExpr) { }
 
     /// <summary>
     /// actual.Should().NotBe(expected)
@@ -28,7 +28,8 @@ public abstract record IsNumerical<TConstraint, TActual> : Constraint<TConstrain
     /// actual.Should().BeGreaterThan(expected)
     /// </summary>
     [CustomAssertion]
-    public ContinueWith<TConstraint> GreaterThan(TActual expected)
+    public ContinueWith<TConstraint> GreaterThan(
+        TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
         Actual.Should().BeGreaterThan(expected);
         return And();
@@ -38,7 +39,8 @@ public abstract record IsNumerical<TConstraint, TActual> : Constraint<TConstrain
     /// actual.Should().BeLessThan(expected)
     /// </summary>
     [CustomAssertion]
-    public ContinueWith<TConstraint> LessThan(TActual expected)
+    public ContinueWith<TConstraint> LessThan(
+        TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
         Actual.Should().BeLessThan(expected);
         return And();
@@ -48,7 +50,8 @@ public abstract record IsNumerical<TConstraint, TActual> : Constraint<TConstrain
     /// actual.Should().BeLessThanOrEqualTo(expected)
     /// </summary>
     [CustomAssertion]
-    public ContinueWith<TConstraint> NotGreaterThan(TActual expected)
+    public ContinueWith<TConstraint> NotGreaterThan(
+        TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
         Actual.Should().BeLessThanOrEqualTo(expected);
         return And();
@@ -58,7 +61,8 @@ public abstract record IsNumerical<TConstraint, TActual> : Constraint<TConstrain
     /// actual.Should().BeGreaterThanOrEqualTo(expected)
     /// </summary>
     [CustomAssertion]
-    public ContinueWith<TConstraint> NotLessThan(TActual expected)
+    public ContinueWith<TConstraint> NotLessThan(
+        TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
         Actual.Should().BeGreaterThanOrEqualTo(expected);
         return And();

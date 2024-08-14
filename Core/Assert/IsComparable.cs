@@ -9,7 +9,7 @@ namespace XspecT.Assert;
 public record IsComparable<TActual> : Constraint<IsComparable<TActual>, TActual>
     where TActual : IComparable<TActual>
 {
-    internal IsComparable(TActual actual) : base(actual, "", "is") { }
+    internal IsComparable(TActual actual, string actualExpr) : base(actual, actualExpr) { }
 
     /// <summary>
     /// actual.Should().BeGreaterThan(expected)

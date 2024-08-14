@@ -5,5 +5,5 @@
 /// </summary>
 public record IsUInt : IsNumerical<IsUInt, uint>
 {
-    internal IsUInt(uint actual) : base(actual) { }
+    internal IsUInt(uint actual, string actualExpr = null) : base(actual, actualExpr) { }
 }

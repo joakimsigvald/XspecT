@@ -8,7 +8,7 @@ namespace XspecT.Assert;
 /// </summary>
 public record DoesString : Constraint<DoesString, string>
 {
-    internal DoesString(string actual, string actualExpr = null) : base(actual, actualExpr, "does") { }
+    internal DoesString(string actual, string actualExpr = null) : base(actual, actualExpr) { }
 
     /// <summary>
     /// Asserts that the string contains the expected string
@@ -26,9 +26,10 @@ public record DoesString : Constraint<DoesString, string>
     /// Asserts that the string does not contain the expected string
     /// </summary>
     [CustomAssertion]
-    public ContinueWith<DoesString> NotContain(string other)
+    public ContinueWith<DoesString> NotContain(
+        string expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Actual.Should().NotContain(other);
+        Actual.Should().NotContain(expected);
         return And();
     }
 

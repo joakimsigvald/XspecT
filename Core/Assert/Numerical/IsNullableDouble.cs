@@ -7,6 +7,6 @@ namespace XspecT.Assert.Numerical;
 /// </summary>
 public record IsNullableDouble : IsNullableNumerical<double, IsNullableDouble>
 {
-    internal IsNullableDouble(double? actual) : base(actual) { }
+    internal IsNullableDouble(double? actual, string actualExpr = null) : base(actual, actualExpr) { }
     [CustomAssertion] internal override FluentAssertions.Numeric.NullableNumericAssertions<double> Should() => Actual.Should();
 }

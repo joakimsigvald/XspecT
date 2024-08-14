@@ -7,6 +7,6 @@ namespace XspecT.Assert.Numerical;
 /// </summary>
 public record IsNullableDecimal : IsNullableNumerical<decimal, IsNullableDecimal>
 {
-    internal IsNullableDecimal(decimal? actual) : base(actual) { }
+    internal IsNullableDecimal(decimal? actual, string actualExpr = null) : base(actual, actualExpr) { }
     [CustomAssertion] internal override FluentAssertions.Numeric.NullableNumericAssertions<decimal> Should() => Actual.Should();
 }

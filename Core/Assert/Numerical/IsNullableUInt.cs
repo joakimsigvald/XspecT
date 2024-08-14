@@ -7,6 +7,6 @@ namespace XspecT.Assert.Numerical;
 /// </summary>
 public record IsNullableUInt : IsNullableNumerical<uint, IsNullableUInt>
 {
-    internal IsNullableUInt(uint? actual) : base(actual) { }
+    internal IsNullableUInt(uint? actual, string actualExpr = null) : base(actual, actualExpr) { }
     [CustomAssertion] internal override FluentAssertions.Numeric.NullableNumericAssertions<uint> Should() => Actual.Should();
 }

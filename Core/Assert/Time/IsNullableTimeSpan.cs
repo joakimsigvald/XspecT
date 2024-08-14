@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using System.Runtime.CompilerServices;
 
 namespace XspecT.Assert.Time;
 
@@ -7,17 +8,19 @@ namespace XspecT.Assert.Time;
 /// </summary>
 public record IsNullableTimeSpan : Constraint<IsNullableTimeSpan, TimeSpan?>
 {
-    internal IsNullableTimeSpan(TimeSpan? actual, string actualExpr = null) : base(actual, actualExpr, "is") { }
+    internal IsNullableTimeSpan(TimeSpan? actual, string actualExpr = null) : base(actual, actualExpr) { }
 
     /// <summary>
     /// Asserts that the timeSpan is null or not equal to the given value
     /// </summary>
-    /// <param name="unexpected"></param>
+    /// <param name="expected"></param>
+    /// <param name="expectedExpr"></param>
     /// <returns></returns>
     [CustomAssertion]
-    public ContinueWith<IsNullableTimeSpan> Not(TimeSpan unexpected)
+    public ContinueWith<IsNullableTimeSpan> Not(
+        TimeSpan expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Actual.Should().NotBe(unexpected);
+        Actual.Should().NotBe(expected);
         return And();
     }
 

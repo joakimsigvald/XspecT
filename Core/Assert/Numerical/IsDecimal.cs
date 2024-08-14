@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using System.Runtime.CompilerServices;
 
 namespace XspecT.Assert.Numerical;
 
@@ -7,16 +8,18 @@ namespace XspecT.Assert.Numerical;
 /// </summary>
 public record IsDecimal : IsNumerical<IsDecimal, decimal>
 {
-    internal IsDecimal(decimal actual) : base(actual) { }
+    internal IsDecimal(decimal actual, string actualExpr = null) : base(actual, actualExpr) { }
 
     /// <summary>
     /// Asserts that the decimal is close to the given value, within the provided precision
     /// </summary>
     /// <param name="expected"></param>
     /// <param name="precision"></param>
+    /// <param name="expectedExpr"></param>
     /// <returns></returns>
     [CustomAssertion]
-    public ContinueWith<IsDecimal> Around(decimal expected, decimal precision)
+    public ContinueWith<IsDecimal> Around(
+        decimal expected, decimal precision, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
         Actual.Should().BeApproximately(expected, precision);
         return And();

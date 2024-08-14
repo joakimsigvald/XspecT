@@ -8,7 +8,7 @@ namespace XspecT.Assert;
 /// </summary>
 public record IsString : Constraint<IsStringContinuation, string>
 {
-    internal IsString(string actual, string actualExpr = null) : base(actual, actualExpr, "is") { }
+    internal IsString(string actual, string actualExpr = null) : base(actual, actualExpr) { }
 
     /// <summary>
     /// Asserts that the string is equivalent to expected, ignoring casing and leading or trailing whitespace

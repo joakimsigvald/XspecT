@@ -13,9 +13,12 @@ internal static class Extensions
     }
 
     internal static string AsWords(this string str)
+        => string.Join(' ', ToWords(str));
+
+    internal static string[] ToWords(this string str)
         => string.IsNullOrWhiteSpace(str)
-        ? string.Empty
-        : string.Join(' ', SplitWords(str).Select(word => word.ToLower()));
+        ? [string.Empty]
+        : [..SplitWords(str).Select(word => word.ToLower())];
 
     internal static string Capitalize(this string str)
         => string.IsNullOrWhiteSpace(str)

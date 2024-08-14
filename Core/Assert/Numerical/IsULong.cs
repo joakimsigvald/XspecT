@@ -5,5 +5,5 @@
 /// </summary>
 public record IsULong : IsNumerical<IsULong, ulong>
 {
-    internal IsULong(ulong actual) : base(actual) { }
+    internal IsULong(ulong actual, string actualExpr = null) : base(actual, actualExpr) { }
 }

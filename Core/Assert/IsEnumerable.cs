@@ -9,7 +9,7 @@ namespace XspecT.Assert;
 /// <typeparam name="TItem"></typeparam>
 public record IsEnumerable<TItem> : Constraint<IsEnumerable<TItem>, IEnumerable<TItem>>
 {
-    internal IsEnumerable(IEnumerable<TItem> actual, string actualExpr = null) : base(actual, actualExpr, "is") { }
+    internal IsEnumerable(IEnumerable<TItem> actual, string actualExpr = null) : base(actual, actualExpr) { }
 
     /// <summary>
     /// actual.Should().BeEmpty()

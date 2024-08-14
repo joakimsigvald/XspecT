@@ -5,5 +5,5 @@
 /// </summary>
 public record IsSByte : IsNumerical<IsSByte, sbyte>
 {
-    internal IsSByte(sbyte actual) : base(actual) { }
+    internal IsSByte(sbyte actual, string actualExpr = null) : base(actual, actualExpr) { }
 }

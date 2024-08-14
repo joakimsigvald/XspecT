@@ -5,5 +5,5 @@
 /// </summary>
 public record IsShort : IsNumerical<IsShort, short>
 {
-    internal IsShort(short actual) : base(actual) { }
+    internal IsShort(short actual, string actualExpr = null) : base(actual, actualExpr) { }
 }
