@@ -7,14 +7,14 @@ namespace XspecT.Assert;
 /// Object that allows an assertions to be made on the provided enumerable
 /// </summary>
 /// <typeparam name="TItem"></typeparam>
-public record IsEnumerable<TItem> : Constraint<IsEnumerable<TItem>, IEnumerable<TItem>>
+public record IsEnumerable<TItem> : Constraint<IsEnumerableContinuation<TItem>, IEnumerable<TItem>>
 {
     internal IsEnumerable(IEnumerable<TItem> actual, string actualExpr = null) : base(actual, actualExpr) { }
 
     /// <summary>
     /// actual.Should().BeEmpty()
     /// </summary>
-    public ContinueWith<IsEnumerable<TItem>> Empty()
+    public ContinueWith<IsEnumerableContinuation<TItem>> Empty()
     {
         AddAssert([CustomAssertion] () => Actual.Should().BeEmpty());
         Actual.Should().BeEmpty();
@@ -25,7 +25,7 @@ public record IsEnumerable<TItem> : Constraint<IsEnumerable<TItem>, IEnumerable<
     /// actual.Should().NotBeEmpty()
     /// </summary>
     [CustomAssertion]
-    public ContinueWith<IsEnumerable<TItem>> NotEmpty()
+    public ContinueWith<IsEnumerableContinuation<TItem>> NotEmpty()
     {
         Actual.Should().NotBeEmpty();
         return And();
@@ -40,7 +40,7 @@ public record IsEnumerable<TItem> : Constraint<IsEnumerable<TItem>, IEnumerable<
     /// actual.Should().NotBeEmpty()
     /// </summary>
     [CustomAssertion]
-    public ContinueWith<IsEnumerable<TItem>> NotNull()
+    public ContinueWith<IsEnumerableContinuation<TItem>> NotNull()
     {
         Actual.Should().NotBeEmpty();
         return And();
@@ -49,7 +49,7 @@ public record IsEnumerable<TItem> : Constraint<IsEnumerable<TItem>, IEnumerable<
     /// <summary>
     /// actual.Should().NotBeSameAs(expected)
     /// </summary>
-    public ContinueWith<IsEnumerable<TItem>> Not(
+    public ContinueWith<IsEnumerableContinuation<TItem>> Not(
         IEnumerable<TItem> expected, 
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
@@ -63,7 +63,7 @@ public record IsEnumerable<TItem> : Constraint<IsEnumerable<TItem>, IEnumerable<
     /// <param name="expected">The collection to validate against</param>
     /// <param name="expectedExpr"></param>
     /// <returns>A continuation for making further assertions</returns>
-    public ContinueWith<IsEnumerable<TItem>> EqualTo(
+    public ContinueWith<IsEnumerableContinuation<TItem>> EqualTo(
         IEnumerable<TItem> expected,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
@@ -75,11 +75,16 @@ public record IsEnumerable<TItem> : Constraint<IsEnumerable<TItem>, IEnumerable<
     /// Verifies that the collections are not equal
     /// </summary>
     /// <param name="expected">The collection to validate against</param>
+    /// <param name="expectedExpr"></param>
     /// <returns>A continuation for making further assertions</returns>
     [CustomAssertion]
-    public ContinueWith<IsEnumerable<TItem>> NotEqualTo(IEnumerable<TItem> expected)
+    public ContinueWith<IsEnumerableContinuation<TItem>> NotEqualTo(
+        IEnumerable<TItem> expected,
+        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
         Actual.Should().NotBeEquivalentTo(expected);
         return And();
     }
+
+    internal override IsEnumerableContinuation<TItem> Continue() => new(Actual);
 }

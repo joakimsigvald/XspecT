@@ -7,9 +7,12 @@ public class WhenString : Spec<string>
     [Fact] public void IsNotEmpty() => "x".Is().NotEmpty();
     [Fact] public void DoesContainSubstring() => "abcd".Does().Contain("abc");
     [Fact] public void DoesContainAndContainSubstrings() => "abcd".Does().Contain("abc").And.Contain("bcd");
+    [Fact] public void DoesContainAndIsNotNull() => "abcd".Does().Contain("abc").And.Is().NotNull();
     [Fact] public void DoesNotContainOtherString() => "abcd".Does().NotContain("xxx");
-    [Fact] public void IsNotNullAndContainSubstring() => "abcd".Is().NotNull().And.Contain("abc");
-    [Fact] public void IsNotNullAndNotContainOtherString() => "abcd".Is().NotNull().And.NotContain("xxx");
+    [Fact] public void IsNotNullAndContainSubstring() => "abcd".Is().NotNull().And.Does().Contain("abc");
+    [Fact] public void IsNotNullAndStartWithSubstring() => "abcd".Is().NotNull().And.Does().StartWith("abc");
+    [Fact] public void IsNotNullAndEndWithSubstring() => "abcd".Is().NotNull().And.Does().EndWith("bcd");
+    [Fact] public void IsNotNullAndNotContainOtherString() => "abcd".Is().NotNull().And.Does().NotContain("xxx");
     [Fact] public void IsNotNullAndNot() => "A".Is().NotNull().And.Not("B");
     [Fact] public void IsEqual() => "AbC".Is("AbC");
     [Fact] public void IsLike() => "AbC".Is().Like("aBc").And.Like("AbC");

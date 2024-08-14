@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using System.Runtime.CompilerServices;
 
 namespace XspecT.Assert;
 
@@ -15,7 +16,8 @@ public record IsComparable<TActual> : Constraint<IsComparable<TActual>, TActual>
     /// actual.Should().BeGreaterThan(expected)
     /// </summary>
     [CustomAssertion]
-    public ContinueWith<IsComparable<TActual>> GreaterThan(TActual expected)
+    public ContinueWith<IsComparable<TActual>> GreaterThan(
+        TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
         Actual.Should().BeGreaterThan(expected);
         return And();
@@ -25,7 +27,8 @@ public record IsComparable<TActual> : Constraint<IsComparable<TActual>, TActual>
     /// actual.Should().BeLessThan(expected)
     /// </summary>
     [CustomAssertion]
-    public ContinueWith<IsComparable<TActual>> LessThan(TActual expected)
+    public ContinueWith<IsComparable<TActual>> LessThan(
+        TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
         Actual.Should().BeLessThan(expected);
         return And();
@@ -35,7 +38,8 @@ public record IsComparable<TActual> : Constraint<IsComparable<TActual>, TActual>
     /// actual.Should().BeLessThanOrEqualTo(expected)
     /// </summary>
     [CustomAssertion]
-    public ContinueWith<IsComparable<TActual>> NotGreaterThan(TActual expected)
+    public ContinueWith<IsComparable<TActual>> NotGreaterThan(
+        TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
         Actual.Should().BeLessThanOrEqualTo(expected);
         return And();
@@ -45,7 +49,8 @@ public record IsComparable<TActual> : Constraint<IsComparable<TActual>, TActual>
     /// actual.Should().BeGreaterThanOrEqualTo(expected)
     /// </summary>
     [CustomAssertion]
-    public ContinueWith<IsComparable<TActual>> NotLessThan(TActual expected)
+    public ContinueWith<IsComparable<TActual>> NotLessThan(
+        TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
         Actual.Should().BeGreaterThanOrEqualTo(expected);
         return And();

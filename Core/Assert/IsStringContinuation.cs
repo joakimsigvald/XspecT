@@ -1,6 +1,4 @@
-﻿using FluentAssertions;
-
-namespace XspecT.Assert;
+﻿namespace XspecT.Assert;
 
 /// <summary>
 /// Object that allows another assertions to be made on the provided string
@@ -12,16 +10,8 @@ public record IsStringContinuation : IsString
     }
 
     /// <summary>
-    /// Asserts that the string contains the given string
+    /// Continuation to assert that the string does satisfy some expectation
     /// </summary>
-    [CustomAssertion]
-    public ContinueWith<DoesString> Contain(string expected)
-        => new DoesString(Actual).Contain(expected);
-
-    /// <summary>
-    /// Asserts that the string does not contains the given string
-    /// </summary>
-    [CustomAssertion]
-    public ContinueWith<DoesString> NotContain(string other)
-        => new DoesString(Actual).NotContain(other);
+    /// <returns></returns>
+    public DoesString Does() => Actual.Does();
 }

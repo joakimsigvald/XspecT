@@ -7,15 +7,15 @@ namespace XspecT.Assert;
 /// <summary>
 /// Object that allows an assertions to be made on the provided enumerable
 /// </summary>
-public record HasEnumerable<TItem> : Constraint<HasEnumerable<TItem>, IEnumerable<TItem>>
+public record HasEnumerable<TItem> : Constraint<HasEnumerableContinuation<TItem>, IEnumerable<TItem>>
 {
-    internal HasEnumerable(IEnumerable<TItem> actual, string actualExpr) : base(actual, actualExpr) { }
+    internal HasEnumerable(IEnumerable<TItem> actual, string actualExpr = null) : base(actual, actualExpr) { }
 
     /// <summary>
     /// actual.Should().ContainSingle()
     /// </summary>
     [CustomAssertion]
-    public ContinueWith<HasEnumerable<TItem>> Single()
+    public ContinueWith<HasEnumerableContinuation<TItem>> Single()
     {
         Actual.Should().ContainSingle();
         return And();
@@ -25,8 +25,8 @@ public record HasEnumerable<TItem> : Constraint<HasEnumerable<TItem>, IEnumerabl
     /// actual.Should().ContainSingle()
     /// </summary>
     [CustomAssertion]
-    public ContinueWith<HasEnumerable<TItem>> Single(
-        Expression<Func<TItem, bool>> expected)
+    public ContinueWith<HasEnumerableContinuation<TItem>> Single(
+        Expression<Func<TItem, bool>> expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
         Actual.Should().ContainSingle(expected);
         return And();
@@ -35,7 +35,8 @@ public record HasEnumerable<TItem> : Constraint<HasEnumerable<TItem>, IEnumerabl
     /// <summary>
     /// actual.Should().HaveCount(expected)
     /// </summary>
-    public ContinueWith<HasEnumerable<TItem>> Count(int expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
+    public ContinueWith<HasEnumerableContinuation<TItem>> Count(
+        int expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
         AddAssert([CustomAssertion] () => Actual.Should().HaveCount(expected), expectedExpr);
         Actual.Should().HaveCount(expected);
@@ -46,10 +47,10 @@ public record HasEnumerable<TItem> : Constraint<HasEnumerable<TItem>, IEnumerabl
     /// collection.Select((it, i) => (it, i)).Should().OnlyContain(t => predicate(t.it, t.i))
     /// </summary>
     [CustomAssertion]
-    public ContinueWith<HasEnumerable<TItem>> All(
-        Func<TItem, int, bool> predicate, string because = "", params object[] becauseArgs)
+    public ContinueWith<HasEnumerableContinuation<TItem>> All(
+        Func<TItem, int, bool> predicate, [CallerArgumentExpression(nameof(predicate))] string predicateExpr = null)
     {
-        Actual.Select((it, i) => (it, i)).Should().OnlyContain(t => predicate(t.it, t.i), because, becauseArgs);
+        Actual.Select((it, i) => (it, i)).Should().OnlyContain(t => predicate(t.it, t.i));
         return And();
     }
 
@@ -57,10 +58,10 @@ public record HasEnumerable<TItem> : Constraint<HasEnumerable<TItem>, IEnumerabl
     /// collection.Select((it, i) => (it, i)).Should().OnlyContain(t => predicate(t.it, t.i))
     /// </summary>
     [CustomAssertion]
-    public ContinueWith<HasEnumerable<TItem>> All(
-        Func<TItem, bool> predicate, string because = "", params object[] becauseArgs)
+    public ContinueWith<HasEnumerableContinuation<TItem>> All(
+        Func<TItem, bool> predicate, [CallerArgumentExpression(nameof(predicate))] string predicateExpr = null)
     {
-        Actual.Should().OnlyContain(it => predicate(it), because, becauseArgs);
+        Actual.Should().OnlyContain(it => predicate(it));
         return And();
     }
 
@@ -68,8 +69,10 @@ public record HasEnumerable<TItem> : Constraint<HasEnumerable<TItem>, IEnumerabl
     /// Applies the given assertion to all element of the enumerable
     /// </summary>
     /// <param name="assert"></param>
+    /// <param name="assertExpr"></param>
     /// <returns></returns>
-    public ContinueWith<HasEnumerable<TItem>> All(Action<TItem, int> assert)
+    public ContinueWith<HasEnumerableContinuation<TItem>> All(
+        Action<TItem, int> assert, [CallerArgumentExpression(nameof(assert))] string assertExpr = null)
     {
         Actual.Select((it, i) => (it, i)).ToList().ForEach(t => assert(t.it, t.i));
         return And();
@@ -80,9 +83,11 @@ public record HasEnumerable<TItem> : Constraint<HasEnumerable<TItem>, IEnumerabl
     /// </summary>
     /// <param name="assert"></param>
     /// <returns></returns>
-    public ContinueWith<HasEnumerable<TItem>> All(Action<TItem> assert)
+    public ContinueWith<HasEnumerableContinuation<TItem>> All(Action<TItem> assert, [CallerArgumentExpression(nameof(assert))] string assertExpr = null)
     {
         Actual.ToList().ForEach(assert);
         return And();
     }
+
+    internal override HasEnumerableContinuation<TItem> Continue() => new(Actual);
 }

@@ -43,7 +43,9 @@ public record IsObject : Constraint<IsObject, object>
     /// Should().Be(expected)
     /// </summary>
     [CustomAssertion]
-    public ContinueWith<IsObject> EqualTo(object expected)
+    public ContinueWith<IsObject> EqualTo(
+        object expected,
+        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
         Actual.Should().Be(expected);
         return And();
@@ -53,7 +55,9 @@ public record IsObject : Constraint<IsObject, object>
     /// Should().NotBe(expected)
     /// </summary>
     [CustomAssertion]
-    public ContinueWith<IsObject> NotEqualTo(object expected)
+    public ContinueWith<IsObject> NotEqualTo(
+        object expected,
+        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
         Actual.Should().NotBe(expected);
         return And();
@@ -63,7 +67,9 @@ public record IsObject : Constraint<IsObject, object>
     /// Should().BeEquivalentTo(expected)
     /// </summary>
     [CustomAssertion]
-    public ContinueWith<IsObject> Like(object expected)
+    public ContinueWith<IsObject> Like(
+        object expected,
+        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
         Actual.Should().BeEquivalentTo(expected);
         return And();
@@ -73,7 +79,9 @@ public record IsObject : Constraint<IsObject, object>
     /// Should().NotBeEquivalentTo(expected)
     /// </summary>
     [CustomAssertion]
-    public ContinueWith<IsObject> NotLike(object expected)
+    public ContinueWith<IsObject> NotLike(
+        object expected,
+        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
         Actual.Should().NotBeEquivalentTo(expected);
         return And();
@@ -83,7 +91,9 @@ public record IsObject : Constraint<IsObject, object>
     /// Should().BeEquivalentTo(expected)
     /// </summary>
     [CustomAssertion]
-    public ContinueWith<IsObject> EquivalentTo(object expected)
+    public ContinueWith<IsObject> EquivalentTo(
+        object expected,
+        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
         Actual.Should().BeEquivalentTo(expected);
         return And();
@@ -93,7 +103,9 @@ public record IsObject : Constraint<IsObject, object>
     /// Should().BeEquivalentTo(expected)
     /// </summary>
     [CustomAssertion]
-    public ContinueWith<IsObject> NotEquivalentTo(object expected)
+    public ContinueWith<IsObject> NotEquivalentTo(
+        object expected,
+        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
         Actual.Should().NotBeEquivalentTo(expected);
         return And();

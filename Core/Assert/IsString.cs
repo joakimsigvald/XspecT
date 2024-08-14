@@ -14,9 +14,11 @@ public record IsString : Constraint<IsStringContinuation, string>
     /// Asserts that the string is equivalent to expected, ignoring casing and leading or trailing whitespace
     /// actual.Should().BeEquivalentTo(expected)
     /// </summary>
-    public ContinueWith<IsStringContinuation> Like(string expected)
+    public ContinueWith<IsStringContinuation> Like(
+        string expected,
+        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().BeEquivalentTo(expected));
+        AddAssert([CustomAssertion] () => Actual.Should().BeEquivalentTo(expected), expectedExpr);
         return And();
     }
 
@@ -25,9 +27,11 @@ public record IsString : Constraint<IsStringContinuation, string>
     /// actual.Should().NotBeEquivalentTo(expected)
     /// </summary>
     [CustomAssertion]
-    public ContinueWith<IsStringContinuation> NotLike(string expected)
+    public ContinueWith<IsStringContinuation> NotLike(
+        string expected,
+        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().NotBeEquivalentTo(expected));
+        AddAssert([CustomAssertion] () => Actual.Should().NotBeEquivalentTo(expected), expectedExpr);
         return And();
     }
 
@@ -36,9 +40,11 @@ public record IsString : Constraint<IsStringContinuation, string>
     /// actual.Should().BeEquivalentTo(expected)
     /// </summary>
     [CustomAssertion]
-    public ContinueWith<IsStringContinuation> EquivalentTo(string expected)
+    public ContinueWith<IsStringContinuation> EquivalentTo(
+        string expected,
+        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().BeEquivalentTo(expected));
+        AddAssert([CustomAssertion] () => Actual.Should().BeEquivalentTo(expected), expectedExpr);
         return And();
     }
 
@@ -47,9 +53,11 @@ public record IsString : Constraint<IsStringContinuation, string>
     /// actual.Should().NotBeEquivalentTo(expected)
     /// </summary>
     [CustomAssertion]
-    public ContinueWith<IsStringContinuation> NotEquivalentTo(string expected)
+    public ContinueWith<IsStringContinuation> NotEquivalentTo(
+        string expected,
+        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().NotBeEquivalentTo(expected));
+        AddAssert([CustomAssertion] () => Actual.Should().NotBeEquivalentTo(expected), expectedExpr);
         return And();
     }
 
@@ -136,12 +144,13 @@ public record IsString : Constraint<IsStringContinuation, string>
     /// <summary>
     /// Asserts that the string is not the given value
     /// </summary>
-    /// <param name="value"></param>
+    /// <param name="expected"></param>
     /// <returns></returns>
     [CustomAssertion]
-    public ContinueWith<IsStringContinuation> Not(string value)
+    public ContinueWith<IsStringContinuation> Not(
+        string expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Actual.Should().NotBe(value);
+        Actual.Should().NotBe(expected);
         return And();
     }
 

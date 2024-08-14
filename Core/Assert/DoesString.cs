@@ -6,7 +6,7 @@ namespace XspecT.Assert;
 /// <summary>
 /// Object that allows an assertions to be made on the provided string
 /// </summary>
-public record DoesString : Constraint<DoesString, string>
+public record DoesString : Constraint<DoesStringContinuation, string>
 {
     internal DoesString(string actual, string actualExpr = null) : base(actual, actualExpr) { }
 
@@ -14,7 +14,7 @@ public record DoesString : Constraint<DoesString, string>
     /// Asserts that the string contains the expected string
     /// </summary>
     [CustomAssertion]
-    public ContinueWith<DoesString> Contain(
+    public ContinueWith<DoesStringContinuation> Contain(
         string expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
         AddAssert([CustomAssertion] () => Actual.Should().Contain(expected), expectedExpr, "contains");
@@ -26,7 +26,7 @@ public record DoesString : Constraint<DoesString, string>
     /// Asserts that the string does not contain the expected string
     /// </summary>
     [CustomAssertion]
-    public ContinueWith<DoesString> NotContain(
+    public ContinueWith<DoesStringContinuation> NotContain(
         string expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
         Actual.Should().NotContain(expected);
@@ -40,7 +40,7 @@ public record DoesString : Constraint<DoesString, string>
     /// <param name="expectedExpr"></param>
     /// <returns></returns>
     [CustomAssertion]
-    public ContinueWith<DoesString> StartWith(
+    public ContinueWith<DoesStringContinuation> StartWith(
         string expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
         AddAssert([CustomAssertion] () => Actual.Should().StartWith(expected), expectedExpr, "starts with");
@@ -55,10 +55,12 @@ public record DoesString : Constraint<DoesString, string>
     /// <param name="expectedExpr"></param>
     /// <returns></returns>
     [CustomAssertion]
-    public ContinueWith<DoesString> EndWith(
+    public ContinueWith<DoesStringContinuation> EndWith(
         string expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
         AddAssert([CustomAssertion] () => Actual.Should().EndWith(expected), expectedExpr, "ends with");
         return And();
     }
+
+    internal override DoesStringContinuation Continue() => new(Actual);
 }
