@@ -26,15 +26,15 @@ internal class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, TA
     }
 
     internal GivenThatCommonContinuation(
-        Spec<TSUT, TResult> spec, 
-        Expression<Func<TService, TActualReturns>> call, 
+        Spec<TSUT, TResult> spec,
+        Expression<Func<TService, TActualReturns>> call,
         string callExpr = null)
         : this(spec, new Lazy<TMock>(() => (TMock)spec.GetMock<TService>().Setup(call)), callExpr)
     {
     }
 
     public IGivenThatReturnsContinuation<TSUT, TResult, TService> Returns(
-        [NotNull] Func<TReturns> returns, [CallerArgumentExpression("returns")] string returnsExpr = null)
+        [NotNull] Func<TReturns> returns, [CallerArgumentExpression(nameof(returns))] string returnsExpr = null)
     {
         if (returns is null)
             throw new SetupFailed($"{nameof(returns)} may not be null");
@@ -48,7 +48,7 @@ internal class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, TA
     public IGivenThatReturnsContinuation<TSUT, TResult, TService> Throws<TException>()
         where TException : Exception, new()
     {
-        _spec.ArrangeLast(() => Continuation.Throws<TException>());
+        SetupThrows<TException>();
         return new GivenThatReturnsContinuation<TSUT, TResult, TService>(_spec);
     }
 
@@ -66,15 +66,33 @@ internal class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, TA
 
         void DoSetupReturns()
         {
+            SpecifyMock();
+            Specification.AddMockReturns(returnsExpr);
             if (Continuation is Moq.Language.Flow.IReturnsThrows<TService, Task<TReturns>> asyncContinuation)
                 asyncContinuation.ReturnsAsync(returns);
             else
                 Continuation.Returns(returns);
-            if (_callExpr is not null)
-                Specification.AddMockSetup<TService>(_callExpr);
-            if (_tapExpr is not null)
-                Specification.AddTap(_tapExpr);
-            Specification.AddMockReturns(returnsExpr);
         }
+    }
+
+    private void SetupThrows<TException>()
+        where TException : Exception, new()
+    {
+        _spec.ArrangeLast(DoSetupThrows);
+
+        void DoSetupThrows()
+        {
+            SpecifyMock();
+            Specification.AddMockThrows<TException>();
+            Continuation.Throws<TException>();
+        }
+    }
+
+    private void SpecifyMock()
+    {
+        if (_callExpr is not null)
+            Specification.AddMockSetup<TService>(_callExpr);
+        if (_tapExpr is not null)
+            Specification.AddTap(_tapExpr);
     }
 }

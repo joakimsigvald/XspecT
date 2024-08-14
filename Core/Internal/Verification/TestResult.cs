@@ -30,7 +30,7 @@ internal class TestResult<TResult> : ITestResult<TResult>
 
     public IAndThen<TResult> Throws<TError>()
     {
-        Specification.AddThrows<TError>();
+        Specification.AddAssertThrows<TError>();
         AssertError<TError>();
         return And();
     }

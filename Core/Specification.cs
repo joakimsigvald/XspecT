@@ -26,6 +26,9 @@ public static class Specification
     internal static void AddMockReturns(string returnsExpr) 
         => Builder.Add(() => Builder.AddMockReturns(returnsExpr));
 
+    internal static void AddMockThrows<TError>()
+        => Builder.Add(Builder.AddMockThrows<TError>);
+
     internal static void AddWhen(string actExpr) => Builder.Add(() => Builder.AddWhen(actExpr));
 
     internal static void AddAssert(
@@ -56,7 +59,8 @@ public static class Specification
     internal static void AddVerify<TService>(string expressionExpr) 
         => Builder.Add(() => Builder.AddVerify<TService>(expressionExpr));
 
-    internal static void AddThrows<TError>() => Builder.Add(Builder.AddThrows<TError>);
+    internal static void AddAssertThrows<TError>() 
+        => Builder.Add(Builder.AddAssertThrows<TError>);
 
     internal static void AddTap(string expr) => Builder.Add(() => Builder.AddTap(expr));
 

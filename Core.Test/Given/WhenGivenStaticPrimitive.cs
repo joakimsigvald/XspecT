@@ -130,19 +130,41 @@ public class WhenGivenStaticPrimitive : Spec<string>
         Given().AThird<string>(_ => value)
             .When(_ => TheThird<string>())
             .Then().Result.Is(value);
+        Description.Is(
+            """
+            Given a third string { value }
+            When the third string
+            Then Result is value
+            """);
     }
 
     [Theory]
     [InlineData("abc")]
     public void GivenTransformFourthValue_ThenApplyTransformOn_TheFourthValue(string value)
-        => Given().AFourth<string>(_ => value)
-        .When(_ => TheFourth<string>())
-        .Then().Result.Is(value);
+    {
+        Given().AFourth<string>(_ => value)
+            .When(_ => TheFourth<string>())
+            .Then().Result.Is(value);
+        Description.Is(
+            """
+            Given a fourth string { value }
+            When the fourth string
+            Then Result is value
+            """);
+    }
 
     [Theory]
     [InlineData("abc")]
     public void GivenTransformFifthValue_ThenApplyTransformOn_TheFifthValue(string value)
-        => Given().AFifth<string>(_ => value)
-        .When(_ => TheFifth<string>())
-        .Then().Result.Is(value);
+    {
+        Given().AFifth<string>(_ => value)
+            .When(_ => TheFifth<string>())
+            .Then().Result.Is(value);
+        Description.Is(
+            """
+            Given a fifth string { value }
+            When the fifth string
+            Then Result is value
+            """);
+    }
 }

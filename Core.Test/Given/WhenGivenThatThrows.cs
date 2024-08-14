@@ -4,9 +4,17 @@ public class WhenGivenThatThrows : Spec<MyService, MyModel>
 {
     [Fact]
     public void GivenExceptionType_ThenThrowsExceptionOfThatType()
-        => When(_ => _.GetModel())
-        .Given<IMyRepository>().That(_ => _.GetModel()).Throws<NotFound>()
-        .Then().Throws<NotFound>();
+    {
+        When(_ => _.GetModel())
+            .Given<IMyRepository>().That(_ => _.GetModel()).Throws<NotFound>()
+            .Then().Throws<NotFound>();
+        Description.Is(
+            """
+            Given IMyRepository.GetModel() throws NotFound
+            When GetModel()
+            Then throws NotFound
+            """);
+    }
 
     [Fact]
     public void GivenDefaultExceptionType_ThenThrowsExceptionOfThatType()
