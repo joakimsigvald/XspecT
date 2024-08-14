@@ -163,9 +163,9 @@ internal class Pipeline<TSUT, TResult>
             throw new SetupFailed("Cannot provide setup after test pipeline was run");
     }
 
-    internal void SetupThrows<TService>(Func<Exception> ex)
+    internal void SetupThrows<TService>(Func<Exception> expected)
     {
         AssertHasNotRun();
-        _context.SetupThrows<TService>(ex);
+        _context.SetupThrows<TService>(expected);
     }
 }

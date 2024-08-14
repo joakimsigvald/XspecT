@@ -141,5 +141,6 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
         return new GivenTestPipeline<TSUT, TResult>(this);
     }
 
-    internal void SetupThrows<TService>(Func<Exception> ex) => _pipeline.SetupThrows<TService>(ex);
+    internal void SetupThrows<TService>(Func<Exception> expected) 
+        => _pipeline.SetupThrows<TService>(expected);
 }

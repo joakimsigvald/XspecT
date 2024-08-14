@@ -31,8 +31,17 @@ internal class SpecificationBuilder
     internal void AddMockReturns(string returnsExpr)
         => AddWord($"returns {returnsExpr.ParseValue()}");
 
+    internal void AddMockThrowsDefault<TService, TException>()
+        => AddWord($"{Given} {GetMockName<TService>(' ')}throws {NameOf<TException>()}");
+
+    internal void AddMockThrowsDefault<TService>(string expectedExpr)
+        => AddWord($"{Given} {GetMockName<TService>(' ')}throws {expectedExpr.ParseValue()}");
+
     internal void AddMockThrows<TException>()
         => AddWord($"throws {NameOf<TException>()}");
+
+    internal void AddMockThrows(string expectedExpr)
+        => AddWord($"throws {expectedExpr.ParseValue()}");
 
     internal void AddWhen(string actExpr) 
         => AddSentence($"when {actExpr.ParseCall()}");
@@ -74,6 +83,9 @@ internal class SpecificationBuilder
 
     internal void AddAssertThrows<TError>()
         => AddSentence($"{Then} throws {NameOf<TError>()}");
+
+    internal void AddAssertThrows(string expectedExpr)
+        => AddSentence($"{Then} throws {expectedExpr.ParseValue()}");
 
     internal void AddTap(string expr) => AddWord($"tap({expr})");
 

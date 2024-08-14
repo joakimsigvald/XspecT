@@ -39,7 +39,9 @@ public interface IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns>
     /// <summary>
     /// Provide an exception to mock
     /// </summary>
-    /// <param name="ex"></param>
+    /// <param name="expected"></param>
+    /// <param name="expectedExpr"></param>
     /// <returns></returns>
-    IGivenThatReturnsContinuation<TSUT, TResult, TService> Throws(Func<Exception> ex);
+    IGivenThatReturnsContinuation<TSUT, TResult, TService> Throws(
+        Func<Exception> expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null);
 }

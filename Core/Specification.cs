@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.Runtime.CompilerServices;
 using XspecT.Internal;
 using XspecT.Internal.TestData;
 using Xunit.Sdk;
@@ -26,8 +27,17 @@ public static class Specification
     internal static void AddMockReturns(string returnsExpr) 
         => Builder.Add(() => Builder.AddMockReturns(returnsExpr));
 
+    internal static void AddMockThrowsDefault<TService, TError>()
+        => Builder.Add(Builder.AddMockThrowsDefault<TService, TError>);
+
+    internal static void AddMockThrowsDefault<TService>(string expectedExpr)
+        => Builder.Add(() => Builder.AddMockThrowsDefault<TService>(expectedExpr));
+
     internal static void AddMockThrows<TError>()
         => Builder.Add(Builder.AddMockThrows<TError>);
+
+    internal static void AddMockThrows(string expectedExpr)
+        => Builder.Add(() => Builder.AddMockThrows(expectedExpr));
 
     internal static void AddWhen(string actExpr) => Builder.Add(() => Builder.AddWhen(actExpr));
 
@@ -59,8 +69,11 @@ public static class Specification
     internal static void AddVerify<TService>(string expressionExpr) 
         => Builder.Add(() => Builder.AddVerify<TService>(expressionExpr));
 
-    internal static void AddAssertThrows<TError>() 
+    internal static void AddAssertThrows<TError>()
         => Builder.Add(Builder.AddAssertThrows<TError>);
+
+    internal static void AddAssertThrows(string expectedExpr)
+        => Builder.Add(() => Builder.AddAssertThrows(expectedExpr));
 
     internal static void AddTap(string expr) => Builder.Add(() => Builder.AddTap(expr));
 

@@ -28,11 +28,17 @@ internal class GivenServiceContinuation<TSUT, TResult, TService> : IGivenService
     }
 
     public IGivenTestPipeline<TSUT, TResult> Throws<TException>() where TException : Exception, new()
-        => Throws(_spec.Another<TException>);
-
-    public IGivenTestPipeline<TSUT, TResult> Throws(Func<Exception> ex)
     {
-        _spec.SetupThrows<TService>(ex);
+        Specification.AddMockThrowsDefault<TService, TException>();
+        _spec.SetupThrows<TService>(_spec.Another<TException>);
+        return new GivenTestPipeline<TSUT, TResult>(_spec);
+    }
+
+    public IGivenTestPipeline<TSUT, TResult> Throws(
+        Func<Exception> expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
+    {
+        Specification.AddMockThrowsDefault<TService>(expectedExpr);
+        _spec.SetupThrows<TService>(expected);
         return new GivenTestPipeline<TSUT, TResult>(_spec);
     }
 

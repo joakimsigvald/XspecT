@@ -52,9 +52,10 @@ internal class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, TA
         return new GivenThatReturnsContinuation<TSUT, TResult, TService>(_spec);
     }
 
-    public IGivenThatReturnsContinuation<TSUT, TResult, TService> Throws(Func<Exception> ex)
+    public IGivenThatReturnsContinuation<TSUT, TResult, TService> Throws(
+        Func<Exception> expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        _spec.ArrangeLast(() => Continuation.Throws(ex()));
+        SetupThrows(expected, expectedExpr);
         return new GivenThatReturnsContinuation<TSUT, TResult, TService>(_spec);
     }
 
@@ -85,6 +86,18 @@ internal class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, TA
             SpecifyMock();
             Specification.AddMockThrows<TException>();
             Continuation.Throws<TException>();
+        }
+    }
+
+    private void SetupThrows(Func<Exception> expected, string expectedExpr)
+    {
+        _spec.ArrangeLast(DoSetupThrows);
+
+        void DoSetupThrows()
+        {
+            SpecifyMock();
+            Specification.AddMockThrows(expectedExpr);
+            Continuation.Throws(expected());
         }
     }
 

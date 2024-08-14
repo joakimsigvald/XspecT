@@ -1,4 +1,6 @@
-﻿namespace XspecT.Continuations;
+﻿using System.Runtime.CompilerServices;
+
+namespace XspecT.Continuations;
 
 /// <summary>
 /// An object containing the result of a test-run
@@ -22,9 +24,12 @@ public interface ITestResult<TResult>
     /// Asserts that the test-run threw an error that is equal to the return value of the given function
     /// </summary>
     /// <typeparam name="TError"></typeparam>
-    /// <param name="error"></param>
+    /// <param name="expected"></param>
+    /// <param name="expectedExpr"></param>
     /// <returns></returns>
-    IAndThen<TResult> Throws<TError>(Func<TError> error) where TError : Exception;
+    IAndThen<TResult> Throws<TError>(
+        Func<TError> expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null) 
+        where TError : Exception;
 
     /// <summary>
     /// Asserts that the test-run threw an error of the given type, and satisfy the given assertions

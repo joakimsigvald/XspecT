@@ -30,9 +30,11 @@ public interface IGivenServiceContinuation<TSUT, TResult, TService>
     /// <summary>
     /// Setup mock to throw the given exception for any call
     /// </summary>
-    /// <param name="ex"></param>
+    /// <param name="expected"></param>
+    /// <param name="expectedExpr"></param>
     /// <returns></returns>
-    IGivenTestPipeline<TSUT, TResult> Throws(Func<Exception> ex);
+    IGivenTestPipeline<TSUT, TResult> Throws(
+        Func<Exception> expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null);
 
     /// <summary>
     /// Mock the method invocation

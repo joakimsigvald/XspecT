@@ -1,9 +1,9 @@
 ﻿using Moq;
 using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 using XspecT.Continuations;
 using XspecT.Internal.TestData;
 using Xunit.Sdk;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace XspecT.Internal.Verification;
 
@@ -35,9 +35,12 @@ internal class TestResult<TResult> : ITestResult<TResult>
         return And();
     }
 
-    public IAndThen<TResult> Throws<TError>(Func<TError> error) where TError : Exception
+    public IAndThen<TResult> Throws<TError>(
+        Func<TError> expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null) 
+        where TError : Exception
     {
-        AssertError(error());
+        Specification.AddAssertThrows(expectedExpr);
+        AssertError(expected());
         return And();
     }
 
