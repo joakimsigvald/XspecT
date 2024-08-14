@@ -10,7 +10,7 @@ public class WhenReturnsDefaultValue : Spec<MyValueIntService, string>
         When(_ => _.GetValue(A<MyValueInt>()))
             .Given<IMyValueIntRepo>().Returns(A<string>)
             .Then().Result.Is(The<string>());
-        VerifyDescription(
+        Description.Is(
             """
             Given IMyValueIntRepo returns a string
             When GetValue(a MyValueInt)
@@ -24,7 +24,7 @@ public class WhenReturnsDefaultValue : Spec<MyValueIntService, string>
         When(_ => _.GetValueAsync(A<MyValueInt>()))
             .Given<IMyValueIntRepo>().Returns(A<string>)
             .Then().Result.Is(The<string>());
-        VerifyDescription(
+        Description.Is(
             """
             Given IMyValueIntRepo returns a string
             When GetValueAsync(a MyValueInt)
@@ -40,7 +40,7 @@ public class WhenReturnsDefaultValue : Spec<MyValueIntService, string>
             .AndThat(_ => _.GetAsync(The<MyValueInt>()))
             .Returns(ASecond<string>)
             .Then().Result.Is(TheSecond<string>());
-        VerifyDescription(
+        Description.Is(
             """
             Given IMyValueIntRepo returns a string
              and GetAsync(the MyValueInt) returns a second string

@@ -8,7 +8,7 @@ public class WhenMockStringAndInt : Spec<StaticStringAndIntService, string>
     public void Then_It_Has_TheStringAndInt()
     {
         Given(A<string>).And(An<int>).Then().Result.Is($"{The<string>()}:{The<int>()}");
-        VerifyDescription(
+        Description.Is(
             """
             Given an int
              and a string
@@ -24,7 +24,7 @@ public class WhenMockStringAndInt : Spec<StaticStringAndIntService, string>
         public void Then_It_Has_ProvidedValue(string value)
         {
             Given(value).And(A<string>).And(An<int>).Then().Result.Does().Contain(value);
-            VerifyDescription(
+            Description.Is(
                 """
                 Given value
                  and an int
@@ -43,7 +43,7 @@ public class WhenMockStringAndInt : Spec<StaticStringAndIntService, string>
         public void Then_It_Has_ProvidedValue(int value)
         {
             Given(A<string>).And(An<int>).And(value).Then().Result.Does().Contain($"{value}");
-            VerifyDescription(
+            Description.Is(
                 """
                 Given value
                  and an int

@@ -10,7 +10,7 @@ public class WhenGivenFullName : Spec<MyValueTypeModel, MyFullName>
             .And(Result).Primitive.first.Primitive.Is().NotNullOrEmpty()
             .And(Result).Primitive.middle.Primitive.Is().NotNullOrEmpty()
             .And(Result).Primitive.last.Primitive.Is().NotNullOrEmpty();
-        VerifyDescription(
+        Description.Is(
             """
             Given a MyFullName
             When Name

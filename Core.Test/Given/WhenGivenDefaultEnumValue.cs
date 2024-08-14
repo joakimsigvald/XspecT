@@ -7,7 +7,7 @@ public class WhenGivenDefaultEnumValue : Spec<MyService, MyEnum>
     public void ThenUseDefaultValue()
     {
         Result.Is(MyEnum.Two);
-        VerifyDescription(
+        Description.Is(
             """
             Given MyEnum.Two
             When MyService.Echo(the MyEnum)

@@ -7,7 +7,7 @@ public class WhenGivenFunction : Spec<MyService, DateTime>
     {
         Given(A<DateTime>).When(_ => _.GetTime())
             .Then().Result.Is(The<DateTime>());
-        VerifyDescription(
+        Description.Is(
             """
             Given a DateTime
             When GetTime()
@@ -20,7 +20,7 @@ public class WhenGivenFunction : Spec<MyService, DateTime>
     {
         Given(A<DateTime>()).When(_ => _.GetTime())
             .Then().Result.Is(The<DateTime>());
-        VerifyDescription(
+        Description.Is(
             """
             Given a DateTime
             When GetTime()

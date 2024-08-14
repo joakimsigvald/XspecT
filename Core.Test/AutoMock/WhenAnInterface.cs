@@ -9,7 +9,7 @@ public class WhenInjectingAnInterfaceWithUsing : Spec<InterfaceService, int>
     public void ThenGetValue()
     {
         Result.Is(The<int>());
-        VerifyDescription(
+        Description.Is(
 @"Given new MyComponent(an IMyLogger, an int)
 When GetValue()
 Then Result is the int");
@@ -19,7 +19,7 @@ Then Result is the int");
     public void ThenInterfaceIsMocked()
     {
         Then<IMyLogger>(_ => _.LogValue(The<int>()));
-        VerifyDescription(
+        Description.Is(
 @"Given new MyComponent(an IMyLogger, an int)
 When GetValue()
 Then IMyLogger.LogValue(the int)");
@@ -35,7 +35,7 @@ public class WhenUseConcreteInstanceOfInterface : Spec<InterfaceService, int>
     public void ThenUseIt()
     {
         Result.Is(TheSecond<int>());
-        VerifyDescription(
+        Description.Is(
 @"Given CreateService()
  and an int
 When GetServiceValue()
@@ -55,7 +55,7 @@ public class WhenUsingConcreteInstanceForInterface : Spec<InterfaceService, int>
     public void ThenUseTheConcreteInstance()
     {
         Then().Throws<ApplicationException>();
-        VerifyDescription(
+        Description.Is(
 @"Given new MyInvalidLogger<ApplicationException>()
  and new MyComponent(an IMyLogger, an int)
 When GetValue()
@@ -74,7 +74,7 @@ public class WhenIndirectlyUsingConcreteInstanceForInterface : Spec<InterfaceSer
     public void ThenUseTheConcreteInstance()
     {
         Then().Throws<ApplicationException>();
-        VerifyDescription(
+        Description.Is(
 @"Given new MyInvalidLogger<ApplicationException>()
  and a MyComponent
 When GetValue()
@@ -91,7 +91,7 @@ public class WhenUsingConcreteInstanceForInterfaceWithAutoMockedConstructorArgum
     public void ThenAutoMockComponent()
     {
         Result.Is(The<int>());
-        VerifyDescription(
+        Description.Is(
 @"Given an int
  and a MyComponent
 When GetValue()

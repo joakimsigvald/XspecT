@@ -9,7 +9,7 @@ public class WhenMockCustomStruct : Spec<StaticValueService, MyValue<int>>
         public void Then_It_Has_RandomCustomStruct()
         {
             Then().Result.Is().Not(A<MyValue<int>>()).And(Result).Value.Is().Not(0);
-            VerifyDescription(
+            Description.Is(
                 """
                 When GetValue()
                 Then Result is not a MyValue<int>
@@ -24,7 +24,7 @@ public class WhenMockCustomStruct : Spec<StaticValueService, MyValue<int>>
         public void Then_It_Has_ProvidedValue()
         {
             Given(A<MyValue<int>>()).Then().Result.Is(The<MyValue<int>>());
-            VerifyDescription(
+            Description.Is(
                 """
                 Given a MyValue<int>
                 When GetValue()

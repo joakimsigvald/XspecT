@@ -7,6 +7,6 @@ public class WhenMockReturnTaskOfInterface : Spec<MyValueIntService, IMyValueInt
     {
         var error = Xunit.Assert.Throws<SetupFailed>(
             () => When(_ => _.GetRepoAsync()).Then().Result.Get(1).Is().NotNull());
-        Xunit.Assert.Contains("Given<IMyValueIntRepo>().Returns(A<IMyValueIntRepo>)", error.Message);
+        error.Message.Does().Contain("Given<IMyValueIntRepo>().Returns(A<IMyValueIntRepo>)");
     }
 }

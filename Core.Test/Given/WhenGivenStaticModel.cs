@@ -9,7 +9,7 @@ public class WhenGivenStaticModel : Spec<MyModel>
         Given().Default<MyModel>(_ => _.Name = value)
             .When(_ => _)
             .Then().Result.Name.Is(value);
-        VerifyDescription(
+        Description.Is(
             """
             Given MyModel { Name = value }
             When _
@@ -24,7 +24,7 @@ public class WhenGivenStaticModel : Spec<MyModel>
         Given().Default<MyModel>(_ => _.Name = value)
             .When(_ => A<MyModel>())
             .Then().Result.Name.Is(value);
-        VerifyDescription(
+        Description.Is(
             """
             Given MyModel { Name = value }
             When a MyModel
@@ -39,7 +39,7 @@ public class WhenGivenStaticModel : Spec<MyModel>
         Given().Default<MyModel>(_ => _.Name = name).And(new MyModel { Id = id })
             .When(_ => _)
             .Then().Result.Name.Is(name).And(Result).Id.Is(id);
-        VerifyDescription(
+        Description.Is(
             """
             Given MyModel { Name = name }
              and new MyModel { Id = id }
@@ -56,7 +56,7 @@ public class WhenGivenStaticModel : Spec<MyModel>
         Given().Default<MyModel>(_ => _.Name = name).And<MyModel>(_ => _.Id = id)
             .When(_ => _)
             .Then().Result.Name.Is(name).And(Result).Id.Is(id);
-        VerifyDescription(
+        Description.Is(
             """
             Given MyModel { Name = name }
              and MyModel { Id = id }
@@ -73,7 +73,7 @@ public class WhenGivenStaticModel : Spec<MyModel>
         Given().Default<MyModel>(_ => _.Name = name).And().A(new MyModel { Id = id })
             .When(_ => The<MyModel>())
             .Then().Result.Name.Is().Null().And(Result).Id.Is(id);
-        VerifyDescription(
+        Description.Is(
             """
             Given MyModel { Name = name }
              and a MyModel { new MyModel { Id = id } }
@@ -90,7 +90,7 @@ public class WhenGivenStaticModel : Spec<MyModel>
         Given().Default<MyModel>(_ => _.Name = name).And().A<MyModel>(_ => _.Id = id)
             .When(_ => The<MyModel>())
             .Then().Result.Name.Is(name).And(Result).Id.Is(id);
-        VerifyDescription(
+        Description.Is(
             """
             Given MyModel { Name = name }
              and a MyModel { Id = id }
@@ -107,7 +107,7 @@ public class WhenGivenStaticModel : Spec<MyModel>
         Given().Default<MyModel>(_ => _.Name = defaultName).And().A<MyModel>(_ => _.Name = name)
             .When(_ => The<MyModel>())
             .Then().Result.Name.Is(name);
-        VerifyDescription(
+        Description.Is(
             """
             Given MyModel { Name = defaultName }
              and a MyModel { Name = name }
@@ -123,7 +123,7 @@ public class WhenGivenStaticModel : Spec<MyModel>
         Given().ASecond<MyModel>(_ => _.Name = name)
             .When(_ => TheSecond<MyModel>())
             .Then().Result.Name.Is(name);
-        VerifyDescription(
+        Description.Is(
             """
             Given a second MyModel { Name = name }
             When the second MyModel
@@ -138,7 +138,7 @@ public class WhenGivenStaticModel : Spec<MyModel>
         Given().AThird<MyModel>(_ => _.Name = name)
             .When(_ => TheThird<MyModel>())
             .Then().Result.Name.Is(name);
-        VerifyDescription(
+        Description.Is(
             """
             Given a third MyModel { Name = name }
             When the third MyModel
@@ -153,7 +153,7 @@ public class WhenGivenStaticModel : Spec<MyModel>
         Given().AFourth<MyModel>(_ => _.Name = name)
             .When(_ => TheFourth<MyModel>())
             .Then().Result.Name.Is(name);
-        VerifyDescription(
+        Description.Is(
             """
             Given a fourth MyModel { Name = name }
             When the fourth MyModel
@@ -168,7 +168,7 @@ public class WhenGivenStaticModel : Spec<MyModel>
         Given().AFifth<MyModel>(_ => _.Name = name)
             .When(_ => TheFifth<MyModel>())
             .Then().Result.Name.Is(name);
-        VerifyDescription(
+        Description.Is(
             """
             Given a fifth MyModel { Name = name }
             When the fifth MyModel

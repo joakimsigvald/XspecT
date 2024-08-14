@@ -11,7 +11,7 @@ public class WhenGivenSetupModel : Spec<MyService, MyModel>
             .When(_ => _.GetModel())
             .Given().ASecond(_myModel)
             .Then().Result.Is(_myModel);
-        VerifyDescription(
+        Description.Is(
             """
             Given a second MyModel { _myModel }
              and IMyRepository.GetModel() returns a second MyModel
@@ -27,7 +27,7 @@ public class WhenGivenSetupModel : Spec<MyService, MyModel>
             .When(_ => _.GetModel())
             .Given().ASecond((MyModel)null)
             .Then().Result.Is().Null();
-        VerifyDescription(
+        Description.Is(
             """
             Given a second MyModel { (MyModel)null }
              and IMyRepository.GetModel() returns a second MyModel
@@ -43,7 +43,7 @@ public class WhenGivenSetupModel : Spec<MyService, MyModel>
             .When(_ => _.GetModel()) //Unspecified default value
             .Given().A((MyModel)null) //First specific model is null
             .Then().Result.Is().NotNull(); //Not the provide null mentioned value
-        VerifyDescription(
+        Description.Is(
             """
             Given a MyModel { (MyModel)null }
              and IMyRepository.GetModels() returns one MyModel

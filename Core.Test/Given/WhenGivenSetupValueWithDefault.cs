@@ -11,7 +11,7 @@ public class WhenGivenSetupValueWithDefault : Spec<MyService, int>
             .And<IMyRepository>().That(_ => _.GetNextId()).Returns(() => ASecond<int>())
             .When(_ => _.GetNextId())
             .Then().Result.Is(_defaultId);
-        VerifyDescription(
+        Description.Is(
             """
             Given _defaultId
              and IMyRepository.GetNextId() returns a second int
@@ -28,7 +28,7 @@ public class WhenGivenSetupValueWithDefault : Spec<MyService, int>
             .Given(_defaultId)
             .And().ASecond(2)
             .Then().Result.Is(2);
-        VerifyDescription(
+        Description.Is(
             """
             Given _defaultId
              and a second int { 2 }

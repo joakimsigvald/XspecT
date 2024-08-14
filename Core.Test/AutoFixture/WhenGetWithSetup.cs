@@ -11,7 +11,7 @@ public class WhenGetWithSetup : Spec<MyMappingRetreiver, MyModel>
     {
         Given<IMyMapper>().That(_ => _.Map(A<MyModel>())).Returns(() => The<MyModel>())
             .Then().Result.Name.Is(The<string>());
-        VerifyDescription(
+        Description.Is(
 @"Given IMyRepository.Get(the int) returns a MyModel { Name = a string }
  and IMyMapper.Map(a MyModel) returns the MyModel
 When Get(an int)
@@ -24,7 +24,7 @@ Then Result.Name is the string");
         Given<IMyMapper>().That(_ => _.Map(The<MyModel>()))
             .Returns(() => A<MyModel>(_ => _.Id = An<int>()))
             .Then().Result.Name.Is(The<string>()).And(Result).Id.Is(The<int>());
-        VerifyDescription(
+        Description.Is(
             """
             Given IMyRepository.Get(the int) returns a MyModel { Name = a string }
              and IMyMapper.Map(the MyModel) returns a MyModel { Id = an int }

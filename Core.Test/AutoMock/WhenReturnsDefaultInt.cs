@@ -9,7 +9,7 @@ public class WhenReturnsDefaultInt : Spec<MyDefaultService, int>
     {
         Given<IDefaultRetriever>().That(_ => _.GetInt()).ReturnsDefault()
             .When(_ => _.GetInt()).Then().Result.Is(0);
-        VerifyDescription(
+        Description.Is(
             """
             Given IDefaultRetriever.GetInt() returns default
             When GetInt()
@@ -25,7 +25,7 @@ public class WhenReturnsDefaultModel : Spec<MyDefaultService, MyModel>
     {
         Given<IDefaultRetriever>().That(_ => _.GetModel()).ReturnsDefault()
             .When(_ => _.GetModel()).Then().Result.Is().Null();
-        VerifyDescription(
+        Description.Is(
             """
             Given IDefaultRetriever.GetModel() returns default
             When GetModel()

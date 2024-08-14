@@ -10,7 +10,7 @@ public class WhenSome : Spec<MyRetriever, MyModel[]>
         public void ThenArrayHasTwoElements()
         {
             Result.Has().Count(2);
-            VerifyDescription(
+            Description.Is(
 @"Given some MyModel
 When List()
 Then Result has count 2");
@@ -25,7 +25,7 @@ Then Result has count 2");
         public void ThenCountIsOne()
         {
             Result.Has().Count(1);
-            VerifyDescription(
+            Description.Is(
 @"Given one MyModel
  and some MyModel
 When List()
@@ -41,7 +41,7 @@ Then Result has count 1");
         public void ThenCountIsThree()
         {
             Result.Has().Count(3);
-            VerifyDescription(
+            Description.Is(
 @"Given three MyModel
  and some MyModel
 When List()
@@ -57,7 +57,7 @@ Then Result has count 3");
         public void ThenCountIsZero()
         {
             Result.Has().Count(0);
-            VerifyDescription(
+            Description.Is(
 @"Given Array.Empty<MyModel>
  and some MyModel
 When List()
@@ -73,7 +73,7 @@ Then Result has count 0");
         public void ThenCountIsFour()
         {
             Result.Has().Count(3);
-            VerifyDescription(
+            Description.Is(
 @"Given many MyModel
  and some MyModel
 When List()
@@ -89,7 +89,7 @@ Then Result has count 3");
         public void ThenCountIsOne()
         {
             Result.Has().Count(1);
-            VerifyDescription(
+            Description.Is(
 @"Given some MyModel
  and one MyModel
  and some MyModel
@@ -106,7 +106,7 @@ Then Result has count 1");
         public void ThenCountIsTwo()
         {
             Result.Has().Count(2);
-            VerifyDescription(
+            Description.Is(
 @"Given some MyModel
  and two MyModel
  and some MyModel
@@ -123,7 +123,7 @@ Then Result has count 2");
         public void ThenCountIsTwo()
         {
             Result.Has().Count(2);
-            VerifyDescription(
+            Description.Is(
 @"Given some MyModel
  and Array.Empty<MyModel>
  and some MyModel
@@ -140,7 +140,7 @@ Then Result has count 2");
         public void ThenCountIsTwo()
         {
             Result.Has().Count(2);
-            VerifyDescription(
+            Description.Is(
 @"Given some MyModel
  and many MyModel
  and some MyModel

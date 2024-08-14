@@ -9,7 +9,7 @@ public class WhenMockInt : Spec<StaticIntService, int>
         public void Then_It_Has_theValue()
         {
             Then().Result.Is(The<int>());
-            VerifyDescription(
+            Description.Is(
                 """
                 Given an int
                 When GetValue()
@@ -27,7 +27,7 @@ public class WhenMockInt : Spec<StaticIntService, int>
         public void Then_It_Has_ProvidedValue(int value)
         {
             Given(value).Then().Result.Is(value);
-            VerifyDescription(
+            Description.Is(
                 """
                 Given value
                  and an int
