@@ -10,7 +10,7 @@ public class WhenGivenSetupModelWithDefault : Spec<MyService, MyModel>
         Given<MyModel>(_ => _.Name = _defaultName)
             .When(_ => _.GetModel())
             .Then().Result.Name.Is(_defaultName);
-        Description.Is(
+        Specification.Is(
             """
             Given MyModel { Name = _defaultName }
             When _.GetModel()
@@ -25,7 +25,7 @@ public class WhenGivenSetupModelWithDefault : Spec<MyService, MyModel>
             .And<IMyRepository>().That(_ => _.GetModel()).Returns(() => ASecond<MyModel>())
             .When(_ => _.GetModel())
             .Then().Result.Name.Is(_defaultName);
-        Description.Is(
+        Specification.Is(
             """
             Given MyModel { Name = _defaultName }
              and IMyRepository.GetModel() returns a second MyModel
@@ -42,7 +42,7 @@ public class WhenGivenSetupModelWithDefault : Spec<MyService, MyModel>
             .And<IMyRepository>().That(_ => _.GetModel()).Returns(() => ASecond<MyModel>())
             .When(_ => _.GetModel())
             .Then().Result.Name.Is(_defaultName);
-        Description.Is(
+        Specification.Is(
             """
             Given MyModel { Name = "123" }
              and MyModel { Name = _defaultName }
@@ -60,7 +60,7 @@ public class WhenGivenSetupModelWithDefault : Spec<MyService, MyModel>
             .And<IMyRepository>().That(_ => _.GetModel()).Returns(() => ASecond<MyModel>())
             .When(_ => _.GetModel())
             .Then().Result.Name.Is(_defaultName).And(Result).Id.Is(123);
-        Description.Is(
+        Specification.Is(
             """
             Given MyModel { Id = 123 }
              and MyModel { Name = _defaultName }
@@ -79,7 +79,7 @@ public class WhenGivenSetupModelWithDefault : Spec<MyService, MyModel>
             .And<IMyRepository>().That(_ => _.GetModel()).Returns(() => ASecond<MyModel>())
             .When(_ => _.GetModel())
             .Then().Result.Name.Is(_defaultName);
-        Description.Is(
+        Specification.Is(
             """
             Given _defaultName
              and MyModel { Name = a string }
@@ -97,7 +97,7 @@ public class WhenGivenSetupModelWithDefault : Spec<MyService, MyModel>
             .Given<MyModel>(_ => _.Name = _defaultName)
             .And().ASecond<MyModel>(_ => _.Name = "Altered")
             .Then().Result.Name.Is("Altered");
-        Description.Is(
+        Specification.Is(
             """
             Given MyModel { Name = _defaultName }
              and a second MyModel { Name = "Altered" }
@@ -114,7 +114,7 @@ public class WhenGivenSetupModelWithDefault : Spec<MyService, MyModel>
             .Given<IMyRepository>().That(_ => _.GetModel()).Returns(() => The<MyModel>())
             .Given<MyModel>(_ => _.Name = _defaultName)
             .Then().Result.Name.Is(_defaultName);
-        Description.Is(
+        Specification.Is(
             """
             Given MyModel { Name = _defaultName }
              and IMyRepository.GetModel() returns the MyModel
@@ -131,7 +131,7 @@ public class WhenGivenSetupModelWithDefault : Spec<MyService, MyModel>
             .When(_ => _.GetModel())
             .Given().ASecond(new MyModel() { Name = "My model" })
             .Then().Result.Name.Is("My model");
-        Description.Is(
+        Specification.Is(
             """
             Given MyModel { Name = _defaultName }
              and a second MyModel { new MyModel() { Name = "My model" } }
@@ -148,7 +148,7 @@ public class WhenGivenSetupModelWithDefault : Spec<MyService, MyModel>
             .And<IMyRepository>().That(_ => _.GetModel()).Returns(() => ASecond<MyModel>())
             .When(_ => _.GetModel())
             .Then().Result.Name.Is(_defaultName);
-        Description.Is(
+        Specification.Is(
             """
             Given _defaultName
              and IMyRepository.GetModel() returns a second MyModel
@@ -164,7 +164,7 @@ public class WhenGivenSetupModelWithDefault : Spec<MyService, MyModel>
             .Given<IMyRepository>().That(_ => _.SetModel(The<MyModel>())).Returns(() => Another<MyModel>())
             .Given<MyModel>(_ => _.Id = 123)
             .Then().Result.Id.Is(123);
-        Description.Is(
+        Specification.Is(
             """
             Given MyModel { Id = 123 }
              and IMyRepository.SetModel(the MyModel) returns another MyModel
@@ -186,7 +186,7 @@ public class OverrideDefaultSetupAfterWhenReturn : Spec<MyService, MyModel>
     {
         Given<MyModel>(_ => _.Name = _theName)
             .Then().Result.Name.Is(_theName);
-        Description.Is(
+        Specification.Is(
             """
             Given MyModel { Name = "Something" }
              and MyModel { Name = _theName }
@@ -207,7 +207,7 @@ public class OverrideDefaultValueAfterWhenReturn : Spec<MyService, MyModel>
     public void GivenDefaultValue_ThenUseDefaultValue()
     {
         Given<MyModel>(_ => _.Name = _theName).Then().Result.Name.Is(_theName);
-        Description.Is(
+        Specification.Is(
             """
             Given "Something"
              and MyModel { Name = _theName }
@@ -230,7 +230,7 @@ public class OverrideDefaultSetupAfterWhenArgument : Spec<MyService, MyModel>
     {
         Given<MyModel>(_ => _.Name = _theName)
             .Then().Result.Name.Is(_theName);
-        Description.Is(
+        Specification.Is(
             """
             Given MyModel { Name = "Something" }
              and MyModel { Name = _theName }
@@ -251,7 +251,7 @@ public class OverrideDefaultValueAfterWhenArgument : Spec<MyService, MyModel>
     public void GivenDefaultValue_ThenUseDefaultValue()
     {
         Given<MyModel>(_ => _.Name = _theName).Then().Result.Name.Is(_theName);
-        Description.Is(
+        Specification.Is(
             """
             Given "Something"
              and MyModel { Name = _theName }
@@ -264,7 +264,7 @@ public class OverrideDefaultValueAfterWhenArgument : Spec<MyService, MyModel>
     public void GivenDefaultSetup_ThenUseDefaultValue()
     {
         Given(_theName).Then().Result.Name.Is(_theName);
-        Description.Is(
+        Specification.Is(
             """
             Given "Something"
              and _theName

@@ -23,13 +23,13 @@ internal class GivenServiceContinuation<TSUT, TResult, TService> : IGivenService
         {
             _spec.GetMock<TService>().SetReturnsDefault(theValue);
             _spec.GetMock<TService>().SetReturnsDefault(Task.FromResult(theValue));
-            Specification.AddMockReturnsDefault<TService>(returnsExpr);
+            SpecificationGenerator.AddMockReturnsDefault<TService>(returnsExpr);
         }
     }
 
     public IGivenTestPipeline<TSUT, TResult> Throws<TException>() where TException : Exception, new()
     {
-        Specification.AddMockThrowsDefault<TService, TException>();
+        SpecificationGenerator.AddMockThrowsDefault<TService, TException>();
         _spec.SetupThrows<TService>(_spec.Another<TException>);
         return new GivenTestPipeline<TSUT, TResult>(_spec);
     }
@@ -37,7 +37,7 @@ internal class GivenServiceContinuation<TSUT, TResult, TService> : IGivenService
     public IGivenTestPipeline<TSUT, TResult> Throws(
         Func<Exception> expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Specification.AddMockThrowsDefault<TService>(expectedExpr);
+        SpecificationGenerator.AddMockThrowsDefault<TService>(expectedExpr);
         _spec.SetupThrows<TService>(expected);
         return new GivenTestPipeline<TSUT, TResult>(_spec);
     }

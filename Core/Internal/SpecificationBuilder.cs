@@ -12,7 +12,7 @@ internal class SpecificationBuilder
     private int _thenCount;
     private string _currentMockSetup;
 
-    public string Description => _description ??= Build();
+    public string Specification => _description ??= Build();
 
     internal void Add(Action apply) => _applications.Add(apply);
 

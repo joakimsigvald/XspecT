@@ -8,7 +8,7 @@ public class WhenGivenThatThrows : Spec<MyService, MyModel>
         When(_ => _.GetModel())
             .Given<IMyRepository>().That(_ => _.GetModel()).Throws<NotFound>()
             .Then().Throws<NotFound>();
-        Description.Is(
+        Specification.Is(
             """
             Given IMyRepository.GetModel() throws NotFound
             When _.GetModel()
@@ -22,7 +22,7 @@ public class WhenGivenThatThrows : Spec<MyService, MyModel>
         When(_ => _.GetModel())
             .Given<IMyRepository>().Throws<NotFound>()
             .Then().Throws<NotFound>();
-        Description.Is(
+        Specification.Is(
             """
             Given IMyRepository throws NotFound
             When _.GetModel()
@@ -36,7 +36,7 @@ public class WhenGivenThatThrows : Spec<MyService, MyModel>
         When(_ => _.GetModel())
              .Given<IMyRepository>().That(_ => _.GetModel()).Throws(A<NotFound>)
              .Then().Throws(The<NotFound>);
-        Description.Is(
+        Specification.Is(
             """
             Given IMyRepository.GetModel() throws a NotFound
             When _.GetModel()
@@ -50,7 +50,7 @@ public class WhenGivenThatThrows : Spec<MyService, MyModel>
         When(_ => _.GetModel())
              .Given<IMyRepository>().Throws(A<NotFound>)
              .Then().Throws(The<NotFound>);
-        Description.Is(
+        Specification.Is(
             """
             Given IMyRepository throws a NotFound
             When _.GetModel()
@@ -65,7 +65,7 @@ public class WhenGivenThatThrows : Spec<MyService, MyModel>
             .Given<IMyRepository>().That(_ => _.GetModel()).Throws(An<Exception>)
             .And(new Exception(A<string>()))
             .Then().Throws(The<Exception>).And().Throws<Exception>(_ => _.Message.Is(The<string>()));
-        Description.Is(
+        Specification.Is(
             """
             Given new Exception(a string)
              and IMyRepository.GetModel() throws an Exception
@@ -81,7 +81,7 @@ public class WhenGivenThatThrows : Spec<MyService, MyModel>
         When(_ => _.GetModel())
              .Given<IMyRepository>().That(_ => _.GetModel()).Throws(A<NotFound>)
              .Then().Throws<NotFound>(_ => _.Message.Is(The<NotFound>().Message));
-        Description.Is(
+        Specification.Is(
             """
             Given IMyRepository.GetModel() throws a NotFound
             When _.GetModel()

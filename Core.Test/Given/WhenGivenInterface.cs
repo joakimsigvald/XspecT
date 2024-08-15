@@ -8,7 +8,7 @@ public class WhenGivenInterface : Spec<MyService, string>
         Given<IMySettings>(new MySettings { ConnectionString = ASecond<string>() })
             .When(_ => _.GetConnectionString())
             .Then().Result.Is(TheSecond<string>());
-        Description.Is(
+        Specification.Is(
             """
             Given new MySettings { ConnectionString = ASecond<string>() }
             When _.GetConnectionString()

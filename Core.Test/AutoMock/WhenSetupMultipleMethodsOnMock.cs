@@ -12,7 +12,7 @@ public class WhenSetupMultipleMethodsOnMock : Spec<MyValueIntService, string>
             .That(_ => _.GetAsync(The<MyValueInt>())).Returns(A<string>)
             .AndThat(_ => _.Get(The<MyValueInt>())).Returns(ASecond<string>)
             .Then().Result.Is(TheSecond<string>());
-        Description.Is(
+        Specification.Is(
             """
             Given IMyValueIntRepo.GetAsync(the MyValueInt) returns a string
              and Get(the MyValueInt) returns a second string

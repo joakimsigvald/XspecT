@@ -24,6 +24,6 @@ public abstract record Constraint<TConstraint, TActual>(
         string expectedExpr = null,
         string verb = null,
         [CallerMemberName] string methodName = null)
-        => Specification.AddAssert(
+        => SpecificationGenerator.AddAssert(
             assert, ActualExpr, expectedExpr, verb ?? $"{AuxiliaryVerb} {methodName.AsWords()}".Trim());
 }

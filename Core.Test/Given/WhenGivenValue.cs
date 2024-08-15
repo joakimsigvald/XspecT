@@ -8,7 +8,7 @@ public class WhenGivenValue : Spec<MyService, MyModel>
         Given(() => new MyModel() { Name = A<string>() })
             .When(_ => MyService.Echo(The<MyModel>()))
             .Then().Result.Name.Is(The<string>());
-        Description.Is(
+        Specification.Is(
             """
             Given new MyModel() { Name = A<string>() }
             When MyService.Echo(the MyModel)
@@ -23,7 +23,7 @@ public class WhenGivenValue : Spec<MyService, MyModel>
             .And(() => new MyModel() { Name = A<string>() })
             .When(_ => _.GetModel())
             .Then().Result.Name.Is(The<string>());
-        Description.Is(
+        Specification.Is(
             """
             Given new MyModel() { Name = A<string>() }
              and IMyRepository.GetModel() returns a MyModel
@@ -38,7 +38,7 @@ public class WhenGivenValue : Spec<MyService, MyModel>
         Given<IMyRepository>().That(_ => _.GetModel()).Returns(() => A(new MyModel() { Name = A<string>() }))
             .When(_ => _.GetModel())
             .Then().Result.Name.Is(The<string>());
-        Description.Is(
+        Specification.Is(
             """
             Given IMyRepository.GetModel() returns a new MyModel() { Name = A<string>() }
             When _.GetModel()
@@ -52,7 +52,7 @@ public class WhenGivenValue : Spec<MyService, MyModel>
         Given<IMyRepository>().That(_ => _.GetModel()).Returns(() => A<MyModel>())
             .And((MyModel)null)
             .When(_ => _.GetModel()).Then().Result.Is().Null();
-        Description.Is(
+        Specification.Is(
             """
             Given (MyModel)null
              and IMyRepository.GetModel() returns a MyModel

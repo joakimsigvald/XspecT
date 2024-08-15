@@ -9,7 +9,7 @@ public class WhenMockNTuple : Spec<StaticNTupleService, (int, string, int, float
         public void Then_It_Has_TheValue()
         {
             Then().Result.Is(The<(int, string, int, float)>());
-            Description.Is(
+            Specification.Is(
                 """
                 Given a (int, string, int, float)
                 When _.GetValue()
@@ -27,7 +27,7 @@ public class WhenMockNTuple : Spec<StaticNTupleService, (int, string, int, float
         public void Then_It_Has_ProvidedValue(int v1, string v2, int v3, float v4)
         {
             Given((v1, v2, v3, v4)).Then().Result.Is((v1, v2, v3, v4));
-            Description.Is(
+            Specification.Is(
                 """
                 Given (v1, v2, v3, v4)
                  and a (int, string, int, float)

@@ -12,6 +12,16 @@ public class WhenCreateBasketItems : Spec<Subjects.Shopping.BasketItemFactory, B
         public GivenItemWithUnknownProduct()
             => Given(One<NewBasketItem>());
 
-        [Fact] public void ThenThrowBasketItemNotBuyable() => Then().Throws<BasketItemNotBuyable>();
+        [Fact]
+        public void ThenThrowBasketItemNotBuyable()
+        {
+            Then().Throws<BasketItemNotBuyable>();
+            Specification.Is(
+                """
+                Given one NewBasketItem
+                When _.CreateBasketItems(an int, a second int, a NewBasketItem[])
+                Then throws BasketItemNotBuyable
+                """);
+        }
     }
 }

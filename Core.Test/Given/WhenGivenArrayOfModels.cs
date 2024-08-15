@@ -10,7 +10,7 @@ public class WhenGivenArrayOfModels : Spec<MyService, MyModel[]>
             .And<MyModel>(_ => _.Name = A<string>())
             .When(_ => _.GetModels())
             .Then().Result.Is(Two<MyModel>()).And(Result).First().Name.Is(The<string>());
-        Description.Is(
+        Specification.Is(
             """
             Given MyModel { Name = a string }
              and two MyModel
@@ -27,7 +27,7 @@ public class WhenGivenArrayOfModels : Spec<MyService, MyModel[]>
         When(_ => _.GetModelsAsync())
             .Given<IMyRepository>().Returns(An<IEnumerable<MyModel>>)
             .Then().DoesNotThrow();
-        Description.Is(
+        Specification.Is(
             """
             Given IMyRepository returns an IEnumerable<MyModel>
             When _.GetModelsAsync()

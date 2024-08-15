@@ -10,7 +10,7 @@ public class WhenGivenRecord : Spec<MyService, MyRecord>
         Given<MyRecord>(_ => _ with { Name = A<string>() })
             .When(_ => MyService.Echo(The<MyRecord>()))
             .Then().Result.Name.Is(The<string>());
-        Description.Is(
+        Specification.Is(
             """
             Given MyRecord { Name = a string }
             When MyService.Echo(the MyRecord)
@@ -27,7 +27,7 @@ public class WhenGivenRecord : Spec<MyService, MyRecord>
             .Then().Result.Name.Does().StartWith(The<string>())
             .And.EndWith(TheSecond<string>())
             ;
-        Description.Is(
+        Specification.Is(
             """
             Given MyRecord { Name = a string, Id = 1 }
              and MyRecord { Name = _.Name + ASecond<string>() }
@@ -42,7 +42,7 @@ public class WhenGivenRecord : Spec<MyService, MyRecord>
         Given().A<MyRecord>(_ => _ with { Name = A<string>() })
             .When(_ => MyService.Echo(The<MyRecord>()))
             .Then().Result.Name.Is(The<string>());
-        Description.Is(
+        Specification.Is(
             """
             Given a MyRecord { Name = a string }
             When MyService.Echo(the MyRecord)
@@ -57,7 +57,7 @@ public class WhenGivenRecord : Spec<MyService, MyRecord>
             .And().A<MyRecord>(_ => _ with { Name = A<string>() })
             .When(_ => MyService.Echo(The<MyRecord>()))
             .Then().Result.Name.Does().StartWith(The<string>()).And.EndWith(TheSecond<string>());
-        Description.Is(
+        Specification.Is(
             """
             Given a MyRecord { Name = a string }
              and a MyRecord { Name = _.Name + ASecond<string>() }

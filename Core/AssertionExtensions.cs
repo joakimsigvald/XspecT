@@ -74,7 +74,7 @@ public static class AssertionExtensions
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Specification.AddAssert(
+        SpecificationGenerator.AddAssert(
             [CustomAssertion] () => actual.Should().BeSameAs(expected),
             actualExpr,
             expectedExpr);
@@ -101,7 +101,7 @@ public static class AssertionExtensions
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
         where TValue : struct
     {
-        Specification.AddAssert([CustomAssertion] () => actual.Should().Be(expected), actualExpr, expectedExpr);
+        SpecificationGenerator.AddAssert([CustomAssertion] () => actual.Should().Be(expected), actualExpr, expectedExpr);
         actual.Should().Be(expected);
         return new(new(actual));
     }
@@ -115,7 +115,7 @@ public static class AssertionExtensions
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Specification.AddAssert(() => Xunit.Assert.Equal(expected, actual), actualExpr, expectedExpr);
+        SpecificationGenerator.AddAssert(() => Xunit.Assert.Equal(expected, actual), actualExpr, expectedExpr);
         return new(new(actual));
     }
 }

@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using System.Runtime.CompilerServices;
 using XspecT.Assert;
 using XspecT.Assert.Numerical;
 
@@ -13,9 +14,16 @@ public static class AssertionExtensionsNumerical
     /// Verify that actual is expected and return continuation for further assertions of the value
     /// </summary>
     [CustomAssertion]
-    public static ContinueWith<IsNullableByte> Is(this byte? actual, byte? expected)
+    public static ContinueWith<IsNullableByte> Is(
+        this byte? actual, 
+        byte? expected,
+        [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
+        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        actual.Should().Be(expected);
+        SpecificationGenerator.AddAssert(
+            [CustomAssertion] () => actual.Should().Be(expected),
+            actualExpr,
+            expectedExpr);
         return new(new(actual));
     }
 
@@ -23,9 +31,16 @@ public static class AssertionExtensionsNumerical
     /// Verify that actual is expected and return continuation for further assertions of the value
     /// </summary>
     [CustomAssertion]
-    public static ContinueWith<IsNullableSByte> Is(this sbyte? actual, sbyte? expected)
+    public static ContinueWith<IsNullableSByte> Is(
+        this sbyte? actual, 
+        sbyte? expected,
+        [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
+        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        actual.Should().Be(expected);
+        SpecificationGenerator.AddAssert(
+            [CustomAssertion] () => actual.Should().Be(expected),
+            actualExpr,
+            expectedExpr);
         return new(new(actual));
     }
 
@@ -33,89 +48,144 @@ public static class AssertionExtensionsNumerical
     /// Verify that actual is expected and return continuation for further assertions of the value
     /// </summary>
     [CustomAssertion]
-    public static ContinueWith<IsNullableUShort> Is(this ushort? actual, ushort? expected)
+    public static ContinueWith<IsNullableUShort> Is(
+        this ushort? actual, 
+        ushort? expected,
+        [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
+        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        actual.Should().Be(expected);
+        SpecificationGenerator.AddAssert(
+            [CustomAssertion] () => actual.Should().Be(expected),
+            actualExpr,
+            expectedExpr);
         return new(new(actual));
     }
 
     /// <summary>
     /// Verify that actual is expected and return continuation for further assertions of the value
     /// </summary>
-    [CustomAssertion]
-    public static ContinueWith<IsNullableShort> Is(this short? actual, short? expected)
+    public static ContinueWith<IsNullableShort> Is(
+        this short? actual, 
+        short? expected,
+        [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
+        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        actual.Should().Be(expected);
+        SpecificationGenerator.AddAssert(
+            [CustomAssertion] () => actual.Should().Be(expected),
+            actualExpr,
+            expectedExpr);
         return new(new(actual));
     }
 
     /// <summary>
     /// Verify that actual is expected and return continuation for further assertions of the value
     /// </summary>
-    [CustomAssertion]
-    public static ContinueWith<IsNullableUInt> Is(this uint? actual, uint? expected)
+    public static ContinueWith<IsNullableUInt> Is(
+        this uint? actual, 
+        uint? expected,
+        [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
+        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        actual.Should().Be(expected);
+        SpecificationGenerator.AddAssert(
+            [CustomAssertion] () => actual.Should().Be(expected),
+            actualExpr,
+            expectedExpr);
         return new(new(actual));
     }
 
     /// <summary>
     /// Verify that actual is expected and return continuation for further assertions of the value
     /// </summary>
-    [CustomAssertion]
-    public static ContinueWith<IsNullableInt> Is(this int? actual, int? expected)
+    public static ContinueWith<IsNullableInt> Is(
+        this int? actual, 
+        int? expected,
+        [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
+        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        actual.Should().Be(expected);
+        SpecificationGenerator.AddAssert(
+            [CustomAssertion] () => actual.Should().Be(expected),
+            actualExpr,
+            expectedExpr);
         return new(new(actual));
     }
 
     /// <summary>
     /// Verify that actual is expected and return continuation for further assertions of the value
     /// </summary>
-    [CustomAssertion]
-    public static ContinueWith<IsNullableULong> Is(this ulong? actual, ulong? expected)
+    public static ContinueWith<IsNullableULong> Is(
+        this ulong? actual, 
+        ulong? expected,
+        [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
+        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        actual.Should().Be(expected);
+        SpecificationGenerator.AddAssert(
+            [CustomAssertion] () => actual.Should().Be(expected),
+            actualExpr,
+            expectedExpr);
         return new(new(actual));
     }
 
     /// <summary>
     /// Verify that actual is expected and return continuation for further assertions of the value
     /// </summary>
-    [CustomAssertion]
-    public static ContinueWith<IsNullableLong> Is(this long? actual, long? expected)
+    public static ContinueWith<IsNullableLong> Is(
+        this long? actual, 
+        long? expected,
+        [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
+        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        actual.Should().Be(expected);
+        SpecificationGenerator.AddAssert(
+            [CustomAssertion] () => actual.Should().Be(expected),
+            actualExpr,
+            expectedExpr);
         return new(new(actual));
     }
 
     /// <summary>
     /// Verify that actual is expected and return continuation for further assertions of the value
     /// </summary>
-    [CustomAssertion]
-    public static ContinueWith<IsNullableFloat> Is(this float? actual, float? expected)
+    public static ContinueWith<IsNullableFloat> Is(
+        this float? actual, 
+        float? expected,
+        [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
+        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        actual.Should().Be(expected);
+        SpecificationGenerator.AddAssert(
+            [CustomAssertion] () => actual.Should().Be(expected),
+            actualExpr,
+            expectedExpr);
         return new(new(actual));
     }
 
     /// <summary>
     /// Verify that actual is expected and return continuation for further assertions of the value
     /// </summary>
-    [CustomAssertion]
-    public static ContinueWith<IsNullableDouble> Is(this double? actual, double? expected)
+    public static ContinueWith<IsNullableDouble> Is(
+        this double? actual, 
+        double? expected,
+        [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
+        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        actual.Should().Be(expected);
+        SpecificationGenerator.AddAssert(
+            [CustomAssertion] () => actual.Should().Be(expected),
+            actualExpr,
+            expectedExpr);
         return new(new(actual));
     }
 
     /// <summary>
     /// Verify that actual is expected and return continuation for further assertions of the value
     /// </summary>
-    [CustomAssertion]
-    public static ContinueWith<IsNullableDecimal> Is(this decimal? actual, decimal? expected)
+    public static ContinueWith<IsNullableDecimal> Is(
+        this decimal? actual, 
+        decimal? expected,
+        [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
+        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        actual.Should().Be(expected);
+        SpecificationGenerator.AddAssert(
+            [CustomAssertion] () => actual.Should().Be(expected),
+            actualExpr,
+            expectedExpr);
         return new(new(actual));
     }
 }

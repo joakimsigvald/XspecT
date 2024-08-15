@@ -8,7 +8,7 @@ public class WhenGivenValueSetup : Spec<MyService, MyModel>
         Given<MyModel>(_ => _.Name = A<string>())
             .When(_ => MyService.Echo(A<MyModel>()))
             .Then().Result.Name.Is(The<string>());
-        Description.Is(
+        Specification.Is(
             """
             Given MyModel { Name = a string }
             When MyService.Echo(a MyModel)
@@ -23,7 +23,7 @@ public class WhenGivenValueSetup : Spec<MyService, MyModel>
             .And<MyModel>(_ => _.Name = A<string>())
             .When(_ => _.GetModel())
             .Then().Result.Name.Is(The<string>());
-        Description.Is(
+        Specification.Is(
             """
             Given MyModel { Name = a string }
              and IMyRepository.GetModel() returns a MyModel

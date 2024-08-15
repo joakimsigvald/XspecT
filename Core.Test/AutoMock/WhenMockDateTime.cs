@@ -9,7 +9,7 @@ public class WhenMockDateTime : Spec<StaticDateService, DateTime>
         public void Then_It_Has_RandomDateTime()
         {
             Then().Result.Is().Not(A<DateTime>()).And(Result).Ticks.Is().Not(0);
-            Description.Is(
+            Specification.Is(
                 """
                 When _.GetDate()
                 Then Result is not a DateTime
@@ -24,7 +24,7 @@ public class WhenMockDateTime : Spec<StaticDateService, DateTime>
         public void Then_It_Has_ProvidedValue()
         {
             Given(A<DateTime>()).Then().Result.Is(The<DateTime>());
-            Description.Is(
+            Specification.Is(
                 """
                 Given a DateTime
                 When _.GetDate()

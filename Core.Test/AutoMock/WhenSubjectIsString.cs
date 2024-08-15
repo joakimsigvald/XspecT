@@ -6,7 +6,7 @@ public class WhenSubjectIsString : Spec<string>
     public void ThenUseDefaultString()
     {
         Given("abc").When(_ => _).Then().Result.Is("abc");
-        Description.Is(
+        Specification.Is(
             """
             Given "abc"
             When _

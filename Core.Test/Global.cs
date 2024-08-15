@@ -1,2 +1,2 @@
 ﻿global using Xunit;
-global using static XspecT.Specification;
+global using static XspecT.SpecificationGenerator;

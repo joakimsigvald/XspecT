@@ -55,11 +55,11 @@ internal class SpecActor<TSUT, TResult>
 
     private void AddToSpecification()
     {
-        Specification.AddWhen(_methodUnderTest.Expression);
+        SpecificationGenerator.AddWhen(_methodUnderTest.Expression);
         foreach (var setUp in _setUp.Reverse<Command>())
-            Specification.AddAfter(setUp.Expression);
+            SpecificationGenerator.AddAfter(setUp.Expression);
         foreach (var tearDown in _tearDown)
-            Specification.AddBefore(tearDown.Expression);
+            SpecificationGenerator.AddBefore(tearDown.Expression);
     }
 
     private bool GetResult(TSUT sut)
@@ -68,7 +68,7 @@ internal class SpecActor<TSUT, TResult>
         try
         {
             (_result, var hasResult) = Invoke(_methodUnderTest, sut);
-            Specification.AddThen();
+            SpecificationGenerator.AddThen();
             return hasResult;
         }
         catch (ArgumentException ex) when (ex.Message.Contains(cue))

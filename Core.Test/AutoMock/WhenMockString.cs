@@ -9,7 +9,7 @@ public class WhenMockString : Spec<StaticStringService, string>
         public void Then_It_Has_TheString()
         {
             Then().Result.Is(The<string>());
-            Description.Is(
+            Specification.Is(
                 """
                 Given a string
                 When _.GetValue()
@@ -27,7 +27,7 @@ public class WhenMockString : Spec<StaticStringService, string>
         public void Then_It_Has_ProvidedValue(string value)
         {
             Given(value).Then().Result.Is(value);
-            Description.Is(
+            Specification.Is(
                 """
                 Given value
                  and a string

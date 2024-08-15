@@ -143,7 +143,7 @@ public static class AssertionContinuationExtensions
         TActual actual)
         where TContinuation : Constraint
     {
-        Specification.AddThen();
+        SpecificationGenerator.AddThen();
         return actual;
     }
 }

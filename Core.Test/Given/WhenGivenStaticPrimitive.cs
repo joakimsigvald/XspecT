@@ -7,7 +7,7 @@ public class WhenGivenStaticPrimitive : Spec<string>
     public void GivenDefaultValue_ThenUseDefault(string value)
     {
         Given().Default(value).When(_ => _).Then().Result.Is(value);
-        Description.Is(
+        Specification.Is(
             """
             Given value as default
             When _
@@ -20,7 +20,7 @@ public class WhenGivenStaticPrimitive : Spec<string>
     public void GivenDefaultSetup_ThenUseDefaultSetup(string value)
     {
         Given().Default<string>(_ => value).When(_ => _).Then().Result.Is(value);
-        Description.Is(
+        Specification.Is(
             """
             Given string { value }
             When _
@@ -35,7 +35,7 @@ public class WhenGivenStaticPrimitive : Spec<string>
         Given().Default(defaultValue).And().A(aValue)
             .When(_ => The<string>())
             .Then().Result.Is(aValue);
-        Description.Is(
+        Specification.Is(
             """
             Given defaultValue as default
              and a string { aValue }
@@ -51,7 +51,7 @@ public class WhenGivenStaticPrimitive : Spec<string>
         Given().Default(defaultValue).And().ASecond(aValue)
             .When(_ => TheSecond<string>())
             .Then().Result.Is(aValue);
-        Description.Is(
+        Specification.Is(
             """
             Given defaultValue as default
              and a second string { aValue }
@@ -67,7 +67,7 @@ public class WhenGivenStaticPrimitive : Spec<string>
         Given().Default(defaultValue).And().AThird(aValue)
             .When(_ => TheThird<string>())
             .Then().Result.Is(aValue);
-        Description.Is(
+        Specification.Is(
             """
             Given defaultValue as default
              and a third string { aValue }
@@ -83,7 +83,7 @@ public class WhenGivenStaticPrimitive : Spec<string>
         Given().Default(defaultValue).And().AFourth(aValue)
             .When(_ => TheFourth<string>())
             .Then().Result.Is(aValue);
-        Description.Is(
+        Specification.Is(
             """
             Given defaultValue as default
              and a fourth string { aValue }
@@ -99,7 +99,7 @@ public class WhenGivenStaticPrimitive : Spec<string>
         Given().Default(defaultValue).And().AFifth(aValue)
             .When(_ => TheFifth<string>())
             .Then().Result.Is(aValue);
-        Description.Is(
+        Specification.Is(
             """
             Given defaultValue as default
              and a fifth string { aValue }
@@ -115,7 +115,7 @@ public class WhenGivenStaticPrimitive : Spec<string>
         Given().ASecond<string>(_ => value)
             .When(_ => TheSecond<string>())
             .Then().Result.Is(value);
-        Description.Is(
+        Specification.Is(
             """
             Given a second string { value }
             When the second string
@@ -130,7 +130,7 @@ public class WhenGivenStaticPrimitive : Spec<string>
         Given().AThird<string>(_ => value)
             .When(_ => TheThird<string>())
             .Then().Result.Is(value);
-        Description.Is(
+        Specification.Is(
             """
             Given a third string { value }
             When the third string
@@ -145,7 +145,7 @@ public class WhenGivenStaticPrimitive : Spec<string>
         Given().AFourth<string>(_ => value)
             .When(_ => TheFourth<string>())
             .Then().Result.Is(value);
-        Description.Is(
+        Specification.Is(
             """
             Given a fourth string { value }
             When the fourth string
@@ -160,7 +160,7 @@ public class WhenGivenStaticPrimitive : Spec<string>
         Given().AFifth<string>(_ => value)
             .When(_ => TheFifth<string>())
             .Then().Result.Is(value);
-        Description.Is(
+        Specification.Is(
             """
             Given a fifth string { value }
             When the fifth string

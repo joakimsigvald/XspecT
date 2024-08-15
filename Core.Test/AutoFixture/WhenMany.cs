@@ -12,7 +12,7 @@ public class WhenMany : Spec<MyRetriever, MyModel[]>
         public void ThenCanRetrieveThatArray()
         {
             Result.Is(Many<MyModel>());
-            Description.Is(
+            Specification.Is(
 @"Given many MyModel
 When _.List()
 Then Result is many MyModel");
@@ -22,7 +22,7 @@ Then Result is many MyModel");
         public void ThenArrayHasThreeElements()
         {
             Result.Has().Count(3);
-            Description.Is(
+            Specification.Is(
 @"Given many MyModel
 When _.List()
 Then Result has count 3");
@@ -32,7 +32,7 @@ Then Result has count 3");
         public void ThenDifferentReferencesToMany_AreTheSameArray()
         {
             Then(Many<MyModel>()).Is(Many<MyModel>());
-            Description.Is(
+            Specification.Is(
 @"Given many MyModel
 When _.List()
 Then many MyModel is many MyModel");
@@ -47,7 +47,7 @@ Then many MyModel is many MyModel");
         public void ThenItIsDifferentFromFirst()
         {
             Result.Is().Not(Three<MyModel>());
-            Description.Is(
+            Specification.Is(
 @"Given two MyModel
 When _.List()
 Then Result is not three MyModel");
@@ -57,7 +57,7 @@ Then Result is not three MyModel");
         public void ThenArrayHasOriginalCount()
         {
             Result.Has().Count(2);
-            Description.Is(
+            Specification.Is(
 @"Given two MyModel
 When _.List()
 Then Result has count 2");
@@ -67,7 +67,7 @@ Then Result has count 2");
         public void ThenLastElementIsCreated()
         {
             Then(TheThird<MyModel>()).Is(Three<MyModel>().Last());
-            Description.Is(
+            Specification.Is(
 @"Given two MyModel
 When _.List()
 Then the third MyModel is three MyModel's Last()");
@@ -77,7 +77,7 @@ Then the third MyModel is three MyModel's Last()");
         public void ThenDifferentReferencesToManyOfSameCount_HaveSameElements()
         {
             Then(Three<MyModel>()).Is().EqualTo(Three<MyModel>());
-            Description.Is(
+            Specification.Is(
 @"Given two MyModel
 When _.List()
 Then three MyModel is equal to three MyModel");
@@ -92,7 +92,7 @@ Then three MyModel is equal to three MyModel");
         public void ThenItIsDifferentFromFirst()
         {
             Result.Is().Not(Three<MyModel>());
-            Description.Is(
+            Specification.Is(
 @"Given four MyModel
 When _.List()
 Then Result is not three MyModel");
@@ -102,7 +102,7 @@ Then Result is not three MyModel");
         public void ThenArrayHasOriginalCount()
         {
             Result.Has().Count(4);
-            Description.Is(
+            Specification.Is(
 @"Given four MyModel
 When _.List()
 Then Result has count 4");
@@ -112,7 +112,7 @@ Then Result has count 4");
         public void ThenDifferentReferencesToManyOfSameCount_HaveSameElements()
         {
             Then(Three<MyModel>()).Is().EqualTo(Three<MyModel>());
-            Description.Is(
+            Specification.Is(
 @"Given four MyModel
 When _.List()
 Then three MyModel is equal to three MyModel");
@@ -126,7 +126,7 @@ Then three MyModel is equal to three MyModel");
         {
             Given<IMyRepository>().That(_ => _.List()).Returns(Many<MyModel>)
                     .And(Two<MyModel>).Then().Result.Has().Count(2);
-            Description.Is(
+            Specification.Is(
 @"Given two MyModel
  and IMyRepository.List() returns many MyModel
 When _.List()
@@ -141,7 +141,7 @@ Then Result has count 2");
         {
             Given<IMyRepository>().That(_ => _.List()).Returns(() => Many<MyModel>())
                     .And(Four<MyModel>).Then().Result.Has().Count(4);
-            Description.Is(
+            Specification.Is(
 @"Given four MyModel
  and IMyRepository.List() returns many MyModel
 When _.List()
@@ -156,7 +156,7 @@ Then Result has count 4");
         {
             Given<IMyRepository>().That(_ => _.List()).Returns(Many<MyModel>)
                     .And(One<MyModel>).Then().Result.Has().Count(3);
-            Description.Is(
+            Specification.Is(
 @"Given one MyModel
  and IMyRepository.List() returns many MyModel
 When _.List()
@@ -177,7 +177,7 @@ public class WhenMockReturnsFewerElementsThanPreviouslyMentioned : Spec<MyRetrie
             .And<IMyRepository>().That(_ => _.Create(Three<MyModel>().Length))
             .Returns(Two<MyModel>)
             .Then().Result.Has().Count(2);
-        Description.Is(
+        Specification.Is(
 @"Given 3
  and IMyRepository.Create(three MyModel's Length) returns two MyModel
 When _.Create(an int)

@@ -13,7 +13,7 @@ public class WhenList : Spec<MyRetriever, MyModel[]>
         public void ThenElementCanBeRetrieved()
         {
             Then().Result.Single().Is(_theModel);
-            Description.Is(
+            Specification.Is(
 @"Given IMyRepository.List() returns one _theModel
 When _.List()
 Then Result.Single() is _theModel");
@@ -28,7 +28,7 @@ Then Result.Single() is _theModel");
         public void ThenCanRetrieveThatArray()
         {
             Then().Result.Is(The<MyModel[]>());
-            Description.Is(
+            Specification.Is(
 @"Given IMyRepository.List() returns one MyModel
 When _.List()
 Then Result is the MyModel[]");
@@ -38,7 +38,7 @@ Then Result is the MyModel[]");
         public void ThenArrayHasSingleElement()
         {
             Then().Result.Has().Count(1);
-            Description.Is(
+            Specification.Is(
 @"Given IMyRepository.List() returns one MyModel
 When _.List()
 Then Result has count 1");
@@ -48,7 +48,7 @@ Then Result has count 1");
         public void ThenElementCanBeRetrievedSeparately()
         {
             Then().Result.Single().Is(The<MyModel>());
-            Description.Is(
+            Specification.Is(
 @"Given IMyRepository.List() returns one MyModel
 When _.List()
 Then Result.Single() is the MyModel");
@@ -64,7 +64,7 @@ Then Result.Single() is the MyModel");
         public void ThenArrayHasSingleElementWithSetup()
         {
             Then().Result.Single().Name.Is(The<string>());
-            Description.Is(
+            Specification.Is(
 @"Given IMyRepository.List() returns one MyModel { Name = a string }
 When _.List()
 Then Result.Single().Name is the string");
@@ -79,7 +79,7 @@ Then Result.Single().Name is the string");
         public void ThenArrayHasTwoElements()
         {
             Then().Result.Has().Count(2);
-            Description.Is(
+            Specification.Is(
 @"Given IMyRepository.List() returns two MyModel
 When _.List()
 Then Result has count 2");
@@ -89,7 +89,7 @@ Then Result has count 2");
         public void ThenTheElementsAreDifferent()
         {
             Then().Result.First().Is().Not(Result.Last());
-            Description.Is(
+            Specification.Is(
 @"Given IMyRepository.List() returns two MyModel
 When _.List()
 Then Result.First() is not Result.Last()");
@@ -99,7 +99,7 @@ Then Result.First() is not Result.Last()");
         public void ThenSecondElementCanBeRetrievedSeparately()
         {
             Then().Result.Last().Is(TheSecond<MyModel>());
-            Description.Is(
+            Specification.Is(
 @"Given IMyRepository.List() returns two MyModel
 When _.List()
 Then Result.Last() is the second MyModel");
@@ -115,7 +115,7 @@ Then Result.Last() is the second MyModel");
         public void ThenArrayHasTwoElements()
         {
             Then().Result.Has().Count(2);
-            Description.Is(
+            Specification.Is(
 @"Given IMyRepository.List() returns two MyModel { Name = a string }
 When _.List()
 Then Result has count 2");
@@ -125,7 +125,7 @@ Then Result has count 2");
         public void ThenFirstElementHaveSetup()
         {
             Then().Result.First().Name.Is(The<string>());
-            Description.Is(
+            Specification.Is(
 @"Given IMyRepository.List() returns two MyModel { Name = a string }
 When _.List()
 Then Result.First().Name is the string");
@@ -135,7 +135,7 @@ Then Result.First().Name is the string");
         public void ThenSecondElementHaveSetup()
         {
             Then().Result.Last().Name.Is(The<string>());
-            Description.Is(
+            Specification.Is(
 @"Given IMyRepository.List() returns two MyModel { Name = a string }
 When _.List()
 Then Result.Last().Name is the string");
@@ -151,7 +151,7 @@ Then Result.Last().Name is the string");
         public void ThenArrayHasTwoElements()
         {
             Then().Result.Has().Count(2);
-            Description.Is(
+            Specification.Is(
                 """
                 Given IMyRepository.List() returns two MyModel { Name = "X{i + 1}" }
                 When _.List()
@@ -163,7 +163,7 @@ Then Result.Last().Name is the string");
         public void ThenFirstElementHaveSetup()
         {
             Then().Result.First().Name.Is("X1");
-            Description.Is(
+            Specification.Is(
 """
 Given IMyRepository.List() returns two MyModel { Name = "X{i + 1}" }
 When _.List()
@@ -175,7 +175,7 @@ Then Result.First().Name is "X1"
         public void ThenSecondElementHaveSetup()
         {
             Then().Result.Last().Name.Is("X2");
-            Description.Is(
+            Specification.Is(
 """
 Given IMyRepository.List() returns two MyModel { Name = "X{i + 1}" }
 When _.List()
@@ -192,7 +192,7 @@ Then Result.Last().Name is "X2"
         public void ThenArrayHasThreeElements()
         {
             Then().Result.Has().Count(3);
-            Description.Is(
+            Specification.Is(
 @"Given IMyRepository.List() returns three MyModel
 When _.List()
 Then Result has count 3");
@@ -202,7 +202,7 @@ Then Result has count 3");
         public void ThenTheElementsAreDifferent()
         {
             Then().Result.First().Is().Not(Result.Last());
-            Description.Is(
+            Specification.Is(
 @"Given IMyRepository.List() returns three MyModel
 When _.List()
 Then Result.First() is not Result.Last()");
@@ -212,7 +212,7 @@ Then Result.First() is not Result.Last()");
         public void ThenThirdElementCanBeRetrievedSeparately()
         {
             Then().Result.Last().Is(TheThird<MyModel>());
-            Description.Is(
+            Specification.Is(
 @"Given IMyRepository.List() returns three MyModel
 When _.List()
 Then Result.Last() is the third MyModel");
@@ -227,7 +227,7 @@ Then Result.Last() is the third MyModel");
         public void ThenArrayHasFourElements()
         {
             Then().Result.Has().Count(4);
-            Description.Is(
+            Specification.Is(
 @"Given IMyRepository.List() returns four MyModel
 When _.List()
 Then Result has count 4");
@@ -237,7 +237,7 @@ Then Result has count 4");
         public void ThenFourthElementCanBeRetrievedSeparately()
         {
             Then().Result.Last().Is(TheFourth<MyModel>());
-            Description.Is(
+            Specification.Is(
 @"Given IMyRepository.List() returns four MyModel
 When _.List()
 Then Result.Last() is the fourth MyModel");
@@ -252,7 +252,7 @@ Then Result.Last() is the fourth MyModel");
         public void ThenArrayHasFiveElements()
         {
             Then().Result.Has().Count(5);
-            Description.Is(
+            Specification.Is(
 @"Given IMyRepository.List() returns five MyModel
 When _.List()
 Then Result has count 5");
@@ -262,7 +262,7 @@ Then Result has count 5");
         public void ThenFifthElementCanBeRetrievedSeparately()
         {
             Then().Result.Last().Is(TheFifth<MyModel>());
-            Description.Is(
+            Specification.Is(
 @"Given IMyRepository.List() returns five MyModel
 When _.List()
 Then Result.Last() is the fifth MyModel");

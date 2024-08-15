@@ -10,7 +10,7 @@ public class WhenMockFuncOfDateTime : Spec<DateService, DateTime>
         public void Then_It_Has_RandomDateTime()
         {
             Then().Result.Is().Not(The<DateTime>()).And(Result).Ticks.Is().Not(0);
-            Description.Is(
+            Specification.Is(
                 """
                 When _.GetNow()
                 Then Result is not the DateTime
@@ -25,7 +25,7 @@ public class WhenMockFuncOfDateTime : Spec<DateService, DateTime>
         public void Then_It_Has_ProvidedValue()
         {
             Given(A<DateTime>()).Then().Result.Is(The<DateTime>());
-            Description.Is(
+            Specification.Is(
                 """
                 Given a DateTime
                 When _.GetNow()

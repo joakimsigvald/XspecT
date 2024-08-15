@@ -17,11 +17,10 @@ public record IsFloat : IsNumerical<IsFloat, float>
     /// <param name="precision"></param>
     /// <param name="expectedExpr"></param>
     /// <returns></returns>
-    [CustomAssertion]
     public ContinueWith<IsFloat> Around(
         float expected, float precision, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Actual.Should().BeApproximately(expected, precision);
+        AddAssert([CustomAssertion] () => Actual.Should().BeApproximately(expected, precision), expectedExpr);
         return And();
     }
 }

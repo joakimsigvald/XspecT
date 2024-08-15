@@ -17,11 +17,10 @@ public record IsDouble : IsNumerical<IsDouble, double>
     /// <param name="precision"></param>
     /// <param name="expectedExpr"></param>
     /// <returns></returns>
-    [CustomAssertion]
     public ContinueWith<IsDouble> Around(
         double expected, double precision, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Actual.Should().BeApproximately(expected, precision);
+        AddAssert([CustomAssertion] () => Actual.Should().BeApproximately(expected, precision), expectedExpr);
         return And();
     }
 }

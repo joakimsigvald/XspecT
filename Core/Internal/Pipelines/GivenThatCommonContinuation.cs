@@ -68,7 +68,7 @@ internal class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, TA
         void DoSetupReturns()
         {
             SpecifyMock();
-            Specification.AddMockReturns(returnsExpr);
+            SpecificationGenerator.AddMockReturns(returnsExpr);
             if (Continuation is Moq.Language.Flow.IReturnsThrows<TService, Task<TReturns>> asyncContinuation)
                 asyncContinuation.ReturnsAsync(returns);
             else
@@ -84,7 +84,7 @@ internal class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, TA
         void DoSetupThrows()
         {
             SpecifyMock();
-            Specification.AddMockThrows<TException>();
+            SpecificationGenerator.AddMockThrows<TException>();
             Continuation.Throws<TException>();
         }
     }
@@ -96,7 +96,7 @@ internal class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, TA
         void DoSetupThrows()
         {
             SpecifyMock();
-            Specification.AddMockThrows(expectedExpr);
+            SpecificationGenerator.AddMockThrows(expectedExpr);
             Continuation.Throws(expected());
         }
     }
@@ -104,8 +104,8 @@ internal class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, TA
     private void SpecifyMock()
     {
         if (_callExpr is not null)
-            Specification.AddMockSetup<TService>(_callExpr);
+            SpecificationGenerator.AddMockSetup<TService>(_callExpr);
         if (_tapExpr is not null)
-            Specification.AddTap(_tapExpr);
+            SpecificationGenerator.AddTap(_tapExpr);
     }
 }

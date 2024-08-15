@@ -30,7 +30,7 @@ internal class TestResult<TResult> : ITestResult<TResult>
 
     public IAndThen<TResult> Throws<TError>()
     {
-        Specification.AddAssertThrows<TError>();
+        SpecificationGenerator.AddAssertThrows<TError>();
         AssertError<TError>();
         return And();
     }
@@ -39,7 +39,7 @@ internal class TestResult<TResult> : ITestResult<TResult>
         Func<TError> expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null) 
         where TError : Exception
     {
-        Specification.AddAssertThrows(expectedExpr);
+        SpecificationGenerator.AddAssertThrows(expectedExpr);
         AssertError(expected());
         return And();
     }
@@ -47,7 +47,7 @@ internal class TestResult<TResult> : ITestResult<TResult>
     public IAndThen<TResult> Throws<TError>(
         Action<TError> assert)
     {
-        Specification.AddAssertThrows<TError>("where");
+        SpecificationGenerator.AddAssertThrows<TError>("where");
         AssertError(assert);
         return And();
     }
@@ -66,7 +66,7 @@ internal class TestResult<TResult> : ITestResult<TResult>
 
     public IAndThen<TResult> DoesNotThrow()
     {
-        Specification.AddAssert();
+        SpecificationGenerator.AddAssert();
         AssertNoError<Exception>();
         return And();
     }
@@ -137,7 +137,7 @@ Try providing a function with the Spec's declared return type instead as paramet
     {
         try
         {
-            Specification.AddVerify<TService>(expressionExpr);
+            SpecificationGenerator.AddVerify<TService>(expressionExpr);
             verify(Mocked<TService>());
             return new AndVerify<TResult>(this);
         }

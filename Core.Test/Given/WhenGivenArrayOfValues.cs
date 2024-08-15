@@ -6,7 +6,7 @@ public class WhenGivenArrayOfValues : Spec<MyService, IEnumerable<int>>
     public void ThenCanUseTwoValuesGivenSeparatelyFromMock()
     {
         When(_ => _.GetIds()).Given(Two<int>()).Then().Result.Is(Two<int>());
-        Description.Is(
+        Specification.Is(
             """
             Given two int
             When _.GetIds()
@@ -18,7 +18,7 @@ public class WhenGivenArrayOfValues : Spec<MyService, IEnumerable<int>>
     public void ThenDoNotUseTwoValuesGivenInDifferentSetup()
     {
         When(_ => _.GetIds()).Given<MyModel>(_ => _.Values = Two<int>()).Then().Result.Is().Empty();
-        Description.Is(
+        Specification.Is(
             """
             Given MyModel { Values = two int }
             When _.GetIds()
@@ -32,7 +32,7 @@ public class WhenGivenArrayOfValues : Spec<MyService, IEnumerable<int>>
         When(_ => _.GetModel().Values)
             .Given<MyModel>(_ => _.Values = Two<int>())
             .Then().Result.Is(Two<int>());
-        Description.Is(
+        Specification.Is(
             """
             Given MyModel { Values = two int }
             When _.GetModel().Values
@@ -47,7 +47,7 @@ public class WhenGivenArrayOfValues : Spec<MyService, IEnumerable<int>>
             .Given<MyModel>(_ => _.Values = Some<int>())
             .And(One<int>())
             .Then().Result.Is(One<int>());
-        Description.Is(
+        Specification.Is(
             """
             Given MyModel { Values = some int }
              and one int
@@ -63,7 +63,7 @@ public class WhenGivenArrayOfValues : Spec<MyService, IEnumerable<int>>
             .Given<MyModel>(_ => _.Values = Some<int>())
             .And(Zero<int>())
             .Then().Result.Is(Zero<int>());
-        Description.Is(
+        Specification.Is(
             """
             Given MyModel { Values = some int }
              and zero int

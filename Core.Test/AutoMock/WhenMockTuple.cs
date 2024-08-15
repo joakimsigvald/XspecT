@@ -9,7 +9,7 @@ public class WhenMockTuple : Spec<StaticTupleService, (int, string)>
         public void Then_It_Has_TheValue()
         {
             Then().Result.Is(The<(int, string)>());
-            Description.Is(
+            Specification.Is(
                 """
                 Given a (int, string)
                 When _.GetValue()
@@ -27,7 +27,7 @@ public class WhenMockTuple : Spec<StaticTupleService, (int, string)>
         public void Then_It_Has_ProvidedValue(int v1, string v2)
         {
             Given((v1, v2)).Then().Result.Is((v1, v2));
-            Description.Is(
+            Specification.Is(
                 """
                 Given (v1, v2)
                  and a (int, string)

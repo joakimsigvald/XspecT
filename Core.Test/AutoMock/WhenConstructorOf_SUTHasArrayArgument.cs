@@ -6,7 +6,7 @@ public class WhenConstructorOf_SUTTakeArrayOfObject: Spec<ArrayService, SomeValu
     public void ThenArrayIsEmpty()
     {
         When(_ => _.GetValues()).Then().Result.Is().Empty();
-        Description.Is(
+        Specification.Is(
 @"When _.GetValues()
 Then Result is empty");
     }

@@ -12,7 +12,7 @@ public class WhenGivenSetupValue : Spec<MyService, DateTime>
             .When(_ => _.GetTime())
             .Given().A(_now)
             .Then().Result.Is(_now);
-        Description.Is(
+        Specification.Is(
             """
             Given a DateTime { _now }
              and a DateTime
@@ -29,7 +29,7 @@ public class WhenGivenSetupValue : Spec<MyService, DateTime>
             .Given().A(_now)
             .And().A(_anotherTime) //Ignore this since a specific value has already been provided
             .Then().Result.Is(_now);
-        Description.Is(
+        Specification.Is(
             """
             Given a DateTime { _anotherTime }
              and a DateTime { _now }

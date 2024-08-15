@@ -118,8 +118,8 @@ public static partial class ExpressionParser
             return false;
 
         var verb = match.Groups[1].Value;
-        var value = match.Groups[2].Value;
-        description = $"{verb.AsWords()} {value}";
+        var values = match.Groups[2].Value.Split(',').Select(v => v.Trim()).ToArray();
+        description = $"{verb.AsWords()} {string.Join(", ", values.Select(v => v.ParseValue()))}";
         return true;
     }
 

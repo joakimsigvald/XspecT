@@ -120,7 +120,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     {
         _pipeline.ArrangeFirst(() =>
         {
-            Specification.AddGiven<TValue>(mentionExpr, article);
+            SpecificationGenerator.AddGiven<TValue>(mentionExpr, article);
             mention();
         });
         return new GivenTestPipeline<TSUT, TResult>(this);

@@ -6,7 +6,7 @@ public class AfterWhenBefore : Spec<MyStateService, int>
     public void BeforeIsExecutedAfterWhen()
     {
         When(_ => ++_.Counter).Before(_ => _.Counter--).Then().Result.Is(1);
-        Description.Is(
+        Specification.Is(
             """
             When ++_.Counter
             Before _.Counter--
@@ -18,7 +18,7 @@ public class AfterWhenBefore : Spec<MyStateService, int>
     public void AfterIsExecutedBeforeWhen()
     {
         When(_ => ++_.Counter).After(_ => _.Counter++).Then().Result.Is(2);
-        Description.Is(
+        Specification.Is(
             """
             When ++_.Counter
             After _.Counter++
@@ -33,7 +33,7 @@ public class AfterWhenBefore : Spec<MyStateService, int>
             .After(_ => _.Counter = 3)
             .After(_ => _.Counter = 5)
             .Then().Result.Is(6);
-        Description.Is(
+        Specification.Is(
             """
             When _.Counter *= 2
             After _.Counter = 3
@@ -52,7 +52,7 @@ public class AfterWhenBefore : Spec<MyStateService, int>
     {
         When(_ => _.Counter = 1).Before(_ => _.Counter = 3).Before(_ => _.Counter = 2)
             .Then().Result.Is(1);
-        Description.Is(
+        Specification.Is(
             """
             When _.Counter = 1
             Before _.Counter = 3
@@ -69,7 +69,7 @@ public class AfterWhenBefore : Spec<MyStateService, int>
     public void WhenBeforeGivenAfter()
     {
         When(_ => ++_.Counter).Before(_ => ++_.Counter).Given(1).After(_ => _.Counter++).Then().Result.Is(2);
-        Description.Is(
+        Specification.Is(
             """
             Given 1
             When ++_.Counter

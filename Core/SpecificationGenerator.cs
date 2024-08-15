@@ -9,7 +9,7 @@ namespace XspecT;
 /// <summary>
 /// 
 /// </summary>
-public static class Specification
+public static class SpecificationGenerator
 {
     [ThreadStatic]
     private static SpecificationBuilder _builder;
@@ -19,7 +19,7 @@ public static class Specification
     /// <summary>
     /// 
     /// </summary>
-    public static string Description => Builder.Description;
+    public static string Specification => Builder.Specification;
 
     internal static void AddMockSetup<TService>(string callExpr) 
         => Builder.Add(() => Builder.AddMockSetup<TService>(callExpr));
@@ -58,7 +58,7 @@ public static class Specification
         }
         catch (XunitException ex)
         {
-            throw new XunitException(Description, ex);
+            throw new XunitException(Specification, ex);
         }
     }
 
