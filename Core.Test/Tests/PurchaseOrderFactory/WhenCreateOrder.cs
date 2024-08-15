@@ -14,7 +14,28 @@ public class WhenCreateOrder : PurchaseOrderFactorySpec<OrderRecord>
     {
         public GivenBasket() => Given(() => Checkout = new() { Basket = new() { Id = BasketId } });
 
-        [Fact] public void ThenQuotationId_Is_BasketId() => Result.QuotationId.Is(BasketId);
-        [Fact] public void ThenOrderNo_Is_BasketId() => Result.OrderNo.Is($"{BasketId}");
+        [Fact]
+        public void ThenQuotationId_Is_BasketId()
+        {
+            Result.QuotationId.Is(BasketId);
+            Specification.Is(
+                """
+                Given Checkout = new() { Basket = new() { Id = BasketId } }
+                When _.CreateOrder(Checkout)
+                Then Result.QuotationId is BasketId
+                """);
+        }
+
+        [Fact]
+        public void ThenOrderNo_Is_BasketId()
+        {
+            Result.OrderNo.Is($"{BasketId}");
+            Specification.Is(
+                """
+                Given Checkout = new() { Basket = new() { Id = BasketId } }
+                When _.CreateOrder(Checkout)
+                Then Result.OrderNo is "{BasketId}"
+                """);
+        }
     }
 }
