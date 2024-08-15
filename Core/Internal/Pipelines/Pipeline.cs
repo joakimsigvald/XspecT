@@ -4,7 +4,6 @@ using System.Linq.Expressions;
 using XspecT.Continuations;
 using XspecT.Internal.TestData;
 using XspecT.Internal.Verification;
-using static XspecT.Internal.Pipelines.AsyncHelper;
 
 namespace XspecT.Internal.Pipelines;
 
@@ -64,23 +63,17 @@ internal class Pipeline<TSUT, TResult>
         _context.Use(defaultValue, applyTo);
     }
 
-    internal void PrependSetUp(Func<Task> setUp, string setUpExpr)
-        => PrependSetUp(() => Execute(setUp), setUpExpr);
-
-    internal void PrependSetUp(Action setUp, string setUpExpr)
+    internal void PrependSetUp(Delegate setUp, string setUpExpr)
     {
         AssertHasNotRun();
-        _actor.After(setUp ?? throw new SetupFailed("SetUp cannot be null"), setUpExpr);
+        _actor.After(new(setUp ?? throw new SetupFailed("SetUp cannot be null"), setUpExpr));
     }
 
-    internal void SetTearDown(Action tearDown, string tearDownExpr)
+    internal void SetTearDown(Delegate tearDown, string tearDownExpr)
     {
         AssertHasNotRun();
-        _actor.Before(tearDown ?? throw new SetupFailed("TearDown cannot be null"), tearDownExpr);
+        _actor.Before(new(tearDown ?? throw new SetupFailed("TearDown cannot be null"), tearDownExpr));
     }
-
-    internal void SetTearDown(Func<Task> tearDown, string tearDownExpr) 
-        => SetTearDown(() => Execute(tearDown), tearDownExpr);
 
     internal TValue Mention<TValue>(int index = 0) 
         => index < 0 ? _context.Create<TValue>() : _context.Mention<TValue>(index);
@@ -142,17 +135,8 @@ internal class Pipeline<TSUT, TResult>
     internal void SetAction(Delegate act, string actExpr)
     {
         AssertHasNotRun();
-        _actor.When(act ?? throw new SetupFailed("Act cannot be null"), actExpr);
+        _actor.When(new(act ?? throw new SetupFailed("Act cannot be null"), actExpr));
     }
-
-    internal void SetTearDown(Action<TSUT> tearDown, string tearDownExpr) 
-        => SetTearDown(() => tearDown(_sut), tearDownExpr);
-    internal void SetTearDown(Func<TSUT, Task> tearDown, string tearDownExpr) 
-        => SetTearDown(() => tearDown(_sut), tearDownExpr);
-    internal void PrependSetUp(Action<TSUT> setUp, string setUpExpr) 
-        => PrependSetUp(() => setUp(_sut), setUpExpr);
-    internal void PrependSetUp(Func<TSUT, Task> setUp, string setUpExpr) 
-        => PrependSetUp(() => setUp(_sut), setUpExpr);
 
     private TestResult<TResult> TestResult => _result ??= Run();
 

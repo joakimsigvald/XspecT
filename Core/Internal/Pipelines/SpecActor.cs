@@ -3,65 +3,68 @@ using XspecT.Internal.Verification;
 
 namespace XspecT.Internal.Pipelines;
 
+internal record Command(Delegate Invocation, string Expression); 
+
 internal class SpecActor<TSUT, TResult>
 {
-    private string _setUpExpr;
-    private readonly Stack<Action> _setUp = new();
-    private Delegate _act;
-    private string _actExpr;
-    private string _tearDownExpr;
-    private readonly Stack<Action> _tearDown = new();
+    private readonly Stack<Command> _setUp = new();
+    private Command _act;
+    private readonly Stack<Command> _tearDown = new();
     private Exception _error;
     private TResult _result;
 
-    internal void When(Delegate act, string actExpr)
+    internal void When(Command act)
     {
         if (_act is not null)
             throw new SetupFailed("Cannot call When twice in the same pipeline");
         _act = act;
-        _actExpr = actExpr;
     }
 
-    internal void After(Action setUp, string setUpExpr)
-    {
-        _setUp.Push(setUp);
-        _setUpExpr = setUpExpr;
-    }
+    internal void After(Command setUp) => _setUp.Push(setUp);
 
-    internal void Before(Action tearDown, string tearDownExpr)
-    {
-        _tearDown.Push(tearDown);
-        _tearDownExpr = tearDownExpr;
-    }
+    internal void Before(Command tearDown) => _tearDown.Push(tearDown);
 
     internal TestResult<TResult> Execute(TSUT sut, Context context)
     {
-        while(_setUp.TryPop(out var setup)) setup();
+        if (_act is null)
+            throw new SetupFailed("When must be called before Then");
+        AddToSpecification();
+        bool hasResult = false;
         try
         {
-            bool hasResult = false;
-            CatchError(() => hasResult = GetResult(sut));
-            return new(_result, _error, context, hasResult);
+            while (_setUp.TryPop(out var setup)) Invoke(setup, sut);
+            hasResult = GetResult(sut);
+        }
+        catch (SetupFailed)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            _error = ex;
         }
         finally
         {
-            while (_tearDown.TryPop(out var tearDown)) tearDown();
+            while (_tearDown.TryPop(out var tearDown)) Invoke(tearDown, sut);
         }
+        return new(_result, _error, context, hasResult);
+    }
+
+    private void AddToSpecification() 
+    {
+        Specification.AddWhen(_act.Expression);
+        foreach (var setUp in _setUp.Reverse())
+            Specification.AddAfter(setUp.Expression);
+        foreach (var tearDown in _tearDown)
+            Specification.AddBefore(tearDown.Expression);
     }
 
     private bool GetResult(TSUT sut)
     {
-        if (_act is null)
-            throw new SetupFailed("When must be called before Then");
         const string cue = "could not resolve to an object. (Parameter 'serviceType')";
         try
         {
-            Specification.AddWhen(_actExpr);
-            if (_setUpExpr is not null)
-                Specification.AddAfter(_setUpExpr);
-            if (_tearDownExpr is not null)
-                Specification.AddBefore(_tearDownExpr);
-            var hasResult = _act switch
+            var hasResult = _act.Invocation switch
             {
                 Func<TSUT, Task<TResult>> act => ExecuteFunctionAsync(act),
                 Func<TSUT, Task> act => ExecuteCommandAsync(act),
@@ -116,5 +119,20 @@ internal class SpecActor<TSUT, TResult>
         {
             _error = ex;
         }
+    }
+
+    private static string Invoke(Command command, TSUT sut)
+    {
+        switch (command.Invocation)
+        {
+            case Action<TSUT> act:
+                act(sut);
+                break;
+            case Func<TSUT, Task> actAsync:
+                AsyncHelper.Execute(() => actAsync(sut));
+                break;
+            default: throw new NotImplementedException();
+        };
+        return command.Expression;
     }
 }

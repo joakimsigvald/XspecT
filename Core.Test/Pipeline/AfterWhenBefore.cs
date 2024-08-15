@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.Metrics;
-
-namespace XspecT.Test.Pipeline;
+﻿namespace XspecT.Test.Pipeline;
 
 public class AfterWhenBefore : Spec<MyStateService, int>
 {
@@ -37,7 +35,7 @@ public class AfterWhenBefore : Spec<MyStateService, int>
             .Then().Result.Is(6);
         Description.Is(
             """
-            When _.Counter *=2
+            When _.Counter *= 2
             After _.Counter = 3
             After _.Counter = 5
             Then Result is 6
