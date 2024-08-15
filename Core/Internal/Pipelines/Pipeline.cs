@@ -15,30 +15,36 @@ internal class Pipeline<TSUT, TResult>
     private readonly Arranger _arranger = new();
     private TSUT _sut;
 
-    public bool HasRun => _result != null;
+    internal bool HasRun => _result != null;
 
-    public ITestResult<TResult> Then() => TestResult;
+    internal ITestResult<TResult> Then() => TestResult;
 
-    public IAndVerify<TResult> Then<TService>(Expression<Action<TService>> expression, string expressionExpr = null) 
+    internal IAndVerify<TResult> Then<TService>(
+        Expression<Action<TService>> expression, string expressionExpr) 
         where TService : class
         => TestResult.Verify(expression, expressionExpr);
 
-    public IAndVerify<TResult> Then<TService>(Expression<Action<TService>> expression, Times times) where TService : class
-        => TestResult.Verify(expression, times);
+    internal IAndVerify<TResult> Then<TService>(
+        Expression<Action<TService>> expression, Times times, string expressionExpr) where TService : class
+        => TestResult.Verify(expression, times, expressionExpr);
 
-    public IAndVerify<TResult> Then<TService>(Expression<Action<TService>> expression, Func<Times> times) where TService : class
-        => TestResult.Verify(expression, times);
+    internal IAndVerify<TResult> Then<TService>(
+        Expression<Action<TService>> expression, Func<Times> times, string expressionExpr) where TService : class
+        => TestResult.Verify(expression, times, expressionExpr);
 
-    public IAndVerify<TResult> Then<TService, TReturns>(Expression<Func<TService, TReturns>> expression) where TService : class
-        => TestResult.Verify(expression);
+    internal IAndVerify<TResult> Then<TService, TReturns>(
+        Expression<Func<TService, TReturns>> expression, string expressionExpr) where TService : class
+        => TestResult.Verify(expression, expressionExpr);
 
-    public IAndVerify<TResult> Then<TService, TReturns>(Expression<Func<TService, TReturns>> expression, Times times)
+    internal IAndVerify<TResult> Then<TService, TReturns>(
+        Expression<Func<TService, TReturns>> expression, Times times, string expressionExpr)
         where TService : class
-        => TestResult.Verify(expression, times);
+        => TestResult.Verify(expression, times, expressionExpr);
 
-    public IAndVerify<TResult> Then<TService, TReturns>(Expression<Func<TService, TReturns>> expression, Func<Times> times)
+    internal IAndVerify<TResult> Then<TService, TReturns>(
+        Expression<Func<TService, TReturns>> expression, Func<Times> times, string expressionExpr)
         where TService : class
-        => TestResult.Verify(expression, times);
+        => TestResult.Verify(expression, times, expressionExpr);
 
     internal void SetDefault<TModel>(
         Action<TModel> setup, string setupExpr = null) where TModel : class
@@ -49,7 +55,7 @@ internal class Pipeline<TSUT, TResult>
     }
 
     internal void SetDefault<TValue>(
-        Func<TValue, TValue> transform, string transformExpr = null)
+        Func<TValue, TValue> transform, string transformExpr)
     {
         SpecificationGenerator.AddGiven<TValue>(transformExpr);
         AssertHasNotRun();

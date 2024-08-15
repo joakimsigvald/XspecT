@@ -37,6 +37,8 @@ public static partial class ExpressionParser
             return description;
         if (TryParseOneArgLambdaValueExpression(expr, out description))
             return description;
+        if (TryParseTupleExpression(expr, out description))
+            return description;
         return expr;
     }
 
@@ -50,13 +52,20 @@ public static partial class ExpressionParser
     {
         if (string.IsNullOrEmpty(expr))
             return expr;
-        if (TryParseOneArgLambdaInstanceMethodExpression(expr, skipSubjectRef, out string description))
+        var lines = LineBreakRegex()
+            .Split(expr)
+            .Where(s => !string.IsNullOrWhiteSpace(s))
+            .Select(s => s.Trim());
+        var singleLineExpr = string.Join(' ', lines);
+        if (string.IsNullOrEmpty(singleLineExpr))
+            return singleLineExpr;
+        if (TryParseOneArgLambdaInstanceMethodExpression(singleLineExpr, skipSubjectRef, out string description))
             return description;
-        if (TryParseMethodCall(expr, out description))
+        if (TryParseMethodCall(singleLineExpr, out description))
             return description;
-        if (TryParseOneArgLambdaValueExpression(expr, out description))
+        if (TryParseOneArgLambdaValueExpression(singleLineExpr, out description))
             return description;
-        return expr;
+        return singleLineExpr;
     }
 
     /// <summary>
@@ -120,6 +129,18 @@ public static partial class ExpressionParser
         var verb = match.Groups[1].Value;
         var values = match.Groups[2].Value.Split(',').Select(v => v.Trim()).ToArray();
         description = $"{verb.AsWords()} {string.Join(", ", values.Select(v => v.ParseValue()))}";
+        return true;
+    }
+
+    private static bool TryParseTupleExpression(string expr, out string description)
+    {
+        description = null;
+        var match = TupleExpressionRegex().Match(expr);
+        if (!match.Success)
+            return false;
+
+        var values = match.Groups[1].Value.Split(',').Select(v => v.Trim()).ToArray();
+        description = $"({string.Join(", ", values.Select(v => v.ParseValue()))})";
         return true;
     }
 
@@ -284,4 +305,10 @@ public static partial class ExpressionParser
 
     [GeneratedRegex(@"^(?:Then|And)\((.*)\)$")]
     private static partial Regex ThenValueRegex();
+
+    [GeneratedRegex(@"^\((.+)\)$")]
+    private static partial Regex TupleExpressionRegex();
+
+    [GeneratedRegex(@"(\r|\n)+")]
+    private static partial Regex LineBreakRegex();
 }

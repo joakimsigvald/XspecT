@@ -10,6 +10,11 @@ public class WhenParseCall : Spec<string>
     [InlineData("_ => MyService.Echo(The<MyEnum>())", "MyService.Echo(the MyEnum)")]
     [InlineData("_ => [1, 2, 3]", "[1, 2, 3]")]
     [InlineData("_ => A<List<int>>()", "a List<int>")]
+    [InlineData("""
+        x
+
+        y
+        """, "x y")]
     public void ThenReturnDescription(string callExpr, string expected)
         => When(_ => callExpr.ParseCall())
         .Then().Result.Is(expected);

@@ -33,7 +33,8 @@ public interface ITestPipeline<TSUT, TResult>
     /// <param name="expression"></param>
     /// <param name="expressionExpr"></param>
     /// <returns></returns>
-    IAndVerify<TResult> Then<TService>(Expression<Action<TService>> expression,
+    IAndVerify<TResult> Then<TService>(
+        Expression<Action<TService>> expression,
         [CallerArgumentExpression(nameof(expression))] string expressionExpr = null)
         where TService : class;
 
@@ -43,8 +44,11 @@ public interface ITestPipeline<TSUT, TResult>
     /// <typeparam name="TService"></typeparam>
     /// <param name="expression"></param>
     /// <param name="times"></param>
+    /// <param name="expressionExpr"></param>
     /// <returns></returns>
-    IAndVerify<TResult> Then<TService>(Expression<Action<TService>> expression, Times times)
+    IAndVerify<TResult> Then<TService>(
+        Expression<Action<TService>> expression, Times times,
+        [CallerArgumentExpression(nameof(expression))] string expressionExpr = null)
         where TService : class;
 
     /// <summary>
@@ -53,8 +57,11 @@ public interface ITestPipeline<TSUT, TResult>
     /// <typeparam name="TService"></typeparam>
     /// <param name="expression"></param>
     /// <param name="times"></param>
+    /// <param name="expressionExpr"></param>
     /// <returns></returns>
-    IAndVerify<TResult> Then<TService>(Expression<Action<TService>> expression, Func<Times> times)
+    IAndVerify<TResult> Then<TService>(
+        Expression<Action<TService>> expression, Func<Times> times,
+        [CallerArgumentExpression(nameof(expression))] string expressionExpr = null)
         where TService : class;
 
     /// <summary>
@@ -63,19 +70,11 @@ public interface ITestPipeline<TSUT, TResult>
     /// <typeparam name="TService"></typeparam>
     /// <typeparam name="TReturns"></typeparam>
     /// <param name="expression"></param>
+    /// <param name="expressionExpr"></param>
     /// <returns></returns>
-    IAndVerify<TResult> Then<TService, TReturns>(Expression<Func<TService, TReturns>> expression)
-        where TService : class;
-
-    /// <summary>
-    /// Run the test-pipeline and verify mock invocation.
-    /// </summary>
-    /// <typeparam name="TService"></typeparam>
-    /// <typeparam name="TReturns"></typeparam>
-    /// <param name="expression"></param>
-    /// <param name="times"></param>
-    /// <returns></returns>
-    IAndVerify<TResult> Then<TService, TReturns>(Expression<Func<TService, TReturns>> expression, Times times)
+    IAndVerify<TResult> Then<TService, TReturns>(
+        Expression<Func<TService, TReturns>> expression,
+        [CallerArgumentExpression(nameof(expression))] string expressionExpr = null)
         where TService : class;
 
     /// <summary>
@@ -85,8 +84,25 @@ public interface ITestPipeline<TSUT, TResult>
     /// <typeparam name="TReturns"></typeparam>
     /// <param name="expression"></param>
     /// <param name="times"></param>
+    /// <param name="expressionExpr"></param>
     /// <returns></returns>
-    IAndVerify<TResult> Then<TService, TReturns>(Expression<Func<TService, TReturns>> expression, Func<Times> times)
+    IAndVerify<TResult> Then<TService, TReturns>(
+        Expression<Func<TService, TReturns>> expression, Times times,
+        [CallerArgumentExpression(nameof(expression))] string expressionExpr = null)
+        where TService : class;
+
+    /// <summary>
+    /// Run the test-pipeline and verify mock invocation.
+    /// </summary>
+    /// <typeparam name="TService"></typeparam>
+    /// <typeparam name="TReturns"></typeparam>
+    /// <param name="expression"></param>
+    /// <param name="times"></param>
+    /// <param name="expressionExpr"></param>
+    /// <returns></returns>
+    IAndVerify<TResult> Then<TService, TReturns>(
+        Expression<Func<TService, TReturns>> expression, Func<Times> times,
+        [CallerArgumentExpression(nameof(expression))] string expressionExpr = null)
         where TService : class;
     /// <summary>
     /// Provide the method-under-test to the test-pipeline

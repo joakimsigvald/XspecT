@@ -1,5 +1,6 @@
 ﻿using Moq;
 using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 
 namespace XspecT.Continuations;
 
@@ -13,8 +14,12 @@ public interface IAndVerify<TResult> : IAndThen<TResult>
     /// </summary>
     /// <typeparam name="TObject"></typeparam>
     /// <param name="expression"></param>
+    /// <param name="expressionExpr"></param>
     /// <returns></returns>
-    public IAndVerify<TResult> And<TObject>(Expression<Action<TObject>> expression) where TObject : class;
+    public IAndVerify<TResult> And<TObject>(
+        Expression<Action<TObject>> expression,
+        [CallerArgumentExpression(nameof(expression))] string expressionExpr = null) 
+        where TObject : class;
 
     /// <summary>
     /// Assert that a mock invocation satisfying the given expression was made the given number of times
@@ -22,8 +27,12 @@ public interface IAndVerify<TResult> : IAndThen<TResult>
     /// <typeparam name="TObject"></typeparam>
     /// <param name="expression"></param>
     /// <param name="times"></param>
+    /// <param name="expressionExpr"></param>
     /// <returns></returns>
-    public IAndVerify<TResult> And<TObject>(Expression<Action<TObject>> expression, Times times) where TObject : class;
+    public IAndVerify<TResult> And<TObject>(
+        Expression<Action<TObject>> expression, Times times,
+        [CallerArgumentExpression(nameof(expression))] string expressionExpr = null) 
+        where TObject : class;
 
     /// <summary>
     /// Assert that a mock invocation satisfying the given expression was made the given number of times
@@ -31,8 +40,12 @@ public interface IAndVerify<TResult> : IAndThen<TResult>
     /// <typeparam name="TObject"></typeparam>
     /// <param name="expression"></param>
     /// <param name="times"></param>
+    /// <param name="expressionExpr"></param>
     /// <returns></returns>
-    public IAndVerify<TResult> And<TObject>(Expression<Action<TObject>> expression, Func<Times> times) where TObject : class;
+    public IAndVerify<TResult> And<TObject>(
+        Expression<Action<TObject>> expression, Func<Times> times,
+        [CallerArgumentExpression(nameof(expression))] string expressionExpr = null) 
+        where TObject : class;
 
     /// <summary>
     /// Assert that a mock invocation satisfy the given expression
@@ -40,18 +53,11 @@ public interface IAndVerify<TResult> : IAndThen<TResult>
     /// <typeparam name="TObject"></typeparam>
     /// <typeparam name="TReturns"></typeparam>
     /// <param name="expression"></param>
+    /// <param name="expressionExpr"></param>
     /// <returns></returns>
-    public IAndVerify<TResult> And<TObject, TReturns>(Expression<Func<TObject, TReturns>> expression) where TObject : class;
-
-    /// <summary>
-    /// Assert that a mock invocation satisfying the given expression was made the given number of times
-    /// </summary>
-    /// <typeparam name="TObject"></typeparam>
-    /// <typeparam name="TReturns"></typeparam>
-    /// <param name="expression"></param>
-    /// <param name="times"></param>
-    /// <returns></returns>
-    public IAndVerify<TResult> And<TObject, TReturns>(Expression<Func<TObject, TReturns>> expression, Times times)
+    public IAndVerify<TResult> And<TObject, TReturns>(
+        Expression<Func<TObject, TReturns>> expression,
+        [CallerArgumentExpression(nameof(expression))] string expressionExpr = null) 
         where TObject : class;
 
     /// <summary>
@@ -61,7 +67,24 @@ public interface IAndVerify<TResult> : IAndThen<TResult>
     /// <typeparam name="TReturns"></typeparam>
     /// <param name="expression"></param>
     /// <param name="times"></param>
+    /// <param name="expressionExpr"></param>
     /// <returns></returns>
-    public IAndVerify<TResult> And<TObject, TReturns>(Expression<Func<TObject, TReturns>> expression, Func<Times> times)
+    public IAndVerify<TResult> And<TObject, TReturns>(
+        Expression<Func<TObject, TReturns>> expression, Times times,
+        [CallerArgumentExpression(nameof(expression))] string expressionExpr = null)
+        where TObject : class;
+
+    /// <summary>
+    /// Assert that a mock invocation satisfying the given expression was made the given number of times
+    /// </summary>
+    /// <typeparam name="TObject"></typeparam>
+    /// <typeparam name="TReturns"></typeparam>
+    /// <param name="expression"></param>
+    /// <param name="times"></param>
+    /// <param name="expressionExpr"></param>
+    /// <returns></returns>
+    public IAndVerify<TResult> And<TObject, TReturns>(
+        Expression<Func<TObject, TReturns>> expression, Func<Times> times,
+        [CallerArgumentExpression(nameof(expression))] string expressionExpr = null)
         where TObject : class;
 }

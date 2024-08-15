@@ -3,9 +3,9 @@ using Moq;
 
 namespace XspecT.Test.Tests.ShoppingService;
 
-public abstract class WhenPlaceOrder : ShoppingServiceSpec<object>
+public class WhenPlaceOrder : ShoppingServiceSpec<object>
 {
-    protected WhenPlaceOrder() => When(_ => _.PlaceOrder(A<ShoppingCart>()));
+    public WhenPlaceOrder() => When(_ => _.PlaceOrder(A<ShoppingCart>()));
 
     [Theory]
     [InlineData(2)]
@@ -34,7 +34,7 @@ public abstract class WhenPlaceOrder : ShoppingServiceSpec<object>
             """
             Given (a string, a second string)
             When _.PlaceOrder(a ShoppingCart)
-            Then ILogger.Information(It.Is<string>(s => s.Contains(A<string>()) && s.Contains(ASecond<string>()))
+            Then ILogger.Information(It.Is<string>(s => s.Contains(A<string>()) && s.Contains(ASecond<string>())))
             """);
     }
 }

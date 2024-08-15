@@ -71,26 +71,35 @@ internal class TestResult<TResult> : ITestResult<TResult>
         return And();
     }
 
-    internal IAndVerify<TResult> Verify<TService>(Expression<Action<TService>> expression, string expressionExpr = null) 
+    internal IAndVerify<TResult> Verify<TService>(
+        Expression<Action<TService>> expression, string expressionExpr) 
         where TService : class
         => CombineWithErrorOnFail<TService>(mock => mock.Verify(expression), expressionExpr);
 
-    internal IAndVerify<TResult> Verify<TService>(Expression<Action<TService>> expression, Times times) where TService : class
-        => CombineWithErrorOnFail<TService>(mock => mock.Verify(expression, times));
-
-    internal IAndVerify<TResult> Verify<TService>(Expression<Action<TService>> expression, Func<Times> times) where TService : class
-        => CombineWithErrorOnFail<TService>(mock => mock.Verify(expression, times));
-
-    internal IAndVerify<TResult> Verify<TService, TReturns>(Expression<Func<TService, TReturns>> expression) where TService : class
-        => CombineWithErrorOnFail<TService>(mock => mock.Verify(expression));
-
-    internal IAndVerify<TResult> Verify<TService, TReturns>(Expression<Func<TService, TReturns>> expression, Times times)
+    internal IAndVerify<TResult> Verify<TService>(
+        Expression<Action<TService>> expression, Times times, string expressionExpr) 
         where TService : class
-        => CombineWithErrorOnFail<TService>(mock => mock.Verify(expression, times));
+        => CombineWithErrorOnFail<TService>(mock => mock.Verify(expression, times), expressionExpr);
 
-    internal IAndVerify<TResult> Verify<TService, TReturns>(Expression<Func<TService, TReturns>> expression, Func<Times> times)
+    internal IAndVerify<TResult> Verify<TService>(
+        Expression<Action<TService>> expression, Func<Times> times, string expressionExpr) 
         where TService : class
-        => CombineWithErrorOnFail<TService>(mock => mock.Verify(expression, times));
+        => CombineWithErrorOnFail<TService>(mock => mock.Verify(expression, times), expressionExpr);
+
+    internal IAndVerify<TResult> Verify<TService, TReturns>(
+        Expression<Func<TService, TReturns>> expression, string expressionExpr) 
+        where TService : class
+        => CombineWithErrorOnFail<TService>(mock => mock.Verify(expression), expressionExpr);
+
+    internal IAndVerify<TResult> Verify<TService, TReturns>(
+        Expression<Func<TService, TReturns>> expression, Times times, string expressionExpr)
+        where TService : class
+        => CombineWithErrorOnFail<TService>(mock => mock.Verify(expression, times), expressionExpr);
+
+    internal IAndVerify<TResult> Verify<TService, TReturns>(
+        Expression<Func<TService, TReturns>> expression, Func<Times> times, string expressionExpr)
+        where TService : class
+        => CombineWithErrorOnFail<TService>(mock => mock.Verify(expression, times), expressionExpr);
 
     private void AssertError<TError>(TError expected)
         where TError : Exception
@@ -132,7 +141,7 @@ Try providing a function with the Spec's declared return type instead as paramet
 
     private Mock<TObject> Mocked<TObject>() where TObject : class => _context.GetMock<TObject>();
 
-    private AndVerify<TResult> CombineWithErrorOnFail<TService>(Action<Mock<TService>> verify, string expressionExpr = null)
+    private AndVerify<TResult> CombineWithErrorOnFail<TService>(Action<Mock<TService>> verify, string expressionExpr)
         where TService : class
     {
         try
