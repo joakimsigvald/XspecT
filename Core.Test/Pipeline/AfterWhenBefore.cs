@@ -49,8 +49,17 @@ public class AfterWhenBefore : Spec<MyStateService, int>
 
     [Fact]
     public void GivenBeforeExecutedTwice_BothAreExecuted()
-        => When(_ => _.Counter = 1).Before(_ => _.Counter = 3).Before(_ => _.Counter = 2)
-        .Then().Result.Is(1);
+    {
+        When(_ => _.Counter = 1).Before(_ => _.Counter = 3).Before(_ => _.Counter = 2)
+            .Then().Result.Is(1);
+        Description.Is(
+            """
+            When _.Counter = 1
+            Before _.Counter = 3
+            Before _.Counter = 2
+            Then Result is 1
+            """);
+    }
 
     [Fact]
     public void GivenCallThenBeforeWhen_ThenThrowSetupFailed()
@@ -58,5 +67,15 @@ public class AfterWhenBefore : Spec<MyStateService, int>
 
     [Fact]
     public void WhenBeforeGivenAfter()
-        => When(_ => ++_.Counter).Before(_ => ++_.Counter).Given(1).After(_ => _.Counter++).Then().Result.Is(2);
+    {
+        When(_ => ++_.Counter).Before(_ => ++_.Counter).Given(1).After(_ => _.Counter++).Then().Result.Is(2);
+        Description.Is(
+            """
+            Given 1
+            When ++_.Counter
+            After _.Counter++
+            Before ++_.Counter
+            Then Result is 2
+            """);
+    }
 }

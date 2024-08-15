@@ -1,38 +1,40 @@
-﻿using XspecT.Internal.TestData;
+﻿using System.Runtime.CompilerServices;
+using XspecT.Internal.TestData;
 using XspecT.Internal.Verification;
 
 namespace XspecT.Internal.Pipelines;
 
-internal record Command(Delegate Invocation, string Expression); 
+internal record Command(Delegate Invocation, string Expression);
 
 internal class SpecActor<TSUT, TResult>
 {
-    private readonly Stack<Command> _setUp = new();
-    private Command _act;
-    private readonly Stack<Command> _tearDown = new();
+    private readonly List<Command> _setUp = [];
+    private Command _methodUnderTest;
+    private readonly List<Command> _tearDown = [];
     private Exception _error;
     private TResult _result;
 
     internal void When(Command act)
     {
-        if (_act is not null)
+        if (_methodUnderTest is not null)
             throw new SetupFailed("Cannot call When twice in the same pipeline");
-        _act = act;
+        _methodUnderTest = act;
     }
 
-    internal void After(Command setUp) => _setUp.Push(setUp);
+    internal void After(Command setUp) => _setUp.Insert(0, setUp);
 
-    internal void Before(Command tearDown) => _tearDown.Push(tearDown);
+    internal void Before(Command tearDown) => _tearDown.Add(tearDown);
 
     internal TestResult<TResult> Execute(TSUT sut, Context context)
     {
-        if (_act is null)
+        if (_methodUnderTest is null)
             throw new SetupFailed("When must be called before Then");
         AddToSpecification();
         bool hasResult = false;
         try
         {
-            while (_setUp.TryPop(out var setup)) Invoke(setup, sut);
+            foreach (var setUp in _setUp)
+                Invoke(setUp, sut);
             hasResult = GetResult(sut);
         }
         catch (SetupFailed)
@@ -45,15 +47,16 @@ internal class SpecActor<TSUT, TResult>
         }
         finally
         {
-            while (_tearDown.TryPop(out var tearDown)) Invoke(tearDown, sut);
+            foreach (var tearDown in _tearDown)
+                Invoke(tearDown, sut);
         }
         return new(_result, _error, context, hasResult);
     }
 
-    private void AddToSpecification() 
+    private void AddToSpecification()
     {
-        Specification.AddWhen(_act.Expression);
-        foreach (var setUp in _setUp.Reverse())
+        Specification.AddWhen(_methodUnderTest.Expression);
+        foreach (var setUp in _setUp.Reverse<Command>())
             Specification.AddAfter(setUp.Expression);
         foreach (var tearDown in _tearDown)
             Specification.AddBefore(tearDown.Expression);
@@ -64,14 +67,7 @@ internal class SpecActor<TSUT, TResult>
         const string cue = "could not resolve to an object. (Parameter 'serviceType')";
         try
         {
-            var hasResult = _act.Invocation switch
-            {
-                Func<TSUT, Task<TResult>> act => ExecuteFunctionAsync(act),
-                Func<TSUT, Task> act => ExecuteCommandAsync(act),
-                Func<TSUT, TResult> act => ExecuteFunction(act),
-                Action<TSUT> act => ExecuteCommand(act),
-                _ => throw new SetupFailed("Failed to run method under test, unexpected signature")
-            };
+            (_result, var hasResult) = Invoke(_methodUnderTest, sut);
             Specification.AddThen();
             return hasResult;
         }
@@ -79,60 +75,29 @@ internal class SpecActor<TSUT, TResult>
         {
             throw new SetupFailed($"Failed to run method under test, because an instance of {ex.Message.Split(cue)[0].Trim()} could not be provided.", ex);
         }
+    }
 
-        bool ExecuteCommand(Action<TSUT> act)
+    private static (TResult result, bool hasResult) Invoke(Command command, TSUT sut, [CallerArgumentExpression(nameof(command))] string commandName = null)
+    {
+        return command.Invocation switch
+        {
+            Func<TSUT, Task<TResult>> queryAsync => (AsyncHelper.Execute(() => queryAsync(sut)), true),
+            Func<TSUT, Task> actAsync => ActAndReturnAsync(actAsync),
+            Func<TSUT, TResult> query => (query(sut), true),
+            Action<TSUT> act => ActAndReturn(act),
+            _ => throw new SetupFailed($"Failed to run {commandName}, unexpected signature")
+        };
+
+        (TResult, bool) ActAndReturn(Action<TSUT> act)
         {
             act(sut);
-            return false;
+            return (default, false);
         }
 
-        bool ExecuteFunction(Func<TSUT, TResult> act)
+        (TResult, bool) ActAndReturnAsync(Func<TSUT, Task> actAsync)
         {
-            _result = act(sut);
-            return true;
+            AsyncHelper.Execute(() => actAsync(sut));
+            return (default, false);
         }
-
-        bool ExecuteCommandAsync(Func<TSUT, Task> act)
-        {
-            AsyncHelper.Execute(() => act(sut));
-            return false;
-        }
-
-        bool ExecuteFunctionAsync(Func<TSUT, Task<TResult>> act)
-        {
-            _result = AsyncHelper.Execute(() => act(sut));
-            return true;
-        }
-    }
-
-    private void CatchError(Action act)
-    {
-        try
-        {
-            act();
-        }
-        catch (SetupFailed)
-        {
-            throw;
-        }
-        catch (Exception ex)
-        {
-            _error = ex;
-        }
-    }
-
-    private static string Invoke(Command command, TSUT sut)
-    {
-        switch (command.Invocation)
-        {
-            case Action<TSUT> act:
-                act(sut);
-                break;
-            case Func<TSUT, Task> actAsync:
-                AsyncHelper.Execute(() => actAsync(sut));
-                break;
-            default: throw new NotImplementedException();
-        };
-        return command.Expression;
     }
 }
