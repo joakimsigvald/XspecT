@@ -1,7 +1,7 @@
 ﻿namespace XspecT.Test.Subjects.RecordStructDefaults;
 
-public record struct Key
+public record struct Key<TA, TB>
 {
-    public string A { get; set; }
-    public string B { get; set; }
+    public TA A { get; set; }
+    public TB B { get; set; }
 }

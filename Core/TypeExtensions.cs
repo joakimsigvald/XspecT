@@ -1,9 +1,32 @@
-﻿namespace XspecT.Internal;
+﻿namespace XspecT;
 
-internal static class TypeExtensions
+/// <summary>
+/// 
+/// </summary>
+public static class TypeExtensions
 {
-    internal static string Alias(this Type type)
-        => _typeAliases.TryGetValue(type, out var alias) ? alias : type.Name;
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="type"></param>
+    /// <returns></returns>
+    public static string Alias(this Type type)
+    {
+        if (type.IsArray)
+        {
+            var elementType = type.GetElementType();
+            var rank = type.GetArrayRank();
+            return $"{elementType.Alias()}[{new string(',', rank-1)}]";
+        }
+        if (type.IsGenericType)
+        {
+            var genericTypeNames = type.GenericTypeArguments.Select(t => t.Alias()).ToArray();
+            return $"{type.GenericBaseName()}<{string.Join(", ", genericTypeNames)}>";
+        }
+        return _typeAliases.TryGetValue(type, out var alias) ? alias : type.Name;
+    }
+
+    private static string GenericBaseName(this Type type) => type.Name.Split('`')[0];
 
     private static readonly Dictionary<Type, string> _typeAliases = new()
     {

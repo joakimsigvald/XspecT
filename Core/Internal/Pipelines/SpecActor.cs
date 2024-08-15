@@ -60,6 +60,7 @@ internal class SpecActor<TSUT, TResult>
             SpecificationGenerator.AddAfter(setUp.Expression);
         foreach (var tearDown in _tearDown)
             SpecificationGenerator.AddBefore(tearDown.Expression);
+        SpecificationGenerator.AddThen();
     }
 
     private bool GetResult(TSUT sut)
@@ -68,7 +69,6 @@ internal class SpecActor<TSUT, TResult>
         try
         {
             (_result, var hasResult) = Invoke(_methodUnderTest, sut);
-            SpecificationGenerator.AddThen();
             return hasResult;
         }
         catch (ArgumentException ex) when (ex.Message.Contains(cue))

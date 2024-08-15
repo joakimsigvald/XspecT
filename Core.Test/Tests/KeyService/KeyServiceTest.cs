@@ -2,7 +2,7 @@
 
 namespace XspecT.Test.Tests.KeyService;
 
-public class KeyServiceSpec : Spec<Subjects.RecordStructDefaults.KeyService, Key>
+public class KeyServiceSpec : Spec<Subjects.RecordStructDefaults.KeyService, Key<string, string>>
 {
 }
 
@@ -16,8 +16,8 @@ public class WhenKeyKey : KeyServiceSpec
         Result.A.Is().NotNullOrEmpty();
         Specification.Is(
             """
-            When add 1, 1
-            Then Result is 2
+            When _.GetKey()
+            Then Result.A is not null or empty
             """);
     }
 }

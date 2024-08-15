@@ -2,5 +2,5 @@
 
 public interface IKeyProvider
 {
-    Key GetKey();
+    Key<string, string> GetKey();
 }

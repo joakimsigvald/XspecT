@@ -12,7 +12,7 @@ internal class SpecificationBuilder
     private int _thenCount;
     private string _currentMockSetup;
 
-    public string Specification => _description ??= Build();
+    internal string Specification => _description ??= Build();
 
     internal void Add(Action apply) => _applications.Add(apply);
 
@@ -88,10 +88,10 @@ internal class SpecificationBuilder
         => AddWord($"{NameOf<TService>()}.{expressionExpr.ParseCall(true)}");
 
     internal void AddAssertThrows<TError>(string binder)
-        => AddPhraseOrSentence($"{Then} throws {NameOf<TError>()} {binder}".Trim());
+        => AddWord($"throws {NameOf<TError>()} {binder}".Trim());
 
     internal void AddAssertThrows(string expectedExpr)
-        => AddPhraseOrSentence($"{Then} throws {expectedExpr.ParseValue()}");
+        => AddWord($"throws {expectedExpr.ParseValue()}");
 
     internal void AddTap(string expr) => AddWord($"tap({expr})");
 
@@ -114,6 +114,8 @@ internal class SpecificationBuilder
         else AddPhrase(phrase);
     }
 
+    private static string NameOf<T>() => typeof(T).Alias();
+
     private void AddPhrase(string phrase)
         => _descriptionBuilder.Append($"{Environment.NewLine} {phrase}");
 
@@ -127,8 +129,6 @@ internal class SpecificationBuilder
         _descriptionBuilder.Append(binder);
         _descriptionBuilder.Append(word);
     }
-
-    private static string NameOf<T>() => typeof(T).Alias();
 
     private string Given => 0 == _givenCount++ ? "Given" : "and";
 

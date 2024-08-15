@@ -6,5 +6,5 @@ public class KeyService
 
     public KeyService(IKeyProvider keyProvider) => _keyProvider = keyProvider;
 
-    public Key GetKey() => _keyProvider.GetKey();
+    public Key<string, string> GetKey() => _keyProvider.GetKey();
 }

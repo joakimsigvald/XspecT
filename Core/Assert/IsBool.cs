@@ -12,20 +12,18 @@ public record IsBool : Constraint<IsBool, bool>
     /// <summary>
     /// actual.Should().BeTrue()
     /// </summary>
-    [CustomAssertion]
     public ContinueWith<IsBool> True()
     {
-        Actual.Should().BeTrue();
+        AddAssert([CustomAssertion] () => Actual.Should().BeTrue());
         return And();
     }
 
     /// <summary>
     /// actual.Should().BeFalse()
     /// </summary>
-    [CustomAssertion]
     public ContinueWith<IsBool> False()
     {
-        Actual.Should().BeFalse();
+        AddAssert([CustomAssertion] () => Actual.Should().BeFalse());
         return And();
     }
 }

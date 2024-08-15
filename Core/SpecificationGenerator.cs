@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using XspecT.Internal;
 using XspecT.Internal.TestData;
 using Xunit.Sdk;
