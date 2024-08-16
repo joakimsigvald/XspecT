@@ -11,5 +11,14 @@ public class WhenGivenSUT : Spec<MyService, (int, string)>
 
     [Fact]
     public void ThenUseSUT()
-        => Then().Result.Is((The<int>(), The<string>()));
+    {
+        Then().Result.Is((The<int>(), The<string>()));
+        Specification.Is(
+            """
+            Given new MyService(an IMyRepository, new MySettings { ConnectionString = A<string>() }, DateTime.Now)
+             and IMyRepository.GetNextId() returns an int
+            When new (_.GetNextId(), _.GetConnectionString())
+            Then Result is (the int, the string)
+            """);
+    }
 }

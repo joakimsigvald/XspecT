@@ -24,7 +24,7 @@ public class ShoppingServiceAsync
     }
 
     public Task PlaceOrder(ShoppingCart cart)
-        => cart.IsOpen ? Task.Run(() => _orderService.CreateOrder(cart)) : throw new NotPurcheable();
+        => cart.IsOpen ? Task.Run(() => _orderService.CreateOrder(cart)) : throw new NotPurchasable();
 
     public async Task<ShoppingCart> RemoveFromCart(int cartId, ShoppingCartItem item)
     {
