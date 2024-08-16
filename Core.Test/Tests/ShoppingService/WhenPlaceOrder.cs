@@ -20,7 +20,7 @@ public class WhenPlaceOrder : ShoppingServiceSpec<object>
             Given shopId
             When _.PlaceOrder(a ShoppingCart)
             Then IOrderService.CreateOrder(the ShoppingCart)
-             and ILogger.ForContext("ShopId", shopId)
+              and ILogger.ForContext("ShopId", shopId)
             """);
     }
 

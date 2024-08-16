@@ -23,11 +23,11 @@ public class WhenPurchase : Spec<Subjects.Purchase.PurchaseHandler, PurchaseResp
             Specification.Is(
                 """
                 Given Checkout { IsOpen = true }
-                 and ICheckoutProvider.GetExistingCheckout(the int) returns a Checkout
-                 and IBasketRepository.GetEditable(the int) returns the Checkout's Basket
+                  and ICheckoutProvider.GetExistingCheckout(the int) returns a Checkout
+                  and IBasketRepository.GetEditable(the int) returns the Checkout's Basket
                 When _.Purchase(an int)
                 Then ITopicExchangeV2<BasketPurchasedV1>.Publish(It.IsAny<BasketPurchasedV1>())
-                 and the Checkout's IsOpen is false
+                  and the Checkout's IsOpen is false
                 """);
         }
     }

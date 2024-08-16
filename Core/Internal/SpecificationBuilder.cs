@@ -123,7 +123,7 @@ internal class SpecificationBuilder
     private static string NameOf<T>() => typeof(T).Alias();
 
     private void AddPhrase(string phrase)
-        => _descriptionBuilder.Append($"{Environment.NewLine} {phrase}");
+        => _descriptionBuilder.Append($"{Environment.NewLine}  {phrase}");
 
     private void AddSentence(string phrase)
         => _descriptionBuilder.Append($"{Environment.NewLine}{phrase.Capitalize()}");

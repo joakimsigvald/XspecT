@@ -30,7 +30,7 @@ public class WhenMockInt : Spec<StaticIntService, int>
             Specification.Is(
                 """
                 Given value
-                 and an int
+                  and an int
                 When _.GetValue()
                 Then Result is value
                 """);

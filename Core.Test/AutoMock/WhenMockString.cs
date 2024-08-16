@@ -30,7 +30,7 @@ public class WhenMockString : Spec<StaticStringService, string>
             Specification.Is(
                 """
                 Given value
-                 and a string
+                  and a string
                 When _.GetValue()
                 Then Result is value
                 """);

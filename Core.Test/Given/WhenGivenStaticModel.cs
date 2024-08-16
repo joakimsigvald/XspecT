@@ -42,10 +42,10 @@ public class WhenGivenStaticModel : Spec<MyModel>
         Specification.Is(
             """
             Given MyModel { Name = name }
-             and new MyModel { Id = id }
+              and new MyModel { Id = id }
             When _
             Then Result.Name is name
-             and Result's Id is id
+              and Result's Id is id
             """);
     }
 
@@ -59,10 +59,10 @@ public class WhenGivenStaticModel : Spec<MyModel>
         Specification.Is(
             """
             Given MyModel { Name = name }
-             and MyModel { Id = id }
+              and MyModel { Id = id }
             When _
             Then Result.Name is name
-             and Result's Id is id
+              and Result's Id is id
             """);
     }
 
@@ -76,10 +76,10 @@ public class WhenGivenStaticModel : Spec<MyModel>
         Specification.Is(
             """
             Given MyModel { Name = name }
-             and a MyModel { new MyModel { Id = id } }
+              and a MyModel { new MyModel { Id = id } }
             When the MyModel
             Then Result.Name is null
-             and Result's Id is id
+              and Result's Id is id
             """);
     }
 
@@ -93,10 +93,10 @@ public class WhenGivenStaticModel : Spec<MyModel>
         Specification.Is(
             """
             Given MyModel { Name = name }
-             and a MyModel { Id = id }
+              and a MyModel { Id = id }
             When the MyModel
             Then Result.Name is name
-             and Result's Id is id
+              and Result's Id is id
             """);
     }
 
@@ -110,7 +110,7 @@ public class WhenGivenStaticModel : Spec<MyModel>
         Specification.Is(
             """
             Given MyModel { Name = defaultName }
-             and a MyModel { Name = name }
+              and a MyModel { Name = name }
             When the MyModel
             Then Result.Name is name
             """);

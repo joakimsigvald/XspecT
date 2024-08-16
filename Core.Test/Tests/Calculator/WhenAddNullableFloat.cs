@@ -24,7 +24,8 @@ public class AddF_1_1 : Spec<float?>
         Specification.Is(
             """
             When add 1, 1
-            Then Result is greater than 1 and less than 3
+            Then Result is greater than 1 
+                and less than 3
             """);
     }
 }

@@ -30,7 +30,7 @@ public class WhenMockNTuple : Spec<StaticNTupleService, (int, string, int, float
             Specification.Is(
                 """
                 Given (v1, v2, v3, v4)
-                 and a (int, string, int, float)
+                  and a (int, string, int, float)
                 When _.GetValue()
                 Then Result is (v1, v2, v3, v4)
                 """);

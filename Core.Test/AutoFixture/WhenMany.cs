@@ -127,10 +127,12 @@ Then three MyModel is equal to three MyModel");
             Given<IMyRepository>().That(_ => _.List()).Returns(Many<MyModel>)
                     .And(Two<MyModel>).Then().Result.Has().Count(2);
             Specification.Is(
-@"Given two MyModel
- and IMyRepository.List() returns many MyModel
-When _.List()
-Then Result has count 2");
+                """
+                Given two MyModel
+                  and IMyRepository.List() returns many MyModel
+                When _.List()
+                Then Result has count 2
+                """);
         }
     }
 
@@ -143,7 +145,7 @@ Then Result has count 2");
                     .And(Four<MyModel>).Then().Result.Has().Count(4);
             Specification.Is(
 @"Given four MyModel
- and IMyRepository.List() returns many MyModel
+  and IMyRepository.List() returns many MyModel
 When _.List()
 Then Result has count 4");
         }
@@ -158,7 +160,7 @@ Then Result has count 4");
                     .And(One<MyModel>).Then().Result.Has().Count(3);
             Specification.Is(
 @"Given one MyModel
- and IMyRepository.List() returns many MyModel
+  and IMyRepository.List() returns many MyModel
 When _.List()
 Then Result has count 3");
         }
@@ -179,7 +181,7 @@ public class WhenMockReturnsFewerElementsThanPreviouslyMentioned : Spec<MyRetrie
             .Then().Result.Has().Count(2);
         Specification.Is(
 @"Given 3
- and IMyRepository.Create(three MyModel's Length) returns two MyModel
+  and IMyRepository.Create(three MyModel's Length) returns two MyModel
 When _.Create(an int)
 Then Result has count 2");
     }

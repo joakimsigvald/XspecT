@@ -13,11 +13,11 @@ public class WhenGivenArrayOfModels : Spec<MyService, MyModel[]>
         Specification.Is(
             """
             Given MyModel { Name = a string }
-             and two MyModel
-             and IMyRepository.GetModels() returns a MyModel[]
+              and two MyModel
+              and IMyRepository.GetModels() returns a MyModel[]
             When _.GetModels()
             Then Result is two MyModel
-             and Result's First().Name is the string
+              and Result's First().Name is the string
             """);
     }
 

@@ -37,7 +37,7 @@ public class WhenUseConcreteInstanceOfInterface : Spec<InterfaceService, int>
         Result.Is(TheSecond<int>());
         Specification.Is(
 @"Given CreateService()
- and an int
+  and an int
 When _.GetServiceValue()
 Then Result is the second int");
     }
@@ -57,7 +57,7 @@ public class WhenUsingConcreteInstanceForInterface : Spec<InterfaceService, int>
         Then().Throws<ApplicationException>();
         Specification.Is(
 @"Given new MyInvalidLogger<ApplicationException>()
- and new MyComponent(an IMyLogger, an int)
+  and new MyComponent(an IMyLogger, an int)
 When _.GetValue()
 Then throws ApplicationException");
     }
@@ -76,7 +76,7 @@ public class WhenIndirectlyUsingConcreteInstanceForInterface : Spec<InterfaceSer
         Then().Throws<ApplicationException>();
         Specification.Is(
 @"Given new MyInvalidLogger<ApplicationException>()
- and a MyComponent
+  and a MyComponent
 When _.GetValue()
 Then throws ApplicationException");
     }
@@ -93,7 +93,7 @@ public class WhenUsingConcreteInstanceForInterfaceWithAutoMockedConstructorArgum
         Result.Is(The<int>());
         Specification.Is(
 @"Given an int
- and a MyComponent
+  and a MyComponent
 When _.GetValue()
 Then Result is the int");
     }

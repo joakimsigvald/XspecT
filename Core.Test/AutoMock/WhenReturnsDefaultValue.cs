@@ -43,7 +43,7 @@ public class WhenReturnsDefaultValue : Spec<MyValueIntService, string>
         Specification.Is(
             """
             Given IMyValueIntRepo returns a string
-             and GetAsync(the MyValueInt) returns a second string
+              and GetAsync(the MyValueInt) returns a second string
             When _.GetValueAsync(a MyValueInt)
             Then Result is the second string
             """);

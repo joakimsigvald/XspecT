@@ -30,7 +30,7 @@ public class WhenMockTuple : Spec<StaticTupleService, (int, string)>
             Specification.Is(
                 """
                 Given (v1, v2)
-                 and a (int, string)
+                  and a (int, string)
                 When _.GetValue()
                 Then Result is (v1, v2)
                 """);

@@ -26,7 +26,7 @@ public class WhenGivenValueSetup : Spec<MyService, MyModel>
         Specification.Is(
             """
             Given MyModel { Name = a string }
-             and IMyRepository.GetModel() returns a MyModel
+              and IMyRepository.GetModel() returns a MyModel
             When _.GetModel()
             Then Result.Name is the string
             """);

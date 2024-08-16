@@ -38,7 +38,7 @@ public class WhenGivenStaticPrimitive : Spec<string>
         Specification.Is(
             """
             Given defaultValue as default
-             and a string { aValue }
+              and a string { aValue }
             When the string
             Then Result is aValue
             """);
@@ -54,7 +54,7 @@ public class WhenGivenStaticPrimitive : Spec<string>
         Specification.Is(
             """
             Given defaultValue as default
-             and a second string { aValue }
+              and a second string { aValue }
             When the second string
             Then Result is aValue
             """);
@@ -70,7 +70,7 @@ public class WhenGivenStaticPrimitive : Spec<string>
         Specification.Is(
             """
             Given defaultValue as default
-             and a third string { aValue }
+              and a third string { aValue }
             When the third string
             Then Result is aValue
             """);
@@ -86,7 +86,7 @@ public class WhenGivenStaticPrimitive : Spec<string>
         Specification.Is(
             """
             Given defaultValue as default
-             and a fourth string { aValue }
+              and a fourth string { aValue }
             When the fourth string
             Then Result is aValue
             """);
@@ -102,7 +102,7 @@ public class WhenGivenStaticPrimitive : Spec<string>
         Specification.Is(
             """
             Given defaultValue as default
-             and a fifth string { aValue }
+              and a fifth string { aValue }
             When the fifth string
             Then Result is aValue
             """);

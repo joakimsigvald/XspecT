@@ -12,10 +12,22 @@ public class ContinueWith<TContinuation> where TContinuation : Constraint
     /// <summary>
     /// Get a continuation to make the next assertion
     /// </summary>
-    public TContinuation And => _continuation with { ActualExpr = "and", AuxiliaryVerb = null };
+    public TContinuation And
+    {
+        get
+        {
+            return _continuation with { ActualExpr = $"{Environment.NewLine}    and", AuxiliaryVerb = null };
+        }
+    }
 
     /// <summary>
     /// Get a continuation to make the next assertion
     /// </summary>
-    public TContinuation But => _continuation with { ActualExpr = "but", AuxiliaryVerb = null };
+    public TContinuation But
+    {
+        get
+        {
+            return _continuation with { ActualExpr = $"{Environment.NewLine}    but", AuxiliaryVerb = null };
+        }
+    }
 }

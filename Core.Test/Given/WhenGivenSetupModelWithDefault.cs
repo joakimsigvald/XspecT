@@ -28,7 +28,7 @@ public class WhenGivenSetupModelWithDefault : Spec<MyService, MyModel>
         Specification.Is(
             """
             Given MyModel { Name = _defaultName }
-             and IMyRepository.GetModel() returns a second MyModel
+              and IMyRepository.GetModel() returns a second MyModel
             When _.GetModel()
             Then Result.Name is _defaultName
             """);
@@ -45,8 +45,8 @@ public class WhenGivenSetupModelWithDefault : Spec<MyService, MyModel>
         Specification.Is(
             """
             Given MyModel { Name = "123" }
-             and MyModel { Name = _defaultName }
-             and IMyRepository.GetModel() returns a second MyModel
+              and MyModel { Name = _defaultName }
+              and IMyRepository.GetModel() returns a second MyModel
             When _.GetModel()
             Then Result.Name is _defaultName
             """);
@@ -63,11 +63,11 @@ public class WhenGivenSetupModelWithDefault : Spec<MyService, MyModel>
         Specification.Is(
             """
             Given MyModel { Id = 123 }
-             and MyModel { Name = _defaultName }
-             and IMyRepository.GetModel() returns a second MyModel
+              and MyModel { Name = _defaultName }
+              and IMyRepository.GetModel() returns a second MyModel
             When _.GetModel()
             Then Result.Name is _defaultName
-             and Result's Id is 123
+              and Result's Id is 123
             """);
     }
 
@@ -82,8 +82,8 @@ public class WhenGivenSetupModelWithDefault : Spec<MyService, MyModel>
         Specification.Is(
             """
             Given _defaultName
-             and MyModel { Name = a string }
-             and IMyRepository.GetModel() returns a second MyModel
+              and MyModel { Name = a string }
+              and IMyRepository.GetModel() returns a second MyModel
             When _.GetModel()
             Then Result.Name is _defaultName
             """);
@@ -100,8 +100,8 @@ public class WhenGivenSetupModelWithDefault : Spec<MyService, MyModel>
         Specification.Is(
             """
             Given MyModel { Name = _defaultName }
-             and a second MyModel { Name = "Altered" }
-             and IMyRepository.GetModel() returns a second MyModel
+              and a second MyModel { Name = "Altered" }
+              and IMyRepository.GetModel() returns a second MyModel
             When _.GetModel()
             Then Result.Name is "Altered"
             """);
@@ -117,7 +117,7 @@ public class WhenGivenSetupModelWithDefault : Spec<MyService, MyModel>
         Specification.Is(
             """
             Given MyModel { Name = _defaultName }
-             and IMyRepository.GetModel() returns the MyModel
+              and IMyRepository.GetModel() returns the MyModel
             When MyService.Echo(a MyModel)
             Then Result.Name is _defaultName
             """);
@@ -134,8 +134,8 @@ public class WhenGivenSetupModelWithDefault : Spec<MyService, MyModel>
         Specification.Is(
             """
             Given MyModel { Name = _defaultName }
-             and a second MyModel { new MyModel() { Name = "My model" } }
-             and IMyRepository.GetModel() returns a second MyModel
+              and a second MyModel { new MyModel() { Name = "My model" } }
+              and IMyRepository.GetModel() returns a second MyModel
             When _.GetModel()
             Then Result.Name is "My model"
             """);
@@ -151,7 +151,7 @@ public class WhenGivenSetupModelWithDefault : Spec<MyService, MyModel>
         Specification.Is(
             """
             Given _defaultName
-             and IMyRepository.GetModel() returns a second MyModel
+              and IMyRepository.GetModel() returns a second MyModel
             When _.GetModel()
             Then Result.Name is _defaultName
             """);
@@ -167,7 +167,7 @@ public class WhenGivenSetupModelWithDefault : Spec<MyService, MyModel>
         Specification.Is(
             """
             Given MyModel { Id = 123 }
-             and IMyRepository.SetModel(the MyModel) returns another MyModel
+              and IMyRepository.SetModel(the MyModel) returns another MyModel
             When MyService.Echo(a MyModel)
             Then Result.Id is 123
             """);
@@ -189,7 +189,7 @@ public class OverrideDefaultSetupAfterWhenReturn : Spec<MyService, MyModel>
         Specification.Is(
             """
             Given MyModel { Name = "Something" }
-             and MyModel { Name = _theName }
+              and MyModel { Name = _theName }
             When _.GetModel()
             Then Result.Name is _theName
             """);
@@ -210,7 +210,7 @@ public class OverrideDefaultValueAfterWhenReturn : Spec<MyService, MyModel>
         Specification.Is(
             """
             Given "Something"
-             and MyModel { Name = _theName }
+              and MyModel { Name = _theName }
             When _.GetModel()
             Then Result.Name is _theName
             """);
@@ -233,7 +233,7 @@ public class OverrideDefaultSetupAfterWhenArgument : Spec<MyService, MyModel>
         Specification.Is(
             """
             Given MyModel { Name = "Something" }
-             and MyModel { Name = _theName }
+              and MyModel { Name = _theName }
             When MyService.Echo(a MyModel)
             Then Result.Name is _theName
             """);
@@ -254,7 +254,7 @@ public class OverrideDefaultValueAfterWhenArgument : Spec<MyService, MyModel>
         Specification.Is(
             """
             Given "Something"
-             and MyModel { Name = _theName }
+              and MyModel { Name = _theName }
             When MyService.Echo(a MyModel)
             Then Result.Name is _theName
             """);
@@ -267,7 +267,7 @@ public class OverrideDefaultValueAfterWhenArgument : Spec<MyService, MyModel>
         Specification.Is(
             """
             Given "Something"
-             and _theName
+              and _theName
             When MyService.Echo(a MyModel)
             Then Result.Name is _theName
             """);

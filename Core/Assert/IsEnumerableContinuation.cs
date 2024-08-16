@@ -14,5 +14,5 @@ public record IsEnumerableContinuation<TItem> : IsEnumerable<TItem>
     /// Continuation to assert that the string is satisfying some expectation
     /// </summary>
     /// <returns></returns>
-    public HasEnumerable<TItem> Has() => Actual.Has();
+    public HasEnumerable<TItem> Has() => Actual.Has(actualExpr: ActualExpr);
 }

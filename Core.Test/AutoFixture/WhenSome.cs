@@ -27,7 +27,7 @@ Then Result has count 2");
             Result.Has().Count(1);
             Specification.Is(
 @"Given one MyModel
- and some MyModel
+  and some MyModel
 When _.List()
 Then Result has count 1");
         }
@@ -43,7 +43,7 @@ Then Result has count 1");
             Result.Has().Count(3);
             Specification.Is(
 @"Given three MyModel
- and some MyModel
+  and some MyModel
 When _.List()
 Then Result has count 3");
         }
@@ -59,7 +59,7 @@ Then Result has count 3");
             Result.Has().Count(0);
             Specification.Is(
 @"Given Array.Empty<MyModel>
- and some MyModel
+  and some MyModel
 When _.List()
 Then Result has count 0");
         }
@@ -75,7 +75,7 @@ Then Result has count 0");
             Result.Has().Count(3);
             Specification.Is(
 @"Given many MyModel
- and some MyModel
+  and some MyModel
 When _.List()
 Then Result has count 3");
         }
@@ -91,8 +91,8 @@ Then Result has count 3");
             Result.Has().Count(1);
             Specification.Is(
 @"Given some MyModel
- and one MyModel
- and some MyModel
+  and one MyModel
+  and some MyModel
 When _.List()
 Then Result has count 1");
         }
@@ -108,8 +108,8 @@ Then Result has count 1");
             Result.Has().Count(2);
             Specification.Is(
 @"Given some MyModel
- and two MyModel
- and some MyModel
+  and two MyModel
+  and some MyModel
 When _.List()
 Then Result has count 2");
         }
@@ -125,8 +125,8 @@ Then Result has count 2");
             Result.Has().Count(2);
             Specification.Is(
 @"Given some MyModel
- and Array.Empty<MyModel>
- and some MyModel
+  and Array.Empty<MyModel>
+  and some MyModel
 When _.List()
 Then Result has count 2");
         }
@@ -142,8 +142,8 @@ Then Result has count 2");
             Result.Has().Count(2);
             Specification.Is(
 @"Given some MyModel
- and many MyModel
- and some MyModel
+  and many MyModel
+  and some MyModel
 When _.List()
 Then Result has count 2");
         }

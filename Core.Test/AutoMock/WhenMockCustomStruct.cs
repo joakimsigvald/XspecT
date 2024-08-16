@@ -13,7 +13,7 @@ public class WhenMockCustomStruct : Spec<StaticValueService, MyValue<int>>
                 """
                 When _.GetValue()
                 Then Result is not a MyValue<int>
-                 and Result's Value is not 0
+                  and Result's Value is not 0
                 """);
         }
     }

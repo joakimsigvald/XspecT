@@ -50,7 +50,7 @@ public class WhenGivenArrayOfValues : Spec<MyService, IEnumerable<int>>
         Specification.Is(
             """
             Given MyModel { Values = some int }
-             and one int
+              and one int
             When _.GetModel().Values
             Then Result is one int
             """);
@@ -66,7 +66,7 @@ public class WhenGivenArrayOfValues : Spec<MyService, IEnumerable<int>>
         Specification.Is(
             """
             Given MyModel { Values = some int }
-             and zero int
+              and zero int
             When _.GetModel().Values
             Then Result is zero int
             """);

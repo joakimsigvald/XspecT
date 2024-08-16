@@ -30,9 +30,10 @@ public class WhenGivenRecord : Spec<MyService, MyRecord>
         Specification.Is(
             """
             Given MyRecord { Name = a string, Id = 1 }
-             and MyRecord { Name = _.Name + ASecond<string>() }
+              and MyRecord { Name = _.Name + ASecond<string>() }
             When MyService.Echo(the MyRecord)
-            Then Result.Name starts with the string and ends with the second string
+            Then Result.Name starts with the string 
+                and ends with the second string
             """);
     }
 
@@ -60,9 +61,10 @@ public class WhenGivenRecord : Spec<MyService, MyRecord>
         Specification.Is(
             """
             Given a MyRecord { Name = a string }
-             and a MyRecord { Name = _.Name + ASecond<string>() }
+              and a MyRecord { Name = _.Name + ASecond<string>() }
             When MyService.Echo(the MyRecord)
-            Then Result.Name starts with the string and ends with the second string
+            Then Result.Name starts with the string 
+                and ends with the second string
             """);
     }
 }

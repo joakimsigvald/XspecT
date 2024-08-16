@@ -13,5 +13,5 @@ public record DoesStringContinuation : DoesString
     /// Continuation to assert that the string is satisfying some expectation
     /// </summary>
     /// <returns></returns>
-    public IsString Is() => Actual.Is();
+    public IsString Is() => Actual.Is(actualExpr: ActualExpr);
 }

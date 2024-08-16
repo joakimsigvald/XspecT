@@ -15,9 +15,9 @@ public class WhenGivenFullName : Spec<MyValueTypeModel, MyFullName>
             Given a MyFullName
             When _.Name
             Then Result is the MyFullName
-             and Result's Primitive.first.Primitive is not null or empty
-             and Result's Primitive.middle.Primitive is not null or empty
-             and Result's Primitive.last.Primitive is not null or empty
+              and Result's Primitive.first.Primitive is not null or empty
+              and Result's Primitive.middle.Primitive is not null or empty
+              and Result's Primitive.last.Primitive is not null or empty
             """);
     }
 }

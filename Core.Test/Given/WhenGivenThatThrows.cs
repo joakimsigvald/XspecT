@@ -68,10 +68,10 @@ public class WhenGivenThatThrows : Spec<MyService, MyModel>
         Specification.Is(
             """
             Given new Exception(a string)
-             and IMyRepository.GetModel() throws an Exception
+              and IMyRepository.GetModel() throws an Exception
             When _.GetModel()
             Then throws the Exception
-             and throws Exception where _.Message is the string
+              and throws Exception where _.Message is the string
             """);
     }
 

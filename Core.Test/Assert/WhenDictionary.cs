@@ -9,5 +9,6 @@ public class WhenDictionary : Spec<Dictionary<string, int>>
         var dict1 = pairs.ToDictionary(p => p.Item1, p => p.Item2);
         var dict2 = pairs.ToDictionary(p => p.Item1, p => p.Item2);
         dict1.Is().EqualTo(dict2);
+        Specification.Is("dict1 is equal to dict2");
     }
 }

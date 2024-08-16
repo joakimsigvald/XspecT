@@ -24,7 +24,8 @@ public class Add_1_1 : Spec<decimal?>
         Specification.Is(
             """
             When add 1M, 1M
-            Then Result is greater than 1 and less than 3
+            Then Result is greater than 1 
+                and less than 3
             """);
     }
 }
