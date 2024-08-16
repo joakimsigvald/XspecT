@@ -16,11 +16,18 @@ public static class AssertionExtensions
     /// </summary>
     /// <param name="actual"></param>
     /// <param name="expected"></param>
+    /// <param name="actualExpr"></param>
+    /// <param name="expectedExpr"></param>
     /// <returns></returns>
-    [CustomAssertion]
-    public static ContinueWith<IsNullableTimeSpan> Is(this TimeSpan? actual, TimeSpan? expected)
+    public static ContinueWith<IsNullableTimeSpan> Is(
+        this TimeSpan? actual, TimeSpan? expected,
+        [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
+        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        actual.Should().Be(expected);
+        SpecificationGenerator.AddAssert(
+            [CustomAssertion] () => actual.Should().Be(expected),
+            actualExpr,
+            expectedExpr);
         return new(new(actual));
     }
 
@@ -29,12 +36,18 @@ public static class AssertionExtensions
     /// </summary>
     /// <param name="actual"></param>
     /// <param name="expected"></param>
+    /// <param name="actualExpr"></param>
+    /// <param name="expectedExpr"></param>
     /// <returns></returns>
-    [CustomAssertion]
     public static ContinueWith<IsTimeSpan> Is(
-        this TimeSpan? actual, TimeSpan expected)
+        this TimeSpan? actual, TimeSpan expected,
+        [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
+        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        actual.Should().Be(expected);
+        SpecificationGenerator.AddAssert(
+            [CustomAssertion] () => actual.Should().Be(expected),
+            actualExpr,
+            expectedExpr);
         return new(new(actual.Value));
     }
 
@@ -43,11 +56,18 @@ public static class AssertionExtensions
     /// </summary>
     /// <param name="actual"></param>
     /// <param name="expected"></param>
+    /// <param name="actualExpr"></param>
+    /// <param name="expectedExpr"></param>
     /// <returns></returns>
-    [CustomAssertion]
-    public static ContinueWith<IsNullableDateTime> Is(this DateTime? actual, DateTime? expected)
+    public static ContinueWith<IsNullableDateTime> Is(
+        this DateTime? actual, DateTime? expected,
+        [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
+        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        actual.Should().Be(expected);
+        SpecificationGenerator.AddAssert(
+            [CustomAssertion] () => actual.Should().Be(expected),
+            actualExpr,
+            expectedExpr);
         return new(new(actual));
     }
 
@@ -56,12 +76,18 @@ public static class AssertionExtensions
     /// </summary>
     /// <param name="actual"></param>
     /// <param name="expected"></param>
+    /// <param name="actualExpr"></param>
+    /// <param name="expectedExpr"></param>
     /// <returns></returns>
-    [CustomAssertion]
     public static ContinueWith<IsDateTime> Is(
-        this DateTime? actual, DateTime expected)
+        this DateTime? actual, DateTime expected,
+        [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
+        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        actual.Should().Be(expected);
+        SpecificationGenerator.AddAssert(
+            [CustomAssertion] () => actual.Should().Be(expected),
+            actualExpr,
+            expectedExpr);
         return new(new(actual.Value));
     }
 
@@ -84,10 +110,15 @@ public static class AssertionExtensions
     /// <summary>
     /// Verify that actual object satisfy a given predicate
     /// </summary>
-    [CustomAssertion]
-    public static ContinueWith<IsObject> Match<TValue>(this TValue actual, Expression<Func<TValue, bool>> predicate)
+    public static ContinueWith<IsObject> Match<TValue>(
+        this TValue actual, Expression<Func<TValue, bool>> predicate,
+        [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
+        [CallerArgumentExpression(nameof(predicate))] string predicateExpr = null)
     {
-        actual.Should().Match(predicate);
+        SpecificationGenerator.AddAssert(
+            [CustomAssertion] () => actual.Should().Match(predicate),
+            actualExpr,
+            predicateExpr);
         return new(new(actual));
     }
 
@@ -102,7 +133,6 @@ public static class AssertionExtensions
         where TValue : struct
     {
         SpecificationGenerator.AddAssert([CustomAssertion] () => actual.Should().Be(expected), actualExpr, expectedExpr);
-        actual.Should().Be(expected);
         return new(new(actual));
     }
 

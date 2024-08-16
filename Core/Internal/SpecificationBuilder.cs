@@ -132,7 +132,8 @@ internal class SpecificationBuilder
     {
         if (string.IsNullOrEmpty(word))
             return;
-        _descriptionBuilder.Append(binder);
+        if (!word.StartsWith(Environment.NewLine))
+            _descriptionBuilder.Append(binder);
         _descriptionBuilder.Append(word);
     }
 

@@ -16,11 +16,10 @@ public record IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
     /// <param name="expected"></param>
     /// <param name="expectedExpr"></param>
     /// <returns></returns>
-    [CustomAssertion]
     public ContinueWith<IsTimeSpan> Not(
         TimeSpan expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Actual.Should().NotBe(expected);
+        AddAssert([CustomAssertion] () => Actual.Should().NotBe(expected), expectedExpr);
         return And();
     }
 
@@ -30,11 +29,10 @@ public record IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
     /// <param name="expected"></param>
     /// <param name="expectedExpr"></param>
     /// <returns></returns>
-    [CustomAssertion]
     public ContinueWith<IsTimeSpan> LessThan(
         TimeSpan expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Actual.Should().BeLessThan(expected);
+        AddAssert([CustomAssertion] () => Actual.Should().BeLessThan(expected), expectedExpr);
         return And();
     }
 
@@ -44,11 +42,10 @@ public record IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
     /// <param name="expected"></param>
     /// <param name="expectedExpr"></param>
     /// <returns></returns>
-    [CustomAssertion]
     public ContinueWith<IsTimeSpan> GreaterThan(
         TimeSpan expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Actual.Should().BeGreaterThan(expected);
+        AddAssert([CustomAssertion] () => Actual.Should().BeGreaterThan(expected), expectedExpr);
         return And();
     }
 
@@ -58,11 +55,10 @@ public record IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
     /// <param name="expected"></param>
     /// <param name="expectedExpr"></param>
     /// <returns></returns>
-    [CustomAssertion]
     public ContinueWith<IsTimeSpan> NotLessThan(
         TimeSpan expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Actual.Should().BeGreaterThanOrEqualTo(expected);
+        AddAssert([CustomAssertion] () => Actual.Should().BeGreaterThanOrEqualTo(expected), expectedExpr);
         return And();
     }
 
@@ -72,11 +68,10 @@ public record IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
     /// <param name="expected"></param>
     /// <param name="expectedExpr"></param>
     /// <returns></returns>
-    [CustomAssertion]
     public ContinueWith<IsTimeSpan> NotGreaterThan(
         TimeSpan expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Actual.Should().BeLessThanOrEqualTo(expected);
+        AddAssert([CustomAssertion] () => Actual.Should().BeLessThanOrEqualTo(expected), expectedExpr);
         return And();
     }
 
@@ -87,11 +82,10 @@ public record IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
     /// <param name="precision"></param>
     /// <param name="expectedExpr"></param>
     /// <returns></returns>
-    [CustomAssertion]
     public ContinueWith<IsTimeSpan> CloseTo(
         TimeSpan expected, TimeSpan precision, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Actual.Should().BeCloseTo(expected, precision);
+        AddAssert([CustomAssertion] () => Actual.Should().BeCloseTo(expected, precision), expectedExpr);
         return And();
     }
 
@@ -101,11 +95,10 @@ public record IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
     /// <param name="expected"></param>
     /// <param name="precision"></param>
     /// <returns></returns>
-    [CustomAssertion]
     public ContinueWith<IsTimeSpan> NotCloseTo(
         TimeSpan expected, TimeSpan precision, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Actual.Should().NotBeCloseTo(expected, precision);
+        AddAssert([CustomAssertion] () => Actual.Should().NotBeCloseTo(expected, precision), expectedExpr);
         return And();
     }
 
@@ -113,10 +106,9 @@ public record IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
     /// Asserts that the timeSpan is less than zero
     /// </summary>
     /// <returns></returns>
-    [CustomAssertion]
     public ContinueWith<IsTimeSpan> Negative()
     {
-        Actual.Should().BeNegative();
+        AddAssert([CustomAssertion] () => Actual.Should().BeNegative());
         return And();
     }
 
@@ -124,10 +116,9 @@ public record IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
     /// Asserts that the timeSpan is greater than zero
     /// </summary>
     /// <returns></returns>
-    [CustomAssertion]
     public ContinueWith<IsTimeSpan> Positive()
     {
-        Actual.Should().BePositive();
+        AddAssert([CustomAssertion] () => Actual.Should().BePositive());
         return And();
     }
 
@@ -135,10 +126,9 @@ public record IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
     /// Asserts that the timeSpan is zero or greater than zero
     /// </summary>
     /// <returns></returns>
-    [CustomAssertion]
     public ContinueWith<IsTimeSpan> NotNegative()
     {
-        Actual.Should().BeGreaterThanOrEqualTo(TimeSpan.Zero);
+        AddAssert([CustomAssertion] () => Actual.Should().BeGreaterThanOrEqualTo(TimeSpan.Zero));
         return And();
     }
 
@@ -146,10 +136,9 @@ public record IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
     /// Asserts that the timeSpan is zero or less than zero
     /// </summary>
     /// <returns></returns>
-    [CustomAssertion]
     public ContinueWith<IsTimeSpan> NotPositive()
     {
-        Actual.Should().BeLessThanOrEqualTo(TimeSpan.Zero);
+        AddAssert([CustomAssertion] () => Actual.Should().BeLessThanOrEqualTo(TimeSpan.Zero));
         return And();
     }
 }

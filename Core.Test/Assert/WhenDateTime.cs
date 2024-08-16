@@ -35,9 +35,9 @@ public class WhenDateTime : Spec<DateTime>
         Specification.Is(
             """
             When a _
-            Then Result is before the DateTime's AddDays(1) 
-                and after the DateTime's AddDays(-1) 
-                and not before the DateTime 
+            Then Result is before the DateTime's AddDays(1)
+                and after the DateTime's AddDays(-1)
+                and not before the DateTime
                 and not after the DateTime
             """);
     }

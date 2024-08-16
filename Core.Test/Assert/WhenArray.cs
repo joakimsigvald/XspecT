@@ -19,7 +19,7 @@ public class WhenArray : Spec<int[]>
         values1.Is().Not(values2).But.EqualTo(values2);
         Specification.Is(
             """
-            values1 is not values2 
+            values1 is not values2
                 but equal to values2
             """);
     }
@@ -56,7 +56,7 @@ public class WhenArray : Spec<int[]>
         values.Is().NotEmpty().And.Has().Single(it => it == 1);
         Specification.Is(
             """
-            values is not empty 
+            values is not empty
                 and has single it = 1
             """);
     }
