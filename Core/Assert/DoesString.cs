@@ -17,7 +17,6 @@ public record DoesString : Constraint<DoesStringContinuation, string>
         string expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
         AddAssert([CustomAssertion] () => Actual.Should().Contain(expected), expectedExpr, "contains");
-        Actual.Should().Contain(expected);
         return And();
     }
 

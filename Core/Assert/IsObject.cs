@@ -26,7 +26,6 @@ public record IsObject : Constraint<IsObject, object>
     public ContinueWith<IsObject> Null()
     {
         AddAssert([CustomAssertion] () => Actual.Should().BeNull());
-        Actual.Should().BeNull();
         return And();
     }
 

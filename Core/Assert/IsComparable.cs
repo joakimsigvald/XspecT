@@ -15,44 +15,40 @@ public record IsComparable<TActual> : Constraint<IsComparable<TActual>, TActual>
     /// <summary>
     /// actual.Should().BeGreaterThan(expected)
     /// </summary>
-    [CustomAssertion]
     public ContinueWith<IsComparable<TActual>> GreaterThan(
         TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Actual.Should().BeGreaterThan(expected);
+        AddAssert([CustomAssertion] () => Actual.Should().BeGreaterThan(expected), expectedExpr);
         return And();
     }
 
     /// <summary>
     /// actual.Should().BeLessThan(expected)
     /// </summary>
-    [CustomAssertion]
     public ContinueWith<IsComparable<TActual>> LessThan(
         TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Actual.Should().BeLessThan(expected);
+        AddAssert([CustomAssertion] () => Actual.Should().BeLessThan(expected), expectedExpr);
         return And();
     }
 
     /// <summary>
     /// actual.Should().BeLessThanOrEqualTo(expected)
     /// </summary>
-    [CustomAssertion]
     public ContinueWith<IsComparable<TActual>> NotGreaterThan(
         TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Actual.Should().BeLessThanOrEqualTo(expected);
+        AddAssert([CustomAssertion] () => Actual.Should().BeLessThanOrEqualTo(expected), expectedExpr);
         return And();
     }
 
     /// <summary>
     /// actual.Should().BeGreaterThanOrEqualTo(expected)
     /// </summary>
-    [CustomAssertion]
     public ContinueWith<IsComparable<TActual>> NotLessThan(
         TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Actual.Should().BeGreaterThanOrEqualTo(expected);
+        AddAssert([CustomAssertion] () => Actual.Should().BeGreaterThanOrEqualTo(expected), expectedExpr);
         return And();
     }
 }

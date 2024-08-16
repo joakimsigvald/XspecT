@@ -11,6 +11,7 @@ public class WhenNullableDateTime : Spec<DateTime?>
             """
             When a _
             Then Result is the DateTime?
+                and not null
             """);
     }
 

@@ -11,6 +11,7 @@ public class WhenNullableTimeSpan : Spec<TimeSpan?>
             """
             When a _
             Then Result is the TimeSpan?
+                and not null
             """);
     }
 

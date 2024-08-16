@@ -16,11 +16,10 @@ public record IsNullableDateTime : Constraint<IsNullableDateTime, DateTime?>
     /// <param name="expected"></param>
     /// <param name="expectedExpr"></param>
     /// <returns></returns>
-    [CustomAssertion]
     public ContinueWith<IsNullableDateTime> Not(
         DateTime expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Actual.Should().NotBe(expected);
+        AddAssert([CustomAssertion] () => Actual.Should().NotBe(expected), expectedExpr);
         return And();
     }
 
@@ -28,15 +27,17 @@ public record IsNullableDateTime : Constraint<IsNullableDateTime, DateTime?>
     /// Asserts that the dateTime is not null
     /// </summary>
     /// <returns></returns>
-    [CustomAssertion]
     public ContinueWith<IsDateTime> NotNull()
     {
-        Actual.Should().NotBeNull();
+        AddAssert([CustomAssertion] () => Actual.Should().NotBeNull());
         return new(new(Actual.Value));
     }
 
     /// <summary>
     /// Asserts that the dateTime is null
     /// </summary>
-    [CustomAssertion] public void Null() => Actual.Should().BeNull();
+    public void Null()
+    {
+        AddAssert([CustomAssertion] () => Actual.Should().BeNull());
+    }
 }

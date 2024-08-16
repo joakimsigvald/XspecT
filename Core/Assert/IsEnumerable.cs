@@ -75,7 +75,6 @@ public record IsEnumerable<TItem> : Constraint<IsEnumerableContinuation<TItem>, 
     /// <param name="expected">The collection to validate against</param>
     /// <param name="expectedExpr"></param>
     /// <returns>A continuation for making further assertions</returns>
-    [CustomAssertion]
     public ContinueWith<IsEnumerableContinuation<TItem>> NotEqualTo(
         IEnumerable<TItem> expected,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
