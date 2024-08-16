@@ -20,10 +20,10 @@ public static class SpecificationGenerator
     /// </summary>
     public static string Specification => Builder.Specification;
 
-    internal static void AddMockSetup<TService>(string callExpr) 
+    internal static void AddMockSetup<TService>(string callExpr)
         => Builder.Add(() => Builder.AddMockSetup<TService>(callExpr));
 
-    internal static void AddMockReturns(string returnsExpr) 
+    internal static void AddMockReturns(string returnsExpr)
         => Builder.Add(() => Builder.AddMockReturns(returnsExpr));
 
     internal static void AddMockThrowsDefault<TService, TError>()
@@ -53,7 +53,9 @@ public static class SpecificationGenerator
         Builder.Add(() => Builder.AddAssert(actual, verb, expected));
         try
         {
+            Builder.SuppressRecording();
             assert();
+            Builder.InciteRecording();
         }
         catch (XunitException ex)
         {
@@ -63,13 +65,13 @@ public static class SpecificationGenerator
 
     internal static void AddThen() => Builder.Add(Builder.AddThen);
 
-    internal static void AddGiven(string valueExpr, ApplyTo applyTo) 
+    internal static void AddGiven(string valueExpr, ApplyTo applyTo)
         => Builder.Add(() => Builder.AddGiven(valueExpr, applyTo));
 
     internal static void AddGiven<TModel>(string setupExpr, string article = null)
         => Builder.Add(() => Builder.AddGiven<TModel>(setupExpr, article));
 
-    internal static void AddVerify<TService>(string expressionExpr) 
+    internal static void AddVerify<TService>(string expressionExpr)
         => Builder.Add(() => Builder.AddVerify<TService>(expressionExpr));
 
     internal static void AddAssertThrows<TError>(string binder = null)

@@ -42,72 +42,66 @@ public record IsObject : Constraint<IsObject, object>
     /// <summary>
     /// Should().Be(expected)
     /// </summary>
-    [CustomAssertion]
     public ContinueWith<IsObject> EqualTo(
         object expected,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Actual.Should().Be(expected);
+        AddAssert([CustomAssertion] () => Actual.Should().Be(expected), expectedExpr);
         return And();
     }
 
     /// <summary>
     /// Should().NotBe(expected)
     /// </summary>
-    [CustomAssertion]
     public ContinueWith<IsObject> NotEqualTo(
         object expected,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Actual.Should().NotBe(expected);
+        AddAssert([CustomAssertion] () => Actual.Should().NotBe(expected), expectedExpr);
         return And();
     }
 
     /// <summary>
     /// Should().BeEquivalentTo(expected)
     /// </summary>
-    [CustomAssertion]
     public ContinueWith<IsObject> Like(
         object expected,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Actual.Should().BeEquivalentTo(expected);
+        AddAssert([CustomAssertion] () => Actual.Should().BeEquivalentTo(expected), expectedExpr);
         return And();
     }
 
     /// <summary>
     /// Should().NotBeEquivalentTo(expected)
     /// </summary>
-    [CustomAssertion]
     public ContinueWith<IsObject> NotLike(
         object expected,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Actual.Should().NotBeEquivalentTo(expected);
+        AddAssert([CustomAssertion] () => Actual.Should().NotBeEquivalentTo(expected), expectedExpr);
         return And();
     }
 
     /// <summary>
     /// Should().BeEquivalentTo(expected)
     /// </summary>
-    [CustomAssertion]
     public ContinueWith<IsObject> EquivalentTo(
         object expected,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Actual.Should().BeEquivalentTo(expected);
+        AddAssert([CustomAssertion] () => Actual.Should().BeEquivalentTo(expected), expectedExpr);
         return And();
     }
 
     /// <summary>
     /// Should().BeEquivalentTo(expected)
     /// </summary>
-    [CustomAssertion]
     public ContinueWith<IsObject> NotEquivalentTo(
         object expected,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Actual.Should().NotBeEquivalentTo(expected);
+        AddAssert([CustomAssertion] () => Actual.Should().NotBeEquivalentTo(expected), expectedExpr);
         return And();
     }
 }

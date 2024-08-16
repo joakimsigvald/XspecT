@@ -279,10 +279,10 @@ public static partial class ExpressionParser
     [GeneratedRegex(@"^(\w+)\s*=>\s*(\w+)\.(\w+)\s*=\s*(.+)$")]
     private static partial Regex AssignmentLambdaRegex();
 
-    [GeneratedRegex(@"^(\w+)\s*=\s+(.+)$")]
+    [GeneratedRegex(@"^(\w+)\s*=+\s+(.+)$")]
     private static partial Regex AssignmentRegex();
 
-    [GeneratedRegex(@"^\((\w+),\s*\w+\)\s*=>\s*(\w+)\.(\w+)\s*=\s*(.+)$")]
+    [GeneratedRegex(@"^\((\w+),\s*\w+\)\s*=>\s*(\w+)\.(\w+)\s*=+\s*(.+)$")]
     private static partial Regex IndexedAssignmentRegex();
 
     [GeneratedRegex(@"^(\(\)\s*=>\s*)(.+)$")]

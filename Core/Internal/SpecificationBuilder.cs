@@ -9,12 +9,18 @@ internal class SpecificationBuilder
     private readonly List<Action> _applications = [];
     private readonly StringBuilder _descriptionBuilder = new();
     private int _givenCount;
+    private int _recordingSuppressionCount;
     private int _thenCount;
     private string _currentMockSetup;
 
     internal string Specification => _description ??= Build();
 
-    internal void Add(Action apply) => _applications.Add(apply);
+    internal void Add(Action apply)
+    {
+        if (_recordingSuppressionCount > 0)
+            return;
+        _applications.Add(apply);
+    }
 
     internal string Build()
     {
@@ -22,7 +28,7 @@ internal class SpecificationBuilder
         return _descriptionBuilder.ToString().Trim();
     }
 
-    internal void AddMockSetup<TService>(string callExpr) 
+    internal void AddMockSetup<TService>(string callExpr)
         => AddPhraseOrSentence($"{Given} {GetMockName<TService>('.')}{callExpr.ParseCall(true)}");
 
     internal void AddMockReturnsDefault<TService>(string returnsExpr)
@@ -129,6 +135,10 @@ internal class SpecificationBuilder
         _descriptionBuilder.Append(binder);
         _descriptionBuilder.Append(word);
     }
+
+    internal void SuppressRecording() => _recordingSuppressionCount++;
+
+    internal void InciteRecording() => _recordingSuppressionCount--;
 
     private string Given => 0 == _givenCount++ ? "Given" : "and";
 

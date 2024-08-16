@@ -17,32 +17,30 @@ public record IsEnumerable<TItem> : Constraint<IsEnumerableContinuation<TItem>, 
     public ContinueWith<IsEnumerableContinuation<TItem>> Empty()
     {
         AddAssert([CustomAssertion] () => Actual.Should().BeEmpty());
-        Actual.Should().BeEmpty();
         return And();
     }
 
     /// <summary>
     /// actual.Should().NotBeEmpty()
     /// </summary>
-    [CustomAssertion]
     public ContinueWith<IsEnumerableContinuation<TItem>> NotEmpty()
     {
-        Actual.Should().NotBeEmpty();
+        AddAssert([CustomAssertion] () => Actual.Should().NotBeEmpty());
         return And();
     }
 
     /// <summary>
     /// Verifies that the collection contains a single element and returns that element
     /// </summary>
+    [Obsolete("Use Has().Single() instead")]
     public TItem Single() => Xunit.Assert.Single(Actual);
 
     /// <summary>
-    /// actual.Should().NotBeEmpty()
+    /// actual.Should().NotBeNull()
     /// </summary>
-    [CustomAssertion]
     public ContinueWith<IsEnumerableContinuation<TItem>> NotNull()
     {
-        Actual.Should().NotBeEmpty();
+        AddAssert([CustomAssertion] () => Actual.Should().NotBeNull());
         return And();
     }
 
@@ -82,7 +80,7 @@ public record IsEnumerable<TItem> : Constraint<IsEnumerableContinuation<TItem>, 
         IEnumerable<TItem> expected,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Actual.Should().NotBeEquivalentTo(expected);
+        AddAssert([CustomAssertion] () => Actual.Should().NotBeEquivalentTo(expected), expectedExpr);
         return And();
     }
 
