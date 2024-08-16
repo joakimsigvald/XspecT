@@ -25,7 +25,7 @@ internal class SpecificationBuilder
     internal string Build()
     {
         foreach (var apply in _applications) apply();
-        return _descriptionBuilder.ToString().Trim();
+        return _descriptionBuilder.ToString().Trim().Capitalize();
     }
 
     internal void AddMockSetup<TService>(string callExpr)

@@ -90,7 +90,9 @@ public static partial class ExpressionParser
         }
         propNames.Reverse();
         if (prefix is null)
-            return string.Join('.', propNames);
+            return propNames.Count == 1 
+                ? propNames.Single().ParseValue() 
+                : string.Join('.', propNames);
         if (propNames.Count == 0)
             return prefix;
         return $"{prefix}'s {string.Join('.', propNames)}";
@@ -110,8 +112,10 @@ public static partial class ExpressionParser
         description = $"{verb.AsWords()} {type}";
         if (HasConstraint())
             description += $" {{ {ParseValue(continuation[1..^1])} }}";
-        if (HasDrilldown())
+        else if (HasDrilldown())
             description = $"{description}'s {continuation[1..]}";
+        else if (!string.IsNullOrEmpty(continuation))
+            return false;
         return true;
 
         bool HasConstraint() => continuation.StartsWith('(') && continuation.EndsWith(')');

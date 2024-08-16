@@ -8,7 +8,7 @@ public class WhenArray : Spec<int[]>
         var values1 = new[] { 1, 2 };
         var values2 = values1;
         values1.Is(values2);
-        Specification.Is("values1 is values2");
+        Specification.Is("Values1 is values2");
     }
 
     [Fact]
@@ -19,7 +19,7 @@ public class WhenArray : Spec<int[]>
         values1.Is().Not(values2).But.EqualTo(values2);
         Specification.Is(
             """
-            values1 is not values2
+            Values1 is not values2
                 but equal to values2
             """);
     }
@@ -30,7 +30,7 @@ public class WhenArray : Spec<int[]>
         var values1 = new[] { 1, 2 };
         var values2 = new[] { 1, 2, 3 };
         values1.Is().NotEqualTo(values2);
-        Specification.Is("values1 is not equal to values2");
+        Specification.Is("Values1 is not equal to values2");
     }
 
     [Fact]
@@ -38,7 +38,7 @@ public class WhenArray : Spec<int[]>
     {
         var values = Array.Empty<string>();
         values.Is().Empty();
-        Specification.Is("values is empty");
+        Specification.Is("Values is empty");
     }
 
     [Fact]
@@ -46,7 +46,7 @@ public class WhenArray : Spec<int[]>
     {
         var values = new[] { 1, 2 };
         values.Is().NotEmpty();
-        Specification.Is("values is not empty");
+        Specification.Is("Values is not empty");
     }
 
     [Fact]
@@ -56,7 +56,7 @@ public class WhenArray : Spec<int[]>
         values.Is().NotEmpty().And.Has().Single(it => it == 1);
         Specification.Is(
             """
-            values is not empty
+            Values is not empty
                 and has single it = 1
             """);
     }

@@ -7,6 +7,7 @@ public class WhenParseActual : Spec<string>
     [InlineData("", "")]
     [InlineData("Then().Result.Name", "Result.Name")]
     [InlineData("And(Result).Id", "Result's Id")]
+    [InlineData("The<int>()", "the int")]
     public void ThenReturnDescription(string returnsExpr, string expected)
         => When(_ => returnsExpr.ParseActual()).Then().Result.Is(expected);
 }

@@ -9,6 +9,6 @@ public class WhenList : Spec<List<string>>
         var list1 = values.ToList();
         var list2 = values.ToList();
         list1.Is().EqualTo(list2);
-        Specification.Is("list1 is equal to list2");
+        Specification.Is("List1 is equal to list2");
     }
 }

@@ -19,6 +19,7 @@ public class WhenParseValue : Spec<string>
     [InlineData("_ => _ with { Name = A<string>() }", "Name = a string")]
     [InlineData("_ => _ with { Name = A<string>(), Id = 1 }", "Name = a string, Id = 1")]
     [InlineData("A<MyModel?>", "a MyModel?")]
+    [InlineData("The<TimeSpan>() / 2", "The<TimeSpan>() / 2")]
     public void ThenReturnDescription(string valueExpr, string expected)
         => When(_ => valueExpr.ParseValue())
         .Then().Result.Is(expected);
