@@ -1,5 +1,6 @@
 ﻿using XspecT.Test.Subjects;
 using Moq;
+using XspecT.Assert;
 
 namespace XspecT.Test.Tests.ShoppingService;
 

@@ -1,4 +1,6 @@
-﻿namespace XspecT.Test.AutoMock;
+﻿using XspecT.Assert;
+
+namespace XspecT.Test.AutoMock;
 
 public class WhenMockNTuple : Spec<StaticNTupleService, (int, string, int, float)>
 {

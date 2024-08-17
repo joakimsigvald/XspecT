@@ -1,4 +1,6 @@
-﻿namespace XspecT.Test.AutoFixture;
+﻿using XspecT.Assert;
+
+namespace XspecT.Test.AutoFixture;
 
 public class WhenList : Spec<MyRetriever, MyModel[]>
 {

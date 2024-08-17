@@ -1,8 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
-using XspecT.Assert;
 using XspecT.Assert.Time;
 
-namespace XspecT;
+namespace XspecT.Assert;
 
 /// <summary>
 /// Fluent assertions with verbs Is, Has and Does
@@ -32,7 +31,7 @@ public static class AssertionContinuationExtensions
     public static IsDateTime Is(
         this DateTime actual,
         Ignore _ = null,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null) 
+        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
         => new(actual, actualExpr);
 
     /// <summary>
@@ -45,7 +44,7 @@ public static class AssertionContinuationExtensions
     public static IsTimeSpan Is(
         this TimeSpan actual,
         Ignore _ = null,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null) 
+        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
         => new(actual, actualExpr);
 
     /// <summary>
@@ -71,7 +70,7 @@ public static class AssertionContinuationExtensions
     public static DoesString Does(
         this string actual,
         Ignore _ = null,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null) 
+        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
         => new(actual, actualExpr);
 
     /// <summary>
@@ -97,7 +96,7 @@ public static class AssertionContinuationExtensions
     /// <returns></returns>
     public static IsEnumerable<TItem> Is<TItem>(
         this IEnumerable<TItem> actual,
-        Ignore _ = null, 
+        Ignore _ = null,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
         => new(actual, actualExpr);
 
@@ -127,7 +126,7 @@ public static class AssertionContinuationExtensions
     public static HasEnumerable<TItem> Has<TItem>(
         this IEnumerable<TItem> actual,
         Ignore _ = null,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null) 
+        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
         => new(actual, actualExpr);
 
     /// <summary>

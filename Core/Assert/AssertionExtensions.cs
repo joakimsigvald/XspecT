@@ -1,10 +1,9 @@
 ﻿using FluentAssertions;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
-using XspecT.Assert;
 using XspecT.Assert.Time;
 
-namespace XspecT;
+namespace XspecT.Assert;
 
 /// <summary>
 /// Fluent assertions with verbs Is, Has and Does
@@ -95,7 +94,7 @@ public static class AssertionExtensions
     /// Verify that actual object is same reference as expected and return continuation for further assertions of the object
     /// </summary>
     public static ContinueWith<IsObject> Is(
-        this object actual, 
+        this object actual,
         object expected,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
@@ -126,7 +125,7 @@ public static class AssertionExtensions
     /// Verify that actual struct is same as expected and return continuation for further assertions of the struct
     /// </summary>
     public static ContinueWith<IsObject> Is<TValue>(
-        this TValue actual, 
+        this TValue actual,
         TValue expected,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
@@ -140,7 +139,7 @@ public static class AssertionExtensions
     /// Verify that actual string is same as expected and return continuation for further assertions of the string
     /// </summary>
     public static ContinueWith<IsString> Is(
-        this string actual, 
+        this string actual,
         string expected,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)

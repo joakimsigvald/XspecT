@@ -1,4 +1,5 @@
-﻿using XspecT.Test.Subjects.Shopping;
+﻿using XspecT.Assert;
+using XspecT.Test.Subjects.Shopping;
 
 namespace XspecT.Test.Tests.BasketItemFactory;
 

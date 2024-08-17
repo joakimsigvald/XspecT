@@ -1,4 +1,5 @@
-﻿using XspecT.Test.AutoFixture;
+﻿using XspecT.Assert;
+using XspecT.Test.AutoFixture;
 using XspecT.Test.Subjects.RecordStructDefaults;
 
 namespace XspecT.Test.TypeExtensions;

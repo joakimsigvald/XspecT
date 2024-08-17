@@ -1,4 +1,6 @@
-﻿namespace XspecT.Test.Assert;
+﻿using XspecT.Assert;
+
+namespace XspecT.Test.Assert;
 
 public class WhenDictionary : Spec<Dictionary<string, int>>
 {

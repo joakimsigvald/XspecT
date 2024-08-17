@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
+using XspecT.Assert;
 
 namespace XspecT.Test.AutoMock;
 

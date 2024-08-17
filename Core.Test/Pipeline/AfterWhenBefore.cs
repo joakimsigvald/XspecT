@@ -1,4 +1,6 @@
-﻿namespace XspecT.Test.Pipeline;
+﻿using XspecT.Assert;
+
+namespace XspecT.Test.Pipeline;
 
 public class AfterWhenBefore : Spec<MyStateService, int>
 {

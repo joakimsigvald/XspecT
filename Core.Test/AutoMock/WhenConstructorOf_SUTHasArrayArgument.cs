@@ -1,4 +1,6 @@
-﻿namespace XspecT.Test.AutoMock;
+﻿using XspecT.Assert;
+
+namespace XspecT.Test.AutoMock;
 
 public class WhenConstructorOf_SUTTakeArrayOfObject: Spec<ArrayService, SomeValue[]>
 {

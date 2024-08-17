@@ -1,4 +1,6 @@
-﻿namespace XspecT.Test.Given;
+﻿using XspecT.Assert;
+
+namespace XspecT.Test.Given;
 
 public class WhenGivenSetupValue : Spec<MyService, DateTime>
 {

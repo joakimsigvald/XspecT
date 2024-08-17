@@ -1,4 +1,6 @@
-﻿namespace XspecT.Test.ExpressionParser;
+﻿using XspecT.Assert;
+
+namespace XspecT.Test.ExpressionParser;
 
 public class WhenParseValue : Spec<string>
 {

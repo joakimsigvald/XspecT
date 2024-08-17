@@ -1,7 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 using XspecT.Assert.Numerical;
 
-namespace XspecT;
+namespace XspecT.Assert;
 
 /// <summary>
 /// Fluent assertions with verbs Is, Has and Does
@@ -70,7 +70,7 @@ public static class AssertionContinuationExtensionsNumerical
     public static IsInt Is(
         this int actual,
         Ignore _ = null,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null) 
+        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
         => new(actual, actualExpr);
 
     /// <summary>
@@ -93,10 +93,10 @@ public static class AssertionContinuationExtensionsNumerical
     /// <param name="_"></param>
     /// <param name="actualExpr"></param>
     /// <returns></returns>
-    public static Assert.Numerical.IsLong Is(
+    public static Numerical.IsLong Is(
         this long actual,
         Ignore _ = null,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null) 
+        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
         => new(actual, actualExpr);
 
     /// <summary>
