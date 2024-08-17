@@ -39,6 +39,8 @@ public static partial class ExpressionParser
             return description;
         if (TryParseTupleExpression(expr, out description))
             return description;
+        if (TryParseArithmeticExpression(expr, out description))
+            return description;
         return expr;
     }
 
@@ -276,7 +278,27 @@ public static partial class ExpressionParser
         return true;
     }
 
-    private static bool IsOneWord(string str) => WordRegex().Match(str).Success;
+    private static bool TryParseArithmeticExpression(string expr, out string description)
+    {
+        description = null;
+        var match = ArithmeticRegex().Match(expr);
+        if (!match.Success)
+            return false;
+
+        var values = OperatorRegex().Split(expr);
+        var opMatch = OperatorRegex().Matches(expr);
+        var operators = opMatch
+            .Select(c => c.Value.Trim())
+            .ToArray();
+        if (values.Length != operators.Length + 1)
+            return false;
+        description = values[0].ParseValue();
+        for (int i = 0; i < operators.Length; i++)
+            description += $" {operators[i]} {values[i+1].ParseValue()}";
+        return true;
+    }
+
+    private static bool IsOneWord(string str) => ValueRegex().Match(str).Success;
 
     [GeneratedRegex(@"^(\w+)<([\w\[\]\(\),?\s<>]+)>(?:\(\))?(.*)$")]
     private static partial Regex MentionTypeRegex();
@@ -320,6 +342,15 @@ public static partial class ExpressionParser
     [GeneratedRegex(@"(\r|\n)+")]
     private static partial Regex LineBreakRegex();
 
-    [GeneratedRegex(@"^[\w()?!.<>]+$")]
-    private static partial Regex WordRegex();
+    [GeneratedRegex($@"^{_valueStr}$")]
+    private static partial Regex ValueRegex();
+
+    [GeneratedRegex($@"^({_valueStr})(?:\s+({_opStr})\s+({_valueStr}))+$")]
+    private static partial Regex ArithmeticRegex();
+
+    [GeneratedRegex($@"\s+{_opStr}\s+")]
+    private static partial Regex OperatorRegex();
+
+    private const string _opStr = @"[+\-*/&|]";
+    private const string _valueStr = @"[\w()?!.<>]+";
 }

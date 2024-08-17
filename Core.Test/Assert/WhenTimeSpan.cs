@@ -37,8 +37,8 @@ public class WhenTimeSpan : Spec<TimeSpan>
         Specification.Is(
             """
             When a _
-            Then Result is less than 2 * The<TimeSpan>()
-                and greater than The<TimeSpan>() / 2
+            Then Result is less than 2 * the TimeSpan
+                and greater than the TimeSpan / 2
                 and not less than the TimeSpan
                 and not greater than the TimeSpan
             """);
