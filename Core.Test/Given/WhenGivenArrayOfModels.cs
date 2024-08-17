@@ -19,7 +19,7 @@ public class WhenGivenArrayOfModels : Spec<MyService, MyModel[]>
               and IMyRepository.GetModels() returns a MyModel[]
             When _.GetModels()
             Then Result is two MyModel
-              and Result's First().Name is the string
+              and Result.First().Name is the string
             """);
     }
 

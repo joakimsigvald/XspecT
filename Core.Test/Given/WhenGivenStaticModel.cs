@@ -47,7 +47,7 @@ public class WhenGivenStaticModel : Spec<MyModel>
               and new MyModel { Id = id }
             When _
             Then Result.Name is name
-              and Result's Id is id
+              and Result.Id is id
             """);
     }
 
@@ -64,7 +64,7 @@ public class WhenGivenStaticModel : Spec<MyModel>
               and MyModel { Id = id }
             When _
             Then Result.Name is name
-              and Result's Id is id
+              and Result.Id is id
             """);
     }
 
@@ -81,7 +81,7 @@ public class WhenGivenStaticModel : Spec<MyModel>
               and a MyModel { new MyModel { Id = id } }
             When the MyModel
             Then Result.Name is null
-              and Result's Id is id
+              and Result.Id is id
             """);
     }
 
@@ -98,7 +98,7 @@ public class WhenGivenStaticModel : Spec<MyModel>
               and a MyModel { Id = id }
             When the MyModel
             Then Result.Name is name
-              and Result's Id is id
+              and Result.Id is id
             """);
     }
 

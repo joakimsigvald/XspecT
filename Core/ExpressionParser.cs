@@ -95,7 +95,9 @@ public static partial class ExpressionParser
                 : string.Join('.', propNames);
         if (propNames.Count == 0)
             return prefix;
-        return $"{prefix}'s {string.Join('.', propNames)}";
+        return IsOneWord(prefix) 
+            ? $"{prefix}.{string.Join('.', propNames)}" 
+            : $"{prefix}'s {string.Join('.', propNames)}"; ;
     }
 
     private static bool TryParseMentionType(string expr, out string description)
@@ -274,6 +276,8 @@ public static partial class ExpressionParser
         return true;
     }
 
+    private static bool IsOneWord(string str) => WordRegex().Match(str).Success;
+
     [GeneratedRegex(@"^(\w+)<([\w\[\]\(\),?\s<>]+)>(?:\(\))?(.*)$")]
     private static partial Regex MentionTypeRegex();
 
@@ -315,4 +319,7 @@ public static partial class ExpressionParser
 
     [GeneratedRegex(@"(\r|\n)+")]
     private static partial Regex LineBreakRegex();
+
+    [GeneratedRegex(@"^[\w()?!.<>]+$")]
+    private static partial Regex WordRegex();
 }

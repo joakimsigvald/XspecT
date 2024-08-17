@@ -69,7 +69,7 @@ public class WhenGivenSetupModelWithDefault : Spec<MyService, MyModel>
               and IMyRepository.GetModel() returns a second MyModel
             When _.GetModel()
             Then Result.Name is _defaultName
-              and Result's Id is 123
+              and Result.Id is 123
             """);
     }
 
