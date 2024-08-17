@@ -41,7 +41,8 @@ public class WhenTapMockThatReturnsValueAsync : Spec<MyValueIntService, string>
         _tappedValue.Is(The<MyValueInt>());
         Specification.Is(
             """
-            Given IMyValueIntRepo.GetAsync(the MyValueInt) tap((int value) => _tappedValue = value) returns _retVal
+            Given IMyValueIntRepo.GetAsync(the MyValueInt) tap((int value) => _tappedValue
+                  = value) returns _retVal
             When _.GetValueAsync(a MyValueInt)
             Then _tappedValue is the MyValueInt
             """);
@@ -105,7 +106,8 @@ public class WhenTapMockThatReturnsValue : Spec<MyValueIntService, string>
         _tappedValue.Is(The<MyValueInt>());
         Specification.Is(
             """
-            Given IMyValueIntRepo.Get(the MyValueInt) tap(i => _tappedValue = i) returns _retVal
+            Given IMyValueIntRepo.Get(the MyValueInt) tap(i => _tappedValue = i) returns
+                  _retVal
             When _.GetValue(a MyValueInt)
             Then _tappedValue is the MyValueInt
             """);
@@ -132,7 +134,8 @@ public class WhenTapMockWithTwoArguments : Spec<MyValueIntService, string>
         _tappedValue.Is(The<MyValueInt>() + TheSecond<MyValueInt>());
         Specification.Is(
             """
-            Given IMyValueIntRepo.Get2(the MyValueInt, the second MyValueInt) tap((int v1, int v2) => _tappedValue = v1 + v2) returns _retVal
+            Given IMyValueIntRepo.Get2(the MyValueInt, the second MyValueInt) tap((int v1,
+                  int v2) => _tappedValue = v1 + v2) returns _retVal
             When _.GetValue2(a MyValueInt, a second MyValueInt)
             Then _tappedValue is the MyValueInt + the second MyValueInt
             """);

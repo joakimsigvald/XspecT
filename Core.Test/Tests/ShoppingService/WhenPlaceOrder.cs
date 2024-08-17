@@ -35,7 +35,8 @@ public class WhenPlaceOrder : ShoppingServiceSpec<object>
             """
             Given (a string, a second string)
             When _.PlaceOrder(a ShoppingCart)
-            Then ILogger.Information(It.Is<string>(s => s.Contains(A<string>()) && s.Contains(ASecond<string>())))
+            Then ILogger.Information(It.Is<string>(s => s.Contains(A<string>()) && s.
+                  Contains(ASecond<string>())))
             """);
     }
 }

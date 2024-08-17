@@ -16,7 +16,8 @@ public class ContinueWith<TContinuation> where TContinuation : Constraint
     {
         get
         {
-            return _continuation with { ActualExpr = $"{Environment.NewLine}    and", AuxiliaryVerb = null };
+            SpecificationGenerator.AddAssertConjunction("and");
+            return _continuation with { ActualExpr = string.Empty, AuxiliaryVerb = null };
         }
     }
 
@@ -27,7 +28,8 @@ public class ContinueWith<TContinuation> where TContinuation : Constraint
     {
         get
         {
-            return _continuation with { ActualExpr = $"{Environment.NewLine}    but", AuxiliaryVerb = null };
+            SpecificationGenerator.AddAssertConjunction("but");
+            return _continuation with { ActualExpr = string.Empty, AuxiliaryVerb = null };
         }
     }
 }

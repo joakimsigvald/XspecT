@@ -33,4 +33,52 @@ public class WhenGivenValueSetup : Spec<MyService, MyModel>
             Then Result.Name is the string
             """);
     }
+
+    [Fact]
+    public void WithArithmeticExpression_ThenParseValues()
+    {
+        Given<MyModel>(_ => _.Name = A<string>() + ASecond<string>())
+            .When(_ => MyService.Echo(A<MyModel>()))
+            .Then().Result.Name.Does().StartWith(The<string>());
+        Specification.Is(
+            """
+            Given MyModel { Name = a string + a second string }
+            When MyService.Echo(a MyModel)
+            Then Result.Name starts with the string
+            """);
+    }
+
+    [Fact]
+    public void WithLineBreaks_ThenMergeToOneLine()
+    {
+        Given("abc"
+            .ToUpper()
+            .ToLower())
+            .When(_ => _.GetModel())
+            .Then().Result.Name.Match(_ => char.IsLower(_[0]));
+        Specification.Is(
+            """
+            Given "abc".ToUpper().ToLower()
+            When _.GetModel()
+            Then Result.Name match char.IsLower(_[0])
+            """);
+    }
+
+    [Fact]
+    public void WithLongLine_ThenInsertLineBreaks()
+    {
+        Given("abc".ToUpper().ToLower().ToUpper().ToLower()
+            .ToUpper().ToLower().ToUpper().ToLower().ToUpper()
+            .ToLower().ToUpper().ToLower().ToUpper().ToLower())
+            .When(_ => _.GetModel())
+            .Then().Result.Name.Match(_ => char.IsLower(_[0]));
+        Specification.Is(
+            """
+            Given "abc".ToUpper().ToLower().ToUpper().ToLower().ToUpper().ToLower().
+                  ToUpper().ToLower().ToUpper().ToLower().ToUpper().ToLower().ToUpper().
+                  ToLower()
+            When _.GetModel()
+            Then Result.Name match char.IsLower(_[0])
+            """);
+    }
 }

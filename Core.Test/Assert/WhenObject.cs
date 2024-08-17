@@ -59,7 +59,10 @@ public class WhenObject : Spec<object>
     public void IsNotEquivalentTo()
     {
         new MyArrayModel(1, 2).Is().NotEquivalentTo(new MyArrayModel(1, 2, 1));
-        Specification.Is("""New MyArrayModel(1, 2) is not equivalent to new MyArrayModel(1, 2, 1)""");
+        Specification.Is(
+            """
+            New MyArrayModel(1, 2) is not equivalent to new MyArrayModel(1, 2, 1)
+            """);
     }
 
     [Fact]

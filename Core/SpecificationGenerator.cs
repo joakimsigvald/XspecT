@@ -88,5 +88,8 @@ public static class SpecificationGenerator
     internal static void AddAssert([CallerMemberName] string assertName = null)
          => Builder.Add(() => Builder.AddAssert(assertName));
 
+    internal static void AddAssertConjunction(string conjunction)
+         => Builder.Add(() => Builder.AddAssertConjunction(conjunction));
+
     private static SpecificationBuilder Builder => _builder ??= new();
 }

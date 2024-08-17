@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Text;
+using System.Text.RegularExpressions;
 using XspecT.Internal;
 
 namespace XspecT;
@@ -15,6 +16,7 @@ public static partial class ExpressionParser
     /// <returns></returns>
     public static string ParseValue(this string expr)
     {
+        expr = expr.ToSingleLine();
         if (string.IsNullOrEmpty(expr))
             return expr;
         if (TryParseMentionType(expr, out string description))
@@ -52,35 +54,30 @@ public static partial class ExpressionParser
     /// <returns></returns>
     public static string ParseCall(this string expr, bool skipSubjectRef = false)
     {
+        expr = expr.ToSingleLine();
         if (string.IsNullOrEmpty(expr))
             return expr;
-        var lines = LineBreakRegex()
-            .Split(expr)
-            .Where(s => !string.IsNullOrWhiteSpace(s))
-            .Select(s => s.Trim());
-        var singleLineExpr = string.Join(' ', lines);
-        if (string.IsNullOrEmpty(singleLineExpr))
-            return singleLineExpr;
-        if (TryParseOneArgLambdaInstanceMethodExpression(singleLineExpr, skipSubjectRef, out string description))
+        if (TryParseOneArgLambdaInstanceMethodExpression(expr, skipSubjectRef, out string description))
             return description;
-        if (TryParseMethodCall(singleLineExpr, out description))
+        if (TryParseMethodCall(expr, out description))
             return description;
-        if (TryParseOneArgLambdaValueExpression(singleLineExpr, out description))
+        if (TryParseOneArgLambdaValueExpression(expr, out description))
             return description;
-        return singleLineExpr;
+        return expr;
     }
 
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="actualExpr"></param>
+    /// <param name="expr"></param>
     /// <returns></returns>
-    public static string ParseActual(this string actualExpr)
+    public static string ParseActual(this string expr)
     {
-        if (string.IsNullOrEmpty(actualExpr))
-            return actualExpr;
+        expr = expr.ToSingleLine();
+        if (string.IsNullOrEmpty(expr))
+            return expr;
         string prefix = null;
-        var propNames = actualExpr.Split('.').Reverse().ToList();
+        var propNames = expr.Split('.').Reverse().ToList();
         var thenValueRegex = ThenValueRegex();
         var thenValueSegment = propNames.SkipWhile(prop => !thenValueRegex.IsMatch(prop)).FirstOrDefault();
         if (thenValueSegment is not null) 
@@ -298,6 +295,26 @@ public static partial class ExpressionParser
         return true;
     }
 
+    private static string ToSingleLine(this string str)
+    {
+        if (string.IsNullOrEmpty(str))
+            return str;
+        var lines = LineBreakRegex()
+            .Split(str)
+            .Where(s => !string.IsNullOrWhiteSpace(s))
+            .Select(s => s.Trim());
+        StringBuilder sb = new();
+        bool addSpace = false;
+        foreach (var line in lines)
+        {
+            if (addSpace && !line.StartsWith('.'))
+                sb.Append(' ');
+            sb.Append(line);
+            addSpace = !line.EndsWith('.');
+        }
+        return sb.ToString();
+    }
+
     private static bool IsOneWord(string str) => ValueRegex().Match(str).Success;
 
     [GeneratedRegex(@"^(\w+)<([\w\[\]\(\),?\s<>]+)>(?:\(\))?(.*)$")]
@@ -306,7 +323,7 @@ public static partial class ExpressionParser
     [GeneratedRegex(@"^(\w+)\((.+)\)$")]
     private static partial Regex MentionValueRegex();
 
-    [GeneratedRegex(@"^(\w+)\s*=>\s*(\w+)\.(\w+)\s*=\s*(.+)$")]
+    [GeneratedRegex(@"^(\w+)\s*=>\s*(\w+)\.(\w+)\s*=\s*([\S\s]+)$")]
     private static partial Regex AssignmentLambdaRegex();
 
     [GeneratedRegex(@"^(\w+)\s*=+\s+(.+)$")]
@@ -330,7 +347,7 @@ public static partial class ExpressionParser
     [GeneratedRegex(@"^(\w+)\s*=>\s*(\w+)\s*with\s*\{(.+)\}$")]
     private static partial Regex WithLambdaRegex();
 
-    [GeneratedRegex("^[$@]*\"(.+)\"")]
+    [GeneratedRegex("^[$@]*\"(.+)\"$")]
     private static partial Regex StringRegex();
 
     [GeneratedRegex(@"^(?:Then|And)\((.*)\)$")]

@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
+using System.Text.RegularExpressions;
 using XspecT.Internal.TestData;
 
 namespace XspecT.Internal;
@@ -7,11 +9,11 @@ internal class SpecificationBuilder
 {
     private string _description;
     private readonly List<Action> _applications = [];
-    private readonly StringBuilder _descriptionBuilder = new();
     private int _givenCount;
     private int _recordingSuppressionCount;
     private int _thenCount;
     private string _currentMockSetup;
+    private readonly TextBuilder _textBuilder = new();
 
     internal string Specification => _description ??= Build();
 
@@ -25,7 +27,7 @@ internal class SpecificationBuilder
     internal string Build()
     {
         foreach (var apply in _applications) apply();
-        return _descriptionBuilder.ToString().Trim().Capitalize();
+        return _textBuilder.ToString();
     }
 
     internal void AddMockSetup<TService>(string callExpr)
@@ -103,6 +105,8 @@ internal class SpecificationBuilder
 
     internal void AddAssert(string assertName) => AddWord(assertName.AsWords());
 
+    internal void AddAssertConjunction(string conjunction) => AddPhrase(conjunction, 2);
+
     private string GetMockName<TService>(char binder)
     {
         var nextMockSetup = NameOf<TService>();
@@ -122,19 +126,17 @@ internal class SpecificationBuilder
 
     private static string NameOf<T>() => typeof(T).Alias();
 
-    private void AddPhrase(string phrase)
-        => _descriptionBuilder.Append($"{Environment.NewLine}  {phrase}");
+    private void AddPhrase(string phrase, int indentation = 1)
+        => _textBuilder.AddIndentedLine(phrase, indentation);
 
     private void AddSentence(string phrase)
-        => _descriptionBuilder.Append($"{Environment.NewLine}{phrase.Capitalize()}");
+        => _textBuilder.AddCapitalizedLine(phrase);
 
     private void AddWord(string word, string binder = " ")
     {
         if (string.IsNullOrEmpty(word))
             return;
-        if (!word.StartsWith(Environment.NewLine))
-            _descriptionBuilder.Append(binder);
-        _descriptionBuilder.Append(word);
+        _textBuilder.AddText($"{binder}{word}");
     }
 
     internal void SuppressRecording() => _recordingSuppressionCount++;
@@ -144,4 +146,48 @@ internal class SpecificationBuilder
     private string Given => 0 == _givenCount++ ? "Given" : "and";
 
     private string Then => 0 == _thenCount++ ? "Then" : "and";
+}
+
+internal class TextBuilder(int maxLineLength = 80, int indentationSize = 2)
+{
+    private readonly StringBuilder _sb = new();
+    private int _currentLineLength;
+
+    internal void AddCapitalizedLine(string line) => AddIndentedLine(line.Capitalize(), 0);
+
+    internal void AddIndentedLine(string line, int indentation)
+    {
+        _sb.Append(Environment.NewLine);
+        _sb.Append(new string(' ', _currentLineLength = indentation * indentationSize));
+        AddText(line);
+    }
+
+    internal void AddText(string text)
+    {
+        var (first, rest) = IsExceedingMaxLineLength(text) ? BreakLine(text) : (text, null);
+        _sb.Append(first);
+        _currentLineLength += first.Length;
+        if (rest is not null)
+            AddIndentedLine(rest, 3);
+    }
+
+    private bool IsExceedingMaxLineLength(string text)
+        => text.Length + _currentLineLength > maxLineLength;
+
+    private (string first, string rest) BreakLine(string text)
+    {
+        var fitInLine = text[..(maxLineLength - _currentLineLength)];
+        var first = new string(fitInLine
+            .Reverse()
+            .SkipWhile(c => c != '.' && !char.IsWhiteSpace(c))
+            .Reverse()
+            .ToArray())
+            .TrimEnd();
+        if (string.IsNullOrEmpty(first))
+            first = fitInLine;
+        var rest = text[first.Length..].Trim();
+        return (first, rest);
+    }
+
+    public override string ToString() => _sb.ToString().Trim().Capitalize();
 }

@@ -25,6 +25,12 @@ public class WhenParseValue : Spec<string>
     [InlineData("The<int>() + TheSecond<int>()", "the int + the second int")]
     [InlineData("The<int>() + TheSecond<int>() - TheThird<int>()", "the int + the second int - the third int")]
     [InlineData("The<int>() & TheSecond<int>() & TheThird<int>()", "the int & the second int & the third int")]
+    [InlineData("_ => _.Name = A<string>() + ASecond<string>()", "Name = a string + a second string")]
+    [InlineData(
+        """
+        _ => _.Name = A<string>()
+                + ASecond<string>()
+        """, "Name = a string + a second string")]
     public void ThenReturnDescription(string valueExpr, string expected)
         => When(_ => valueExpr.ParseValue())
         .Then().Result.Is(expected);

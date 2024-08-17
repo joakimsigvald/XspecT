@@ -1,8 +1,6 @@
  * Remove linebreaks from Given
   - keep linebreak if line is too long, with indentation 6
   - same rule for Then and other parts of specification
-* Handle simple arithmetics when identifying given values, 
-  example "The<int>() + TheSecond<int>()" -> "the int + the second int"
 * handle implicit new: "new(A<Sku>(), A<ProductType>())" -> "new(a Sku, a ProductType)"
 ------------
 * Return different pipeline after setup and run, and remove the HasRun guard clauses
