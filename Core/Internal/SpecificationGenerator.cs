@@ -1,24 +1,15 @@
 ﻿using System.Runtime.CompilerServices;
-using XspecT.Internal;
 using XspecT.Internal.TestData;
 using Xunit.Sdk;
 
-namespace XspecT;
+namespace XspecT.Internal;
 
-/// <summary>
-/// 
-/// </summary>
-public static class SpecificationGenerator
+internal static class SpecificationGenerator
 {
     [ThreadStatic]
     private static SpecificationBuilder _builder;
 
     internal static void Clear() => _builder = null;
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public static string Specification => Builder.Specification;
 
     internal static void AddMockSetup<TService>(string callExpr)
         => Builder.Add(() => Builder.AddMockSetup<TService>(callExpr));
@@ -59,7 +50,7 @@ public static class SpecificationGenerator
         }
         catch (XunitException ex)
         {
-            throw new XunitException(Specification, ex);
+            throw new XunitException(Builder.Specification, ex);
         }
     }
 
@@ -91,5 +82,5 @@ public static class SpecificationGenerator
     internal static void AddAssertConjunction(string conjunction)
          => Builder.Add(() => Builder.AddAssertConjunction(conjunction));
 
-    private static SpecificationBuilder Builder => _builder ??= new();
+    internal static SpecificationBuilder Builder => _builder ??= new();
 }

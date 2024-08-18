@@ -1,6 +1,6 @@
 ﻿using XspecT.Assert;
 
-namespace XspecT.Test.ExpressionParser;
+namespace XspecT.Test.Internal.ExpressionParser;
 
 public class WhenParseActual : Spec<string>
 {

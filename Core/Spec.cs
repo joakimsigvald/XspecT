@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using XspecT.Internal;
 using XspecT.Internal.Pipelines;
 
 namespace XspecT;
@@ -39,4 +40,9 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// </summary>
     /// <returns></returns>
     protected virtual CultureInfo GetCulture() => CultureInfo.InvariantCulture;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public static string Specification => SpecificationGenerator.Builder.Specification;
 }

@@ -1,4 +1,6 @@
-﻿namespace XspecT.Assert;
+﻿using XspecT.Internal;
+
+namespace XspecT.Assert;
 
 /// <summary>
 /// Return-value from an assertion, that allows another assertion to be chained to the previous (if it succeeded)

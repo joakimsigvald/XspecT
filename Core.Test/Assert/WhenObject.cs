@@ -78,8 +78,8 @@ public class WhenObject : Spec<object>
         new MyModel(A<string>(), An<int>()).Match(it => it.Value == A<string>() && it.Id == An<int>());
         Specification.Is(
             """
-            New MyModel(a string, an int) match it.Value == A<string>() && it.Id ==
-                  An<int>()
+            New MyModel(a string, an int) match it.Value == A<string>() && it.Id == An<
+                  int>()
             """);
     }
 }

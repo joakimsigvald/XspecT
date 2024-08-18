@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using System.Runtime.CompilerServices;
 using XspecT.Assert.Numerical;
+using XspecT.Internal;
 
 namespace XspecT.Assert;
 

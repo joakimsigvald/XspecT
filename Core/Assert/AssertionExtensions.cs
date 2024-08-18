@@ -2,6 +2,7 @@
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using XspecT.Assert.Time;
+using XspecT.Internal;
 
 namespace XspecT.Assert;
 

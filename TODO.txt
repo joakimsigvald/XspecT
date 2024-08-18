@@ -1,6 +1,3 @@
-* When remove linebreak, do not insert space after [(.
-* When there is no natural linebreak, break before word, unless start of line
-* handle implicit new: "new(A<Sku>(), A<ProductType>())" -> "new(a Sku, a ProductType)"
 * handle nested new(...) in argument list: 
   "=> When(_ => _.AddNewItem(A<CartId>(), new(A<Sku>(), A<ProductType>(), A<Price>(), A<Vat>()), A<string>()));"
 ------------

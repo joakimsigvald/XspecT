@@ -99,6 +99,33 @@ public static partial class ExpressionParser
             : $"{prefix}'s {string.Join('.', propNames)}"; ;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="str"></param>
+    /// <returns></returns>
+    public static string ToSingleLine(this string str)
+    {
+        if (string.IsNullOrEmpty(str))
+            return str;
+        var lines = LineBreakRegex()
+            .Split(str)
+            .Where(s => !string.IsNullOrWhiteSpace(s))
+            .Select(s => s.Trim());
+        StringBuilder sb = new();
+        bool addSpace = false;
+        foreach (var line in lines)
+        {
+            if (addSpace && !line.StartsWith('.'))
+                sb.Append(' ');
+            sb.Append(line);
+            addSpace = !_lineBreakCues.Contains(line[^1]);
+        }
+        return sb.ToString();
+    }
+
+    private static readonly char[] _lineBreakCues = ['.', '(', '['];
+
     private static bool TryParseMentionType(string expr, out string description)
     {
         description = null;
@@ -295,26 +322,6 @@ public static partial class ExpressionParser
         for (int i = 0; i < operators.Length; i++)
             description += $" {operators[i]} {values[i+1].ParseValue()}";
         return true;
-    }
-
-    private static string ToSingleLine(this string str)
-    {
-        if (string.IsNullOrEmpty(str))
-            return str;
-        var lines = LineBreakRegex()
-            .Split(str)
-            .Where(s => !string.IsNullOrWhiteSpace(s))
-            .Select(s => s.Trim());
-        StringBuilder sb = new();
-        bool addSpace = false;
-        foreach (var line in lines)
-        {
-            if (addSpace && !line.StartsWith('.'))
-                sb.Append(' ');
-            sb.Append(line);
-            addSpace = !line.EndsWith('.');
-        }
-        return sb.ToString();
     }
 
     private static bool IsOneWord(string str) => ValueRegex().Match(str).Success;
