@@ -64,10 +64,10 @@ public class WhenAddText : Spec<XspecT.Internal.TextBuilder, string>
         ABC{
            567890}
         """)]
-    [InlineData("ABC<567890>",
+    [InlineData("ABC<5678901>",
         """
-        ABC<
-           567890>
+        ABC<567890
+           1>
         """)]
     public void ThenReturnDescription(string text, string expected)
         => Given(text).Then().Result.Is(expected);

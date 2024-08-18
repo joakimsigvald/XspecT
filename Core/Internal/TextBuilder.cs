@@ -73,7 +73,7 @@ public class TextBuilder(int maxLineLength = 80, int indentationSize = 2)
     /// <returns></returns>
     public override string ToString() => _sb.ToString().Trim().Capitalize();
 
-    private static readonly char[] _lineBreakCues = ['.', '(', '[', '{', '<'];
+    private static readonly char[] _lineBreakCues = ['.', '(', '[', '{'];
 
     private static bool IsLineBreakPossibleAfter(char c, char next)
         => char.IsWhiteSpace(c) 
