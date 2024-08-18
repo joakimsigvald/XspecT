@@ -1,7 +1,8 @@
- * Remove linebreaks from Given
-  - keep linebreak if line is too long, with indentation 6
-  - same rule for Then and other parts of specification
+* When remove linebreak, do not insert space after [(.
+* When there is no natural linebreak, break before word, unless start of line
 * handle implicit new: "new(A<Sku>(), A<ProductType>())" -> "new(a Sku, a ProductType)"
+* handle nested new(...) in argument list: 
+  "=> When(_ => _.AddNewItem(A<CartId>(), new(A<Sku>(), A<ProductType>(), A<Price>(), A<Vat>()), A<string>()));"
 ------------
 * Return different pipeline after setup and run, and remove the HasRun guard clauses
 * Verbose mode (static) that prints description after running each test

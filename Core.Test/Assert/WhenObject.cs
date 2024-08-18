@@ -4,7 +4,7 @@ namespace XspecT.Test.Assert;
 
 public class WhenObject : Spec<object>
 {
-    internal record MyModel(string Value) { }
+    internal record MyModel(string Value, int Id = 1) { }
     internal record MyArrayModel(params int[] Values) { }
 
     [Fact]
@@ -70,5 +70,16 @@ public class WhenObject : Spec<object>
     {
         new MyArrayModel(1, 2).Match(_ => _.Values.Length == 2);
         Specification.Is("""New MyArrayModel(1, 2) match _.Values.Length == 2""");
+    }
+
+    [Fact]
+    public void Match2()
+    {
+        new MyModel(A<string>(), An<int>()).Match(it => it.Value == A<string>() && it.Id == An<int>());
+        Specification.Is(
+            """
+            New MyModel(a string, an int) match it.Value == A<string>() && it.Id ==
+                  An<int>()
+            """);
     }
 }

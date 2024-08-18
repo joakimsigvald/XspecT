@@ -157,6 +157,8 @@ public static partial class ExpressionParser
             return false;
         var property = match.Groups[3].Value;
         var value = match.Groups[4].Value;
+        if (value.StartsWith('=')) //double equals is not an assignment
+            return false;
 
         description = $"{property} = {value.ParseValue()}";
         return true;
