@@ -1,6 +1,7 @@
 * handle nested new(...) in argument list: 
   "=> When(_ => _.AddNewItem(A<CartId>(), new(A<Sku>(), A<ProductType>(), A<Price>(), A<Vat>()), A<string>()));"
 ------------
+* Add a When method for static tests that doesn't take the SUT as argument: () => TestSomething()
 * Handle Tap without return value (Task or void)
   - Tap has to be followed by Returns, otherwise it is not executed, and Then cannot be chained directly after Tap,
   so either add an empty Returns() when there is no return value, or make it possible to use Tap without following Returns
