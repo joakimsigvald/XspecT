@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 
 namespace XspecT.Continuations;
@@ -14,6 +13,12 @@ namespace XspecT.Continuations;
 public interface IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns>
     where TService : class
 {
+    /// <summary>
+    /// Mock returns
+    /// </summary>
+    /// <returns></returns>
+    IGivenThatReturnsContinuation<TSUT, TResult, TService> Returns();
+
     /// <summary>
     /// Mock the return-value
     /// </summary>

@@ -6,10 +6,10 @@ using XspecT.Continuations;
 
 namespace XspecT.Internal.Pipelines;
 
-internal class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, TActualReturns, TMock>
+internal class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, TMock>
     : IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns>
     where TService : class
-    where TMock : Moq.Language.Flow.IReturnsThrows<TService, TActualReturns>
+    where TMock : IFluentInterface
 {
     protected readonly Spec<TSUT, TResult> _spec;
     protected readonly Lazy<TMock> _lazyContinuation;
@@ -27,10 +27,24 @@ internal class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, TA
 
     internal GivenThatCommonContinuation(
         Spec<TSUT, TResult> spec,
-        Expression<Func<TService, TActualReturns>> call,
+        Expression<Action<TService>> call,
         string callExpr = null)
         : this(spec, new Lazy<TMock>(() => (TMock)spec.GetMock<TService>().Setup(call)), callExpr)
     {
+    }
+
+    internal GivenThatCommonContinuation(
+        Spec<TSUT, TResult> spec,
+        Func<Mock<TService>, TMock> setup,
+        string callExpr = null)
+        : this(spec, new Lazy<TMock>(() => setup(spec.GetMock<TService>())), callExpr)
+    {
+    }
+
+    public IGivenThatReturnsContinuation<TSUT, TResult, TService> Returns()
+    {
+        SetupReturns();
+        return new GivenThatReturnsContinuation<TSUT, TResult, TService>(_spec);
     }
 
     public IGivenThatReturnsContinuation<TSUT, TResult, TService> Returns(
@@ -61,6 +75,22 @@ internal class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, TA
 
     protected TMock Continuation => _lazyContinuation.Value;
 
+    private void SetupReturns()
+    {
+        _spec.ArrangeLast(DoSetupReturns);
+
+        void DoSetupReturns()
+        {
+            SpecifyMock();
+            SpecificationGenerator.AddMockReturns();
+            if (Continuation is Moq.Language.Flow.IReturnsThrows<TService, Task> taskContinuation)
+                taskContinuation.Returns(Task.CompletedTask);
+            else if (Continuation is Moq.Language.Flow.ISetup<TService> voidContinuation)
+                voidContinuation.Verifiable();
+            else throw new NotImplementedException();
+        }
+    }
+
     private void SetupReturns(Func<TReturns> returns, string returnsExpr)
     {
         _spec.ArrangeLast(DoSetupReturns);
@@ -71,8 +101,9 @@ internal class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, TA
             SpecificationGenerator.AddMockReturns(returnsExpr);
             if (Continuation is Moq.Language.Flow.IReturnsThrows<TService, Task<TReturns>> asyncContinuation)
                 asyncContinuation.ReturnsAsync(returns);
-            else
-                Continuation.Returns(returns);
+            else if (Continuation is Moq.Language.Flow.IReturnsThrows<TService, TReturns> syncContinuation)
+                syncContinuation.Returns(returns);
+            else throw new NotImplementedException();
         }
     }
 
@@ -85,7 +116,9 @@ internal class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, TA
         {
             SpecifyMock();
             SpecificationGenerator.AddMockThrows<TException>();
-            Continuation.Throws<TException>();
+            if (Continuation is Moq.Language.Flow.IReturnsThrows<TService, TReturns> returnsThrows)
+                returnsThrows.Throws<TException>();
+            else throw new NotImplementedException();
         }
     }
 
@@ -97,7 +130,9 @@ internal class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, TA
         {
             SpecifyMock();
             SpecificationGenerator.AddMockThrows(expectedExpr);
-            Continuation.Throws(expected());
+            if (Continuation is Moq.Language.Flow.IReturnsThrows<TService, TReturns> returnsThrows)
+                returnsThrows.Throws(expected());
+            else throw new NotImplementedException();
         }
     }
 

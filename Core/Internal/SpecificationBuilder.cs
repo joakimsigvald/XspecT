@@ -34,7 +34,7 @@ internal class SpecificationBuilder
         => AddPhraseOrSentence($"{Given} {GetMockName<TService>(' ')}returns {returnsExpr.ParseValue()}");
 
     internal void AddMockReturns(string returnsExpr)
-        => AddWord($"returns {returnsExpr.ParseValue()}");
+        => AddWord($"returns {returnsExpr?.ParseValue()}".Trim());
 
     internal void AddMockThrowsDefault<TService, TException>()
         => AddWord($"{Given} {GetMockName<TService>(' ')}throws {NameOf<TException>()}");

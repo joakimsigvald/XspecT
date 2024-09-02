@@ -42,6 +42,11 @@ internal class GivenServiceContinuation<TSUT, TResult, TService> : IGivenService
         return new GivenTestPipeline<TSUT, TResult>(_spec);
     }
 
+    public IGivenThatVoidContinuation<TSUT, TResult, TService> That(
+        Expression<Action<TService>> call,
+        [CallerArgumentExpression(nameof(call))] string callExpr = null)
+        => new GivenThatVoidContinuation<TSUT, TResult, TService>(_spec, call, callExpr);
+
     public IGivenThatContinuation<TSUT, TResult, TService, TReturns> That<TReturns>(
         Expression<Func<TService, TReturns>> call,
         [CallerArgumentExpression(nameof(call))] string callExpr = null)

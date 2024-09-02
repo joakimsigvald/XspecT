@@ -14,7 +14,7 @@ internal static class SpecificationGenerator
     internal static void AddMockSetup<TService>(string callExpr)
         => Builder.Add(() => Builder.AddMockSetup<TService>(callExpr));
 
-    internal static void AddMockReturns(string returnsExpr)
+    internal static void AddMockReturns(string returnsExpr = null)
         => Builder.Add(() => Builder.AddMockReturns(returnsExpr));
 
     internal static void AddMockThrowsDefault<TService, TError>()

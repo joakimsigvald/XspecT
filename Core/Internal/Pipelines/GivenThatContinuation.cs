@@ -6,15 +6,15 @@ using XspecT.Continuations;
 namespace XspecT.Internal.Pipelines;
 
 internal class GivenThatContinuation<TSUT, TResult, TService, TReturns, TActualReturns>
-    : GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, TActualReturns, Moq.Language.Flow.ISetup<TService, TActualReturns>>,
+    : GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, Moq.Language.Flow.ISetup<TService, TActualReturns>>,
     IGivenThatContinuation<TSUT, TResult, TService, TReturns>
     where TService : class
 {
     internal GivenThatContinuation(
-        Spec<TSUT, TResult> spec, 
+        Spec<TSUT, TResult> spec,
         Expression<Func<TService, TActualReturns>> call,
         string callExpr = null)
-        : base(spec, call, callExpr) { }
+        : base(spec, mock => mock.Setup(call), callExpr) { }
 
     public IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns> Tap(
         Action callback,
@@ -27,7 +27,7 @@ internal class GivenThatContinuation<TSUT, TResult, TService, TReturns, TActualR
         => ContinueWith(() => Continuation.Callback(callback), callbackExpr);
 
     public IGivenThatReturnsContinuation<TSUT, TResult, TService> Returns<TArg>(
-        [NotNull] Func<TArg, TReturns> returns, 
+        [NotNull] Func<TArg, TReturns> returns,
         [CallerArgumentExpression(nameof(returns))] string returnsExpr = null)
     {
         if (returns is null)
@@ -106,6 +106,6 @@ internal class GivenThatContinuation<TSUT, TResult, TService, TReturns, TActualR
     public IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns> ContinueWith<TMock>(
         Func<TMock> callback, string callbackExpr = null)
         where TMock : Moq.Language.Flow.IReturnsThrows<TService, TActualReturns>
-        => new GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, TActualReturns, TMock>(
+        => new GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, TMock>(
             _spec, new Lazy<TMock>(callback), _callExpr, callbackExpr);
 }

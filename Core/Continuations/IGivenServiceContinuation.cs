@@ -39,6 +39,16 @@ public interface IGivenServiceContinuation<TSUT, TResult, TService>
     /// <summary>
     /// Mock the method invocation
     /// </summary>
+    /// <param name="call"></param>
+    /// <param name="callExpr"></param>
+    /// <returns>Continuation for providing method invocation result to mock</returns>
+    IGivenThatVoidContinuation<TSUT, TResult, TService> That(
+        Expression<Action<TService>> call,
+        [CallerArgumentExpression(nameof(call))] string callExpr = null);
+
+    /// <summary>
+    /// Mock the method invocation
+    /// </summary>
     /// <typeparam name="TReturns"></typeparam>
     /// <param name="call"></param>
     /// <param name="callExpr"></param>
