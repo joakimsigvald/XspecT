@@ -13,7 +13,6 @@ internal class Pipeline<TSUT, TResult>
     private readonly SpecActor<TSUT, TResult> _actor = new();
     private TestResult<TResult> _result;
     private readonly Arranger _arranger = new();
-    //private TSUT _sut;
 
     internal bool HasRun => _result != null;
 
