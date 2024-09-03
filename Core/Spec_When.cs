@@ -11,6 +11,20 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <param name="actExpr"></param>
     /// <returns></returns>
     public ITestPipeline<TSUT, TResult> When(
+        Action act,
+        [CallerArgumentExpression(nameof(act))] string actExpr = null)
+    {
+        _pipeline.SetAction(act, actExpr);
+        return this;
+    }
+
+    /// <summary>
+    /// Provide the method-under-test to the test-pipeline
+    /// </summary>
+    /// <param name="act"></param>
+    /// <param name="actExpr"></param>
+    /// <returns></returns>
+    public ITestPipeline<TSUT, TResult> When(
         Action<TSUT> act,
         [CallerArgumentExpression(nameof(act))] string actExpr = null)
     {
@@ -39,6 +53,19 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <param name="actExpr"></param>
     /// <returns></returns>
     public ITestPipeline<TSUT, TResult> When(
+    Func<TResult> act, [CallerArgumentExpression(nameof(act))] string actExpr = null)
+    {
+        _pipeline.SetAction(act, actExpr);
+        return this;
+    }
+
+    /// <summary>
+    /// Provide the method-under-test to the test-pipeline
+    /// </summary>
+    /// <param name="act"></param>
+    /// <param name="actExpr"></param>
+    /// <returns></returns>
+    public ITestPipeline<TSUT, TResult> When(
         Func<TSUT, Task> act,
         [CallerArgumentExpression(nameof(act))] string actExpr = null)
     {
@@ -53,7 +80,35 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <param name="actExpr"></param>
     /// <returns></returns>
     public ITestPipeline<TSUT, TResult> When(
+        Func<Task> act,
+        [CallerArgumentExpression(nameof(act))] string actExpr = null)
+    {
+        _pipeline.SetAction(act, actExpr);
+        return this;
+    }
+
+    /// <summary>
+    /// Provide the method-under-test to the test-pipeline
+    /// </summary>
+    /// <param name="act"></param>
+    /// <param name="actExpr"></param>
+    /// <returns></returns>
+    public ITestPipeline<TSUT, TResult> When(
         Func<TSUT, Task<TResult>> act,
+        [CallerArgumentExpression(nameof(act))] string actExpr = null)
+    {
+        _pipeline.SetAction(act, actExpr);
+        return this;
+    }
+
+    /// <summary>
+    /// Provide the method-under-test to the test-pipeline
+    /// </summary>
+    /// <param name="act"></param>
+    /// <param name="actExpr"></param>
+    /// <returns></returns>
+    public ITestPipeline<TSUT, TResult> When(
+        Func<Task<TResult>> act,
         [CallerArgumentExpression(nameof(act))] string actExpr = null)
     {
         _pipeline.SetAction(act, actExpr);

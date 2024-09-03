@@ -25,7 +25,7 @@ internal class SpecActor<TSUT, TResult>
 
     internal void Before(Command tearDown) => _tearDown.Add(tearDown);
 
-    internal TestResult<TResult> Execute(TSUT sut, Context context)
+    internal TestResult<TResult> Execute(Lazy<TSUT> sut, Context context)
     {
         if (_methodUnderTest is null)
             throw new SetupFailed("When must be called before Then");
@@ -63,7 +63,7 @@ internal class SpecActor<TSUT, TResult>
         SpecificationGenerator.AddThen();
     }
 
-    private bool GetResult(TSUT sut)
+    private bool GetResult(Lazy<TSUT> sut)
     {
         const string cue = "could not resolve to an object. (Parameter 'serviceType')";
         try
@@ -77,26 +77,42 @@ internal class SpecActor<TSUT, TResult>
         }
     }
 
-    private static (TResult result, bool hasResult) Invoke(Command command, TSUT sut, [CallerArgumentExpression(nameof(command))] string commandName = null)
+    private static (TResult result, bool hasResult) Invoke(Command command, Lazy<TSUT> sut, [CallerArgumentExpression(nameof(command))] string commandName = null)
     {
         return command.Invocation switch
         {
-            Func<TSUT, Task<TResult>> queryAsync => (AsyncHelper.Execute(() => queryAsync(sut)), true),
-            Func<TSUT, Task> actAsync => ActAndReturnAsync(actAsync),
-            Func<TSUT, TResult> query => (query(sut), true),
-            Action<TSUT> act => ActAndReturn(act),
+            Func<TSUT, Task<TResult>> queryAsync => (AsyncHelper.Execute(() => queryAsync(sut.Value)), true),
+            Func<Task<TResult>> queryAsync => (AsyncHelper.Execute(() => queryAsync()), true),
+            Func<TSUT, Task> actAsync => ActOnSubjectAndReturnAsync(actAsync),
+            Func<Task> actAsync => ActAndReturnAsync(actAsync),
+            Func<TSUT, TResult> query => (query(sut.Value), true),
+            Func<TResult> query => (query(), true),
+            Action<TSUT> act => ActOnSubjectAndReturn(act),
+            Action act => ActAndReturn(act),
             _ => throw new SetupFailed($"Failed to run {commandName}, unexpected signature")
         };
 
-        (TResult, bool) ActAndReturn(Action<TSUT> act)
+        (TResult, bool) ActAndReturn(Action act)
         {
-            act(sut);
+            act();
             return (default, false);
         }
 
-        (TResult, bool) ActAndReturnAsync(Func<TSUT, Task> actAsync)
+        (TResult, bool) ActOnSubjectAndReturn(Action<TSUT> act)
         {
-            AsyncHelper.Execute(() => actAsync(sut));
+            act(sut.Value);
+            return (default, false);
+        }
+
+        (TResult, bool) ActAndReturnAsync(Func<Task> actAsync)
+        {
+            AsyncHelper.Execute(() => actAsync());
+            return (default, false);
+        }
+
+        (TResult, bool) ActOnSubjectAndReturnAsync(Func<TSUT, Task> actAsync)
+        {
+            AsyncHelper.Execute(() => actAsync(sut.Value));
             return (default, false);
         }
     }

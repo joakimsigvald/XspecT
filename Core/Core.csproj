@@ -21,7 +21,7 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>icon.png</PackageIcon>
-    <PackageReleaseNotes>Setup Tap and Returns for void and Task methods</PackageReleaseNotes>
+    <PackageReleaseNotes>When-methods for static methods-under-test with zero arguments + made create sut lazy in case it's not used</PackageReleaseNotes>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>

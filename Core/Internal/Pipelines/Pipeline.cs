@@ -13,7 +13,7 @@ internal class Pipeline<TSUT, TResult>
     private readonly SpecActor<TSUT, TResult> _actor = new();
     private TestResult<TResult> _result;
     private readonly Arranger _arranger = new();
-    private TSUT _sut;
+    //private TSUT _sut;
 
     internal bool HasRun => _result != null;
 
@@ -117,10 +117,10 @@ internal class Pipeline<TSUT, TResult>
     internal TValue[] MentionMany<TValue>([NotNull] Action<TValue, int> setup, int count)
         => _context.MentionMany(setup, count);
 
-    internal void Arrange()
+    internal Lazy<TSUT> Arrange()
     {
         _arranger.Arrange();
-        _sut = _context.CreateSUT<TSUT>();
+        return new Lazy<TSUT>(_context.CreateSUT<TSUT>);
     }
 
     internal Mock<TObject> GetMock<TObject>() where TObject : class 
@@ -146,11 +146,7 @@ internal class Pipeline<TSUT, TResult>
 
     private TestResult<TResult> TestResult => _result ??= Run();
 
-    private TestResult<TResult> Run()
-    {
-        Arrange();
-        return _actor.Execute(_sut, _context);
-    }
+    private TestResult<TResult> Run() => _actor.Execute(Arrange(), _context);
 
     private void AssertHasNotRun()
     {

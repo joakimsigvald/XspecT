@@ -104,6 +104,7 @@ public interface ITestPipeline<TSUT, TResult>
         Expression<Func<TService, TReturns>> expression, Func<Times> times,
         [CallerArgumentExpression(nameof(expression))] string expressionExpr = null)
         where TService : class;
+
     /// <summary>
     /// Provide the method-under-test to the test-pipeline
     /// </summary>
@@ -114,12 +115,30 @@ public interface ITestPipeline<TSUT, TResult>
         [CallerArgumentExpression(nameof(act))] string actExpr = null);
 
     /// <summary>
+    /// Provide the method-under-test to the test-pipeline
+    /// </summary>
+    /// <param name="act"></param>
+    /// <param name="actExpr"></param>
+    /// <returns></returns>
+    ITestPipeline<TSUT, TResult> When(Action act,
+        [CallerArgumentExpression(nameof(act))] string actExpr = null);
+
+    /// <summary>
     /// Provide the method-under-test as a lambda expression
     /// </summary>
     /// <param name="act"></param>
     /// <param name="actExpr"></param>
     /// <returns>A continuation for providing further arrangement, or executing the test</returns>
     ITestPipeline<TSUT, TResult> When(Func<TSUT, TResult> act,
+        [CallerArgumentExpression(nameof(act))] string actExpr = null);
+
+    /// <summary>
+    /// Provide the method-under-test as a lambda expression
+    /// </summary>
+    /// <param name="act"></param>
+    /// <param name="actExpr"></param>
+    /// <returns>A continuation for providing further arrangement, or executing the test</returns>
+    ITestPipeline<TSUT, TResult> When(Func<TResult> act,
         [CallerArgumentExpression(nameof(act))] string actExpr = null);
 
     /// <summary>
@@ -137,7 +156,25 @@ public interface ITestPipeline<TSUT, TResult>
     /// <param name="act"></param>
     /// <param name="actExpr"></param>
     /// <returns></returns>
+    ITestPipeline<TSUT, TResult> When(Func<Task> act,
+        [CallerArgumentExpression(nameof(act))] string actExpr = null);
+
+    /// <summary>
+    /// Provide the method-under-test to the test-pipeline
+    /// </summary>
+    /// <param name="act"></param>
+    /// <param name="actExpr"></param>
+    /// <returns></returns>
     ITestPipeline<TSUT, TResult> When(Func<TSUT, Task<TResult>> act,
+        [CallerArgumentExpression(nameof(act))] string actExpr = null);
+
+    /// <summary>
+    /// Provide the method-under-test to the test-pipeline
+    /// </summary>
+    /// <param name="act"></param>
+    /// <param name="actExpr"></param>
+    /// <returns></returns>
+    ITestPipeline<TSUT, TResult> When(Func<Task<TResult>> act,
         [CallerArgumentExpression(nameof(act))] string actExpr = null);
 
     /// <summary>

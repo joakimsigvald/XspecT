@@ -15,7 +15,17 @@ internal class GivenTestPipeline<TSUT, TResult>
         => Parent.When(act, actExpr);
 
     public ITestPipeline<TSUT, TResult> When(
+        Action act,
+        [CallerArgumentExpression(nameof(act))] string actExpr = null)
+        => Parent.When(act, actExpr);
+
+    public ITestPipeline<TSUT, TResult> When(
         Func<TSUT, TResult> act,
+        [CallerArgumentExpression(nameof(act))] string actExpr = null)
+        => Parent.When(act, actExpr);
+
+    public ITestPipeline<TSUT, TResult> When(
+        Func<TResult> act,
         [CallerArgumentExpression(nameof(act))] string actExpr = null)
         => Parent.When(act, actExpr);
 
@@ -25,7 +35,17 @@ internal class GivenTestPipeline<TSUT, TResult>
         => Parent.When(act, actExpr);
 
     public ITestPipeline<TSUT, TResult> When(
+        Func<Task> act,
+        [CallerArgumentExpression(nameof(act))] string actExpr = null)
+        => Parent.When(act, actExpr);
+
+    public ITestPipeline<TSUT, TResult> When(
         Func<TSUT, Task<TResult>> act,
+        [CallerArgumentExpression(nameof(act))] string actExpr = null)
+        => Parent.When(act, actExpr);
+
+    public ITestPipeline<TSUT, TResult> When(
+        Func<Task<TResult>> act,
         [CallerArgumentExpression(nameof(act))] string actExpr = null)
         => Parent.When(act, actExpr);
 

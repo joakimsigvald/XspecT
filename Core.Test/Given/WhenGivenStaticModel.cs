@@ -34,6 +34,60 @@ public class WhenGivenStaticModel : Spec<MyModel>
             """);
     }
 
+    [Fact]
+    public void WhenNoSubjectReturnsValue()
+    {
+        Given(0).When(() => A<MyModel>()).Then().Result.Is(The<MyModel>());
+        Specification.Is(
+            """
+            Given 0
+            When () => A<MyModel>()
+            Then Result is the MyModel
+            """);
+    }
+
+    [Fact]
+    public void WhenNoSubjectReturnsValueAsync()
+    {
+        Given(0).When(() => Task.FromResult(A<MyModel>())).Then().Result.Is(The<MyModel>());
+        Specification.Is(
+            """
+            Given 0
+            When () => Task.FromResult(A<MyModel>())
+            Then Result is the MyModel
+            """);
+    }
+
+    [Fact]
+    public void WhenNoSubjectAction()
+    {
+        MyModel model = null;
+        Given(0).When(() => { model = A<MyModel>(); });
+        Then();
+        model.Is(The<MyModel>());
+        Specification.Is(
+            """
+            Given 0
+            When () => { model = A<MyModel>(); }
+            Then model is the MyModel
+            """);
+    }
+
+    [Fact]
+    public void WhenNoSubjectActionAsync()
+    {
+        MyModel model = null;
+        Given(0).When(() => { model = A<MyModel>(); return Task.CompletedTask; });
+        Then();
+        model.Is(The<MyModel>());
+        Specification.Is(
+            """
+            Given 0
+            When () => { model = A<MyModel>(); return Task.CompletedTask; }
+            Then model is the MyModel
+            """);
+    }
+
     [Theory]
     [InlineData("abc", 123)]
     public void GivenDefaultSetupAndModel_ThenUseDefaultSetupOnModel(string name, int id)
