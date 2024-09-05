@@ -1,6 +1,9 @@
 * handle nested new(...) in argument list: 
   "=> When(_ => _.AddNewItem(A<CartId>(), new(A<Sku>(), A<ProductType>(), A<Price>(), A<Vat>()), A<string>()));"
 ------------
+* AFirst saknas
+* Throws<SomeException>() (default) saknas
+* Given<Interface>.Returns(A<Model).Given<Model>(_ => _.Value = someValue) <- det verkar som att someValue inte sätts när mocken skapas med ReturnsDefault
 * Return different values on each call by:
 Given<Service>.That(_ => _.DoesSomething()).First(3).Returns(1).AndNext().Returns(2).AndNext(2).Throws(new Exception())
 * throw SetupFailed if providing a value to Use, which is not used, for instance when Given(new ConcreteClass()), 
