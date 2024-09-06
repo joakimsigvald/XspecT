@@ -75,11 +75,11 @@ public class WhenObject : Spec<object>
     [Fact]
     public void Match2()
     {
-        new MyModel(A<string>(), An<int>()).Match(it => it.Value == A<string>() && it.Id == An<int>());
+        new MyModel(AFirst<string>(), An<int>()).Match(it => it.Value == TheFirst<string>() && it.Id == An<int>());
         Specification.Is(
             """
-            New MyModel(a string, an int) match it.Value == A<string>() && it.Id ==
-                  An<int>()
+            New MyModel(a first string, an int) match it.Value == TheFirst<string>() && it.
+                  Id == An<int>()
             """);
     }
 }

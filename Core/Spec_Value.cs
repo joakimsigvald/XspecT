@@ -1,24 +1,16 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using System.Linq.Expressions;
-using System.Reflection;
 
 namespace XspecT;
 
 public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
 {
-    /// <summary>
-    /// Yields a value of the given type
-    /// </summary>
-    /// <typeparam name="TValue"></typeparam>
-    /// <returns></returns>
-    protected internal TValue The<TValue>() => _pipeline.Mention<TValue>();
 
     /// <summary>
     /// Yields a value of the given type
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected internal TValue TheFirst<TValue>() => _pipeline.Mention<TValue>();
+    protected internal TValue A<TValue>() => _pipeline.Mention<TValue>();
 
     /// <summary>
     /// Yields a value of the given type
@@ -32,7 +24,21 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected internal TValue A<TValue>() => _pipeline.Mention<TValue>();
+    protected internal TValue The<TValue>() => _pipeline.Mention<TValue>();
+
+    /// <summary>
+    /// Yields a value of the given type
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <returns></returns>
+    protected internal TValue AFirst<TValue>() => _pipeline.Mention<TValue>();
+
+    /// <summary>
+    /// Yields a value of the given type
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <returns></returns>
+    protected internal TValue TheFirst<TValue>() => _pipeline.Mention<TValue>();
 
     /// <summary>
     /// 
@@ -43,31 +49,14 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     protected internal TValue A<TValue>(Action<TValue> setup) 
         => _pipeline.Mention(0, setup);
 
-    private Action<TValue> MapToSetup<TValue>(Expression<Func<TValue, bool>> criteria)
-    {
-        var body = criteria.Body as BinaryExpression;
-        var left = body.Left as MemberExpression;
-        var prop = left.Member as PropertyInfo;
-        var right = body.Right as MethodCallExpression;
-        return
-            _ => {
-                var value = right.Method.Invoke(this, null);
-                prop.SetValue(_, value);
-            };
-    }
-
-    private Action<TValue> MapToSetup<TValue>(Expression<Func<TValue, int, bool>> criteria)
-    {
-        var body = criteria.Body as BinaryExpression;
-        var left = body.Left as MemberExpression;
-        var prop = left.Member as PropertyInfo;
-        var right = body.Right as MethodCallExpression;
-        return
-            _ => {
-                var value = right.Method.Invoke(this, null);
-                prop.SetValue(_, value);
-            };
-    }
+    /// <summary>
+    /// Yields a customized value of the given type
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="setup"></param>
+    /// <returns></returns>
+    protected internal TValue An<TValue>(Action<TValue> setup)
+        => _pipeline.Mention(0, setup);
 
     /// <summary>
     /// Yields a customized value of the given type
@@ -75,7 +64,17 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
     /// <returns></returns>
-    protected internal TValue An<TValue>([NotNull] Action<TValue> setup) => A(setup);
+    protected internal TValue TheFirst<TValue>([NotNull] Action<TValue> setup)
+        => _pipeline.Mention(0, setup);
+
+    /// <summary>
+    /// Yields a customized value of the given type
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="setup"></param>
+    /// <returns></returns>
+    protected internal TValue AFirst<TValue>([NotNull] Action<TValue> setup)
+        => _pipeline.Mention(0, setup);
 
     /// <summary>
     /// 
@@ -83,10 +82,8 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
     /// <returns></returns>
-    protected internal TValue An<TValue>([NotNull] Func<TValue, TValue> setup)
-    {
-        return A(setup);
-    }
+    protected internal TValue The<TValue>([NotNull] Func<TValue, TValue> setup)
+        => _pipeline.Mention(0, setup);
 
     /// <summary>
     /// Yields a customized value of the given type
@@ -95,6 +92,30 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <param name="setup"></param>
     /// <returns></returns>
     protected internal TValue A<TValue>([NotNull] Func<TValue, TValue> setup) => _pipeline.Mention(0, setup);
+
+    /// <summary>
+    /// Yields a customized value of the given type
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="setup"></param>
+    /// <returns></returns>
+    protected internal TValue An<TValue>([NotNull] Func<TValue, TValue> setup) => _pipeline.Mention(0, setup);
+
+    /// <summary>
+    /// Yields a customized value of the given type
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="setup"></param>
+    /// <returns></returns>
+    protected internal TValue AFirst<TValue>([NotNull] Func<TValue, TValue> setup) => _pipeline.Mention(0, setup);
+
+    /// <summary>
+    /// Yields a customized value of the given type
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="setup"></param>
+    /// <returns></returns>
+    protected internal TValue TheFirst<TValue>([NotNull] Func<TValue, TValue> setup) => _pipeline.Mention(0, setup);
 
     /// <summary>
     /// Provide a specific value for the first instance of the given type

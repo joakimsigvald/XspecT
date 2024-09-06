@@ -66,12 +66,12 @@ internal class GivenContinuation<TSUT, TResult> : IGivenContinuation<TSUT, TResu
         Action<TValue> setup,
         [CallerArgumentExpression(nameof(setup))] string setupExpr = null)
          where TValue : class
-        => _spec.Mention<TValue>(() => _spec.A(setup), setupExpr);
+        => _spec.Mention<TValue>(() => _spec.An(setup), setupExpr);
 
     public IGivenTestPipeline<TSUT, TResult> An<TValue>(
         Func<TValue, TValue> transform,
         [CallerArgumentExpression(nameof(transform))] string transformExpr = null)
-        => _spec.Mention<TValue>(() => _spec.A(transform), transformExpr);
+        => _spec.Mention<TValue>(() => _spec.An(transform), transformExpr);
 
     public IGivenTestPipeline<TSUT, TResult> ASecond<TValue>(
         TValue value,

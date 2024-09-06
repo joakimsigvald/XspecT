@@ -11,10 +11,10 @@ public class WhenMockObjectWithSpecifiedPropertyValue : Spec<StaticObjectService
         [Fact]
         public void Then_It_Has_ProvidedValue()
         {
-            Given(A<MyObject>(_ => _.Age = 3)).Then().Result.Age.Is(3);
+            Given(AFirst<MyObject>(_ => _.Age = 3)).Then().Result.Age.Is(3);
             Specification.Is(
                 """
-                Given a MyObject { Age = 3 }
+                Given a first MyObject { Age = 3 }
                 When _.GetValue()
                 Then Result.Age is 3
                 """);
