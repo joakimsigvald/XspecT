@@ -25,7 +25,7 @@ public interface IGivenServiceContinuation<TSUT, TResult, TService>
     /// </summary>
     /// <typeparam name="TException"></typeparam>
     /// <returns></returns>
-    IGivenTestPipeline<TSUT, TResult> Throws<TException>() where TException : Exception, new();
+    IGivenTestPipeline<TSUT, TResult> Throws<TException>() where TException : Exception;
 
     /// <summary>
     /// Setup mock to throw the given exception for any call

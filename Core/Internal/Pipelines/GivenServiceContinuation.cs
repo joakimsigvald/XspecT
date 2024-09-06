@@ -27,7 +27,7 @@ internal class GivenServiceContinuation<TSUT, TResult, TService> : IGivenService
         }
     }
 
-    public IGivenTestPipeline<TSUT, TResult> Throws<TException>() where TException : Exception, new()
+    public IGivenTestPipeline<TSUT, TResult> Throws<TException>() where TException : Exception
     {
         SpecificationGenerator.AddMockThrowsDefault<TService, TException>();
         _spec.SetupThrows<TService>(_spec.Another<TException>);
