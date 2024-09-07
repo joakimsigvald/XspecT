@@ -15,6 +15,8 @@ public class WhenParseValue : Spec<string>
     [InlineData("(a, b) => a.Name = $\"X{b + 1}\"", "Name = \"X{b + 1}\"")]
     [InlineData("Three<MyModel>().Last()", "three MyModel's Last()")]
     [InlineData("new MyComponent(An<IMyLogger>(), An<int>())", "new MyComponent(an IMyLogger, an int)")]
+    [InlineData("new (An<IMyLogger>(), An<int>())", "new(an IMyLogger, an int)")]
+    [InlineData("new(An<IMyLogger>(), An<int>())", "new(an IMyLogger, an int)")]
     [InlineData("A<MyValue<int>>()", "a MyValue<int>")]
     [InlineData("A<(int, string, int, float)>", "a (int, string, int, float)")]
     [InlineData("i => $\"{2 * i}\"", "\"{2 * i}\"")]

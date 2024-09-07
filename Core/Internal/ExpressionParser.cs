@@ -21,6 +21,8 @@ public static partial class ExpressionParser
             return expr;
         if (TryParseMentionType(expr, out string description))
             return description;
+        if (TryParseConstructorCall(expr, out description))
+            return description;
         if (TryParseMentionValue(expr, out description))
             return description;
         if (TryParseAssignmentLambda(expr, out description))
@@ -58,6 +60,8 @@ public static partial class ExpressionParser
         if (string.IsNullOrEmpty(expr))
             return expr;
         if (TryParseOneArgLambdaInstanceMethodExpression(expr, skipSubjectRef, out string description))
+            return description;
+        if (TryParseConstructorCall(expr, out description))
             return description;
         if (TryParseMethodCall(expr, out description))
             return description;
@@ -250,6 +254,20 @@ public static partial class ExpressionParser
         return true;
     }
 
+    private static bool TryParseConstructorCall(string expr, out string description)
+    {
+        description = null;
+        var match = ConstructorCallRegex().Match(expr);
+        if (!match.Success)
+            return false;
+
+        var constructorRef = match.Groups[1].Value;
+        var methodArgs = match.Groups[2].Value;
+        var args = methodArgs.Split(',').Select(arg => ParseValue(arg.Trim()));
+        description = $"{constructorRef}({string.Join(", ", args)})";
+        return true;
+    }
+
     private static bool TryParseMethodCall(string expr, out string description)
     {
         description = null;
@@ -349,6 +367,9 @@ public static partial class ExpressionParser
 
     [GeneratedRegex(@"^(\w+)\s*=>\s*(.+)$")]
     private static partial Regex OneArgLambdaValueRegex();
+
+    [GeneratedRegex(@"^(new(?:\s+\w+)?)\s*\((.+)\)$")]
+    private static partial Regex ConstructorCallRegex();
 
     [GeneratedRegex(@"^((?:new\s+)?\w+)\((.+)\)$")]
     private static partial Regex MethodCallRegex();

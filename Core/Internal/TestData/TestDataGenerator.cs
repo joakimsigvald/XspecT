@@ -19,7 +19,14 @@ internal class TestDataGenerator
     internal TValue Create<TValue>()
         => typeof(TValue).IsInterface ? _mocker.Get<TValue>() : CreateValue<TValue>();
 
-    internal void Use(Type type, object value) => _mocker.Use(type, value);
+    internal void Use<TService>(TService service)
+    {
+        _mocker.Use(service);
+        var type = typeof(TService);
+        var allInterfaces = type.GetInterfaces();
+        foreach (var anInterface in allInterfaces)
+            _mocker.Use(anInterface, service);
+    }
 
     internal TValue Instantiate<TValue>()
     {

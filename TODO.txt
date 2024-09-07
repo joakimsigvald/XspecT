@@ -1,10 +1,9 @@
-* handle nested new(...) in argument list: 
-  "=> When(_ => _.AddNewItem(A<CartId>(), new(A<Sku>(), A<ProductType>(), A<Price>(), A<Vat>()), A<string>()));"
-------------
-* Given<Interface>.Returns(A<Model).Given<Model>(_ => _.Value = someValue) <- det verkar som att someValue inte sätts när mocken skapas med ReturnsDefault
-* Return different values on each call by:
-Given<Service>.That(_ => _.DoesSomething()).First(3).Returns(1).AndNext().Returns(2).AndNext(2).Throws(new Exception())
 * throw SetupFailed if providing a value to Use, which is not used, for instance when Given(new ConcreteClass()), 
   that was expected to be used instead of mocking IAbstractInterface,
   hinting that it should be provided as Given<IAbstractInterface>(new ConcreteClass())
+* Given<Interface>.Returns(A<Model).Given<Model>(_ => _.Value = someValue) <- det verkar som att someValue inte sätts när mocken skapas med ReturnsDefault
+* Return different values on each call by:
+Given<Service>.That(_ => _.DoesSomething()).First(3).Returns(1).AndNext().Returns(2).AndNext(2).Throws(new Exception())
 * Verbose mode (static) that prints description after running each test
+* handle nested new(...) in argument list: 
+  "=> When(_ => _.AddNewItem(A<CartId>(), new(A<Sku>(), A<ProductType>(), A<Price>(), A<Vat>()), A<string>()));"

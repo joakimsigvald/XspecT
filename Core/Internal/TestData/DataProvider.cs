@@ -44,7 +44,12 @@ internal class DataProvider
             return;
 
         if (applyTo.HasFlag(ApplyTo.Using))
-            _testDataGenerator.Use(typeof(TValue), value);
+        {
+            if (value is not null) 
+                _testDataGenerator.Use(value);
+            else if (applyTo == ApplyTo.Using)
+                throw new SetupFailed("Cannot use null");
+        }
 
         if (typeof(Task).IsAssignableFrom(typeof(TValue)))
             return;
@@ -69,7 +74,7 @@ internal class DataProvider
 
     internal object Create(Type type) => ApplyDefaultSetup(type, _testDataGenerator.Create(type));
 
-    internal Mock<TObject> GetMock<TObject>() where TObject : class 
+    internal Mock<TObject> GetMock<TObject>() where TObject : class
         => _testDataGenerator.GetMock<TObject>();
     internal Mock GetMock(Type type) => _testDataGenerator.GetMock(type);
 
@@ -78,9 +83,9 @@ internal class DataProvider
         ? setup(newValue)
         : newValue;
 
-    internal Exception GetDefaultException(Type type) 
+    internal Exception GetDefaultException(Type type)
         => _defaultExceptions.TryGetValue(type, out var ex) ? ex() : null;
 
-    internal void SetDefaultException(Type type, Func<Exception> ex) 
+    internal void SetDefaultException(Type type, Func<Exception> ex)
         => _defaultExceptions[type] = ex;
 }
