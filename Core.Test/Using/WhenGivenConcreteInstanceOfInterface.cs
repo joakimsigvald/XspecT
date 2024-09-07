@@ -15,6 +15,13 @@ public class WhenUsingConcreteInstanceOfInterface : Spec<MyService, int>
     }
 
     [Fact]
+    public void WithDifferentCast_ThenDoNotUseIt()
+    {
+        Given().Using<object>(new FakeRepository(An<int>()))
+            .Then().Result.Is().Not(The<int>());
+    }
+
+    [Fact]
     public void WithCast_ThenUseIt()
     {
         Given().Using<IMyRepository>(new FakeRepository(An<int>()))

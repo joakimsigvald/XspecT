@@ -23,6 +23,8 @@ internal class TestDataGenerator
     {
         _mocker.Use(service);
         var type = typeof(TService);
+        if (type != service.GetType()) //Explicit cast was provided, so don't use implicit cast to all interfaces
+            return;
         var allInterfaces = type.GetInterfaces();
         foreach (var anInterface in allInterfaces)
             _mocker.Use(anInterface, service);
