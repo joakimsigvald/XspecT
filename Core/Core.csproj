@@ -17,11 +17,11 @@
     <PackageProjectUrl>https://github.com/joakimsigvald/XspecT</PackageProjectUrl>
     <RepositoryUrl>https://github.com/joakimsigvald/XspecT.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageVersion>16.1.4</PackageVersion>
+    <PackageVersion>16.1.5</PackageVersion>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>icon.png</PackageIcon>
-    <PackageReleaseNotes>Concrete class instance provided as Given or Given().Using will be applied also when any of it's interfaces are used - no need for explicit cast to interface</PackageReleaseNotes>
+    <PackageReleaseNotes>Do not apply implicit using of all interfaces of concrete class if explicit generic type was provided</PackageReleaseNotes>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>
