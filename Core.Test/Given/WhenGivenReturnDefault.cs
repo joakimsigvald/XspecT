@@ -17,4 +17,20 @@ public class WhenGivenReturnDefault : Spec<MyService, MyModel>
             Then Result is the MyModel
             """);
     }
+
+    [Fact]
+    public void GivenModelSetup_ThenMockReturnDefaultWithSetup()
+    {
+        Given<IMyRepository>().Returns(A<MyModel>)
+            .And<MyModel>(_ => _.Name = A<string>())
+            .When(_ => _.GetModel())
+            .Then().Result.Name.Is(The<string>());
+        Specification.Is(
+            """
+            Given MyModel { Name = a string }
+              and IMyRepository returns a MyModel
+            When _.GetModel()
+            Then Result.Name is the string
+            """);
+    }
 }

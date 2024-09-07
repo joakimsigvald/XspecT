@@ -15,12 +15,12 @@ internal class GivenServiceContinuation<TSUT, TResult, TService> : IGivenService
         Func<TReturns> returns,
         [CallerArgumentExpression(nameof(returns))] string returnsExpr = null)
     {
-        var theValue = returns();
         _spec.ArrangeLast(DoSetupReturnsDefault);
         return new GivenThatReturnsContinuation<TSUT, TResult, TService>(_spec);
 
         void DoSetupReturnsDefault()
         {
+            var theValue = returns();
             _spec.GetMock<TService>().SetReturnsDefault(theValue);
             _spec.GetMock<TService>().SetReturnsDefault(Task.FromResult(theValue));
             SpecificationGenerator.AddMockReturnsDefault<TService>(returnsExpr);
