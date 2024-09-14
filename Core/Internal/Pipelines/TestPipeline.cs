@@ -5,10 +5,10 @@ using XspecT.Continuations;
 
 namespace XspecT.Internal.Pipelines;
 
-internal abstract class TestPipeline<TSUT, TResult, TParent> where TParent : Spec<TSUT, TResult>
+internal abstract class TestPipeline<TSUT, TResult, TParent>(TParent parent) where TParent : Spec<TSUT, TResult>
 {
-    protected readonly TParent Parent;
-    protected TestPipeline(TParent parent) => Parent = parent;
+    protected readonly TParent Parent = parent;
+
     public ITestResult<TResult> Then() => Parent.Then();
     public TSubject Then<TSubject>(TSubject subject) => Parent.Then(subject);
 

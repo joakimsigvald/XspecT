@@ -1,4 +1,3 @@
-* Return different values on each call by:
-Given<Service>.That(_ => _.DoesSomething()).First(3).Returns(1).AndNext().Returns(2).AndNext(2).Throws(new Exception())
+* Produce "Javadoc" from code comments
 * handle nested new(...) in argument list: 
   "=> When(_ => _.AddNewItem(A<CartId>(), new(A<Sku>(), A<ProductType>(), A<Price>(), A<Vat>()), A<string>()));"

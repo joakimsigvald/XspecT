@@ -4,11 +4,11 @@ namespace XspecT.Internal.TestData;
 
 internal class DataProvider
 {
-    private readonly Dictionary<Type, object> _defaultValues = new();
-    private readonly Dictionary<Type, Func<Exception>> _defaultExceptions = new();
-    private readonly Dictionary<Type, Dictionary<int, object>> _numberedMentions = new();
+    private readonly Dictionary<Type, object> _defaultValues = [];
+    private readonly Dictionary<Type, Func<Exception>> _defaultExceptions = [];
+    private readonly Dictionary<Type, Dictionary<int, object>> _numberedMentions = [];
     private readonly TestDataGenerator _testDataGenerator;
-    private readonly Dictionary<Type, Func<object, object>> _defaultSetups = new();
+    private readonly Dictionary<Type, Func<object, object>> _defaultSetups = [];
 
     public DataProvider() => _testDataGenerator = new(this.CreateAutoFixture(), this.CreateAutoMocker());
 
@@ -24,7 +24,7 @@ internal class DataProvider
         => _defaultValues.TryGetValue(type, out val);
 
     internal Dictionary<int, object> GetMentions(Type type)
-        => _numberedMentions.TryGetValue(type, out var val) ? val : _numberedMentions[type] = new();
+        => _numberedMentions.TryGetValue(type, out var val) ? val : _numberedMentions[type] = [];
 
     internal TValue Instantiate<TValue>()
     {

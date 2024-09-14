@@ -59,7 +59,6 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="defaultValues"></param>
     /// <param name="defaultValuesExpr"></param>
-    /// <param name=""></param>
     /// <returns></returns>
     public IGivenTestPipeline<TSUT, TResult> Given<TValue>(
         TValue[] defaultValues,

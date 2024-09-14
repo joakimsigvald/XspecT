@@ -94,6 +94,7 @@ public record IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
     /// </summary>
     /// <param name="expected"></param>
     /// <param name="precision"></param>
+    /// <param name="expectedExpr"></param>
     /// <returns></returns>
     public ContinueWith<IsTimeSpan> NotCloseTo(
         TimeSpan expected, TimeSpan precision, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
