@@ -42,7 +42,7 @@ public interface IGivenThatContinuation<TSUT, TResult, TService, TReturns>
     /// <param name="returnsExpr"></param>
     /// <typeparam name="TArg"></typeparam>
     /// <returns></returns>
-    IGivenThatReturnsContinuation<TSUT, TResult, TService> Returns<TArg>(
+    IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> Returns<TArg>(
         [NotNull] Func<TArg, TReturns> returns,
         [CallerArgumentExpression(nameof(returns))] string returnsExpr = null);
 
@@ -65,7 +65,7 @@ public interface IGivenThatContinuation<TSUT, TResult, TService, TReturns>
     /// <typeparam name="TArg1"></typeparam>
     /// <typeparam name="TArg2"></typeparam>
     /// <returns></returns>
-    IGivenThatReturnsContinuation<TSUT, TResult, TService> Returns<TArg1, TArg2>(
+    IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> Returns<TArg1, TArg2>(
         [NotNull] Func<TArg1, TArg2, TReturns> returns);
 
     /// <summary>
@@ -89,7 +89,7 @@ public interface IGivenThatContinuation<TSUT, TResult, TService, TReturns>
     /// <typeparam name="TArg2"></typeparam>
     /// <typeparam name="TArg3"></typeparam>
     /// <returns></returns>
-    IGivenThatReturnsContinuation<TSUT, TResult, TService> Returns<TArg1, TArg2, TArg3>(
+    IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> Returns<TArg1, TArg2, TArg3>(
         [NotNull] Func<TArg1, TArg2, TArg3, TReturns> returns);
 
     /// <summary>
@@ -115,7 +115,7 @@ public interface IGivenThatContinuation<TSUT, TResult, TService, TReturns>
     /// <typeparam name="TArg3"></typeparam>
     /// <typeparam name="TArg4"></typeparam>
     /// <returns></returns>
-    IGivenThatReturnsContinuation<TSUT, TResult, TService> Returns<TArg1, TArg2, TArg3, TArg4>(
+    IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> Returns<TArg1, TArg2, TArg3, TArg4>(
         [NotNull] Func<TArg1, TArg2, TArg3, TArg4, TReturns> returns);
 
     /// <summary>
@@ -143,6 +143,12 @@ public interface IGivenThatContinuation<TSUT, TResult, TService, TReturns>
     /// <typeparam name="TArg4"></typeparam>
     /// <typeparam name="TArg5"></typeparam>
     /// <returns></returns>
-    IGivenThatReturnsContinuation<TSUT, TResult, TService> Returns<TArg1, TArg2, TArg3, TArg4, TArg5>(
+    IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> Returns<TArg1, TArg2, TArg3, TArg4, TArg5>(
         [NotNull] Func<TArg1, TArg2, TArg3, TArg4, TArg5, TReturns> returns);
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns> First();
 }

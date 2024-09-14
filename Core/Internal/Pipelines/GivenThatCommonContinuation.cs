@@ -6,74 +6,70 @@ using XspecT.Continuations;
 
 namespace XspecT.Internal.Pipelines;
 
-internal class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, TMock>
+internal class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns>
     : IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns>
     where TService : class
-    where TMock : IFluentInterface
 {
     protected readonly Spec<TSUT, TResult> _spec;
-    protected readonly Lazy<TMock> _lazyContinuation;
+    protected readonly Lazy<object> _lazyContinuation;
+    protected readonly Func<bool, object> _setup;
     protected readonly string _callExpr;
     protected readonly string _tapExpr;
+    protected bool IsSequential { get; set; }
 
     internal GivenThatCommonContinuation(
-        Spec<TSUT, TResult> spec, Lazy<TMock> continuation, string callExpr, string tapExpr = null)
+        Spec<TSUT, TResult> spec, Func<bool, object> setup, string callExpr, string tapExpr = null)
     {
         _spec = spec;
-        _lazyContinuation = continuation;
+        _setup = setup;
+        _lazyContinuation = new Lazy<object>(DoSetup);
         _callExpr = callExpr;
         _tapExpr = tapExpr;
     }
 
     internal GivenThatCommonContinuation(
         Spec<TSUT, TResult> spec,
-        Expression<Action<TService>> call,
+        Func<Mock<TService>, bool, object> setup,
         string callExpr = null)
-        : this(spec, new Lazy<TMock>(() => (TMock)spec.GetMock<TService>().Setup(call)), callExpr)
+        : this(spec, isSequential => setup(spec.GetMock<TService>(), isSequential), callExpr)
     {
     }
 
-    internal GivenThatCommonContinuation(
-        Spec<TSUT, TResult> spec,
-        Func<Mock<TService>, TMock> setup,
-        string callExpr = null)
-        : this(spec, new Lazy<TMock>(() => setup(spec.GetMock<TService>())), callExpr)
-    {
-    }
+    private object DoSetup() => _setup(IsSequential);
 
-    public IGivenThatReturnsContinuation<TSUT, TResult, TService> Returns()
+    public IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> Returns()
     {
         SetupReturns();
-        return new GivenThatReturnsContinuation<TSUT, TResult, TService>(_spec);
+        return new GivenThatReturnsContinuation<TSUT, TResult, TService, TReturns>(_spec);
     }
 
-    public IGivenThatReturnsContinuation<TSUT, TResult, TService> Returns(
+    public IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> Returns(
         [NotNull] Func<TReturns> returns, [CallerArgumentExpression(nameof(returns))] string returnsExpr = null)
     {
         if (returns is null)
             throw new SetupFailed($"{nameof(returns)} may not be null");
         SetupReturns(returns, returnsExpr);
-        return new GivenThatReturnsContinuation<TSUT, TResult, TService>(_spec);
+        return new GivenThatReturnsContinuation<TSUT, TResult, TService, TReturns>(_spec, this);
     }
 
-    public IGivenThatReturnsContinuation<TSUT, TResult, TService> ReturnsDefault()
+    public IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> ReturnsDefault()
         => Returns(() => default);
 
-    public IGivenThatReturnsContinuation<TSUT, TResult, TService> Throws<TException>()
+    public IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> Throws<TException>()
         where TException : Exception, new()
     {
         SetupThrows<TException>();
-        return new GivenThatReturnsContinuation<TSUT, TResult, TService>(_spec);
+        return new GivenThatReturnsContinuation<TSUT, TResult, TService, TReturns>(_spec);
     }
 
-    public IGivenThatReturnsContinuation<TSUT, TResult, TService> Throws(
+    public IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> Throws(
         Func<Exception> expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
         SetupThrows(expected, expectedExpr);
-        return new GivenThatReturnsContinuation<TSUT, TResult, TService>(_spec);
+        return new GivenThatReturnsContinuation<TSUT, TResult, TService, TReturns>(_spec);
     }
 
-    protected TMock Continuation => _lazyContinuation.Value;
+    protected object Continuation => _lazyContinuation.Value;
 
     private void SetupReturns()
     {
@@ -97,12 +93,16 @@ internal class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns, TM
 
         void DoSetupReturns()
         {
+            var mock = new Mock<IArgumentProvider>();
+            Moq.Language.ISetupSequentialResult<Expression> setup = mock.SetupSequence(_ => _.GetArgument(1));
             SpecifyMock();
             SpecificationGenerator.AddMockReturns(returnsExpr);
             if (Continuation is Moq.Language.Flow.IReturnsThrows<TService, Task<TReturns>> asyncContinuation)
                 asyncContinuation.ReturnsAsync(returns);
             else if (Continuation is Moq.Language.Flow.IReturnsThrows<TService, TReturns> syncContinuation)
                 syncContinuation.Returns(returns);
+            else if (Continuation is Moq.Language.ISetupSequentialResult<TReturns> sequentialContinuation)
+                sequentialContinuation.Returns(returns);
             else throw new NotImplementedException();
         }
     }

@@ -9,36 +9,42 @@ namespace XspecT.Continuations;
 /// <typeparam name="TSUT"></typeparam>
 /// <typeparam name="TResult"></typeparam>
 /// <typeparam name="TService"></typeparam>
-public interface IGivenThatReturnsContinuation<TSUT, TResult, TService> : IGivenTestPipeline<TSUT, TResult>
+/// <typeparam name="TReturns"></typeparam>
+public interface IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> : IGivenTestPipeline<TSUT, TResult>
     where TService : class
 {
     /// <summary>
     /// Setup mock to return a value as default for any invocation where no specific mock-setup has been provided
     /// </summary>
-    /// <typeparam name="TReturns"></typeparam>
+    /// <typeparam name="TReturns2"></typeparam>
     /// <param name="value"></param>
     /// <returns></returns>
-    IGivenTestPipeline<TSUT, TResult> AndReturnsDefault<TReturns>(Func<TReturns> value);
+    IGivenTestPipeline<TSUT, TResult> AndReturnsDefault<TReturns2>(Func<TReturns2> value);
 
     /// <summary>
     /// Mock the method invocation
     /// </summary>
-    /// <typeparam name="TReturns"></typeparam>
+    /// <typeparam name="TReturns2"></typeparam>
     /// <param name="call"></param>
     /// <param name="callExpr"></param>
     /// <returns>Continuation for providing method invocation result to mock</returns>
-    IGivenThatContinuation<TSUT, TResult, TService, TReturns> AndThat<TReturns>(
-        Expression<Func<TService, TReturns>> call,
+    IGivenThatContinuation<TSUT, TResult, TService, TReturns2> AndThat<TReturns2>(
+        Expression<Func<TService, TReturns2>> call,
         [CallerArgumentExpression(nameof(call))] string callExpr = null);
 
     /// <summary>
     /// Provide async method invocation to mock
     /// </summary>
-    /// <typeparam name="TReturns"></typeparam>
+    /// <typeparam name="TReturns2"></typeparam>
     /// <param name="call"></param>
     /// <param name="callExpr"></param>
     /// <returns>Continuation for providing method invocation result to mock</returns>
-    IGivenThatContinuation<TSUT, TResult, TService, TReturns> AndThat<TReturns>(
-        Expression<Func<TService, Task<TReturns>>> call,
+    IGivenThatContinuation<TSUT, TResult, TService, TReturns2> AndThat<TReturns2>(
+        Expression<Func<TService, Task<TReturns2>>> call,
         [CallerArgumentExpression(nameof(call))] string callExpr = null);
+
+    /// <summary>
+    /// </summary>
+    /// <returns></returns>
+    IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns> AndNext();
 }

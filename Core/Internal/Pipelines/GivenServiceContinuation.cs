@@ -11,12 +11,12 @@ internal class GivenServiceContinuation<TSUT, TResult, TService> : IGivenService
 
     internal GivenServiceContinuation(Spec<TSUT, TResult> spec) => _spec = spec;
 
-    public IGivenThatReturnsContinuation<TSUT, TResult, TService> Returns<TReturns>(
+    public IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> Returns<TReturns>(
         Func<TReturns> returns,
         [CallerArgumentExpression(nameof(returns))] string returnsExpr = null)
     {
         _spec.ArrangeLast(DoSetupReturnsDefault);
-        return new GivenThatReturnsContinuation<TSUT, TResult, TService>(_spec);
+        return new GivenThatReturnsContinuation<TSUT, TResult, TService, TReturns>(_spec);
 
         void DoSetupReturnsDefault()
         {

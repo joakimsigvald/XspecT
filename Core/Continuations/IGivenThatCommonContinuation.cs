@@ -17,7 +17,7 @@ public interface IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns>
     /// Mock returns
     /// </summary>
     /// <returns></returns>
-    IGivenThatReturnsContinuation<TSUT, TResult, TService> Returns();
+    IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> Returns();
 
     /// <summary>
     /// Mock the return-value
@@ -25,21 +25,21 @@ public interface IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns>
     /// <param name="returns"></param>
     /// <param name="returnsExpr"></param>
     /// <returns></returns>
-    IGivenThatReturnsContinuation<TSUT, TResult, TService> Returns(
+    IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> Returns(
         [NotNull] Func<TReturns> returns, [CallerArgumentExpression(nameof(returns))] string returnsExpr = null);
 
     /// <summary>
     /// Mock the return-value as default
     /// </summary>
     /// <returns></returns>
-    IGivenThatReturnsContinuation<TSUT, TResult, TService> ReturnsDefault();
+    IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> ReturnsDefault();
 
     /// <summary>
     /// Provide an exception-type to mock
     /// </summary>
     /// <typeparam name="TException"></typeparam>
     /// <returns></returns>
-    IGivenThatReturnsContinuation<TSUT, TResult, TService> Throws<TException>() where TException : Exception, new();
+    IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> Throws<TException>() where TException : Exception, new();
 
     /// <summary>
     /// Provide an exception to mock
@@ -47,6 +47,6 @@ public interface IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns>
     /// <param name="expected"></param>
     /// <param name="expectedExpr"></param>
     /// <returns></returns>
-    IGivenThatReturnsContinuation<TSUT, TResult, TService> Throws(
+    IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> Throws(
         Func<Exception> expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null);
 }

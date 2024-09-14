@@ -16,7 +16,7 @@ public interface IGivenServiceContinuation<TSUT, TResult, TService>
     /// <param name="value"></param>
     /// <param name="valueExpr"></param>
     /// <returns></returns>
-    IGivenThatReturnsContinuation<TSUT, TResult, TService> Returns<TReturns>(
+    IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> Returns<TReturns>(
         Func<TReturns> value,
         [CallerArgumentExpression(nameof(value))] string valueExpr = null);
 
