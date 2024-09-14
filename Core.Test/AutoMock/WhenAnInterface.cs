@@ -104,22 +104,23 @@ Then Result is the int");
 public interface IMyService
 {
     int GetValue();
+    Task<int> GetValueAsync();
 }
 
 public class MyService(MyComponent component) : IMyService
 {
     private readonly MyComponent _component = component;
     public int GetValue() => _component.GetValue();
+    public Task<int> GetValueAsync() => Task.FromResult(_component.GetValue());
 }
 
 public class InterfaceService(MyComponent component, IMyService service)
 {
     private readonly MyComponent _component = component;
     private readonly IMyService _service = service;
-
     public int GetValue() => _component.GetValue();
-
     public int GetServiceValue() => _service.GetValue();
+    public Task<int> GetServiceValueAsync() => _service.GetValueAsync();
 }
 
 public class MyComponent(IMyLogger logger, int value)

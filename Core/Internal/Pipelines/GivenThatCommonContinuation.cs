@@ -97,12 +97,14 @@ internal class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns>
             Moq.Language.ISetupSequentialResult<Expression> setup = mock.SetupSequence(_ => _.GetArgument(1));
             SpecifyMock();
             SpecificationGenerator.AddMockReturns(returnsExpr);
-            if (Continuation is Moq.Language.Flow.IReturnsThrows<TService, Task<TReturns>> asyncContinuation)
-                asyncContinuation.ReturnsAsync(returns);
-            else if (Continuation is Moq.Language.Flow.IReturnsThrows<TService, TReturns> syncContinuation)
+            if (Continuation is Moq.Language.Flow.IReturnsThrows<TService, TReturns> syncContinuation)
                 syncContinuation.Returns(returns);
+            else if(Continuation is Moq.Language.Flow.IReturnsThrows<TService, Task<TReturns>> asyncContinuation)
+                asyncContinuation.ReturnsAsync(returns);
             else if (Continuation is Moq.Language.ISetupSequentialResult<TReturns> sequentialContinuation)
                 sequentialContinuation.Returns(returns);
+            else if (Continuation is Moq.Language.ISetupSequentialResult<Task<TReturns>> sequentialAsyncContinuation)
+                sequentialAsyncContinuation.ReturnsAsync(returns);
             else throw new NotImplementedException();
         }
     }
@@ -132,6 +134,12 @@ internal class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns>
             SpecificationGenerator.AddMockThrows(expectedExpr);
             if (Continuation is Moq.Language.Flow.IReturnsThrows<TService, TReturns> returnsThrows)
                 returnsThrows.Throws(expected());
+            else if (Continuation is Moq.Language.Flow.IReturnsThrows<TService, Task<TReturns>> asyncReturnsThrows)
+                asyncReturnsThrows.ThrowsAsync(expected());
+            else if (Continuation is Moq.Language.ISetupSequentialResult<TReturns> sequentialContinuation)
+                sequentialContinuation.Throws(expected());
+            else if (Continuation is Moq.Language.ISetupSequentialResult<Task<TReturns>> sequentialAsyncContinuation)
+                sequentialAsyncContinuation.ThrowsAsync(expected());
             else throw new NotImplementedException();
         }
     }

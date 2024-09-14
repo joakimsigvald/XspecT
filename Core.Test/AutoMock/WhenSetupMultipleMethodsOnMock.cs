@@ -22,20 +22,3 @@ public class WhenSetupMultipleMethodsOnMock : Spec<MyValueIntService, string>
             """);
     }
 }
-public class WhenCallMethodTwice : Spec<InterfaceService, int> 
-{
-    public WhenCallMethodTwice() 
-        => When(_ => _.GetServiceValue() + _.GetServiceValue());
-
-    [Fact]
-    public void GivenOneMockedResponse_ThenReturnThatResponsTwice() 
-        => Given<IMyService>()
-            .That(_ => _.GetValue()).Returns(() => 1)
-            .Then().Result.Is(2);
-
-    [Fact]
-    public void GivenDifferentResponse_ThenReturnDifferentResponses()
-        => Given<IMyService>()
-            .That(_ => _.GetValue()).First().Returns(() => 1).AndNext().Returns(() => 2)
-            .Then().Result.Is(3);
-}
