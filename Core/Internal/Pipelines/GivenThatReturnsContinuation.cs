@@ -19,7 +19,12 @@ internal class GivenThatReturnsContinuation<TSUT, TResult, TService, TReturns>
         _previous = previous;
     }
 
-    public IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns> AndNext() => _previous.AndNext();
+    public IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns> AndNext()
+    {
+        if (!_previous._isSequential)
+            throw new SetupFailed("AndNext must be preceded by First, which starts a sequential mock setup: Given...That...First");
+        return _previous.AndNext();
+    }
 
     public IGivenTestPipeline<TSUT, TResult> AndReturnsDefault<TReturns2>(Func<TReturns2> value)
         => _serviceContinuation.Returns(value);

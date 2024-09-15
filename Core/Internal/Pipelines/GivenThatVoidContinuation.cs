@@ -49,12 +49,6 @@ internal class GivenThatVoidContinuation<TSUT, TResult, TService>
         [CallerArgumentExpression(nameof(callback))] string callbackExpr = null)
         => ContinueWith(() => MockSetup.Callback(callback), callbackExpr);
 
-    public IGivenThatCommonContinuation<TSUT, TResult, TService, Continuations.Void> ContinueWith(
-        Func<IFluentInterface> callback, string callbackExpr = null)
-        => new GivenThatCommonContinuation<TSUT, TResult, TService, Continuations.Void>(
-            _spec, _ => callback(), _callExpr, callbackExpr);
-
-
     private Moq.Language.Flow.ISetup<TService> MockSetup
         => (Moq.Language.Flow.ISetup<TService>)Continuation;
 

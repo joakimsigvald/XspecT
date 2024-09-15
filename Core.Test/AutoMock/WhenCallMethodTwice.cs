@@ -6,14 +6,24 @@ public abstract class WhenCallMethodTwice : Spec<InterfaceService, int>
 {
     protected WhenCallMethodTwice() => When(_ => _.GetServiceValue() + _.GetServiceValue());
 
-    //TODO add specification
     public class GivenOneMockedResponse : WhenCallMethodTwice
     {
         public GivenOneMockedResponse() => Given<IMyService>().That(_ => _.GetValue()).Returns(() => 1);
         [Fact] public void ThenReturnThatResponsTwice() => Then().Result.Is(2);
     }
 
-    //TODO add specification
+    public class GivenAndNextWithoutFirst : WhenCallMethodTwice
+    {
+        [Fact]
+        public void ThenThrowSetupFailed()
+        {
+            var ex = Xunit.Assert.Throws<SetupFailed>(
+                () => Given<IMyService>().That(_ => _.GetValue()).Returns(() => 1).AndNext().Returns(() => 1)
+                .Then().Result.Is(2));
+            ex.Message.Does().Contain("First");
+        }
+    }
+
     public class GivenDifferentResponse : WhenCallMethodTwice
     {
         public GivenDifferentResponse()
@@ -21,7 +31,6 @@ public abstract class WhenCallMethodTwice : Spec<InterfaceService, int>
         [Fact] public void ThenReturnDifferentResponses() => Then().Result.Is(3);
     }
 
-    //TODO add specification
     public class GivenThrowsSecondTime : WhenCallMethodTwice
     {
         public GivenThrowsSecondTime()

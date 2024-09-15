@@ -107,18 +107,6 @@ internal class GivenThatContinuation<TSUT, TResult, TService, TReturns, TActualR
         void callback(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5) => retVal = returns(arg1, arg2, arg3, arg4, arg5);
     }
 
-    public IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns> ContinueWith(
-        Func<IFluentInterface> callback, string callbackExpr = null)
-        => new GivenThatCommonContinuation<TSUT, TResult, TService, TReturns>(
-            _spec, _ => callback(), _callExpr, callbackExpr);
-
-    public IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns> First()
-    {
-        IsSequential = true;
-        _callExpr += " first";
-        return this;
-    }
-
     private Moq.Language.Flow.ISetup<TService, TActualReturns> MockSetup
         => (Moq.Language.Flow.ISetup<TService, TActualReturns>)Continuation;
 }

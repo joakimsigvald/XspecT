@@ -6,32 +6,18 @@ using XspecT.Continuations;
 
 namespace XspecT.Internal.Pipelines;
 
-internal class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns>
+internal abstract class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns>
     : IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns>
     where TService : class
 {
-    protected readonly Spec<TSUT, TResult> _spec;
-    protected readonly Lazy<object> _lazyContinuation;
-    protected readonly Func<bool, object> _setup;
-    protected string _callExpr;
-    protected readonly string _tapExpr;
-    protected bool IsSequential { get; set; }
+    private readonly Spec<TSUT, TResult> _spec;
+    private readonly Lazy<object> _lazyContinuation;
+    private readonly Func<bool, object> _setup;
+    private readonly string _callExpr;
+    private readonly string _tapExpr;
+    internal readonly bool _isSequential;
 
-    internal GivenThatCommonContinuation(
-        Spec<TSUT, TResult> spec, 
-        Func<bool, object> setup, 
-        string callExpr, 
-        string tapExpr = null,
-        Lazy<object> lazyContinuation = null)
-    {
-        _spec = spec;
-        _setup = setup;
-        _callExpr = callExpr;
-        _tapExpr = tapExpr;
-        _lazyContinuation = lazyContinuation ?? new Lazy<object>(DoSetup);
-    }
-
-    internal GivenThatCommonContinuation(
+    protected GivenThatCommonContinuation(
         Spec<TSUT, TResult> spec,
         Func<Mock<TService>, bool, object> setup,
         string callExpr = null)
@@ -39,10 +25,21 @@ internal class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns>
     {
     }
 
-    internal GivenThatCommonContinuation<TSUT, TResult, TService, TReturns> AndNext()
-        => new(_spec, _setup, "next", _tapExpr, _lazyContinuation) { IsSequential = true };
-
-    private object DoSetup() => _setup(IsSequential);
+    protected GivenThatCommonContinuation(
+        Spec<TSUT, TResult> spec,
+        Func<bool, object> setup,
+        string callExpr,
+        string tapExpr = null,
+        Lazy<object> lazyContinuation = null,
+        bool isSequential = false)
+    {
+        _spec = spec;
+        _setup = setup;
+        _callExpr = callExpr;
+        _tapExpr = tapExpr;
+        _lazyContinuation = lazyContinuation ?? new Lazy<object>(DoSetup);
+        _isSequential = isSequential;
+    }
 
     public IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> Returns()
     {
@@ -76,7 +73,23 @@ internal class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns>
         return new GivenThatReturnsContinuation<TSUT, TResult, TService, TReturns>(_spec);
     }
 
+    public IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns> First()
+        => InSequence(_callExpr + " first");
+
+    internal GivenThatNextContinuation<TSUT, TResult, TService, TReturns> AndNext()
+        => InSequence("next", _lazyContinuation);
+
+    protected GivenThatNextContinuation<TSUT, TResult, TService, TReturns> ContinueWith(
+        Func<IFluentInterface> callback, string callbackExpr = null)
+        => new(_spec, _ => callback(), _callExpr, callbackExpr);
+
     protected object Continuation => _lazyContinuation.Value;
+
+    private GivenThatNextContinuation<TSUT, TResult, TService, TReturns> InSequence(
+        string callExpr, Lazy<object> lazyContinuation = null)
+        => new(_spec, _setup, callExpr, lazyContinuation: lazyContinuation, isSequential: true);
+
+    private object DoSetup() => _setup(_isSequential);
 
     private void SetupReturns()
     {
