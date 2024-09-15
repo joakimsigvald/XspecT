@@ -13,18 +13,22 @@ internal class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns>
     protected readonly Spec<TSUT, TResult> _spec;
     protected readonly Lazy<object> _lazyContinuation;
     protected readonly Func<bool, object> _setup;
-    protected readonly string _callExpr;
+    protected string _callExpr;
     protected readonly string _tapExpr;
     protected bool IsSequential { get; set; }
 
     internal GivenThatCommonContinuation(
-        Spec<TSUT, TResult> spec, Func<bool, object> setup, string callExpr, string tapExpr = null)
+        Spec<TSUT, TResult> spec, 
+        Func<bool, object> setup, 
+        string callExpr, 
+        string tapExpr = null,
+        Lazy<object> lazyContinuation = null)
     {
         _spec = spec;
         _setup = setup;
-        _lazyContinuation = new Lazy<object>(DoSetup);
         _callExpr = callExpr;
         _tapExpr = tapExpr;
+        _lazyContinuation = lazyContinuation ?? new Lazy<object>(DoSetup);
     }
 
     internal GivenThatCommonContinuation(
@@ -34,6 +38,9 @@ internal class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns>
         : this(spec, isSequential => setup(spec.GetMock<TService>(), isSequential), callExpr)
     {
     }
+
+    internal GivenThatCommonContinuation<TSUT, TResult, TService, TReturns> AndNext()
+        => new(_spec, _setup, "next", _tapExpr, _lazyContinuation) { IsSequential = true };
 
     private object DoSetup() => _setup(IsSequential);
 
@@ -99,7 +106,7 @@ internal class GivenThatCommonContinuation<TSUT, TResult, TService, TReturns>
             SpecificationGenerator.AddMockReturns(returnsExpr);
             if (Continuation is Moq.Language.Flow.IReturnsThrows<TService, TReturns> syncContinuation)
                 syncContinuation.Returns(returns);
-            else if(Continuation is Moq.Language.Flow.IReturnsThrows<TService, Task<TReturns>> asyncContinuation)
+            else if (Continuation is Moq.Language.Flow.IReturnsThrows<TService, Task<TReturns>> asyncContinuation)
                 asyncContinuation.ReturnsAsync(returns);
             else if (Continuation is Moq.Language.ISetupSequentialResult<TReturns> sequentialContinuation)
                 sequentialContinuation.Returns(returns);

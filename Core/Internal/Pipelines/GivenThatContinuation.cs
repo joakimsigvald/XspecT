@@ -115,6 +115,7 @@ internal class GivenThatContinuation<TSUT, TResult, TService, TReturns, TActualR
     public IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns> First()
     {
         IsSequential = true;
+        _callExpr += " first";
         return this;
     }
 
