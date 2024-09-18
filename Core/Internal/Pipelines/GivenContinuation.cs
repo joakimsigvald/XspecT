@@ -136,7 +136,4 @@ internal class GivenContinuation<TSUT, TResult> : IGivenContinuation<TSUT, TResu
         Func<TValue, TValue> transform,
         [CallerArgumentExpression(nameof(transform))] string transformExpr = null)
         => _spec.Mention<TValue>(() => _spec.AFifth(transform), transformExpr);
-
-    [Obsolete]
-    public IGivenTestPipeline<TSUT, TResult> That(Action setup) => _spec.ArrangeFirst(setup);
 }

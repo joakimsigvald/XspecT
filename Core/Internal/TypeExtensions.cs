@@ -1,12 +1,12 @@
-﻿namespace XspecT;
+﻿namespace XspecT.Internal;
 
 /// <summary>
-/// 
+/// Only used internally
 /// </summary>
 public static class TypeExtensions
 {
     /// <summary>
-    /// 
+    /// Only used internally
     /// </summary>
     /// <param name="type"></param>
     /// <returns></returns>
@@ -16,7 +16,7 @@ public static class TypeExtensions
         {
             var elementType = type.GetElementType();
             var rank = type.GetArrayRank();
-            return $"{elementType.Alias()}[{new string(',', rank-1)}]";
+            return $"{elementType.Alias()}[{new string(',', rank - 1)}]";
         }
         if (type.IsGenericType)
         {

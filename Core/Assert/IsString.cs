@@ -143,33 +143,5 @@ public record IsString : Constraint<IsStringContinuation, string>
         return And();
     }
 
-    /// <summary>
-    /// Asserts that the string starts with a prefix
-    /// </summary>
-    /// <param name="expected"></param>
-    /// <param name="expectedExpr"></param>
-    /// <returns></returns>
-    [Obsolete("Use Does.StartWith instead")]
-    public ContinueWith<IsStringContinuation> StartingWith(
-        string expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-    {
-        AddAssert([CustomAssertion] () => Actual.Should().StartWith(expected), expectedExpr);
-        return And();
-    }
-
-    /// <summary>
-    /// Asserts that the string ends with a suffix
-    /// </summary>
-    /// <param name="expected"></param>
-    /// <param name="expectedExpr"></param>
-    /// <returns></returns>
-    [Obsolete("Use Does.EndWith instead")]
-    public ContinueWith<IsStringContinuation> EndingWith(
-        string expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-    {
-        AddAssert([CustomAssertion] () => Actual.Should().EndWith(expected), expectedExpr);
-        return And();
-    }
-
     internal override IsStringContinuation Continue() => new(Actual);
 }

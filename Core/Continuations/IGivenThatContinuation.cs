@@ -145,9 +145,9 @@ public interface IGivenThatContinuation<TSUT, TResult, TService, TReturns>
     /// <returns></returns>
     IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> Returns<TArg1, TArg2, TArg3, TArg4, TArg5>(
         [NotNull] Func<TArg1, TArg2, TArg3, TArg4, TArg5, TReturns> returns);
-    
+
     /// <summary>
-    /// 
+    /// Returns a continuation for providing the first mocked result of a sequence of method invocations.
     /// </summary>
     /// <returns></returns>
     IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns> First();

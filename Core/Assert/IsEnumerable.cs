@@ -30,12 +30,6 @@ public record IsEnumerable<TItem> : Constraint<IsEnumerableContinuation<TItem>, 
     }
 
     /// <summary>
-    /// Verifies that the collection contains a single element and returns that element
-    /// </summary>
-    [Obsolete("Use Has().Single() instead")]
-    public TItem Single() => Xunit.Assert.Single(Actual);
-
-    /// <summary>
     /// actual.Should().NotBeNull()
     /// </summary>
     public ContinueWith<IsEnumerableContinuation<TItem>> NotNull()

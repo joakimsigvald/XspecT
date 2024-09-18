@@ -6,3 +6,5 @@
 bin/
 lib/
 obj/
+/Core/html
+/Core/latex

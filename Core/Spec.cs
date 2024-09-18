@@ -42,7 +42,8 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     protected virtual CultureInfo GetCulture() => CultureInfo.InvariantCulture;
 
     /// <summary>
-    /// 
+    /// This property returns the specification of the test, after the test has been run. 
+    /// The specification will also be included in the message of the exception if the test fails.
     /// </summary>
     public static string Specification => SpecificationGenerator.Builder.Specification;
 }

@@ -44,6 +44,7 @@ public interface IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns
         [CallerArgumentExpression(nameof(call))] string callExpr = null);
 
     /// <summary>
+    /// Returns a continuation for providing the next mocked result of a sequence of method invocations.
     /// </summary>
     /// <returns></returns>
     IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns> AndNext();

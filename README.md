@@ -8,10 +8,8 @@ Whether you are beginner or expert in unit-testing, this framework will help you
 ## Usage
 
 It is assumed that you are already familiar with Xunit and Moq, or similar test- and mocking frameworks.
-There is an accompanying independent assertion framework called `XspecT.Assert`, which is built upon FluentAssertions, 
+XspecT includes a fluent assertion framework called `XspecT.Assert`, which is built upon FluentAssertions, 
 but with a less worthy syntax, based on the verbs `Is`, `Has` and `Does` instead of `Should`.
-
-Is-assertions are recommended over Should-assertions for making the tests read more like specifications, listing requirements rather than asserting expected results.
 
 This is an example of a complete test class (*specification*) with one test method (*requirement*):
 ```
@@ -54,24 +52,18 @@ public class CalculatorSpec : Spec<int>
     [InlineData(3, 4, 7)]
     public void GivenTwoNumbers_WhenAdd_ReturnSum(int term1, int term2, int sum)
         => When(_ => Add(term1, term2)).Then().Result.Is(sum);
-
-    [Theory]
-    [InlineData(1, 1, 1)]
-    [InlineData(3, 4, 12)]
-    public void WhenMultiplyThenReturnProduct(int factor1, int factor2, int product)
-        => When(_ => Multiply(factor1, factor2)).Then().Result.Is(product);
 }
 ```
 
 ### Recommended conventions
 
-For more complex and realistic scenarios, it is recommended to create tests in a separate project from the production code, named `[MyProject].Spec`. 
-The test-project should mimmic the production project's folder structure, but in addition have one folder for each class to test, named as the class. 
+For more complex and realistic scenarios, it is recommended to create tests in a separate project from the production code, named `[MyProject].Spec` or `[MyProject].Test`. 
+The test-project should mimic the production project's folder structure, but in addition have one folder for each class to test, named as the class. 
 Within that folder, create one test-class per method to test.
 
 ### Test a static void method
-* When testing a static void method, there is no return value to verify in result and by convention the generic TResult parameter should be set to object.
-* However you can use `Throws` or `NotThrows` to verify exceptions thrown.
+* When testing a static void method, there is no return value to verify. In this case, override the non-generic class `Spec`.
+* You can use `Throws` or `DoesNotThrow` to verify exceptions thrown.
  
 Example:
 ```
@@ -99,10 +91,11 @@ public abstract class WhenVerifyAreEqual : Spec<object>
 * The subject under test will be created automatically with mocks and default values by AutoMock.
 * Subject-under-test is available as the single input parameter to the lambda that is provided to the method `When`
 You can supply or modify you own constructor arguments by calling `Given` or `Given().Using`.
+You can even provide the instance to test by using the any of those methods.
 
-* To mock behaviour of any dependency call `Given<[TheService]>().That(_ => _.[TheMethod](...)).Returns/Throws(...)`. 
-* To verify a call to a dependency, write `Then<[TheService]>([SomeLambdaExpression])`. 
-* Both mocking and verification of behaviour is based on Moq framework.
+* To mock behavior of any dependency call `Given<[TheService]>().That(_ => _.[TheMethod](...)).Returns/Throws(...)`. 
+* To verify a call to a dependency, call `Then<[TheService]>([SomeLambdaExpression])`. 
+* Both mocking and verification of behavior is based on Moq framework.
  
 Example:
 ```

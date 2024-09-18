@@ -14,16 +14,18 @@ public interface IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns>
     where TService : class
 {
     /// <summary>
-    /// Mock returns
+    /// After using Tap to inspect or use incoming parameters of a mocked method invocation, 
+    /// call Returns (with or without return value) to complete the setup of the mock.
+    /// Otherwise the mocked behavior of this method will not be applied when running the test pipeline.
     /// </summary>
     /// <returns></returns>
     IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> Returns();
 
     /// <summary>
-    /// Mock the return-value
+    /// Mock the return-value of a method invocation
     /// </summary>
-    /// <param name="returns"></param>
-    /// <param name="returnsExpr"></param>
+    /// <param name="returns">the return value</param>
+    /// <param name="returnsExpr">Provided by the compiler to generate specification output</param>
     /// <returns></returns>
     IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> Returns(
         [NotNull] Func<TReturns> returns, [CallerArgumentExpression(nameof(returns))] string returnsExpr = null);

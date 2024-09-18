@@ -8,14 +8,6 @@ namespace XspecT.Continuations;
 public interface IGivenContinuation<TSUT, TResult>
 {
     /// <summary>
-    /// Provide a setup-action to be applied when executing the test
-    /// </summary>
-    /// <param name="setup"></param>
-    /// <returns>The test-pipeline</returns>
-    [Obsolete("This method will be removed.")]
-    IGivenTestPipeline<TSUT, TResult> That(Action setup);
-
-    /// <summary>
     /// Provide a default value, that will be applied in all mocks and auto-generated test-data, where no specific value or setup is given.
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
