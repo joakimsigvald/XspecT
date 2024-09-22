@@ -26,7 +26,7 @@ public abstract class Spec<TSUTorResult> : Spec<TSUTorResult, TSUTorResult>
 /// </summary>
 /// <typeparam name="TSUT">The class to instantiate and execute the method-under-test on</typeparam>
 /// <typeparam name="TResult">The return type of the method-under-test</typeparam>
-public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
+public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>, IDisposable
 {
     private readonly Pipeline<TSUT, TResult> _pipeline = new();
 
@@ -40,6 +40,13 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// </summary>
     /// <returns></returns>
     protected virtual CultureInfo GetCulture() => CultureInfo.InvariantCulture;
+
+    /// <summary>
+    /// Calls any teardown methods provided in the test pipeline with the method `Before`.
+    /// Override this method to perform custom teardown in your test class.
+    /// </summary>
+    /// <exception cref="NotImplementedException"></exception>
+    public virtual void Dispose() => _pipeline.TearDown();
 
     /// <summary>
     /// This property returns the specification of the test, after the test has been run. 

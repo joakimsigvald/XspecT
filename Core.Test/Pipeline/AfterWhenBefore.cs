@@ -5,18 +5,6 @@ namespace XspecT.Test.Pipeline;
 public class AfterWhenBefore : Spec<MyStateService, int>
 {
     [Fact]
-    public void BeforeIsExecutedAfterWhen()
-    {
-        When(_ => ++_.Counter).Before(_ => _.Counter--).Then().Result.Is(1);
-        Specification.Is(
-            """
-            When ++_.Counter
-            Before _.Counter--
-            Then Result is 1
-            """);
-    }
-
-    [Fact]
     public void AfterIsExecutedBeforeWhen()
     {
         When(_ => ++_.Counter).After(_ => _.Counter++).Then().Result.Is(2);
@@ -79,5 +67,29 @@ public class AfterWhenBefore : Spec<MyStateService, int>
             Before ++_.Counter
             Then Result is 2
             """);
+    }
+}
+
+public class GivenTearDown : Spec<MyStateService, int>
+{
+    private int _theCounterAfterTest = -1;
+
+    [Fact]
+    public void BeforeIsExecutedAfterWhen()
+    {
+        When(_ => ++_.Counter).Before(_ => _theCounterAfterTest = --_.Counter).Then().Result.Is(1);
+        Specification.Is(
+            """
+            When ++_.Counter
+            Before _theCounterAfterTest = --_.Counter
+            Then Result is 1
+            """);
+        Xunit.Assert.Equal(-1, _theCounterAfterTest); //Teardown is performed after executing the test method
+    }
+
+    public override void Dispose()
+    {
+        base.Dispose();
+        Xunit.Assert.Equal(0, _theCounterAfterTest); //Teardown is performed on dispose
     }
 }

@@ -10,6 +10,7 @@ internal class SpecActor<TSUT, TResult>
 {
     private readonly List<Command> _setUp = [];
     private Command _methodUnderTest;
+    private Lazy<TSUT> _sut;
     private readonly List<Command> _tearDown = [];
     private Exception _error;
     private TResult _result;
@@ -24,6 +25,11 @@ internal class SpecActor<TSUT, TResult>
     internal void After(Command setUp) => _setUp.Insert(0, setUp);
 
     internal void Before(Command tearDown) => _tearDown.Add(tearDown);
+    internal void TearDown()
+    {
+        foreach (var tearDown in _tearDown)
+            Invoke(tearDown, _sut);
+    }
 
     internal TestResult<TResult> Execute(Lazy<TSUT> sut, Context context)
     {
@@ -47,8 +53,7 @@ internal class SpecActor<TSUT, TResult>
         }
         finally
         {
-            foreach (var tearDown in _tearDown)
-                Invoke(tearDown, sut);
+            _sut = sut;
         }
         return new(_result, _error, context, hasResult);
     }

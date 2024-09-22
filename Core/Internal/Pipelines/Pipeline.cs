@@ -80,6 +80,8 @@ internal class Pipeline<TSUT, TResult>
         _actor.Before(new(tearDown ?? throw new SetupFailed("TearDown cannot be null"), tearDownExpr));
     }
 
+    internal void TearDown() => _actor.TearDown();
+
     internal TValue Mention<TValue>(int index = 0) 
         => index < 0 ? _context.Create<TValue>() : _context.Mention<TValue>(index);
 
