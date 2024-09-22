@@ -20,7 +20,8 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     protected internal TValue An<TValue>() => _pipeline.Mention<TValue>();
 
     /// <summary>
-    /// Yields a value of the given type
+    /// Reference an auto-generated, or previously provided value of the given type. 
+    /// Using `The` is synonymous to `A` or `An`, but suggest that this value has been provided or referenced earlier in the test pipeline. 
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
@@ -118,7 +119,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     protected internal TValue TheFirst<TValue>([NotNull] Func<TValue, TValue> setup) => _pipeline.Mention(0, setup);
 
     /// <summary>
-    /// Provide a specific value for the first instance of the given type
+    /// Provide a specific value of the given type, that can be referenced at different points of the test, with the keywords, A, An or The
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="value"></param>

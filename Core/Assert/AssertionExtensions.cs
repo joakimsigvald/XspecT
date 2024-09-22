@@ -18,7 +18,7 @@ public static class AssertionExtensions
     /// <param name="expected"></param>
     /// <param name="actualExpr"></param>
     /// <param name="expectedExpr"></param>
-    /// <returns></returns>
+    /// <returns>Continuation for further assertions of the TimeSpan?</returns>
     public static ContinueWith<IsNullableTimeSpan> Is(
         this TimeSpan? actual, TimeSpan? expected,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
@@ -38,7 +38,7 @@ public static class AssertionExtensions
     /// <param name="expected"></param>
     /// <param name="actualExpr"></param>
     /// <param name="expectedExpr"></param>
-    /// <returns></returns>
+    /// <returns>Continuation for further assertions of the TimeSpan?</returns>
     public static ContinueWith<IsTimeSpan> Is(
         this TimeSpan? actual, TimeSpan expected,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
@@ -58,7 +58,7 @@ public static class AssertionExtensions
     /// <param name="expected"></param>
     /// <param name="actualExpr"></param>
     /// <param name="expectedExpr"></param>
-    /// <returns></returns>
+    /// <returns>Continuation for further assertions of the DateTime?</returns>
     public static ContinueWith<IsNullableDateTime> Is(
         this DateTime? actual, DateTime? expected,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
@@ -78,7 +78,7 @@ public static class AssertionExtensions
     /// <param name="expected"></param>
     /// <param name="actualExpr"></param>
     /// <param name="expectedExpr"></param>
-    /// <returns></returns>
+    /// <returns>Continuation for further assertions of the DateTime?</returns>
     public static ContinueWith<IsDateTime> Is(
         this DateTime? actual, DateTime expected,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
@@ -94,6 +94,11 @@ public static class AssertionExtensions
     /// <summary>
     /// Verify that actual object is same reference as expected and return continuation for further assertions of the object
     /// </summary>
+    /// <param name="actual"></param>
+    /// <param name="expected"></param>
+    /// <param name="actualExpr"></param>
+    /// <param name="expectedExpr"></param>
+    /// <returns>Continuation for further assertions of the object</returns>
     public static ContinueWith<IsObject> Is(
         this object actual,
         object expected,
@@ -110,6 +115,12 @@ public static class AssertionExtensions
     /// <summary>
     /// Verify that actual object satisfy a given predicate
     /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="actual"></param>
+    /// <param name="predicate"></param>
+    /// <param name="actualExpr"></param>
+    /// <param name="predicateExpr"></param>
+    /// <returns>Continuation for further assertions of the object</returns>
     public static ContinueWith<IsObject> Match<TValue>(
         this TValue actual, Expression<Func<TValue, bool>> predicate,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
@@ -123,8 +134,14 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    /// Verify that actual struct is same as expected and return continuation for further assertions of the struct
+    /// Verify that actual struct is same as expected
     /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="actual"></param>
+    /// <param name="expected"></param>
+    /// <param name="actualExpr"></param>
+    /// <param name="expectedExpr"></param>
+    /// <returns>Continuation for further assertions of the struct</returns>
     public static ContinueWith<IsObject> Is<TValue>(
         this TValue actual,
         TValue expected,
@@ -137,8 +154,13 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    /// Verify that actual string is same as expected and return continuation for further assertions of the string
+    /// Verify that actual string is same as expected
     /// </summary>
+    /// <param name="actual"></param>
+    /// <param name="expected"></param>
+    /// <param name="actualExpr"></param>
+    /// <param name="expectedExpr"></param>
+    /// <returns>Continuation for further assertions of the string</returns>
     public static ContinueWith<IsString> Is(
         this string actual,
         string expected,

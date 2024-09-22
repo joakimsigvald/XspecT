@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 namespace XspecT.Continuations;
 
 /// <summary>
-/// A continuation object to apply additional assertions on the return-value of a test-run
+/// A continuation to apply additional assertions on the test result
 /// </summary>
 public interface IAndVerify<TResult> : IAndThen<TResult>
 {

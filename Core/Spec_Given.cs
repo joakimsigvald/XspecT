@@ -129,12 +129,6 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     internal Mock<TService> GetMock<TService>() where TService : class 
         => _pipeline.GetMock<TService>();
 
-    internal IGivenTestPipeline<TSUT, TResult> ArrangeFirst(Action setup)
-    {
-        _pipeline.ArrangeFirst(setup);
-        return new GivenTestPipeline<TSUT, TResult>(this);
-    }
-
     internal IGivenTestPipeline<TSUT, TResult> ArrangeLast(Action setup)
     {
         _pipeline.ArrangeLast(setup);

@@ -13,13 +13,23 @@ namespace XspecT;
 public interface ITestPipeline<TSUT, TResult>
 {
     /// <summary>
-    /// Runs the test and provides the result. When the test is run, any provided arrangement will be applied in reverse order, then the subject-under-test will be created and the method-under-test called
+    /// Runs the test pipeline and generates the result, which can be accessed by the Result property. When the test is run, any provided arrangement will be applied in the natural* order, then the subject-under-test will be created and the method-under-test called.<br/>
+    /// The natural order of setup is:<br/>
+    /// 1) First default values are applied (in the inverse order that they are provided)<br/>
+    /// 2) then values to be used as arguments to constructors are applied (in the inverse order that they are provided)<br/>
+    /// 3) then specific values are applied (in the inverse order that they are provided)<br/>
+    /// 4) then mock setups are applied (in the order that they are provided)<br/>
     /// </summary>
     /// <returns>The test result, containing any return values or exceptions thrown, upon which assertions can be made</returns>
     ITestResult<TResult> Then();
 
     /// <summary>
-    /// Runs the test and provides the result. When the test is run, any provided arrangement will be applied in reverse order, then the subject-under-test will be created and the method-under-test called
+    /// Runs the test pipeline and generates the result, which can be accessed by the Result property. When the test is run, any provided arrangement will be applied in the natural* order, then the subject-under-test will be created and the method-under-test called.<br/>
+    /// The natural order of setup is:<br/>
+    /// 1) First default values are applied (in the inverse order that they are provided)<br/>
+    /// 2) then values to be used as arguments to constructors are applied (in the inverse order that they are provided)<br/>
+    /// 3) then specific values are applied (in the inverse order that they are provided)<br/>
+    /// 4) then mock setups are applied (in the order that they are provided)<br/>
     /// </summary>
     /// <typeparam name="TSubject"></typeparam>
     /// <param name="subject"></param>
@@ -27,12 +37,12 @@ public interface ITestPipeline<TSUT, TResult>
     TSubject Then<TSubject>(TSubject subject);
 
     /// <summary>
-    /// Run the test-pipeline and verify mock invocation.
+    /// Run the test-pipeline, generates the result and asserts the given mock invocation.
     /// </summary>
     /// <typeparam name="TService"></typeparam>
     /// <param name="expression"></param>
     /// <param name="expressionExpr"></param>
-    /// <returns></returns>
+    /// <returns>A continuation to apply additional assertions on the test result</returns>
     IAndVerify<TResult> Then<TService>(
         Expression<Action<TService>> expression,
         [CallerArgumentExpression(nameof(expression))] string expressionExpr = null)
@@ -45,7 +55,7 @@ public interface ITestPipeline<TSUT, TResult>
     /// <param name="expression"></param>
     /// <param name="times"></param>
     /// <param name="expressionExpr"></param>
-    /// <returns></returns>
+    /// <returns>A continuation to apply additional assertions on the test result</returns>
     IAndVerify<TResult> Then<TService>(
         Expression<Action<TService>> expression, Times times,
         [CallerArgumentExpression(nameof(expression))] string expressionExpr = null)
@@ -58,7 +68,7 @@ public interface ITestPipeline<TSUT, TResult>
     /// <param name="expression"></param>
     /// <param name="times"></param>
     /// <param name="expressionExpr"></param>
-    /// <returns></returns>
+    /// <returns>A continuation to apply additional assertions on the test result</returns>
     IAndVerify<TResult> Then<TService>(
         Expression<Action<TService>> expression, Func<Times> times,
         [CallerArgumentExpression(nameof(expression))] string expressionExpr = null)
@@ -71,7 +81,7 @@ public interface ITestPipeline<TSUT, TResult>
     /// <typeparam name="TReturns"></typeparam>
     /// <param name="expression"></param>
     /// <param name="expressionExpr"></param>
-    /// <returns></returns>
+    /// <returns>A continuation to apply additional assertions on the test result</returns>
     IAndVerify<TResult> Then<TService, TReturns>(
         Expression<Func<TService, TReturns>> expression,
         [CallerArgumentExpression(nameof(expression))] string expressionExpr = null)
@@ -85,7 +95,7 @@ public interface ITestPipeline<TSUT, TResult>
     /// <param name="expression"></param>
     /// <param name="times"></param>
     /// <param name="expressionExpr"></param>
-    /// <returns></returns>
+    /// <returns>A continuation to apply additional assertions on the test result</returns>
     IAndVerify<TResult> Then<TService, TReturns>(
         Expression<Func<TService, TReturns>> expression, Times times,
         [CallerArgumentExpression(nameof(expression))] string expressionExpr = null)
@@ -99,7 +109,7 @@ public interface ITestPipeline<TSUT, TResult>
     /// <param name="expression"></param>
     /// <param name="times"></param>
     /// <param name="expressionExpr"></param>
-    /// <returns></returns>
+    /// <returns>A continuation to apply additional assertions on the test result</returns>
     IAndVerify<TResult> Then<TService, TReturns>(
         Expression<Func<TService, TReturns>> expression, Func<Times> times,
         [CallerArgumentExpression(nameof(expression))] string expressionExpr = null)
@@ -124,7 +134,7 @@ public interface ITestPipeline<TSUT, TResult>
         [CallerArgumentExpression(nameof(act))] string actExpr = null);
 
     /// <summary>
-    /// Provide the method-under-test as a lambda expression
+    /// Provide the method-under-test to the test-pipeline
     /// </summary>
     /// <param name="act"></param>
     /// <param name="actExpr"></param>
@@ -133,7 +143,7 @@ public interface ITestPipeline<TSUT, TResult>
         [CallerArgumentExpression(nameof(act))] string actExpr = null);
 
     /// <summary>
-    /// Provide the method-under-test as a lambda expression
+    /// Provide the method-under-test to the test-pipeline
     /// </summary>
     /// <param name="act"></param>
     /// <param name="actExpr"></param>
@@ -178,7 +188,8 @@ public interface ITestPipeline<TSUT, TResult>
         [CallerArgumentExpression(nameof(act))] string actExpr = null);
 
     /// <summary>
-    /// Provide a method to be called BEFORE the method-under-test is called as set-up
+    /// Provide a method to be called BEFORE the method-under-test is called as set-up, 
+    /// i.e. the method-under-test is called AFTER this method.
     /// </summary>
     /// <param name="setUp">the method to call as setup before executing the method-under-test</param>
     /// <param name="setUpExpr"></param>
@@ -187,7 +198,8 @@ public interface ITestPipeline<TSUT, TResult>
         [CallerArgumentExpression(nameof(setUp))] string setUpExpr = null);
 
     /// <summary>
-    /// Provide an async method to be called BEFORE the method-under-test is called as set-up
+    /// Provide an async method to be called BEFORE the method-under-test is called as set-up, 
+    /// i.e. the method-under-test is called AFTER this method.
     /// </summary>
     /// <param name="setUp">the method to call as setup before executing the method-under-test</param>
     /// <param name="setUpExpr"></param>
@@ -196,7 +208,8 @@ public interface ITestPipeline<TSUT, TResult>
         [CallerArgumentExpression(nameof(setUp))] string setUpExpr = null);
 
     /// <summary>
-    /// Provide a method to be called AFTER the method-under-test is called as tear-down
+    /// Provide a method to be called AFTER the method-under-test is called as tear-down, 
+    /// i.e. the method-under-test is called BEFORE this method.
     /// </summary>
     /// <param name="tearDown">the method to call as teardown after executing the method-under-test</param>
     /// <param name="tearDownExpr"></param>
@@ -205,7 +218,8 @@ public interface ITestPipeline<TSUT, TResult>
         [CallerArgumentExpression(nameof(tearDown))] string tearDownExpr = null);
 
     /// <summary>
-    /// Provide an async method to be called AFTER the method-under-test is called as tear-down
+    /// Provide an async method to be called AFTER the method-under-test is called as tear-down, 
+    /// i.e. the method-under-test is called BEFORE this method.
     /// </summary>
     /// <param name="tearDown">the method to call as teardown after executing the method-under-test</param>
     /// <param name="tearDownExpr"></param>

@@ -13,9 +13,8 @@ but with a less worthy syntax, based on the verbs `Is`, `Has` and `Does` instead
 
 This is an example of a complete test class (*specification*) with one test method (*requirement*):
 ```
-using XspecT.Verification;
-using XspecT.Fixture;
-
+using XspecT;
+using XspecT.Assert;
 using static App.Calculator;
 
 namespace App.Test;
@@ -26,7 +25,42 @@ public class CalculatorSpec : Spec<int>
 }
 ```
 
-When() is setting up the method to be called and Then() runs the test pipeline and provides the result.
+To write a test with the XspecT framework, such as the one above, you first need to subclass `Spec`.
+A test execution contains three different phases: *arrange*, *act* and *assert*.
+
+We will begin with the first stage:
+
+There are a number of different methods in `Spec` that can be called to arrange the test pipeline.
+These are:
+* `Given` (for arrangement)
+* `After` (for setup)
+* `Before` (for teardown)
+
+These methods can be called directly on the base class, or chained on each other (most tests can be expressed as one-liners, althoug it may not be recommended for readability).
+
+In addition there are a number of methods to refer to test-data that can either be provided explicitly or auto-generated (with or without constraints).
+Up to 5 different values can be provided of any given type, as well as collections of up to five elements of any type.
+The methods for referring to/creating test data are named `A`, `An`, `The`, `AFirst`, `TheFirst`, `ASecond`, `TheSecond` and so on for single values
+and `Some`, `Many`, `Zero`, `One`, `Two`, `Three`, `Four` and `Five` for collections
+
+The *act* stage is specified by calling `When` with the lambda that will be executed. 
+The lambda takes the subject-under-test as argument and should call the method-under-test.
+The subject-under-test will be automatically generated based on the arrangement (unless static or explicitly provided).
+It doesn't matter in which order `Given` or `When` is called, and they may also be chained in any order.
+
+Finally to specify the *assert* stage, call `Then` or `Result`, followed by any assertions you want to make. 
+It is not until one of these two methods are called that the test-pipeline is executed and the test result provided.
+This allows the XspecT framework to arrange the test-pipeline in the natural order, regardless of in what order those arrangements were supplied in the implementation of the test.
+This means that in most cases you don't have to worry about the order in which the steps of the test is specified (as long as assert comes after arrange and act).
+In more complex tests, different arrangements may depend on each other, which makes the order in which they are supplied significant, but it is recommended to keep unit tests as simple, targeted and readable as possible.
+
+Should a test fail, this can be due to either invalid setup or that the test condition (assertion) is not satisfied.
+In the first case a `SetupFailed` exception is thrown detailing the error in the setup (this could be for instance if `Given` is called after `Then` or `When` is called multiple times)
+In the second case, you are in the *red* zone of the red-green-refactor cycle and need to either fix the test or the implementation being tested.
+To help with this, the built in assertion framework supply not only the details of the error, but also a complete description of the test (the *specification*, which is auto-generated from the test implementation),
+so that you can more easily se what behavior the test actually expects, than from reading the test implementation alone.
+
+After this introduction, we should be ready to look at more examples.
 
 ### Test a static method with [Theory]
 
@@ -59,17 +93,14 @@ public class CalculatorSpec : Spec<int>
 
 For more complex and realistic scenarios, it is recommended to create tests in a separate project from the production code, named `[MyProject].Spec` or `[MyProject].Test`. 
 The test-project should mimic the production project's folder structure, but in addition have one folder for each class to test, named as the class. 
-Within that folder, create one test-class per method to test.
+Within that folder, create one test-class per method to test, named `When[Something]`. 
+Within the when-class, which should be abstract, create a nested public subclass for each condition, called `Given[Something]`, in which one test method is defined for each logical assert. 
 
-### Test a static void method
-* When testing a static void method, there is no return value to verify. In this case, override the non-generic class `Spec`.
-* You can use `Throws` or `DoesNotThrow` to verify exceptions thrown.
- 
 Example:
 ```
 namespace MyProject.Test.Validator;
 
-public abstract class WhenVerifyAreEqual : Spec<object>
+public abstract class WhenVerifyAreEqual : Spec
 {
     protected WhenVerifyAreEqual() 
         => When(_ => MyProject.Validator.VerifyAreEqual(An<int>(), ASecond<int>()));
@@ -86,22 +117,28 @@ public abstract class WhenVerifyAreEqual : Spec<object>
 }
 ```
 
-### Test a class with dependencies
-* To test an instance method `[MyClass].[MyMethod]`, create an abstract class named `When[MyMethod]` inheriting `XspecT.Spec<[MyClass], [TheResult]>`.
-* The subject under test will be created automatically with mocks and default values by AutoMock.
-* Subject-under-test is available as the single input parameter to the lambda that is provided to the method `When`
-You can supply or modify you own constructor arguments by calling `Given` or `Given().Using`.
-You can even provide the instance to test by using the any of those methods.
+Note that when no return value is asserted, we can use the non-generic base class `Spec`.
 
-* To mock behavior of any dependency call `Given<[TheService]>().That(_ => _.[TheMethod](...)).Returns/Throws(...)`. 
-* To verify a call to a dependency, call `Then<[TheService]>([SomeLambdaExpression])`. 
-* Both mocking and verification of behavior is based on Moq framework.
+`Throws` and `DoesNotThrow` can be used to verify exceptions.
+
+### Test a class instance with dependencies
+To test an instance method `[MyClass].[MyMethod]`, create an abstract class named `When[MyMethod]` inheriting `XspecT.Spec<[MyClass], [TheResult]>`.
+The subject under test will be created automatically with mocks and default values by AutoMock.
+Subject-under-test is available as the single input parameter to the lambda that is provided to the method `When`.
+You can supply or modify you own constructor arguments by calling `Given` or `Given().Using`.
+You can even provide the instance to test by using any of those two methods.
+
+To mock behavior of any dependency call `Given<[TheService]>().That(_ => _.[TheMethod](...)).Returns/Throws(...)`. 
+
+To verify a call to a mocked dependency, call `Then<[TheService]>([SomeLambdaExpression])`. 
+
+Both mocking and verification of behavior is based on Moq framework.
  
 Example:
 ```
 namespace MyProject.Spec.ShoppingService;
 
-public abstract class WhenPlaceOrder : Spec<MyProject.ShoppingService, object>
+public class WhenPlaceOrder : Spec<MyProject.ShoppingService>
 {
     protected WhenPlaceOrder() 
         => When(_ => _.PlaceOrder(An<int>()))
@@ -115,6 +152,11 @@ public abstract class WhenPlaceOrder : Spec<MyProject.ShoppingService, object>
 }
 ```
 
-All the examples above also works for async methods.
+### Sync vs. Async
 
-More examples and features can be found as Unit tests in the source code.
+Weather your method-under-test or mocked methods are sync or async, the tests are specified in the exact same way. 
+The XspecT framework will call async methods synchronously, so that the test does not have to await any calls, but can always be treated as if they are testing synchronous methods.
+However in some cases you have to use async and await keywords in the lambdas you provide to the test-pipeline to deal with async scenarios.
+
+This primer should be enough to get you started. More documentation is available as code comments.
+More examples and features can also be found as Unit tests in the source code, which is available on GitHub.
