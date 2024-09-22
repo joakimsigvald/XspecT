@@ -87,9 +87,9 @@ public class GivenTearDown : Spec<MyStateService, int>
         Xunit.Assert.Equal(-1, _theCounterAfterTest); //Teardown is performed after executing the test method
     }
 
-    public override void Dispose()
+    protected override void Dispose(bool disposing)
     {
-        base.Dispose();
+        base.Dispose(disposing);
         Xunit.Assert.Equal(0, _theCounterAfterTest); //Teardown is performed on dispose
     }
 }

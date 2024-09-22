@@ -29,11 +29,17 @@ public abstract class Spec<TSUTorResult> : Spec<TSUTorResult, TSUTorResult>
 public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>, IDisposable
 {
     private readonly Pipeline<TSUT, TResult> _pipeline = new();
+    private bool _disposed;
 
     /// <summary>
     /// 
     /// </summary>
     protected Spec() => CultureInfo.CurrentCulture = GetCulture();
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    ~Spec() => Dispose(false);
 
     /// <summary>
     /// Override this to set different Culture than InvariantCulture during test
@@ -42,11 +48,27 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     protected virtual CultureInfo GetCulture() => CultureInfo.InvariantCulture;
 
     /// <summary>
+    /// 
+    /// </summary>
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    /// <summary>
     /// Calls any teardown methods provided in the test pipeline with the method `Before`.
     /// Override this method to perform custom teardown in your test class.
     /// </summary>
     /// <exception cref="NotImplementedException"></exception>
-    public virtual void Dispose() => _pipeline.TearDown();
+    protected virtual void Dispose(bool disposing)
+    {
+        if (_disposed)
+            return;
+        if (disposing)
+            _pipeline.TearDown();
+        _disposed = true;
+    }
 
     /// <summary>
     /// This property returns the specification of the test, after the test has been run. 
