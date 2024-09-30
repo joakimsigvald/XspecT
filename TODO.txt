@@ -1,3 +1,6 @@
-* Produce "Javadoc" from code comments
-* handle nested new(...) in argument list: 
+* Optimization: Run all then-test methods on the same pipeline (do not create a new pipeline for each test method)
+* Productivity: Auto-generate test classes from Visual Studio
+  - rightclick method and generate test class "When..." in the correct folder structure (configurable)
+* Documentation: Produce "Javadoc" from code comments
+* Documentation: handle nested new(...) in argument list: 
   "=> When(_ => _.AddNewItem(A<CartId>(), new(A<Sku>(), A<ProductType>(), A<Price>(), A<Vat>()), A<string>()));"
