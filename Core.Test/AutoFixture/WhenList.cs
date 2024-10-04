@@ -73,6 +73,22 @@ Then Result.Single().Name is the string");
         }
     }
 
+    public class GivenOneElementWithTransform : WhenList
+    {
+        public GivenOneElementWithTransform()
+            => Given<IMyRepository>().That(_ => _.List()).Returns(() => One<MyModel>(_ => _ with { Name = A<string>() }));
+
+        [Fact]
+        public void ThenArrayHasSingleElementWithSetup()
+        {
+            Then().Result.Single().Name.Is(The<string>());
+            Specification.Is(
+@"Given IMyRepository.List() returns one MyModel { Name = a string }
+When _.List()
+Then Result.Single().Name is the string");
+        }
+    }
+
     public class GivenTwoElements : WhenList
     {
         public GivenTwoElements() => Given<IMyRepository>().That(_ => _.List()).Returns(() => Two<MyModel>());
@@ -144,6 +160,22 @@ Then Result.Last().Name is the string");
         }
     }
 
+    public class GivenTwoElementsWithTransform : WhenList
+    {
+        public GivenTwoElementsWithTransform()
+            => Given<IMyRepository>().That(_ => _.List()).Returns(() => Two<MyModel>(_ => _ with { Name = A<string>() }));
+
+        [Fact]
+        public void ThenSecondElementIsTransformed()
+        {
+            Then().Result.Last().Name.Is(The<string>());
+            Specification.Is(
+@"Given IMyRepository.List() returns two MyModel { Name = a string }
+When _.List()
+Then Result.Last().Name is the string");
+        }
+    }
+
     public class GivenTwoElementsWithIndexedSetup : WhenList
     {
         public GivenTwoElementsWithIndexedSetup()
@@ -183,6 +215,19 @@ Given IMyRepository.List() returns two MyModel { Name = "X{i + 1}" }
 When _.List()
 Then Result.Last().Name is "X2"
 """);
+        }
+    }
+
+    public class GivenTwoElementsWithIndexedTransform : WhenList
+    {
+        public GivenTwoElementsWithIndexedTransform()
+            => Given<IMyRepository>().That(_ => _.List())
+            .Returns(() => Two<MyModel>((_, i) => _ with { Name = $"X{i + 1}" }));
+
+        [Fact]
+        public void ThenSecondElementIsTransformed()
+        {
+            Then().Result.Last().Name.Is("X2");
         }
     }
 

@@ -43,4 +43,49 @@ public class WhenGivenArrayOfModels : Spec<MyService, MyModel[]>
         Xunit.Assert.Throws<SetupFailed>(() =>
         When(_ => _.GetModelsAsync()).Then().DoesNotThrow());
     }
+
+    [Fact]
+    public void GivenOneWithSetup_ThenApplySetupToReturnedArray()
+    {
+        When(_ => _.GetModels())
+            .Given<IMyRepository>().That(_ => _.GetModels()).Returns(A<MyModel[]>)
+            .And().One<MyModel>(_ => _.Id = An<int>())
+            .Then().Result.Single().Id.Is(The<int>());
+    }
+
+    [Fact]
+    public void GivenTwoWithSetup_ThenApplySetupToReturnedArray()
+    {
+        When(_ => _.GetModels())
+            .Given<IMyRepository>().That(_ => _.GetModels()).Returns(A<MyModel[]>)
+            .And().Two<MyModel>(_ => _.Id = An<int>())
+            .Then().Result.Has().All(m => m.Id == The<int>());
+    }
+
+    [Fact]
+    public void GivenThreeWithIndexedSetup_ThenApplySetupToReturnedArray()
+    {
+        When(_ => _.GetModels())
+            .Given<IMyRepository>().That(_ => _.GetModels()).Returns(A<MyModel[]>)
+            .And().Three<MyModel>((_, i) => _.Id = i + 1)
+            .Then().Result.Has().All((m, i) => m.Id == i + 1);
+    }
+
+    [Fact]
+    public void GivenFourWithTransform_ThenApplyTransformToReturnedArray()
+    {
+        When(_ => _.GetModels())
+            .Given<IMyRepository>().That(_ => _.GetModels()).Returns(A<MyModel[]>)
+            .And().Four<MyModel>(_ => _ with { Id = An<int>() })
+            .Then().Result.Has().All(m => m.Id == The<int>());
+    }
+
+    [Fact]
+    public void GivenFiveWithIndexedTransform_ThenApplyTransformToReturnedArray()
+    {
+        When(_ => _.GetModels())
+            .Given<IMyRepository>().That(_ => _.GetModels()).Returns(A<MyModel[]>)
+            .And().Five<MyModel>((_, i) => _ with { Id = i + 1 })
+            .Then().Result.Has().All((m, i) => m.Id == i + 1);
+    }
 }

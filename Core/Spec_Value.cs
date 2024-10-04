@@ -81,42 +81,42 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// 
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
-    /// <param name="setup"></param>
+    /// <param name="transform"></param>
     /// <returns></returns>
-    protected internal TValue The<TValue>([NotNull] Func<TValue, TValue> setup)
-        => _pipeline.Mention(0, setup);
+    protected internal TValue The<TValue>([NotNull] Func<TValue, TValue> transform)
+        => _pipeline.Mention(0, transform);
 
     /// <summary>
     /// Yields a customized value of the given type
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
-    /// <param name="setup"></param>
+    /// <param name="transform"></param>
     /// <returns></returns>
-    protected internal TValue A<TValue>([NotNull] Func<TValue, TValue> setup) => _pipeline.Mention(0, setup);
+    protected internal TValue A<TValue>([NotNull] Func<TValue, TValue> transform) => _pipeline.Mention(0, transform);
 
     /// <summary>
     /// Yields a customized value of the given type
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
-    /// <param name="setup"></param>
+    /// <param name="transform"></param>
     /// <returns></returns>
-    protected internal TValue An<TValue>([NotNull] Func<TValue, TValue> setup) => _pipeline.Mention(0, setup);
+    protected internal TValue An<TValue>([NotNull] Func<TValue, TValue> transform) => _pipeline.Mention(0, transform);
 
     /// <summary>
     /// Yields a customized value of the given type
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
-    /// <param name="setup"></param>
+    /// <param name="transform"></param>
     /// <returns></returns>
-    protected internal TValue AFirst<TValue>([NotNull] Func<TValue, TValue> setup) => _pipeline.Mention(0, setup);
+    protected internal TValue AFirst<TValue>([NotNull] Func<TValue, TValue> transform) => _pipeline.Mention(0, transform);
 
     /// <summary>
     /// Yields a customized value of the given type
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
-    /// <param name="setup"></param>
+    /// <param name="transform"></param>
     /// <returns></returns>
-    protected internal TValue TheFirst<TValue>([NotNull] Func<TValue, TValue> setup) => _pipeline.Mention(0, setup);
+    protected internal TValue TheFirst<TValue>([NotNull] Func<TValue, TValue> transform) => _pipeline.Mention(0, transform);
 
     /// <summary>
     /// Provide a specific value of the given type, that can be referenced at different points of the test, with the keywords, A, An or The

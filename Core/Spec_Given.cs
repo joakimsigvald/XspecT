@@ -113,7 +113,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
         return new GivenTestPipeline<TSUT, TResult>(this);
     }
 
-    internal IGivenTestPipeline<TSUT, TResult> Mention<TValue>(
+    internal IGivenTestPipeline<TSUT, TResult> SetupMention<TValue>(
         Action mention,
         string mentionExpr,
         [CallerMemberName] string article = null)

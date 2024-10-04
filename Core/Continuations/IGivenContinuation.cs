@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 
 namespace XspecT.Continuations;
 
@@ -79,11 +80,11 @@ public interface IGivenContinuation<TSUT, TResult>
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="value"></param>
-    /// <param name="valuExpr"></param>
+    /// <param name="valueExpr"></param>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> A<TValue>(
         TValue value,
-        [CallerArgumentExpression(nameof(value))] string valuExpr = null);
+        [CallerArgumentExpression(nameof(value))] string valueExpr = null);
 
     /// <summary>
     /// Provide setup for a value of a given type, that can be mentioned in the test pipeline as A, An, The, or TheFirst.
@@ -113,11 +114,11 @@ public interface IGivenContinuation<TSUT, TResult>
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="value"></param>
-    /// <param name="valuExpr"></param>
+    /// <param name="valueExpr"></param>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> An<TValue>(
         TValue value,
-        [CallerArgumentExpression(nameof(value))] string valuExpr = null);
+        [CallerArgumentExpression(nameof(value))] string valueExpr = null);
 
     /// <summary>
     /// Provide setup for a value of a given type, that can be mentioned in the test pipeline as A, An, The, or TheFirst.
@@ -181,11 +182,11 @@ public interface IGivenContinuation<TSUT, TResult>
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="value"></param>
-    /// <param name="valuExpr"></param>
+    /// <param name="valueExpr"></param>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> AThird<TValue>(
         TValue value,
-        [CallerArgumentExpression(nameof(value))] string valuExpr = null);
+        [CallerArgumentExpression(nameof(value))] string valueExpr = null);
 
     /// <summary>
     /// Provide setup for a third value of a given type, that can be mentioned in the test pipeline as AThird or TheThird.
@@ -215,11 +216,11 @@ public interface IGivenContinuation<TSUT, TResult>
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="value"></param>
-    /// <param name="valuExpr"></param>
+    /// <param name="valueExpr"></param>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> AFourth<TValue>(
         TValue value,
-        [CallerArgumentExpression(nameof(value))] string valuExpr = null);
+        [CallerArgumentExpression(nameof(value))] string valueExpr = null);
 
     /// <summary>
     /// Provide setup for a fourth value of a given type, that can be mentioned in the test pipeline as AFourth or TheFourth.
@@ -249,11 +250,11 @@ public interface IGivenContinuation<TSUT, TResult>
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="value"></param>
-    /// <param name="valuExpr"></param>
+    /// <param name="valueExpr"></param>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> AFifth<TValue>(
         TValue value,
-        [CallerArgumentExpression(nameof(value))] string valuExpr = null);
+        [CallerArgumentExpression(nameof(value))] string valueExpr = null);
 
     /// <summary>
     /// Provide setup for a fifth value of a given type, that can be mentioned in the test pipeline as AFifth or TheFifth.
@@ -276,5 +277,233 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> AFifth<TValue>(
         Func<TValue, TValue> transform,
+        [CallerArgumentExpression(nameof(transform))] string transformExpr = null);
+
+    /// <summary>
+    /// Specify that referenced collections of the given type have one element, unless otherwise specified, 
+    /// and that the one element is the given value.
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="value"></param>
+    /// <param name="valueExpr"></param>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> One<TValue>(
+        TValue value,
+        [CallerArgumentExpression(nameof(value))] string valueExpr = null);
+
+    /// <summary>
+    /// Specify that referenced collections of the given type have one element, unless otherwise specified, 
+    /// and that the given setup will be applied to the one element.
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="setup"></param>
+    /// <param name="setupExpr"></param>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> One<TValue>(
+        [NotNull] Action<TValue> setup,
+        [CallerArgumentExpression(nameof(setup))] string setupExpr = null);
+
+    /// <summary>
+    /// Specify that referenced collections of the given type have one element, unless otherwise specified, 
+    /// and that the given transform will be applied to the one element.
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="transform"></param>
+    /// <param name="transformExpr"></param>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> One<TValue>(
+        [NotNull] Func<TValue, TValue> transform,
+        [CallerArgumentExpression(nameof(transform))] string transformExpr = null);
+
+    /// <summary>
+    /// Specify that referenced collections of the given type have two elements, unless otherwise specified, 
+    /// and that the given setup will be applied to the two elements.
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="setup"></param>
+    /// <param name="setupExpr"></param>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> Two<TValue>(
+        [NotNull] Action<TValue, int> setup,
+        [CallerArgumentExpression(nameof(setup))] string setupExpr = null);
+
+    /// <summary>
+    /// Specify that referenced collections of the given type have two elements, unless otherwise specified, 
+    /// and that the given setup will be applied to the two elements.
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="setup"></param>
+    /// <param name="setupExpr"></param>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> Two<TValue>(
+        [NotNull] Action<TValue> setup,
+        [CallerArgumentExpression(nameof(setup))] string setupExpr = null);
+
+    /// <summary>
+    /// Specify that referenced collections of the given type have two elements, unless otherwise specified, 
+    /// and that the given transform will be applied to the two elements.
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="transform"></param>
+    /// <param name="transformExpr"></param>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> Two<TValue>(
+        [NotNull] Func<TValue, TValue> transform,
+        [CallerArgumentExpression(nameof(transform))] string transformExpr = null);
+
+    /// <summary>
+    /// Specify that referenced collections of the given type have two elements, unless otherwise specified, 
+    /// and that the given transform will be applied to the two elements.
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="transform"></param>
+    /// <param name="transformExpr"></param>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> Two<TValue>(
+        [NotNull] Func<TValue, int, TValue> transform,
+        [CallerArgumentExpression(nameof(transform))] string transformExpr = null);
+
+    /// <summary>
+    /// Specify that referenced collections of the given type have three elements, unless otherwise specified, 
+    /// and that the given setup will be applied to the three elements.
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="setup"></param>
+    /// <param name="setupExpr"></param>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> Three<TValue>(
+        [NotNull] Action<TValue, int> setup,
+        [CallerArgumentExpression(nameof(setup))] string setupExpr = null);
+
+    /// <summary>
+    /// Specify that referenced collections of the given type have three elements, unless otherwise specified, 
+    /// and that the given setup will be applied to the three elements.
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="setup"></param>
+    /// <param name="setupExpr"></param>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> Three<TValue>(
+        [NotNull] Action<TValue> setup,
+        [CallerArgumentExpression(nameof(setup))] string setupExpr = null);
+
+    /// <summary>
+    /// Specify that referenced collections of the given type have three elements, unless otherwise specified, 
+    /// and that the given transform will be applied to the three elements.
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="transform"></param>
+    /// <param name="transformExpr"></param>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> Three<TValue>(
+        [NotNull] Func<TValue, TValue> transform,
+        [CallerArgumentExpression(nameof(transform))] string transformExpr = null);
+
+    /// <summary>
+    /// Specify that referenced collections of the given type have three elements, unless otherwise specified, 
+    /// and that the given transform will be applied to the three elements.
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="transform"></param>
+    /// <param name="transformExpr"></param>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> Three<TValue>(
+        [NotNull] Func<TValue, int, TValue> transform,
+        [CallerArgumentExpression(nameof(transform))] string transformExpr = null);
+
+    /// <summary>
+    /// Specify that referenced collections of the given type have four elements, unless otherwise specified, 
+    /// and that the given setup will be applied to the four elements.
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="setup"></param>
+    /// <param name="setupExpr"></param>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> Four<TValue>(
+        [NotNull] Action<TValue, int> setup,
+        [CallerArgumentExpression(nameof(setup))] string setupExpr = null);
+
+    /// <summary>
+    /// Specify that referenced collections of the given type have four elements, unless otherwise specified, 
+    /// and that the given setup will be applied to the four elements.
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="setup"></param>
+    /// <param name="setupExpr"></param>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> Four<TValue>(
+        [NotNull] Action<TValue> setup,
+        [CallerArgumentExpression(nameof(setup))] string setupExpr = null);
+
+    /// <summary>
+    /// Specify that referenced collections of the given type have four elements, unless otherwise specified, 
+    /// and that the given transform will be applied to the four elements.
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="transform"></param>
+    /// <param name="transformExpr"></param>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> Four<TValue>(
+        [NotNull] Func<TValue, TValue> transform,
+        [CallerArgumentExpression(nameof(transform))] string transformExpr = null);
+
+    /// <summary>
+    /// Specify that referenced collections of the given type have four elements, unless otherwise specified, 
+    /// and that the given transform will be applied to the four elements.
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="transform"></param>
+    /// <param name="transformExpr"></param>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> Four<TValue>(
+        [NotNull] Func<TValue, int, TValue> transform,
+        [CallerArgumentExpression(nameof(transform))] string transformExpr = null);
+
+    /// <summary>
+    /// Specify that referenced collections of the given type have five elements, unless otherwise specified, 
+    /// and that the given setup will be applied to the five elements.
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="setup"></param>
+    /// <param name="setupExpr"></param>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> Five<TValue>(
+        [NotNull] Action<TValue, int> setup,
+        [CallerArgumentExpression(nameof(setup))] string setupExpr = null);
+
+    /// <summary>
+    /// Specify that referenced collections of the given type have five elements, unless otherwise specified, 
+    /// and that the given setup will be applied to the five elements.
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="setup"></param>
+    /// <param name="setupExpr"></param>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> Five<TValue>(
+        [NotNull] Action<TValue> setup,
+        [CallerArgumentExpression(nameof(setup))] string setupExpr = null);
+
+    /// <summary>
+    /// Specify that referenced collections of the given type have five elements, unless otherwise specified, 
+    /// and that the given transform will be applied to the five elements.
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="transform"></param>
+    /// <param name="transformExpr"></param>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> Five<TValue>(
+        [NotNull] Func<TValue, TValue> transform,
+        [CallerArgumentExpression(nameof(transform))] string transformExpr = null);
+
+    /// <summary>
+    /// Specify that referenced collections of the given type have five elements, unless otherwise specified, 
+    /// and that the given transform will be applied to the five elements.
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="transform"></param>
+    /// <param name="transformExpr"></param>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> Five<TValue>(
+        [NotNull] Func<TValue, int, TValue> transform,
         [CallerArgumentExpression(nameof(transform))] string transformExpr = null);
 }

@@ -91,22 +91,16 @@ internal class Pipeline<TSUT, TResult>
         return Context.ApplyTo(setup, _context.Create<TValue>());
     }
 
-    internal TValue[] MentionMany<TValue>(int count, int? minCount = null)
-        => _context.MentionMany<TValue>(count, minCount);
-
-    internal TValue[] MentionMany<TValue>([NotNull] Action<TValue> setup, int count)
-        => _context.MentionMany(setup, count);
-
     internal TValue Mention<TValue>(int index, [NotNull] Action<TValue> setup)
     {
         AssertHasNotRun();
         return _context.Mention(index, setup);
     }
 
-    internal TValue Mention<TValue>(int index, [NotNull] Func<TValue, TValue> setup)
+    internal TValue Mention<TValue>(int index, [NotNull] Func<TValue, TValue> transform)
     {
         AssertHasNotRun();
-        return _context.Mention(index, setup);
+        return _context.Mention(index, transform);
     }
 
     internal TValue Mention<TValue>(int index, TValue value)
@@ -114,6 +108,18 @@ internal class Pipeline<TSUT, TResult>
         AssertHasNotRun();
         return _context.Mention(value, index);
     }
+
+    internal TValue[] MentionMany<TValue>(int count, int? minCount = null)
+        => _context.MentionMany<TValue>(count, minCount);
+
+    internal TValue[] MentionMany<TValue>([NotNull] Action<TValue> setup, int count)
+        => _context.MentionMany(setup, count);
+
+    internal TValue[] MentionMany<TValue>([NotNull] Func<TValue, TValue> transform, int count)
+        => _context.MentionMany(transform, count);
+
+    internal TValue[] MentionMany<TValue>([NotNull] Func<TValue, int, TValue> transform, int count)
+        => _context.MentionMany(transform, count);
 
     internal TValue[] MentionMany<TValue>([NotNull] Action<TValue, int> setup, int count)
         => _context.MentionMany(setup, count);

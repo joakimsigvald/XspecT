@@ -1,6 +1,6 @@
 ﻿namespace XspecT.Test.Given;
 
-public class MyModel
+public record MyModel
 {
     public int Id { get; set; }
     public string Name { get; set; }
