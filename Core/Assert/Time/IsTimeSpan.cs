@@ -6,7 +6,7 @@ namespace XspecT.Assert.Time;
 /// <summary>
 /// Object that allows an assertions to be made on the provided TimeSpan
 /// </summary>
-public record IsTimeSpan : Constraint<IsTimeSpan, TimeSpan>
+public record IsTimeSpan : Constraint<TimeSpan, IsTimeSpan>
 {
     internal IsTimeSpan(TimeSpan actual, string actualExpr = null) : base(actual, actualExpr) { }
 

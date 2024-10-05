@@ -6,7 +6,7 @@ namespace XspecT.Assert.Numerical;
 /// <summary>
 /// Object that allows an assertions to be made on the provided double
 /// </summary>
-public record IsDouble : IsNumerical<IsDouble, double>
+public record IsDouble : IsNumerical<double, IsDouble>
 {
     internal IsDouble(double actual, string actualExpr = null) : base(actual, actualExpr) { }
 
@@ -21,6 +21,20 @@ public record IsDouble : IsNumerical<IsDouble, double>
         double expected, double precision, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
         AddAssert([CustomAssertion] () => Actual.Should().BeApproximately(expected, precision), expectedExpr);
+        return And();
+    }
+
+    /// <summary>
+    /// Asserts that the double is not close to the given value, within the provided precision
+    /// </summary>
+    /// <param name="expected"></param>
+    /// <param name="precision"></param>
+    /// <param name="expectedExpr"></param>
+    /// <returns></returns>
+    public ContinueWith<IsDouble> NotAround(
+        double expected, double precision, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
+    {
+        AddAssert([CustomAssertion] () => Actual.Should().NotBeApproximately(expected, precision), expectedExpr);
         return And();
     }
 }

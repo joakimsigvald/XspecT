@@ -6,10 +6,10 @@ namespace XspecT.Assert.Numerical;
 /// <summary>
 /// Base class that allows an assertions to be made on the provided numerical
 /// </summary>
-/// <typeparam name="TConstraint"></typeparam>
+/// <typeparam name="TContinuation"></typeparam>
 /// <typeparam name="TActual"></typeparam>
-public abstract record IsNumerical<TConstraint, TActual> : Constraint<TConstraint, TActual>
-    where TConstraint : IsNumerical<TConstraint, TActual>
+public abstract record IsNumerical<TActual, TContinuation> : Constraint<TActual, TContinuation>
+    where TContinuation : IsNumerical<TActual, TContinuation>
     where TActual : struct, IComparable<TActual>
 {
     internal IsNumerical(TActual actual, string actualExpr = null) : base(actual, actualExpr) { }
@@ -17,7 +17,7 @@ public abstract record IsNumerical<TConstraint, TActual> : Constraint<TConstrain
     /// <summary>
     /// actual.Should().NotBe(expected)
     /// </summary>
-    public ContinueWith<TConstraint> Not(
+    public ContinueWith<TContinuation> Not(
         TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
         AddAssert([CustomAssertion] () => Actual.Should().NotBe(expected), expectedExpr);
@@ -27,7 +27,7 @@ public abstract record IsNumerical<TConstraint, TActual> : Constraint<TConstrain
     /// <summary>
     /// actual.Should().BeGreaterThan(expected)
     /// </summary>
-    public ContinueWith<TConstraint> GreaterThan(
+    public ContinueWith<TContinuation> GreaterThan(
         TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
         AddAssert([CustomAssertion] () => Actual.Should().BeGreaterThan(expected), expectedExpr);
@@ -37,7 +37,7 @@ public abstract record IsNumerical<TConstraint, TActual> : Constraint<TConstrain
     /// <summary>
     /// actual.Should().BeLessThan(expected)
     /// </summary>
-    public ContinueWith<TConstraint> LessThan(
+    public ContinueWith<TContinuation> LessThan(
         TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
         AddAssert([CustomAssertion] () => Actual.Should().BeLessThan(expected), expectedExpr);
@@ -47,7 +47,7 @@ public abstract record IsNumerical<TConstraint, TActual> : Constraint<TConstrain
     /// <summary>
     /// actual.Should().BeLessThanOrEqualTo(expected)
     /// </summary>
-    public ContinueWith<TConstraint> NotGreaterThan(
+    public ContinueWith<TContinuation> NotGreaterThan(
         TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
         AddAssert([CustomAssertion] () => Actual.Should().BeLessThanOrEqualTo(expected), expectedExpr);
@@ -57,7 +57,7 @@ public abstract record IsNumerical<TConstraint, TActual> : Constraint<TConstrain
     /// <summary>
     /// actual.Should().BeGreaterThanOrEqualTo(expected)
     /// </summary>
-    public ContinueWith<TConstraint> NotLessThan(
+    public ContinueWith<TContinuation> NotLessThan(
         TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
         AddAssert([CustomAssertion] () => Actual.Should().BeGreaterThanOrEqualTo(expected), expectedExpr);

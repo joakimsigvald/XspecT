@@ -7,7 +7,7 @@ namespace XspecT.Assert;
 /// Object that allows an assertions to be made on the provided comparable
 /// </summary>
 /// <typeparam name="TActual"></typeparam>
-public record IsComparable<TActual> : Constraint<IsComparable<TActual>, TActual>
+public record IsComparable<TActual> : Constraint<TActual, IsComparable<TActual>>
     where TActual : IComparable<TActual>
 {
     internal IsComparable(TActual actual, string actualExpr) : base(actual, actualExpr) { }

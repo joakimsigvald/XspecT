@@ -11,13 +11,13 @@ public record Constraint(string ActualExpr, string AuxiliaryVerb) {}
 /// <summary>
 /// Base class for object that allows a chain of assertions to be made on the provided value
 /// </summary>
-public abstract record Constraint<TConstraint, TActual>(
+public abstract record Constraint<TActual, TContinuation>(
     TActual Actual, string ActualExpr) 
-    : Constraint(ActualExpr, typeof(TConstraint).Name.ToWords()[0])
-    where TConstraint : Constraint<TConstraint, TActual>
+    : Constraint(ActualExpr, typeof(TContinuation).Name.ToWords()[0])
+    where TContinuation : Constraint<TActual, TContinuation>
 {
-    internal ContinueWith<TConstraint> And() => new(Continue());
-    internal virtual TConstraint Continue() => (TConstraint)this;
+    internal ContinueWith<TContinuation> And() => new(Continue());
+    internal virtual TContinuation Continue() => (TContinuation)this;
 
     internal void AddAssert(
         Action assert, 

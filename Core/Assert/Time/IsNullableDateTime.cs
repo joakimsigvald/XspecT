@@ -6,7 +6,7 @@ namespace XspecT.Assert.Time;
 /// <summary>
 /// Object that allows an assertions to be made on the provided nullable DateTime
 /// </summary>
-public record IsNullableDateTime : Constraint<IsNullableDateTime, DateTime?>
+public record IsNullableDateTime : Constraint<DateTime?, IsNullableDateTime>
 {
     internal IsNullableDateTime(DateTime? actual, string actualExpr = null) : base(actual, actualExpr) { }
 

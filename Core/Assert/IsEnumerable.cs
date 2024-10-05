@@ -7,7 +7,7 @@ namespace XspecT.Assert;
 /// Continuation that allows an assertions to be made on the provided enumerable
 /// </summary>
 /// <typeparam name="TItem"></typeparam>
-public record IsEnumerable<TItem> : Constraint<IsEnumerableContinuation<TItem>, IEnumerable<TItem>>
+public record IsEnumerable<TItem> : Constraint<IEnumerable<TItem>, IsEnumerableContinuation<TItem>>
 {
     internal IsEnumerable(IEnumerable<TItem> actual, string actualExpr = null) : base(actual, actualExpr) { }
 

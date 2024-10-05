@@ -6,7 +6,7 @@ namespace XspecT.Assert.Time;
 /// <summary>
 /// Object that allows an assertions to be made on the provided nullable TimeSpan
 /// </summary>
-public record IsNullableTimeSpan : Constraint<IsNullableTimeSpan, TimeSpan?>
+public record IsNullableTimeSpan : Constraint<TimeSpan?, IsNullableTimeSpan>
 {
     internal IsNullableTimeSpan(TimeSpan? actual, string actualExpr = null) : base(actual, actualExpr) { }
 

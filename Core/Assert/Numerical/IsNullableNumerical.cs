@@ -7,10 +7,10 @@ namespace XspecT.Assert.Numerical;
 /// base class that allows an assertions to be made on the provided nullable numerical
 /// </summary>
 /// <typeparam name="TActual"></typeparam>
-/// <typeparam name="TConstrain"></typeparam>
-public abstract record IsNullableNumerical<TActual, TConstrain> : Constraint<TConstrain, TActual?>
+/// <typeparam name="TContinuation"></typeparam>
+public abstract record IsNullableNumerical<TActual, TContinuation> : Constraint<TActual?, TContinuation>
     where TActual : struct, IComparable<TActual>
-    where TConstrain : IsNullableNumerical<TActual, TConstrain>
+    where TContinuation : IsNullableNumerical<TActual, TContinuation>
 {
     internal IsNullableNumerical(TActual? actual, string actualExpr = null) : base(actual, actualExpr) { }
 
@@ -18,7 +18,7 @@ public abstract record IsNullableNumerical<TActual, TConstrain> : Constraint<TCo
     /// actual.Should().NotBe(expected)
     /// </summary>
     [CustomAssertion]
-    public ContinueWith<TConstrain> Null()
+    public ContinueWith<TContinuation> Null()
     {
         AddAssert([CustomAssertion] () => Should().BeNull());
         return And();
@@ -28,7 +28,7 @@ public abstract record IsNullableNumerical<TActual, TConstrain> : Constraint<TCo
     /// actual.Should().NotBe(expected)
     /// </summary>
     [CustomAssertion]
-    public ContinueWith<TConstrain> NotNull()
+    public ContinueWith<TContinuation> NotNull()
     {
         AddAssert([CustomAssertion] () => Should().NotBeNull());
         return And();
@@ -38,7 +38,7 @@ public abstract record IsNullableNumerical<TActual, TConstrain> : Constraint<TCo
     /// actual.Should().NotBe(expected)
     /// </summary>
     [CustomAssertion]
-    public ContinueWith<TConstrain> Not(
+    public ContinueWith<TContinuation> Not(
         TActual? expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
         AddAssert([CustomAssertion] () => Should().NotBe(expected), expectedExpr);
@@ -49,7 +49,7 @@ public abstract record IsNullableNumerical<TActual, TConstrain> : Constraint<TCo
     /// actual.Should().BeGreaterThan(expected)
     /// </summary>
     [CustomAssertion]
-    public ContinueWith<TConstrain> GreaterThan(
+    public ContinueWith<TContinuation> GreaterThan(
         TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
         AddAssert([CustomAssertion] () => Should().BeGreaterThan(expected), expectedExpr);
@@ -60,7 +60,7 @@ public abstract record IsNullableNumerical<TActual, TConstrain> : Constraint<TCo
     /// actual.Should().BeLessThan(expected)
     /// </summary>
     [CustomAssertion]
-    public ContinueWith<TConstrain> LessThan(
+    public ContinueWith<TContinuation> LessThan(
         TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
         AddAssert([CustomAssertion] () => Should().BeLessThan(expected), expectedExpr);
@@ -71,7 +71,7 @@ public abstract record IsNullableNumerical<TActual, TConstrain> : Constraint<TCo
     /// actual.Should().BeLessThanOrEqualTo(expected)
     /// </summary>
     [CustomAssertion]
-    public ContinueWith<TConstrain> NotGreaterThan(
+    public ContinueWith<TContinuation> NotGreaterThan(
         TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
         AddAssert([CustomAssertion] () => Should().BeLessThanOrEqualTo(expected), expectedExpr);
@@ -82,7 +82,7 @@ public abstract record IsNullableNumerical<TActual, TConstrain> : Constraint<TCo
     /// actual.Should().BeGreaterThanOrEqualTo(expected)
     /// </summary>
     [CustomAssertion]
-    public ContinueWith<TConstrain> NotLessThan(
+    public ContinueWith<TContinuation> NotLessThan(
         TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
         AddAssert([CustomAssertion] () => Should().BeGreaterThanOrEqualTo(expected), expectedExpr);

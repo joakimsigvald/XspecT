@@ -6,7 +6,7 @@ namespace XspecT.Assert.Time;
 /// <summary>
 /// Object that allows an assertions to be made on the provided DateTime
 /// </summary>
-public record IsDateTime : Constraint<IsDateTime, DateTime>
+public record IsDateTime : Constraint<DateTime, IsDateTime>
 {
     internal IsDateTime(DateTime actual, string actualExpr = null) : base(actual, actualExpr) { }
 

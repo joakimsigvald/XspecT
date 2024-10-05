@@ -6,7 +6,7 @@ namespace XspecT.Assert;
 /// <summary>
 /// Object that allows an assertions to be made on the provided object
 /// </summary>
-public record IsObject : Constraint<IsObject, object>
+public record IsObject : Constraint<object, IsObject>
 {
     internal IsObject(object actual, string actualExpr = null) : base(actual, actualExpr) { }
 

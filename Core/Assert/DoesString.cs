@@ -6,7 +6,7 @@ namespace XspecT.Assert;
 /// <summary>
 /// Object that allows an assertions to be made on the provided string
 /// </summary>
-public record DoesString : Constraint<DoesStringContinuation, string>
+public record DoesString : Constraint<string, DoesStringContinuation>
 {
     internal DoesString(string actual, string actualExpr = null) : base(actual, actualExpr) { }
 
