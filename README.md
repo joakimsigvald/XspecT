@@ -36,7 +36,7 @@ These are:
 * `After` (for setup)
 * `Before` (for teardown)
 
-These methods can be called directly on the base class, or chained on each other (most tests can be expressed as one-liners, althoug it may not be recommended for readability).
+These methods can be called directly on the base class, or chained on each other (most tests can be expressed as one-liners, although it may not be recommended for readability).
 
 In addition there are a number of methods to refer to test-data that can either be provided explicitly or auto-generated (with or without constraints).
 Up to 5 different values can be provided of any given type, as well as collections of up to five elements of any type.
