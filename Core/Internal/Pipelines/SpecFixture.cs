@@ -2,20 +2,20 @@
 
 namespace XspecT.Internal.Pipelines;
 
-internal class SpecFixture<TSUT, TResult>
+internal class SpecFixture<TSUT>
 {
     private readonly List<Command> _setUp;
     private Lazy<TSUT> _sut;
     private readonly List<Command> _tearDown;
 
-    internal SpecFixture(SpecFixture<TSUT, TResult> fixture = null) 
+    internal SpecFixture(SpecFixture<TSUT> fixture = null) 
     {
         _setUp = fixture?._setUp ?? [];
         _sut = fixture?._sut;
         _tearDown = fixture?._tearDown ?? [];
     }
 
-    internal SpecFixture<TSUT, TResult> AsFixture() => new(this);
+    internal SpecFixture<TSUT> AsFixture() => new(this);
 
     internal void After(Command setUp) => _setUp.Insert(0, setUp);
     internal void Before(Command tearDown) => _tearDown.Add(tearDown);
@@ -23,13 +23,13 @@ internal class SpecFixture<TSUT, TResult>
     {
         _sut = sut;
         foreach (var setUp in _setUp)
-            Invoke(setUp);
+            Invoke<object>(setUp);
     }
     internal bool IsSetUp => _sut is not null;
     internal void TearDown()
     {
         foreach (var tearDown in _tearDown)
-            Invoke(tearDown);
+            Invoke<object>(tearDown);
     }
 
     internal void AddToSpecification()
@@ -41,7 +41,7 @@ internal class SpecFixture<TSUT, TResult>
         SpecificationGenerator.AddThen();
     }
 
-    internal (TResult result, bool hasResult) Invoke(Command command, [CallerArgumentExpression(nameof(command))] string commandName = null)
+    internal (TResult result, bool hasResult) Invoke<TResult>(Command command, [CallerArgumentExpression(nameof(command))] string commandName = null)
     {
         var sut = _sut.Value;
         return command.Invocation switch

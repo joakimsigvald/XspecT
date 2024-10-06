@@ -1,6 +1,4 @@
-﻿using Moq;
-using System.Numerics;
-using XspecT.Internal.TestData;
+﻿using XspecT.Internal.TestData;
 using XspecT.Internal.Verification;
 
 namespace XspecT.Internal.Pipelines;
@@ -9,12 +7,12 @@ internal record Command(Delegate Invocation, string Expression);
 
 internal class SpecActor<TSUT, TResult>
 {
-    private readonly SpecFixture<TSUT, TResult> _fixture;
+    private readonly SpecFixture<TSUT> _fixture;
     private Command _methodUnderTest;
     private Exception _error;
     private TResult _result;
 
-    internal SpecActor(SpecFixture<TSUT, TResult> fixture) => _fixture = fixture;
+    internal SpecActor(SpecFixture<TSUT> fixture) => _fixture = fixture;
 
     internal void When(Command act)
     {
@@ -46,7 +44,7 @@ internal class SpecActor<TSUT, TResult>
         const string cue = "could not resolve to an object. (Parameter 'serviceType')";
         try
         {
-            (_result, var hasResult) = _fixture.Invoke(_methodUnderTest);
+            (_result, var hasResult) = _fixture.Invoke<TResult>(_methodUnderTest);
             return hasResult;
         }
         catch (ArgumentException ex) when (ex.Message.Contains(cue))

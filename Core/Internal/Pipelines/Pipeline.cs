@@ -11,7 +11,7 @@ internal class Pipeline<TSUT, TResult> : IDisposable
 {
     private bool _disposed;
     private readonly Context _context;
-    private readonly SpecFixture<TSUT, TResult> _fixture;
+    private readonly SpecFixture<TSUT> _fixture;
     private readonly SpecActor<TSUT, TResult> _actor;
     private TestResult<TResult> _result;
     private readonly Arranger _arranger;
