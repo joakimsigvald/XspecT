@@ -25,9 +25,10 @@ public abstract class Spec<TSUTorResult> : Spec<TSUTorResult, TSUTorResult>
 /// </summary>
 /// <typeparam name="TSUT">The class to instantiate and execute the method-under-test on</typeparam>
 /// <typeparam name="TResult">The return type of the method-under-test</typeparam>
-public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
+public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>, IDisposable
 {
     private readonly Pipeline<TSUT, TResult> _pipeline;
+    private bool _hasFixture;
 
     /// <summary>
     /// 
@@ -48,6 +49,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
         SpecificationGenerator.Clear();
         SpecificationGenerator.Init(fixtureSpec);
         _pipeline = fixture._pipeline.AsFixture();
+        _hasFixture = true;
     }
 
     /// <summary>
@@ -56,4 +58,15 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// </summary>
     public string Specification => _lazySpecification.Value;
     private readonly Lazy<string> _lazySpecification = new(() => SpecificationGenerator.Builder.Specification);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <exception cref="NotImplementedException"></exception>
+    public void Dispose()
+    {
+        if (_hasFixture)
+            return;
+        _pipeline.Dispose();
+    }
 }

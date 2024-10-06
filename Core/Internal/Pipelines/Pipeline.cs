@@ -9,7 +9,6 @@ namespace XspecT.Internal.Pipelines;
 
 internal class Pipeline<TSUT, TResult> : IDisposable
 {
-    private bool _disposed;
     private readonly Context _context;
     private readonly SpecFixture<TSUT> _fixture;
     private readonly SpecActor<TSUT, TResult> _actor;
@@ -23,8 +22,6 @@ internal class Pipeline<TSUT, TResult> : IDisposable
         _actor = new(_fixture);
         _arranger = fixture?._arranger ?? new();
     }
-
-    ~Pipeline() => Dispose(false);
 
     internal bool HasRun => _result != null;
 
@@ -93,8 +90,6 @@ internal class Pipeline<TSUT, TResult> : IDisposable
         AssertIsNotSetUp();
         _fixture.Before(new(tearDown ?? throw new SetupFailed("TearDown cannot be null"), tearDownExpr));
     }
-
-    internal void TearDown() => _fixture.TearDown();
 
     internal TValue Mention<TValue>(int index = 0)
         => index < 0 ? _context.Create<TValue>() : _context.Mention<TValue>(index);
@@ -191,26 +186,5 @@ internal class Pipeline<TSUT, TResult> : IDisposable
         _context.SetupThrows<TService>(expected);
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    public void Dispose()
-    {
-        Dispose(true);
-        GC.SuppressFinalize(this);
-    }
-
-    /// <summary>
-    /// Calls any teardown methods provided in the test pipeline with the method `Before`.
-    /// Override this method to perform custom teardown in your test class.
-    /// </summary>
-    /// <exception cref="NotImplementedException"></exception>
-    protected virtual void Dispose(bool disposing)
-    {
-        if (_disposed)
-            return;
-        if (disposing)
-            TearDown();
-        _disposed = true;
-    }
+    public void Dispose() => _fixture.Dispose();
 }

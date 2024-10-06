@@ -2,17 +2,23 @@
 
 namespace XspecT.Internal.Pipelines;
 
-internal class SpecFixture<TSUT>
+internal class SpecFixture<TSUT> : IDisposable
 {
+    private bool _disposed;
     private readonly List<Command> _setUp;
     private Lazy<TSUT> _sut;
     private readonly List<Command> _tearDown;
 
-    internal SpecFixture(SpecFixture<TSUT> fixture = null) 
+    internal SpecFixture(SpecFixture<TSUT> fixture = null)
     {
         _setUp = fixture?._setUp ?? [];
         _sut = fixture?._sut;
         _tearDown = fixture?._tearDown ?? [];
+    }
+
+    ~SpecFixture()
+    {
+        Dispose(false);
     }
 
     internal SpecFixture<TSUT> AsFixture() => new(this);
@@ -80,5 +86,28 @@ internal class SpecFixture<TSUT>
             AsyncHelper.Execute(() => actAsync(sut));
             return (default, false);
         }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    /// <summary>
+    /// Calls any teardown methods provided in the test pipeline with the method `Before`.
+    /// Override this method to perform custom teardown in your test class.
+    /// </summary>
+    /// <exception cref="NotImplementedException"></exception>
+    protected void Dispose(bool disposing)
+    {
+        if (_disposed)
+            return;
+        if (disposing)
+            TearDown();
+        _disposed = true;
     }
 }
