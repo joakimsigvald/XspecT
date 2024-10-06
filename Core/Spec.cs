@@ -25,10 +25,10 @@ public abstract class Spec<TSUTorResult> : Spec<TSUTorResult, TSUTorResult>
 /// </summary>
 /// <typeparam name="TSUT">The class to instantiate and execute the method-under-test on</typeparam>
 /// <typeparam name="TResult">The return type of the method-under-test</typeparam>
-public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>, IDisposable
+public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>, IFixture<TSUT>, IDisposable
 {
     private readonly Pipeline<TSUT, TResult> _pipeline;
-    private bool _hasFixture;
+    private readonly bool _isClassFixture;
 
     /// <summary>
     /// 
@@ -37,19 +37,20 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     {
         SpecificationGenerator.Clear();
         _pipeline = new();
+        _isClassFixture = false;
     }
 
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="fixture"></param>
-    protected Spec(Spec<TSUT, TResult> fixture)
+    /// <param name="classFixture"></param>
+    protected Spec(IFixture<TSUT> classFixture)
     {
-        var fixtureSpec = fixture.Specification;
+        var fixtureSpec = classFixture.Specification;
         SpecificationGenerator.Clear();
         SpecificationGenerator.Init(fixtureSpec);
-        _pipeline = fixture._pipeline.AsFixture();
-        _hasFixture = true;
+        _pipeline = new(classFixture.Fixture);
+        _isClassFixture = false;
     }
 
     /// <summary>
@@ -65,8 +66,9 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <exception cref="NotImplementedException"></exception>
     public void Dispose()
     {
-        if (_hasFixture)
-            return;
-        _pipeline.Dispose();
+        if (_isClassFixture)
+            _pipeline.Dispose();
     }
+
+    Fixture<TSUT> IFixture<TSUT>.Fixture => _pipeline;
 }

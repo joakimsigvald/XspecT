@@ -7,27 +7,17 @@ using XspecT.Internal.Verification;
 
 namespace XspecT.Internal.Pipelines;
 
-internal class Pipeline<TSUT, TResult> : IDisposable
+internal class Pipeline<TSUT, TResult> : Fixture<TSUT>
 {
-    private readonly Context _context;
-    private readonly SpecFixture<TSUT> _fixture;
     private readonly SpecActor<TSUT, TResult> _actor;
     private TestResult<TResult> _result;
-    private readonly Arranger _arranger;
 
-    internal Pipeline(Pipeline<TSUT, TResult> fixture = null)
-    {
-        _context = fixture?._context ?? new();
-        _fixture = fixture?._fixture ?? new();
-        _actor = new(_fixture);
-        _arranger = fixture?._arranger ?? new();
-    }
+    internal Pipeline(Fixture<TSUT> classFixture = null)
+        : base(classFixture) => _actor = new(_fixture);
 
     internal bool HasRun => _result != null;
 
     internal ITestResult<TResult> Then() => TestResult;
-
-    internal Pipeline<TSUT, TResult> AsFixture() => new(this);
 
     internal IAndVerify<TResult> Then<TService>(
         Expression<Action<TService>> expression, string expressionExpr)
@@ -55,41 +45,6 @@ internal class Pipeline<TSUT, TResult> : IDisposable
         Expression<Func<TService, TReturns>> expression, Func<Times> times, string expressionExpr)
         where TService : class
         => TestResult.Verify(expression, times, expressionExpr);
-
-    internal void SetDefault<TModel>(
-        Action<TModel> setup, string setupExpr = null) where TModel : class
-    {
-        SpecificationGenerator.AddGiven<TModel>(setupExpr);
-        AssertIsNotSetUp();
-        _context.SetDefault(setup);
-    }
-
-    internal void SetDefault<TValue>(
-        Func<TValue, TValue> transform, string transformExpr)
-    {
-        SpecificationGenerator.AddGiven<TValue>(transformExpr);
-        AssertIsNotSetUp();
-        _context.SetDefault(transform);
-    }
-
-    internal void SetDefault<TValue>(TValue defaultValue, ApplyTo applyTo, string defaultValuesExpr)
-    {
-        SpecificationGenerator.AddGiven(defaultValuesExpr, applyTo);
-        AssertIsNotSetUp();
-        _context.Use(defaultValue, applyTo);
-    }
-
-    internal void PrependSetUp(Delegate setUp, string setUpExpr)
-    {
-        AssertIsNotSetUp();
-        _fixture.After(new(setUp ?? throw new SetupFailed("SetUp cannot be null"), setUpExpr));
-    }
-
-    internal void SetTearDown(Delegate tearDown, string tearDownExpr)
-    {
-        AssertIsNotSetUp();
-        _fixture.Before(new(tearDown ?? throw new SetupFailed("TearDown cannot be null"), tearDownExpr));
-    }
 
     internal TValue Mention<TValue>(int index = 0)
         => index < 0 ? _context.Create<TValue>() : _context.Mention<TValue>(index);
@@ -132,27 +87,6 @@ internal class Pipeline<TSUT, TResult> : IDisposable
     internal TValue[] MentionMany<TValue>([NotNull] Action<TValue, int> setup, int count)
         => _context.MentionMany(setup, count);
 
-    internal Lazy<TSUT> Arrange()
-    {
-        _arranger.Arrange();
-        return new Lazy<TSUT>(_context.CreateSUT<TSUT>);
-    }
-
-    internal Mock<TObject> GetMock<TObject>() where TObject : class
-        => _context.GetMock<TObject>();
-
-    internal void ArrangeFirst(Action arrangement)
-    {
-        AssertIsNotSetUp();
-        _arranger.Push(arrangement);
-    }
-
-    internal void ArrangeLast(Action arrangement)
-    {
-        AssertIsNotSetUp();
-        _arranger.Add(arrangement);
-    }
-
     internal void SetAction(Delegate act, string actExpr)
     {
         AssertHasNotRun();
@@ -173,18 +107,4 @@ internal class Pipeline<TSUT, TResult> : IDisposable
         if (HasRun)
             throw new SetupFailed("Cannot provide setup after test pipeline was run");
     }
-
-    private void AssertIsNotSetUp()
-    {
-        if (_fixture.IsSetUp)
-            throw new SetupFailed("Cannot provide setup after pipeline is set up");
-    }
-
-    internal void SetupThrows<TService>(Func<Exception> expected)
-    {
-        AssertIsNotSetUp();
-        _context.SetupThrows<TService>(expected);
-    }
-
-    public void Dispose() => _fixture.Dispose();
 }

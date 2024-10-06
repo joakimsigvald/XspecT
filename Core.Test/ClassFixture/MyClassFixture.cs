@@ -3,7 +3,7 @@ using XspecT.Test.AutoMock;
 
 namespace XspecT.Test.ClassFixture;
 
-public class MyClassFixture<TResult> : Spec<MyService, TResult>
+public class MyClassFixture : Spec<MyService>
 {
     private readonly MyComponent _component;
 
@@ -13,8 +13,8 @@ public class MyClassFixture<TResult> : Spec<MyService, TResult>
         .Before(_ => _component.SetValue(0));
 }
 
-public class WhenHasClassFixture(MyClassFixture<int> fixture) 
-    : Spec<MyService, int>(fixture), IClassFixture<MyClassFixture<int>>
+public class WhenHasClassFixture(MyClassFixture fixture) 
+    : Spec<MyService, int>(fixture), IClassFixture<MyClassFixture>
 {
     [Fact]
     public void ThenSetupIsRunOnceBeforeFirstTest()
