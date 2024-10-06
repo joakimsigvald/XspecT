@@ -24,12 +24,12 @@ Then Result.Name is the string");
     public void Setup_CanBeProvided_MoreThanOnce_ToSameModel()
     {
         Given<IMyMapper>().That(_ => _.Map(The<MyModel>()))
-            .Returns(() => TheFirst<MyModel>(_ => _.Id = An<int>()))
+            .Returns(() => AFirst<MyModel>(_ => _.Id = An<int>()))
             .Then().Result.Name.Is(The<string>()).And(Result).Id.Is(The<int>());
         Specification.Is(
             """
             Given IMyRepository.Get(the int) returns an MyModel { Name = a string }
-              and IMyMapper.Map(the MyModel) returns the first MyModel { Id = an int }
+              and IMyMapper.Map(the MyModel) returns a first MyModel { Id = an int }
             When _.Get(an int)
             Then Result.Name is the string
               and Result.Id is the int

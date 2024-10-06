@@ -126,13 +126,15 @@ public class InterfaceService(MyComponent component, IMyService service)
 public class MyComponent(IMyLogger logger, int value)
 {
     private readonly IMyLogger _logger = logger;
-    private readonly int _value = value;
+    private int _value = value;
 
     public int GetValue()
     {
         _logger.LogValue(_value);
         return _value;
     }
+
+    public void SetValue(int newValue) => _value = newValue;
 }
 
 public interface IMyLogger

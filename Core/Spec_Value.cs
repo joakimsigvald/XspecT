@@ -65,6 +65,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
     /// <returns></returns>
+    [Obsolete("The- should not be used for altering values, only get values for assertion")]
     protected internal TValue TheFirst<TValue>([NotNull] Action<TValue> setup)
         => _pipeline.Mention(0, setup);
 
@@ -83,6 +84,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="transform"></param>
     /// <returns></returns>
+    [Obsolete("The- should not be used for altering values, only get values for assertion")]
     protected internal TValue The<TValue>([NotNull] Func<TValue, TValue> transform)
         => _pipeline.Mention(0, transform);
 
@@ -116,6 +118,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="transform"></param>
     /// <returns></returns>
+    [Obsolete("The- should not be used for altering values, only get values for assertion")]
     protected internal TValue TheFirst<TValue>([NotNull] Func<TValue, TValue> transform) => _pipeline.Mention(0, transform);
 
     /// <summary>

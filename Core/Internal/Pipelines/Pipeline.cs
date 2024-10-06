@@ -7,19 +7,33 @@ using XspecT.Internal.Verification;
 
 namespace XspecT.Internal.Pipelines;
 
-internal class Pipeline<TSUT, TResult>
+internal class Pipeline<TSUT, TResult> : IDisposable
 {
-    private readonly Context _context = new();
-    private readonly SpecActor<TSUT, TResult> _actor = new();
+    private bool _disposed;
+    private readonly Context _context;
+    private readonly SpecFixture<TSUT, TResult> _fixture;
+    private readonly SpecActor<TSUT, TResult> _actor;
     private TestResult<TResult> _result;
-    private readonly Arranger _arranger = new();
+    private readonly Arranger _arranger;
+
+    internal Pipeline(Pipeline<TSUT, TResult> fixture = null)
+    {
+        _context = fixture?._context ?? new();
+        _fixture = fixture?._fixture ?? new();
+        _actor = new(_fixture);
+        _arranger = fixture?._arranger ?? new();
+    }
+
+    ~Pipeline() => Dispose(false);
 
     internal bool HasRun => _result != null;
 
     internal ITestResult<TResult> Then() => TestResult;
 
+    internal Pipeline<TSUT, TResult> AsFixture() => new(this);
+
     internal IAndVerify<TResult> Then<TService>(
-        Expression<Action<TService>> expression, string expressionExpr) 
+        Expression<Action<TService>> expression, string expressionExpr)
         where TService : class
         => TestResult.Verify(expression, expressionExpr);
 
@@ -49,7 +63,7 @@ internal class Pipeline<TSUT, TResult>
         Action<TModel> setup, string setupExpr = null) where TModel : class
     {
         SpecificationGenerator.AddGiven<TModel>(setupExpr);
-        AssertHasNotRun();
+        AssertIsNotSetUp();
         _context.SetDefault(setup);
     }
 
@@ -57,37 +71,36 @@ internal class Pipeline<TSUT, TResult>
         Func<TValue, TValue> transform, string transformExpr)
     {
         SpecificationGenerator.AddGiven<TValue>(transformExpr);
-        AssertHasNotRun();
+        AssertIsNotSetUp();
         _context.SetDefault(transform);
     }
 
     internal void SetDefault<TValue>(TValue defaultValue, ApplyTo applyTo, string defaultValuesExpr)
     {
         SpecificationGenerator.AddGiven(defaultValuesExpr, applyTo);
-        AssertHasNotRun();
+        AssertIsNotSetUp();
         _context.Use(defaultValue, applyTo);
     }
 
     internal void PrependSetUp(Delegate setUp, string setUpExpr)
     {
-        AssertHasNotRun();
-        _actor.After(new(setUp ?? throw new SetupFailed("SetUp cannot be null"), setUpExpr));
+        AssertIsNotSetUp();
+        _fixture.After(new(setUp ?? throw new SetupFailed("SetUp cannot be null"), setUpExpr));
     }
 
     internal void SetTearDown(Delegate tearDown, string tearDownExpr)
     {
-        AssertHasNotRun();
-        _actor.Before(new(tearDown ?? throw new SetupFailed("TearDown cannot be null"), tearDownExpr));
+        AssertIsNotSetUp();
+        _fixture.Before(new(tearDown ?? throw new SetupFailed("TearDown cannot be null"), tearDownExpr));
     }
 
-    internal void TearDown() => _actor.TearDown();
+    internal void TearDown() => _fixture.TearDown();
 
-    internal TValue Mention<TValue>(int index = 0) 
+    internal TValue Mention<TValue>(int index = 0)
         => index < 0 ? _context.Create<TValue>() : _context.Mention<TValue>(index);
 
     internal TValue Create<TValue>([NotNull] Action<TValue> setup)
     {
-        AssertHasNotRun();
         return Context.ApplyTo(setup, _context.Create<TValue>());
     }
 
@@ -130,18 +143,18 @@ internal class Pipeline<TSUT, TResult>
         return new Lazy<TSUT>(_context.CreateSUT<TSUT>);
     }
 
-    internal Mock<TObject> GetMock<TObject>() where TObject : class 
+    internal Mock<TObject> GetMock<TObject>() where TObject : class
         => _context.GetMock<TObject>();
 
     internal void ArrangeFirst(Action arrangement)
     {
-        AssertHasNotRun();
+        AssertIsNotSetUp();
         _arranger.Push(arrangement);
     }
 
     internal void ArrangeLast(Action arrangement)
     {
-        AssertHasNotRun();
+        AssertIsNotSetUp();
         _arranger.Add(arrangement);
     }
 
@@ -153,7 +166,12 @@ internal class Pipeline<TSUT, TResult>
 
     private TestResult<TResult> TestResult => _result ??= Run();
 
-    private TestResult<TResult> Run() => _actor.Execute(Arrange(), _context);
+    private TestResult<TResult> Run()
+    {
+        if (!_fixture.IsSetUp)
+            _fixture.SetUp(Arrange());
+        return _actor.Execute(_context);
+    }
 
     private void AssertHasNotRun()
     {
@@ -161,9 +179,38 @@ internal class Pipeline<TSUT, TResult>
             throw new SetupFailed("Cannot provide setup after test pipeline was run");
     }
 
+    private void AssertIsNotSetUp()
+    {
+        if (_fixture.IsSetUp)
+            throw new SetupFailed("Cannot provide setup after pipeline is set up");
+    }
+
     internal void SetupThrows<TService>(Func<Exception> expected)
     {
-        AssertHasNotRun();
+        AssertIsNotSetUp();
         _context.SetupThrows<TService>(expected);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    /// <summary>
+    /// Calls any teardown methods provided in the test pipeline with the method `Before`.
+    /// Override this method to perform custom teardown in your test class.
+    /// </summary>
+    /// <exception cref="NotImplementedException"></exception>
+    protected virtual void Dispose(bool disposing)
+    {
+        if (_disposed)
+            return;
+        if (disposing)
+            TearDown();
+        _disposed = true;
     }
 }

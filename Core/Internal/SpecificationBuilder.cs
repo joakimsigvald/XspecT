@@ -14,6 +14,8 @@ internal class SpecificationBuilder
 
     internal string Specification => _description ??= Build();
 
+    internal void Init(string prologue) => _textBuilder.Init(prologue);
+
     internal void Add(Action apply)
     {
         if (_recordingSuppressionCount > 0)
@@ -21,7 +23,7 @@ internal class SpecificationBuilder
         _applications.Add(apply);
     }
 
-    internal string Build()
+    private string Build()
     {
         foreach (var apply in _applications) apply();
         return _textBuilder.ToString();
@@ -124,13 +126,23 @@ internal class SpecificationBuilder
     private static string NameOf<T>() => typeof(T).Alias();
 
     private void AddPhrase(string phrase, int indentation = 1)
-        => _textBuilder.AddIndentedLine(phrase, indentation);
+    {
+        //if (_description is not null)
+        //    return;
+        _textBuilder.AddIndentedLine(phrase, indentation);
+    }
 
     private void AddSentence(string phrase)
-        => _textBuilder.AddCapitalizedLine(phrase);
+    {
+        //if (_description is not null)
+        //    return;
+        _textBuilder.AddCapitalizedLine(phrase);
+    }
 
     private void AddWord(string word, string binder = " ")
     {
+        //if (_description is not null)
+        //    return;
         if (string.IsNullOrEmpty(word))
             return;
         _textBuilder.AddText($"{binder}{word}");

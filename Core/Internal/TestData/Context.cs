@@ -4,8 +4,6 @@ namespace XspecT.Internal.TestData;
 
 internal class Context
 {
-    public Context() => SpecificationGenerator.Clear();
-
     private readonly DataProvider _dataProvider = new();
 
     internal TSUT CreateSUT<TSUT>()

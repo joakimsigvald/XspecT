@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using XspecT.Internal;
+﻿using XspecT.Internal;
 using XspecT.Internal.Pipelines;
 
 namespace XspecT;
@@ -26,53 +25,35 @@ public abstract class Spec<TSUTorResult> : Spec<TSUTorResult, TSUTorResult>
 /// </summary>
 /// <typeparam name="TSUT">The class to instantiate and execute the method-under-test on</typeparam>
 /// <typeparam name="TResult">The return type of the method-under-test</typeparam>
-public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>, IDisposable
+public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
 {
-    private readonly Pipeline<TSUT, TResult> _pipeline = new();
-    private bool _disposed;
+    private readonly Pipeline<TSUT, TResult> _pipeline;
 
     /// <summary>
     /// 
     /// </summary>
-    protected Spec() => CultureInfo.CurrentCulture = GetCulture();
-    
-    /// <summary>
-    /// 
-    /// </summary>
-    ~Spec() => Dispose(false);
-
-    /// <summary>
-    /// Override this to set different Culture than InvariantCulture during test
-    /// </summary>
-    /// <returns></returns>
-    protected virtual CultureInfo GetCulture() => CultureInfo.InvariantCulture;
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public void Dispose()
+    protected Spec()
     {
-        Dispose(true);
-        GC.SuppressFinalize(this);
+        SpecificationGenerator.Clear();
+        _pipeline = new();
     }
 
     /// <summary>
-    /// Calls any teardown methods provided in the test pipeline with the method `Before`.
-    /// Override this method to perform custom teardown in your test class.
+    /// 
     /// </summary>
-    /// <exception cref="NotImplementedException"></exception>
-    protected virtual void Dispose(bool disposing)
+    /// <param name="fixture"></param>
+    protected Spec(Spec<TSUT, TResult> fixture)
     {
-        if (_disposed)
-            return;
-        if (disposing)
-            _pipeline.TearDown();
-        _disposed = true;
+        var fixtureSpec = fixture.Specification;
+        SpecificationGenerator.Clear();
+        SpecificationGenerator.Init(fixtureSpec);
+        _pipeline = fixture._pipeline.AsFixture();
     }
 
     /// <summary>
     /// This property returns the specification of the test, after the test has been run. 
     /// The specification will also be included in the message of the exception if the test fails.
     /// </summary>
-    public static string Specification => SpecificationGenerator.Builder.Specification;
+    public string Specification => _lazySpecification.Value;
+    private readonly Lazy<string> _lazySpecification = new(() => SpecificationGenerator.Builder.Specification);
 }

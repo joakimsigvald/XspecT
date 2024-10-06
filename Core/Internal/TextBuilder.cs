@@ -13,6 +13,13 @@ public class TextBuilder(int maxLineLength = 80, int indentationSize = 2)
     private readonly StringBuilder _sb = new();
     private int _currentLineLength;
 
+    internal void Init(string prologue) 
+    {
+        if (prologue is null)
+            return;
+        _sb.Append(prologue);
+    }
+
     /// <summary>
     /// Only made public for unit testing
     /// </summary>
