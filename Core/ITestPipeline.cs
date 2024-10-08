@@ -188,8 +188,8 @@ public interface ITestPipeline<TSUT, TResult>
         [CallerArgumentExpression(nameof(act))] string actExpr = null);
 
     /// <summary>
-    /// Provide a method to be called BEFORE the method-under-test is called as set-up, 
-    /// i.e. the method-under-test is called AFTER this method.
+    /// Provide a Setup method that will be called before the method-under-test, 
+    /// Setup methods are executed in the opposite order that they are provided
     /// </summary>
     /// <param name="setUp">the method to call as setup before executing the method-under-test</param>
     /// <param name="setUpExpr"></param>
@@ -198,8 +198,8 @@ public interface ITestPipeline<TSUT, TResult>
         [CallerArgumentExpression(nameof(setUp))] string setUpExpr = null);
 
     /// <summary>
-    /// Provide an async method to be called BEFORE the method-under-test is called as set-up, 
-    /// i.e. the method-under-test is called AFTER this method.
+    /// Provide a Setup method that will be called before the method-under-test.
+    /// Setup methods are executed in the opposite order that they are provided
     /// </summary>
     /// <param name="setUp">the method to call as setup before executing the method-under-test</param>
     /// <param name="setUpExpr"></param>
@@ -208,8 +208,8 @@ public interface ITestPipeline<TSUT, TResult>
         [CallerArgumentExpression(nameof(setUp))] string setUpExpr = null);
 
     /// <summary>
-    /// Provide a method to be called AFTER the method-under-test is called as tear-down, 
-    /// i.e. the method-under-test is called BEFORE this method.
+    /// Provide a Teardown method that will be called on Dispose of the test class/fixture, 
+    /// Teardown methods are executed in the order that they are provided
     /// </summary>
     /// <param name="tearDown">the method to call as teardown after executing the method-under-test</param>
     /// <param name="tearDownExpr"></param>
@@ -218,8 +218,8 @@ public interface ITestPipeline<TSUT, TResult>
         [CallerArgumentExpression(nameof(tearDown))] string tearDownExpr = null);
 
     /// <summary>
-    /// Provide an async method to be called AFTER the method-under-test is called as tear-down, 
-    /// i.e. the method-under-test is called BEFORE this method.
+    /// Provide a Teardown method that will be called on Dispose of the test class/fixture, 
+    /// Teardown methods are executed in the order that they are provided
     /// </summary>
     /// <param name="tearDown">the method to call as teardown after executing the method-under-test</param>
     /// <param name="tearDownExpr"></param>
