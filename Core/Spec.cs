@@ -36,7 +36,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     protected Spec()
     {
         SpecificationGenerator.Clear();
-        _pipeline = new();
+        _pipeline = new(null);
         _isClassFixture = false;
     }
 

@@ -8,6 +8,7 @@ internal abstract class Fixture<TSUT>(Fixture<TSUT> classFixture = null) : IDisp
     private protected readonly Context _context = classFixture?._context ?? new();
     private protected readonly SpecFixture<TSUT> _fixture = classFixture?._fixture ?? new();
     private protected readonly Arranger _arranger = classFixture?._arranger ?? new();
+    private protected Command _methodUnderTest = classFixture?._methodUnderTest;
 
     internal void SetDefault<TModel>(
         Action<TModel> setup, string setupExpr = null) where TModel : class

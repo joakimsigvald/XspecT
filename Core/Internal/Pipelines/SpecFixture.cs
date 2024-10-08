@@ -5,14 +5,14 @@ namespace XspecT.Internal.Pipelines;
 internal class SpecFixture<TSUT> : IDisposable
 {
     private bool _disposed;
-    private readonly List<Command> _setUp;
     private Lazy<TSUT> _sut;
+    private readonly List<Command> _setUp;
     private readonly List<Command> _tearDown;
 
     internal SpecFixture(SpecFixture<TSUT> fixture = null)
     {
-        _setUp = fixture?._setUp ?? [];
         _sut = fixture?._sut;
+        _setUp = fixture?._setUp ?? [];
         _tearDown = fixture?._tearDown ?? [];
     }
 
