@@ -160,3 +160,14 @@ However in some cases you have to use async and await keywords in the lambdas yo
 
 This primer should be enough to get you started. More documentation is available as code comments.
 More examples and features can also be found as Unit tests in the source code, which is available on GitHub.
+
+### Class fixtures
+
+XspecT now support the Xunit feature of sharing setup between tests in a common class fixture.
+A class fixture is created in the same way as a test class, by inheriting `Spec` and providing setup.
+The only difference between a class fixture implemented with XspecT and a test class implemented with XspecT
+is that class fixtures don't have test methods or assertions.
+
+When using a class fixture and having more that one test method, no setup should be put in the constructor, 
+since the constructor is run once for each test method and provide the setup to the shared class fixture 
+(i.e would add the same setup multiple times and second time after the test pipeline was executed, which is not allowed)

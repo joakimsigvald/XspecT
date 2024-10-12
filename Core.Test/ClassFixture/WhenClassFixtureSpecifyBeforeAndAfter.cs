@@ -22,14 +22,14 @@ public static class WhenClassFixtureSpecifyBeforeAndAfter
     public class GivenOneAndTwo(WhenGetValues classFixture) 
         : Spec<MyWrapper<int>, (int, int)>(classFixture), IClassFixture<WhenGetValues>
     {
+        [Fact] public void ThenIsSetup() => Then(classFixture)._setupCount.Is(1);
         [Fact] public void ThenReturnOneAndTwo() => Given().Using(1).And().Default(2).Then().Result.Is((1, 2));
-        [Fact] public void ThenIsSetup() => classFixture._setupCount.Is(1);
     }
 
-    public class GivenThreeAndFour(WhenGetValues classFixture) 
+    public class GivenThreeAndFour(WhenClassFixtureSpecifyBeforeAndAfter.WhenGetValues classFixture) 
         : Spec<MyWrapper<int>, (int, int)>(classFixture), IClassFixture<WhenGetValues>
     {
         [Fact] public void ThenReturnThreeAndFour() => Given().Using(3).And().Default(4).Then().Result.Is((3, 4));
-        [Fact] public void ThenIsSetup() => classFixture._setupCount.Is(1);
+        [Fact] public void ThenIsSetup() => Then(classFixture)._setupCount.Is(1);
     }
 }
