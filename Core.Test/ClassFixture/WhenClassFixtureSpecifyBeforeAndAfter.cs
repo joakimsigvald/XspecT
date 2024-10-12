@@ -1,6 +1,5 @@
 ﻿using XspecT.Assert;
 using XspecT.Test.AutoMock;
-using Xunit;
 
 namespace XspecT.Test.ClassFixture;
 
@@ -20,28 +19,17 @@ public static class WhenClassFixtureSpecifyBeforeAndAfter
             });
     }
 
-    public class GivenOneAndTwo : Spec<MyWrapper<int>, (int, int)>, IClassFixture<WhenGetValues>
+    public class GivenOneAndTwo(WhenGetValues classFixture) 
+        : Spec<MyWrapper<int>, (int, int)>(classFixture), IClassFixture<WhenGetValues>
     {
-        private readonly WhenGetValues _classFixture;
-
-        public GivenOneAndTwo(WhenGetValues classFixture) : base(classFixture)
-        {
-            Given().Using(1).And().Default(2);
-            _classFixture = classFixture;
-        }
-
-        [Fact] public void ThenReturnOneAndTwo() => Result.Is((1, 2));
-        //[Fact] public void ThenIsSetup() => _classFixture._setupCount.Is(1);
+        [Fact] public void ThenReturnOneAndTwo() => Given().Using(1).And().Default(2).Then().Result.Is((1, 2));
+        [Fact] public void ThenIsSetup() => classFixture._setupCount.Is(1);
     }
 
-    public class GivenThreeAndFour : Spec<MyWrapper<int>, (int, int)>, IClassFixture<WhenGetValues>
+    public class GivenThreeAndFour(WhenGetValues classFixture) 
+        : Spec<MyWrapper<int>, (int, int)>(classFixture), IClassFixture<WhenGetValues>
     {
-        private readonly WhenGetValues _classFixture;
-
-        public GivenThreeAndFour(WhenGetValues _) : base(_)
-            => Given().Using(3).And().Default(4);
-
-        [Fact] public void ThenReturnThreeAndFour() => Result.Is((3, 4));
-        //[Fact] public void ThenIsSetup() => _classFixture._setupCount.Is(1);
+        [Fact] public void ThenReturnThreeAndFour() => Given().Using(3).And().Default(4).Then().Result.Is((3, 4));
+        [Fact] public void ThenIsSetup() => classFixture._setupCount.Is(1);
     }
 }
