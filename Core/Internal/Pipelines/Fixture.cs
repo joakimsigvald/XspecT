@@ -3,7 +3,7 @@ using XspecT.Internal.TestData;
 
 namespace XspecT.Internal.Pipelines;
 
-internal abstract class Fixture<TSUT>(Fixture<TSUT> classFixture = null) : IDisposable
+internal abstract class Fixture<TSUT>(Fixture<TSUT> classFixture = null)
 {
     private protected readonly Context _context = classFixture?._context ?? new();
     private protected readonly SpecFixture<TSUT> _fixture = classFixture?._fixture ?? new();
@@ -78,5 +78,12 @@ internal abstract class Fixture<TSUT>(Fixture<TSUT> classFixture = null) : IDisp
         _context.SetupThrows<TService>(expected);
     }
 
-    public void Dispose() => _fixture.Dispose();
+    public void TearDown()
+    {
+        if (HasClassFixture)
+            return;
+        _fixture.Dispose();
+    }
+
+    private bool HasClassFixture => classFixture is not null;
 }

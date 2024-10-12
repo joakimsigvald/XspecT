@@ -28,7 +28,6 @@ public abstract class Spec<TSUTorResult> : Spec<TSUTorResult, TSUTorResult>
 public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>, IFixture<TSUT>, IDisposable
 {
     private readonly Pipeline<TSUT, TResult> _pipeline;
-    private readonly bool _isClassFixture;
 
     /// <summary>
     /// 
@@ -37,7 +36,6 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     {
         SpecificationGenerator.Clear();
         _pipeline = new(null);
-        _isClassFixture = false;
     }
 
     /// <summary>
@@ -50,7 +48,6 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
         SpecificationGenerator.Clear();
         SpecificationGenerator.Init(fixtureSpec);
         _pipeline = new(classFixture.Fixture);
-        _isClassFixture = false;
     }
 
     /// <summary>
@@ -64,11 +61,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// 
     /// </summary>
     /// <exception cref="NotImplementedException"></exception>
-    public void Dispose()
-    {
-        if (_isClassFixture)
-            _pipeline.Dispose();
-    }
+    public void Dispose() => _pipeline.TearDown();
 
     Fixture<TSUT> IFixture<TSUT>.Fixture => _pipeline;
 }

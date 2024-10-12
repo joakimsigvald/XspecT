@@ -6,22 +6,10 @@ internal class SpecFixture<TSUT> : IDisposable
 {
     private bool _disposed;
     private Lazy<TSUT> _sut;
-    private readonly List<Command> _setUp;
-    private readonly List<Command> _tearDown;
+    private readonly List<Command> _setUp = [];
+    private readonly List<Command> _tearDown = [];
 
-    internal SpecFixture(SpecFixture<TSUT> fixture = null)
-    {
-        _sut = fixture?._sut;
-        _setUp = fixture?._setUp ?? [];
-        _tearDown = fixture?._tearDown ?? [];
-    }
-
-    ~SpecFixture()
-    {
-        Dispose(false);
-    }
-
-    internal SpecFixture<TSUT> AsFixture() => new(this);
+    ~SpecFixture() => Dispose(false);
 
     internal void After(Command setUp) => _setUp.Insert(0, setUp);
     internal void Before(Command tearDown) => _tearDown.Add(tearDown);
