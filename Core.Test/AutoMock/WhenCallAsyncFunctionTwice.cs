@@ -2,9 +2,9 @@
 
 namespace XspecT.Test.AutoMock;
 
-public abstract class WhenCallAsyncMethodTwice : Spec<InterfaceService, int>
+public abstract class WhenCallAsyncFunctionTwice : Spec<InterfaceService, int>
 {
-    protected WhenCallAsyncMethodTwice()
+    protected WhenCallAsyncFunctionTwice()
         => When(async _ => await TryGetValue(_) + await _.GetServiceValueAsync());
 
     private async Task<int> TryGetValue(InterfaceService _)
@@ -19,7 +19,7 @@ public abstract class WhenCallAsyncMethodTwice : Spec<InterfaceService, int>
         }
     }
 
-    public class GivenOneMockedResponse : WhenCallAsyncMethodTwice
+    public class GivenOneMockedResponse : WhenCallAsyncFunctionTwice
     {
         public GivenOneMockedResponse() => Given<IMyService>().That(_ => _.GetValueAsync()).Returns(() => 1);
         [Fact]
@@ -35,7 +35,7 @@ public abstract class WhenCallAsyncMethodTwice : Spec<InterfaceService, int>
         }
     }
 
-    public class GivenDifferentResponse : WhenCallAsyncMethodTwice
+    public class GivenDifferentResponse : WhenCallAsyncFunctionTwice
     {
         public GivenDifferentResponse()
             => Given<IMyService>().That(_ => _.GetValueAsync()).First().Returns(() => 1).AndNext().Returns(() => 2);
@@ -54,7 +54,7 @@ public abstract class WhenCallAsyncMethodTwice : Spec<InterfaceService, int>
         }
     }
 
-    public class GivenThrowsSecondTime : WhenCallAsyncMethodTwice
+    public class GivenThrowsSecondTime : WhenCallAsyncFunctionTwice
     {
         public GivenThrowsSecondTime()
             => Given<IMyService>().That(_ => _.GetValueAsync())
@@ -77,7 +77,7 @@ public abstract class WhenCallAsyncMethodTwice : Spec<InterfaceService, int>
         }
     }
 
-    public class GivenThrowsFirstTime : WhenCallAsyncMethodTwice
+    public class GivenThrowsFirstTime : WhenCallAsyncFunctionTwice
     {
         public GivenThrowsFirstTime()
             => Given<IMyService>().That(_ => _.GetValueAsync()).First().Throws(An<ArgumentException>).AndNext().Returns(An<int>);

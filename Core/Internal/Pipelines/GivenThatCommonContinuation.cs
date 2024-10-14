@@ -103,10 +103,12 @@ internal abstract class GivenThatCommonContinuation<TSUT, TResult, TService, TRe
                 taskContinuation.Returns(Task.CompletedTask);
             else if (Continuation is Moq.Language.Flow.ISetup<TService> voidContinuation)
                 voidContinuation.Verifiable();
+            else if (Continuation is Moq.Language.ISetupSequentialResult<Task> sequentialTaskContinuation)
+                sequentialTaskContinuation.Returns(Task.CompletedTask);
             else if (Continuation is Moq.Language.ISetupSequentialResult<TReturns> sequentialContinuation)
                 return;
             else if (Continuation is Moq.Language.ISetupSequentialResult<Task<TReturns>> sequentialAsyncContinuation)
-                return;
+                sequentialAsyncContinuation.Returns(Task.FromResult(default(TReturns)));
             else throw new NotImplementedException();
         }
     }
@@ -145,11 +147,11 @@ internal abstract class GivenThatCommonContinuation<TSUT, TResult, TService, TRe
             if (Continuation is Moq.Language.Flow.IReturnsThrows<TService, TReturns> syncContinuation)
                 syncContinuation.Throws<TException>();
             else if (Continuation is Moq.Language.Flow.IReturnsThrows<TService, Task<TReturns>> asyncContinuation)
-                asyncContinuation.Throws<TException>();
+                asyncContinuation.ThrowsAsync(It.IsAny<TException>());
             else if (Continuation is Moq.Language.ISetupSequentialResult<TReturns> sequentialContinuation)
                 sequentialContinuation.Throws<TException>();
             else if (Continuation is Moq.Language.ISetupSequentialResult<Task<TReturns>> sequentialAsyncContinuation)
-                sequentialAsyncContinuation.Throws<TException>();
+                sequentialAsyncContinuation.ThrowsAsync(It.IsAny<TException>());
             else throw new NotImplementedException();
         }
     }
@@ -166,6 +168,8 @@ internal abstract class GivenThatCommonContinuation<TSUT, TResult, TService, TRe
                 returnsThrows.Throws(expected());
             else if (Continuation is Moq.Language.Flow.IReturnsThrows<TService, Task<TReturns>> asyncReturnsThrows)
                 asyncReturnsThrows.ThrowsAsync(expected());
+            else if (Continuation is Moq.Language.ISetupSequentialResult<Task> sequentialTaskContinuation)
+                sequentialTaskContinuation.ThrowsAsync(expected());
             else if (Continuation is Moq.Language.ISetupSequentialResult<TReturns> sequentialContinuation)
                 sequentialContinuation.Throws(expected());
             else if (Continuation is Moq.Language.ISetupSequentialResult<Task<TReturns>> sequentialAsyncContinuation)

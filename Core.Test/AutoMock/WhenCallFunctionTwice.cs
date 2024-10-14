@@ -2,9 +2,9 @@
 
 namespace XspecT.Test.AutoMock;
 
-public abstract class WhenCallMethodTwice : Spec<InterfaceService, int>
+public abstract class WhenCallFunctionTwice : Spec<InterfaceService, int>
 {
-    protected WhenCallMethodTwice() => When(_ => TryGetValue(_) + _.GetServiceValue());
+    protected WhenCallFunctionTwice() => When(_ => TryGetValue(_) + _.GetServiceValue());
 
 
     private int TryGetValue(InterfaceService _)
@@ -19,13 +19,13 @@ public abstract class WhenCallMethodTwice : Spec<InterfaceService, int>
         }
     }
 
-    public class GivenOneMockedResponse : WhenCallMethodTwice
+    public class GivenOneMockedResponse : WhenCallFunctionTwice
     {
         public GivenOneMockedResponse() => Given<IMyService>().That(_ => _.GetValue()).Returns(() => 1);
         [Fact] public void ThenReturnThatResponsTwice() => Then().Result.Is(2);
     }
 
-    public class GivenAndNextWithoutFirst : WhenCallMethodTwice
+    public class GivenAndNextWithoutFirst : WhenCallFunctionTwice
     {
         [Fact]
         public void ThenThrowSetupFailed()
@@ -37,21 +37,21 @@ public abstract class WhenCallMethodTwice : Spec<InterfaceService, int>
         }
     }
 
-    public class GivenDifferentResponse : WhenCallMethodTwice
+    public class GivenDifferentResponse : WhenCallFunctionTwice
     {
         public GivenDifferentResponse()
             => Given<IMyService>().That(_ => _.GetValue()).First().Returns(() => 1).AndNext().Returns(() => 2);
         [Fact] public void ThenReturnDifferentResponses() => Then().Result.Is(3);
     }
 
-    public class GivenThrowsSecondTime : WhenCallMethodTwice
+    public class GivenThrowsSecondTime : WhenCallFunctionTwice
     {
         public GivenThrowsSecondTime()
             => Given<IMyService>().That(_ => _.GetValue()).First().Returns(() => 1).AndNext().Throws(An<ArgumentException>);
         [Fact] public void ThenThrows() => Then().Throws(The<ArgumentException>);
     }
 
-    public class GivenThrowsFirstTime : WhenCallMethodTwice
+    public class GivenThrowsFirstTime : WhenCallFunctionTwice
     {
         public GivenThrowsFirstTime()
             => Given<IMyService>().That(_ => _.GetValue()).First().Throws<ArgumentException>().AndNext().Returns(An<int>);

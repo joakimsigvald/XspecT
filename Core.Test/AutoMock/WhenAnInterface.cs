@@ -105,6 +105,8 @@ public interface IMyService
 {
     int GetValue();
     Task<int> GetValueAsync();
+    void SetValue(int value);
+    Task SetValueAsync(int value);
 }
 
 public class MyService(MyComponent component) : IMyService
@@ -112,6 +114,16 @@ public class MyService(MyComponent component) : IMyService
     private readonly MyComponent _component = component;
     public int GetValue() => _component.GetValue();
     public Task<int> GetValueAsync() => Task.FromResult(_component.GetValue());
+
+    public Task SetValueAsync(int value)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void SetValue(int value)
+    {
+        throw new NotImplementedException();
+    }
 }
 
 public class InterfaceService(MyComponent component, IMyService service)
@@ -121,6 +133,8 @@ public class InterfaceService(MyComponent component, IMyService service)
     public int GetValue() => _component.GetValue();
     public int GetServiceValue() => _service.GetValue();
     public Task<int> GetServiceValueAsync() => _service.GetValueAsync();
+    public void SetValue(int value) => _service.SetValue(value);
+    public Task SetValueAsync(int value) => _service.SetValueAsync(value);
 }
 
 public class MyComponent(IMyLogger logger, int value)
