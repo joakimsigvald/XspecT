@@ -103,6 +103,10 @@ internal abstract class GivenThatCommonContinuation<TSUT, TResult, TService, TRe
                 taskContinuation.Returns(Task.CompletedTask);
             else if (Continuation is Moq.Language.Flow.ISetup<TService> voidContinuation)
                 voidContinuation.Verifiable();
+            else if (Continuation is Moq.Language.ISetupSequentialResult<TReturns> sequentialContinuation)
+                return;
+            else if (Continuation is Moq.Language.ISetupSequentialResult<Task<TReturns>> sequentialAsyncContinuation)
+                return;
             else throw new NotImplementedException();
         }
     }

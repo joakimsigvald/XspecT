@@ -57,7 +57,10 @@ public abstract class WhenCallAsyncMethodTwice : Spec<InterfaceService, int>
     public class GivenThrowsSecondTime : WhenCallAsyncMethodTwice
     {
         public GivenThrowsSecondTime()
-            => Given<IMyService>().That(_ => _.GetValueAsync()).First().Returns(() => 1).AndNext().Throws(An<ArgumentException>);
+            => Given<IMyService>().That(_ => _.GetValueAsync())
+            .First().Returns(() => 1)
+            .AndNext().Throws(An<ArgumentException>)
+            .AndNext().Returns();
 
         [Fact]
         public void ThenThrows()
@@ -67,6 +70,7 @@ public abstract class WhenCallAsyncMethodTwice : Spec<InterfaceService, int>
                 """
                 Given IMyService.GetValueAsync() first returns 1
                   and next throws an ArgumentException
+                  and next returns
                 When async _ => await TryGetValue(_) + await _.GetServiceValueAsync()
                 Then throws the ArgumentException
                 """);
