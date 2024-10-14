@@ -44,7 +44,7 @@ internal abstract class GivenThatCommonContinuation<TSUT, TResult, TService, TRe
     public IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> Returns()
     {
         SetupReturns();
-        return new GivenThatReturnsContinuation<TSUT, TResult, TService, TReturns>(_spec);
+        return new GivenThatReturnsContinuation<TSUT, TResult, TService, TReturns>(_spec, this);
     }
 
     public IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> Returns(
@@ -63,14 +63,14 @@ internal abstract class GivenThatCommonContinuation<TSUT, TResult, TService, TRe
         where TException : Exception, new()
     {
         SetupThrows<TException>();
-        return new GivenThatReturnsContinuation<TSUT, TResult, TService, TReturns>(_spec);
+        return new GivenThatReturnsContinuation<TSUT, TResult, TService, TReturns>(_spec, this);
     }
 
     public IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> Throws(
         Func<Exception> expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
         SetupThrows(expected, expectedExpr);
-        return new GivenThatReturnsContinuation<TSUT, TResult, TService, TReturns>(_spec);
+        return new GivenThatReturnsContinuation<TSUT, TResult, TService, TReturns>(_spec, this);
     }
 
     public IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns> First()
@@ -138,8 +138,14 @@ internal abstract class GivenThatCommonContinuation<TSUT, TResult, TService, TRe
         {
             SpecifyMock();
             SpecificationGenerator.AddMockThrows<TException>();
-            if (Continuation is Moq.Language.Flow.IReturnsThrows<TService, TReturns> returnsThrows)
-                returnsThrows.Throws<TException>();
+            if (Continuation is Moq.Language.Flow.IReturnsThrows<TService, TReturns> syncContinuation)
+                syncContinuation.Throws<TException>();
+            else if (Continuation is Moq.Language.Flow.IReturnsThrows<TService, Task<TReturns>> asyncContinuation)
+                asyncContinuation.Throws<TException>();
+            else if (Continuation is Moq.Language.ISetupSequentialResult<TReturns> sequentialContinuation)
+                sequentialContinuation.Throws<TException>();
+            else if (Continuation is Moq.Language.ISetupSequentialResult<Task<TReturns>> sequentialAsyncContinuation)
+                sequentialAsyncContinuation.Throws<TException>();
             else throw new NotImplementedException();
         }
     }

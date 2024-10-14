@@ -4,7 +4,20 @@ namespace XspecT.Test.AutoMock;
 
 public abstract class WhenCallAsyncMethodTwice : Spec<InterfaceService, int>
 {
-    protected WhenCallAsyncMethodTwice() => When(async _ => await _.GetServiceValueAsync() + await _.GetServiceValueAsync());
+    protected WhenCallAsyncMethodTwice()
+        => When(async _ => await TryGetValue(_) + await _.GetServiceValueAsync());
+
+    private async Task<int> TryGetValue(InterfaceService _)
+    {
+        try
+        {
+            return await _.GetServiceValueAsync();
+        }
+        catch (Exception ex)
+        {
+            return 0;
+        }
+    }
 
     public class GivenOneMockedResponse : WhenCallAsyncMethodTwice
     {
@@ -16,7 +29,7 @@ public abstract class WhenCallAsyncMethodTwice : Spec<InterfaceService, int>
             Specification.Is(
                 """
                 Given IMyService.GetValueAsync() returns 1
-                When async _ => await _.GetServiceValueAsync() + await _.GetServiceValueAsync()
+                When async _ => await TryGetValue(_) + await _.GetServiceValueAsync()
                 Then Result is 2
                 """);
         }
@@ -35,7 +48,7 @@ public abstract class WhenCallAsyncMethodTwice : Spec<InterfaceService, int>
                 """
                 Given IMyService.GetValueAsync() first returns 1
                   and next returns 2
-                When async _ => await _.GetServiceValueAsync() + await _.GetServiceValueAsync()
+                When async _ => await TryGetValue(_) + await _.GetServiceValueAsync()
                 Then Result is 3
                 """);
         }
@@ -54,8 +67,27 @@ public abstract class WhenCallAsyncMethodTwice : Spec<InterfaceService, int>
                 """
                 Given IMyService.GetValueAsync() first returns 1
                   and next throws an ArgumentException
-                When async _ => await _.GetServiceValueAsync() + await _.GetServiceValueAsync()
+                When async _ => await TryGetValue(_) + await _.GetServiceValueAsync()
                 Then throws the ArgumentException
+                """);
+        }
+    }
+
+    public class GivenThrowsFirstTime : WhenCallAsyncMethodTwice
+    {
+        public GivenThrowsFirstTime()
+            => Given<IMyService>().That(_ => _.GetValueAsync()).First().Throws(An<ArgumentException>).AndNext().Returns(An<int>);
+
+        [Fact]
+        public void ThenReturnsSecondValue()
+        {
+            Result.Is(The<int>());
+            Specification.Is(
+                """
+                Given IMyService.GetValueAsync() first throws an ArgumentException
+                  and next returns an int
+                When async _ => await TryGetValue(_) + await _.GetServiceValueAsync()
+                Then Result is the int
                 """);
         }
     }

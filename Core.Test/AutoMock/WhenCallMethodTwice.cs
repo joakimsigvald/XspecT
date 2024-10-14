@@ -4,7 +4,20 @@ namespace XspecT.Test.AutoMock;
 
 public abstract class WhenCallMethodTwice : Spec<InterfaceService, int>
 {
-    protected WhenCallMethodTwice() => When(_ => _.GetServiceValue() + _.GetServiceValue());
+    protected WhenCallMethodTwice() => When(_ => TryGetValue(_) + _.GetServiceValue());
+
+
+    private int TryGetValue(InterfaceService _)
+    {
+        try
+        {
+            return _.GetServiceValue();
+        }
+        catch (Exception ex)
+        {
+            return 0;
+        }
+    }
 
     public class GivenOneMockedResponse : WhenCallMethodTwice
     {
@@ -36,5 +49,13 @@ public abstract class WhenCallMethodTwice : Spec<InterfaceService, int>
         public GivenThrowsSecondTime()
             => Given<IMyService>().That(_ => _.GetValue()).First().Returns(() => 1).AndNext().Throws(An<ArgumentException>);
         [Fact] public void ThenThrows() => Then().Throws(The<ArgumentException>);
+    }
+
+    public class GivenThrowsFirstTime : WhenCallMethodTwice
+    {
+        public GivenThrowsFirstTime()
+            => Given<IMyService>().That(_ => _.GetValue()).First().Throws<ArgumentException>().AndNext().Returns(An<int>);
+
+        [Fact] public void ThenReturnsSecondValue() => Result.Is(The<int>());
     }
 }
