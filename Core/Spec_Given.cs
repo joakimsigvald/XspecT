@@ -115,12 +115,23 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
 
     internal IGivenTestPipeline<TSUT, TResult> SetupMention<TValue>(
         Action mention,
-        string mentionExpr,
+        string mentionExpr = null,
         [CallerMemberName] string article = null)
     {
         _pipeline.ArrangeFirst(() =>
         {
             SpecificationGenerator.AddGiven<TValue>(mentionExpr, article);
+            mention();
+        });
+        return new GivenTestPipeline<TSUT, TResult>(this);
+    }
+
+    internal IGivenTestPipeline<TSUT, TResult> SetupMentionCount<TValue>(
+        Action mention, [CallerMemberName] string count = null)
+    {
+        _pipeline.ArrangeFirst(() =>
+        {
+            SpecificationGenerator.AddGivenCount<TValue>(count);
             mention();
         });
         return new GivenTestPipeline<TSUT, TResult>(this);

@@ -91,6 +91,13 @@ internal class SpecificationBuilder
         AddPhraseOrSentence($"{Given} {articleStr}{NameOf<TModel>()} {{ {setupExpr.ParseValue()} }}");
     }
 
+    internal void AddGivenCount<TModel>(string count)
+    {
+        _currentMockSetup = null;
+        var articleStr = string.IsNullOrEmpty(count) ? string.Empty : $"{count.AsWords()} ";
+        AddPhraseOrSentence($"{Given} {articleStr}{NameOf<TModel>()}");
+    }
+
     internal void AddVerify<TService>(string expressionExpr)
         => AddWord($"{NameOf<TService>()}.{expressionExpr.ParseCall(true)}");
 

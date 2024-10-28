@@ -138,10 +138,28 @@ internal class GivenContinuation<TSUT, TResult> : IGivenContinuation<TSUT, TResu
         [CallerArgumentExpression(nameof(transform))] string transformExpr = null)
         => _spec.SetupMention<TValue>(() => _spec.AFifth(transform), transformExpr);
 
+    public IGivenTestPipeline<TSUT, TResult> Zero<TValue>()
+        => _spec.SetupMentionCount<TValue>(() => _spec.Zero<TValue>());
+
+    public IGivenTestPipeline<TSUT, TResult> One<TValue>()
+        => _spec.SetupMentionCount<TValue>(() => _spec.One<TValue>());
+
+    public IGivenTestPipeline<TSUT, TResult> Two<TValue>()
+        => _spec.SetupMentionCount<TValue>(() => _spec.Two<TValue>());
+
+    public IGivenTestPipeline<TSUT, TResult> Three<TValue>()
+        => _spec.SetupMentionCount<TValue>(() => _spec.Three<TValue>());
+
+    public IGivenTestPipeline<TSUT, TResult> Four<TValue>()
+        => _spec.SetupMentionCount<TValue>(() => _spec.Four<TValue>());
+
+    public IGivenTestPipeline<TSUT, TResult> Five<TValue>()
+        => _spec.SetupMentionCount<TValue>(() => _spec.Five<TValue>());
+
     public IGivenTestPipeline<TSUT, TResult> One<TValue>(
         TValue value, [CallerArgumentExpression(nameof(value))] string valueExpr = null)
         => _spec.SetupMention<TValue>(() => _spec.One(value), valueExpr);
-
+    
     public IGivenTestPipeline<TSUT, TResult> One<TValue>(
         [NotNull] Action<TValue> setup, 
         [CallerArgumentExpression(nameof(setup))] string setupExpr = null)

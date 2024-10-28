@@ -280,6 +280,48 @@ public interface IGivenContinuation<TSUT, TResult>
         [CallerArgumentExpression(nameof(transform))] string transformExpr = null);
 
     /// <summary>
+    /// Specify that referenced collections of the given type have zero elements.
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> Zero<TValue>();
+
+    /// <summary>
+    /// Specify that referenced collections of the given type have one element.
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> One<TValue>();
+
+    /// <summary>
+    /// Specify that referenced collections of the given type have two elements.
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> Two<TValue>();
+
+    /// <summary>
+    /// Specify that referenced collections of the given type have three elements.
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> Three<TValue>();
+
+    /// <summary>
+    /// Specify that referenced collections of the given type have four elements.
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> Four<TValue>();
+
+    /// <summary>
+    /// Specify that referenced collections of the given type have five elements.
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> Five<TValue>();
+
+    /// <summary>
     /// Specify that referenced collections of the given type have one element, unless otherwise specified, 
     /// and that the one element is the given value.
     /// </summary>
