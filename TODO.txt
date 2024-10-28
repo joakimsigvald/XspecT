@@ -1,3 +1,4 @@
+* Better handling of when providing null as array of default values
 * Separate ClassFixture class from Spec and only allow Arrange on fixture, not when/Then
 * Productivity: Auto-generate test classes from Visual Studio
   - rightclick method and generate test class "When..." in the correct folder structure (configurable)

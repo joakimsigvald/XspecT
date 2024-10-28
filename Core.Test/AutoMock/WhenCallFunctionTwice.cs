@@ -13,7 +13,7 @@ public abstract class WhenCallFunctionTwice : Spec<InterfaceService, int>
         {
             return _.GetServiceValue();
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             return 0;
         }

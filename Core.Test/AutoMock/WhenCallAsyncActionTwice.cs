@@ -19,7 +19,7 @@ public abstract class WhenCallAsyncActionTwice : Spec<InterfaceService>
         {
             await _.SetValueAsync(value);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             return;
         }

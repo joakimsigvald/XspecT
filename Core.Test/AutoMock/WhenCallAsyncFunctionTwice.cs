@@ -13,7 +13,7 @@ public abstract class WhenCallAsyncFunctionTwice : Spec<InterfaceService, int>
         {
             return await _.GetServiceValueAsync();
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             return 0;
         }
