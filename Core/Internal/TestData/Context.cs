@@ -20,6 +20,9 @@ internal class Context
     internal TValue Mention<TValue>(int index, Func<TValue, TValue> transform)
         => (TValue)Mention(typeof(TValue), transform.Invoke(Mention<TValue>(index)), index);
 
+    internal TValue Mention<TValue>(int index, Func<TValue, int, TValue> transform)
+        => (TValue)Mention(typeof(TValue), transform.Invoke(Mention<TValue>(index), index), index);
+
     internal TValue Mention<TValue>(int index)
     {
         var (val, found) = _dataProvider.Retrieve(typeof(TValue), index);
@@ -66,10 +69,10 @@ internal class Context
         => Mention(Enumerable.Range(0, count).Select(i => Mention<TValue>(i, _ => setup(_, i))).ToArray());
 
     internal TValue[] MentionMany<TValue>(Func<TValue, TValue> transform, int count)
-        => Mention(Enumerable.Range(0, count).Select(i => transform.Invoke(Mention<TValue>(i))).ToArray());
+        => Mention(Enumerable.Range(0, count).Select(i => Mention(i, transform)).ToArray());
 
-    internal TValue[] MentionMany<TValue>(Func<TValue, int, TValue> transform, int count)
-        => Mention(Enumerable.Range(0, count).Select(i => transform.Invoke(Mention<TValue>(i), i)).ToArray());
+    internal TValue[] MentionMany<TValue>(Func<TValue, int, TValue> transform, int count) 
+        => Mention(Enumerable.Range(0, count).Select(i => Mention(i, transform)).ToArray());
 
     internal TValue Create<TValue>() => _dataProvider.Create<TValue>();
 
