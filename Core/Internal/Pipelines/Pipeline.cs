@@ -2,6 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using XspecT.Continuations;
+using XspecT.Internal.Specification;
 using XspecT.Internal.TestData;
 using XspecT.Internal.Verification;
 

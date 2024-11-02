@@ -1,4 +1,4 @@
-﻿using XspecT.Internal;
+﻿using XspecT.Internal.Specification;
 
 namespace XspecT.Assert;
 

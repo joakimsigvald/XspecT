@@ -1,16 +1,11 @@
-﻿namespace XspecT.Internal;
+﻿using System.Runtime.CompilerServices;
 
-/// <summary>
-/// Only used internally
-/// </summary>
-public static class TypeExtensions
+[assembly: InternalsVisibleTo("XspecT.Test")]
+namespace XspecT.Internal.Specification;
+
+internal static class TypeExtensions
 {
-    /// <summary>
-    /// Only used internally
-    /// </summary>
-    /// <param name="type"></param>
-    /// <returns></returns>
-    public static string Alias(this Type type)
+    internal static string Alias(this Type type)
     {
         if (type.IsArray)
         {

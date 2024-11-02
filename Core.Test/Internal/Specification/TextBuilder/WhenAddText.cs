@@ -1,11 +1,11 @@
 ﻿using XspecT.Assert;
 
-namespace XspecT.Test.Internal.TextBuilder;
+namespace XspecT.Test.Internal.Specification.TextBuilder;
 
-public class WhenAddText : Spec<XspecT.Internal.TextBuilder, string>
+public class WhenAddText : Spec<XspecT.Internal.Specification.TextBuilder, string>
 {
     public WhenAddText()
-    => Given(new XspecT.Internal.TextBuilder(10, 1))
+    => Given(new XspecT.Internal.Specification.TextBuilder(10, 1))
     .When(_ => _.AddText(A<string>()).ToString());
 
     [Theory]
@@ -74,7 +74,7 @@ public class WhenAddText : Spec<XspecT.Internal.TextBuilder, string>
 
     [Theory]
     [InlineData(null, null, "")]
-    [InlineData("12345678", "901", 
+    [InlineData("12345678", "901",
         """
         12345678
            901

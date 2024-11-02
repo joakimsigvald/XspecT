@@ -1,6 +1,7 @@
 ﻿using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using XspecT.Continuations;
+using XspecT.Internal.Specification;
 
 namespace XspecT.Internal.Pipelines;
 

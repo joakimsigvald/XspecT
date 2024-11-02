@@ -71,12 +71,12 @@ internal class Context
     internal TValue[] MentionMany<TValue>(Func<TValue, TValue> transform, int count)
         => Mention(Enumerable.Range(0, count).Select(i => Mention(i, transform)).ToArray());
 
-    internal TValue[] MentionMany<TValue>(Func<TValue, int, TValue> transform, int count) 
+    internal TValue[] MentionMany<TValue>(Func<TValue, int, TValue> transform, int count)
         => Mention(Enumerable.Range(0, count).Select(i => Mention(i, transform)).ToArray());
 
     internal TValue Create<TValue>() => _dataProvider.Create<TValue>();
 
-    internal Mock<TObject> GetMock<TObject>() where TObject : class 
+    internal Mock<TObject> GetMock<TObject>() where TObject : class
         => _dataProvider.GetMock<TObject>();
 
     internal void Use<TService>(TService service, ApplyTo applyTo) => _dataProvider.Use(service, applyTo);
@@ -85,7 +85,7 @@ internal class Context
         => _dataProvider.SetDefaultException(typeof(TService), ex);
 
     private TValue[] MentionMany<TValue>(int count)
-        => count == 0 ? Mention(Array.Empty<TValue>()) 
+        => count == 0 ? Mention(Array.Empty<TValue>())
         : Mention(Enumerable.Range(0, count).Select(i => Mention<TValue>(i)).ToArray());
 
     private object Mention(Type type, object value, int index = 0)
@@ -97,12 +97,5 @@ internal class Context
         : Extend(arr, count);
 
     private TValue[] Extend<TValue>(TValue[] arr, int count)
-    {
-        var oldLen = arr.Length;
-        var newArr = new TValue[count];
-        Array.Copy(arr, newArr, oldLen);
-        for (var i = oldLen; i < count; i++)
-            newArr[i] = Mention<TValue>(i);
-        return newArr;
-    }
+        => [.. arr, .. Enumerable.Range(arr.Length, count - arr.Length).Select(Mention<TValue>)];
 }

@@ -1,6 +1,6 @@
 ﻿using XspecT.Internal.TestData;
 
-namespace XspecT.Internal;
+namespace XspecT.Internal.Specification;
 
 internal class SpecificationBuilder
 {

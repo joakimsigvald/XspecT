@@ -1,8 +1,8 @@
 ﻿using Moq;
 using System.Runtime.CompilerServices;
 using XspecT.Continuations;
-using XspecT.Internal;
 using XspecT.Internal.Pipelines;
+using XspecT.Internal.Specification;
 using XspecT.Internal.TestData;
 
 namespace XspecT;
@@ -18,7 +18,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <returns></returns>
     public IGivenTestPipeline<TSUT, TResult> Given<TValue>(
         Action<TValue> setup,
-        [CallerArgumentExpression(nameof(setup))] string setupExpr = null) 
+        [CallerArgumentExpression(nameof(setup))] string setupExpr = null)
         where TValue : class
     {
         _pipeline.SetDefault(setup, setupExpr);
@@ -49,7 +49,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <returns></returns>
     public IGivenTestPipeline<TSUT, TResult> Given<TValue>(
         TValue defaultValue,
-        [CallerArgumentExpression(nameof(defaultValue))] string defaultValueExpr = null) 
+        [CallerArgumentExpression(nameof(defaultValue))] string defaultValueExpr = null)
         => GivenDefault(defaultValue, ApplyTo.All, defaultValueExpr);
 
     /// <summary>
@@ -65,9 +65,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
         [CallerArgumentExpression(nameof(defaultValues))] string defaultValuesExpr = null)
     {
         _pipeline.SetDefault(defaultValues, ApplyTo.All, defaultValuesExpr);
-        var mentions = defaultValues.Take(5).Select((value, i) => (i, value));
-        foreach (var (i, value) in mentions)
-            _pipeline.Mention(i, value);
+        defaultValues.Take(5).Select((value, i) => _pipeline.Mention(i, value)).ToArray();
         return new GivenTestPipeline<TSUT, TResult>(this);
     }
 
@@ -77,7 +75,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TService"></typeparam>
     /// <returns></returns>
     /// <exception cref="SetupFailed"></exception>
-    public IGivenServiceContinuation<TSUT, TResult, TService> Given<TService>() where TService : class 
+    public IGivenServiceContinuation<TSUT, TResult, TService> Given<TService>() where TService : class
         => new GivenServiceContinuation<TSUT, TResult, TService>(this);
 
     /// <summary>
@@ -85,7 +83,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// </summary>
     /// <returns></returns>
     /// <exception cref="SetupFailed"></exception>
-    public IGivenContinuation<TSUT, TResult> Given() 
+    public IGivenContinuation<TSUT, TResult> Given()
         => new GivenContinuation<TSUT, TResult>(this);
 
     /// <summary>
@@ -98,7 +96,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <returns></returns>
     public IGivenTestPipeline<TSUT, TResult> Given<TValue>(
         Func<TValue> defaultValue,
-        [CallerArgumentExpression(nameof(defaultValue))] string defaultValueExpr = null) 
+        [CallerArgumentExpression(nameof(defaultValue))] string defaultValueExpr = null)
         => GivenDefault(defaultValue, ApplyTo.All, defaultValueExpr);
 
     internal IGivenTestPipeline<TSUT, TResult> GivenDefault<TValue>(TValue defaultValue, ApplyTo applyTo, string defaultValueExpr)
@@ -108,36 +106,27 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     }
 
     internal IGivenTestPipeline<TSUT, TResult> GivenDefault<TValue>(Func<TValue> value, ApplyTo applyTo, string defaultValueExpr)
-    {
-        _pipeline.ArrangeFirst(() => _pipeline.SetDefault(value(), applyTo, defaultValueExpr));
-        return new GivenTestPipeline<TSUT, TResult>(this);
-    }
+        => ArrangeFirst(() => _pipeline.SetDefault(value(), applyTo, defaultValueExpr));
 
     internal IGivenTestPipeline<TSUT, TResult> SetupMention<TValue>(
         Action mention,
         string mentionExpr = null,
         [CallerMemberName] string article = null)
-    {
-        _pipeline.ArrangeFirst(() =>
+        => ArrangeFirst(() =>
         {
             SpecificationGenerator.AddGiven<TValue>(mentionExpr, article);
             mention();
         });
-        return new GivenTestPipeline<TSUT, TResult>(this);
-    }
 
     internal IGivenTestPipeline<TSUT, TResult> SetupMentionCount<TValue>(
         Action mention, [CallerMemberName] string count = null)
-    {
-        _pipeline.ArrangeFirst(() =>
+        => ArrangeFirst(() =>
         {
             SpecificationGenerator.AddGivenCount<TValue>(count);
             mention();
         });
-        return new GivenTestPipeline<TSUT, TResult>(this);
-    }
 
-    internal Mock<TService> GetMock<TService>() where TService : class 
+    internal Mock<TService> GetMock<TService>() where TService : class
         => _pipeline.GetMock<TService>();
 
     internal IGivenTestPipeline<TSUT, TResult> ArrangeLast(Action setup)
@@ -146,6 +135,12 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
         return new GivenTestPipeline<TSUT, TResult>(this);
     }
 
-    internal void SetupThrows<TService>(Func<Exception> expected) 
+    internal void SetupThrows<TService>(Func<Exception> expected)
         => _pipeline.SetupThrows<TService>(expected);
+
+    private GivenTestPipeline<TSUT, TResult> ArrangeFirst(Action arrangement)
+    {
+        _pipeline.ArrangeFirst(arrangement);
+        return new GivenTestPipeline<TSUT, TResult>(this);
+    }
 }

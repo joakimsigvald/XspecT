@@ -1,5 +1,5 @@
 ﻿using XspecT.Assert;
-using XspecT.Internal;
+using XspecT.Internal.Specification;
 using XspecT.Test.AutoFixture;
 using XspecT.Test.Subjects.RecordStructDefaults;
 

@@ -1,5 +1,5 @@
-﻿using XspecT.Internal;
-using XspecT.Internal.Pipelines;
+﻿using XspecT.Internal.Pipelines;
+using XspecT.Internal.Specification;
 
 namespace XspecT;
 

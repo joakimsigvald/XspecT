@@ -113,6 +113,14 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     protected internal TValue AFirst<TValue>([NotNull] Func<TValue, TValue> transform) => _pipeline.Mention(0, transform);
 
     /// <summary>
+    /// Provide a specific value for the first instance of the given type
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    protected internal TValue AFirst<TValue>(TValue value) => _pipeline.Mention(0, value);
+
+    /// <summary>
     /// Yields a customized value of the given type
     /// </summary>
     /// <typeparam name="TValue"></typeparam>

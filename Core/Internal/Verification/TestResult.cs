@@ -2,6 +2,7 @@
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using XspecT.Continuations;
+using XspecT.Internal.Specification;
 using XspecT.Internal.TestData;
 using Xunit.Sdk;
 

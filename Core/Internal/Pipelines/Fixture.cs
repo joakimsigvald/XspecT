@@ -1,4 +1,5 @@
 ﻿using Moq;
+using XspecT.Internal.Specification;
 using XspecT.Internal.TestData;
 
 namespace XspecT.Internal.Pipelines;
@@ -80,10 +81,7 @@ internal abstract class Fixture<TSUT>(Fixture<TSUT> classFixture = null)
 
     public void TearDown()
     {
-        if (HasClassFixture)
-            return;
-        _fixture.Dispose();
+        if (classFixture is null)
+            _fixture.Dispose();
     }
-
-    private bool HasClassFixture => classFixture is not null;
 }

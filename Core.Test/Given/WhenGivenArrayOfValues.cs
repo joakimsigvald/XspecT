@@ -59,18 +59,34 @@ public class WhenGivenArrayOfValues : Spec<MyService, IEnumerable<int>>
     }
 
     [Fact]
-    public void GivenModelHasSomeValues_AndGivenZeroValues_ThenModelHasZeroValues()
+    public void GivenModelHasSomeValues_AndGivenZeroValues_ThenModelHasTwoValues()
     {
         When(_ => _.GetModel().Values)
             .Given<MyModel>(_ => _.Values = Some<int>())
             .And(Zero<int>())
-            .Then().Result.Is(Zero<int>());
+            .Then().Result.Has().Count(2);
         Specification.Is(
             """
             Given MyModel { Values = some int }
               and zero int
             When _.GetModel().Values
-            Then Result is zero int
+            Then Result has count 2
+            """);
+    }
+
+    [Fact]
+    public void GivenModelHasManyValues_AndGivenZeroValues_ThenModelHasThreeValues()
+    {
+        When(_ => _.GetModel().Values)
+            .Given<MyModel>(_ => _.Values = Many<int>())
+            .And(Zero<int>())
+            .Then().Result.Has().Count(3);
+        Specification.Is(
+            """
+            Given MyModel { Values = many int }
+              and zero int
+            When _.GetModel().Values
+            Then Result has count 3
             """);
     }
 }

@@ -56,14 +56,14 @@ Then Result has count 3");
         public GivenEmptyIsMentionedAfter() => Given(Array.Empty<MyModel>);
 
         [Fact]
-        public void ThenCountIsZero()
+        public void ThenCountIsTwo()
         {
-            Result.Has().Count(0);
+            Result.Has().Count(2);
             Specification.Is(
 @"Given Array.Empty<MyModel>
   and some MyModel
 When _.List()
-Then Result has count 0");
+Then Result has count 2");
         }
     }
 

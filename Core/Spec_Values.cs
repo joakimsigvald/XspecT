@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-namespace XspecT;
+﻿namespace XspecT;
 
 public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
 {
@@ -28,7 +26,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
     /// <returns></returns>
-    protected internal TValue[] One<TValue>([NotNull] Action<TValue> setup) => _pipeline.MentionMany(setup, 1);
+    protected internal TValue[] One<TValue>(Action<TValue> setup) => _pipeline.MentionMany(setup, 1);
 
     /// <summary>
     /// Yields an array with one customized element of the given type
@@ -36,8 +34,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="transform"></param>
     /// <returns></returns>
-    protected internal TValue[] One<TValue>([NotNull] Func<TValue, TValue> transform) 
-        => _pipeline.MentionMany(transform, 1);
+    protected internal TValue[] One<TValue>(Func<TValue, TValue> transform) => _pipeline.MentionMany(transform, 1);
 
     /// <summary>
     /// Yields an array with two elements of the given type
@@ -52,7 +49,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
     /// <returns></returns>
-    protected internal TValue[] Two<TValue>([NotNull] Action<TValue> setup) => _pipeline.MentionMany(setup, 2);
+    protected internal TValue[] Two<TValue>(Action<TValue> setup) => _pipeline.MentionMany(setup, 2);
 
     /// <summary>
     /// Yields an array with two individually customized elements of the given type
@@ -60,7 +57,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
     /// <returns></returns>
-    protected internal TValue[] Two<TValue>([NotNull] Action<TValue, int> setup) => _pipeline.MentionMany(setup, 2);
+    protected internal TValue[] Two<TValue>(Action<TValue, int> setup) => _pipeline.MentionMany(setup, 2);
 
     /// <summary>
     /// Yields an array with two customized elements of the given type
@@ -68,8 +65,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="transform"></param>
     /// <returns></returns>
-    protected internal TValue[] Two<TValue>([NotNull] Func<TValue, TValue> transform)
-        => _pipeline.MentionMany(transform, 2);
+    protected internal TValue[] Two<TValue>(Func<TValue, TValue> transform) => _pipeline.MentionMany(transform, 2);
 
     /// <summary>
     /// Yields an array with two customized elements of the given type
@@ -77,7 +73,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="transform"></param>
     /// <returns></returns>
-    protected internal TValue[] Two<TValue>([NotNull] Func<TValue, int, TValue> transform)
+    protected internal TValue[] Two<TValue>(Func<TValue, int, TValue> transform) 
         => _pipeline.MentionMany(transform, 2);
 
     /// <summary>
@@ -93,7 +89,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
     /// <returns></returns>
-    protected internal TValue[] Three<TValue>([NotNull] Action<TValue> setup) => _pipeline.MentionMany(setup, 3);
+    protected internal TValue[] Three<TValue>(Action<TValue> setup) => _pipeline.MentionMany(setup, 3);
 
     /// <summary>
     /// Yields an array with three individually customized elements of the given type
@@ -101,7 +97,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
     /// <returns></returns>
-    protected internal TValue[] Three<TValue>([NotNull] Action<TValue, int> setup) => _pipeline.MentionMany(setup, 3);
+    protected internal TValue[] Three<TValue>(Action<TValue, int> setup) => _pipeline.MentionMany(setup, 3);
 
     /// <summary>
     /// Yields an array with three customized elements of the given type
@@ -109,8 +105,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="transform"></param>
     /// <returns></returns>
-    protected internal TValue[] Three<TValue>([NotNull] Func<TValue, TValue> transform)
-        => _pipeline.MentionMany(transform, 3);
+    protected internal TValue[] Three<TValue>(Func<TValue, TValue> transform) => _pipeline.MentionMany(transform, 3);
 
     /// <summary>
     /// Yields an array with three customized elements of the given type
@@ -118,7 +113,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="transform"></param>
     /// <returns></returns>
-    protected internal TValue[] Three<TValue>([NotNull] Func<TValue, int, TValue> transform)
+    protected internal TValue[] Three<TValue>(Func<TValue, int, TValue> transform) 
         => _pipeline.MentionMany(transform, 3);
 
     /// <summary>
@@ -134,7 +129,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
     /// <returns></returns>
-    protected internal TValue[] Four<TValue>([NotNull] Action<TValue> setup) => _pipeline.MentionMany(setup, 4);
+    protected internal TValue[] Four<TValue>(Action<TValue> setup) => _pipeline.MentionMany(setup, 4);
 
     /// <summary>
     /// Yields an array with four individually customized elements of the given type
@@ -142,7 +137,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
     /// <returns></returns>
-    protected internal TValue[] Four<TValue>([NotNull] Action<TValue, int> setup) => _pipeline.MentionMany(setup, 4);
+    protected internal TValue[] Four<TValue>(Action<TValue, int> setup) => _pipeline.MentionMany(setup, 4);
 
     /// <summary>
     /// Yields an array with four customized elements of the given type
@@ -150,8 +145,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="transform"></param>
     /// <returns></returns>
-    protected internal TValue[] Four<TValue>([NotNull] Func<TValue, TValue> transform)
-        => _pipeline.MentionMany(transform, 4);
+    protected internal TValue[] Four<TValue>(Func<TValue, TValue> transform) => _pipeline.MentionMany(transform, 4);
 
     /// <summary>
     /// Yields an array with four customized elements of the given type
@@ -159,7 +153,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="transform"></param>
     /// <returns></returns>
-    protected internal TValue[] Four<TValue>([NotNull] Func<TValue, int, TValue> transform)
+    protected internal TValue[] Four<TValue>(Func<TValue, int, TValue> transform) 
         => _pipeline.MentionMany(transform, 4);
 
     /// <summary>
@@ -175,7 +169,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
     /// <returns></returns>
-    protected internal TValue[] Five<TValue>([NotNull] Action<TValue> setup) => _pipeline.MentionMany(setup, 5);
+    protected internal TValue[] Five<TValue>(Action<TValue> setup) => _pipeline.MentionMany(setup, 5);
 
     /// <summary>
     /// Yields an array with five individually customized elements of the given type
@@ -183,7 +177,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
     /// <returns></returns>
-    protected internal TValue[] Five<TValue>([NotNull] Action<TValue, int> setup) => _pipeline.MentionMany(setup, 5);
+    protected internal TValue[] Five<TValue>(Action<TValue, int> setup) => _pipeline.MentionMany(setup, 5);
 
     /// <summary>
     /// Yields an array with five customized elements of the given type
@@ -191,8 +185,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="transform"></param>
     /// <returns></returns>
-    protected internal TValue[] Five<TValue>([NotNull] Func<TValue, TValue> transform)
-        => _pipeline.MentionMany(transform, 5);
+    protected internal TValue[] Five<TValue>(Func<TValue, TValue> transform) => _pipeline.MentionMany(transform, 5);
 
     /// <summary>
     /// Yields an array with five customized elements of the given type
@@ -200,7 +193,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="transform"></param>
     /// <returns></returns>
-    protected internal TValue[] Five<TValue>([NotNull] Func<TValue, int, TValue> transform)
+    protected internal TValue[] Five<TValue>(Func<TValue, int, TValue> transform)
         => _pipeline.MentionMany(transform, 5);
 
     /// <summary>
@@ -216,7 +209,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected internal TValue[] Some<TValue>() => _pipeline.MentionMany<TValue>(2, 0);
+    protected internal TValue[] Some<TValue>() => _pipeline.MentionMany<TValue>(2, 1);
 
     /// <summary>
     /// Yields an array with at least two elements of the given type. 

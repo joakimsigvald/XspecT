@@ -1,4 +1,5 @@
 ﻿using Moq;
+using System.Reflection;
 
 namespace XspecT.Internal.TestData;
 
@@ -20,7 +21,7 @@ internal class FluentDefaultProvider : DefaultValueProvider
             : _dataProvider.Create(type);
 
         Exception GetDefaultException()
-            => _dataProvider.GetDefaultException(mock.GetMockedType());
+            => _dataProvider.GetDefaultException(GetMockedType(mock));
     }
 
     private static bool IsReturningSelf(Type type, Mock mock)
@@ -38,12 +39,19 @@ internal class FluentDefaultProvider : DefaultValueProvider
         dynamic value = GetDefaultValue(valueType, mock);
         if (value.GetType() != valueType) 
         {
-            var mockName = mock.GetMockedType().Name;
+            var mockName = GetMockedType(mock).Name;
             throw new SetupFailed(
                 @$"{mockName} returns a Task<{valueType.Name}>. 
 Interface types returned as task must be provided explicitly in the test setup.
 You can provide a default interface instance with 'Given<{mockName}>().Returns(A<{valueType.Name}>)'.");
         }
         return Task.FromResult(value);
+    }
+
+    private static Type GetMockedType(Mock mock)
+    {
+        var mockType = mock.GetType();
+        var mockedTypeProperty = mockType.GetProperty("MockedType", BindingFlags.NonPublic | BindingFlags.Instance);
+        return mockedTypeProperty.GetValue(mock) as Type;
     }
 }

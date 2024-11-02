@@ -1,6 +1,6 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
-using XspecT.Internal;
+using XspecT.Internal.Specification;
 
 namespace XspecT;
 

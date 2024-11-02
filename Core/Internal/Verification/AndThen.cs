@@ -1,4 +1,5 @@
 ﻿using XspecT.Continuations;
+using XspecT.Internal.Specification;
 
 namespace XspecT.Internal.Verification;
 

@@ -2,7 +2,7 @@
 using XspecT.Internal.TestData;
 using Xunit.Sdk;
 
-namespace XspecT.Internal;
+namespace XspecT.Internal.Specification;
 
 internal static class SpecificationGenerator
 {
