@@ -4,19 +4,22 @@ namespace XspecT.Test.AutoFixture;
 
 public class WhenList : Spec<MyRetriever, MyModel[]>
 {
-    public WhenList() => When(_ => _.List());
+    public WhenList() 
+        => When(_ => _.List())
+        .Given<IMyRepository>().That(_ => _.List()).Returns(A<MyModel[]>);
 
     public class GivenOneSpecificElement : WhenList
     {
         private readonly MyModel _theModel = new();
-        public GivenOneSpecificElement() => Given<IMyRepository>().That(_ => _.List()).Returns(() => One(_theModel));
+        public GivenOneSpecificElement() => Given().One(_theModel);
 
         [Fact]
         public void ThenElementCanBeRetrieved()
         {
             Then().Result.Single().Is(_theModel);
             Specification.Is(
-@"Given IMyRepository.List() returns one _theModel
+@"Given one MyModel { _theModel }
+  and IMyRepository.List() returns a MyModel[]
 When _.List()
 Then Result.Single() is _theModel");
         }
@@ -24,14 +27,15 @@ Then Result.Single() is _theModel");
 
     public class GivenOneElement : WhenList
     {
-        public GivenOneElement() => Given<IMyRepository>().That(_ => _.List()).Returns(() => One<MyModel>());
+        public GivenOneElement() => Given().One<MyModel>();
 
         [Fact]
         public void ThenCanRetrieveThatArray()
         {
             Then().Result.Is(The<MyModel[]>());
             Specification.Is(
-@"Given IMyRepository.List() returns one MyModel
+@"Given one MyModel
+  and IMyRepository.List() returns a MyModel[]
 When _.List()
 Then Result is the MyModel[]");
         }
@@ -41,7 +45,8 @@ Then Result is the MyModel[]");
         {
             Then().Result.Has().Count(1);
             Specification.Is(
-@"Given IMyRepository.List() returns one MyModel
+@"Given one MyModel
+  and IMyRepository.List() returns a MyModel[]
 When _.List()
 Then Result has count 1");
         }
@@ -51,7 +56,8 @@ Then Result has count 1");
         {
             Then().Result.Single().Is(The<MyModel>());
             Specification.Is(
-@"Given IMyRepository.List() returns one MyModel
+@"Given one MyModel
+  and IMyRepository.List() returns a MyModel[]
 When _.List()
 Then Result.Single() is the MyModel");
         }
@@ -60,14 +66,15 @@ Then Result.Single() is the MyModel");
     public class GivenOneElementWithSetup : WhenList
     {
         public GivenOneElementWithSetup()
-            => Given<IMyRepository>().That(_ => _.List()).Returns(() => One<MyModel>(_ => _.Name = A<string>()));
+            => Given().One<MyModel>(_ => _.Name = A<string>());
 
         [Fact]
         public void ThenArrayHasSingleElementWithSetup()
         {
             Then().Result.Single().Name.Is(The<string>());
             Specification.Is(
-@"Given IMyRepository.List() returns one MyModel { Name = a string }
+@"Given one MyModel { Name = a string }
+  and IMyRepository.List() returns a MyModel[]
 When _.List()
 Then Result.Single().Name is the string");
         }
@@ -76,14 +83,15 @@ Then Result.Single().Name is the string");
     public class GivenOneElementWithTransform : WhenList
     {
         public GivenOneElementWithTransform()
-            => Given<IMyRepository>().That(_ => _.List()).Returns(() => One<MyModel>(_ => _ with { Name = A<string>() }));
+            => Given().One<MyModel>(_ => _ with { Name = A<string>() });
 
         [Fact]
         public void ThenArrayHasSingleElementWithSetup()
         {
             Then().Result.Single().Name.Is(The<string>());
             Specification.Is(
-@"Given IMyRepository.List() returns one MyModel { Name = a string }
+@"Given one MyModel { Name = a string }
+  and IMyRepository.List() returns a MyModel[]
 When _.List()
 Then Result.Single().Name is the string");
         }
@@ -91,14 +99,15 @@ Then Result.Single().Name is the string");
 
     public class GivenTwoElements : WhenList
     {
-        public GivenTwoElements() => Given<IMyRepository>().That(_ => _.List()).Returns(() => Two<MyModel>());
+        public GivenTwoElements() => Given().Two<MyModel>();
 
         [Fact]
         public void ThenArrayHasTwoElements()
         {
             Then().Result.Has().Count(2);
             Specification.Is(
-@"Given IMyRepository.List() returns two MyModel
+@"Given two MyModel
+  and IMyRepository.List() returns a MyModel[]
 When _.List()
 Then Result has count 2");
         }
@@ -108,7 +117,8 @@ Then Result has count 2");
         {
             Then().Result.First().Is().Not(Result.Last());
             Specification.Is(
-@"Given IMyRepository.List() returns two MyModel
+@"Given two MyModel
+  and IMyRepository.List() returns a MyModel[]
 When _.List()
 Then Result.First() is not Result.Last()");
         }
@@ -118,7 +128,8 @@ Then Result.First() is not Result.Last()");
         {
             Then().Result.Last().Is(TheSecond<MyModel>());
             Specification.Is(
-@"Given IMyRepository.List() returns two MyModel
+@"Given two MyModel
+  and IMyRepository.List() returns a MyModel[]
 When _.List()
 Then Result.Last() is the second MyModel");
         }
@@ -127,14 +138,15 @@ Then Result.Last() is the second MyModel");
     public class GivenTwoElementsWithSetup : WhenList
     {
         public GivenTwoElementsWithSetup()
-            => Given<IMyRepository>().That(_ => _.List()).Returns(() => Two<MyModel>(_ => _.Name = A<string>()));
+            => Given().Two<MyModel>(_ => _.Name = A<string>());
 
         [Fact]
         public void ThenArrayHasTwoElements()
         {
             Then().Result.Has().Count(2);
             Specification.Is(
-@"Given IMyRepository.List() returns two MyModel { Name = a string }
+@"Given two MyModel { Name = a string }
+  and IMyRepository.List() returns a MyModel[]
 When _.List()
 Then Result has count 2");
         }
@@ -144,7 +156,8 @@ Then Result has count 2");
         {
             Then().Result.First().Name.Is(The<string>());
             Specification.Is(
-@"Given IMyRepository.List() returns two MyModel { Name = a string }
+@"Given two MyModel { Name = a string }
+  and IMyRepository.List() returns a MyModel[]
 When _.List()
 Then Result.First().Name is the string");
         }
@@ -154,7 +167,8 @@ Then Result.First().Name is the string");
         {
             Then().Result.Last().Name.Is(The<string>());
             Specification.Is(
-@"Given IMyRepository.List() returns two MyModel { Name = a string }
+@"Given two MyModel { Name = a string }
+  and IMyRepository.List() returns a MyModel[]
 When _.List()
 Then Result.Last().Name is the string");
         }
@@ -163,14 +177,15 @@ Then Result.Last().Name is the string");
     public class GivenTwoElementsWithTransform : WhenList
     {
         public GivenTwoElementsWithTransform()
-            => Given<IMyRepository>().That(_ => _.List()).Returns(() => Two<MyModel>(_ => _ with { Name = A<string>() }));
+            => Given().Two<MyModel>(_ => _ with { Name = A<string>() });
 
         [Fact]
         public void ThenSecondElementIsTransformed()
         {
             Then().Result.Last().Name.Is(The<string>());
             Specification.Is(
-@"Given IMyRepository.List() returns two MyModel { Name = a string }
+@"Given two MyModel { Name = a string }
+  and IMyRepository.List() returns a MyModel[]
 When _.List()
 Then Result.Last().Name is the string");
         }
@@ -179,7 +194,7 @@ Then Result.Last().Name is the string");
     public class GivenTwoElementsWithIndexedSetup : WhenList
     {
         public GivenTwoElementsWithIndexedSetup()
-            => Given<IMyRepository>().That(_ => _.List()).Returns(() => Two<MyModel>((_, i) => _.Name = $"X{i + 1}"));
+            => Given().Two<MyModel>((_, i) => _.Name = $"X{i + 1}");
 
         [Fact]
         public void ThenArrayHasTwoElements()
@@ -187,7 +202,8 @@ Then Result.Last().Name is the string");
             Then().Result.Has().Count(2);
             Specification.Is(
                 """
-                Given IMyRepository.List() returns two MyModel { Name = "X{i + 1}" }
+                Given two MyModel { Name = "X{i + 1}" }
+                  and IMyRepository.List() returns a MyModel[]
                 When _.List()
                 Then Result has count 2
                 """);
@@ -198,11 +214,12 @@ Then Result.Last().Name is the string");
         {
             Then().Result.First().Name.Is("X1");
             Specification.Is(
-"""
-Given IMyRepository.List() returns two MyModel { Name = "X{i + 1}" }
-When _.List()
-Then Result.First().Name is "X1"
-""");
+                """
+                Given two MyModel { Name = "X{i + 1}" }
+                  and IMyRepository.List() returns a MyModel[]
+                When _.List()
+                Then Result.First().Name is "X1"
+                """);
         }
 
         [Fact]
@@ -210,39 +227,38 @@ Then Result.First().Name is "X1"
         {
             Then().Result.Last().Name.Is("X2");
             Specification.Is(
-"""
-Given IMyRepository.List() returns two MyModel { Name = "X{i + 1}" }
-When _.List()
-Then Result.Last().Name is "X2"
-""");
+                """
+                Given two MyModel { Name = "X{i + 1}" }
+                  and IMyRepository.List() returns a MyModel[]
+                When _.List()
+                Then Result.Last().Name is "X2"
+                """);
         }
     }
 
     public class GivenTwoElementsWithIndexedTransform : WhenList
     {
         public GivenTwoElementsWithIndexedTransform()
-            => Given<IMyRepository>().That(_ => _.List())
-            .Returns(() => Two<MyModel>((_, i) => _ with { Name = $"X{i + 1}" }));
+            => Given().Two<MyModel>((_, i) => _ with { Name = $"X{i + 1}" });
 
-        [Fact]
-        public void ThenSecondElementIsTransformed()
-        {
-            Then().Result.Last().Name.Is("X2");
-        }
+        [Fact] public void ThenSecondElementIsTransformed() => Then().Result.Last().Name.Is("X2");
     }
 
     public class GivenThreeElements : WhenList
     {
-        public GivenThreeElements() => Given<IMyRepository>().That(_ => _.List()).Returns(() => Three<MyModel>());
+        public GivenThreeElements() => Given().Three<MyModel>();
 
         [Fact]
         public void ThenArrayHasThreeElements()
         {
             Then().Result.Has().Count(3);
             Specification.Is(
-@"Given IMyRepository.List() returns three MyModel
-When _.List()
-Then Result has count 3");
+                """
+                Given three MyModel
+                  and IMyRepository.List() returns a MyModel[]
+                When _.List()
+                Then Result has count 3
+                """);
         }
 
         [Fact]
@@ -250,9 +266,12 @@ Then Result has count 3");
         {
             Then().Result.First().Is().Not(Result.Last());
             Specification.Is(
-@"Given IMyRepository.List() returns three MyModel
-When _.List()
-Then Result.First() is not Result.Last()");
+                """
+                Given three MyModel
+                  and IMyRepository.List() returns a MyModel[]
+                When _.List()
+                Then Result.First() is not Result.Last()
+                """);
         }
 
         [Fact]
@@ -260,24 +279,30 @@ Then Result.First() is not Result.Last()");
         {
             Then().Result.Last().Is(TheThird<MyModel>());
             Specification.Is(
-@"Given IMyRepository.List() returns three MyModel
-When _.List()
-Then Result.Last() is the third MyModel");
+                """
+                Given three MyModel
+                  and IMyRepository.List() returns a MyModel[]
+                When _.List()
+                Then Result.Last() is the third MyModel
+                """);
         }
     }
 
     public class GivenFourElements : WhenList
     {
-        public GivenFourElements() => Given<IMyRepository>().That(_ => _.List()).Returns(() => Four<MyModel>());
+        public GivenFourElements() => Given().Four<MyModel>();
 
         [Fact]
         public void ThenArrayHasFourElements()
         {
             Then().Result.Has().Count(4);
             Specification.Is(
-@"Given IMyRepository.List() returns four MyModel
-When _.List()
-Then Result has count 4");
+                """
+                Given four MyModel
+                  and IMyRepository.List() returns a MyModel[]
+                When _.List()
+                Then Result has count 4
+                """);
         }
 
         [Fact]
@@ -285,24 +310,30 @@ Then Result has count 4");
         {
             Then().Result.Last().Is(TheFourth<MyModel>());
             Specification.Is(
-@"Given IMyRepository.List() returns four MyModel
-When _.List()
-Then Result.Last() is the fourth MyModel");
+                """
+                Given four MyModel
+                  and IMyRepository.List() returns a MyModel[]
+                When _.List()
+                Then Result.Last() is the fourth MyModel
+                """);
         }
     }
 
     public class GivenFiveElements : WhenList
     {
-        public GivenFiveElements() => Given<IMyRepository>().That(_ => _.List()).Returns(() => Five<MyModel>());
+        public GivenFiveElements() => Given().Five<MyModel>();
 
         [Fact]
         public void ThenArrayHasFiveElements()
         {
             Then().Result.Has().Count(5);
             Specification.Is(
-@"Given IMyRepository.List() returns five MyModel
-When _.List()
-Then Result has count 5");
+                """
+                Given five MyModel
+                  and IMyRepository.List() returns a MyModel[]
+                When _.List()
+                Then Result has count 5
+                """);
         }
 
         [Fact]
@@ -310,9 +341,18 @@ Then Result has count 5");
         {
             Then().Result.Last().Is(TheFifth<MyModel>());
             Specification.Is(
-@"Given IMyRepository.List() returns five MyModel
-When _.List()
-Then Result.Last() is the fifth MyModel");
+                """
+                Given five MyModel
+                  and IMyRepository.List() returns a MyModel[]
+                When _.List()
+                Then Result.Last() is the fifth MyModel
+                """);
         }
+    }
+
+    public class GivenListIsNull : WhenList 
+    {
+        public GivenListIsNull() => Given((MyModel[])null);
+        [Fact] public void ThenReturnNull() => Result.Is().Null();
     }
 }

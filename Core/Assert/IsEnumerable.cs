@@ -32,6 +32,16 @@ public record IsEnumerable<TItem> : Constraint<IEnumerable<TItem>, IsEnumerableC
     }
 
     /// <summary>
+    /// Assert that the enumerable is null
+    /// </summary>
+    /// <returns>A continuation for making further assertions on the enumerable</returns>
+    public ContinueWith<IsEnumerableContinuation<TItem>> Null()
+    {
+        AddAssert([CustomAssertion] () => Actual.Should().BeNull());
+        return And();
+    }
+
+    /// <summary>
     /// Assert that the enumerable is not null
     /// </summary>
     /// <returns>A continuation for making further assertions on the enumerable</returns>
