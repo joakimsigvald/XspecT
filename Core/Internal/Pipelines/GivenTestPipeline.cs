@@ -1,5 +1,4 @@
-﻿using Moq;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using XspecT.Continuations;
 
 namespace XspecT.Internal.Pipelines;

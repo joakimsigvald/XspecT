@@ -1,5 +1,4 @@
 ﻿using Moq;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using XspecT.Continuations;
@@ -31,7 +30,7 @@ internal class GivenThatContinuation<TSUT, TResult, TService, TReturns, TActualR
         => ContinueWith(() => MockSetup.Callback(callback), callbackExpr);
 
     public IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> Returns<TArg>(
-        [NotNull] Func<TArg, TReturns> returns,
+        Func<TArg, TReturns> returns,
         [CallerArgumentExpression(nameof(returns))] string returnsExpr = null)
     {
         if (returns is null)
@@ -48,7 +47,7 @@ internal class GivenThatContinuation<TSUT, TResult, TService, TReturns, TActualR
         [CallerArgumentExpression(nameof(callback))] string callbackExpr = null)
         => ContinueWith(() => MockSetup.Callback(callback), callbackExpr);
 
-    public IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> Returns<TArg1, TArg2>([NotNull] Func<TArg1, TArg2, TReturns> returns)
+    public IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> Returns<TArg1, TArg2>(Func<TArg1, TArg2, TReturns> returns)
     {
         if (returns is null)
             throw new SetupFailed($"{nameof(returns)} may not be null");
@@ -64,7 +63,7 @@ internal class GivenThatContinuation<TSUT, TResult, TService, TReturns, TActualR
         [CallerArgumentExpression(nameof(callback))] string callbackExpr = null)
         => ContinueWith(() => MockSetup.Callback(callback));
 
-    public IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> Returns<TArg1, TArg2, TArg3>([NotNull] Func<TArg1, TArg2, TArg3, TReturns> returns)
+    public IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> Returns<TArg1, TArg2, TArg3>(Func<TArg1, TArg2, TArg3, TReturns> returns)
     {
         if (returns is null)
             throw new SetupFailed($"{nameof(returns)} may not be null");
@@ -80,7 +79,7 @@ internal class GivenThatContinuation<TSUT, TResult, TService, TReturns, TActualR
         [CallerArgumentExpression(nameof(callback))] string callbackExpr = null)
         => ContinueWith(() => MockSetup.Callback(callback), callbackExpr);
 
-    public IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> Returns<TArg1, TArg2, TArg3, TArg4>([NotNull] Func<TArg1, TArg2, TArg3, TArg4, TReturns> returns)
+    public IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> Returns<TArg1, TArg2, TArg3, TArg4>(Func<TArg1, TArg2, TArg3, TArg4, TReturns> returns)
     {
         if (returns is null)
             throw new SetupFailed($"{nameof(returns)} may not be null");
@@ -96,7 +95,7 @@ internal class GivenThatContinuation<TSUT, TResult, TService, TReturns, TActualR
         [CallerArgumentExpression(nameof(callback))] string callbackExpr = null)
         => ContinueWith(() => MockSetup.Callback(callback), callbackExpr);
 
-    public IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> Returns<TArg1, TArg2, TArg3, TArg4, TArg5>([NotNull] Func<TArg1, TArg2, TArg3, TArg4, TArg5, TReturns> returns)
+    public IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> Returns<TArg1, TArg2, TArg3, TArg4, TArg5>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TReturns> returns)
     {
         if (returns is null)
             throw new SetupFailed($"{nameof(returns)} may not be null");

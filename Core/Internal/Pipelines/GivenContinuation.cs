@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using XspecT.Continuations;
 using XspecT.Internal.TestData;
 
@@ -177,92 +176,92 @@ internal class GivenContinuation<TSUT, TResult> : IGivenContinuation<TSUT, TResu
         => _spec.SetupMention<TValue>(() => _spec.One(value), valueExpr);
     
     public IGivenTestPipeline<TSUT, TResult> One<TValue>(
-        [NotNull] Action<TValue> setup, 
+        Action<TValue> setup, 
         [CallerArgumentExpression(nameof(setup))] string setupExpr = null)
         => _spec.SetupMention<TValue>(() => _spec.One(setup), setupExpr);
 
     public IGivenTestPipeline<TSUT, TResult> One<TValue>(
-        [NotNull] Func<TValue, TValue> transform, 
+        Func<TValue, TValue> transform, 
         [CallerArgumentExpression(nameof(transform))] string transformExpr = null)
         => _spec.SetupMention<TValue>(() => _spec.One(transform), transformExpr);
 
     public IGivenTestPipeline<TSUT, TResult> Two<TValue>(
-        [NotNull] Action<TValue, int> setup, 
+        Action<TValue, int> setup, 
         [CallerArgumentExpression(nameof(setup))] string setupExpr = null)
         => _spec.SetupMention<TValue>(() => _spec.Two(setup), setupExpr);
 
     public IGivenTestPipeline<TSUT, TResult> Two<TValue>(
-        [NotNull] Action<TValue> setup, 
+        Action<TValue> setup, 
         [CallerArgumentExpression(nameof(setup))] string setupExpr = null)
         => _spec.SetupMention<TValue>(() => _spec.Two(setup), setupExpr);
 
     public IGivenTestPipeline<TSUT, TResult> Two<TValue>(
-        [NotNull] Func<TValue, TValue> transform, 
+        Func<TValue, TValue> transform, 
         [CallerArgumentExpression(nameof(transform))] string transformExpr = null)
         => _spec.SetupMention<TValue>(() => _spec.Two(transform), transformExpr);
 
     public IGivenTestPipeline<TSUT, TResult> Two<TValue>(
-        [NotNull] Func<TValue, int, TValue> transform, 
+        Func<TValue, int, TValue> transform, 
         [CallerArgumentExpression(nameof(transform))] string transformExpr = null)
         => _spec.SetupMention<TValue>(() => _spec.Two(transform), transformExpr);
 
     public IGivenTestPipeline<TSUT, TResult> Three<TValue>(
-        [NotNull] Action<TValue, int> setup, 
+        Action<TValue, int> setup, 
         [CallerArgumentExpression(nameof(setup))] string setupExpr = null)
         => _spec.SetupMention<TValue>(() => _spec.Three(setup), setupExpr);
 
     public IGivenTestPipeline<TSUT, TResult> Three<TValue>(
-        [NotNull] Action<TValue> setup, 
+        Action<TValue> setup, 
         [CallerArgumentExpression(nameof(setup))] string setupExpr = null)
         => _spec.SetupMention<TValue>(() => _spec.Three(setup), setupExpr);
 
     public IGivenTestPipeline<TSUT, TResult> Three<TValue>(
-        [NotNull] Func<TValue, TValue> transform, 
+        Func<TValue, TValue> transform, 
         [CallerArgumentExpression(nameof(transform))] string transformExpr = null)
         => _spec.SetupMention<TValue>(() => _spec.Three(transform), transformExpr);
 
     public IGivenTestPipeline<TSUT, TResult> Three<TValue>(
-        [NotNull] Func<TValue, int, TValue> transform, 
+        Func<TValue, int, TValue> transform, 
         [CallerArgumentExpression(nameof(transform))] string transformExpr = null)
         => _spec.SetupMention<TValue>(() => _spec.Three(transform), transformExpr);
 
     public IGivenTestPipeline<TSUT, TResult> Four<TValue>(
-        [NotNull] Action<TValue, int> setup, 
+        Action<TValue, int> setup, 
         [CallerArgumentExpression(nameof(setup))] string setupExpr = null)
         => _spec.SetupMention<TValue>(() => _spec.Four(setup), setupExpr);
 
     public IGivenTestPipeline<TSUT, TResult> Four<TValue>(
-        [NotNull] Action<TValue> setup, 
+        Action<TValue> setup, 
         [CallerArgumentExpression(nameof(setup))] string setupExpr = null)
         => _spec.SetupMention<TValue>(() => _spec.Four(setup), setupExpr);
 
     public IGivenTestPipeline<TSUT, TResult> Four<TValue>(
-        [NotNull] Func<TValue, TValue> transform, 
+        Func<TValue, TValue> transform, 
         [CallerArgumentExpression(nameof(transform))] string transformExpr = null)
         => _spec.SetupMention<TValue>(() => _spec.Four(transform), transformExpr);
 
     public IGivenTestPipeline<TSUT, TResult> Four<TValue>(
-        [NotNull] Func<TValue, int, TValue> transform, 
+        Func<TValue, int, TValue> transform, 
         [CallerArgumentExpression(nameof(transform))] string transformExpr = null)
         => _spec.SetupMention<TValue>(() => _spec.Four(transform), transformExpr);
 
     public IGivenTestPipeline<TSUT, TResult> Five<TValue>(
-        [NotNull] Action<TValue, int> setup, 
+        Action<TValue, int> setup, 
         [CallerArgumentExpression(nameof(setup))] string setupExpr = null)
         => _spec.SetupMention<TValue>(() => _spec.Five(setup), setupExpr);
 
     public IGivenTestPipeline<TSUT, TResult> Five<TValue>(
-        [NotNull] Action<TValue> setup, 
+        Action<TValue> setup, 
         [CallerArgumentExpression(nameof(setup))] string setupExpr = null)
         => _spec.SetupMention<TValue>(() => _spec.Five(setup), setupExpr);
 
     public IGivenTestPipeline<TSUT, TResult> Five<TValue>(
-        [NotNull] Func<TValue, TValue> transform, 
+        Func<TValue, TValue> transform, 
         [CallerArgumentExpression(nameof(transform))] string transformExpr = null)
         => _spec.SetupMention<TValue>(() => _spec.Five(transform), transformExpr);
 
     public IGivenTestPipeline<TSUT, TResult> Five<TValue>(
-        [NotNull] Func<TValue, int, TValue> transform, 
+        Func<TValue, int, TValue> transform, 
         [CallerArgumentExpression(nameof(transform))] string transformExpr = null)
         => _spec.SetupMention<TValue>(() => _spec.Five(transform), transformExpr);
 }

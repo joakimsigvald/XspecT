@@ -1,5 +1,4 @@
 ﻿using Moq;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using XspecT.Continuations;
 using XspecT.Internal.Specification;
@@ -48,7 +47,7 @@ internal abstract class GivenThatCommonContinuation<TSUT, TResult, TService, TRe
     }
 
     public IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> Returns(
-        [NotNull] Func<TReturns> returns, [CallerArgumentExpression(nameof(returns))] string returnsExpr = null)
+        Func<TReturns> returns, [CallerArgumentExpression(nameof(returns))] string returnsExpr = null)
     {
         if (returns is null)
             throw new SetupFailed($"{nameof(returns)} may not be null");
@@ -101,7 +100,7 @@ internal abstract class GivenThatCommonContinuation<TSUT, TResult, TService, TRe
             voidContinuation.Verifiable();
         else if (Continuation is Moq.Language.ISetupSequentialResult<Task> sequentialTaskContinuation)
             sequentialTaskContinuation.Returns(Task.CompletedTask);
-        else if (Continuation is Moq.Language.ISetupSequentialResult<TReturns> sequentialContinuation)
+        else if (Continuation is Moq.Language.ISetupSequentialResult<TReturns>)
             return;
         else if (Continuation is Moq.Language.ISetupSequentialResult<Task<TReturns>> sequentialAsyncContinuation)
             sequentialAsyncContinuation.Returns(Task.FromResult(default(TReturns)));

@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 
 namespace XspecT.Continuations;
 
@@ -342,7 +341,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <param name="setupExpr"></param>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> One<TValue>(
-        [NotNull] Action<TValue> setup,
+        Action<TValue> setup,
         [CallerArgumentExpression(nameof(setup))] string setupExpr = null);
 
     /// <summary>
@@ -354,7 +353,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <param name="transformExpr"></param>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> One<TValue>(
-        [NotNull] Func<TValue, TValue> transform,
+        Func<TValue, TValue> transform,
         [CallerArgumentExpression(nameof(transform))] string transformExpr = null);
 
     /// <summary>
@@ -366,7 +365,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <param name="setupExpr"></param>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> Two<TValue>(
-        [NotNull] Action<TValue, int> setup,
+        Action<TValue, int> setup,
         [CallerArgumentExpression(nameof(setup))] string setupExpr = null);
 
     /// <summary>
@@ -378,7 +377,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <param name="setupExpr"></param>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> Two<TValue>(
-        [NotNull] Action<TValue> setup,
+        Action<TValue> setup,
         [CallerArgumentExpression(nameof(setup))] string setupExpr = null);
 
     /// <summary>
@@ -390,7 +389,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <param name="transformExpr"></param>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> Two<TValue>(
-        [NotNull] Func<TValue, TValue> transform,
+        Func<TValue, TValue> transform,
         [CallerArgumentExpression(nameof(transform))] string transformExpr = null);
 
     /// <summary>
@@ -402,7 +401,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <param name="transformExpr"></param>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> Two<TValue>(
-        [NotNull] Func<TValue, int, TValue> transform,
+        Func<TValue, int, TValue> transform,
         [CallerArgumentExpression(nameof(transform))] string transformExpr = null);
 
     /// <summary>
@@ -414,7 +413,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <param name="setupExpr"></param>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> Three<TValue>(
-        [NotNull] Action<TValue, int> setup,
+        Action<TValue, int> setup,
         [CallerArgumentExpression(nameof(setup))] string setupExpr = null);
 
     /// <summary>
@@ -426,7 +425,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <param name="setupExpr"></param>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> Three<TValue>(
-        [NotNull] Action<TValue> setup,
+        Action<TValue> setup,
         [CallerArgumentExpression(nameof(setup))] string setupExpr = null);
 
     /// <summary>
@@ -438,7 +437,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <param name="transformExpr"></param>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> Three<TValue>(
-        [NotNull] Func<TValue, TValue> transform,
+        Func<TValue, TValue> transform,
         [CallerArgumentExpression(nameof(transform))] string transformExpr = null);
 
     /// <summary>
@@ -450,7 +449,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <param name="transformExpr"></param>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> Three<TValue>(
-        [NotNull] Func<TValue, int, TValue> transform,
+        Func<TValue, int, TValue> transform,
         [CallerArgumentExpression(nameof(transform))] string transformExpr = null);
 
     /// <summary>
@@ -462,7 +461,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <param name="setupExpr"></param>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> Four<TValue>(
-        [NotNull] Action<TValue, int> setup,
+        Action<TValue, int> setup,
         [CallerArgumentExpression(nameof(setup))] string setupExpr = null);
 
     /// <summary>
@@ -474,7 +473,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <param name="setupExpr"></param>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> Four<TValue>(
-        [NotNull] Action<TValue> setup,
+        Action<TValue> setup,
         [CallerArgumentExpression(nameof(setup))] string setupExpr = null);
 
     /// <summary>
@@ -486,7 +485,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <param name="transformExpr"></param>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> Four<TValue>(
-        [NotNull] Func<TValue, TValue> transform,
+        Func<TValue, TValue> transform,
         [CallerArgumentExpression(nameof(transform))] string transformExpr = null);
 
     /// <summary>
@@ -498,7 +497,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <param name="transformExpr"></param>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> Four<TValue>(
-        [NotNull] Func<TValue, int, TValue> transform,
+        Func<TValue, int, TValue> transform,
         [CallerArgumentExpression(nameof(transform))] string transformExpr = null);
 
     /// <summary>
@@ -510,7 +509,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <param name="setupExpr"></param>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> Five<TValue>(
-        [NotNull] Action<TValue, int> setup,
+        Action<TValue, int> setup,
         [CallerArgumentExpression(nameof(setup))] string setupExpr = null);
 
     /// <summary>
@@ -522,7 +521,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <param name="setupExpr"></param>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> Five<TValue>(
-        [NotNull] Action<TValue> setup,
+        Action<TValue> setup,
         [CallerArgumentExpression(nameof(setup))] string setupExpr = null);
 
     /// <summary>
@@ -534,7 +533,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <param name="transformExpr"></param>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> Five<TValue>(
-        [NotNull] Func<TValue, TValue> transform,
+        Func<TValue, TValue> transform,
         [CallerArgumentExpression(nameof(transform))] string transformExpr = null);
 
     /// <summary>
@@ -546,6 +545,6 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <param name="transformExpr"></param>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> Five<TValue>(
-        [NotNull] Func<TValue, int, TValue> transform,
+        Func<TValue, int, TValue> transform,
         [CallerArgumentExpression(nameof(transform))] string transformExpr = null);
 }

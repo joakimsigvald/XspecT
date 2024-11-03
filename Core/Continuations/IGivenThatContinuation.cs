@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 
 namespace XspecT.Continuations;
 
@@ -43,7 +42,7 @@ public interface IGivenThatContinuation<TSUT, TResult, TService, TReturns>
     /// <typeparam name="TArg"></typeparam>
     /// <returns></returns>
     IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> Returns<TArg>(
-        [NotNull] Func<TArg, TReturns> returns,
+        Func<TArg, TReturns> returns,
         [CallerArgumentExpression(nameof(returns))] string returnsExpr = null);
 
     /// <summary>
@@ -66,7 +65,7 @@ public interface IGivenThatContinuation<TSUT, TResult, TService, TReturns>
     /// <typeparam name="TArg2"></typeparam>
     /// <returns></returns>
     IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> Returns<TArg1, TArg2>(
-        [NotNull] Func<TArg1, TArg2, TReturns> returns);
+        Func<TArg1, TArg2, TReturns> returns);
 
     /// <summary>
     /// Provide a callback to tap the mocked function call with three input arguments
@@ -90,7 +89,7 @@ public interface IGivenThatContinuation<TSUT, TResult, TService, TReturns>
     /// <typeparam name="TArg3"></typeparam>
     /// <returns></returns>
     IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> Returns<TArg1, TArg2, TArg3>(
-        [NotNull] Func<TArg1, TArg2, TArg3, TReturns> returns);
+        Func<TArg1, TArg2, TArg3, TReturns> returns);
 
     /// <summary>
     /// Provide a callback to tap the mocked function call with four input arguments
@@ -116,7 +115,7 @@ public interface IGivenThatContinuation<TSUT, TResult, TService, TReturns>
     /// <typeparam name="TArg4"></typeparam>
     /// <returns></returns>
     IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> Returns<TArg1, TArg2, TArg3, TArg4>(
-        [NotNull] Func<TArg1, TArg2, TArg3, TArg4, TReturns> returns);
+        Func<TArg1, TArg2, TArg3, TArg4, TReturns> returns);
 
     /// <summary>
     /// Provide a callback to tap the mocked function call with five input arguments
@@ -144,7 +143,7 @@ public interface IGivenThatContinuation<TSUT, TResult, TService, TReturns>
     /// <typeparam name="TArg5"></typeparam>
     /// <returns></returns>
     IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> Returns<TArg1, TArg2, TArg3, TArg4, TArg5>(
-        [NotNull] Func<TArg1, TArg2, TArg3, TArg4, TArg5, TReturns> returns);
+        Func<TArg1, TArg2, TArg3, TArg4, TArg5, TReturns> returns);
 
     /// <summary>
     /// Returns a continuation for providing the first mocked result of a sequence of method invocations.

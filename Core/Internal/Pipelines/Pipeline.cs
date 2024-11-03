@@ -1,5 +1,4 @@
 ﻿using Moq;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using XspecT.Continuations;
 using XspecT.Internal.Specification;
@@ -44,16 +43,16 @@ internal class Pipeline<TSUT, TResult>(Fixture<TSUT> classFixture) : Fixture<TSU
     internal TValue Mention<TValue>(int index = 0)
         => index < 0 ? _context.Create<TValue>() : _context.Mention<TValue>(index);
 
-    internal TValue Create<TValue>([NotNull] Action<TValue> setup) 
+    internal TValue Create<TValue>(Action<TValue> setup) 
         => Context.ApplyTo(setup, _context.Create<TValue>());
 
-    internal TValue Mention<TValue>(int index, [NotNull] Action<TValue> setup)
+    internal TValue Mention<TValue>(int index, Action<TValue> setup)
     {
         AssertHasNotRun();
         return _context.Mention(index, setup);
     }
 
-    internal TValue Mention<TValue>(int index, [NotNull] Func<TValue, TValue> transform)
+    internal TValue Mention<TValue>(int index, Func<TValue, TValue> transform)
     {
         AssertHasNotRun();
         return _context.Mention(index, transform);
@@ -68,16 +67,16 @@ internal class Pipeline<TSUT, TResult>(Fixture<TSUT> classFixture) : Fixture<TSU
     internal TValue[] MentionMany<TValue>(int count, int? minCount = null)
         => _context.MentionMany<TValue>(count, minCount);
 
-    internal TValue[] MentionMany<TValue>([NotNull] Action<TValue> setup, int count)
+    internal TValue[] MentionMany<TValue>(Action<TValue> setup, int count)
         => _context.MentionMany(setup, count);
 
-    internal TValue[] MentionMany<TValue>([NotNull] Func<TValue, TValue> transform, int count)
+    internal TValue[] MentionMany<TValue>(Func<TValue, TValue> transform, int count)
         => _context.MentionMany(transform, count);
 
-    internal TValue[] MentionMany<TValue>([NotNull] Func<TValue, int, TValue> transform, int count)
+    internal TValue[] MentionMany<TValue>(Func<TValue, int, TValue> transform, int count)
         => _context.MentionMany(transform, count);
 
-    internal TValue[] MentionMany<TValue>([NotNull] Action<TValue, int> setup, int count)
+    internal TValue[] MentionMany<TValue>(Action<TValue, int> setup, int count)
         => _context.MentionMany(setup, count);
 
     internal void SetAction(Delegate act, string actExpr)
