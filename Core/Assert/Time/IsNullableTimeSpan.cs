@@ -19,7 +19,7 @@ public record IsNullableTimeSpan : Constraint<TimeSpan?, IsNullableTimeSpan>
     public ContinueWith<IsNullableTimeSpan> Not(
         TimeSpan expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().NotBe(expected), expectedExpr);
+        Assert([CustomAssertion] () => Actual.Should().NotBe(expected), expectedExpr);
         return And();
     }
 
@@ -29,7 +29,7 @@ public record IsNullableTimeSpan : Constraint<TimeSpan?, IsNullableTimeSpan>
     /// <returns></returns>
     public ContinueWith<IsTimeSpan> NotNull()
     {
-        AddAssert([CustomAssertion] () => Actual.Should().NotBeNull());
+        Assert([CustomAssertion] () => Actual.Should().NotBeNull());
         return new(new(Actual.Value));
     }
 
@@ -39,6 +39,6 @@ public record IsNullableTimeSpan : Constraint<TimeSpan?, IsNullableTimeSpan>
     [CustomAssertion]
     public void Null()
     {
-        AddAssert([CustomAssertion] () => Actual.Should().BeNull());
+        Assert([CustomAssertion] () => Actual.Should().BeNull());
     }
 }

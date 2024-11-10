@@ -19,7 +19,7 @@ public record IsDateTime : Constraint<DateTime, IsDateTime>
     public ContinueWith<IsDateTime> Not(
         DateTime expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().NotBe(expected), expectedExpr);
+        Assert([CustomAssertion] () => Actual.Should().NotBe(expected), expectedExpr);
         return And();
     }
 
@@ -32,7 +32,7 @@ public record IsDateTime : Constraint<DateTime, IsDateTime>
     public ContinueWith<IsDateTime> Before(
         DateTime expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().BeBefore(expected), expectedExpr);
+        Assert([CustomAssertion] () => Actual.Should().BeBefore(expected), expectedExpr);
         return And();
     }
 
@@ -45,7 +45,7 @@ public record IsDateTime : Constraint<DateTime, IsDateTime>
     public ContinueWith<IsDateTime> After(
         DateTime expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().BeAfter(expected), expectedExpr);
+        Assert([CustomAssertion] () => Actual.Should().BeAfter(expected), expectedExpr);
         return And();
     }
 
@@ -58,7 +58,7 @@ public record IsDateTime : Constraint<DateTime, IsDateTime>
     public ContinueWith<IsDateTime> NotBefore(
         DateTime expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().NotBeBefore(expected), expectedExpr);
+        Assert([CustomAssertion] () => Actual.Should().NotBeBefore(expected), expectedExpr);
         return And();
     }
 
@@ -71,7 +71,7 @@ public record IsDateTime : Constraint<DateTime, IsDateTime>
     public ContinueWith<IsDateTime> NotAfter(
         DateTime expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().NotBeAfter(expected), expectedExpr);
+        Assert([CustomAssertion] () => Actual.Should().NotBeAfter(expected), expectedExpr);
         return And();
     }
 
@@ -85,7 +85,7 @@ public record IsDateTime : Constraint<DateTime, IsDateTime>
     public ContinueWith<IsDateTime> CloseTo(
         DateTime expected, TimeSpan precision, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().BeCloseTo(expected, precision), expectedExpr);
+        Assert([CustomAssertion] () => Actual.Should().BeCloseTo(expected, precision), expectedExpr);
         return And();
     }
 
@@ -99,7 +99,7 @@ public record IsDateTime : Constraint<DateTime, IsDateTime>
     public ContinueWith<IsDateTime> NotCloseTo(
         DateTime expected, TimeSpan precision, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().NotBeCloseTo(expected, precision), expectedExpr);
+        Assert([CustomAssertion] () => Actual.Should().NotBeCloseTo(expected, precision), expectedExpr);
         return And();
     }
 }

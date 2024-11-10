@@ -18,6 +18,26 @@ public class TextBuilder(int maxLineLength = 80, int indentationSize = 2)
         _sb.Append(prologue);
     }
 
+    internal void AddPhraseOrSentence(string phrase)
+    {
+        if (char.IsUpper(phrase[0]))
+            AddSentence(phrase);
+        else AddPhrase(phrase);
+    }
+
+    internal void AddPhrase(string phrase, int indentation = 1)
+        => AddIndentedLine(phrase, indentation);
+
+    internal void AddSentence(string phrase)
+        => AddCapitalizedLine(phrase);
+
+    internal void AddWord(string word, string binder = " ")
+    {
+        if (string.IsNullOrEmpty(word))
+            return;
+        AddText($"{binder}{word}");
+    }
+
     internal StringBuilder AddCapitalizedLine(string line) => AddIndentedLine(line.Capitalize(), 0);
 
     internal StringBuilder AddIndentedLine(string line, int indentation)

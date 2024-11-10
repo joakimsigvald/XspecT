@@ -11,6 +11,7 @@ internal class SpecificationBuilder
     private int _thenCount;
     private string _currentMockSetup;
     private readonly TextBuilder _textBuilder = new();
+    private bool _isChainOfAssertions = false;
 
     internal string Specification => _description ??= Build();
 
@@ -30,48 +31,56 @@ internal class SpecificationBuilder
     }
 
     internal void AddMockSetup<TService>(string callExpr)
-        => AddPhraseOrSentence($"{Given} {GetMockName<TService>('.')}{callExpr.ParseCall(true)}");
+        => _textBuilder.AddPhraseOrSentence($"{Given} {GetMockName<TService>('.')}{callExpr.ParseCall(true)}");
 
     internal void AddMockReturnsDefault<TService>(string returnsExpr)
-        => AddPhraseOrSentence($"{Given} {GetMockName<TService>(' ')}returns {returnsExpr.ParseValue()}");
+        => _textBuilder.AddPhraseOrSentence($"{Given} {GetMockName<TService>(' ')}returns {returnsExpr.ParseValue()}");
 
     internal void AddMockReturns(string returnsExpr)
-        => AddWord($"returns {returnsExpr?.ParseValue()}".Trim());
+        => _textBuilder.AddWord($"returns {returnsExpr?.ParseValue()}".Trim());
 
     internal void AddMockThrowsDefault<TService, TException>()
-        => AddWord($"{Given} {GetMockName<TService>(' ')}throws {NameOf<TException>()}");
+        => _textBuilder.AddWord($"{Given} {GetMockName<TService>(' ')}throws {NameOf<TException>()}");
 
     internal void AddMockThrowsDefault<TService>(string expectedExpr)
-        => AddWord($"{Given} {GetMockName<TService>(' ')}throws {expectedExpr.ParseValue()}");
+        => _textBuilder.AddWord($"{Given} {GetMockName<TService>(' ')}throws {expectedExpr.ParseValue()}");
 
     internal void AddMockThrows<TException>()
-        => AddWord($"throws {NameOf<TException>()}");
+        => _textBuilder.AddWord($"throws {NameOf<TException>()}");
 
     internal void AddMockThrows(string expectedExpr)
-        => AddWord($"throws {expectedExpr.ParseValue()}");
+        => _textBuilder.AddWord($"throws {expectedExpr.ParseValue()}");
 
     internal void AddWhen(string actExpr)
-        => AddSentence($"when {actExpr.ParseCall()}");
+        => _textBuilder.AddSentence($"when {actExpr.ParseCall()}");
 
     internal void AddAfter(string setUpExpr)
-        => AddSentence($"after {setUpExpr.ParseCall()}");
+        => _textBuilder.AddSentence($"after {setUpExpr.ParseCall()}");
 
     internal void AddBefore(string tearDownExpr)
-        => AddSentence($"before {tearDownExpr.ParseCall()}");
+        => _textBuilder.AddSentence($"before {tearDownExpr.ParseCall()}");
 
     internal void AddAssert(string actual, string verb, string expected)
     {
-        AddWord(actual.ParseActual());
-        AddWord(verb.AsWords());
-        AddWord(expected.ParseValue());
+        if (_isChainOfAssertions)
+            _textBuilder.AddWord(actual.ParseActual());
+        else
+            _textBuilder.AddSentence(actual.ParseActual());
+        _textBuilder.AddWord(verb.AsWords());
+        _textBuilder.AddWord(expected.ParseValue());
+        _isChainOfAssertions = false;
     }
 
-    internal void AddThen() => AddPhraseOrSentence(Then);
+    internal void AddThen()
+    {
+        _isChainOfAssertions = true;
+        _textBuilder.AddPhraseOrSentence(Then);
+    }
 
     internal void AddGiven(string valueExpr, ApplyTo applyTo)
     {
         _currentMockSetup = null;
-        AddPhraseOrSentence(string.Join(' ', GetWords()));
+        _textBuilder.AddPhraseOrSentence(string.Join(' ', GetWords()));
 
         IEnumerable<string> GetWords()
         {
@@ -88,30 +97,34 @@ internal class SpecificationBuilder
     {
         _currentMockSetup = null;
         var articleStr = string.IsNullOrEmpty(article) ? string.Empty : $"{article.AsWords()} ";
-        AddPhraseOrSentence($"{Given} {articleStr}{NameOf<TModel>()} {{ {setupExpr.ParseValue()} }}");
+        _textBuilder.AddPhraseOrSentence($"{Given} {articleStr}{NameOf<TModel>()} {{ {setupExpr.ParseValue()} }}");
     }
 
     internal void AddGivenCount<TModel>(string count)
     {
         _currentMockSetup = null;
         var articleStr = string.IsNullOrEmpty(count) ? string.Empty : $"{count.AsWords()} ";
-        AddPhraseOrSentence($"{Given} {articleStr}{NameOf<TModel>()}");
+        _textBuilder.AddPhraseOrSentence($"{Given} {articleStr}{NameOf<TModel>()}");
     }
 
     internal void AddVerify<TService>(string expressionExpr)
-        => AddWord($"{NameOf<TService>()}.{expressionExpr.ParseCall(true)}");
+        => _textBuilder.AddWord($"{NameOf<TService>()}.{expressionExpr.ParseCall(true)}");
 
     internal void AddAssertThrows<TError>(string binder)
-        => AddWord($"throws {NameOf<TError>()} {binder}".Trim());
+        => _textBuilder.AddWord($"throws {NameOf<TError>()} {binder}".Trim());
 
     internal void AddAssertThrows(string expectedExpr)
-        => AddWord($"throws {expectedExpr.ParseValue()}");
+        => _textBuilder.AddWord($"throws {expectedExpr.ParseValue()}");
 
-    internal void AddTap(string expr) => AddWord($"tap({expr})");
+    internal void AddTap(string expr) => _textBuilder.AddWord($"tap({expr})");
 
-    internal void AddAssert(string assertName) => AddWord(assertName.AsWords());
+    internal void AddAssert(string assertName) => _textBuilder.AddWord(assertName.AsWords());
 
-    internal void AddAssertConjunction(string conjunction) => AddPhrase(conjunction, 2);
+    internal void AddAssertConjunction(string conjunction)
+    {
+        _isChainOfAssertions = true;
+        _textBuilder.AddPhrase(conjunction, 2);
+    }
 
     private string GetMockName<TService>(char binder)
     {
@@ -123,37 +136,7 @@ internal class SpecificationBuilder
         return mockName;
     }
 
-    private void AddPhraseOrSentence(string phrase)
-    {
-        if (char.IsUpper(phrase[0]))
-            AddSentence(phrase);
-        else AddPhrase(phrase);
-    }
-
     private static string NameOf<T>() => typeof(T).Alias();
-
-    private void AddPhrase(string phrase, int indentation = 1)
-    {
-        //if (_description is not null)
-        //    return;
-        _textBuilder.AddIndentedLine(phrase, indentation);
-    }
-
-    private void AddSentence(string phrase)
-    {
-        //if (_description is not null)
-        //    return;
-        _textBuilder.AddCapitalizedLine(phrase);
-    }
-
-    private void AddWord(string word, string binder = " ")
-    {
-        //if (_description is not null)
-        //    return;
-        if (string.IsNullOrEmpty(word))
-            return;
-        _textBuilder.AddText($"{binder}{word}");
-    }
 
     internal void SuppressRecording() => _recordingSuppressionCount++;
 

@@ -20,7 +20,7 @@ public record IsFloat : IsNumerical<float, IsFloat>
     public ContinueWith<IsFloat> Around(
         float expected, float precision, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().BeApproximately(expected, precision), expectedExpr);
+        Assert([CustomAssertion] () => Actual.Should().BeApproximately(expected, precision), expectedExpr);
         return And();
     }
 
@@ -34,7 +34,7 @@ public record IsFloat : IsNumerical<float, IsFloat>
     public ContinueWith<IsFloat> NotAround(
         float expected, float precision, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().NotBeApproximately(expected, precision), expectedExpr);
+        Assert([CustomAssertion] () => Actual.Should().NotBeApproximately(expected, precision), expectedExpr);
         return And();
     }
 }

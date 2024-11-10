@@ -20,7 +20,7 @@ public static class AssertionExtensionsNumerical
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        SpecificationGenerator.AddAssert(
+        SpecificationGenerator.Assert(
             [CustomAssertion] () => actual.Should().Be(expected),
             actualExpr,
             expectedExpr);
@@ -37,7 +37,7 @@ public static class AssertionExtensionsNumerical
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        SpecificationGenerator.AddAssert(
+        SpecificationGenerator.Assert(
             [CustomAssertion] () => actual.Should().Be(expected),
             actualExpr,
             expectedExpr);
@@ -54,7 +54,7 @@ public static class AssertionExtensionsNumerical
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        SpecificationGenerator.AddAssert(
+        SpecificationGenerator.Assert(
             [CustomAssertion] () => actual.Should().Be(expected),
             actualExpr,
             expectedExpr);
@@ -70,7 +70,7 @@ public static class AssertionExtensionsNumerical
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        SpecificationGenerator.AddAssert(
+        SpecificationGenerator.Assert(
             [CustomAssertion] () => actual.Should().Be(expected),
             actualExpr,
             expectedExpr);
@@ -86,7 +86,7 @@ public static class AssertionExtensionsNumerical
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        SpecificationGenerator.AddAssert(
+        SpecificationGenerator.Assert(
             [CustomAssertion] () => actual.Should().Be(expected),
             actualExpr,
             expectedExpr);
@@ -102,7 +102,7 @@ public static class AssertionExtensionsNumerical
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        SpecificationGenerator.AddAssert(
+        SpecificationGenerator.Assert(
             [CustomAssertion] () => actual.Should().Be(expected),
             actualExpr,
             expectedExpr);
@@ -118,7 +118,7 @@ public static class AssertionExtensionsNumerical
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        SpecificationGenerator.AddAssert(
+        SpecificationGenerator.Assert(
             [CustomAssertion] () => actual.Should().Be(expected),
             actualExpr,
             expectedExpr);
@@ -134,7 +134,7 @@ public static class AssertionExtensionsNumerical
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        SpecificationGenerator.AddAssert(
+        SpecificationGenerator.Assert(
             [CustomAssertion] () => actual.Should().Be(expected),
             actualExpr,
             expectedExpr);
@@ -150,7 +150,7 @@ public static class AssertionExtensionsNumerical
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        SpecificationGenerator.AddAssert(
+        SpecificationGenerator.Assert(
             [CustomAssertion] () => actual.Should().Be(expected),
             actualExpr,
             expectedExpr);
@@ -166,7 +166,7 @@ public static class AssertionExtensionsNumerical
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        SpecificationGenerator.AddAssert(
+        SpecificationGenerator.Assert(
             [CustomAssertion] () => actual.Should().Be(expected),
             actualExpr,
             expectedExpr);
@@ -182,7 +182,7 @@ public static class AssertionExtensionsNumerical
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        SpecificationGenerator.AddAssert(
+        SpecificationGenerator.Assert(
             [CustomAssertion] () => actual.Should().Be(expected),
             actualExpr,
             expectedExpr);

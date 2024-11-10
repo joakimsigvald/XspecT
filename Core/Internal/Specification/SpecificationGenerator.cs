@@ -35,7 +35,7 @@ internal static class SpecificationGenerator
 
     internal static void AddBefore(string tearDownExpr) => Builder.Add(() => Builder.AddBefore(tearDownExpr));
 
-    internal static void AddAssert(
+    internal static void Assert(
         Action assert,
         string actual = null,
         string expected = null,

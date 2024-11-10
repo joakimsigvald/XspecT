@@ -16,7 +16,7 @@ public record DoesString : Constraint<string, DoesStringContinuation>
     public ContinueWith<DoesStringContinuation> Contain(
         string expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().Contain(expected), expectedExpr, "contains");
+        Assert([CustomAssertion] () => Actual.Should().Contain(expected), expectedExpr, "contains");
         return And();
     }
 
@@ -26,7 +26,7 @@ public record DoesString : Constraint<string, DoesStringContinuation>
     public ContinueWith<DoesStringContinuation> NotContain(
         string expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().NotContain(expected), expectedExpr);
+        Assert([CustomAssertion] () => Actual.Should().NotContain(expected), expectedExpr);
         return And();
     }
 
@@ -39,7 +39,7 @@ public record DoesString : Constraint<string, DoesStringContinuation>
     public ContinueWith<DoesStringContinuation> StartWith(
         string expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().StartWith(expected), expectedExpr, "starts with");
+        Assert([CustomAssertion] () => Actual.Should().StartWith(expected), expectedExpr, "starts with");
         return And();
     }
 
@@ -52,7 +52,7 @@ public record DoesString : Constraint<string, DoesStringContinuation>
     public ContinueWith<DoesStringContinuation> EndWith(
         string expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().EndWith(expected), expectedExpr, "ends with");
+        Assert([CustomAssertion] () => Actual.Should().EndWith(expected), expectedExpr, "ends with");
         return And();
     }
 

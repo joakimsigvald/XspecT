@@ -42,6 +42,32 @@ public static class AssertionContinuationExtensions
     /// <param name="_"></param>
     /// <param name="actualExpr"></param>
     /// <returns></returns>
+    public static IsNullableDateTime Is(
+        this DateTime? actual,
+        Ignore _ = null,
+        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
+        => new(actual, actualExpr);
+
+    /// <summary>
+    /// Get available assertions for the given value
+    /// </summary>
+    /// <param name="actual"></param>
+    /// <param name="_"></param>
+    /// <param name="actualExpr"></param>
+    /// <returns></returns>
+    public static IsNullableTimeSpan Is(
+        this TimeSpan? actual,
+        Ignore _ = null,
+        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
+        => new(actual, actualExpr);
+
+    /// <summary>
+    /// Get available assertions for the given value
+    /// </summary>
+    /// <param name="actual"></param>
+    /// <param name="_"></param>
+    /// <param name="actualExpr"></param>
+    /// <returns></returns>
     public static IsTimeSpan Is(
         this TimeSpan actual,
         Ignore _ = null,

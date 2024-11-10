@@ -16,7 +16,7 @@ public record IsObject : Constraint<object, IsObject>
     public ContinueWith<IsObject> Not(
         object expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().NotBeSameAs(expected), expectedExpr);
+        Assert([CustomAssertion] () => Actual.Should().NotBeSameAs(expected), expectedExpr);
         return And();
     }
 
@@ -25,7 +25,7 @@ public record IsObject : Constraint<object, IsObject>
     /// </summary>
     public ContinueWith<IsObject> Null()
     {
-        AddAssert([CustomAssertion] () => Actual.Should().BeNull());
+        Assert([CustomAssertion] () => Actual.Should().BeNull());
         return And();
     }
 
@@ -34,7 +34,7 @@ public record IsObject : Constraint<object, IsObject>
     /// </summary>
     public ContinueWith<IsObject> NotNull()
     {
-        AddAssert([CustomAssertion] () => Actual.Should().NotBeNull());
+        Assert([CustomAssertion] () => Actual.Should().NotBeNull());
         return And();
     }
 
@@ -45,7 +45,7 @@ public record IsObject : Constraint<object, IsObject>
         object expected,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().Be(expected), expectedExpr);
+        Assert([CustomAssertion] () => Actual.Should().Be(expected), expectedExpr);
         return And();
     }
 
@@ -56,7 +56,7 @@ public record IsObject : Constraint<object, IsObject>
         object expected,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().NotBe(expected), expectedExpr);
+        Assert([CustomAssertion] () => Actual.Should().NotBe(expected), expectedExpr);
         return And();
     }
 
@@ -67,7 +67,7 @@ public record IsObject : Constraint<object, IsObject>
         object expected,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().BeEquivalentTo(expected), expectedExpr);
+        Assert([CustomAssertion] () => Actual.Should().BeEquivalentTo(expected), expectedExpr);
         return And();
     }
 
@@ -78,7 +78,7 @@ public record IsObject : Constraint<object, IsObject>
         object expected,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().NotBeEquivalentTo(expected), expectedExpr);
+        Assert([CustomAssertion] () => Actual.Should().NotBeEquivalentTo(expected), expectedExpr);
         return And();
     }
 
@@ -89,7 +89,7 @@ public record IsObject : Constraint<object, IsObject>
         object expected,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().BeEquivalentTo(expected), expectedExpr);
+        Assert([CustomAssertion] () => Actual.Should().BeEquivalentTo(expected), expectedExpr);
         return And();
     }
 
@@ -100,7 +100,7 @@ public record IsObject : Constraint<object, IsObject>
         object expected,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().NotBeEquivalentTo(expected), expectedExpr);
+        Assert([CustomAssertion] () => Actual.Should().NotBeEquivalentTo(expected), expectedExpr);
         return And();
     }
 }

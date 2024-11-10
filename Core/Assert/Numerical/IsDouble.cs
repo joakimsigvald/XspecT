@@ -20,7 +20,7 @@ public record IsDouble : IsNumerical<double, IsDouble>
     public ContinueWith<IsDouble> Around(
         double expected, double precision, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().BeApproximately(expected, precision), expectedExpr);
+        Assert([CustomAssertion] () => Actual.Should().BeApproximately(expected, precision), expectedExpr);
         return And();
     }
 
@@ -34,7 +34,7 @@ public record IsDouble : IsNumerical<double, IsDouble>
     public ContinueWith<IsDouble> NotAround(
         double expected, double precision, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().NotBeApproximately(expected, precision), expectedExpr);
+        Assert([CustomAssertion] () => Actual.Should().NotBeApproximately(expected, precision), expectedExpr);
         return And();
     }
 }

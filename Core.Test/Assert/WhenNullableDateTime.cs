@@ -33,12 +33,29 @@ public class WhenNullableDateTime : Spec<DateTime?>
     [Fact]
     public void IsNull()
     {
-        When(_ => (DateTime?)null).Then().Result.Is().Null().And.Null();
+        When(_ => (DateTime?)null).Then().Result.Is().Null();
         Specification.Is(
             """
             When (DateTime?)null
             Then Result is null
-                and null
+            """);
+    }
+
+    [Fact]
+    public void IsBeforeEtc()
+    {
+        Given((DateTime?)DateTime.Now).When(_ => A(_));
+        Result.Is().Before(The<DateTime?>().Value.AddDays(1)).And.After(The<DateTime?>().Value.AddDays(-1));
+        Result.Is().NotBefore(The<DateTime?>().Value);
+        Result.Is().NotAfter(The<DateTime?>().Value);
+        Specification.Is(
+            """
+            Given (DateTime?)DateTime.Now
+            When a _
+            Then Result is before the DateTime?'s Value.AddDays(1)
+                and after the DateTime?'s Value.AddDays(-1)
+            Result is not before the DateTime?'s Value
+            Result is not after the DateTime?'s Value
             """);
     }
 }

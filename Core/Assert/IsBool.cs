@@ -14,7 +14,7 @@ public record IsBool : Constraint<bool, IsBool>
     /// </summary>
     public ContinueWith<IsBool> True()
     {
-        AddAssert([CustomAssertion] () => Actual.Should().BeTrue());
+        Assert([CustomAssertion] () => Actual.Should().BeTrue());
         return And();
     }
 
@@ -23,7 +23,7 @@ public record IsBool : Constraint<bool, IsBool>
     /// </summary>
     public ContinueWith<IsBool> False()
     {
-        AddAssert([CustomAssertion] () => Actual.Should().BeFalse());
+        Assert([CustomAssertion] () => Actual.Should().BeFalse());
         return And();
     }
 }

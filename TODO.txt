@@ -1,5 +1,4 @@
 * CollectionFixture om man vill dela mellan fler klasser
-* nullable DAteTime befire/after
 * Nullable enum Is
 * Separate ClassFixture class from Spec and only allow Arrange on fixture, not when/Then
 * Productivity: Auto-generate test classes from Visual Studio

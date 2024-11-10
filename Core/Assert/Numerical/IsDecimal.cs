@@ -20,7 +20,7 @@ public record IsDecimal : IsNumerical<decimal, IsDecimal>
     public ContinueWith<IsDecimal> Around(
         decimal expected, decimal precision, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().BeApproximately(expected, precision), expectedExpr);
+        Assert([CustomAssertion] () => Actual.Should().BeApproximately(expected, precision), expectedExpr);
         return And();
     }
 
@@ -34,7 +34,7 @@ public record IsDecimal : IsNumerical<decimal, IsDecimal>
     public ContinueWith<IsDecimal> NotAround(
         decimal expected, decimal precision, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().NotBeApproximately(expected, precision), expectedExpr);
+        Assert([CustomAssertion] () => Actual.Should().NotBeApproximately(expected, precision), expectedExpr);
         return And();
     }
 }

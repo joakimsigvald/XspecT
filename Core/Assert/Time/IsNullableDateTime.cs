@@ -19,7 +19,7 @@ public record IsNullableDateTime : Constraint<DateTime?, IsNullableDateTime>
     public ContinueWith<IsNullableDateTime> Not(
         DateTime expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().NotBe(expected), expectedExpr);
+        Assert([CustomAssertion] () => Actual.Should().NotBe(expected), expectedExpr);
         return And();
     }
 
@@ -29,7 +29,7 @@ public record IsNullableDateTime : Constraint<DateTime?, IsNullableDateTime>
     /// <returns></returns>
     public ContinueWith<IsDateTime> NotNull()
     {
-        AddAssert([CustomAssertion] () => Actual.Should().NotBeNull());
+        Assert([CustomAssertion] () => Actual.Should().NotBeNull());
         return new(new(Actual.Value));
     }
 
@@ -38,6 +38,58 @@ public record IsNullableDateTime : Constraint<DateTime?, IsNullableDateTime>
     /// </summary>
     public void Null()
     {
-        AddAssert([CustomAssertion] () => Actual.Should().BeNull());
+        Assert([CustomAssertion] () => Actual.Should().BeNull());
+    }
+
+    /// <summary>
+    /// Asserts that the nullable dateTime is before the given value
+    /// </summary>
+    /// <param name="expected"></param>
+    /// <param name="expectedExpr"></param>
+    /// <returns></returns>
+    public ContinueWith<IsDateTime> Before(
+        DateTime expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
+    {
+        Assert([CustomAssertion] () => Actual.Should().BeBefore(expected), expectedExpr);
+        return new(new IsDateTime(Actual.Value));
+    }
+
+    /// <summary>
+    /// Asserts that the nullable dateTime is after the given value
+    /// </summary>
+    /// <param name="expected"></param>
+    /// <param name="expectedExpr"></param>
+    /// <returns></returns>
+    public ContinueWith<IsDateTime> After(
+        DateTime expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
+    {
+        Assert([CustomAssertion] () => Actual.Should().BeAfter(expected), expectedExpr);
+        return new(new IsDateTime(Actual.Value));
+    }
+
+    /// <summary>
+    /// Asserts that the nullable dateTime is not before the given value
+    /// </summary>
+    /// <param name="expected"></param>
+    /// <param name="expectedExpr"></param>
+    /// <returns></returns>
+    public ContinueWith<IsDateTime> NotBefore(
+        DateTime expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
+    {
+        Assert([CustomAssertion] () => Actual.Should().NotBeBefore(expected), expectedExpr);
+        return new(new IsDateTime(Actual.Value));
+    }
+
+    /// <summary>
+    /// Asserts that the nullable dateTime is not after the given value
+    /// </summary>
+    /// <param name="expected"></param>
+    /// <param name="expectedExpr"></param>
+    /// <returns></returns>
+    public ContinueWith<IsDateTime> NotAfter(
+        DateTime expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
+    {
+        Assert([CustomAssertion] () => Actual.Should().NotBeAfter(expected), expectedExpr);
+        return new(new IsDateTime(Actual.Value));
     }
 }

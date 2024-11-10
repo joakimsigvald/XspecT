@@ -20,7 +20,7 @@ public abstract record IsNumerical<TActual, TContinuation> : Constraint<TActual,
     public ContinueWith<TContinuation> Not(
         TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().NotBe(expected), expectedExpr);
+        Assert([CustomAssertion] () => Actual.Should().NotBe(expected), expectedExpr);
         return And();
     }
 
@@ -30,7 +30,7 @@ public abstract record IsNumerical<TActual, TContinuation> : Constraint<TActual,
     public ContinueWith<TContinuation> GreaterThan(
         TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().BeGreaterThan(expected), expectedExpr);
+        Assert([CustomAssertion] () => Actual.Should().BeGreaterThan(expected), expectedExpr);
         return And();
     }
 
@@ -40,7 +40,7 @@ public abstract record IsNumerical<TActual, TContinuation> : Constraint<TActual,
     public ContinueWith<TContinuation> LessThan(
         TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().BeLessThan(expected), expectedExpr);
+        Assert([CustomAssertion] () => Actual.Should().BeLessThan(expected), expectedExpr);
         return And();
     }
 
@@ -50,7 +50,7 @@ public abstract record IsNumerical<TActual, TContinuation> : Constraint<TActual,
     public ContinueWith<TContinuation> NotGreaterThan(
         TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().BeLessThanOrEqualTo(expected), expectedExpr);
+        Assert([CustomAssertion] () => Actual.Should().BeLessThanOrEqualTo(expected), expectedExpr);
         return And();
     }
 
@@ -60,7 +60,7 @@ public abstract record IsNumerical<TActual, TContinuation> : Constraint<TActual,
     public ContinueWith<TContinuation> NotLessThan(
         TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().BeGreaterThanOrEqualTo(expected), expectedExpr);
+        Assert([CustomAssertion] () => Actual.Should().BeGreaterThanOrEqualTo(expected), expectedExpr);
         return And();
     }
 }

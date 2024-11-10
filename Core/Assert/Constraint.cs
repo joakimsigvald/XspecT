@@ -19,11 +19,11 @@ public abstract record Constraint<TActual, TContinuation>(
     internal ContinueWith<TContinuation> And() => new(Continue());
     internal virtual TContinuation Continue() => (TContinuation)this;
 
-    internal void AddAssert(
+    internal void Assert(
         Action assert, 
         string expectedExpr = null,
         string verb = null,
         [CallerMemberName] string methodName = null)
-        => SpecificationGenerator.AddAssert(
+        => SpecificationGenerator.Assert(
             assert, ActualExpr, expectedExpr, verb ?? $"{AuxiliaryVerb} {methodName.AsWords()}".Trim());
 }

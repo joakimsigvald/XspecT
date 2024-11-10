@@ -18,7 +18,7 @@ public record IsString : Constraint<string, IsStringContinuation>
         string expected,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().BeEquivalentTo(expected), expectedExpr);
+        Assert([CustomAssertion] () => Actual.Should().BeEquivalentTo(expected), expectedExpr);
         return And();
     }
 
@@ -30,7 +30,7 @@ public record IsString : Constraint<string, IsStringContinuation>
         string expected,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().NotBeEquivalentTo(expected), expectedExpr);
+        Assert([CustomAssertion] () => Actual.Should().NotBeEquivalentTo(expected), expectedExpr);
         return And();
     }
 
@@ -42,7 +42,7 @@ public record IsString : Constraint<string, IsStringContinuation>
         string expected,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().BeEquivalentTo(expected), expectedExpr);
+        Assert([CustomAssertion] () => Actual.Should().BeEquivalentTo(expected), expectedExpr);
         return And();
     }
 
@@ -54,7 +54,7 @@ public record IsString : Constraint<string, IsStringContinuation>
         string expected,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().NotBeEquivalentTo(expected), expectedExpr);
+        Assert([CustomAssertion] () => Actual.Should().NotBeEquivalentTo(expected), expectedExpr);
         return And();
     }
 
@@ -63,7 +63,7 @@ public record IsString : Constraint<string, IsStringContinuation>
     /// </summary>
     public ContinueWith<IsStringContinuation> Null()
     {
-        AddAssert([CustomAssertion] () => Actual.Should().BeNull());
+        Assert([CustomAssertion] () => Actual.Should().BeNull());
         return And();
     }
 
@@ -72,7 +72,7 @@ public record IsString : Constraint<string, IsStringContinuation>
     /// </summary>
     public ContinueWith<IsStringContinuation> Empty()
     {
-        AddAssert([CustomAssertion] () => Actual.Should().BeEmpty());
+        Assert([CustomAssertion] () => Actual.Should().BeEmpty());
         return And();
     }
 
@@ -81,7 +81,7 @@ public record IsString : Constraint<string, IsStringContinuation>
     /// </summary>
     public ContinueWith<IsStringContinuation> NotEmpty()
     {
-        AddAssert([CustomAssertion] () => Actual.Should().NotBeEmpty());
+        Assert([CustomAssertion] () => Actual.Should().NotBeEmpty());
         return And();
     }
 
@@ -90,7 +90,7 @@ public record IsString : Constraint<string, IsStringContinuation>
     /// </summary>
     public ContinueWith<IsStringContinuation> NotNull()
     {
-        AddAssert([CustomAssertion] () => Actual.Should().NotBeNull());
+        Assert([CustomAssertion] () => Actual.Should().NotBeNull());
         return And();
     }
 
@@ -99,7 +99,7 @@ public record IsString : Constraint<string, IsStringContinuation>
     /// </summary>
     public ContinueWith<IsStringContinuation> NullOrEmpty()
     {
-        AddAssert([CustomAssertion] () => Actual.Should().BeNullOrEmpty());
+        Assert([CustomAssertion] () => Actual.Should().BeNullOrEmpty());
         return And();
     }
 
@@ -108,7 +108,7 @@ public record IsString : Constraint<string, IsStringContinuation>
     /// </summary>
     public ContinueWith<IsStringContinuation> NotNullOrEmpty()
     {
-        AddAssert([CustomAssertion] () => Actual.Should().NotBeNullOrEmpty());
+        Assert([CustomAssertion] () => Actual.Should().NotBeNullOrEmpty());
         return And();
     }
 
@@ -117,7 +117,7 @@ public record IsString : Constraint<string, IsStringContinuation>
     /// </summary>
     public ContinueWith<IsStringContinuation> NullOrWhitespace()
     {
-        AddAssert([CustomAssertion] () => Actual.Should().BeNullOrWhiteSpace());
+        Assert([CustomAssertion] () => Actual.Should().BeNullOrWhiteSpace());
         return And();
     }
 
@@ -126,7 +126,7 @@ public record IsString : Constraint<string, IsStringContinuation>
     /// </summary>
     public ContinueWith<IsStringContinuation> NotNullOrWhitespace()
     {
-        AddAssert([CustomAssertion] () => Actual.Should().NotBeNullOrWhiteSpace());
+        Assert([CustomAssertion] () => Actual.Should().NotBeNullOrWhiteSpace());
         return And();
     }
 
@@ -139,7 +139,7 @@ public record IsString : Constraint<string, IsStringContinuation>
     public ContinueWith<IsStringContinuation> Not(
         string expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        AddAssert([CustomAssertion] () => Actual.Should().NotBe(expected), expectedExpr);
+        Assert([CustomAssertion] () => Actual.Should().NotBe(expected), expectedExpr);
         return And();
     }
 
