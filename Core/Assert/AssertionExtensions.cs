@@ -154,6 +154,33 @@ public static class AssertionExtensions
     }
 
     /// <summary>
+    /// Verify that actual object is same reference as expected and return continuation for further assertions of the object
+    /// </summary>
+    /// <param name="actual"></param>
+    /// <param name="expected"></param>
+    /// <param name="actualExpr"></param>
+    /// <param name="expectedExpr"></param>
+    /// <returns>Continuation for further assertions of the object</returns>
+    public static ContinueWith<IsNullableStruct<TValue>> Is<TValue>(
+        this TValue? actual,
+        TValue? expected,
+        [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
+        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
+        where TValue : struct
+    {
+        if (actual is null || expected is null)
+            SpecificationGenerator.Assert(
+                [CustomAssertion] () => actual.Should().BeSameAs(expected),
+                actualExpr,
+                expectedExpr);
+        else
+            SpecificationGenerator.Assert(
+                [CustomAssertion] () => actual.Value.Should().Be(expected.Value),
+                actualExpr,
+                expectedExpr);
+        return new(new(actual));
+    }
+    /// <summary>
     /// Verify that actual string is same as expected
     /// </summary>
     /// <param name="actual"></param>

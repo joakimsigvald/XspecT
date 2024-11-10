@@ -27,3 +27,12 @@ public record IsBool : Constraint<bool, IsBool>
         return And();
     }
 }
+
+/// <summary>
+/// Object that allows an assertions to be made on the provided nullable Enum
+/// </summary>
+public record IsNullableStruct<TValue> : Constraint<TValue?, IsNullableStruct<TValue>>
+    where TValue : struct
+{
+    internal IsNullableStruct(TValue? actual, string actualExpr = null) : base(actual, actualExpr) { }
+}
