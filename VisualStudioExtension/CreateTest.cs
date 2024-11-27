@@ -1,46 +1,28 @@
-﻿using Microsoft.VisualStudio.Shell;
+﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.TextManager.Interop;
 using System;
 using System.ComponentModel.Design;
-using System.Globalization;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Task = System.Threading.Tasks.Task;
 
 namespace VisualStudioExtension
 {
-    /// <summary>
-    /// Command handler
-    /// </summary>
     internal sealed class CreateTest
     {
-        /// <summary>
-        /// Command ID.
-        /// </summary>
         public const int CommandId = 0x0100;
 
-        /// <summary>
-        /// Command menu group (command set GUID).
-        /// </summary>
         public static readonly Guid CommandSet = new Guid("1c3bd5f8-ad7b-4dd7-9815-3d06aec0ed05");
 
-        /// <summary>
-        /// VS Package that provides this command, not null.
-        /// </summary>
-        private readonly AsyncPackage package;
+        private readonly AsyncPackage _package;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CreateTest"/> class.
-        /// Adds our command handlers for menu (commands must exist in the command table file)
-        /// </summary>
-        /// <param name="package">Owner package, not null.</param>
-        /// <param name="commandService">Command service to add command to, not null.</param>
         private CreateTest(AsyncPackage package, OleMenuCommandService commandService)
         {
-            this.package = package ?? throw new ArgumentNullException(nameof(package));
+            _package = package ?? throw new ArgumentNullException(nameof(package));
             commandService = commandService ?? throw new ArgumentNullException(nameof(commandService));
 
             var menuCommandID = new CommandID(CommandSet, CommandId);
@@ -48,30 +30,14 @@ namespace VisualStudioExtension
             commandService.AddCommand(menuItem);
         }
 
-        /// <summary>
-        /// Gets the instance of the command.
-        /// </summary>
         public static CreateTest Instance
         {
             get;
             private set;
         }
 
-        /// <summary>
-        /// Gets the service provider from the owner package.
-        /// </summary>
-        private Microsoft.VisualStudio.Shell.IAsyncServiceProvider ServiceProvider
-        {
-            get
-            {
-                return this.package;
-            }
-        }
+        private IAsyncServiceProvider ServiceProvider => _package;
 
-        /// <summary>
-        /// Initializes the singleton instance of the command.
-        /// </summary>
-        /// <param name="package">Owner package, not null.</param>
         public static async Task InitializeAsync(AsyncPackage package)
         {
             // Switch to the main thread - the call to AddCommand in CreateTest's constructor requires
@@ -85,62 +51,59 @@ namespace VisualStudioExtension
         private async void DoCreateTest(object sender, EventArgs e)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-
-            // Get the current text view
-            var textManager = await ServiceProvider.GetServiceAsync(typeof(SVsTextManager)) as IVsTextManager;
-            textManager.GetActiveView(1, null, out IVsTextView textView);
-
+            var textView = await GetCurrentViewAsync();
             if (textView == null)
             {
-                VsShellUtilities.ShowMessageBox(
-                    this.package,
-                    "No active text view",
-                    "Error",
-                    OLEMSGICON.OLEMSGICON_WARNING,
-                    OLEMSGBUTTON.OLEMSGBUTTON_OK,
-                    OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
+                ShowMessageBox("Error", "No active text view", OLEMSGICON.OLEMSGICON_WARNING);
                 return;
             }
 
-            // Get the WPF text view
-            var userData = textView as IVsUserData;
+            // Get the method and class names
+            var syntaxTree = Microsoft.CodeAnalysis.CSharp.CSharpSyntaxTree.ParseText(textView.TextSnapshot.GetText());
+            var root = syntaxTree.GetRoot();
+            var methodDeclarations = root.DescendantNodes().OfType<MethodDeclarationSyntax>();
+
+            // Get the method name at the caret position
+            var caretLine = textView.Caret.Position.BufferPosition.GetContainingLine().LineNumber;
+            var methodAtCaret = methodDeclarations.LastOrDefault(m => m.GetLocation().GetLineSpan().StartLinePosition.Line <= caretLine);
+            string methodNameAtCaret = methodAtCaret?.Identifier.Text ?? "No method at caret position";
+            string className = GetClass(methodAtCaret)?.Identifier.Text ?? "No class for method at caret position";
+
+            // Show the method and class names in a message box
+            ShowMessageBox("Code Elements", $"Class: {className}\nMethod at Caret: {methodNameAtCaret}", OLEMSGICON.OLEMSGICON_INFO);
+        }
+
+        private ClassDeclarationSyntax GetClass(SyntaxNode node) 
+            => node is null ? null : node as ClassDeclarationSyntax ?? GetClass(node.Parent);
+
+        private void ShowMessageBox(string title, string message, OLEMSGICON icon)
+        {
+            VsShellUtilities.ShowMessageBox(
+                this._package,
+                message,
+                title,
+                icon,
+                OLEMSGBUTTON.OLEMSGBUTTON_OK,
+                OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
+        }
+
+        private async Task<IWpfTextView> GetCurrentViewAsync()
+        {
+            var userData = await GetUserDataAsync();
             if (userData == null)
-            {
-                return;
-            }
+                return null;
 
             Guid guidViewHost = Microsoft.VisualStudio.Editor.DefGuidList.guidIWpfTextViewHost;
             userData.GetData(ref guidViewHost, out object holder);
             var viewHost = (IWpfTextViewHost)holder;
-            var wpfTextView = viewHost.TextView;
+            return viewHost.TextView;
+        }
 
-            // Get the selected text or the word under the caret
-            string selectedText = wpfTextView.Selection.SelectedSpans[0].GetText();
-            if (string.IsNullOrEmpty(selectedText))
-            {
-                var caretPosition = wpfTextView.Caret.Position.BufferPosition;
-                var currentSnapshot = caretPosition.Snapshot;
-                var extent = currentSnapshot.GetLineFromPosition(caretPosition.Position);
-                selectedText = extent.GetText();
-            }
-
-            // Get the method and class names
-            var syntaxTree = Microsoft.CodeAnalysis.CSharp.CSharpSyntaxTree.ParseText(wpfTextView.TextSnapshot.GetText());
-            var root = syntaxTree.GetRoot();
-            var methodDeclarations = root.DescendantNodes().OfType<Microsoft.CodeAnalysis.CSharp.Syntax.MethodDeclarationSyntax>();
-            var classDeclarations = root.DescendantNodes().OfType<Microsoft.CodeAnalysis.CSharp.Syntax.ClassDeclarationSyntax>();
-
-            string methodNames = string.Join(", ", methodDeclarations.Select(m => m.Identifier.Text));
-            string classNames = string.Join(", ", classDeclarations.Select(c => c.Identifier.Text));
-
-            // Show the method and class names in a message box
-            VsShellUtilities.ShowMessageBox(
-                this.package,
-                $"Methods: {methodNames}\nClasses: {classNames}",
-                "Code Elements",
-                OLEMSGICON.OLEMSGICON_INFO,
-                OLEMSGBUTTON.OLEMSGBUTTON_OK,
-                OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
+        private async Task<IVsUserData> GetUserDataAsync()
+        {
+            var textManager = await ServiceProvider.GetServiceAsync(typeof(SVsTextManager)) as IVsTextManager;
+            textManager.GetActiveView(1, null, out IVsTextView textView);
+            return textView as IVsUserData;
         }
     }
 }
