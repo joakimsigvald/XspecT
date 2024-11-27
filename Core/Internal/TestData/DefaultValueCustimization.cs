@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace XspecT.Internal.TestData;
 
-internal class DefaultValueCustimization(DataProvider _context) : ISpecimenBuilder
+internal class DefaultValueCustomization(DataProvider _context) : ISpecimenBuilder
 {
     public object Create(object request, ISpecimenContext context) 
         => request is Type type && _context.TryGetDefault(type, out var val)

@@ -23,7 +23,7 @@ public abstract class WhenCallAsyncFunctionTwice : Spec<InterfaceService, int>
     {
         public GivenOneMockedResponse() => Given<IMyService>().That(_ => _.GetValueAsync()).Returns(() => 1);
         [Fact]
-        public void ThenReturnThatResponsTwice()
+        public void ThenReturnThatResponseTwice()
         {
             Then().Result.Is(2);
             Specification.Is(
