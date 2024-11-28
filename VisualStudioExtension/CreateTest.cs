@@ -27,7 +27,7 @@ namespace VisualStudioExtension
             commandService = commandService ?? throw new ArgumentNullException(nameof(commandService));
 
             var menuCommandID = new CommandID(CommandSet, CommandId);
-            var menuItem = new MenuCommand(this.DoCreateTest, menuCommandID);
+            var menuItem = new MenuCommand(Execute, menuCommandID);
             commandService.AddCommand(menuItem);
         }
 
@@ -41,41 +41,61 @@ namespace VisualStudioExtension
 
         public static async Task InitializeAsync(AsyncPackage package)
         {
-            // Switch to the main thread - the call to AddCommand in CreateTest's constructor requires
-            // the UI thread.
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(package.DisposalToken);
-
             OleMenuCommandService commandService = await package.GetServiceAsync(typeof(IMenuCommandService)) as OleMenuCommandService;
             Instance = new CreateTest(package, commandService);
         }
 
-        private async void DoCreateTest(object sender, EventArgs e)
+        private async void Execute(object sender, EventArgs e)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
             var textView = await GetCurrentViewAsync();
-            if (textView == null)
+            try
             {
-                ShowMessageBox("Error", "No active text view", OLEMSGICON.OLEMSGICON_WARNING);
-                return;
+                var testInfo = GetTestInfo(textView);
+                ShowInfoMessageBox("Generate test",
+$@"Project namespace: {testInfo.ProjectNamespace}
+Namespace: {testInfo.FileNamespace}
+Class: {testInfo.ClassName}
+Method: {testInfo.MethodName}");
             }
+            catch (InvalidOperationException ex) 
+            {
+                ShowErrorMessageBox(ex.Message);
+            }
+        }
+
+        private TestInfo GetTestInfo(IWpfTextView textView)
+        {
+            if (textView == null)
+                throw new InvalidOperationException("No active text view");
 
             var doc = textView.TextSnapshot.GetText();
-            var syntaxTree = CSharpSyntaxTree.ParseText(doc, new CSharpParseOptions(LanguageVersion.Default));
-            var root = syntaxTree.GetRoot();
-            string namespaceName = GetNamespace(doc) ?? "No namespace found";
-            var projectNamespace = GetProjectNamespace();
-
-            var methodAtCaret = GetMethod(textView, root);
-            string methodName = methodAtCaret?.Identifier.Text ?? "No method at caret position";
-            string className = GetClass(methodAtCaret)?.Identifier.Text 
+            var methodAtCaret = GetMethod(textView, GetRoot(doc))
+                ?? throw new InvalidOperationException("No method at caret position");
+            if (!methodAtCaret.Modifiers.Any(SyntaxKind.PublicKeyword))
+                throw new InvalidOperationException("Can only generate test from public method");
+            string namespaceName = GetNamespace(doc) 
+                ?? throw new InvalidOperationException("File namespace could not be determined");
+            var projectNamespace = GetProjectNamespace()
+                ?? throw new InvalidOperationException("Project namespace could not be determined");
+            string className = GetClass(methodAtCaret)?.Identifier.Text
                 ?? GetRecord(methodAtCaret)?.Identifier.Text
-                ?? "No class for method at caret position";
+                ?? throw new InvalidOperationException("Class name could not be determined");
 
-            // Show the method and class names in a message box
-            ShowMessageBox(
-                "Code Elements",
-                $"Project namespace: {projectNamespace}\nNamespace: {namespaceName}\nClass: {className}\nMethod: {methodName}",
-                OLEMSGICON.OLEMSGICON_INFO);
+            return new TestInfo
+            {
+                ProjectNamespace = projectNamespace,
+                FileNamespace = namespaceName,
+                ClassName = className,
+                MethodName = methodAtCaret.Identifier.Text
+            };
+        }
+
+        private SyntaxNode GetRoot(string doc)
+        {
+            var syntaxTree = CSharpSyntaxTree.ParseText(doc, new CSharpParseOptions(LanguageVersion.Default));
+            return syntaxTree.GetRoot();
         }
 
         private MethodDeclarationSyntax GetMethod(IWpfTextView textView, SyntaxNode root)
@@ -104,10 +124,16 @@ namespace VisualStudioExtension
             return namespaceLine.Substring("namespace".Length).Trim();
         }
 
+        private void ShowErrorMessageBox(string message)
+            => ShowMessageBox("Error", message, OLEMSGICON.OLEMSGICON_WARNING);
+
+        private void ShowInfoMessageBox(string title, string message)
+            => ShowMessageBox(title, message, OLEMSGICON.OLEMSGICON_INFO);
+
         private void ShowMessageBox(string title, string message, OLEMSGICON icon)
         {
             VsShellUtilities.ShowMessageBox(
-                this._package,
+                _package,
                 message,
                 title,
                 icon,
@@ -142,5 +168,13 @@ namespace VisualStudioExtension
             var project = projectItem.ContainingProject;
             return project.Properties.Item("DefaultNamespace").Value.ToString();
         }
+    }
+
+    public class TestInfo 
+    {
+        public string ProjectNamespace { get; set; }
+        public string FileNamespace { get; set; }
+        public string ClassName { get; set; }
+        public string MethodName { get; set; }
     }
 }

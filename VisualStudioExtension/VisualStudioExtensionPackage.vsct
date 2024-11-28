@@ -56,7 +56,7 @@
         <Parent guid="guidVisualStudioExtensionPackageCmdSet" id="MyMenuGroup" />
         <Icon guid="guidImages" id="bmpPic1" />
         <Strings>
-          <ButtonText>Invoke CreateTest</ButtonText>
+          <ButtonText>Specify method (write test)</ButtonText>
         </Strings>
       </Button>
     </Buttons>
