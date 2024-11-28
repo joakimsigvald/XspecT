@@ -13,7 +13,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace VisualStudioExtension
 {
-    internal sealed class CreateTest
+    internal sealed class SpecifyCommand
     {
         public const int CommandId = 0x0100;
 
@@ -21,17 +21,16 @@ namespace VisualStudioExtension
 
         private readonly AsyncPackage _package;
 
-        private CreateTest(AsyncPackage package, OleMenuCommandService commandService)
+        private SpecifyCommand(AsyncPackage package, OleMenuCommandService commandService)
         {
             _package = package ?? throw new ArgumentNullException(nameof(package));
             commandService = commandService ?? throw new ArgumentNullException(nameof(commandService));
-
             var menuCommandID = new CommandID(CommandSet, CommandId);
             var menuItem = new MenuCommand(Execute, menuCommandID);
             commandService.AddCommand(menuItem);
         }
 
-        public static CreateTest Instance
+        public static SpecifyCommand Instance
         {
             get;
             private set;
@@ -43,29 +42,39 @@ namespace VisualStudioExtension
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(package.DisposalToken);
             OleMenuCommandService commandService = await package.GetServiceAsync(typeof(IMenuCommandService)) as OleMenuCommandService;
-            Instance = new CreateTest(package, commandService);
+            Instance = new SpecifyCommand(package, commandService);
         }
 
         private async void Execute(object sender, EventArgs e)
         {
-            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            var textView = await GetCurrentViewAsync();
             try
             {
-                var testInfo = GetTestInfo(textView);
+                await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+                var textView = await GetCurrentViewAsync();
+                var project = await GetProjectAsync();
+
+                var subjectInfo = await GetSubjectInfoAsync(textView, project);
+                var specInfo = await GetSpecInfoAsync(subjectInfo, project);
                 ShowInfoMessageBox("Generate test",
-$@"Project namespace: {testInfo.ProjectNamespace}
-Namespace: {testInfo.FileNamespace}
-Class: {testInfo.ClassName}
-Method: {testInfo.MethodName}");
+$@"Project namespace: {subjectInfo.ProjectNamespace}
+Namespace: {subjectInfo.FileNamespace}
+Class: {subjectInfo.ClassName}
+Method: {subjectInfo.MethodName}");
             }
-            catch (InvalidOperationException ex) 
+            catch (Exception ex)
             {
                 ShowErrorMessageBox(ex.Message);
             }
         }
 
-        private TestInfo GetTestInfo(IWpfTextView textView)
+        private async Task<SpecInfo> GetSpecInfoAsync(SubjectInfo testInfo, EnvDTE.Project project)
+        {
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+            var projectPath = project.FullName;
+            return null;
+        }
+
+        private async Task<SubjectInfo> GetSubjectInfoAsync(IWpfTextView textView, EnvDTE.Project project)
         {
             if (textView == null)
                 throw new InvalidOperationException("No active text view");
@@ -75,15 +84,14 @@ Method: {testInfo.MethodName}");
                 ?? throw new InvalidOperationException("No method at caret position");
             if (!methodAtCaret.Modifiers.Any(SyntaxKind.PublicKeyword))
                 throw new InvalidOperationException("Can only generate test from public method");
-            string namespaceName = GetNamespace(doc) 
+            string namespaceName = GetNamespace(doc)
                 ?? throw new InvalidOperationException("File namespace could not be determined");
-            var projectNamespace = GetProjectNamespace()
-                ?? throw new InvalidOperationException("Project namespace could not be determined");
+            var projectNamespace = await GetNamespaceAsync(project);
             string className = GetClass(methodAtCaret)?.Identifier.Text
                 ?? GetRecord(methodAtCaret)?.Identifier.Text
                 ?? throw new InvalidOperationException("Class name could not be determined");
 
-            return new TestInfo
+            return new SubjectInfo
             {
                 ProjectNamespace = projectNamespace,
                 FileNamespace = namespaceName,
@@ -106,8 +114,8 @@ Method: {testInfo.MethodName}");
         }
 
         private ClassDeclarationSyntax GetClass(SyntaxNode descendant)
-            => descendant is null 
-            ? null 
+            => descendant is null
+            ? null
             : descendant as ClassDeclarationSyntax ?? GetClass(descendant.Parent);
 
         private RecordDeclarationSyntax GetRecord(SyntaxNode descendant)
@@ -159,22 +167,22 @@ Method: {testInfo.MethodName}");
             textManager.GetActiveView(1, null, out IVsTextView textView);
             return textView as IVsUserData;
         }
-        private string GetProjectNamespace()
+
+        private async Task<EnvDTE.Project> GetProjectAsync()
         {
-            ThreadHelper.ThrowIfNotOnUIThread();
-            var dte = (EnvDTE.DTE)ServiceProvider.GetServiceAsync(typeof(SDTE)).Result;
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+            var service = await ServiceProvider.GetServiceAsync(typeof(SDTE));
+            var dte = (EnvDTE.DTE)service;
             var activeDocument = dte.ActiveDocument;
             var projectItem = activeDocument.ProjectItem;
-            var project = projectItem.ContainingProject;
+            return projectItem.ContainingProject;
+            //return project.Properties.Item("DefaultNamespace").Value.ToString();
+        }
+
+        private async Task<string> GetNamespaceAsync(EnvDTE.Project project)
+        {
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
             return project.Properties.Item("DefaultNamespace").Value.ToString();
         }
-    }
-
-    public class TestInfo 
-    {
-        public string ProjectNamespace { get; set; }
-        public string FileNamespace { get; set; }
-        public string ClassName { get; set; }
-        public string MethodName { get; set; }
     }
 }
