@@ -1,4 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
@@ -59,14 +60,16 @@ namespace VisualStudioExtension
             }
 
             var doc = textView.TextSnapshot.GetText();
-            var syntaxTree = Microsoft.CodeAnalysis.CSharp.CSharpSyntaxTree.ParseText(doc);
+            var syntaxTree = CSharpSyntaxTree.ParseText(doc, new CSharpParseOptions(LanguageVersion.Default));
             var root = syntaxTree.GetRoot();
             string namespaceName = GetNamespace(doc) ?? "No namespace found";
             var projectNamespace = GetProjectNamespace();
 
             var methodAtCaret = GetMethod(textView, root);
             string methodName = methodAtCaret?.Identifier.Text ?? "No method at caret position";
-            string className = GetClass(methodAtCaret)?.Identifier.Text ?? "No class for method at caret position";
+            string className = GetClass(methodAtCaret)?.Identifier.Text 
+                ?? GetRecord(methodAtCaret)?.Identifier.Text
+                ?? "No class for method at caret position";
 
             // Show the method and class names in a message box
             ShowMessageBox(
@@ -83,7 +86,12 @@ namespace VisualStudioExtension
         }
 
         private ClassDeclarationSyntax GetClass(SyntaxNode descendant)
-            => descendant is null ? null : descendant as ClassDeclarationSyntax ?? GetClass(descendant.Parent);
+            => descendant is null 
+            ? null 
+            : descendant as ClassDeclarationSyntax ?? GetClass(descendant.Parent);
+
+        private RecordDeclarationSyntax GetRecord(SyntaxNode descendant)
+            => descendant is null ? null : descendant as RecordDeclarationSyntax ?? GetRecord(descendant.Parent);
 
         private string GetNamespace(string doc)
         {
