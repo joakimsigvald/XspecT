@@ -58,23 +58,43 @@ namespace VisualStudioExtension
                 return;
             }
 
-            // Get the method and class names
-            var syntaxTree = Microsoft.CodeAnalysis.CSharp.CSharpSyntaxTree.ParseText(textView.TextSnapshot.GetText());
+            var doc = textView.TextSnapshot.GetText();
+            var syntaxTree = Microsoft.CodeAnalysis.CSharp.CSharpSyntaxTree.ParseText(doc);
             var root = syntaxTree.GetRoot();
-            var methodDeclarations = root.DescendantNodes().OfType<MethodDeclarationSyntax>();
+            string namespaceName = GetNamespace(doc) ?? "No namespace found";
+            var projectNamespace = GetProjectNamespace();
 
-            // Get the method name at the caret position
-            var caretLine = textView.Caret.Position.BufferPosition.GetContainingLine().LineNumber;
-            var methodAtCaret = methodDeclarations.LastOrDefault(m => m.GetLocation().GetLineSpan().StartLinePosition.Line <= caretLine);
-            string methodNameAtCaret = methodAtCaret?.Identifier.Text ?? "No method at caret position";
+            var methodAtCaret = GetMethod(textView, root);
+            string methodName = methodAtCaret?.Identifier.Text ?? "No method at caret position";
             string className = GetClass(methodAtCaret)?.Identifier.Text ?? "No class for method at caret position";
 
             // Show the method and class names in a message box
-            ShowMessageBox("Code Elements", $"Class: {className}\nMethod at Caret: {methodNameAtCaret}", OLEMSGICON.OLEMSGICON_INFO);
+            ShowMessageBox(
+                "Code Elements",
+                $"Project namespace: {projectNamespace}\nNamespace: {namespaceName}\nClass: {className}\nMethod: {methodName}",
+                OLEMSGICON.OLEMSGICON_INFO);
         }
 
-        private ClassDeclarationSyntax GetClass(SyntaxNode node) 
-            => node is null ? null : node as ClassDeclarationSyntax ?? GetClass(node.Parent);
+        private MethodDeclarationSyntax GetMethod(IWpfTextView textView, SyntaxNode root)
+        {
+            var methodDeclarations = root.DescendantNodes().OfType<MethodDeclarationSyntax>();
+            var caretLine = textView.Caret.Position.BufferPosition.GetContainingLine().LineNumber;
+            return methodDeclarations.LastOrDefault(m => m.GetLocation().GetLineSpan().StartLinePosition.Line <= caretLine);
+        }
+
+        private ClassDeclarationSyntax GetClass(SyntaxNode descendant)
+            => descendant is null ? null : descendant as ClassDeclarationSyntax ?? GetClass(descendant.Parent);
+
+        private string GetNamespace(string doc)
+        {
+            var namespaceLine = doc
+                .Split(new string[] { Environment.NewLine, ";", "{" }, StringSplitOptions.None)
+                .Select(l => l.ToString().Trim())
+                .FirstOrDefault(str => str.StartsWith("namespace"));
+            if (namespaceLine == null)
+                return null;
+            return namespaceLine.Substring("namespace".Length).Trim();
+        }
 
         private void ShowMessageBox(string title, string message, OLEMSGICON icon)
         {
@@ -104,6 +124,15 @@ namespace VisualStudioExtension
             var textManager = await ServiceProvider.GetServiceAsync(typeof(SVsTextManager)) as IVsTextManager;
             textManager.GetActiveView(1, null, out IVsTextView textView);
             return textView as IVsUserData;
+        }
+        private string GetProjectNamespace()
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            var dte = (EnvDTE.DTE)ServiceProvider.GetServiceAsync(typeof(SDTE)).Result;
+            var activeDocument = dte.ActiveDocument;
+            var projectItem = activeDocument.ProjectItem;
+            var project = projectItem.ContainingProject;
+            return project.Properties.Item("DefaultNamespace").Value.ToString();
         }
     }
 }
