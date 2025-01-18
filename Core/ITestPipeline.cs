@@ -21,7 +21,7 @@ public interface ITestPipeline<TSUT, TResult>
     /// 4) then mock setups are applied (in the order that they are provided)<br/>
     /// </summary>
     /// <returns>The test result, containing any return values or exceptions thrown, upon which assertions can be made</returns>
-    ITestResult<TResult> Then();
+    ITestResultWithSUT<TSUT, TResult> Then();
 
     /// <summary>
     /// Runs the test pipeline and generates the result, which can be accessed by the Result property. When the test is run, any provided arrangement will be applied in the natural* order, then the subject-under-test will be created and the method-under-test called.<br/>

@@ -9,7 +9,7 @@ internal abstract class TestPipeline<TSUT, TResult, TParent>(TParent parent) whe
 {
     protected readonly TParent Parent = parent;
 
-    public ITestResult<TResult> Then() => Parent.Then();
+    public ITestResultWithSUT<TSUT, TResult> Then() => Parent.Then();
     public TSubject Then<TSubject>(TSubject subject) => Parent.Then(subject);
 
     public IAndVerify<TResult> Then<TService>(

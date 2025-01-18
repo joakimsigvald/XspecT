@@ -6,9 +6,9 @@ using XspecT.Internal.Specification;
 
 namespace XspecT.Internal.Verification;
 
-internal class AndVerify<TResult> : AndThen<TResult>, IAndVerify<TResult>
+internal class AndVerify<TSUT, TResult> : AndThen<TSUT, TResult>, IAndVerify<TResult>
 {
-    internal AndVerify(TestResult<TResult> parent) : base(parent) { }
+    internal AndVerify(TestResult<TSUT, TResult> parent) : base(parent) { }
 
     public IAndVerify<TResult> And<TObject>(
         Expression<Action<TObject>> expression,

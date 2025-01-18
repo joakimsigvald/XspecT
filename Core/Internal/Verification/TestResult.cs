@@ -8,15 +8,21 @@ using Xunit.Sdk;
 
 namespace XspecT.Internal.Verification;
 
-internal class TestResult<TResult> : ITestResult<TResult>
+internal class TestResult<TSUT, TResult> : ITestResultWithSUT<TSUT, TResult>
 {
     private readonly Exception _error;
     private readonly Context _context;
     private readonly bool _hasResult;
     private TResult _result;
 
-    internal TestResult(TResult result, Exception error, Context context, bool hasResult)
+    internal TestResult(
+        TSUT tsut,
+        TResult result, 
+        Exception error, 
+        Context context, 
+        bool hasResult)
     {
+        SubjectUnderTest = tsut;
         Result = result;
         _error = error;
         _context = context;
@@ -28,6 +34,8 @@ internal class TestResult<TResult> : ITestResult<TResult>
         get => _hasResult && _error is null ? _result : throw UnexpectedError;
         init => _result = value;
     }
+
+    public TSUT SubjectUnderTest { get; }
 
     public IAndThen<TResult> Throws<TError>()
     {
@@ -142,14 +150,14 @@ Try providing a function with the Spec's declared return type instead as paramet
 
     private Mock<TObject> Mocked<TObject>() where TObject : class => _context.GetMock<TObject>();
 
-    private AndVerify<TResult> CombineWithErrorOnFail<TService>(Action<Mock<TService>> verify, string expressionExpr)
+    private AndVerify<TSUT, TResult> CombineWithErrorOnFail<TService>(Action<Mock<TService>> verify, string expressionExpr)
         where TService : class
     {
         try
         {
             SpecificationGenerator.AddVerify<TService>(expressionExpr);
             verify(Mocked<TService>());
-            return new AndVerify<TResult>(this);
+            return new AndVerify<TSUT, TResult>(this);
         }
         catch (Exception ex)
         {
@@ -159,5 +167,5 @@ Try providing a function with the Spec's declared return type instead as paramet
         }
     }
 
-    private AndThen<TResult> And() => new(this);
+    private AndThen<TSUT, TResult> And() => new(this);
 }

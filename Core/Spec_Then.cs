@@ -11,7 +11,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// Run the test-pipeline and return the result
     /// </summary>
     /// <returns>The test result</returns>
-    public ITestResult<TResult> Then() => _pipeline.Then();
+    public ITestResultWithSUT<TSUT, TResult> Then() => _pipeline.Then();
 
     /// <summary>
     /// Run the test-pipeline and return a given subject to be used in chained assertions.

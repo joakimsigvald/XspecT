@@ -3,10 +3,10 @@ using XspecT.Internal.Specification;
 
 namespace XspecT.Internal.Verification;
 
-internal class AndThen<TResult> : IAndThen<TResult>
+internal class AndThen<TSUT, TResult> : IAndThen<TResult>
 {
-    internal protected readonly TestResult<TResult> Parent;
-    internal AndThen(TestResult<TResult> parent) => Parent = parent;
+    internal protected readonly TestResult<TSUT, TResult> Parent;
+    internal AndThen(TestResult<TSUT, TResult> parent) => Parent = parent;
     public ITestResult<TResult> And()
     {
         SpecificationGenerator.AddThen();

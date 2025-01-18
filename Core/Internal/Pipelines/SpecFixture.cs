@@ -21,6 +21,7 @@ internal class SpecFixture<TSUT> : IDisposable
             Invoke<object>(setUp);
     }
     internal bool IsSetUp => _sut is not null;
+    internal TSUT SubjectUnderTest => _sut.Value;
     internal void TearDown()
     {
         foreach (var tearDown in _tearDown)
