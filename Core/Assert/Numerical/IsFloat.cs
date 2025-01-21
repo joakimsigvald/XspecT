@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 
 namespace XspecT.Assert.Numerical;
 
@@ -20,7 +19,7 @@ public record IsFloat : IsNumerical<float, IsFloat>
     public ContinueWith<IsFloat> Around(
         float expected, float precision, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Assert([CustomAssertion] () => Actual.Should().BeApproximately(expected, precision), expectedExpr);
+        Assert(() => Actual.Should().BeApproximately(expected, precision), expectedExpr);
         return And();
     }
 
@@ -34,7 +33,7 @@ public record IsFloat : IsNumerical<float, IsFloat>
     public ContinueWith<IsFloat> NotAround(
         float expected, float precision, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Assert([CustomAssertion] () => Actual.Should().NotBeApproximately(expected, precision), expectedExpr);
+        Assert(() => Actual.Should().NotBeApproximately(expected, precision), expectedExpr);
         return And();
     }
 }

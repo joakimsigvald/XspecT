@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 
 namespace XspecT.Assert;
 
@@ -18,7 +17,7 @@ public record IsComparable<TActual> : Constraint<TActual, IsComparable<TActual>>
     public ContinueWith<IsComparable<TActual>> GreaterThan(
         TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Assert([CustomAssertion] () => Actual.Should().BeGreaterThan(expected), expectedExpr);
+        Assert(() => Xunit.Assert.True(Actual.CompareTo(expected) < 0), expectedExpr);
         return And();
     }
 
@@ -28,7 +27,7 @@ public record IsComparable<TActual> : Constraint<TActual, IsComparable<TActual>>
     public ContinueWith<IsComparable<TActual>> LessThan(
         TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Assert([CustomAssertion] () => Actual.Should().BeLessThan(expected), expectedExpr);
+        Assert(() => Xunit.Assert.True(Actual.CompareTo(expected) < 0), expectedExpr);
         return And();
     }
 
@@ -38,7 +37,7 @@ public record IsComparable<TActual> : Constraint<TActual, IsComparable<TActual>>
     public ContinueWith<IsComparable<TActual>> NotGreaterThan(
         TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Assert([CustomAssertion] () => Actual.Should().BeLessThanOrEqualTo(expected), expectedExpr);
+        Assert(() => Xunit.Assert.True(Actual.CompareTo(expected) <= 0), expectedExpr);
         return And();
     }
 
@@ -48,7 +47,7 @@ public record IsComparable<TActual> : Constraint<TActual, IsComparable<TActual>>
     public ContinueWith<IsComparable<TActual>> NotLessThan(
         TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Assert([CustomAssertion] () => Actual.Should().BeGreaterThanOrEqualTo(expected), expectedExpr);
+        Assert(() => Xunit.Assert.True(Actual.CompareTo(expected) >= 0), expectedExpr);
         return And();
     }
 }

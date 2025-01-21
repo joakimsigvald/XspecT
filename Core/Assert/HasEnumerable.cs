@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 
 namespace XspecT.Assert;
@@ -16,7 +15,7 @@ public record HasEnumerable<TItem> : Constraint<IEnumerable<TItem>, HasEnumerabl
     /// </summary>
     public ContinueWith<HasEnumerableContinuation<TItem>> Single()
     {
-        Assert([CustomAssertion] () => Actual.Should().ContainSingle());
+        Assert(() => Xunit.Assert.Single(Actual));
         return And();
     }
 
@@ -26,7 +25,7 @@ public record HasEnumerable<TItem> : Constraint<IEnumerable<TItem>, HasEnumerabl
     public ContinueWith<HasEnumerableContinuation<TItem>> Single(
         Expression<Func<TItem, bool>> expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Assert([CustomAssertion] () => Actual.Should().ContainSingle(expected), expectedExpr);
+        Assert(() => Xunit.Assert.Single(Actual, expected.Compile()), expectedExpr);
         return And();
     }
 
@@ -36,7 +35,7 @@ public record HasEnumerable<TItem> : Constraint<IEnumerable<TItem>, HasEnumerabl
     public ContinueWith<HasEnumerableContinuation<TItem>> Count(
         int expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Assert([CustomAssertion] () => Actual.Should().HaveCount(expected), expectedExpr);
+        Assert(() => Xunit.Assert.Equal(expected, Actual.Count()), expectedExpr);
         return And();
     }
 
@@ -46,7 +45,7 @@ public record HasEnumerable<TItem> : Constraint<IEnumerable<TItem>, HasEnumerabl
     public ContinueWith<HasEnumerableContinuation<TItem>> All(
         Func<TItem, int, bool> predicate, [CallerArgumentExpression(nameof(predicate))] string predicateExpr = null)
     {
-        Assert([CustomAssertion] () => Actual.Select((it, i) => (it, i)).Should().OnlyContain(t => predicate(t.it, t.i)), predicateExpr);
+        Assert(() => Xunit.Assert.DoesNotContain(Actual.Select((it, i) => (it, i)), t => !predicate(t.it, t.i)), predicateExpr);
         return And();
     }
 
@@ -56,7 +55,7 @@ public record HasEnumerable<TItem> : Constraint<IEnumerable<TItem>, HasEnumerabl
     public ContinueWith<HasEnumerableContinuation<TItem>> All(
         Func<TItem, bool> predicate, [CallerArgumentExpression(nameof(predicate))] string predicateExpr = null)
     {
-        Assert([CustomAssertion] () => Actual.Should().OnlyContain(it => predicate(it)), predicateExpr);
+        Assert(() => Xunit.Assert.DoesNotContain(Actual, it => !predicate(it)), predicateExpr);
         return And();
     }
 
@@ -81,7 +80,7 @@ public record HasEnumerable<TItem> : Constraint<IEnumerable<TItem>, HasEnumerabl
     /// <returns></returns>
     public ContinueWith<HasEnumerableContinuation<TItem>> All(Action<TItem> assert, [CallerArgumentExpression(nameof(assert))] string assertExpr = null)
     {
-        Assert([CustomAssertion] () => Actual.ToList().ForEach(assert), assertExpr);
+        Assert(() => Actual.ToList().ForEach(assert), assertExpr);
         return And();
     }
 

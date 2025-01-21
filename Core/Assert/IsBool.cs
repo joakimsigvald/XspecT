@@ -1,6 +1,4 @@
-﻿using FluentAssertions;
-
-namespace XspecT.Assert;
+﻿namespace XspecT.Assert;
 
 /// <summary>
 /// Object that allows an assertions to be made on the provided bool
@@ -14,7 +12,7 @@ public record IsBool : Constraint<bool, IsBool>
     /// </summary>
     public ContinueWith<IsBool> True()
     {
-        Assert([CustomAssertion] () => Actual.Should().BeTrue());
+        Assert(() => Xunit.Assert.True(Actual));
         return And();
     }
 
@@ -23,7 +21,7 @@ public record IsBool : Constraint<bool, IsBool>
     /// </summary>
     public ContinueWith<IsBool> False()
     {
-        Assert([CustomAssertion] () => Actual.Should().BeFalse());
+        Assert(() => Xunit.Assert.False(Actual));
         return And();
     }
 }

@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 
 namespace XspecT.Assert;
 
@@ -16,7 +15,7 @@ public record DoesString : Constraint<string, DoesStringContinuation>
     public ContinueWith<DoesStringContinuation> Contain(
         string expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Assert([CustomAssertion] () => Actual.Should().Contain(expected), expectedExpr, "contains");
+        Assert(() => Xunit.Assert.Contains(expected, Actual), expectedExpr, "contains");
         return And();
     }
 
@@ -26,7 +25,7 @@ public record DoesString : Constraint<string, DoesStringContinuation>
     public ContinueWith<DoesStringContinuation> NotContain(
         string expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Assert([CustomAssertion] () => Actual.Should().NotContain(expected), expectedExpr);
+        Assert(() => Xunit.Assert.DoesNotContain(expected, Actual), expectedExpr);
         return And();
     }
 
@@ -39,7 +38,7 @@ public record DoesString : Constraint<string, DoesStringContinuation>
     public ContinueWith<DoesStringContinuation> StartWith(
         string expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Assert([CustomAssertion] () => Actual.Should().StartWith(expected), expectedExpr, "starts with");
+        Assert(() => Xunit.Assert.StartsWith(expected, Actual), expectedExpr, "starts with");
         return And();
     }
 
@@ -52,7 +51,7 @@ public record DoesString : Constraint<string, DoesStringContinuation>
     public ContinueWith<DoesStringContinuation> EndWith(
         string expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Assert([CustomAssertion] () => Actual.Should().EndWith(expected), expectedExpr, "ends with");
+        Assert(() => Xunit.Assert.EndsWith(expected, Actual), expectedExpr, "ends with");
         return And();
     }
 

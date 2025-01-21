@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 
 namespace XspecT.Assert;
 
@@ -17,7 +16,7 @@ public record IsEnumerable<TItem> : Constraint<IEnumerable<TItem>, IsEnumerableC
     /// <returns>A continuation for making further assertions on the enumerable</returns>
     public ContinueWith<IsEnumerableContinuation<TItem>> Empty()
     {
-        Assert([CustomAssertion] () => Actual.Should().BeEmpty());
+        Assert(() => Xunit.Assert.Empty(Actual));
         return And();
     }
 
@@ -27,7 +26,7 @@ public record IsEnumerable<TItem> : Constraint<IEnumerable<TItem>, IsEnumerableC
     /// <returns>A continuation for making further assertions on the enumerable</returns>
     public ContinueWith<IsEnumerableContinuation<TItem>> NotEmpty()
     {
-        Assert([CustomAssertion] () => Actual.Should().NotBeEmpty());
+        Assert(() => Xunit.Assert.NotEmpty(Actual));
         return And();
     }
 
@@ -37,7 +36,7 @@ public record IsEnumerable<TItem> : Constraint<IEnumerable<TItem>, IsEnumerableC
     /// <returns>A continuation for making further assertions on the enumerable</returns>
     public ContinueWith<IsEnumerableContinuation<TItem>> Null()
     {
-        Assert([CustomAssertion] () => Actual.Should().BeNull());
+        Assert(() => Xunit.Assert.Null(Actual));
         return And();
     }
 
@@ -47,7 +46,7 @@ public record IsEnumerable<TItem> : Constraint<IEnumerable<TItem>, IsEnumerableC
     /// <returns>A continuation for making further assertions on the enumerable</returns>
     public ContinueWith<IsEnumerableContinuation<TItem>> NotNull()
     {
-        Assert([CustomAssertion] () => Actual.Should().NotBeNull());
+        Assert(() => Xunit.Assert.NotNull(Actual));
         return And();
     }
 
@@ -61,7 +60,7 @@ public record IsEnumerable<TItem> : Constraint<IEnumerable<TItem>, IsEnumerableC
         IEnumerable<TItem> expected, 
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Assert([CustomAssertion] () => Actual.Should().NotBeSameAs(expected), expectedExpr);
+        Assert(() => Xunit.Assert.NotSame(expected, Actual), expectedExpr);
         return And();
     }
 
@@ -75,7 +74,7 @@ public record IsEnumerable<TItem> : Constraint<IEnumerable<TItem>, IsEnumerableC
         IEnumerable<TItem> expected,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Assert([CustomAssertion] () => Actual.Should().BeEquivalentTo(expected), expectedExpr);
+        Assert(() => Xunit.Assert.Equal(expected, Actual), expectedExpr);
         return And();
     }
 
@@ -89,7 +88,7 @@ public record IsEnumerable<TItem> : Constraint<IEnumerable<TItem>, IsEnumerableC
         IEnumerable<TItem> expected,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Assert([CustomAssertion] () => Actual.Should().NotBeEquivalentTo(expected), expectedExpr);
+        Assert(() => Xunit.Assert.NotEqual(expected, Actual), expectedExpr);
         return And();
     }
 

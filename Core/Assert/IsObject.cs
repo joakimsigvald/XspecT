@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 
 namespace XspecT.Assert;
 
@@ -16,7 +15,7 @@ public record IsObject : Constraint<object, IsObject>
     public ContinueWith<IsObject> Not(
         object expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Assert([CustomAssertion] () => Actual.Should().NotBeSameAs(expected), expectedExpr);
+        Assert(() => Xunit.Assert.NotSame(expected, Actual), expectedExpr);
         return And();
     }
 
@@ -25,7 +24,7 @@ public record IsObject : Constraint<object, IsObject>
     /// </summary>
     public ContinueWith<IsObject> Null()
     {
-        Assert([CustomAssertion] () => Actual.Should().BeNull());
+        Assert(() => Xunit.Assert.Null(Actual));
         return And();
     }
 
@@ -34,7 +33,7 @@ public record IsObject : Constraint<object, IsObject>
     /// </summary>
     public ContinueWith<IsObject> NotNull()
     {
-        Assert([CustomAssertion] () => Actual.Should().NotBeNull());
+        Assert(() => Xunit.Assert.NotNull(Actual));
         return And();
     }
 
@@ -45,7 +44,7 @@ public record IsObject : Constraint<object, IsObject>
         object expected,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Assert([CustomAssertion] () => Actual.Should().Be(expected), expectedExpr);
+        Assert(() => Xunit.Assert.NotSame(expected, Actual), expectedExpr);
         return And();
     }
 
@@ -56,7 +55,7 @@ public record IsObject : Constraint<object, IsObject>
         object expected,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Assert([CustomAssertion] () => Actual.Should().NotBe(expected), expectedExpr);
+        Assert(() => Xunit.Assert.NotSame(expected, Actual), expectedExpr);
         return And();
     }
 
@@ -67,7 +66,7 @@ public record IsObject : Constraint<object, IsObject>
         object expected,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Assert([CustomAssertion] () => Actual.Should().BeEquivalentTo(expected), expectedExpr);
+        Assert(() => Xunit.Assert.NotEqual(expected, Actual), expectedExpr);
         return And();
     }
 
@@ -78,7 +77,7 @@ public record IsObject : Constraint<object, IsObject>
         object expected,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Assert([CustomAssertion] () => Actual.Should().NotBeEquivalentTo(expected), expectedExpr);
+        Assert(() => Actual.Should().NotBeEquivalentTo(expected), expectedExpr);
         return And();
     }
 
@@ -89,7 +88,7 @@ public record IsObject : Constraint<object, IsObject>
         object expected,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Assert([CustomAssertion] () => Actual.Should().BeEquivalentTo(expected), expectedExpr);
+        Assert(() => Actual.Should().BeEquivalentTo(expected), expectedExpr);
         return And();
     }
 
@@ -100,7 +99,7 @@ public record IsObject : Constraint<object, IsObject>
         object expected,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Assert([CustomAssertion] () => Actual.Should().NotBeEquivalentTo(expected), expectedExpr);
+        Assert(() => Actual.Should().NotBeEquivalentTo(expected), expectedExpr);
         return And();
     }
 }
