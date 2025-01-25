@@ -6,5 +6,4 @@
 public record IsNullableDecimal : IsNullableNumerical<decimal, IsNullableDecimal>
 {
     internal IsNullableDecimal(decimal? actual, string actualExpr = null) : base(actual, actualExpr) { }
-    internal override FluentAssertions.Numeric.NullableNumericAssertions<decimal> Should() => Actual.Should();
 }

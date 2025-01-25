@@ -14,20 +14,14 @@ public record DoesString : Constraint<string, DoesStringContinuation>
     /// </summary>
     public ContinueWith<DoesStringContinuation> Contain(
         string expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-    {
-        Assert(() => Xunit.Assert.Contains(expected, Actual), expectedExpr, "contains");
-        return And();
-    }
+        => AssertAnd(() => Xunit.Assert.Contains(expected, Actual), expectedExpr, "contains");
 
     /// <summary>
     /// Asserts that the string does not contain the expected string
     /// </summary>
     public ContinueWith<DoesStringContinuation> NotContain(
         string expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-    {
-        Assert(() => Xunit.Assert.DoesNotContain(expected, Actual), expectedExpr);
-        return And();
-    }
+        => AssertAnd(() => Xunit.Assert.DoesNotContain(expected, Actual), expectedExpr);
 
     /// <summary>
     /// Asserts that the string starts with a prefix
@@ -37,10 +31,7 @@ public record DoesString : Constraint<string, DoesStringContinuation>
     /// <returns></returns>
     public ContinueWith<DoesStringContinuation> StartWith(
         string expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-    {
-        Assert(() => Xunit.Assert.StartsWith(expected, Actual), expectedExpr, "starts with");
-        return And();
-    }
+        => AssertAnd(() => Xunit.Assert.StartsWith(expected, Actual), expectedExpr, "starts with");
 
     /// <summary>
     /// Asserts that the string ends with a suffix
@@ -50,10 +41,7 @@ public record DoesString : Constraint<string, DoesStringContinuation>
     /// <returns></returns>
     public ContinueWith<DoesStringContinuation> EndWith(
         string expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-    {
-        Assert(() => Xunit.Assert.EndsWith(expected, Actual), expectedExpr, "ends with");
-        return And();
-    }
+        => AssertAnd(() => Xunit.Assert.EndsWith(expected, Actual), expectedExpr, "ends with");
 
     internal override DoesStringContinuation Continue() => new(Actual);
 }

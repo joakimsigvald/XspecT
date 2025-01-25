@@ -6,5 +6,4 @@
 public record IsNullableUShort : IsNullableNumerical<ushort, IsNullableUShort>
 {
     internal IsNullableUShort(ushort? actual, string actualExpr = null) : base(actual, actualExpr) { }
-    internal override FluentAssertions.Numeric.NullableNumericAssertions<ushort> Should() => Actual.Should();
 }

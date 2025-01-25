@@ -18,10 +18,7 @@ public record IsFloat : IsNumerical<float, IsFloat>
     /// <returns></returns>
     public ContinueWith<IsFloat> Around(
         float expected, float precision, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-    {
-        Assert(() => Actual.Should().BeApproximately(expected, precision), expectedExpr);
-        return And();
-    }
+        => AssertAnd(() => Xunit.Assert.Equal(expected, Actual, precision), expectedExpr);
 
     /// <summary>
     /// Asserts that the float is not close to the given value, within the provided precision
@@ -32,8 +29,5 @@ public record IsFloat : IsNumerical<float, IsFloat>
     /// <returns></returns>
     public ContinueWith<IsFloat> NotAround(
         float expected, float precision, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-    {
-        Assert(() => Actual.Should().NotBeApproximately(expected, precision), expectedExpr);
-        return And();
-    }
+        => AssertAnd(() => Xunit.Assert.NotEqual(expected, Actual, precision), expectedExpr);
 }

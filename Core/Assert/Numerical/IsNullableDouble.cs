@@ -6,5 +6,4 @@
 public record IsNullableDouble : IsNullableNumerical<double, IsNullableDouble>
 {
     internal IsNullableDouble(double? actual, string actualExpr = null) : base(actual, actualExpr) { }
-    internal override FluentAssertions.Numeric.NullableNumericAssertions<double> Should() => Actual.Should();
 }

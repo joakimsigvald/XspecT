@@ -17,69 +17,56 @@ public abstract record IsNullableNumerical<TActual, TContinuation> : Constraint<
     /// actual.Should().NotBe(expected)
     /// </summary>
     public ContinueWith<TContinuation> Null()
-    {
-        Assert(() => Should().BeNull());
-        return And();
-    }
+        => AssertAnd(() => Xunit.Assert.Null(Actual));
 
     /// <summary>
     /// actual.Should().NotBe(expected)
     /// </summary>
     public ContinueWith<TContinuation> NotNull()
-    {
-        Assert(() => Should().NotBeNull());
-        return And();
-    }
+        => AssertAnd(() => Xunit.Assert.NotNull(Actual));
 
     /// <summary>
     /// actual.Should().NotBe(expected)
     /// </summary>
     public ContinueWith<TContinuation> Not(
         TActual? expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-    {
-        Assert(() => Should().NotBe(expected), expectedExpr);
-        return And();
-    }
+        => AssertAnd(() => Xunit.Assert.NotEqual(expected, Actual), expectedExpr);
 
     /// <summary>
     /// actual.Should().BeGreaterThan(expected)
     /// </summary>
     public ContinueWith<TContinuation> GreaterThan(
         TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-    {
-        Assert(() => Should().BeGreaterThan(expected), expectedExpr);
-        return And();
-    }
+        => CompareTo(expected, x => x > 0, expectedExpr);
 
     /// <summary>
     /// actual.Should().BeLessThan(expected)
     /// </summary>
     public ContinueWith<TContinuation> LessThan(
         TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-    {
-        Assert(() => Should().BeLessThan(expected), expectedExpr);
-        return And();
-    }
+        => CompareTo(expected, x => x < 0, expectedExpr);
 
     /// <summary>
     /// actual.Should().BeLessThanOrEqualTo(expected)
     /// </summary>
     public ContinueWith<TContinuation> NotGreaterThan(
         TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-    {
-        Assert(() => Should().BeLessThanOrEqualTo(expected), expectedExpr);
-        return And();
-    }
+        => CompareTo(expected, x => x <= 0, expectedExpr);
 
     /// <summary>
     /// actual.Should().BeGreaterThanOrEqualTo(expected)
     /// </summary>
     public ContinueWith<TContinuation> NotLessThan(
         TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-    {
-        Assert(() => Should().BeGreaterThanOrEqualTo(expected), expectedExpr);
-        return And();
-    }
+        => CompareTo(expected, x => x >= 0, expectedExpr);
 
-    internal abstract FluentAssertions.Numeric.NullableNumericAssertions<TActual> Should();
+    private ContinueWith<TContinuation> CompareTo(
+        TActual expected,
+        Func<int, bool> comparer,
+        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
+        => AssertAnd(() =>
+        {
+            Xunit.Assert.NotNull(Actual);
+            Xunit.Assert.True(comparer(Actual.Value.CompareTo(expected)));
+        }, expectedExpr);
 }

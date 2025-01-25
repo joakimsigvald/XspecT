@@ -17,10 +17,7 @@ public record IsNullableDateTime : Constraint<DateTime?, IsNullableDateTime>
     /// <returns></returns>
     public ContinueWith<IsNullableDateTime> Not(
         DateTime expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-    {
-        Assert(() => Actual.Should().NotBe(expected), expectedExpr);
-        return And();
-    }
+        => AssertAnd(() => Actual.Should().NotBe(expected), expectedExpr);
 
     /// <summary>
     /// Asserts that the dateTime is not null
@@ -29,7 +26,7 @@ public record IsNullableDateTime : Constraint<DateTime?, IsNullableDateTime>
     public ContinueWith<IsDateTime> NotNull()
     {
         Assert(() => Actual.Should().NotBeNull());
-        return new(new(Actual.Value));
+        return AndValue();
     }
 
     /// <summary>
@@ -50,7 +47,7 @@ public record IsNullableDateTime : Constraint<DateTime?, IsNullableDateTime>
         DateTime expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
         Assert(() => Actual.Should().BeBefore(expected), expectedExpr);
-        return new(new IsDateTime(Actual.Value));
+        return AndValue();
     }
 
     /// <summary>
@@ -63,7 +60,7 @@ public record IsNullableDateTime : Constraint<DateTime?, IsNullableDateTime>
         DateTime expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
         Assert(() => Actual.Should().BeAfter(expected), expectedExpr);
-        return new(new IsDateTime(Actual.Value));
+        return AndValue();
     }
 
     /// <summary>
@@ -76,7 +73,7 @@ public record IsNullableDateTime : Constraint<DateTime?, IsNullableDateTime>
         DateTime expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
         Assert(() => Actual.Should().NotBeBefore(expected), expectedExpr);
-        return new(new IsDateTime(Actual.Value));
+        return AndValue();
     }
 
     /// <summary>
@@ -89,6 +86,9 @@ public record IsNullableDateTime : Constraint<DateTime?, IsNullableDateTime>
         DateTime expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
         Assert(() => Actual.Should().NotBeAfter(expected), expectedExpr);
-        return new(new IsDateTime(Actual.Value));
+        return AndValue();
     }
+
+    private ContinueWith<IsDateTime> AndValue() => new(new(Actual.Value));
+
 }

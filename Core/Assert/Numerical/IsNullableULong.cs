@@ -6,5 +6,4 @@
 public record IsNullableULong : IsNullableNumerical<ulong, IsNullableULong>
 {
     internal IsNullableULong(ulong? actual, string actualExpr = null) : base(actual, actualExpr) { }
-    internal override FluentAssertions.Numeric.NullableNumericAssertions<ulong> Should() => Actual.Should();
 }

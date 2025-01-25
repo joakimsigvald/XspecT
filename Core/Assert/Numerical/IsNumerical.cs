@@ -18,48 +18,33 @@ public abstract record IsNumerical<TActual, TContinuation> : Constraint<TActual,
     /// </summary>
     public ContinueWith<TContinuation> Not(
         TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-    {
-        Assert(() => Actual.Should().NotBe(expected), expectedExpr);
-        return And();
-    }
+        => AssertAnd(() => Xunit.Assert.NotEqual(expected, Actual), expectedExpr);
 
     /// <summary>
     /// actual.Should().BeGreaterThan(expected)
     /// </summary>
     public ContinueWith<TContinuation> GreaterThan(
         TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-    {
-        Assert(() => Actual.Should().BeGreaterThan(expected), expectedExpr);
-        return And();
-    }
+        => AssertAnd(() => Actual.Should().BeGreaterThan(expected), expectedExpr);
 
     /// <summary>
     /// actual.Should().BeLessThan(expected)
     /// </summary>
     public ContinueWith<TContinuation> LessThan(
         TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-    {
-        Assert(() => Actual.Should().BeLessThan(expected), expectedExpr);
-        return And();
-    }
+        => AssertAnd(() => Actual.Should().BeLessThan(expected), expectedExpr);
 
     /// <summary>
     /// actual.Should().BeLessThanOrEqualTo(expected)
     /// </summary>
     public ContinueWith<TContinuation> NotGreaterThan(
         TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-    {
-        Assert(() => Actual.Should().BeLessThanOrEqualTo(expected), expectedExpr);
-        return And();
-    }
+        => AssertAnd(() => Actual.Should().BeLessThanOrEqualTo(expected), expectedExpr);
 
     /// <summary>
     /// actual.Should().BeGreaterThanOrEqualTo(expected)
     /// </summary>
     public ContinueWith<TContinuation> NotLessThan(
         TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-    {
-        Assert(() => Actual.Should().BeGreaterThanOrEqualTo(expected), expectedExpr);
-        return And();
-    }
+        => AssertAnd(() => Actual.Should().BeGreaterThanOrEqualTo(expected), expectedExpr);
 }

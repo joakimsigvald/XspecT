@@ -17,10 +17,7 @@ public record IsNullableTimeSpan : Constraint<TimeSpan?, IsNullableTimeSpan>
     /// <returns></returns>
     public ContinueWith<IsNullableTimeSpan> Not(
         TimeSpan expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-    {
-        Assert(() => Actual.Should().NotBe(expected), expectedExpr);
-        return And();
-    }
+        => AssertAnd(() => Actual.Should().NotBe(expected), expectedExpr);
 
     /// <summary>
     /// Asserts that the timeSpan is not null

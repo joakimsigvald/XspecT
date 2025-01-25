@@ -16,11 +16,21 @@ public abstract record Constraint<TActual, TContinuation>(
     : Constraint(ActualExpr, typeof(TContinuation).Name.ToWords()[0])
     where TContinuation : Constraint<TActual, TContinuation>
 {
+    internal ContinueWith<TContinuation> AssertAnd(
+        Action assert,
+        string expectedExpr = null,
+        string verb = null,
+        [CallerMemberName] string methodName = null)
+    {
+        Assert(assert, expectedExpr, verb, methodName);
+        return And();
+    }
+
     internal ContinueWith<TContinuation> And() => new(Continue());
     internal virtual TContinuation Continue() => (TContinuation)this;
 
     internal void Assert(
-        Action assert, 
+        Action assert,
         string expectedExpr = null,
         string verb = null,
         [CallerMemberName] string methodName = null)

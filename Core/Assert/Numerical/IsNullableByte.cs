@@ -6,5 +6,4 @@
 public record IsNullableByte : IsNullableNumerical<byte, IsNullableByte>
 {
     internal IsNullableByte(byte? actual, string actualExpr = null) : base(actual, actualExpr) { }
-    internal override FluentAssertions.Numeric.NullableNumericAssertions<byte> Should() => Actual.Should();
 }

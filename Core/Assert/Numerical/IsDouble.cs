@@ -18,10 +18,7 @@ public record IsDouble : IsNumerical<double, IsDouble>
     /// <returns></returns>
     public ContinueWith<IsDouble> Around(
         double expected, double precision, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-    {
-        Assert(() => Actual.Should().BeApproximately(expected, precision), expectedExpr);
-        return And();
-    }
+        => AssertAnd(() => Xunit.Assert.Equal(expected, Actual, precision), expectedExpr);
 
     /// <summary>
     /// Asserts that the double is not close to the given value, within the provided precision
@@ -32,8 +29,5 @@ public record IsDouble : IsNumerical<double, IsDouble>
     /// <returns></returns>
     public ContinueWith<IsDouble> NotAround(
         double expected, double precision, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-    {
-        Assert(() => Actual.Should().NotBeApproximately(expected, precision), expectedExpr);
-        return And();
-    }
+        => AssertAnd(() => Xunit.Assert.NotEqual(expected, Actual, precision), expectedExpr);
 }
