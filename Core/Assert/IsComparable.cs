@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using XspecT.Assert.Time;
 
 namespace XspecT.Assert;
 
@@ -6,36 +7,67 @@ namespace XspecT.Assert;
 /// Object that allows an assertions to be made on the provided comparable
 /// </summary>
 /// <typeparam name="TActual"></typeparam>
-public record IsComparable<TActual> : Constraint<TActual, IsComparable<TActual>>
+/// <typeparam name="TContinuation"></typeparam>
+public abstract record IsComparable<TActual, TContinuation> : Constraint<TActual, TContinuation>
+    where TContinuation : IsComparable<TActual, TContinuation>
     where TActual : IComparable<TActual>
 {
     internal IsComparable(TActual actual, string actualExpr) : base(actual, actualExpr) { }
 
     /// <summary>
+    /// Asserts that actual value is not equal to the given value
+    /// </summary>
+    /// <param name="expected"></param>
+    /// <param name="expectedExpr"></param>
+    /// <returns></returns>
+    public ContinueWith<TContinuation> Not(
+        TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
+        => AssertAnd(() => Xunit.Assert.NotEqual(expected, Actual), expectedExpr);
+
+    /// <summary>
     /// actual.Should().BeGreaterThan(expected)
     /// </summary>
-    public ContinueWith<IsComparable<TActual>> GreaterThan(
+    public ContinueWith<TContinuation> GreaterThan(
         TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => AssertAnd(() => Xunit.Assert.True(Actual.CompareTo(expected) < 0), expectedExpr);
+        => CompareTo(expected, x => x > 0, expectedExpr);
 
     /// <summary>
     /// actual.Should().BeLessThan(expected)
     /// </summary>
-    public ContinueWith<IsComparable<TActual>> LessThan(
+    public ContinueWith<TContinuation> LessThan(
         TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => AssertAnd(() => Xunit.Assert.True(Actual.CompareTo(expected) < 0), expectedExpr);
+        => CompareTo(expected, x => x < 0, expectedExpr);
 
     /// <summary>
     /// actual.Should().BeLessThanOrEqualTo(expected)
     /// </summary>
-    public ContinueWith<IsComparable<TActual>> NotGreaterThan(
+    public ContinueWith<TContinuation> NotGreaterThan(
         TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => AssertAnd(() => Xunit.Assert.True(Actual.CompareTo(expected) <= 0), expectedExpr);
+        => CompareTo(expected, x => x <= 0, expectedExpr);
 
     /// <summary>
     /// actual.Should().BeGreaterThanOrEqualTo(expected)
     /// </summary>
-    public ContinueWith<IsComparable<TActual>> NotLessThan(
+    public ContinueWith<TContinuation> NotLessThan(
         TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => AssertAnd(() => Xunit.Assert.True(Actual.CompareTo(expected) >= 0), expectedExpr);
+        => CompareTo(expected, x => x >= 0, expectedExpr);
+
+    private protected ContinueWith<TContinuation> CompareTo(
+        TActual expected,
+        Func<int, bool> comparer,
+        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
+        => AssertAnd(() =>
+        {
+            Xunit.Assert.True(comparer(Actual.CompareTo(expected)));
+        }, expectedExpr);
+}
+
+/// <summary>
+/// Object that allows an assertions to be made on the provided comparable
+/// </summary>
+/// <typeparam name="TActual"></typeparam>
+public record IsComparable<TActual> : IsComparable<TActual, IsComparable<TActual>>
+    where TActual : IComparable<TActual>
+{
+    internal IsComparable(TActual actual, string actualExpr) : base(actual, actualExpr) { }
 }

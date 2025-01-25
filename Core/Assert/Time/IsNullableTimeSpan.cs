@@ -17,7 +17,7 @@ public record IsNullableTimeSpan : Constraint<TimeSpan?, IsNullableTimeSpan>
     /// <returns></returns>
     public ContinueWith<IsNullableTimeSpan> Not(
         TimeSpan expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => AssertAnd(() => Actual.Should().NotBe(expected), expectedExpr);
+        => AssertAnd(() => Xunit.Assert.NotEqual(expected, Actual), expectedExpr);
 
     /// <summary>
     /// Asserts that the timeSpan is not null
@@ -25,15 +25,12 @@ public record IsNullableTimeSpan : Constraint<TimeSpan?, IsNullableTimeSpan>
     /// <returns></returns>
     public ContinueWith<IsTimeSpan> NotNull()
     {
-        Assert(() => Actual.Should().NotBeNull());
+        Assert(() => Xunit.Assert.NotNull(Actual));
         return new(new(Actual.Value));
     }
 
     /// <summary>
     /// Asserts that the timeSpan is null
     /// </summary>
-    public void Null()
-    {
-        Assert(() => Actual.Should().BeNull());
-    }
+    public void Null() => Assert(() => Xunit.Assert.Null(Actual));
 }
