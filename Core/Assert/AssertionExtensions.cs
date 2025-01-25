@@ -1,5 +1,4 @@
-﻿using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using XspecT.Assert.Time;
 using XspecT.Internal.Specification;
 
@@ -121,12 +120,12 @@ public static class AssertionExtensions
     /// <param name="predicateExpr"></param>
     /// <returns>Continuation for further assertions of the object</returns>
     public static ContinueWith<IsObject> Match<TValue>(
-        this TValue actual, Expression<Func<TValue, bool>> predicate,
+        this TValue actual, Func<TValue, bool> predicate,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
         [CallerArgumentExpression(nameof(predicate))] string predicateExpr = null)
     {
         SpecificationGenerator.Assert(
-            () => Xunit.Assert.True(predicate.Compile()(actual)),
+            () => Xunit.Assert.True(predicate(actual)),
             actualExpr,
             predicateExpr);
         return new(new(actual));

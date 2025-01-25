@@ -1,6 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace XspecT.Assert.Numerical;
+﻿namespace XspecT.Assert.Numerical;
 
 /// <summary>
 /// Base class that allows an assertions to be made on the provided numerical

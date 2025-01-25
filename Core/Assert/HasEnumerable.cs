@@ -1,5 +1,4 @@
-﻿using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 
 namespace XspecT.Assert;
 
@@ -20,8 +19,8 @@ public record HasEnumerable<TItem> : Constraint<IEnumerable<TItem>, HasEnumerabl
     /// actual.Should().ContainSingle()
     /// </summary>
     public ContinueWith<HasEnumerableContinuation<TItem>> Single(
-        Expression<Func<TItem, bool>> expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => AssertAnd(() => Xunit.Assert.Single(Actual, new Predicate<TItem>(expected.Compile())), expectedExpr);
+        Func<TItem, bool> expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
+        => AssertAnd(() => Xunit.Assert.Single(Actual, new Predicate<TItem>(expected)), expectedExpr);
 
     /// <summary>
     /// actual.Should().HaveCount(expected)
