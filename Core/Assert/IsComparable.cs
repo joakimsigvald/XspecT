@@ -1,5 +1,4 @@
 ﻿using System.Runtime.CompilerServices;
-using XspecT.Assert.Time;
 
 namespace XspecT.Assert;
 
@@ -55,11 +54,12 @@ public abstract record IsComparable<TActual, TContinuation> : Constraint<TActual
     private protected ContinueWith<TContinuation> CompareTo(
         TActual expected,
         Func<int, bool> comparer,
-        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
+        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null,
+        [CallerMemberName] string methodName = null)
         => AssertAnd(() =>
         {
             Xunit.Assert.True(comparer(Actual.CompareTo(expected)));
-        }, expectedExpr);
+        }, expectedExpr, methodName: methodName);
 }
 
 /// <summary>

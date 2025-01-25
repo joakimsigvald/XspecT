@@ -6,7 +6,9 @@ namespace XspecT.Assert;
 /// <summary>
 /// 
 /// </summary>
-public record Constraint(string ActualExpr, string AuxiliaryVerb) {}
+public record Constraint(string ActualExpr, string AuxiliaryVerb) 
+{
+}
 
 /// <summary>
 /// Base class for object that allows a chain of assertions to be made on the provided value
@@ -35,5 +37,7 @@ public abstract record Constraint<TActual, TContinuation>(
         string verb = null,
         [CallerMemberName] string methodName = null)
         => SpecificationGenerator.Assert(
-            assert, ActualExpr, expectedExpr, verb ?? $"{AuxiliaryVerb} {methodName.AsWords()}".Trim());
+            assert, ActualExpr, expectedExpr, $"{CombineVerbs(verb)} {methodName.AsWords()}".Trim());
+
+    private string CombineVerbs(string verb) => $"{AuxiliaryVerb} {verb}".Trim();
 }

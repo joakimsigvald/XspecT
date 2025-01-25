@@ -63,10 +63,11 @@ public abstract record IsNullableNumerical<TActual, TContinuation> : Constraint<
     private ContinueWith<TContinuation> CompareTo(
         TActual expected,
         Func<int, bool> comparer,
-        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
+        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null,
+        [CallerMemberName] string methodName = null)
         => AssertAnd(() =>
         {
             Xunit.Assert.NotNull(Actual);
             Xunit.Assert.True(comparer(Actual.Value.CompareTo(expected)));
-        }, expectedExpr);
+        }, expectedExpr, methodName: methodName);
 }
