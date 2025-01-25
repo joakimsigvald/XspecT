@@ -8,6 +8,7 @@ namespace XspecT.Assert.Time;
 public record IsNullableDateTime : Constraint<DateTime?, IsNullableDateTime>
 {
     internal IsNullableDateTime(DateTime? actual, string actualExpr = null) : base(actual, actualExpr) { }
+    private IsDateTime IsDateTime(DateTime defaultValue) => new(Actual ?? defaultValue, ActualExpr);
 
     /// <summary>
     /// Asserts that the dateTime is null or not equal to the given value
@@ -42,7 +43,7 @@ public record IsNullableDateTime : Constraint<DateTime?, IsNullableDateTime>
     /// <returns></returns>
     public ContinueWith<IsDateTime> Before(
         DateTime expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => NotNull().And.Before(expected, expectedExpr);
+        => IsDateTime(DateTime.MaxValue).Before(expected, expectedExpr);
 
     /// <summary>
     /// Asserts that the nullable dateTime is after the given value
@@ -52,7 +53,7 @@ public record IsNullableDateTime : Constraint<DateTime?, IsNullableDateTime>
     /// <returns></returns>
     public ContinueWith<IsDateTime> After(
         DateTime expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => NotNull().And.After(expected, expectedExpr);
+        => IsDateTime(DateTime.MinValue).After(expected, expectedExpr);
 
     /// <summary>
     /// Asserts that the nullable dateTime is not before the given value
@@ -62,7 +63,7 @@ public record IsNullableDateTime : Constraint<DateTime?, IsNullableDateTime>
     /// <returns></returns>
     public ContinueWith<IsDateTime> NotBefore(
         DateTime expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => NotNull().And.NotBefore(expected, expectedExpr);
+        => IsDateTime(DateTime.MinValue).NotBefore(expected, expectedExpr);
 
     /// <summary>
     /// Asserts that the nullable dateTime is not after the given value
@@ -72,5 +73,5 @@ public record IsNullableDateTime : Constraint<DateTime?, IsNullableDateTime>
     /// <returns></returns>
     public ContinueWith<IsDateTime> NotAfter(
         DateTime expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => NotNull().And.NotAfter(expected, expectedExpr);
+        => IsDateTime(DateTime.MaxValue).NotAfter(expected, expectedExpr);
 }

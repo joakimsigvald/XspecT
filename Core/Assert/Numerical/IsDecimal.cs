@@ -17,8 +17,8 @@ public record IsDecimal : IsNumerical<decimal, IsDecimal>
     /// <param name="expectedExpr"></param>
     /// <returns></returns>
     public ContinueWith<IsDecimal> Around(
-        decimal expected, int precision, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => AssertAnd(() => Xunit.Assert.Equal(Actual, expected, precision), expectedExpr);
+        decimal expected, decimal precision, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
+        => AssertAnd(() => Xunit.Assert.True(Math.Abs(Actual - expected) <= precision), expectedExpr);
 
     /// <summary>
     /// Asserts that the decimal is not close to the given value, within the provided precision
@@ -28,6 +28,6 @@ public record IsDecimal : IsNumerical<decimal, IsDecimal>
     /// <param name="expectedExpr"></param>
     /// <returns></returns>
     public ContinueWith<IsDecimal> NotAround(
-        decimal expected, int precision, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => AssertAnd(() => Xunit.Assert.NotEqual(Actual, expected, precision), expectedExpr);
+        decimal expected, decimal precision, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
+        => AssertAnd(() => Xunit.Assert.False(Math.Abs(Actual - expected) <= precision), expectedExpr);
 }
