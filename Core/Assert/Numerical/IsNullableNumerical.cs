@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using Shouldly;
 using System.Runtime.CompilerServices;
 
 namespace XspecT.Assert.Numerical;
@@ -15,79 +15,74 @@ public abstract record IsNullableNumerical<TActual, TContinuation> : Constraint<
     internal IsNullableNumerical(TActual? actual, string actualExpr = null) : base(actual, actualExpr) { }
 
     /// <summary>
-    /// actual.Should().NotBe(expected)
+    /// actual.ShouldNotBe(expected)
     /// </summary>
-    [CustomAssertion]
     public ContinueWith<TContinuation> Null()
     {
-        Assert([CustomAssertion] () => Should().BeNull());
+        Assert(() => ShouldBeNull());
         return And();
     }
 
     /// <summary>
-    /// actual.Should().NotBe(expected)
+    /// actual.ShouldNotBe(expected)
     /// </summary>
-    [CustomAssertion]
     public ContinueWith<TContinuation> NotNull()
     {
-        Assert([CustomAssertion] () => Should().NotBeNull());
+        Assert(() => ShouldNotBeNull());
         return And();
     }
 
     /// <summary>
-    /// actual.Should().NotBe(expected)
+    /// actual.ShouldNotBe(expected)
     /// </summary>
-    [CustomAssertion]
     public ContinueWith<TContinuation> Not(
         TActual? expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Assert([CustomAssertion] () => Should().NotBe(expected), expectedExpr);
+        Assert(() => ShouldNotBe(expected), expectedExpr);
         return And();
     }
 
     /// <summary>
-    /// actual.Should().BeGreaterThan(expected)
+    /// actual.ShouldBeGreaterThan(expected)
     /// </summary>
-    [CustomAssertion]
     public ContinueWith<TContinuation> GreaterThan(
         TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Assert([CustomAssertion] () => Should().BeGreaterThan(expected), expectedExpr);
+        Assert(() => ShouldBeGreaterThan(expected), expectedExpr);
         return And();
     }
 
     /// <summary>
-    /// actual.Should().BeLessThan(expected)
+    /// actual.ShouldBeLessThan(expected)
     /// </summary>
     [CustomAssertion]
     public ContinueWith<TContinuation> LessThan(
         TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Assert([CustomAssertion] () => Should().BeLessThan(expected), expectedExpr);
+        Assert(() => ShouldBeLessThan(expected), expectedExpr);
         return And();
     }
 
     /// <summary>
-    /// actual.Should().BeLessThanOrEqualTo(expected)
+    /// actual.ShouldBeLessThanOrEqualTo(expected)
     /// </summary>
     [CustomAssertion]
     public ContinueWith<TContinuation> NotGreaterThan(
         TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Assert([CustomAssertion] () => Should().BeLessThanOrEqualTo(expected), expectedExpr);
+        Assert(() => ShouldBeLessThanOrEqualTo(expected), expectedExpr);
         return And();
     }
 
     /// <summary>
-    /// actual.Should().BeGreaterThanOrEqualTo(expected)
+    /// actual.ShouldBeGreaterThanOrEqualTo(expected)
     /// </summary>
-    [CustomAssertion]
     public ContinueWith<TContinuation> NotLessThan(
         TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Assert([CustomAssertion] () => Should().BeGreaterThanOrEqualTo(expected), expectedExpr);
+        Assert(() => ShouldBeGreaterThanOrEqualTo(expected), expectedExpr);
         return And();
     }
 
-    [CustomAssertion] internal abstract FluentAssertions.Numeric.NullableNumericAssertions<TActual> Should();
+    internal abstract FluentAssertions.Numeric.NullableNumericAssertions<TActual> Should();
 }

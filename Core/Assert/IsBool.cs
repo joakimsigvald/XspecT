@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using Shouldly;
 
 namespace XspecT.Assert;
 
@@ -10,20 +10,20 @@ public record IsBool : Constraint<bool, IsBool>
     internal IsBool(bool actual, string actualExpr) : base(actual, actualExpr) { }
 
     /// <summary>
-    /// actual.Should().BeTrue()
+    /// actual.ShouldBeTrue()
     /// </summary>
     public ContinueWith<IsBool> True()
     {
-        Assert([CustomAssertion] () => Actual.Should().BeTrue());
+        Assert(() => Actual.ShouldBeTrue());
         return And();
     }
 
     /// <summary>
-    /// actual.Should().BeFalse()
+    /// actual.ShouldBeFalse()
     /// </summary>
     public ContinueWith<IsBool> False()
     {
-        Assert([CustomAssertion] () => Actual.Should().BeFalse());
+        Assert(() => Actual.ShouldBeFalse());
         return And();
     }
 }

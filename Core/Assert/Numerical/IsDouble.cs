@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using Shouldly;
 using System.Runtime.CompilerServices;
 
 namespace XspecT.Assert.Numerical;
@@ -20,7 +20,7 @@ public record IsDouble : IsNumerical<double, IsDouble>
     public ContinueWith<IsDouble> Around(
         double expected, double precision, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Assert([CustomAssertion] () => Actual.Should().BeApproximately(expected, precision), expectedExpr);
+        Assert(() => Actual.ShouldBeApproximately(expected, precision), expectedExpr);
         return And();
     }
 
@@ -34,7 +34,7 @@ public record IsDouble : IsNumerical<double, IsDouble>
     public ContinueWith<IsDouble> NotAround(
         double expected, double precision, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Assert([CustomAssertion] () => Actual.Should().NotBeApproximately(expected, precision), expectedExpr);
+        Assert(() => Actual.ShouldNotBeApproximately(expected, precision), expectedExpr);
         return And();
     }
 }

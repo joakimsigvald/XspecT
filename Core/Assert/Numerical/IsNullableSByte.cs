@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using Shouldly;
 
 namespace XspecT.Assert.Numerical;
 
@@ -8,5 +8,5 @@ namespace XspecT.Assert.Numerical;
 public record IsNullableSByte : IsNullableNumerical<sbyte, IsNullableSByte>
 {
     internal IsNullableSByte(sbyte? actual, string actualExpr = null) : base(actual, actualExpr) { }
-    [CustomAssertion] internal override FluentAssertions.Numeric.NullableNumericAssertions<sbyte> Should() => Actual.Should();
+    internal override FluentAssertions.Numeric.NullableNumericAssertions<sbyte> Should() => Actual.Should();
 }

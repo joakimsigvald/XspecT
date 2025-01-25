@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using Shouldly;
 using System.Runtime.CompilerServices;
 
 namespace XspecT.Assert.Time;
@@ -19,7 +19,7 @@ public record IsNullableTimeSpan : Constraint<TimeSpan?, IsNullableTimeSpan>
     public ContinueWith<IsNullableTimeSpan> Not(
         TimeSpan expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Assert([CustomAssertion] () => Actual.Should().NotBe(expected), expectedExpr);
+        Assert(() => Actual.ShouldNotBe(expected), expectedExpr);
         return And();
     }
 
@@ -29,7 +29,7 @@ public record IsNullableTimeSpan : Constraint<TimeSpan?, IsNullableTimeSpan>
     /// <returns></returns>
     public ContinueWith<IsTimeSpan> NotNull()
     {
-        Assert([CustomAssertion] () => Actual.Should().NotBeNull());
+        Assert(() => Actual.ShouldNotBeNull());
         return new(new(Actual.Value));
     }
 
@@ -39,6 +39,6 @@ public record IsNullableTimeSpan : Constraint<TimeSpan?, IsNullableTimeSpan>
     [CustomAssertion]
     public void Null()
     {
-        Assert([CustomAssertion] () => Actual.Should().BeNull());
+        Assert(() => Actual.ShouldBeNull());
     }
 }

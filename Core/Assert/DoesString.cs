@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using Shouldly;
 using System.Runtime.CompilerServices;
 
 namespace XspecT.Assert;
@@ -16,7 +16,7 @@ public record DoesString : Constraint<string, DoesStringContinuation>
     public ContinueWith<DoesStringContinuation> Contain(
         string expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Assert([CustomAssertion] () => Actual.Should().Contain(expected), expectedExpr, "contains");
+        Assert(() => Actual.ShouldContain(expected), expectedExpr, "contains");
         return And();
     }
 
@@ -26,7 +26,7 @@ public record DoesString : Constraint<string, DoesStringContinuation>
     public ContinueWith<DoesStringContinuation> NotContain(
         string expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Assert([CustomAssertion] () => Actual.Should().NotContain(expected), expectedExpr);
+        Assert(() => Actual.ShouldNotContain(expected), expectedExpr);
         return And();
     }
 
@@ -39,7 +39,7 @@ public record DoesString : Constraint<string, DoesStringContinuation>
     public ContinueWith<DoesStringContinuation> StartWith(
         string expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Assert([CustomAssertion] () => Actual.Should().StartWith(expected), expectedExpr, "starts with");
+        Assert(() => Actual.ShouldStartWith(expected), expectedExpr, "starts with");
         return And();
     }
 
@@ -52,7 +52,7 @@ public record DoesString : Constraint<string, DoesStringContinuation>
     public ContinueWith<DoesStringContinuation> EndWith(
         string expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        Assert([CustomAssertion] () => Actual.Should().EndWith(expected), expectedExpr, "ends with");
+        Assert(() => Actual.ShouldEndWith(expected), expectedExpr, "ends with");
         return And();
     }
 
