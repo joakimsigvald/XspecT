@@ -22,7 +22,7 @@ public static class AssertionExtensionsNumerical
             () => Xunit.Assert.Equal(expected, actual),
             actualExpr,
             expectedExpr);
-        return new(new() { Actual = actual });
+        return new(IsNullableByte.Create(actual));
     }
 
     /// <summary>
@@ -38,7 +38,7 @@ public static class AssertionExtensionsNumerical
             () => Xunit.Assert.Equal(expected, actual),
             actualExpr,
             expectedExpr);
-        return new(new() { Actual = actual });
+        return new(IsNullableSByte.Create(actual));
     }
 
     /// <summary>
@@ -54,7 +54,7 @@ public static class AssertionExtensionsNumerical
             () => Xunit.Assert.Equal(expected, actual),
             actualExpr,
             expectedExpr);
-        return new(new() { Actual = actual });
+        return new(IsNullableUShort.Create(actual));
     }
 
     /// <summary>
@@ -70,7 +70,7 @@ public static class AssertionExtensionsNumerical
             () => Xunit.Assert.Equal(expected, actual),
             actualExpr,
             expectedExpr);
-        return new(new() { Actual = actual });
+        return new(IsNullableShort.Create(actual));
     }
 
     /// <summary>
@@ -86,7 +86,7 @@ public static class AssertionExtensionsNumerical
             () => Xunit.Assert.Equal(expected, actual),
             actualExpr,
             expectedExpr);
-        return new(new() { Actual = actual });
+        return new(IsNullableUInt.Create(actual));
     }
 
     /// <summary>
@@ -102,7 +102,7 @@ public static class AssertionExtensionsNumerical
             () => Xunit.Assert.Equal(expected, actual),
             actualExpr,
             expectedExpr);
-        return new(new() { Actual = actual });
+        return new(IsNullableInt.Create(actual));
     }
 
     /// <summary>
@@ -118,7 +118,7 @@ public static class AssertionExtensionsNumerical
             () => Xunit.Assert.Equal(expected, actual),
             actualExpr,
             expectedExpr);
-        return new(new() { Actual = actual });
+        return new(IsNullableULong.Create(actual));
     }
 
     /// <summary>
@@ -134,7 +134,7 @@ public static class AssertionExtensionsNumerical
             () => Xunit.Assert.Equal(expected, actual),
             actualExpr,
             expectedExpr);
-        return new(new() { Actual = actual });
+        return new(IsNullableLong.Create(actual));
     }
 
     /// <summary>
@@ -150,7 +150,7 @@ public static class AssertionExtensionsNumerical
             () => Xunit.Assert.Equal(expected, actual),
             actualExpr,
             expectedExpr);
-        return new(new() { Actual = actual });
+        return new(IsNullableFloat.Create(actual));
     }
 
     /// <summary>
@@ -166,7 +166,7 @@ public static class AssertionExtensionsNumerical
             () => Xunit.Assert.Equal(expected, actual),
             actualExpr,
             expectedExpr);
-        return new(new() { Actual = actual });
+        return new(IsNullableDouble.Create(actual));
     }
 
     /// <summary>
@@ -182,6 +182,6 @@ public static class AssertionExtensionsNumerical
             () => Xunit.Assert.Equal(expected, actual),
             actualExpr,
             expectedExpr);
-        return new(new() { Actual = actual });
+        return new(IsNullableDecimal.Create(actual));
     }
 }

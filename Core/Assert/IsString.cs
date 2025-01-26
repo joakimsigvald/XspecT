@@ -103,5 +103,5 @@ public record IsString : Constraint<string, IsStringContinuation>
         string expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
         => AssertAnd(() => NotEqual(Actual, expected), expectedExpr);
 
-    internal override IsStringContinuation Continue() => new() { Actual = Actual };
+    internal override IsStringContinuation Continue() => Create(Actual);
 }

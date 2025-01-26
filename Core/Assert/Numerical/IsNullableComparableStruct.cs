@@ -11,10 +11,10 @@ namespace XspecT.Assert.Numerical;
 public abstract record IsNullableComparableStruct<TActual, TContinuation, TValueContinuation>
     : Constraint<TActual?, TContinuation>
     where TActual : struct, IComparable<TActual>
-    where TContinuation : IsNullableComparableStruct<TActual, TContinuation, TValueContinuation>
+    where TContinuation : IsNullableComparableStruct<TActual, TContinuation, TValueContinuation>, new()
     where TValueContinuation : IsComparable<TActual, TValueContinuation>, new()
 {
-    private TValueContinuation ValueContinuation => new() { Actual = Actual.Value };
+    private TValueContinuation ValueContinuation => Constraint<TActual, TValueContinuation>.Create(Actual.Value);
 
     /// <summary>
     /// Assert that Actual is null

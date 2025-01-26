@@ -1,5 +1,5 @@
-﻿using System.Runtime.CompilerServices;
-using XspecT.Assert.Numerical;
+﻿using XspecT.Assert.Numerical;
+using CallerArgument = System.Runtime.CompilerServices.CallerArgumentExpressionAttribute;
 
 namespace XspecT.Assert;
 
@@ -18,8 +18,8 @@ public static class AssertionContinuationExtensionsNumerical
     public static IsByte Is(
         this byte actual,
         Ignore _ = null,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new() { Actual = actual, ActualExpr = actualExpr };
+        [CallerArgument(nameof(actual))] string actualExpr = null)
+        => IsByte.Create(actual, actualExpr);
 
     /// <summary>
     /// Get available assertions for the given value
@@ -31,8 +31,8 @@ public static class AssertionContinuationExtensionsNumerical
     public static IsSByte Is(
         this sbyte actual,
         Ignore _ = null,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new() { Actual = actual, ActualExpr = actualExpr };
+        [CallerArgument(nameof(actual))] string actualExpr = null)
+        => IsSByte.Create(actual, actualExpr);
 
     /// <summary>
     /// Get available assertions for the given value
@@ -44,8 +44,8 @@ public static class AssertionContinuationExtensionsNumerical
     public static IsShort Is(
         this short actual,
         Ignore _ = null,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new() { Actual = actual, ActualExpr = actualExpr };
+        [CallerArgument(nameof(actual))] string actualExpr = null)
+        => IsShort.Create(actual, actualExpr);
 
     /// <summary>
     /// Get available assertions for the given value
@@ -57,8 +57,8 @@ public static class AssertionContinuationExtensionsNumerical
     public static IsUShort Is(
         this ushort actual,
         Ignore _ = null,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new() { Actual = actual, ActualExpr = actualExpr };
+        [CallerArgument(nameof(actual))] string actualExpr = null)
+        => IsUShort.Create(actual, actualExpr);
 
     /// <summary>
     /// Get available assertions for the given value
@@ -70,8 +70,8 @@ public static class AssertionContinuationExtensionsNumerical
     public static IsInt Is(
         this int actual,
         Ignore _ = null,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new() { Actual = actual, ActualExpr = actualExpr };
+        [CallerArgument(nameof(actual))] string actualExpr = null)
+        => IsInt.Create(actual, actualExpr);
 
     /// <summary>
     /// Get available assertions for the given value
@@ -83,8 +83,8 @@ public static class AssertionContinuationExtensionsNumerical
     public static IsUInt Is(
         this uint actual,
         Ignore _ = null,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new() { Actual = actual, ActualExpr = actualExpr };
+        [CallerArgument(nameof(actual))] string actualExpr = null)
+        => IsUInt.Create(actual, actualExpr);
 
     /// <summary>
     /// Get available assertions for the given value
@@ -93,11 +93,11 @@ public static class AssertionContinuationExtensionsNumerical
     /// <param name="_"></param>
     /// <param name="actualExpr"></param>
     /// <returns></returns>
-    public static Numerical.IsLong Is(
+    public static IsLong Is(
         this long actual,
         Ignore _ = null,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new() { Actual = actual, ActualExpr = actualExpr };
+        [CallerArgument(nameof(actual))] string actualExpr = null)
+        => IsLong.Create(actual, actualExpr);
 
     /// <summary>
     /// Get available assertions for the given value
@@ -109,8 +109,8 @@ public static class AssertionContinuationExtensionsNumerical
     public static IsULong Is(
         this ulong actual,
         Ignore _ = null,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new() { Actual = actual, ActualExpr = actualExpr };
+        [CallerArgument(nameof(actual))] string actualExpr = null)
+        => IsULong.Create(actual, actualExpr);
 
     /// <summary>
     /// Get available assertions for the given value
@@ -122,8 +122,8 @@ public static class AssertionContinuationExtensionsNumerical
     public static IsFloat Is(
         this float actual,
         Ignore _ = null,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new() { Actual = actual, ActualExpr = actualExpr };
+        [CallerArgument(nameof(actual))] string actualExpr = null)
+        => IsFloat.Create(actual, actualExpr);
 
     /// <summary>
     /// Get available assertions for the given value
@@ -135,8 +135,8 @@ public static class AssertionContinuationExtensionsNumerical
     public static IsDouble Is(
         this double actual,
         Ignore _ = null,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new() { Actual = actual, ActualExpr = actualExpr };
+        [CallerArgument(nameof(actual))] string actualExpr = null)
+        => IsDouble.Create(actual, actualExpr);
 
     /// <summary>
     /// Get available assertions for the given value
@@ -148,8 +148,8 @@ public static class AssertionContinuationExtensionsNumerical
     public static IsDecimal Is(
         this decimal actual,
         Ignore _ = null,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new() { Actual = actual, ActualExpr = actualExpr };
+        [CallerArgument(nameof(actual))] string actualExpr = null)
+        => IsDecimal.Create(actual, actualExpr);
 
     /// <summary>
     /// Get available assertions for the given value
@@ -161,8 +161,8 @@ public static class AssertionContinuationExtensionsNumerical
     public static IsNullableByte Is(
         this byte? actual,
         Ignore _ = null,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new() { Actual = actual, ActualExpr = actualExpr };
+        [CallerArgument(nameof(actual))] string actualExpr = null)
+        => IsNullableByte.Create(actual, actualExpr);
 
     /// <summary>
     /// Get available assertions for the given value
@@ -174,8 +174,8 @@ public static class AssertionContinuationExtensionsNumerical
     public static IsNullableSByte Is(
         this sbyte? actual,
         Ignore _ = null,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new() { Actual = actual, ActualExpr = actualExpr };
+        [CallerArgument(nameof(actual))] string actualExpr = null)
+        => IsNullableSByte.Create(actual, actualExpr);
 
     /// <summary>
     /// Get available assertions for the given value
@@ -187,8 +187,8 @@ public static class AssertionContinuationExtensionsNumerical
     public static IsNullableShort Is(
         this short? actual,
         Ignore _ = null,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new() { Actual = actual, ActualExpr = actualExpr };
+        [CallerArgument(nameof(actual))] string actualExpr = null)
+        => IsNullableShort.Create(actual, actualExpr);
 
     /// <summary>
     /// Get available assertions for the given value
@@ -200,8 +200,8 @@ public static class AssertionContinuationExtensionsNumerical
     public static IsNullableUShort Is(
         this ushort? actual,
         Ignore _ = null,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new() { Actual = actual, ActualExpr = actualExpr };
+        [CallerArgument(nameof(actual))] string actualExpr = null)
+        => IsNullableUShort.Create(actual, actualExpr);
 
     /// <summary>
     /// Get available assertions for the given value
@@ -213,8 +213,8 @@ public static class AssertionContinuationExtensionsNumerical
     public static IsNullableInt Is(
         this int? actual,
         Ignore _ = null,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new() { Actual = actual, ActualExpr = actualExpr };
+        [CallerArgument(nameof(actual))] string actualExpr = null)
+        => IsNullableInt.Create(actual, actualExpr);
 
     /// <summary>
     /// Get available assertions for the given value
@@ -226,8 +226,8 @@ public static class AssertionContinuationExtensionsNumerical
     public static IsNullableUInt Is(
         this uint? actual,
         Ignore _ = null,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new() { Actual = actual, ActualExpr = actualExpr };
+        [CallerArgument(nameof(actual))] string actualExpr = null)
+        => IsNullableUInt.Create(actual, actualExpr);
 
     /// <summary>
     /// Get available assertions for the given value
@@ -239,8 +239,8 @@ public static class AssertionContinuationExtensionsNumerical
     public static IsNullableLong Is(
         this long? actual,
         Ignore _ = null,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new() { Actual = actual, ActualExpr = actualExpr };
+        [CallerArgument(nameof(actual))] string actualExpr = null)
+        => IsNullableLong.Create(actual, actualExpr);
 
     /// <summary>
     /// Get available assertions for the given value
@@ -252,8 +252,8 @@ public static class AssertionContinuationExtensionsNumerical
     public static IsNullableULong Is(
         this ulong? actual,
         Ignore _ = null,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new() { Actual = actual, ActualExpr = actualExpr };
+        [CallerArgument(nameof(actual))] string actualExpr = null)
+        => IsNullableULong.Create(actual, actualExpr);
 
     /// <summary>
     /// Get available assertions for the given value
@@ -265,8 +265,8 @@ public static class AssertionContinuationExtensionsNumerical
     public static IsNullableFloat Is(
         this float? actual,
         Ignore _ = null,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new() { Actual = actual, ActualExpr = actualExpr };
+        [CallerArgument(nameof(actual))] string actualExpr = null)
+        => IsNullableFloat.Create(actual, actualExpr);
 
     /// <summary>
     /// Get available assertions for the given value
@@ -278,8 +278,8 @@ public static class AssertionContinuationExtensionsNumerical
     public static IsNullableDouble Is(
         this double? actual,
         Ignore _ = null,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new() { Actual = actual, ActualExpr = actualExpr };
+        [CallerArgument(nameof(actual))] string actualExpr = null)
+        => IsNullableDouble.Create(actual, actualExpr);
 
     /// <summary>
     /// Get available assertions for the given value
@@ -291,6 +291,6 @@ public static class AssertionContinuationExtensionsNumerical
     public static IsNullableDecimal Is(
         this decimal? actual,
         Ignore _ = null,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new() { Actual = actual, ActualExpr = actualExpr };
+        [CallerArgument(nameof(actual))] string actualExpr = null)
+        => IsNullableDecimal.Create(actual, actualExpr);
 }

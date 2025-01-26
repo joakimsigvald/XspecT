@@ -69,5 +69,5 @@ public record IsEnumerable<TItem> : Constraint<IEnumerable<TItem>, IsEnumerableC
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
         => AssertAnd(() => Xunit.Assert.NotEqual(expected, Actual), expectedExpr);
 
-    internal override IsEnumerableContinuation<TItem> Continue() => new() { Actual = Actual };
+    internal override IsEnumerableContinuation<TItem> Continue() => Create(Actual);
 }

@@ -8,7 +8,7 @@ namespace XspecT.Assert;
 /// <typeparam name="TActual"></typeparam>
 /// <typeparam name="TContinuation"></typeparam>
 public abstract record IsComparable<TActual, TContinuation> : Constraint<TActual, TContinuation>
-    where TContinuation : IsComparable<TActual, TContinuation>
+    where TContinuation : IsComparable<TActual, TContinuation>, new()
     where TActual : IComparable<TActual>
 {
     /// <summary>

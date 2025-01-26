@@ -17,11 +17,14 @@ public record Constraint
 /// </summary>
 public abstract record Constraint<TActual, TContinuation>
     : Constraint
-    where TContinuation : Constraint<TActual, TContinuation>
+    where TContinuation : Constraint<TActual, TContinuation>, new()
 {
     internal Constraint() : base() => AuxiliaryVerb = typeof(TContinuation).Name.ToWords()[0];
 
-    internal TActual Actual { get; set; }
+    internal static TContinuation Create(TActual actual, string actualExpr = null)
+        => new() { Actual = actual, ActualExpr = actualExpr };
+
+    internal TActual Actual { get; private set; }
 
     internal ContinueWith<TContinuation> AssertAnd(
         Action assert,

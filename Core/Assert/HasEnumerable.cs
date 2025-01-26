@@ -60,5 +60,5 @@ public record HasEnumerable<TItem> : Constraint<IEnumerable<TItem>, HasEnumerabl
     public ContinueWith<HasEnumerableContinuation<TItem>> All(Action<TItem> assert, [CallerArgumentExpression(nameof(assert))] string assertExpr = null)
         => AssertAnd(() => Actual.ToList().ForEach(assert), assertExpr);
 
-    internal override HasEnumerableContinuation<TItem> Continue() => new() { Actual = Actual };
+    internal override HasEnumerableContinuation<TItem> Continue() => Create(Actual);
 }

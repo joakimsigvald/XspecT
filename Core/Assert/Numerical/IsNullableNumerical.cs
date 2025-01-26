@@ -9,5 +9,5 @@
 public abstract record IsNullableNumerical<TActual, TContinuation, TValueContinuation>
     : IsNullableComparableStruct<TActual, TContinuation, TValueContinuation>
     where TActual : struct, IComparable<TActual>
-    where TContinuation : IsNullableNumerical<TActual, TContinuation, TValueContinuation>
+    where TContinuation : IsNullableNumerical<TActual, TContinuation, TValueContinuation>, new()
     where TValueContinuation : IsNumerical<TActual, TValueContinuation>, new();

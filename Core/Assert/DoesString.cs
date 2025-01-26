@@ -41,5 +41,5 @@ public record DoesString : Constraint<string, DoesStringContinuation>
         string expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
         => AssertAnd(() => Xunit.Assert.EndsWith(expected, Actual), expectedExpr, "ends with");
 
-    internal override DoesStringContinuation Continue() => new() { Actual = Actual };
+    internal override DoesStringContinuation Continue() => Create(Actual);
 }
