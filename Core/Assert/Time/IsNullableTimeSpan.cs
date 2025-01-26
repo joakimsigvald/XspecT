@@ -1,36 +1,8 @@
-﻿using System.Runtime.CompilerServices;
+﻿using XspecT.Assert.Numerical;
 
 namespace XspecT.Assert.Time;
 
 /// <summary>
 /// Object that allows an assertions to be made on the provided nullable TimeSpan
 /// </summary>
-public record IsNullableTimeSpan : Constraint<TimeSpan?, IsNullableTimeSpan>
-{
-    internal IsNullableTimeSpan(TimeSpan? actual, string actualExpr = null) : base(actual, actualExpr) { }
-
-    /// <summary>
-    /// Asserts that the timeSpan is null or not equal to the given value
-    /// </summary>
-    /// <param name="expected"></param>
-    /// <param name="expectedExpr"></param>
-    /// <returns></returns>
-    public ContinueWith<IsNullableTimeSpan> Not(
-        TimeSpan expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => AssertAnd(() => Xunit.Assert.NotEqual(expected, Actual), expectedExpr);
-
-    /// <summary>
-    /// Asserts that the timeSpan is not null
-    /// </summary>
-    /// <returns></returns>
-    public ContinueWith<IsTimeSpan> NotNull()
-    {
-        Assert(() => Xunit.Assert.NotNull(Actual));
-        return new(new(Actual.Value));
-    }
-
-    /// <summary>
-    /// Asserts that the timeSpan is null
-    /// </summary>
-    public void Null() => Assert(() => Xunit.Assert.Null(Actual));
-}
+public record IsNullableTimeSpan : IsNullableComparableStruct<TimeSpan, IsNullableTimeSpan, IsTimeSpan>;

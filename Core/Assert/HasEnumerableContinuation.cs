@@ -5,10 +5,6 @@
 /// </summary>
 public record HasEnumerableContinuation<TItem> : HasEnumerable<TItem>
 {
-    internal HasEnumerableContinuation(IEnumerable<TItem> actual) : base(actual)
-    {
-    }
-
     /// <summary>
     /// Continuation to assert that the string is satisfying some expectation
     /// </summary>

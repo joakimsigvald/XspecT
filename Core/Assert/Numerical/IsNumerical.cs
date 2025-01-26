@@ -7,7 +7,4 @@
 /// <typeparam name="TActual"></typeparam>
 public abstract record IsNumerical<TActual, TContinuation> : IsComparable<TActual, TContinuation>
     where TContinuation : IsNumerical<TActual, TContinuation>
-    where TActual : struct, IComparable<TActual>
-{
-    internal IsNumerical(TActual actual, string actualExpr = null) : base(actual, actualExpr) { }
-}
+    where TActual : struct, IComparable<TActual>;

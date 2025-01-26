@@ -26,7 +26,7 @@ public static class AssertionExtensions
             () => Xunit.Assert.Equal(expected, actual),
             actualExpr,
             expectedExpr);
-        return new(new(actual));
+        return new(new() { Actual = actual });
     }
 
     /// <summary>
@@ -46,7 +46,7 @@ public static class AssertionExtensions
             () => Xunit.Assert.Equal(expected, actual),
             actualExpr,
             expectedExpr);
-        return new(new(actual.Value));
+        return new(new() { Actual = actual.Value });
     }
 
     /// <summary>
@@ -66,7 +66,7 @@ public static class AssertionExtensions
             () => Xunit.Assert.Equal(expected, actual),
             actualExpr,
             expectedExpr);
-        return new(new(actual));
+        return new(new() { Actual = actual });
     }
 
     /// <summary>
@@ -86,7 +86,7 @@ public static class AssertionExtensions
             () => Xunit.Assert.Equal(expected, actual),
             actualExpr,
             expectedExpr);
-        return new(new(actual.Value));
+        return new(new() { Actual = actual.Value });
     }
 
     /// <summary>
@@ -107,7 +107,7 @@ public static class AssertionExtensions
             () => Xunit.Assert.Same(expected, actual),
             actualExpr,
             expectedExpr);
-        return new(new(actual));
+        return new(new() { Actual = actual });
     }
 
     /// <summary>
@@ -128,7 +128,7 @@ public static class AssertionExtensions
             () => Xunit.Assert.True(predicate(actual)),
             actualExpr,
             predicateExpr);
-        return new(new(actual));
+        return new(new() { Actual = actual });
     }
 
     /// <summary>
@@ -148,7 +148,7 @@ public static class AssertionExtensions
         where TValue : struct
     {
         SpecificationGenerator.Assert(() => Xunit.Assert.Equal(expected, actual), actualExpr, expectedExpr);
-        return new(new(actual));
+        return new(new() { Actual = actual });
     }
 
     /// <summary>
@@ -170,7 +170,7 @@ public static class AssertionExtensions
             () => Xunit.Assert.Equal(expected, actual),
             actualExpr,
             expectedExpr);
-        return new(new(actual));
+        return new(new() { Actual = actual });
     }
     /// <summary>
     /// Verify that actual string is same as expected
@@ -187,6 +187,6 @@ public static class AssertionExtensions
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
         SpecificationGenerator.Assert(() => Xunit.Assert.Equal(expected, actual), actualExpr, expectedExpr);
-        return new(new(actual));
+        return new(new() { Actual = actual });
     }
 }

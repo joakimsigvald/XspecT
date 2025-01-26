@@ -1,6 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace XspecT.Assert.Numerical;
+﻿namespace XspecT.Assert.Numerical;
 
 /// <summary>
 /// base class that allows an assertions to be made on the provided nullable numerical
@@ -8,75 +6,8 @@ namespace XspecT.Assert.Numerical;
 /// <typeparam name="TActual"></typeparam>
 /// <typeparam name="TContinuation"></typeparam>
 /// <typeparam name="TValueContinuation"></typeparam>
-public abstract record IsNullableNumerical<TActual, TContinuation, TValueContinuation> 
-    : Constraint<TActual?, TContinuation>
+public abstract record IsNullableNumerical<TActual, TContinuation, TValueContinuation>
+    : IsNullableComparableStruct<TActual, TContinuation, TValueContinuation>
     where TActual : struct, IComparable<TActual>
     where TContinuation : IsNullableNumerical<TActual, TContinuation, TValueContinuation>
-    where TValueContinuation : IsNumerical<TActual, TValueContinuation>
-{
-    internal IsNullableNumerical(TActual? actual, string actualExpr = null) : base(actual, actualExpr) { }
-    private protected abstract TValueContinuation ValueContinuation { get; }
-
-    /// <summary>
-    /// Assert that Actual is null
-    /// </summary>
-    public void Null() => Assert(() => Xunit.Assert.Null(Actual));
-
-    /// <summary>
-    /// Assert that Actual is not null
-    /// </summary>
-    public ContinueWith<TValueContinuation> NotNull()
-    {
-        Assert(() => Xunit.Assert.NotNull(Actual));
-        return new(ValueContinuation);
-    }
-
-    /// <summary>
-    /// actual.Should().NotBe(expected)
-    /// </summary>
-    public ContinueWith<TContinuation> Not(
-        TActual? expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => AssertAnd(() => Xunit.Assert.NotEqual(expected, Actual), expectedExpr);
-
-    /// <summary>
-    /// actual.Should().BeGreaterThan(expected)
-    /// </summary>
-    public ContinueWith<TValueContinuation> GreaterThan(
-        TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => CompareTo(expected, x => x > 0, expectedExpr);
-
-    /// <summary>
-    /// actual.Should().BeLessThan(expected)
-    /// </summary>
-    public ContinueWith<TValueContinuation> LessThan(
-        TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => CompareTo(expected, x => x < 0, expectedExpr);
-
-    /// <summary>
-    /// actual.Should().BeLessThanOrEqualTo(expected)
-    /// </summary>
-    public ContinueWith<TValueContinuation> NotGreaterThan(
-        TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => CompareTo(expected, x => x <= 0, expectedExpr);
-
-    /// <summary>
-    /// actual.Should().BeGreaterThanOrEqualTo(expected)
-    /// </summary>
-    public ContinueWith<TValueContinuation> NotLessThan(
-        TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => CompareTo(expected, x => x >= 0, expectedExpr);
-
-    private ContinueWith<TValueContinuation> CompareTo(
-        TActual expected,
-        Func<int, bool> comparer,
-        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null,
-        [CallerMemberName] string methodName = null)
-    {
-        Assert(() =>
-            {
-                Xunit.Assert.NotNull(Actual);
-                Xunit.Assert.True(comparer(Actual.Value.CompareTo(expected)));
-            }, expectedExpr, methodName: methodName);
-        return new(ValueContinuation);
-    }
-}
+    where TValueContinuation : IsNumerical<TActual, TValueContinuation>, new();

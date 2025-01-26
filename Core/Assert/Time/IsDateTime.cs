@@ -7,8 +7,6 @@ namespace XspecT.Assert.Time;
 /// </summary>
 public record IsDateTime : IsComparable<DateTime, IsDateTime>
 {
-    internal IsDateTime(DateTime actual, string actualExpr = null) : base(actual, actualExpr) { }
-
     /// <summary>
     /// Asserts that the dateTime is before the given value
     /// </summary>

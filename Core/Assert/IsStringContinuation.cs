@@ -5,10 +5,6 @@
 /// </summary>
 public record IsStringContinuation : IsString
 {
-    internal IsStringContinuation(string actual) : base(actual)
-    {
-    }
-
     /// <summary>
     /// Continuation to assert that the string does satisfy some expectation
     /// </summary>

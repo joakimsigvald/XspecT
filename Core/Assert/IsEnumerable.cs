@@ -8,8 +8,6 @@ namespace XspecT.Assert;
 /// <typeparam name="TItem"></typeparam>
 public record IsEnumerable<TItem> : Constraint<IEnumerable<TItem>, IsEnumerableContinuation<TItem>>
 {
-    internal IsEnumerable(IEnumerable<TItem> actual, string actualExpr = null) : base(actual, actualExpr) { }
-
     /// <summary>
     /// Assert that the enumerable is empty
     /// </summary>
@@ -71,5 +69,5 @@ public record IsEnumerable<TItem> : Constraint<IEnumerable<TItem>, IsEnumerableC
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
         => AssertAnd(() => Xunit.Assert.NotEqual(expected, Actual), expectedExpr);
 
-    internal override IsEnumerableContinuation<TItem> Continue() => new(Actual);
+    internal override IsEnumerableContinuation<TItem> Continue() => new() { Actual = Actual };
 }

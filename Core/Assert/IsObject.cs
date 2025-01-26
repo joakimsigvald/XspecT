@@ -9,8 +9,6 @@ namespace XspecT.Assert;
 /// </summary>
 public record IsObject : Constraint<object, IsObject>
 {
-    internal IsObject(object actual, string actualExpr = null) : base(actual, actualExpr) { }
-
     /// <summary>
     /// Should().NotBeSameAs(expected)
     /// </summary>

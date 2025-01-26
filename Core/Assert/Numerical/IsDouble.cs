@@ -7,8 +7,6 @@ namespace XspecT.Assert.Numerical;
 /// </summary>
 public record IsDouble : IsNumerical<double, IsDouble>
 {
-    internal IsDouble(double actual, string actualExpr = null) : base(actual, actualExpr) { }
-
     /// <summary>
     /// Asserts that the double is close to the given value, within the provided precision
     /// </summary>

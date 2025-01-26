@@ -7,8 +7,6 @@ namespace XspecT.Assert.Numerical;
 /// </summary>
 public record IsFloat : IsNumerical<float, IsFloat>
 {
-    internal IsFloat(float actual, string actualExpr = null) : base(actual, actualExpr) { }
-
     /// <summary>
     /// Asserts that the float is close to the given value, within the provided precision
     /// </summary>

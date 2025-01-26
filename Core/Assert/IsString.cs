@@ -9,8 +9,6 @@ namespace XspecT.Assert;
 /// </summary>
 public record IsString : Constraint<string, IsStringContinuation>
 {
-    internal IsString(string actual, string actualExpr = null) : base(actual, actualExpr) { }
-
     /// <summary>
     /// Asserts that the string is equivalent to expected, ignoring casing and leading or trailing whitespace
     /// actual.Should().BeEquivalentTo(expected)
@@ -105,5 +103,5 @@ public record IsString : Constraint<string, IsStringContinuation>
         string expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
         => AssertAnd(() => NotEqual(Actual, expected), expectedExpr);
 
-    internal override IsStringContinuation Continue() => new(Actual);
+    internal override IsStringContinuation Continue() => new() { Actual = Actual };
 }

@@ -7,8 +7,6 @@ namespace XspecT.Assert;
 /// </summary>
 public record HasEnumerable<TItem> : Constraint<IEnumerable<TItem>, HasEnumerableContinuation<TItem>>
 {
-    internal HasEnumerable(IEnumerable<TItem> actual, string actualExpr = null) : base(actual, actualExpr) { }
-
     /// <summary>
     /// actual.Should().ContainSingle()
     /// </summary>
@@ -62,5 +60,5 @@ public record HasEnumerable<TItem> : Constraint<IEnumerable<TItem>, HasEnumerabl
     public ContinueWith<HasEnumerableContinuation<TItem>> All(Action<TItem> assert, [CallerArgumentExpression(nameof(assert))] string assertExpr = null)
         => AssertAnd(() => Actual.ToList().ForEach(assert), assertExpr);
 
-    internal override HasEnumerableContinuation<TItem> Continue() => new(Actual);
+    internal override HasEnumerableContinuation<TItem> Continue() => new() { Actual = Actual };
 }

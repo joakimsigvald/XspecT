@@ -19,7 +19,7 @@ public static class AssertionContinuationExtensionsNumerical
         this byte actual,
         Ignore _ = null,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new(actual, actualExpr);
+        => new() { Actual = actual, ActualExpr = actualExpr };
 
     /// <summary>
     /// Get available assertions for the given value
@@ -32,7 +32,7 @@ public static class AssertionContinuationExtensionsNumerical
         this sbyte actual,
         Ignore _ = null,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new(actual, actualExpr);
+        => new() { Actual = actual, ActualExpr = actualExpr };
 
     /// <summary>
     /// Get available assertions for the given value
@@ -45,7 +45,7 @@ public static class AssertionContinuationExtensionsNumerical
         this short actual,
         Ignore _ = null,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new(actual, actualExpr);
+        => new() { Actual = actual, ActualExpr = actualExpr };
 
     /// <summary>
     /// Get available assertions for the given value
@@ -58,7 +58,7 @@ public static class AssertionContinuationExtensionsNumerical
         this ushort actual,
         Ignore _ = null,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new(actual, actualExpr);
+        => new() { Actual = actual, ActualExpr = actualExpr };
 
     /// <summary>
     /// Get available assertions for the given value
@@ -71,7 +71,7 @@ public static class AssertionContinuationExtensionsNumerical
         this int actual,
         Ignore _ = null,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new(actual, actualExpr);
+        => new() { Actual = actual, ActualExpr = actualExpr };
 
     /// <summary>
     /// Get available assertions for the given value
@@ -84,7 +84,7 @@ public static class AssertionContinuationExtensionsNumerical
         this uint actual,
         Ignore _ = null,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new(actual, actualExpr);
+        => new() { Actual = actual, ActualExpr = actualExpr };
 
     /// <summary>
     /// Get available assertions for the given value
@@ -97,7 +97,7 @@ public static class AssertionContinuationExtensionsNumerical
         this long actual,
         Ignore _ = null,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new(actual, actualExpr);
+        => new() { Actual = actual, ActualExpr = actualExpr };
 
     /// <summary>
     /// Get available assertions for the given value
@@ -110,7 +110,7 @@ public static class AssertionContinuationExtensionsNumerical
         this ulong actual,
         Ignore _ = null,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new(actual, actualExpr);
+        => new() { Actual = actual, ActualExpr = actualExpr };
 
     /// <summary>
     /// Get available assertions for the given value
@@ -123,7 +123,7 @@ public static class AssertionContinuationExtensionsNumerical
         this float actual,
         Ignore _ = null,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new(actual, actualExpr);
+        => new() { Actual = actual, ActualExpr = actualExpr };
 
     /// <summary>
     /// Get available assertions for the given value
@@ -136,7 +136,7 @@ public static class AssertionContinuationExtensionsNumerical
         this double actual,
         Ignore _ = null,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new(actual, actualExpr);
+        => new() { Actual = actual, ActualExpr = actualExpr };
 
     /// <summary>
     /// Get available assertions for the given value
@@ -149,7 +149,7 @@ public static class AssertionContinuationExtensionsNumerical
         this decimal actual,
         Ignore _ = null,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new(actual, actualExpr);
+        => new() { Actual = actual, ActualExpr = actualExpr };
 
     /// <summary>
     /// Get available assertions for the given value
@@ -162,7 +162,7 @@ public static class AssertionContinuationExtensionsNumerical
         this byte? actual,
         Ignore _ = null,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new(actual, actualExpr);
+        => new() { Actual = actual, ActualExpr = actualExpr };
 
     /// <summary>
     /// Get available assertions for the given value
@@ -175,7 +175,7 @@ public static class AssertionContinuationExtensionsNumerical
         this sbyte? actual,
         Ignore _ = null,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new(actual, actualExpr);
+        => new() { Actual = actual, ActualExpr = actualExpr };
 
     /// <summary>
     /// Get available assertions for the given value
@@ -188,7 +188,7 @@ public static class AssertionContinuationExtensionsNumerical
         this short? actual,
         Ignore _ = null,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new(actual, actualExpr);
+        => new() { Actual = actual, ActualExpr = actualExpr };
 
     /// <summary>
     /// Get available assertions for the given value
@@ -201,7 +201,7 @@ public static class AssertionContinuationExtensionsNumerical
         this ushort? actual,
         Ignore _ = null,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new(actual, actualExpr);
+        => new() { Actual = actual, ActualExpr = actualExpr };
 
     /// <summary>
     /// Get available assertions for the given value
@@ -214,7 +214,7 @@ public static class AssertionContinuationExtensionsNumerical
         this int? actual,
         Ignore _ = null,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new(actual, actualExpr);
+        => new() { Actual = actual, ActualExpr = actualExpr };
 
     /// <summary>
     /// Get available assertions for the given value
@@ -227,7 +227,7 @@ public static class AssertionContinuationExtensionsNumerical
         this uint? actual,
         Ignore _ = null,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new(actual, actualExpr);
+        => new() { Actual = actual, ActualExpr = actualExpr };
 
     /// <summary>
     /// Get available assertions for the given value
@@ -240,7 +240,7 @@ public static class AssertionContinuationExtensionsNumerical
         this long? actual,
         Ignore _ = null,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new(actual, actualExpr);
+        => new() { Actual = actual, ActualExpr = actualExpr };
 
     /// <summary>
     /// Get available assertions for the given value
@@ -253,7 +253,7 @@ public static class AssertionContinuationExtensionsNumerical
         this ulong? actual,
         Ignore _ = null,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new(actual, actualExpr);
+        => new() { Actual = actual, ActualExpr = actualExpr };
 
     /// <summary>
     /// Get available assertions for the given value
@@ -266,7 +266,7 @@ public static class AssertionContinuationExtensionsNumerical
         this float? actual,
         Ignore _ = null,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new(actual, actualExpr);
+        => new() { Actual = actual, ActualExpr = actualExpr };
 
     /// <summary>
     /// Get available assertions for the given value
@@ -279,7 +279,7 @@ public static class AssertionContinuationExtensionsNumerical
         this double? actual,
         Ignore _ = null,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new(actual, actualExpr);
+        => new() { Actual = actual, ActualExpr = actualExpr };
 
     /// <summary>
     /// Get available assertions for the given value
@@ -292,5 +292,5 @@ public static class AssertionContinuationExtensionsNumerical
         this decimal? actual,
         Ignore _ = null,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new(actual, actualExpr);
+        => new() { Actual = actual, ActualExpr = actualExpr };
 }

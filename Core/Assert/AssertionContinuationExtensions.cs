@@ -20,7 +20,7 @@ public static class AssertionContinuationExtensions
         this bool actual,
         Ignore _ = null,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new(actual, actualExpr);
+        => new() { Actual = actual, ActualExpr = actualExpr };
 
     /// <summary>
     /// Get available assertions for the given value
@@ -33,7 +33,7 @@ public static class AssertionContinuationExtensions
         this DateTime actual,
         Ignore _ = null,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new(actual, actualExpr);
+        => new() { Actual = actual, ActualExpr = actualExpr };
 
     /// <summary>
     /// Get available assertions for the given value
@@ -46,7 +46,7 @@ public static class AssertionContinuationExtensions
         this DateTime? actual,
         Ignore _ = null,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new(actual, actualExpr);
+        => new() { Actual = actual, ActualExpr = actualExpr };
 
     /// <summary>
     /// Get available assertions for the given value
@@ -59,7 +59,7 @@ public static class AssertionContinuationExtensions
         this TimeSpan? actual,
         Ignore _ = null,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new(actual, actualExpr);
+        => new() { Actual = actual, ActualExpr = actualExpr };
 
     /// <summary>
     /// Get available assertions for the given value
@@ -72,7 +72,7 @@ public static class AssertionContinuationExtensions
         this TimeSpan actual,
         Ignore _ = null,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new(actual, actualExpr);
+        => new() { Actual = actual, ActualExpr = actualExpr };
 
     /// <summary>
     /// Get available assertions for the given string
@@ -85,7 +85,7 @@ public static class AssertionContinuationExtensions
         this string actual,
         Ignore _ = null,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new(actual, actualExpr);
+        => new() { Actual = actual, ActualExpr = actualExpr };
 
     /// <summary>
     /// Get available assertions for the characteristics of the given string
@@ -98,7 +98,7 @@ public static class AssertionContinuationExtensions
         this string actual,
         Ignore _ = null,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new(actual, actualExpr);
+        => new() { Actual = actual, ActualExpr = actualExpr };
 
     /// <summary>
     /// Get available assertions for the given object
@@ -111,7 +111,7 @@ public static class AssertionContinuationExtensions
         this object actual,
         Ignore _ = null,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new(actual, actualExpr);
+        => new() { Actual = actual, ActualExpr = actualExpr };
 
     /// <summary>
     /// Get available assertions for the given enumerable
@@ -125,7 +125,7 @@ public static class AssertionContinuationExtensions
         this IEnumerable<TItem> actual,
         Ignore _ = null,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new(actual, actualExpr);
+        => new() { Actual = actual, ActualExpr = actualExpr };
 
     /// <summary>
     /// Get available assertions for the given comparable
@@ -140,7 +140,7 @@ public static class AssertionContinuationExtensions
         Ignore _ = null,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
         where TValue : IComparable<TValue>
-        => new(actual, actualExpr);
+        => new() { Actual = actual, ActualExpr = actualExpr };
 
     /// <summary>
     /// Get available assertions for enumerable
@@ -154,7 +154,7 @@ public static class AssertionContinuationExtensions
         this IEnumerable<TItem> actual,
         Ignore _ = null,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => new(actual, actualExpr);
+        => new() { Actual = actual, ActualExpr = actualExpr };
 
     /// <summary>
     /// Provide actual of any type to continue the chain of assertions on the new value

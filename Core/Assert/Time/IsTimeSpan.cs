@@ -7,8 +7,6 @@ namespace XspecT.Assert.Time;
 /// </summary>
 public record IsTimeSpan : IsComparable<TimeSpan, IsTimeSpan>
 {
-    internal IsTimeSpan(TimeSpan actual, string actualExpr = null) : base(actual, actualExpr) { }
-
     /// <summary>
     /// Asserts that the timeSpan is within the specified precision time from the given value
     /// </summary>

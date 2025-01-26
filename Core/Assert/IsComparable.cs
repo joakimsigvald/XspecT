@@ -11,8 +11,6 @@ public abstract record IsComparable<TActual, TContinuation> : Constraint<TActual
     where TContinuation : IsComparable<TActual, TContinuation>
     where TActual : IComparable<TActual>
 {
-    internal IsComparable(TActual actual, string actualExpr) : base(actual, actualExpr) { }
-
     /// <summary>
     /// Asserts that actual value is not equal to the given value
     /// </summary>
@@ -69,5 +67,4 @@ public abstract record IsComparable<TActual, TContinuation> : Constraint<TActual
 public record IsComparable<TActual> : IsComparable<TActual, IsComparable<TActual>>
     where TActual : IComparable<TActual>
 {
-    internal IsComparable(TActual actual, string actualExpr) : base(actual, actualExpr) { }
 }

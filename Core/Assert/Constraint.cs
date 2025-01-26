@@ -6,18 +6,23 @@ namespace XspecT.Assert;
 /// <summary>
 /// 
 /// </summary>
-public record Constraint(string ActualExpr, string AuxiliaryVerb)
+public record Constraint
 {
+    internal string ActualExpr { get; set; }
+    internal string AuxiliaryVerb { get; set; }
 }
 
 /// <summary>
 /// Base class for object that allows a chain of assertions to be made on the provided value
 /// </summary>
-public abstract record Constraint<TActual, TContinuation>(
-    TActual Actual, string ActualExpr)
-    : Constraint(ActualExpr, typeof(TContinuation).Name.ToWords()[0])
+public abstract record Constraint<TActual, TContinuation>
+    : Constraint
     where TContinuation : Constraint<TActual, TContinuation>
 {
+    internal Constraint() : base() => AuxiliaryVerb = typeof(TContinuation).Name.ToWords()[0];
+
+    internal TActual Actual { get; set; }
+
     internal ContinueWith<TContinuation> AssertAnd(
         Action assert,
         string expectedExpr = null,

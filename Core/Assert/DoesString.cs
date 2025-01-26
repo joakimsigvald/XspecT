@@ -7,8 +7,6 @@ namespace XspecT.Assert;
 /// </summary>
 public record DoesString : Constraint<string, DoesStringContinuation>
 {
-    internal DoesString(string actual, string actualExpr = null) : base(actual, actualExpr) { }
-
     /// <summary>
     /// Asserts that the string contains the expected string
     /// </summary>
@@ -43,5 +41,5 @@ public record DoesString : Constraint<string, DoesStringContinuation>
         string expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
         => AssertAnd(() => Xunit.Assert.EndsWith(expected, Actual), expectedExpr, "ends with");
 
-    internal override DoesStringContinuation Continue() => new(Actual);
+    internal override DoesStringContinuation Continue() => new() { Actual = Actual };
 }
