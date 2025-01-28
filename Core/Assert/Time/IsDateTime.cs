@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 
 namespace XspecT.Assert.Time;
 
@@ -21,7 +20,7 @@ public record IsDateTime : IsComparable<DateTime, IsDateTime>
     internal void AssertBefore(DateTime expected)
     {
         if (Actual >= expected)
-            Xunit.Assert.Fail($"Expected {ActualExpr.ParseActual()} to occur before {expected} but found {Actual}");
+            Xunit.Assert.Fail($"Expected {ActualExpr} to occur before {expected} but found {Actual}");
     }
 
     /// <summary>

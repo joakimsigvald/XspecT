@@ -22,7 +22,7 @@ public abstract record Constraint<TActual, TContinuation>
     internal Constraint() : base() => AuxiliaryVerb = typeof(TContinuation).Name.ToWords()[0];
 
     internal static TContinuation Create(TActual actual, string actualExpr = null)
-        => new() { Actual = actual, ActualExpr = actualExpr };
+        => new() { Actual = actual, ActualExpr = actualExpr.ParseActual() };
 
     internal TActual Actual { get; private set; }
 

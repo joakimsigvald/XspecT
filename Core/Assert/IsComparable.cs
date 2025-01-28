@@ -49,6 +49,20 @@ public abstract record IsComparable<TActual, TContinuation> : Constraint<TActual
         TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
         => CompareTo(expected, x => x >= 0, expectedExpr);
 
+    internal ContinueWith<TContinuation> Value(
+        TActual expected, string expectedExpr)
+        => AssertAnd(() =>
+        {
+            try
+            {
+                Xunit.Assert.Equal(expected, Actual);
+            }
+            catch
+            {
+                Xunit.Assert.Fail($"Expected {ActualExpr} to be {expected} but found {Actual}");
+            }
+        }, expectedExpr, methodName: "");
+
     private protected ContinueWith<TContinuation> CompareTo(
         TActual expected,
         Func<int, bool> comparer,

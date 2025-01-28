@@ -22,10 +22,7 @@ public static class AssertionExtensions
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        SpecificationGenerator.Assert(
-            () => Xunit.Assert.Equal(expected, actual),
-            actualExpr,
-            expectedExpr);
+        Assert(() => Xunit.Assert.Equal(expected, actual), actualExpr, expectedExpr);
         return new(IsNullableTimeSpan.Create(actual));
     }
 
@@ -42,10 +39,7 @@ public static class AssertionExtensions
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        SpecificationGenerator.Assert(
-            () => Xunit.Assert.Equal(expected, actual),
-            actualExpr,
-            expectedExpr);
+        Assert(() => Xunit.Assert.Equal(expected, actual), actualExpr, expectedExpr);
         return new(IsTimeSpan.Create(actual.Value));
     }
 
@@ -62,10 +56,7 @@ public static class AssertionExtensions
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        SpecificationGenerator.Assert(
-            () => Xunit.Assert.Equal(expected, actual),
-            actualExpr,
-            expectedExpr);
+        Assert(() => Xunit.Assert.Equal(expected, actual), actualExpr, expectedExpr);
         return new(IsNullableDateTime.Create(actual));
     }
 
@@ -82,10 +73,7 @@ public static class AssertionExtensions
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        SpecificationGenerator.Assert(
-            () => Xunit.Assert.Equal(expected, actual),
-            actualExpr,
-            expectedExpr);
+        Assert(() => Xunit.Assert.Equal(expected, actual), actualExpr, expectedExpr);
         return new(IsDateTime.Create(actual.Value));
     }
 
@@ -103,10 +91,7 @@ public static class AssertionExtensions
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        SpecificationGenerator.Assert(
-            () => Xunit.Assert.Same(expected, actual),
-            actualExpr,
-            expectedExpr);
+        Assert(() => Xunit.Assert.Same(expected, actual), actualExpr, expectedExpr);
         return new(IsObject.Create(actual));
     }
 
@@ -124,10 +109,7 @@ public static class AssertionExtensions
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
         [CallerArgumentExpression(nameof(predicate))] string predicateExpr = null)
     {
-        SpecificationGenerator.Assert(
-            () => Xunit.Assert.True(predicate(actual)),
-            actualExpr,
-            predicateExpr);
+        Assert(() => Xunit.Assert.True(predicate(actual)), actualExpr, predicateExpr);
         return new(IsObject.Create(actual));
     }
 
@@ -147,7 +129,7 @@ public static class AssertionExtensions
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
         where TValue : struct
     {
-        SpecificationGenerator.Assert(() => Xunit.Assert.Equal(expected, actual), actualExpr, expectedExpr);
+        Assert(() => Xunit.Assert.Equal(expected, actual), actualExpr, expectedExpr);
         return new(IsObject.Create(actual));
     }
 
@@ -166,10 +148,7 @@ public static class AssertionExtensions
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
         where TValue : struct
     {
-        SpecificationGenerator.Assert(
-            () => Xunit.Assert.Equal(expected, actual),
-            actualExpr,
-            expectedExpr);
+        Assert(() => Xunit.Assert.Equal(expected, actual), actualExpr, expectedExpr);
         return new(IsNullableStruct<TValue>.Create(actual));
     }
     /// <summary>
@@ -186,7 +165,11 @@ public static class AssertionExtensions
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
     {
-        SpecificationGenerator.Assert(() => Xunit.Assert.Equal(expected, actual), actualExpr, expectedExpr);
+        Assert(() => Xunit.Assert.Equal(expected, actual), actualExpr, expectedExpr);
         return new(IsString.Create(actual));
     }
+
+    private static void Assert(
+        Action assert, string actual = null, string expected = null, [CallerMemberName] string verb = "")
+        => SpecificationGenerator.Assert(assert, actual.ParseActual(), expected, verb);
 }

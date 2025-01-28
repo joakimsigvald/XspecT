@@ -63,9 +63,9 @@ internal class SpecificationBuilder
     internal void AddAssert(string actual, string verb, string expected)
     {
         if (_isChainOfAssertions)
-            _textBuilder.AddWord(actual.ParseActual());
+            _textBuilder.AddWord(actual);
         else
-            _textBuilder.AddSentence(actual.ParseActual());
+            _textBuilder.AddSentence(actual);
         _textBuilder.AddWord(verb.AsWords());
         _textBuilder.AddWord(expected.ParseValue());
         _isChainOfAssertions = false;
