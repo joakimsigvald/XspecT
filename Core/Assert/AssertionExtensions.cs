@@ -21,10 +21,7 @@ public static class AssertionExtensions
         this TimeSpan? actual, TimeSpan? expected,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-    {
-        Assert(() => Xunit.Assert.Equal(expected, actual), actualExpr, expectedExpr);
-        return new(IsNullableTimeSpan.Create(actual));
-    }
+        => actual.Is(actualExpr: actualExpr).Value(expected, expectedExpr);
 
     /// <summary>
     /// Verify that actual is expected timeSpan and return continuation for further assertions of the value
@@ -38,10 +35,7 @@ public static class AssertionExtensions
         this TimeSpan? actual, TimeSpan expected,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-    {
-        Assert(() => Xunit.Assert.Equal(expected, actual), actualExpr, expectedExpr);
-        return new(IsTimeSpan.Create(actual.Value));
-    }
+        => actual.Is(actualExpr: actualExpr).Value(expected, expectedExpr);
 
     /// <summary>
     /// Verify that actual is expected dateTime and return continuation for further assertions of the value
@@ -55,10 +49,7 @@ public static class AssertionExtensions
         this DateTime? actual, DateTime? expected,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-    {
-        Assert(() => Xunit.Assert.Equal(expected, actual), actualExpr, expectedExpr);
-        return new(IsNullableDateTime.Create(actual));
-    }
+        => actual.Is(actualExpr: actualExpr).Value(expected, expectedExpr);
 
     /// <summary>
     /// Verify that actual is expected dateTime and return continuation for further assertions of the value
@@ -72,10 +63,7 @@ public static class AssertionExtensions
         this DateTime? actual, DateTime expected,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-    {
-        Assert(() => Xunit.Assert.Equal(expected, actual), actualExpr, expectedExpr);
-        return new(IsDateTime.Create(actual.Value));
-    }
+        => actual.Is(actualExpr: actualExpr).Value(expected, expectedExpr);
 
     /// <summary>
     /// Verify that actual object is same reference as expected and return continuation for further assertions of the object
@@ -90,10 +78,7 @@ public static class AssertionExtensions
         object expected,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-    {
-        Assert(() => Xunit.Assert.Same(expected, actual), actualExpr, expectedExpr);
-        return new(IsObject.Create(actual));
-    }
+        => actual.Is(actualExpr: actualExpr).Value(expected, expectedExpr);
 
     /// <summary>
     /// Verify that actual object satisfy a given predicate
@@ -128,10 +113,7 @@ public static class AssertionExtensions
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
         where TValue : struct
-    {
-        Assert(() => Xunit.Assert.Equal(expected, actual), actualExpr, expectedExpr);
-        return new(IsObject.Create(actual));
-    }
+        => actual.Is(actualExpr: actualExpr).Value(expected, expectedExpr);
 
     /// <summary>
     /// Verify that actual object is same reference as expected and return continuation for further assertions of the object
@@ -147,10 +129,8 @@ public static class AssertionExtensions
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
         where TValue : struct
-    {
-        Assert(() => Xunit.Assert.Equal(expected, actual), actualExpr, expectedExpr);
-        return new(IsNullableStruct<TValue>.Create(actual));
-    }
+        => actual.Is(actualExpr: actualExpr).Value(expected, expectedExpr);
+
     /// <summary>
     /// Verify that actual string is same as expected
     /// </summary>
@@ -159,15 +139,12 @@ public static class AssertionExtensions
     /// <param name="actualExpr"></param>
     /// <param name="expectedExpr"></param>
     /// <returns>Continuation for further assertions of the string</returns>
-    public static ContinueWith<IsString> Is(
+    public static ContinueWith<IsStringContinuation> Is(
         this string actual,
         string expected,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-    {
-        Assert(() => Xunit.Assert.Equal(expected, actual), actualExpr, expectedExpr);
-        return new(IsString.Create(actual));
-    }
+        => actual.Is(actualExpr: actualExpr).Value(expected, expectedExpr);
 
     private static void Assert(
         Action assert, string actual = null, string expected = null, [CallerMemberName] string verb = "")

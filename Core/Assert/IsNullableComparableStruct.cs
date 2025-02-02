@@ -72,17 +72,38 @@ public abstract record IsNullableComparableStruct<TActual, TContinuation, TValue
         TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
         => CompareTo(expected, x => x >= 0, expectedExpr);
 
+    internal ContinueWith<TValueContinuation> Value(
+        TActual expected, string expectedExpr)
+        => AssertAndValue(() =>
+        {
+            try
+            {
+                Xunit.Assert.True(Actual.HasValue);
+                Xunit.Assert.Equal(expected, Actual.Value);
+            }
+            catch
+            {
+                Xunit.Assert.Fail($"Expected {ActualExpr} to be {expected} but found {Actual}");
+            }
+        }, expectedExpr, methodName: "");
+
     private protected ContinueWith<TValueContinuation> CompareTo(
         TActual expected,
         Func<int, bool> comparer,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null,
         [CallerMemberName] string methodName = null)
+        => AssertAndValue(() =>
+        {
+            Xunit.Assert.NotNull(Actual);
+            Xunit.Assert.True(comparer(Actual.Value.CompareTo(expected)));
+        }, expectedExpr, methodName);
+
+    private protected ContinueWith<TValueContinuation> AssertAndValue(
+        Action assert,
+        string expectedExpr,
+        [CallerMemberName] string methodName = null)
     {
-        Assert(() =>
-            {
-                Xunit.Assert.NotNull(Actual);
-                Xunit.Assert.True(comparer(Actual.Value.CompareTo(expected)));
-            }, expectedExpr, methodName: methodName);
+        Assert(assert, expectedExpr, methodName: methodName);
         return new(ValueContinuation);
     }
 }
