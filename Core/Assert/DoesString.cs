@@ -12,14 +12,14 @@ public record DoesString : Constraint<string, DoesStringContinuation>
     /// </summary>
     public ContinueWith<DoesStringContinuation> Contain(
         string expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => AssertAnd(() => Xunit.Assert.Contains(expected, Actual), expectedExpr, "contains");
+        => Assert(() => Xunit.Assert.Contains(expected, Actual), expectedExpr, "contains").And();
 
     /// <summary>
     /// Asserts that the string does not contain the expected string
     /// </summary>
     public ContinueWith<DoesStringContinuation> NotContain(
         string expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => AssertAnd(() => Xunit.Assert.DoesNotContain(expected, Actual), expectedExpr);
+        => Assert(() => Xunit.Assert.DoesNotContain(expected, Actual), expectedExpr).And();
 
     /// <summary>
     /// Asserts that the string starts with a prefix
@@ -29,7 +29,7 @@ public record DoesString : Constraint<string, DoesStringContinuation>
     /// <returns></returns>
     public ContinueWith<DoesStringContinuation> StartWith(
         string expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => AssertAnd(() => Xunit.Assert.StartsWith(expected, Actual), expectedExpr, "starts with");
+        => Assert(() => Xunit.Assert.StartsWith(expected, Actual), expectedExpr, "starts with").And();
 
     /// <summary>
     /// Asserts that the string ends with a suffix
@@ -39,7 +39,7 @@ public record DoesString : Constraint<string, DoesStringContinuation>
     /// <returns></returns>
     public ContinueWith<DoesStringContinuation> EndWith(
         string expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => AssertAnd(() => Xunit.Assert.EndsWith(expected, Actual), expectedExpr, "ends with");
+        => Assert(() => Xunit.Assert.EndsWith(expected, Actual), expectedExpr, "ends with").And();
 
     internal override DoesStringContinuation Continue() => Create(Actual);
 }

@@ -19,7 +19,7 @@ public abstract record IsComparable<TActual, TContinuation> : Constraint<TActual
     /// <returns></returns>
     public ContinueWith<TContinuation> Not(
         TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => AssertAnd(expected, () => Xunit.Assert.NotEqual(expected, Actual), expectedExpr);
+        => Assert(expected, () => Xunit.Assert.NotEqual(expected, Actual), expectedExpr).And();
 
     /// <summary>
     /// actual.Should().BeGreaterThan(expected)
@@ -54,7 +54,7 @@ public abstract record IsComparable<TActual, TContinuation> : Constraint<TActual
         Func<int, bool> comparer,
         string expectedExpr,
         [CallerMemberName] string methodName = null)
-        => AssertAnd(expected, () => Xunit.Assert.True(comparer(Actual.CompareTo(expected))), expectedExpr, methodName);
+        => Assert(expected, () => Xunit.Assert.True(comparer(Actual.CompareTo(expected))), expectedExpr, methodName).And();
 }
 
 /// <summary>

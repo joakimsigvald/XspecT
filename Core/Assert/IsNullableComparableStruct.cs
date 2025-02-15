@@ -19,14 +19,14 @@ public abstract record IsNullableComparableStruct<TActual, TContinuation, TValue
     /// <summary>
     /// Assert that Actual is null
     /// </summary>
-    public void Null() => Assert(() => Xunit.Assert.Null(Actual));
+    public void Null() => Assert(null, () => Xunit.Assert.Null(Actual), null);
 
     /// <summary>
     /// Assert that Actual is not null
     /// </summary>
     public ContinueWith<TValueContinuation> NotNull()
     {
-        Assert(() => Xunit.Assert.NotNull(Actual));
+        Assert(null, () => Xunit.Assert.NotNull(Actual), null);
         return new(ValueContinuation);
     }
 
@@ -35,7 +35,7 @@ public abstract record IsNullableComparableStruct<TActual, TContinuation, TValue
     /// </summary>
     public ContinueWith<TContinuation> Not(
         TActual? expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => AssertAnd(() => Xunit.Assert.NotEqual(expected, Actual), expectedExpr);
+        => Assert(() => Xunit.Assert.NotEqual(expected, Actual), expectedExpr).And();
 
     /// <summary>
     /// actual.Should().NotBe(expected)

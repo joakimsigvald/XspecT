@@ -28,14 +28,14 @@ public abstract record Constraint<TActual, TContinuation>
 
     internal virtual ContinueWith<TContinuation> Value(
         TActual expected, string expectedExpr)
-        => AssertAnd(expected, () => Xunit.Assert.Equal(expected, Actual), expectedExpr, string.Empty);
+        => Assert(expected, () => Xunit.Assert.Equal(expected, Actual), expectedExpr, string.Empty).And();
 
-    private protected ContinueWith<TContinuation> AssertAnd(
+    private protected Constraint<TActual, TContinuation> Assert(
         TActual expected,
         Action assert,
         string expectedExpr,
         [CallerMemberName] string methodName = null)
-        => AssertAnd(() =>
+        => Assert(() =>
         {
             try
             {
@@ -44,28 +44,21 @@ public abstract record Constraint<TActual, TContinuation>
             catch
             {
                 var expectationStr = $"{methodName.AsWords()} {expected}".Trim();
-                Xunit.Assert.Fail($"Expected {ActualExpr} to be {expectationStr} but found {Actual}");
+                Xunit.Assert.Fail($"Expected {ActualExpr} to be {expectationStr} but found {Actual?.ToString() ?? "null"}");
             }
         }, expectedExpr, methodName: methodName);
 
-    internal ContinueWith<TContinuation> AssertAnd(
+    internal ContinueWith<TContinuation> And() => new(Continue());
+    internal virtual TContinuation Continue() => (TContinuation)this;
+
+    private protected Constraint<TActual, TContinuation> Assert(
         Action assert,
         string expectedExpr = null,
         string verb = null,
         [CallerMemberName] string methodName = null)
     {
-        Assert(assert, expectedExpr, verb, methodName);
-        return And();
+        SpecificationGenerator.Assert(
+                assert, ActualExpr, expectedExpr, verb ?? $"{AuxiliaryVerb} {methodName.AsWords()}".Trim());
+        return this;
     }
-
-    internal ContinueWith<TContinuation> And() => new(Continue());
-    internal virtual TContinuation Continue() => (TContinuation)this;
-
-    internal void Assert(
-        Action assert,
-        string expectedExpr = null,
-        string verb = null,
-        [CallerMemberName] string methodName = null)
-        => SpecificationGenerator.Assert(
-            assert, ActualExpr, expectedExpr, verb ?? $"{AuxiliaryVerb} {methodName.AsWords()}".Trim());
 }

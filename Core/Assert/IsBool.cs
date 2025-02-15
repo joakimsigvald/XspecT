@@ -9,11 +9,11 @@ public record IsBool : Constraint<bool, IsBool>
     /// actual.Should().BeTrue()
     /// </summary>
     public ContinueWith<IsBool> True()
-        => AssertAnd(() => Xunit.Assert.True(Actual));
+        => Assert(() => Xunit.Assert.True(Actual)).And();
 
     /// <summary>
     /// actual.Should().BeFalse()
     /// </summary>
     public ContinueWith<IsBool> False()
-        => AssertAnd(() => Xunit.Assert.False(Actual));
+        => Assert(() => Xunit.Assert.False(Actual)).And();
 }
