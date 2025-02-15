@@ -1,31 +1,13 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace XspecT.Assert.Numerical;
+﻿namespace XspecT.Assert.Numerical;
 
 /// <summary>
 /// Object that allows an assertions to be made on the provided float
 /// </summary>
-public record IsFloat : IsNumerical<float, IsFloat>
+public record IsFloat : IsFractional<float, IsFloat>
 {
-    /// <summary>
-    /// Asserts that the float is close to the given value, within the provided precision
-    /// </summary>
-    /// <param name="expected"></param>
-    /// <param name="precision"></param>
-    /// <param name="expectedExpr"></param>
-    /// <returns></returns>
-    public ContinueWith<IsFloat> Around(
-        float expected, float precision, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => AssertAnd(() => Xunit.Assert.Equal(expected, Actual, precision), expectedExpr);
+    private protected override void AssertEqual(float expected, float precision)
+        => Xunit.Assert.Equal(expected, Actual, precision);
 
-    /// <summary>
-    /// Asserts that the float is not close to the given value, within the provided precision
-    /// </summary>
-    /// <param name="expected"></param>
-    /// <param name="precision"></param>
-    /// <param name="expectedExpr"></param>
-    /// <returns></returns>
-    public ContinueWith<IsFloat> NotAround(
-        float expected, float precision, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => AssertAnd(() => Xunit.Assert.NotEqual(expected, Actual, precision), expectedExpr);
+    private protected override void AssertNotEqual(float expected, float precision)
+        => Xunit.Assert.NotEqual(expected, Actual, precision);
 }
