@@ -1,11 +1,11 @@
 ﻿using XspecT.Assert;
 using Xunit.Sdk;
 
-namespace XspecT.Test.Assert.Numerical.IsInt;
+namespace XspecT.Test.Assert.Numerical.IsNullableInt;
 
 public class WhenNotNull : Spec
 {
-    [Fact] public void GivenNotNull_ThenDoesNotThrow() => ((int?)1).Is().NotNull();
+    [Fact] public void GivenNotNull_ThenDoesNotThrow() => ((int?)1).Is().NotNull().And.LessThan(2);
 
     [Fact]
     public void GivenFail_ThenGetException()

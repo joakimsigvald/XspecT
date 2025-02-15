@@ -1,7 +1,7 @@
 ﻿using XspecT.Assert;
 using Xunit.Sdk;
 
-namespace XspecT.Test.Assert.Numerical.IsInt;
+namespace XspecT.Test.Assert.Numerical.IsNullableInt;
 
 public class WhenNull : Spec
 {

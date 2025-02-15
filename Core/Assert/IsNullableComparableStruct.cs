@@ -35,7 +35,7 @@ public abstract record IsNullableComparableStruct<TActual, TContinuation, TValue
     /// </summary>
     public ContinueWith<TContinuation> Not(
         TActual? expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => Assert(() => Xunit.Assert.NotEqual(expected, Actual), expectedExpr).And();
+        => Assert(expected, () => Xunit.Assert.NotEqual(expected, Actual), expectedExpr).And();
 
     /// <summary>
     /// actual.Should().NotBe(expected)
@@ -74,36 +74,33 @@ public abstract record IsNullableComparableStruct<TActual, TContinuation, TValue
 
     internal ContinueWith<TValueContinuation> Value(
         TActual expected, string expectedExpr)
-        => AssertAndValue(() =>
-        {
-            try
+    {
+        Assert(() =>
             {
-                Xunit.Assert.True(Actual.HasValue);
-                Xunit.Assert.Equal(expected, Actual.Value);
-            }
-            catch
-            {
-                Xunit.Assert.Fail($"Expected {ActualExpr} to be {expected} but found {Actual}");
-            }
-        }, expectedExpr, methodName: "");
+                try
+                {
+                    Xunit.Assert.True(Actual.HasValue);
+                    Xunit.Assert.Equal(expected, Actual.Value);
+                }
+                catch
+                {
+                    Xunit.Assert.Fail($"Expected {ActualExpr} to be {expected} but found {Actual}");
+                }
+            }, expectedExpr, methodName: "");
+        return new(ValueContinuation);
+    }
 
     private protected ContinueWith<TValueContinuation> CompareTo(
         TActual expected,
         Func<int, bool> comparer,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null,
         [CallerMemberName] string methodName = null)
-        => AssertAndValue(() =>
-        {
-            Xunit.Assert.NotNull(Actual);
-            Xunit.Assert.True(comparer(Actual.Value.CompareTo(expected)));
-        }, expectedExpr, methodName);
-
-    private protected ContinueWith<TValueContinuation> AssertAndValue(
-        Action assert,
-        string expectedExpr,
-        [CallerMemberName] string methodName = null)
     {
-        Assert(assert, expectedExpr, methodName: methodName);
+        Assert(expected, () =>
+            {
+                Xunit.Assert.NotNull(Actual);
+                Xunit.Assert.True(comparer(Actual.Value.CompareTo(expected)));
+            }, expectedExpr, methodName);
         return new(ValueContinuation);
     }
 }
