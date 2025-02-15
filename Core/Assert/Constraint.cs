@@ -28,7 +28,18 @@ public abstract record Constraint<TActual, TContinuation>
 
     internal virtual ContinueWith<TContinuation> Value(
         TActual expected, string expectedExpr)
-        => AssertAnd(() => Xunit.Assert.Equal(expected, Actual), expectedExpr, methodName: "");
+        => AssertAnd(() =>
+        {
+            try
+            {
+                Xunit.Assert.Equal(expected, Actual);
+            }
+            catch
+            {
+                Xunit.Assert.Fail($"Expected {ActualExpr} to be {expected} but found {Actual}");
+            }
+        }, expectedExpr, methodName: "");
+
 
     internal ContinueWith<TContinuation> AssertAnd(
         Action assert,
