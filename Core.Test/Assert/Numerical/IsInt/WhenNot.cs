@@ -13,6 +13,6 @@ public class WhenNot : Spec<(int a, int b)>
         int x = 1;
         var ex = Xunit.Assert.Throws<XunitException>(() => x.Is().Not(x));
         ex.Message.Is("X is not x");
-        ex.InnerException.Message.Is("Expected x not to be 1 but found 1");
+        ex.InnerException.Message.Is("Expected x to be not 1 but found 1");
     }
 }

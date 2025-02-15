@@ -28,31 +28,25 @@ public abstract record Constraint<TActual, TContinuation>
 
     internal virtual ContinueWith<TContinuation> Value(
         TActual expected, string expectedExpr)
-        => AssertAnd(() =>
-        {
-            try
-            {
-                Xunit.Assert.Equal(expected, Actual);
-            }
-            catch
-            {
-                Xunit.Assert.Fail($"Expected {ActualExpr} to be {expected} but found {Actual}");
-            }
-        }, expectedExpr, methodName: "");
+        => AssertAnd(expected, () => Xunit.Assert.Equal(expected, Actual), expectedExpr, string.Empty);
 
-    internal virtual ContinueWith<TContinuation> NotValue(
-        TActual expected, string expectedExpr)
+    private protected ContinueWith<TContinuation> AssertAnd(
+        TActual expected,
+        Action assert,
+        string expectedExpr,
+        [CallerMemberName] string methodName = null)
         => AssertAnd(() =>
         {
             try
             {
-                Xunit.Assert.NotEqual(expected, Actual);
+                assert();
             }
             catch
             {
-                Xunit.Assert.Fail($"Expected {ActualExpr} not to be {expected} but found {Actual}");
+                var expectationStr = $"{methodName.AsWords()} {expected}".Trim();
+                Xunit.Assert.Fail($"Expected {ActualExpr} to be {expectationStr} but found {Actual}");
             }
-        }, expectedExpr, methodName: "not");
+        }, expectedExpr, methodName: methodName);
 
     internal ContinueWith<TContinuation> AssertAnd(
         Action assert,

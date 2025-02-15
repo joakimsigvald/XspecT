@@ -1,5 +1,4 @@
 ﻿using System.Runtime.CompilerServices;
-using XspecT.Internal.Specification;
 
 namespace XspecT.Assert;
 
@@ -20,7 +19,7 @@ public abstract record IsComparable<TActual, TContinuation> : Constraint<TActual
     /// <returns></returns>
     public ContinueWith<TContinuation> Not(
         TActual expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => NotValue(expected, expectedExpr);
+        => AssertAnd(expected, () => Xunit.Assert.NotEqual(expected, Actual), expectedExpr);
 
     /// <summary>
     /// actual.Should().BeGreaterThan(expected)
@@ -55,18 +54,7 @@ public abstract record IsComparable<TActual, TContinuation> : Constraint<TActual
         Func<int, bool> comparer,
         string expectedExpr,
         [CallerMemberName] string methodName = null)
-        => AssertAnd(() =>
-        {
-            var methodExpr = methodName.AsWords();
-            try
-            {
-                Xunit.Assert.True(comparer(Actual.CompareTo(expected)));
-            }
-            catch
-            {
-                Xunit.Assert.Fail($"Expected {ActualExpr} to be {methodExpr} {expected} but found {Actual}");
-            }
-        }, expectedExpr, methodName: methodName);
+        => AssertAnd(expected, () => Xunit.Assert.True(comparer(Actual.CompareTo(expected))), expectedExpr, methodName);
 }
 
 /// <summary>
