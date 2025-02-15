@@ -3,7 +3,7 @@ using Xunit.Sdk;
 
 namespace XspecT.Test.Assert.Numerical.IsInt;
 
-public class WhenNot : Spec<(int a, int b)>
+public class WhenNot : Spec
 {
     [Fact] public void GivenDifferent_ThenDoesNotThrow() => 1.Is().Not(2);
 

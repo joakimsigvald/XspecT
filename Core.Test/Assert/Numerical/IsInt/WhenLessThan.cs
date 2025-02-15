@@ -3,7 +3,7 @@ using Xunit.Sdk;
 
 namespace XspecT.Test.Assert.Numerical.IsInt;
 
-public class LessThan : Spec<(int a, int b)>
+public class WhenLessThan : Spec
 {
     [Fact] public void GivenLess_ThenDoesNotThrow() => 1.Is().LessThan(2);
 

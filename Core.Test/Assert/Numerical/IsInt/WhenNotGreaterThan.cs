@@ -3,7 +3,7 @@ using Xunit.Sdk;
 
 namespace XspecT.Test.Assert.Numerical.IsInt;
 
-public class NotGreaterThan : Spec<(int a, int b)>
+public class WhenNotGreaterThan : Spec
 {
     [Theory]
     [InlineData(1, 1)]
