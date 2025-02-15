@@ -52,7 +52,7 @@ public abstract record Constraint<TActual, TContinuation>
             {
                 Xunit.Assert.Fail($"Expected {ActualExpr} not to be {expected} but found {Actual}");
             }
-        }, expectedExpr, methodName: "");
+        }, expectedExpr, methodName: "not");
 
     internal ContinueWith<TContinuation> AssertAnd(
         Action assert,
