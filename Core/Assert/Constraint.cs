@@ -40,6 +40,19 @@ public abstract record Constraint<TActual, TContinuation>
             }
         }, expectedExpr, methodName: "");
 
+    internal virtual ContinueWith<TContinuation> NotValue(
+        TActual expected, string expectedExpr)
+        => AssertAnd(() =>
+        {
+            try
+            {
+                Xunit.Assert.NotEqual(expected, Actual);
+            }
+            catch
+            {
+                Xunit.Assert.Fail($"Expected {ActualExpr} not to be {expected} but found {Actual}");
+            }
+        }, expectedExpr, methodName: "");
 
     internal ContinueWith<TContinuation> AssertAnd(
         Action assert,
