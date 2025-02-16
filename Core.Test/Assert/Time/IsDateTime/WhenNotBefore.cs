@@ -15,7 +15,7 @@ public class WhenNotBefore : Spec
     public void GivenFail_ThenGetException()
     {
         var a = A<DateTime>();
-        var b = The<DateTime>().AddDays(1);
+        var b = a.AddDays(1);
         var ex = Xunit.Assert.Throws<XunitException>(() => a.Is().NotBefore(b));
         ex.Message.Is("A is not before b");
         ex.InnerException.Message.Is($"Expected a to occur not before {b} but found {a}");

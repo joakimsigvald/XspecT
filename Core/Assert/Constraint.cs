@@ -32,7 +32,7 @@ public abstract record Constraint<TActual, TContinuation>
         .And();
 
     private protected Constraint<TActual, TContinuation> Assert(
-        TActual expected,
+        object expected,
         Action assert,
         string expectedExpr,
         string auxVerb = "be",

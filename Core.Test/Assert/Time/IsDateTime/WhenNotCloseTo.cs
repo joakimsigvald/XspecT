@@ -15,7 +15,7 @@ public class WhenNotCloseTo : Spec
     public void GivenFail_ThenGetException()
     {
         var a = A<DateTime>();
-        var b = The<DateTime>().AddDays(1);
+        var b = a.AddDays(1);
         var tolerance = TimeSpan.FromDays(1);
         var ex = Xunit.Assert.Throws<XunitException>(() => a.Is().NotCloseTo(b, tolerance));
         ex.Message.Is("A is not close to b");
