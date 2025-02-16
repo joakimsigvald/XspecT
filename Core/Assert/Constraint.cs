@@ -28,12 +28,14 @@ public abstract record Constraint<TActual, TContinuation>
 
     internal virtual ContinueWith<TContinuation> Value(
         TActual expected, string expectedExpr)
-        => Assert(expected, () => Xunit.Assert.Equal(expected, Actual), expectedExpr, string.Empty).And();
+        => Assert(expected, () => Xunit.Assert.Equal(expected, Actual), expectedExpr, methodName: string.Empty)
+        .And();
 
     private protected Constraint<TActual, TContinuation> Assert(
         TActual expected,
         Action assert,
         string expectedExpr,
+        string auxVerb = "be",
         [CallerMemberName] string methodName = null)
         => Assert(() =>
         {
@@ -44,7 +46,7 @@ public abstract record Constraint<TActual, TContinuation>
             catch
             {
                 var expectationStr = $"{methodName.AsWords()} {expected}".Trim();
-                Xunit.Assert.Fail($"Expected {ActualExpr} to be {expectationStr} but found {Actual?.ToString() ?? "null"}");
+                Xunit.Assert.Fail($"Expected {ActualExpr} to {auxVerb} {expectationStr} but found {Actual?.ToString() ?? "null"}");
             }
         }, expectedExpr, methodName: methodName);
 

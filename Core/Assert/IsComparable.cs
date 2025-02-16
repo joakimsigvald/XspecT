@@ -53,8 +53,10 @@ public abstract record IsComparable<TActual, TContinuation> : Constraint<TActual
         TActual expected,
         Func<int, bool> comparer,
         string expectedExpr,
+        string auxVerb = "be",
         [CallerMemberName] string methodName = null)
-        => Assert(expected, () => Xunit.Assert.True(comparer(Actual.CompareTo(expected))), expectedExpr, methodName).And();
+        => Assert(expected, () => Xunit.Assert.True(comparer(Actual.CompareTo(expected))), expectedExpr, auxVerb, methodName)
+        .And();
 }
 
 /// <summary>

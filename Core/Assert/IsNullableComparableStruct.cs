@@ -100,7 +100,7 @@ public abstract record IsNullableComparableStruct<TActual, TContinuation, TValue
             {
                 Xunit.Assert.NotNull(Actual);
                 Xunit.Assert.True(comparer(Actual.Value.CompareTo(expected)));
-            }, expectedExpr, methodName);
+            }, expectedExpr, "be", methodName);
         return new(ValueContinuation);
     }
 }

@@ -15,13 +15,7 @@ public record IsDateTime : IsComparable<DateTime, IsDateTime>
     /// <returns></returns>
     public ContinueWith<IsDateTime> Before(
         DateTime expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => Assert(() => AssertBefore(expected), expectedExpr).And();
-
-    internal void AssertBefore(DateTime expected)
-    {
-        if (Actual >= expected)
-            Xunit.Assert.Fail($"Expected {ActualExpr} to occur before {expected} but found {Actual}");
-    }
+        => CompareTo(expected, x => x < 0, expectedExpr, "occur");
 
     /// <summary>
     /// Asserts that the dateTime is after the given value
@@ -31,7 +25,7 @@ public record IsDateTime : IsComparable<DateTime, IsDateTime>
     /// <returns></returns>
     public ContinueWith<IsDateTime> After(
         DateTime expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => CompareTo(expected, x => x > 0, expectedExpr);
+        => CompareTo(expected, x => x > 0, expectedExpr, "occur");
 
     /// <summary>
     /// Asserts that the dateTime is at or after the given value
@@ -41,7 +35,7 @@ public record IsDateTime : IsComparable<DateTime, IsDateTime>
     /// <returns></returns>
     public ContinueWith<IsDateTime> NotBefore(
         DateTime expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => CompareTo(expected, x => x >= 0, expectedExpr);
+        => CompareTo(expected, x => x >= 0, expectedExpr, "occur");
 
     /// <summary>
     /// Asserts that the dateTime is at or before the given value
@@ -51,27 +45,27 @@ public record IsDateTime : IsComparable<DateTime, IsDateTime>
     /// <returns></returns>
     public ContinueWith<IsDateTime> NotAfter(
         DateTime expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => CompareTo(expected, x => x <= 0, expectedExpr);
+        => CompareTo(expected, x => x <= 0, expectedExpr, "occur");
 
     /// <summary>
     /// Asserts that the dateTime is within the specified precision time from the given value
     /// </summary>
     /// <param name="expected"></param>
-    /// <param name="precision"></param>
+    /// <param name="tolerance"></param>
     /// <param name="expectedExpr"></param>
     /// <returns></returns>
     public ContinueWith<IsDateTime> CloseTo(
-        DateTime expected, TimeSpan precision, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => Assert(() => Xunit.Assert.Equal(expected, Actual, precision), expectedExpr).And();
+        DateTime expected, TimeSpan tolerance, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
+        => Assert(expected, () => Xunit.Assert.Equal(expected, Actual, tolerance), expectedExpr).And();
 
     /// <summary>
     /// Asserts that the dateTime differ more than the specified precision time from the given value
     /// </summary>
     /// <param name="expected"></param>
-    /// <param name="precision"></param>
+    /// <param name="tolerance"></param>
     /// <param name="expectedExpr"></param>
     /// <returns></returns>
     public ContinueWith<IsDateTime> NotCloseTo(
-        DateTime expected, TimeSpan precision, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => Assert(() => Xunit.Assert.True((Actual - expected).Duration() <= precision), expectedExpr).And();
+        DateTime expected, TimeSpan tolerance, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
+        => Assert(expected, () => Xunit.Assert.False((Actual - expected).Duration() <= tolerance), expectedExpr).And();
 }
