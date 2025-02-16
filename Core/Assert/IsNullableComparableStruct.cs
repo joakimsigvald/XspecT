@@ -93,14 +93,15 @@ public abstract record IsNullableComparableStruct<TActual, TContinuation, TValue
     private protected ContinueWith<TValueContinuation> CompareTo(
         TActual expected,
         Func<int, bool> comparer,
-        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null,
+        string expectedExpr,
+        string auxVerb = "be",
         [CallerMemberName] string methodName = null)
     {
         Assert(expected, () =>
             {
                 Xunit.Assert.NotNull(Actual);
                 Xunit.Assert.True(comparer(Actual.Value.CompareTo(expected)));
-            }, expectedExpr, "be", methodName);
+            }, expectedExpr, auxVerb, methodName);
         return new(ValueContinuation);
     }
 }
