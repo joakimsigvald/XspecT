@@ -1,5 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using XspecT.Internal.Specification;
+using Xunit.Sdk;
 
 namespace XspecT.Assert.Continuations;
 
@@ -43,12 +44,15 @@ public abstract record Constraint<TActual, TContinuation>
             {
                 assert();
             }
-            catch
+            catch (Exception ex)
             {
                 var expectationStr = $"{methodName.AsWords()} {expected}".Trim();
-                Xunit.Assert.Fail($"Expected {ActualExpr} to {auxVerb} {expectationStr} but found {ActualString}");
+                throw new AssertionFailed($"Expected {ActualExpr} to {auxVerb} {expectationStr} but found {ActualString}", GetInnermost(ex as AssertionFailed));
             }
         }, expectedExpr, methodName: methodName);
+
+    private static AssertionFailed GetInnermost(AssertionFailed? ex)
+        => ex?.InnerException is null ? ex : GetInnermost(ex.InnerException as AssertionFailed);
 
     private protected virtual string ActualString => Actual?.ToString() ?? "null";
 

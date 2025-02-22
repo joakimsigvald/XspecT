@@ -1,5 +1,4 @@
 ﻿using XspecT.Assert;
-using Xunit.Sdk;
 
 namespace XspecT.Test.Assert.Continuations.Time.IsTimeSpan;
 
@@ -15,7 +14,7 @@ public class WhenPositive : Spec
     public void GivenFail_ThenGetException(int days)
     {
         var a = TimeSpan.FromDays(days);
-        var ex = Xunit.Assert.Throws<XunitException>(() => a.Is().Positive());
+        var ex = Xunit.Assert.Throws<AssertionFailed>(() => a.Is().Positive());
         ex.Message.Is("A is positive");
         ex.InnerException.Message.Is($"Expected a to be positive but found {a}");
     }

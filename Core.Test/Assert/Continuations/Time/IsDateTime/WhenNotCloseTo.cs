@@ -1,5 +1,4 @@
 ﻿using XspecT.Assert;
-using Xunit.Sdk;
 
 namespace XspecT.Test.Assert.Continuations.Time.IsDateTime;
 
@@ -17,7 +16,7 @@ public class WhenNotCloseTo : Spec
         var a = A<DateTime>();
         var b = a.AddDays(1);
         var tolerance = TimeSpan.FromDays(1);
-        var ex = Xunit.Assert.Throws<XunitException>(() => a.Is().NotCloseTo(b, tolerance));
+        var ex = Xunit.Assert.Throws<AssertionFailed>(() => a.Is().NotCloseTo(b, tolerance));
         ex.Message.Is("A is not close to b");
         ex.InnerException.Message.Is($"Expected a to be not close to {b} but found {a}");
     }

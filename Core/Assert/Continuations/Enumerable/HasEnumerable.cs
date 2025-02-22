@@ -78,7 +78,10 @@ public record HasEnumerable<TItem> : Constraint<IEnumerable<TItem>, HasEnumerabl
     /// <param name="assertExpr"></param>
     /// <returns></returns>
     public ContinueWith<HasEnumerableContinuation<TItem>> All(Action<TItem> assert, [CallerArgumentExpression(nameof(assert))] string assertExpr = null)
-        => Assert(() => Actual.ToList().ForEach(assert), assertExpr).And();
+        => Assert(
+            "elements satisfying the condition", 
+            () => Actual.ToList().ForEach(assert), assertExpr, 
+            "have").And();
 
     internal override HasEnumerableContinuation<TItem> Continue() => Create(Actual);
 

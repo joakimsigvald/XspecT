@@ -1,5 +1,4 @@
 ﻿using XspecT.Assert;
-using Xunit.Sdk;
 
 namespace XspecT.Test.Assert.Continuations.Numerical.IsInt;
 
@@ -12,7 +11,7 @@ public class WhenGreaterThan : Spec
     [InlineData(1, 2)]
     public void GivenFail_ThenGetException(int a, int b)
     {
-        var ex = Xunit.Assert.Throws<XunitException>(() => a.Is().GreaterThan(b));
+        var ex = Xunit.Assert.Throws<AssertionFailed>(() => a.Is().GreaterThan(b));
         ex.Message.Is("A is greater than b");
         ex.InnerException.Message.Is($"Expected a to be greater than {b} but found {a}");
     }

@@ -1,5 +1,4 @@
 ﻿using XspecT.Assert;
-using Xunit.Sdk;
 
 namespace XspecT.Test.Assert;
 
@@ -48,7 +47,7 @@ public class WhenDateTime : Spec<DateTime>
     [Fact]
     public void BeforeFailWithMessage() 
     {
-        var ex = Xunit.Assert.Throws<XunitException>(
+        var ex = Xunit.Assert.Throws<AssertionFailed>(
             () => When(_ => A(_)).Then().Result.Is().Before(The<DateTime>().AddDays(-1)));
         ex.InnerException.Message.Is(
             $"Expected Result to occur before {The<DateTime>().AddDays(-1)} but found {The<DateTime>()}");

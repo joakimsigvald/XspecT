@@ -1,5 +1,4 @@
 ﻿using XspecT.Assert;
-using Xunit.Sdk;
 
 namespace XspecT.Test.Assert.Continuations.Time.IsNullableDateTime;
 
@@ -15,7 +14,7 @@ public class WhenBefore : Spec
     {
         var a = A<DateTime?>();
         var b = a.Value.AddDays(-1);
-        var ex = Xunit.Assert.Throws<XunitException>(() => a.Is().Before(b));
+        var ex = Xunit.Assert.Throws<AssertionFailed>(() => a.Is().Before(b));
         ex.Message.Is("A is before b");
         ex.InnerException.Message.Is($"Expected a to occur before {b} but found {a}");
     }

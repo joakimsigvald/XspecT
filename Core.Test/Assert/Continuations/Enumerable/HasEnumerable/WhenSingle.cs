@@ -1,5 +1,4 @@
 ﻿using XspecT.Assert;
-using Xunit.Sdk;
 
 namespace XspecT.Test.Assert.Continuations.Enumerable.HasEnumerable;
 
@@ -16,7 +15,7 @@ public class WhenSingle : Spec
     public void GivenEmpty_ThenGetException()
     {
         int[] arr = Zero<int>();
-        var ex = Xunit.Assert.Throws<XunitException>(() => arr.Has().Single().That.Is(123));
+        var ex = Xunit.Assert.Throws<AssertionFailed>(() => arr.Has().Single().That.Is(123));
         ex.Message.Is($"Arr has single");
         ex.InnerException.Message.Is($"Expected arr to have single element but found empty");
     }
@@ -25,7 +24,7 @@ public class WhenSingle : Spec
     public void GivenTwoElements_ThenGetException()
     {
         int[] arr = [1, 3];
-        var ex = Xunit.Assert.Throws<XunitException>(() => arr.Has().Single().That.Is(123));
+        var ex = Xunit.Assert.Throws<AssertionFailed>(() => arr.Has().Single().That.Is(123));
         ex.Message.Is($"Arr has single");
         ex.InnerException.Message.Is($"Expected arr to have single element but found [1, 3]");
     }

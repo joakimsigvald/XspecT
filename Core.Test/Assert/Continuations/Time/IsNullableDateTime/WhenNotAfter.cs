@@ -1,5 +1,4 @@
 ﻿using XspecT.Assert;
-using Xunit.Sdk;
 
 namespace XspecT.Test.Assert.Continuations.Time.IsNullableDateTime;
 
@@ -17,7 +16,7 @@ public class WhenNotAfter : Spec
     {
         var a = A<DateTime?>();
         var b = a.Value.AddDays(-1);
-        var ex = Xunit.Assert.Throws<XunitException>(() => a.Is().NotAfter(b));
+        var ex = Xunit.Assert.Throws<AssertionFailed>(() => a.Is().NotAfter(b));
         ex.Message.Is("A is not after b");
         ex.InnerException.Message.Is($"Expected a to occur not after {b} but found {a}");
     }

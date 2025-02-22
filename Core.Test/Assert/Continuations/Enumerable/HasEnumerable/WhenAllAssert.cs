@@ -1,27 +1,27 @@
 ﻿using XspecT.Assert;
-using Xunit.Sdk;
 
 namespace XspecT.Test.Assert.Continuations.Enumerable.HasEnumerable;
 
-public class WhenAllIndexedCondition : Spec
+public class WhenAllAssert : Spec
 {
     [Fact]
     public void GivenEmpty_ThenDoesNotThrow() 
-        => Zero<int>().Has().All((it, i) => it == i + 1).And.Is().Empty();
+        => Zero<int>().Has().All(it => it.Is(1)).And.Is().Empty();
 
     [Fact]
     public void GivenAllSatisfyCondition_ThenDoesNotThrow()
     {
         int[] arr = [1, 2];
-        arr.Has().All((it, i) => it == i + 1).And.Is().NotEmpty();
+        arr.Has().All(it => it.Is().NotLessThan(1)).And.Is().NotEmpty();
     }
 
     [Fact]
     public void GivenConditionNotSatisfiedForAll_ThenGetException()
     {
         int[] arr = [1, 3];
-        var ex = Xunit.Assert.Throws<AssertionFailed>(() => arr.Has().All((it, i) => it == i + 1));
-        ex.Message.Is($"Arr has all (it, i) => it == i + 1");
+        var ex = Xunit.Assert.Throws<AssertionFailed>(() => arr.Has().All(it => it.Is().LessThan(3)));
+        ex.Message.Is($"Arr has all it.Is().LessThan(3)");
         ex.InnerException.Message.Is($"Expected arr to have all elements satisfying the condition but found [1, 3]");
+        ex.InnerException.InnerException.Message.Is($"Expected it to be less than 3 but found 3");
     }
 }
