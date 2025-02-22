@@ -1,5 +1,4 @@
 ﻿using System.Runtime.CompilerServices;
-using XspecT.Assert.Continuations;
 
 namespace XspecT.Assert.Continuations.Enumerable;
 
@@ -12,7 +11,7 @@ public record HasEnumerable<TItem> : Constraint<IEnumerable<TItem>, HasEnumerabl
     /// actual.Should().ContainSingle()
     /// </summary>
     public ContinueWith<HasEnumerableContinuation<TItem>> Single()
-        => Assert(() => Xunit.Assert.Single(Actual)).And();
+        => Assert("element", () => Xunit.Assert.Single(Actual), null, "have").And();
 
     /// <summary>
     /// actual.Should().ContainSingle()
@@ -65,4 +64,9 @@ public record HasEnumerable<TItem> : Constraint<IEnumerable<TItem>, HasEnumerabl
         => Assert(() => Actual.ToList().ForEach(assert), assertExpr).And();
 
     internal override HasEnumerableContinuation<TItem> Continue() => Create(Actual);
+
+    private protected override string ActualString
+        => Actual is null ? "null"
+        : Actual.Any() ? $"[{string.Join(", ", Actual)}]"
+        : "empty";
 }

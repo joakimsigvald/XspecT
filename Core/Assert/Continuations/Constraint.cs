@@ -46,9 +46,11 @@ public abstract record Constraint<TActual, TContinuation>
             catch
             {
                 var expectationStr = $"{methodName.AsWords()} {expected}".Trim();
-                Xunit.Assert.Fail($"Expected {ActualExpr} to {auxVerb} {expectationStr} but found {Actual?.ToString() ?? "null"}");
+                Xunit.Assert.Fail($"Expected {ActualExpr} to {auxVerb} {expectationStr} but found {ActualString}");
             }
         }, expectedExpr, methodName: methodName);
+
+    private protected virtual string ActualString => Actual?.ToString() ?? "null";
 
     internal ContinueWith<TContinuation> And() => new(Continue());
     internal virtual TContinuation Continue() => (TContinuation)this;

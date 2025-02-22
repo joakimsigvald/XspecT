@@ -1,5 +1,4 @@
 ﻿using System.Runtime.CompilerServices;
-using XspecT.Assert.Continuations;
 
 namespace XspecT.Assert.Continuations.Time;
 

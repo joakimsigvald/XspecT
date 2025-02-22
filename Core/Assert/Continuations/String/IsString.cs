@@ -1,5 +1,4 @@
 ﻿using System.Runtime.CompilerServices;
-using XspecT.Assert.Continuations;
 using static Xunit.Assert;
 
 namespace XspecT.Assert.Continuations.String;

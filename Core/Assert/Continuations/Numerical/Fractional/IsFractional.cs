@@ -3,6 +3,11 @@ using XspecT.Assert.Continuations.Numerical.Nullable;
 
 namespace XspecT.Assert.Continuations.Numerical.Fractional;
 
+/// <summary>
+/// 
+/// </summary>
+/// <typeparam name="TActual"></typeparam>
+/// <typeparam name="TIsFractional"></typeparam>
 public abstract record IsFractional<TActual, TIsFractional> : IsNumerical<TActual, TIsFractional>
     where TActual : struct, IComparable<TActual>
     where TIsFractional : IsFractional<TActual, TIsFractional>, new()

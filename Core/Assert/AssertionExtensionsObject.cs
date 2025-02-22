@@ -1,7 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
 using XspecT.Assert.Continuations;
-using XspecT.Assert.Continuations.Enumerable;
-using XspecT.Assert.Continuations.Time;
 using XspecT.Internal.Specification;
 
 namespace XspecT.Assert;
