@@ -17,8 +17,12 @@ public record HasEnumerable<TItem> : Constraint<IEnumerable<TItem>, HasEnumerabl
     /// actual.Should().ContainSingle()
     /// </summary>
     public ContinueWith<HasEnumerableContinuation<TItem>> Single(
-        Func<TItem, bool> expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => Assert(() => Xunit.Assert.Single(Actual, new Predicate<TItem>(expected)), expectedExpr).And();
+        Func<TItem, bool> condition, [CallerArgumentExpression(nameof(condition))] string expectedExpr = null)
+        => Assert(
+            "element satisfying the condition", 
+            () => Xunit.Assert.Single(Actual, new Predicate<TItem>(condition)), 
+            expectedExpr, 
+            "have").And();
 
     /// <summary>
     /// actual.Should().HaveCount(expected)
