@@ -47,7 +47,7 @@ public class WhenSingleCondition : Spec
         int[] arr = Zero<int>();
         var ex = Xunit.Assert.Throws<AssertionFailed>(() => arr.Has().Single(it => it == 123));
         ex.Message.Is($"Arr has single it = 123");
-        ex.InnerException.Message.Is($"Expected arr to have single element satisfying the condition but found empty");
+        ex.InnerException.Message.Is($"Expected arr to have single element satisfying the condition but found []");
     }
 
     [Fact]

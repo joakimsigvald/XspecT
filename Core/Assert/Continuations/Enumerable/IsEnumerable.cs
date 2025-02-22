@@ -6,21 +6,21 @@ namespace XspecT.Assert.Continuations.Enumerable;
 /// Continuation that allows an assertions to be made on the provided enumerable
 /// </summary>
 /// <typeparam name="TItem"></typeparam>
-public record IsEnumerable<TItem> : Constraint<IEnumerable<TItem>, IsEnumerableContinuation<TItem>>
+public record IsEnumerable<TItem> : EnumerableConstraint<TItem, IsEnumerableContinuation<TItem>>
 {
     /// <summary>
     /// Assert that the enumerable is empty
     /// </summary>
     /// <returns>A continuation for making further assertions on the enumerable</returns>
     public ContinueWith<IsEnumerableContinuation<TItem>> Empty()
-        => Assert(() => Xunit.Assert.Empty(Actual)).And();
+        => Assert(null, () => Xunit.Assert.Empty(Actual), null).And();
 
     /// <summary>
     /// Assert that the enumerable is not empty
     /// </summary>
     /// <returns>A continuation for making further assertions on the enumerable</returns>
     public ContinueWith<IsEnumerableContinuation<TItem>> NotEmpty()
-        => Assert(() => Xunit.Assert.NotEmpty(Actual)).And();
+        => Assert(null, () => Xunit.Assert.NotEmpty(Actual), null).And();
 
     /// <summary>
     /// Assert that the enumerable is null

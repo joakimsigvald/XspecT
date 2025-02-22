@@ -5,7 +5,7 @@ namespace XspecT.Assert.Continuations.Enumerable;
 /// <summary>
 /// Object that allows an assertions to be made on the provided enumerable
 /// </summary>
-public record HasEnumerable<TItem> : Constraint<IEnumerable<TItem>, HasEnumerableContinuation<TItem>>
+public record HasEnumerable<TItem> : EnumerableConstraint<TItem, HasEnumerableContinuation<TItem>>
 {
     /// <summary>
     /// actual.Should().ContainSingle()
@@ -88,9 +88,4 @@ public record HasEnumerable<TItem> : Constraint<IEnumerable<TItem>, HasEnumerabl
             "have").And();
 
     internal override HasEnumerableContinuation<TItem> Continue() => Create(Actual);
-
-    private protected override string ActualString
-        => Actual is null ? "null"
-        : Actual.Any() ? $"[{string.Join(", ", Actual)}]"
-        : "empty";
 }
