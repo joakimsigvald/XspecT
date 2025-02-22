@@ -10,19 +10,27 @@ public record HasEnumerable<TItem> : Constraint<IEnumerable<TItem>, HasEnumerabl
     /// <summary>
     /// actual.Should().ContainSingle()
     /// </summary>
-    public ContinueWith<HasEnumerableContinuation<TItem>> Single()
-        => Assert("element", () => Xunit.Assert.Single(Actual), null, "have").And();
+    public ContinueWithThat<HasEnumerableContinuation<TItem>, TItem> Single()
+    {
+        TItem theItem = default;
+        return Assert("element", () => theItem = Xunit.Assert.Single(Actual), null, "have")
+            .AndThat(theItem);
+    }
 
     /// <summary>
     /// actual.Should().ContainSingle()
     /// </summary>
-    public ContinueWith<HasEnumerableContinuation<TItem>> Single(
+    public ContinueWithThat<HasEnumerableContinuation<TItem>, TItem> Single(
         Func<TItem, bool> condition, [CallerArgumentExpression(nameof(condition))] string expectedExpr = null)
-        => Assert(
-            "element satisfying the condition", 
-            () => Xunit.Assert.Single(Actual, new Predicate<TItem>(condition)), 
-            expectedExpr, 
-            "have").And();
+    {
+        TItem theItem = default;
+        return Assert(
+                "element satisfying the condition",
+                () => theItem = Xunit.Assert.Single(Actual, new Predicate<TItem>(condition)),
+                expectedExpr,
+                "have")
+            .AndThat(theItem);
+    }
 
     /// <summary>
     /// actual.Should().HaveCount(expected)

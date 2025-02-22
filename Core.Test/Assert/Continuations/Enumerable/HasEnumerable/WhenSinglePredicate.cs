@@ -20,6 +20,20 @@ public class WhenSinglePredicate : Spec
     }
 
     [Fact]
+    public void GivenSinglePredicateSatisfied_AndVerifyIt_ThenDoesNotThrow()
+    {
+        int[] arr = [123];
+        arr.Has().Single(it => it == 123).That.Is().LessThan(200);
+    }
+
+    [Fact]
+    public void GivenOneSatisfyingElementOutOfTwo_AndVerifyIt_ThenDoesNotThrow()
+    {
+        int[] arr = [123, 999];
+        arr.Has().Single(it => it == 123).That.Is().GreaterThan(100);
+    }
+
+    [Fact]
     public void GivenSinglePredicateNotSatisfied_ThenDoesNotThrow()
     {
         int[] arr = [999];

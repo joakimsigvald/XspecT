@@ -53,6 +53,7 @@ public abstract record Constraint<TActual, TContinuation>
     private protected virtual string ActualString => Actual?.ToString() ?? "null";
 
     internal ContinueWith<TContinuation> And() => new(Continue());
+    internal ContinueWithThat<TContinuation, TThat> AndThat<TThat>(TThat that) => new(Continue(), that);
     internal virtual TContinuation Continue() => (TContinuation)this;
 
     private protected TContinuation Assert(
