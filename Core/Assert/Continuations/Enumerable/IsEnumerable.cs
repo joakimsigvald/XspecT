@@ -27,14 +27,14 @@ public record IsEnumerable<TItem> : EnumerableConstraint<TItem, IsEnumerableCont
     /// </summary>
     /// <returns>A continuation for making further assertions on the enumerable</returns>
     public ContinueWith<IsEnumerableContinuation<TItem>> Null()
-        => Assert(() => Xunit.Assert.Null(Actual)).And();
+        => Assert(null, () => Xunit.Assert.Null(Actual), null).And();
 
     /// <summary>
     /// Assert that the enumerable is not null
     /// </summary>
     /// <returns>A continuation for making further assertions on the enumerable</returns>
     public ContinueWith<IsEnumerableContinuation<TItem>> NotNull()
-        => Assert(() => Xunit.Assert.NotNull(Actual)).And();
+        => Assert(null, () => Xunit.Assert.NotNull(Actual), null).And();
 
     /// <summary>
     /// Assert that the two enumerables do not refer to the same object
