@@ -6,8 +6,8 @@
 public abstract record EnumerableConstraint<TItem, TContinuation> : Constraint<IEnumerable<TItem>, TContinuation>
     where TContinuation : EnumerableConstraint<TItem, TContinuation>, new()
 {
-    private protected override string ActualString
-        => Actual is null ? "null"
-        : Actual.Any() ? $"[{string.Join(", ", Actual)}]"
+    private protected override string Describe(IEnumerable<TItem> value)
+        => value is null ? "null"
+        : value.Any() ? $"[{string.Join(", ", value)}]"
         : "[]";
 }
