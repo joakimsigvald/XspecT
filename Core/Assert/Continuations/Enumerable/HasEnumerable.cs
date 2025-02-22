@@ -37,24 +37,29 @@ public record HasEnumerable<TItem> : Constraint<IEnumerable<TItem>, HasEnumerabl
     /// </summary>
     public ContinueWith<HasEnumerableContinuation<TItem>> Count(
         int expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => Assert(() => Xunit.Assert.Equal(expected, Actual.Count()), expectedExpr).And();
+        => Assert(expected, () => Xunit.Assert.Equal(expected, Actual.Count()), expectedExpr, "have").And();
 
     /// <summary>
     /// collection.Select((it, i) => (it, i)).Should().OnlyContain(t => predicate(t.it, t.i))
     /// </summary>
     public ContinueWith<HasEnumerableContinuation<TItem>> All(
-        Func<TItem, int, bool> predicate, [CallerArgumentExpression(nameof(predicate))] string predicateExpr = null)
-        => Assert(() => Xunit.Assert.DoesNotContain(
-            Actual.Select((it, i) => (it, i)), t => !predicate(t.it, t.i)),
-            predicateExpr)
+        Func<TItem, int, bool> condition, [CallerArgumentExpression(nameof(condition))] string expectedExpr = null)
+        => Assert("elements satisfying the condition", 
+            () => Xunit.Assert.DoesNotContain(Actual.Select((it, i) => (it, i)), t => !condition(t.it, t.i)),
+            expectedExpr, 
+            "have")
         .And();
 
     /// <summary>
     /// collection.Should().OnlyContain(it => predicate(it))
     /// </summary>
     public ContinueWith<HasEnumerableContinuation<TItem>> All(
-        Func<TItem, bool> predicate, [CallerArgumentExpression(nameof(predicate))] string predicateExpr = null)
-        => Assert(() => Xunit.Assert.DoesNotContain(Actual, it => !predicate(it)), predicateExpr).And();
+        Func<TItem, bool> condition, [CallerArgumentExpression(nameof(condition))] string expectedExpr = null)
+        => Assert(
+            "elements satisfying the condition", 
+            () => Xunit.Assert.DoesNotContain(Actual, it => !condition(it)), 
+            expectedExpr,
+            "have").And();
 
     /// <summary>
     /// Applies the given assertion to all element of the enumerable
