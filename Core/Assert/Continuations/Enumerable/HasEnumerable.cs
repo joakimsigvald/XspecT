@@ -69,7 +69,11 @@ public record HasEnumerable<TItem> : Constraint<IEnumerable<TItem>, HasEnumerabl
     /// <returns></returns>
     public ContinueWith<HasEnumerableContinuation<TItem>> All(
         Action<TItem, int> assert, [CallerArgumentExpression(nameof(assert))] string assertExpr = null)
-        => Assert(() => Actual.Select((it, i) => (it, i)).ToList().ForEach(t => assert(t.it, t.i)), assertExpr).And();
+        => Assert(
+            "elements satisfying the condition",
+            () => Actual.Select((it, i) => (it, i)).ToList().ForEach(t => assert(t.it, t.i)), 
+            assertExpr,
+            "have").And();
 
     /// <summary>
     /// Applies the given assertion to all element of the enumerable
