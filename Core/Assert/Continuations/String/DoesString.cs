@@ -12,14 +12,20 @@ public record DoesString : Constraint<string, DoesStringContinuation>
     /// </summary>
     public ContinueWith<DoesStringContinuation> Contain(
         string expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => Assert(Describe(expected), () => Xunit.Assert.Contains(expected, Actual), expectedExpr, auxVerb: "", verb: "contains").And();
+        => Assert(
+            Describe(expected), 
+            () => Xunit.Assert.Contains(expected, Actual), 
+            expectedExpr, "", "contains").And();
 
     /// <summary>
     /// Asserts that the string does not contain the expected string
     /// </summary>
     public ContinueWith<DoesStringContinuation> NotContain(
         string expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => Assert(() => Xunit.Assert.DoesNotContain(expected, Actual), expectedExpr).And();
+        => Assert(
+            Describe(expected), 
+            () => Xunit.Assert.DoesNotContain(expected, Actual!), 
+            expectedExpr, "").And();
 
     /// <summary>
     /// Asserts that the string starts with a prefix
