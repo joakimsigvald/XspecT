@@ -2,12 +2,13 @@
 
 namespace XspecT.Test.Assert.Continuations.String.DoesString;
 
-public class WhenNotContain : Spec
+public class WhenNotContain : DoesStringSpec
 {
     [Theory]
     [InlineData(null, "")]
     [InlineData("", "abc")]
     [InlineData("abc", "abcd")]
+    [InlineData("Abc", "abc")]
     public void GivenNotContainString_ThenDoesNotThrow(string actual, string expected) 
         => actual.Does().NotContain(expected).And.Does().NotContain(expected);
 
@@ -23,6 +24,4 @@ public class WhenNotContain : Spec
         ex.Message.Is("Actual does not contain expected");
         ex.InnerException.Message.Is($"Expected actual to not contain {Describe(expected)} but found {Describe(actual)}");
     }
-
-    private static string Describe(string value) => value is null ? "null" : $"\"{value}\"";
 }

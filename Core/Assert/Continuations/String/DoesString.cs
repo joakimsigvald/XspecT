@@ -35,7 +35,10 @@ public record DoesString : Constraint<string, DoesStringContinuation>
     /// <returns></returns>
     public ContinueWith<DoesStringContinuation> StartWith(
         string expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => Assert(() => Xunit.Assert.StartsWith(expected, Actual), expectedExpr, "starts with").And();
+        => Assert(
+            Describe(expected),
+            () => Xunit.Assert.StartsWith(expected, Actual), 
+            expectedExpr, "", "starts with").And();
 
     /// <summary>
     /// Asserts that the string ends with a suffix
