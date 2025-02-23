@@ -12,7 +12,7 @@ public record DoesString : Constraint<string, DoesStringContinuation>
     /// </summary>
     public ContinueWith<DoesStringContinuation> Contain(
         string expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => Assert(() => Xunit.Assert.Contains(expected, Actual), expectedExpr, "contains").And();
+        => Assert(Describe(expected), () => Xunit.Assert.Contains(expected, Actual), expectedExpr, auxVerb: "", verb: "contains").And();
 
     /// <summary>
     /// Asserts that the string does not contain the expected string
@@ -42,4 +42,7 @@ public record DoesString : Constraint<string, DoesStringContinuation>
         => Assert(() => Xunit.Assert.EndsWith(expected, Actual), expectedExpr, "ends with").And();
 
     internal override DoesStringContinuation Continue() => Create(Actual);
+    
+    private protected override string Describe(string value) 
+        => value is null ? "null" : $"\"{value}\"" ?? "null";
 }

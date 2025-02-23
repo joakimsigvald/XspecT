@@ -36,6 +36,7 @@ public abstract record Constraint<TActual, TContinuation>
         Action assert,
         string expectedExpr,
         string auxVerb = "be",
+        string verb = null,
         [CallerMemberName] string methodName = null)
         => Assert(() =>
         {
@@ -45,10 +46,11 @@ public abstract record Constraint<TActual, TContinuation>
             }
             catch (Exception ex)
             {
-                var expectationStr = $"{methodName.AsWords()} {expected}".Trim();
-                throw new AssertionFailed($"Expected {ActualExpr} to {auxVerb} {expectationStr} but found {Describe(Actual)}", GetInnermost(ex as AssertionFailed));
+                var verbStr = $"{auxVerb} {methodName.AsWords()}".Trim();
+                var expectationStr = $"{verbStr} {expected}".Trim();
+                throw new AssertionFailed($"Expected {ActualExpr} to {expectationStr} but found {Describe(Actual)}", GetInnermost(ex as AssertionFailed));
             }
-        }, expectedExpr, methodName: methodName);
+        }, expectedExpr, verb, methodName);
 
     private static AssertionFailed GetInnermost(AssertionFailed? ex)
         => ex?.InnerException is null ? ex : GetInnermost(ex.InnerException as AssertionFailed);
