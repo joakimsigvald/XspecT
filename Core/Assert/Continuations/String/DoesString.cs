@@ -5,7 +5,7 @@ namespace XspecT.Assert.Continuations.String;
 /// <summary>
 /// Object that allows an assertions to be made on the provided string
 /// </summary>
-public record DoesString : Constraint<string, DoesStringContinuation>
+public record DoesString : StringConstraint<DoesStringContinuation>
 {
     /// <summary>
     /// Asserts that the string contains the expected string
@@ -54,7 +54,4 @@ public record DoesString : Constraint<string, DoesStringContinuation>
             expectedExpr, "", "ends with").And();
 
     internal override DoesStringContinuation Continue() => Create(Actual);
-    
-    private protected override string Describe(string value) 
-        => value is null ? "null" : $"\"{value}\"" ?? "null";
 }

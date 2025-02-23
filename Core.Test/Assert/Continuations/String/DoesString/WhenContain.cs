@@ -2,7 +2,7 @@
 
 namespace XspecT.Test.Assert.Continuations.String.DoesString;
 
-public class WhenContain : DoesStringSpec
+public class WhenContain : StringSpec
 {
     [Theory]
     [InlineData("", "")]

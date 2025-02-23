@@ -6,7 +6,7 @@ namespace XspecT.Assert.Continuations.String;
 /// <summary>
 /// Object that allows an assertions to be made on the provided string
 /// </summary>
-public record IsString : Constraint<string, IsStringContinuation>
+public record IsString : StringConstraint<IsStringContinuation>
 {
     /// <summary>
     /// Asserts that the string is equivalent to expected, ignoring casing and leading or trailing whitespace
@@ -15,7 +15,11 @@ public record IsString : Constraint<string, IsStringContinuation>
     public ContinueWith<IsStringContinuation> Like(
         string expected,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => Assert(() => Equal(Actual?.Trim().ToLower(), expected?.Trim().ToLower()), expectedExpr).And();
+        => Assert(
+            Describe(expected),
+            () => Equal(Actual?.Trim().ToLower(), 
+                expected?.Trim().ToLower()), 
+            expectedExpr).And();
 
     /// <summary>
     /// Asserts that the string is not equivalent to expected, ignoring casing and leading or trailing whitespace
@@ -24,7 +28,10 @@ public record IsString : Constraint<string, IsStringContinuation>
     public ContinueWith<IsStringContinuation> NotLike(
         string expected,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => Assert(() => NotEqual(Actual?.Trim().ToLower(), expected?.Trim().ToLower()), expectedExpr).And();
+        => Assert(
+            Describe(expected),
+            () => NotEqual(Actual?.Trim().ToLower(), expected?.Trim().ToLower()), 
+            expectedExpr).And();
 
     /// <summary>
     /// Asserts that the string is equivalent to expected, ignoring casing and leading or trailing whitespace
@@ -33,7 +40,10 @@ public record IsString : Constraint<string, IsStringContinuation>
     public ContinueWith<IsStringContinuation> EquivalentTo(
         string expected,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => Assert(() => Equal(Actual?.Trim().ToLower(), expected?.Trim().ToLower()), expectedExpr).And();
+        => Assert(
+            Describe(expected),
+            () => Equal(Actual?.Trim().ToLower(), expected?.Trim().ToLower()), 
+            expectedExpr).And();
 
     /// <summary>
     /// Asserts that the string is not equivalent to expected, ignoring casing and leading or trailing whitespace
@@ -42,55 +52,58 @@ public record IsString : Constraint<string, IsStringContinuation>
     public ContinueWith<IsStringContinuation> NotEquivalentTo(
         string expected,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => Assert(() => NotEqual(Actual?.Trim().ToLower(), expected?.Trim().ToLower()), expectedExpr).And();
+        => Assert(
+            Describe(expected),
+            () => NotEqual(Actual?.Trim().ToLower(), expected?.Trim().ToLower()), 
+            expectedExpr).And();
 
     /// <summary>
     /// Asserts that the string is null
     /// </summary>
     public ContinueWith<IsStringContinuation> Null()
-        => Assert(() => Xunit.Assert.Null(Actual)).And();
+        => Assert(null, () => Xunit.Assert.Null(Actual), null).And();
 
     /// <summary>
     /// Asserts that the string is empty
     /// </summary>
     public ContinueWith<IsStringContinuation> Empty()
-        => Assert(() => Xunit.Assert.Empty(Actual)).And();
+        => Assert(null, () => Xunit.Assert.Empty(Actual), null).And();
 
     /// <summary>
     /// Asserts that the string is not empty
     /// </summary>
     public ContinueWith<IsStringContinuation> NotEmpty()
-        => Assert(() => Xunit.Assert.NotEmpty(Actual)).And();
+        => Assert(null, () => Xunit.Assert.NotEmpty(Actual), null).And();
 
     /// <summary>
     /// Asserts that the string is not null
     /// </summary>
     public ContinueWith<IsStringContinuation> NotNull()
-        => Assert(() => Xunit.Assert.NotNull(Actual)).And();
+        => Assert(null, () => Xunit.Assert.NotNull(Actual), null).And();
 
     /// <summary>
     /// Asserts that the string is null or empty
     /// </summary>
     public ContinueWith<IsStringContinuation> NullOrEmpty()
-        => Assert(() => Xunit.Assert.Empty(Actual ?? string.Empty)).And();
+        => Assert(null, () => Xunit.Assert.Empty(Actual ?? string.Empty), null).And();
 
     /// <summary>
     /// Asserts that the string is not null or empty
     /// </summary>
     public ContinueWith<IsStringContinuation> NotNullOrEmpty()
-        => Assert(() => Xunit.Assert.NotEmpty(Actual ?? string.Empty)).And();
+        => Assert(null, () => Xunit.Assert.NotEmpty(Actual ?? string.Empty), null).And();
 
     /// <summary>
     /// Asserts that the string does not contain non-whitespace characters
     /// </summary>
     public ContinueWith<IsStringContinuation> NullOrWhitespace()
-        => Assert(() => Xunit.Assert.Empty((Actual ?? string.Empty).Trim())).And();
+        => Assert(null, () => Xunit.Assert.Empty((Actual ?? string.Empty).Trim()), null).And();
 
     /// <summary>
     /// Asserts that the string contains non-whitespace characters
     /// </summary>
     public ContinueWith<IsStringContinuation> NotNullOrWhitespace()
-        => Assert(() => Xunit.Assert.NotEmpty((Actual ?? string.Empty).Trim())).And();
+        => Assert(null, () => Xunit.Assert.NotEmpty((Actual ?? string.Empty).Trim()), null).And();
 
     /// <summary>
     /// Asserts that the string is not the given value
@@ -100,7 +113,10 @@ public record IsString : Constraint<string, IsStringContinuation>
     /// <returns></returns>
     public ContinueWith<IsStringContinuation> Not(
         string expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => Assert(() => NotEqual(Actual, expected), expectedExpr).And();
+        => Assert(
+            Describe(expected),
+            () => NotEqual(Actual, expected), 
+            expectedExpr).And();
 
     internal override ContinueWith<IsStringContinuation> Value(
         string expected, string expectedExpr)
