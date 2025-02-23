@@ -10,10 +10,4 @@ public record IsEnumerableContinuation<TItem> : IsEnumerable<TItem>
     /// </summary>
     /// <returns></returns>
     public HasEnumerable<TItem> Has() => Actual.Has(actualExpr: ActualExpr);
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <returns></returns>
-    public IsEnumerable<TItem> Is() => Actual.Is(actualExpr: ActualExpr);
 }

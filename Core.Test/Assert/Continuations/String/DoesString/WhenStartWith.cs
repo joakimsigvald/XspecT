@@ -9,7 +9,7 @@ public class WhenStartWith : DoesStringSpec
     [InlineData("abc", "abc")]
     [InlineData("xabcyz", "xab")]
     public void GivenStartWithString_ThenDoesNotThrow(string actual, string expected) 
-        => actual.Does().StartWith(expected).And.Does().StartWith(expected);
+        => actual.Does().StartWith(expected).And.StartWith(expected);
 
     [Theory]
     [InlineData(null, null)]

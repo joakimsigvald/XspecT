@@ -10,10 +10,4 @@ public record DoesStringContinuation : DoesString
     /// </summary>
     /// <returns></returns>
     public IsString Is() => Actual.Is(actualExpr: ActualExpr);
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <returns></returns>
-    public DoesString Does() => Actual.Does(actualExpr: ActualExpr);
 }

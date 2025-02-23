@@ -6,7 +6,7 @@ namespace XspecT.Test.Assert.Continuations.Enumerable.HasEnumerable;
 public class WhenCount : Spec
 {
     [Fact]
-    public void GivenCorrectCount_ThenDoesNotThrow() => Two<int>().Has().Count(2).And.Is().NotEmpty();
+    public void GivenCorrectCount_ThenDoesNotThrow() => Two<int>().Has().Count(2).And.Count(2);
 
     [Fact]
     public void GivenWrongCount_ThenGetException()

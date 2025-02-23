@@ -5,7 +5,7 @@ namespace XspecT.Test.Assert.Continuations.Enumerable.IsEnumerable;
 public class WhenNotNull : Spec
 {
     [Fact]
-    public void GivenNotNull_ThenDoesNotThrow() => Zero<int>().Is().NotNull().And.Is().Empty();
+    public void GivenNotNull_ThenDoesNotThrow() => Zero<int>().Is().NotNull().And.Empty();
 
     [Fact]
     public void GivenNull_ThenGetException()

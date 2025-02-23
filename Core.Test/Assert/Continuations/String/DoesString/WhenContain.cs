@@ -9,7 +9,7 @@ public class WhenContain : DoesStringSpec
     [InlineData("abc", "abc")]
     [InlineData("xabcyz", "abc")]
     public void GivenContainString_ThenDoesNotThrow(string actual, string expected)
-        => actual.Does().Contain(expected).And.Does().Contain(expected);
+        => actual.Does().Contain(expected).And.Is().NotNull();
 
     [Theory]
     [InlineData(null, null)]
