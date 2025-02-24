@@ -1,3 +1,4 @@
+* Cast (Result.As<MyType>().MyProperty.Is(123))
 * CollectionFixture om man vill dela mellan fler klasser
 * Nullable enum Is
 * Separate ClassFixture class from Spec and only allow Arrange on fixture, not when/Then
