@@ -25,24 +25,6 @@ public static class AssertionExtensionsObject
         => actual.Is(actualExpr: actualExpr).Value(expected, expectedExpr);
 
     /// <summary>
-    /// Verify that actual object satisfy a given predicate
-    /// </summary>
-    /// <typeparam name="TValue"></typeparam>
-    /// <param name="actual"></param>
-    /// <param name="predicate"></param>
-    /// <param name="actualExpr"></param>
-    /// <param name="predicateExpr"></param>
-    /// <returns>Continuation for further assertions of the object</returns>
-    public static ContinueWith<IsObject> Match<TValue>(
-        this TValue actual, Func<TValue, bool> predicate,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
-        [CallerArgumentExpression(nameof(predicate))] string predicateExpr = null)
-    {
-        Assert(() => Xunit.Assert.True(predicate(actual)), actualExpr, predicateExpr);
-        return new(IsObject.Create(actual));
-    }
-
-    /// <summary>
     /// Verify that actual struct is same as expected
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
@@ -59,10 +41,6 @@ public static class AssertionExtensionsObject
         where TValue : struct
         => actual.Is(actualExpr: actualExpr).Value(expected, expectedExpr);
 
-    private static void Assert(
-        Action assert, string actual = null, string expected = null, [CallerMemberName] string verb = "")
-        => SpecificationGenerator.Assert(assert, actual.ParseActual(), expected, verb);
-
     /// <summary>
     /// Get available assertions for the given object
     /// </summary>
@@ -75,4 +53,37 @@ public static class AssertionExtensionsObject
         Ignore _ = default,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
         => IsObject.Create(actual, actualExpr);
+
+
+    /// <summary>
+    /// Verify that actual object satisfy a given predicate
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="actual"></param>
+    /// <param name="predicate"></param>
+    /// <param name="actualExpr"></param>
+    /// <param name="predicateExpr"></param>
+    /// <returns>Continuation for further assertions of the object</returns>
+    [Obsolete("replaced by Satisfies")]
+    public static ContinueWith<IsObject> Match<TValue>(
+        this TValue actual, Func<TValue, bool> predicate,
+        [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
+        [CallerArgumentExpression(nameof(predicate))] string predicateExpr = null)
+    {
+        Assert(() => Xunit.Assert.True(predicate(actual)), actualExpr, predicateExpr);
+        return new(IsObject.Create(actual));
+    }
+
+    public static ContinueWith<IsObject> Satisfies<TValue>(
+        this TValue actual, Func<TValue, bool> condition,
+        [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
+        [CallerArgumentExpression(nameof(condition))] string conditionExpr = null)
+    {
+        Assert(() => Xunit.Assert.True(condition(actual)), actualExpr, conditionExpr);
+        return new(IsObject.Create(actual));
+    }
+
+    private static void Assert(
+        Action assert, string actual = null, string expected = null, [CallerMemberName] string verb = "")
+        => SpecificationGenerator.Assert(assert, actual.ParseActual(), expected, verb);
 }
