@@ -83,6 +83,20 @@ public static class AssertionExtensions
         => IsComparable<TValue>.Create(actual, actualExpr);
 
     /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TActual"></typeparam>
+    /// <param name="actual"></param>
+    /// <param name="_"></param>
+    /// <param name="actualExpr"></param>
+    /// <returns></returns>
+    public static DoesValue<TActual> Does<TActual>(
+        this TActual actual,
+        Ignore _ = default,
+        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
+        => DoesValue<TActual>.Create(actual, actualExpr);
+
+    /// <summary>
     /// Get available assertions for enumerable
     /// </summary>
     /// <typeparam name="TItem"></typeparam>
@@ -95,6 +109,24 @@ public static class AssertionExtensions
         Ignore _ = default,
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
         => HasEnumerable<TItem>.Create(actual, actualExpr);
+
+    /// <summary>
+    /// Verify that actual object satisfy a given condition
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="actual"></param>
+    /// <param name="condition"></param>
+    /// <param name="actualExpr"></param>
+    /// <param name="conditionExpr"></param>
+    /// <returns></returns>
+    public static ContinueWithActual<TValue> Satisfies<TValue>(
+        this TValue actual, Func<TValue, bool> condition,
+        [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
+        [CallerArgumentExpression(nameof(condition))] string conditionExpr = null)
+    {
+        actual.Does(actualExpr: actualExpr).Satisfy(condition, conditionExpr);
+        return new(actual);
+    }
 
     /// <summary>
     /// Provide actual of any type to continue the chain of assertions on the new value

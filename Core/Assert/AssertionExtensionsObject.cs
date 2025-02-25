@@ -54,7 +54,6 @@ public static class AssertionExtensionsObject
         [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
         => IsObject.Create(actual, actualExpr);
 
-
     /// <summary>
     /// Verify that actual object satisfy a given predicate
     /// </summary>
@@ -71,15 +70,6 @@ public static class AssertionExtensionsObject
         [CallerArgumentExpression(nameof(predicate))] string predicateExpr = null)
     {
         Assert(() => Xunit.Assert.True(predicate(actual)), actualExpr, predicateExpr);
-        return new(IsObject.Create(actual));
-    }
-
-    public static ContinueWith<IsObject> Satisfies<TValue>(
-        this TValue actual, Func<TValue, bool> condition,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
-        [CallerArgumentExpression(nameof(condition))] string conditionExpr = null)
-    {
-        Assert(() => Xunit.Assert.True(condition(actual)), actualExpr, conditionExpr);
         return new(IsObject.Create(actual));
     }
 
