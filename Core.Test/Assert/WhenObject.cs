@@ -68,18 +68,18 @@ public class WhenObject : Spec<object>
     [Fact]
     public void Match()
     {
-        new MyArrayModel(1, 2).Match(_ => _.Values.Length == 2);
-        Specification.Is("""New MyArrayModel(1, 2) match _.Values.Length == 2""");
+        new MyArrayModel(1, 2).Satisfies(_ => _.Values.Length == 2);
+        Specification.Is("""New MyArrayModel(1, 2) satisfies _.Values.Length == 2""");
     }
 
     [Fact]
     public void Match2()
     {
-        new MyModel(AFirst<string>(), An<int>()).Match(it => it.Value == TheFirst<string>() && it.Id == An<int>());
+        new MyModel(AFirst<string>(), An<int>()).Satisfies(it => it.Value == TheFirst<string>() && it.Id == An<int>());
         Specification.Is(
             """
-            New MyModel(a first string, an int) match it.Value == TheFirst<string>() && it.
-                  Id == An<int>()
+            New MyModel(a first string, an int) satisfies it.Value == TheFirst<string>() &&
+                  it.Id == An<int>()
             """);
     }
 }

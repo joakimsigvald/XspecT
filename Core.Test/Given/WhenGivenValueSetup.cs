@@ -55,12 +55,12 @@ public class WhenGivenValueSetup : Spec<MyService, MyModel>
             .ToUpper()
             .ToLower())
             .When(_ => _.GetModel())
-            .Then().Result.Name.Match(_ => char.IsLower(_[0]));
+            .Then().Result.Name.Satisfies(_ => char.IsLower(_[0]));
         Specification.Is(
             """
             Given "abc".ToUpper().ToLower()
             When _.GetModel()
-            Then Result.Name match char.IsLower(_[0])
+            Then Result.Name satisfies char.IsLower(_[0])
             """);
     }
 
@@ -71,13 +71,13 @@ public class WhenGivenValueSetup : Spec<MyService, MyModel>
             .ToUpper().ToLower().ToUpper().ToLower().ToUpper()
             .ToLower().ToUpper().ToLower().ToUpper().ToLower())
             .When(_ => _.GetModel())
-            .Then().Result.Name.Match(_ => char.IsLower(_[0]));
+            .Then().Result.Name.Satisfies(_ => char.IsLower(_[0]));
         Specification.Is(
             """
             Given "abc".ToUpper().ToLower().ToUpper().ToLower().ToUpper().ToLower().ToUpper(
                   ).ToLower().ToUpper().ToLower().ToUpper().ToLower().ToUpper().ToLower()
             When _.GetModel()
-            Then Result.Name match char.IsLower(_[0])
+            Then Result.Name satisfies char.IsLower(_[0])
             """);
     }
 }

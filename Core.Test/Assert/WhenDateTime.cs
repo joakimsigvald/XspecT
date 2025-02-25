@@ -43,4 +43,13 @@ public class WhenDateTime : Spec<DateTime>
                 and not after the DateTime
             """);
     }
+
+    [Fact]
+    public void BeforeFailWithMessage() 
+    {
+        var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(
+            () => When(_ => A(_)).Then().Result.Is().Before(The<DateTime>().AddDays(-1)));
+        ex.InnerException.Message.Is(
+            $"Expected Result to occur before {The<DateTime>().AddDays(-1)} but found {The<DateTime>()}");
+    }
 }
