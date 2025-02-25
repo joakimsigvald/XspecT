@@ -11,7 +11,7 @@ public class WhenNull : Spec
     public void GivenNotNull_ThenGetException()
     {
         var arr = Zero<int>();
-        var ex = Xunit.Assert.Throws<AssertionFailed>(() => arr.Is().Null());
+        var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => arr.Is().Null());
         ex.Message.Is($"Arr is null");
         ex.InnerException.Message.Is($"Expected arr to be null but found []");
     }

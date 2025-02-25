@@ -20,7 +20,7 @@ public class WhenEndWith : StringSpec
     [InlineData("abc", "Bc")]
     public void GivenNotEndWithString_ThenGetException(string actual, string expected)
     {
-        var ex = Xunit.Assert.Throws<AssertionFailed>(() => actual.Does().EndWith(expected));
+        var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => actual.Does().EndWith(expected));
         ex.Message.Is("Actual ends with expected");
         ex.InnerException.Message.Is($"Expected actual to end with {Describe(expected)} but found {Describe(actual)}");
     }

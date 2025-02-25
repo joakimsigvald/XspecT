@@ -13,7 +13,7 @@ public class WhenNotLike : Spec
     {
         var actual = new MyRecord("abc");
         var expected = new MyOtherRecord("abc");
-        var ex = Xunit.Assert.Throws<AssertionFailed>(() => actual.Is().NotLike(expected));
+        var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => actual.Is().NotLike(expected));
         ex.Message.Is("Actual is not like expected");
         ex.InnerException.Message.Is($"Expected actual to be not like {expected} but found {actual}");
     }

@@ -62,7 +62,7 @@ public record IsObject : Constraint<object, IsObject>
             {
                 Like(expected);
             }
-            catch (AssertionFailed)
+            catch (Xunit.Sdk.XunitException)
             {
                 return;
             }
@@ -89,7 +89,7 @@ public record IsObject : Constraint<object, IsObject>
             {
                 EquivalentTo(expected);
             }
-            catch (AssertionFailed)
+            catch (Xunit.Sdk.XunitException)
             {
                 return;
             }

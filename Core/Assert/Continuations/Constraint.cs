@@ -48,12 +48,14 @@ public abstract record Constraint<TActual, TContinuation>
             {
                 var verbStr = $"{auxVerb} {methodName.AsWords()}".Trim();
                 var expectationStr = $"{verbStr} {expected}".Trim();
-                throw new AssertionFailed($"Expected {ActualExpr} to {expectationStr} but found {Describe(Actual)}", GetInnermost(ex as AssertionFailed));
+                throw new Xunit.Sdk.XunitException($"Expected {ActualExpr} to {expectationStr} but found {Describe(Actual)}", GetExpected(ex as Xunit.Sdk.XunitException));
             }
         }, expectedExpr, verb, methodName);
 
-    private static AssertionFailed GetInnermost(AssertionFailed? ex)
-        => ex?.InnerException is null ? ex : GetInnermost(ex.InnerException as AssertionFailed);
+    private static Xunit.Sdk.XunitException GetExpected(Xunit.Sdk.XunitException? ex)
+        => ex is null || ex.Message.StartsWith("Expected") 
+            ? ex 
+            : GetExpected(ex.InnerException as Xunit.Sdk.XunitException);
 
     private protected virtual string Describe(TActual value) => value?.ToString() ?? "null";
 

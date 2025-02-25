@@ -10,7 +10,7 @@ public class WhenNotNull : Spec
     public void GivenNull_ThenGetException()
     {
         Money? actual = null;
-        var ex = Xunit.Assert.Throws<AssertionFailed>(() => actual.Is().NotNull());
+        var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => actual.Is().NotNull());
         ex.Message.Is("Actual is not null");
         ex.InnerException.Message.Is("Expected actual to be not null but found null");
     }

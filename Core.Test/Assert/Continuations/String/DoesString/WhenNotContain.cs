@@ -20,7 +20,7 @@ public class WhenNotContain : StringSpec
     [InlineData("xabcyz", "abc")]
     public void GivenContainString_ThenGetException(string actual, string expected)
     {
-        var ex = Xunit.Assert.Throws<AssertionFailed>(() => actual.Does().NotContain(expected));
+        var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => actual.Does().NotContain(expected));
         ex.Message.Is("Actual does not contain expected");
         ex.InnerException.Message.Is($"Expected actual to not contain {Describe(expected)} but found {Describe(actual)}");
     }

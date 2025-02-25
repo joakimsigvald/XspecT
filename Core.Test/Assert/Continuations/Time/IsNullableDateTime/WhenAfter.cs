@@ -14,7 +14,7 @@ public class WhenAfter : Spec
     {
         var a = A<DateTime?>();
         var b = a.Value.AddDays(1);
-        var ex = Xunit.Assert.Throws<AssertionFailed>(() => a.Is().After(b));
+        var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => a.Is().After(b));
         ex.Message.Is("A is after b");
         ex.InnerException.Message.Is($"Expected a to occur after {b} but found {a}");
     }

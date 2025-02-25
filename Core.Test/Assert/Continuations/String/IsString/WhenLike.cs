@@ -19,7 +19,7 @@ public class WhenLike : StringSpec
     [InlineData("abc", "abcd")]
     public void GivenNotLikeString_ThenGetException(string actual, string expected)
     {
-        var ex = Xunit.Assert.Throws<AssertionFailed>(() => actual.Is().Like(expected));
+        var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => actual.Is().Like(expected));
         ex.Message.Is("Actual is like expected");
         ex.InnerException.Message.Is($"Expected actual to be like {Describe(expected)} but found {Describe(actual)}");
     }

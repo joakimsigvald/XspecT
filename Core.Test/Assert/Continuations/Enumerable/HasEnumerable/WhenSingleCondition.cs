@@ -36,7 +36,7 @@ public class WhenSingleCondition : Spec
     public void GivenSingleConditionNotSatisfied_ThenGetException()
     {
         int[] arr = [999];
-        var ex = Xunit.Assert.Throws<AssertionFailed>(() => arr.Has().Single(it => it == 123));
+        var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => arr.Has().Single(it => it == 123));
         ex.Message.Is($"Arr has single it = 123");
         ex.InnerException.Message.Is($"Expected arr to have single element satisfying the condition but found [999]");
     }
@@ -45,7 +45,7 @@ public class WhenSingleCondition : Spec
     public void GivenEmpty_ThenGetException()
     {
         int[] arr = Zero<int>();
-        var ex = Xunit.Assert.Throws<AssertionFailed>(() => arr.Has().Single(it => it == 123));
+        var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => arr.Has().Single(it => it == 123));
         ex.Message.Is($"Arr has single it = 123");
         ex.InnerException.Message.Is($"Expected arr to have single element satisfying the condition but found []");
     }
@@ -54,7 +54,7 @@ public class WhenSingleCondition : Spec
     public void GivenTwoSatisfyingElements_ThenGetException()
     {
         int[] arr = [1, 3];
-        var ex = Xunit.Assert.Throws<AssertionFailed>(() => arr.Has().Single(it => it > 0));
+        var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => arr.Has().Single(it => it > 0));
         ex.Message.Is($"Arr has single it > 0");
         ex.InnerException.Message.Is($"Expected arr to have single element satisfying the condition but found [1, 3]");
     }

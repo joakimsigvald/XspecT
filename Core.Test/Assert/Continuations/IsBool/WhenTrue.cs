@@ -12,7 +12,7 @@ public class WhenTrue : Spec
     public void GivenFalse_ThenGetException()
     {
         var actual = false;
-        var ex = Xunit.Assert.Throws<AssertionFailed>(() => actual.Is().True());
+        var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => actual.Is().True());
         ex.Message.Is("Actual is true");
         ex.InnerException.Message.Is($"Expected actual to be true but found false");
     }

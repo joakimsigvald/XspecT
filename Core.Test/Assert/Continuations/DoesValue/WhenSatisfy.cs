@@ -16,7 +16,7 @@ public class WhenSatisfy : Spec
     public void GivenFalse_ThenGetException()
     {
         MyRecord myRecord = new("XXX");
-        var ex = Xunit.Assert.Throws<AssertionFailed>(() => myRecord.Does().Satisfy(_ => _.Name == "Abc"));
+        var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => myRecord.Does().Satisfy(_ => _.Name == "Abc"));
         ex.Message.Is("MyRecord satisfies _.Name == \"Abc\"");
         ex.InnerException.Message.Is($"Expected myRecord to satisfy _.Name == \"Abc\" but found {myRecord}");
     }

@@ -9,7 +9,7 @@ public class WhenIsString : Spec<string>
     [Fact]
     public void GivenFail_ThenGetException()
     {
-        var ex = Xunit.Assert.Throws<AssertionFailed>(() => Given("abcd").When(_ => _).Then().Result.Is("abce"));
+        var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => Given("abcd").When(_ => _).Then().Result.Is("abce"));
         ex.InnerException.Message.Is(
             """
             Assert.Equal() Failure: Strings differ

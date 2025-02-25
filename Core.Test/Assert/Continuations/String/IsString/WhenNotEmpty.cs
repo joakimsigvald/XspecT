@@ -13,7 +13,7 @@ public class WhenNotEmpty : StringSpec
     [InlineData("")]
     public void GivenEmpty_ThenGetException(string actual)
     {
-        var ex = Xunit.Assert.Throws<AssertionFailed>(() => actual.Is().NotEmpty());
+        var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => actual.Is().NotEmpty());
         ex.Message.Is("Actual is not empty");
         ex.InnerException.Message.Is($"Expected actual to be not empty but found {Describe(actual)}");
     }

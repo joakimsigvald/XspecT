@@ -13,7 +13,7 @@ public class WhenNotNullOrEmpty : StringSpec
     [InlineData("")]
     public void GivenNullOrEmpty_ThenGetException(string actual)
     {
-        var ex = Xunit.Assert.Throws<AssertionFailed>(() => actual.Is().NotNullOrEmpty());
+        var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => actual.Is().NotNullOrEmpty());
         ex.Message.Is("Actual is not null or empty");
         ex.InnerException.Message.Is($"Expected actual to be not null or empty but found {Describe(actual)}");
     }

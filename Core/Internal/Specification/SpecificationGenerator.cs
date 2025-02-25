@@ -50,7 +50,7 @@ internal static class SpecificationGenerator
         }
         catch (XunitException ex)
         {
-            throw new AssertionFailed(Builder.Specification, ex);
+            throw new Xunit.Sdk.XunitException(Builder.Specification, ex);
         }
     }
 

@@ -19,7 +19,7 @@ public class WhenNot : StringSpec
     [InlineData("abc", "abc")]
     public void GivenSameString_ThenGetException(string actual, string expected)
     {
-        var ex = Xunit.Assert.Throws<AssertionFailed>(() => actual.Is().Not(expected));
+        var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => actual.Is().Not(expected));
         ex.Message.Is("Actual is not expected");
         ex.InnerException.Message.Is($"Expected actual to be not {Describe(expected)} but found {Describe(actual)}");
     }

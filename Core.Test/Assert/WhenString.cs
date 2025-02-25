@@ -205,9 +205,9 @@ public class WhenString : Spec<string>
 
     [Fact]
     public void DoesContainOtherStringFails()
-        => Xunit.Assert.Throws<AssertionFailed>(() => "abcd".Does().Contain("xxx"));
+        => Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => "abcd".Does().Contain("xxx"));
 
     [Fact]
     public void DoesNotContainSubstringFails()
-        => Xunit.Assert.Throws<AssertionFailed>(() => "abcd".Does().Contain("xxx"));
+        => Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => "abcd".Does().Contain("xxx"));
 }

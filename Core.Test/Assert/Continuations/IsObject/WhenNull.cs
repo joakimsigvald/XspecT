@@ -12,7 +12,7 @@ public class WhenNull : Spec
     public void GivenNotNull_ThenGetException()
     {
         var actual = new object();
-        var ex = Xunit.Assert.Throws<AssertionFailed>(() => actual.Is().Null());
+        var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => actual.Is().Null());
         ex.Message.Is("Actual is null");
         ex.InnerException.Message.Is($"Expected actual to be null but found {actual}");
     }

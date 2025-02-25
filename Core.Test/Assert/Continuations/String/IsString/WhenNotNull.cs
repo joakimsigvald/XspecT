@@ -12,7 +12,7 @@ public class WhenNotNull : StringSpec
     public void GivenNull_ThenGetException()
     {
         string str = null;
-        var ex = Xunit.Assert.Throws<AssertionFailed>(() => str.Is().NotNull());
+        var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => str.Is().NotNull());
         ex.Message.Is("Str is not null");
         ex.InnerException.Message.Is($"Expected str to be not null but found {Describe(str)}");
     }

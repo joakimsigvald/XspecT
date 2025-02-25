@@ -10,11 +10,11 @@ public class WhenDecimal : Spec<decimal>
     [Fact] public void IsNotAroundAboveUpperBound() => When(_ => 1).Then().Result.Is().NotAround(2.001m, 1);
     [Fact] public void IsNotAroundBelowLowerBound() => When(_ => 1).Then().Result.Is().NotAround(-0.001m, 1);
     [Fact] public void IsNotAroundUpperBoundFail() 
-        => Xunit.Assert.Throws<AssertionFailed>(() => When(_ => 1).Then().Result.Is().NotAround(2, 1));
+        => Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => When(_ => 1).Then().Result.Is().NotAround(2, 1));
     [Fact] public void IsNotAroundLowerBoundFail() 
-        => Xunit.Assert.Throws<AssertionFailed>(() => When(_ => 1).Then().Result.Is().NotAround(0, 1));
+        => Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => When(_ => 1).Then().Result.Is().NotAround(0, 1));
     [Fact] public void IsAroundAboveUpperBoundFail() 
-        => Xunit.Assert.Throws<AssertionFailed>(() => When(_ => 1).Then().Result.Is().Around(2.001m, 1));
+        => Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => When(_ => 1).Then().Result.Is().Around(2.001m, 1));
     [Fact] public void IsAroundBelowLowerBoundFail() 
-        => Xunit.Assert.Throws<AssertionFailed>(() => When(_ => 1).Then().Result.Is().Around(-0.001m, 1));
+        => Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => When(_ => 1).Then().Result.Is().Around(-0.001m, 1));
 }

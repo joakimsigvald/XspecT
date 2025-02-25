@@ -11,7 +11,7 @@ public class WhenNotEmpty : Spec
     public void GivenEmpty_ThenGetException()
     {
         var arr = Zero<int>();
-        var ex = Xunit.Assert.Throws<AssertionFailed>(() => arr.Is().NotEmpty());
+        var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => arr.Is().NotEmpty());
         ex.Message.Is($"Arr is not empty");
         ex.InnerException.Message.Is($"Expected arr to be not empty but found []");
     }

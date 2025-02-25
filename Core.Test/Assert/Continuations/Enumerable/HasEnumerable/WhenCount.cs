@@ -12,7 +12,7 @@ public class WhenCount : Spec
     public void GivenWrongCount_ThenGetException()
     {
         int[] arr = [1];
-        var ex = Xunit.Assert.Throws<AssertionFailed>(() => arr.Has().Count(2));
+        var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => arr.Has().Count(2));
         ex.Message.Is($"Arr has count 2");
         ex.InnerException.Message.Is($"Expected arr to have count 2 but found [1]");
     }
