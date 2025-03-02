@@ -3,7 +3,7 @@ using XspecT.Internal.Specification;
 using XspecT.Test.AutoFixture;
 using XspecT.Test.Subjects.RecordStructDefaults;
 
-namespace XspecT.Test.TypeExtensions;
+namespace XspecT.Test.Internal.Specification.TypeExtensions;
 
 public class WhenAlias : Spec<Type, string>
 {
