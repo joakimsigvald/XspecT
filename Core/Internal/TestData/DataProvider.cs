@@ -13,15 +13,24 @@ internal class DataProvider
     public DataProvider() => _testDataGenerator = new(this.CreateAutoFixture(), this.CreateAutoMocker());
 
     internal (object val, bool found) Retrieve(Type type, int index = 0)
-    {
-        var typeMap = _numberedMentions.TryGetValue(type, out var map) ? map : null;
-        return typeMap?.TryGetValue(index, out var val)
-            ?? TryGetDefault(type, out val)
-            ? (val, found: true) : (null, found: false);
-    }
+        => _numberedMentions.TryGetValue(type, out var map)
+            && map.TryGetValue(index, out var val)
+        ? (val, found: true)
+        : (null, found: false);
 
     internal bool TryGetDefault(Type type, out object val)
-        => _defaultValues.TryGetValue(type, out val);
+    {
+        var found = _defaultValues.TryGetValue(type, out val);
+        if (found) 
+            return true;
+
+        Func<object, object> setup;
+        if (!_defaultSetups.TryGetValue(type, out setup))
+            return false;
+        val = _testDataGenerator.CreateDefault(type);
+        val = setup(val);
+        return true;
+    }
 
     internal Dictionary<int, object> GetMentions(Type type)
         => _numberedMentions.TryGetValue(type, out var val) ? val : _numberedMentions[type] = [];
@@ -45,7 +54,7 @@ internal class DataProvider
 
         if (applyTo.HasFlag(ApplyTo.Using))
         {
-            if (value is not null) 
+            if (value is not null)
                 _testDataGenerator.Use(value);
             else if (applyTo == ApplyTo.Using)
                 throw new SetupFailed("Cannot use null");
@@ -72,11 +81,12 @@ internal class DataProvider
     internal TValue Create<TValue>()
         => (TValue)ApplyDefaultSetup(typeof(TValue), _testDataGenerator.Create<TValue>());
 
-    internal object Create(Type type) 
+    internal object Create(Type type)
         => ApplyDefaultSetup(type, _testDataGenerator.Create(type));
 
     internal Mock<TObject> GetMock<TObject>() where TObject : class
         => _testDataGenerator.GetMock<TObject>();
+
     internal Mock GetMock(Type type) => _testDataGenerator.GetMock(type);
 
     internal object ApplyDefaultSetup(Type type, object newValue)

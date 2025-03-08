@@ -9,11 +9,20 @@ internal class TestDataGenerator
 {
     private readonly AutoMocker _mocker;
     private readonly Fixture _fixture;
+    private readonly Fixture _defaultFixture;
 
     internal TestDataGenerator(Fixture fixture, AutoMocker mocker)
     {
         _mocker = mocker;
         _fixture = fixture;
+        _defaultFixture = CreateDefaultFixture();
+    }
+
+    private static Fixture CreateDefaultFixture()
+    {
+        Fixture fixture = new() { RepeatCount = 0 };
+        new SupportMutableValueTypesCustomization().Customize(fixture);
+        return fixture;
     }
 
     internal TValue Create<TValue>()
@@ -47,6 +56,18 @@ internal class TestDataGenerator
         try
         {
             return _fixture.Create(type, new SpecimenContext(_fixture));
+        }
+        catch (Exception ex)
+        {
+            return CreateDefaultValue(type, ex);
+        }
+    }
+
+    internal object CreateDefault(Type type)
+    {
+        try
+        {
+            return _defaultFixture.Create(type, new SpecimenContext(_defaultFixture));
         }
         catch (Exception ex)
         {

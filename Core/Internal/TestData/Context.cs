@@ -25,8 +25,15 @@ internal class Context
 
     internal TValue Mention<TValue>(int index)
     {
-        var (val, found) = _dataProvider.Retrieve(typeof(TValue), index);
-        return (TValue)(found ? val : Mention(Create<TValue>(), index));
+        var type = typeof(TValue);
+        var (val, found) = _dataProvider.Retrieve(type, index);
+        if (found)
+            return (TValue)val;
+        var newValue = _dataProvider.TryGetDefault(type, out var defaultValue)
+            ? (TValue)defaultValue
+            : Create<TValue>();
+
+        return Mention(newValue, index);
     }
 
     internal static TValue ApplyTo<TValue>(Action<TValue> setup, TValue value)
