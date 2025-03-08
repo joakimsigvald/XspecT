@@ -8,8 +8,8 @@ namespace XspecT.Assert.Continuations;
 /// </summary>
 public record Constraint
 {
-    internal string ActualExpr { get; set; }
-    internal string AuxiliaryVerb { get; set; }
+    internal string? ActualExpr { get; set; }
+    internal string? AuxiliaryVerb { get; set; }
 }
 
 /// <summary>
@@ -21,10 +21,10 @@ public abstract record Constraint<TActual, TContinuation>
 {
     internal Constraint() : base() => AuxiliaryVerb = typeof(TContinuation).Name.ToWords()[0];
 
-    internal static TContinuation Create(TActual actual, string actualExpr = null)
-        => new() { Actual = actual, ActualExpr = actualExpr.ParseActual() };
+    internal static TContinuation Create(TActual actual, string? actualExpr = null)
+        => new() { Actual = actual, ActualExpr = actualExpr?.ParseActual() };
 
-    internal TActual Actual { get; private set; }
+    internal TActual? Actual { get; private set; }
 
     internal virtual ContinueWith<TContinuation> Value(
         TActual expected, string expectedExpr)
@@ -36,8 +36,8 @@ public abstract record Constraint<TActual, TContinuation>
         Action assert,
         string expectedExpr,
         string auxVerb = "be",
-        string verb = null,
-        [CallerMemberName] string methodName = null)
+        string? verb = null,
+        [CallerMemberName] string? methodName = null)
         => Assert(() =>
         {
             try
@@ -46,11 +46,11 @@ public abstract record Constraint<TActual, TContinuation>
             }
             catch (Exception ex)
             {
-                var verbStr = $"{auxVerb} {methodName.AsWords()}".Trim();
+                var verbStr = $"{auxVerb} {methodName!.AsWords()}".Trim();
                 var expectationStr = $"{verbStr} {expected}".Trim();
                 throw new Xunit.Sdk.XunitException($"Expected {ActualExpr} to {expectationStr} but found {Describe(Actual)}", GetExpected(ex as Xunit.Sdk.XunitException));
             }
-        }, expectedExpr, verb, methodName);
+        }, new() { Expected = expectedExpr, Verb = verb, MethodName = methodName! });
 
     private static Xunit.Sdk.XunitException GetExpected(Xunit.Sdk.XunitException? ex)
         => ex is null || ex.Message.StartsWith("Expected") 
@@ -65,12 +65,17 @@ public abstract record Constraint<TActual, TContinuation>
 
     private protected TContinuation Assert(
         Action assert,
-        string expectedExpr = null,
-        string verb = null,
-        [CallerMemberName] string methodName = null)
+        AssertExpression expression)
     {
         SpecificationGenerator.Assert(
-                assert, ActualExpr, expectedExpr, verb ?? $"{AuxiliaryVerb} {methodName.AsWords()}".Trim());
+                assert, ActualExpr, expression.Expected, expression.Verb ?? $"{AuxiliaryVerb} {expression.MethodName.AsWords()}".Trim());
         return (TContinuation)this;
     }
+}
+
+internal class AssertExpression 
+{
+    internal required string Expected { get; init; }
+    internal string? Verb { get; init; }
+    internal required string MethodName { get; init; }
 }

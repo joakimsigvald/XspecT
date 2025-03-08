@@ -37,9 +37,9 @@ internal static class SpecificationGenerator
 
     internal static void Assert(
         Action assert,
-        string actual = null,
-        string expected = null,
-        [CallerMemberName] string verb = "")
+        string actual,
+        string expected,
+        string verb)
     {
         Builder.Add(() => Builder.AddAssert(actual, verb, expected));
         try

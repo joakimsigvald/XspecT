@@ -19,9 +19,9 @@ public static class AssertionExtensionsTime
     /// <returns>Continuation for further assertions of the TimeSpan?</returns>
     public static ContinueWith<IsNullableTimeSpan> Is(
         this TimeSpan? actual, TimeSpan? expected,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
-        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => actual.Is(actualExpr: actualExpr).Value(expected, expectedExpr);
+        [CallerArgumentExpression(nameof(actual))] string? actualExpr = null,
+        [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
+        => actual.Is(actualExpr: actualExpr!).Value(expected, expectedExpr!);
 
     /// <summary>
     /// Verify that actual is expected timeSpan and return continuation for further assertions of the value
@@ -33,9 +33,9 @@ public static class AssertionExtensionsTime
     /// <returns>Continuation for further assertions of the TimeSpan?</returns>
     public static ContinueWith<IsTimeSpan> Is(
         this TimeSpan? actual, TimeSpan expected,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
-        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => actual.Is(actualExpr: actualExpr).Value(expected, expectedExpr);
+        [CallerArgumentExpression(nameof(actual))] string? actualExpr = null,
+        [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
+        => actual.Is(actualExpr: actualExpr!).Value(expected, expectedExpr!);
 
     /// <summary>
     /// Verify that actual is expected dateTime and return continuation for further assertions of the value
@@ -47,9 +47,9 @@ public static class AssertionExtensionsTime
     /// <returns>Continuation for further assertions of the DateTime?</returns>
     public static ContinueWith<IsNullableDateTime> Is(
         this DateTime? actual, DateTime? expected,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
-        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => actual.Is(actualExpr: actualExpr).Value(expected, expectedExpr);
+        [CallerArgumentExpression(nameof(actual))] string? actualExpr = null,
+        [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
+        => actual.Is(actualExpr: actualExpr!).Value(expected, expectedExpr!);
 
     /// <summary>
     /// Verify that actual is expected dateTime and return continuation for further assertions of the value
@@ -61,9 +61,9 @@ public static class AssertionExtensionsTime
     /// <returns>Continuation for further assertions of the DateTime?</returns>
     public static ContinueWith<IsDateTime> Is(
         this DateTime? actual, DateTime expected,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
-        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => actual.Is(actualExpr: actualExpr).Value(expected, expectedExpr);
+        [CallerArgumentExpression(nameof(actual))] string? actualExpr = null,
+        [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
+        => actual.Is(actualExpr: actualExpr!).Value(expected, expectedExpr!);
 
     /// <summary>
     /// Get available assertions for the given value
@@ -75,8 +75,8 @@ public static class AssertionExtensionsTime
     public static IsDateTime Is(
         this DateTime actual,
         Ignore _ = default,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => IsDateTime.Create(actual, actualExpr);
+        [CallerArgumentExpression(nameof(actual))] string? actualExpr = null)
+        => IsDateTime.Create(actual, actualExpr!);
 
     /// <summary>
     /// Get available assertions for the given value
@@ -88,8 +88,8 @@ public static class AssertionExtensionsTime
     public static IsNullableDateTime Is(
         this DateTime? actual,
         Ignore _ = default,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => IsNullableDateTime.Create(actual, actualExpr);
+        [CallerArgumentExpression(nameof(actual))] string? actualExpr = null)
+        => IsNullableDateTime.Create(actual, actualExpr!);
 
     /// <summary>
     /// Get available assertions for the given value
@@ -101,8 +101,8 @@ public static class AssertionExtensionsTime
     public static IsNullableTimeSpan Is(
         this TimeSpan? actual,
         Ignore _ = default,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => IsNullableTimeSpan.Create(actual, actualExpr);
+        [CallerArgumentExpression(nameof(actual))] string? actualExpr = null)
+        => IsNullableTimeSpan.Create(actual, actualExpr!);
 
     /// <summary>
     /// Get available assertions for the given value
@@ -114,6 +114,6 @@ public static class AssertionExtensionsTime
     public static IsTimeSpan Is(
         this TimeSpan actual,
         Ignore _ = default,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => IsTimeSpan.Create(actual, actualExpr);
+        [CallerArgumentExpression(nameof(actual))] string? actualExpr = null)
+        => IsTimeSpan.Create(actual, actualExpr!);
 }

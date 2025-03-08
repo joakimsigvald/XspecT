@@ -17,9 +17,9 @@ public static class AssertionExtensionsNullableNumerical
     public static ContinueWith<IsNullableByte> Is(
         this byte? actual,
         byte? expected,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
-        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => actual.Is(actualExpr: actualExpr).Value(expected, expectedExpr);
+        [CallerArgumentExpression(nameof(actual))] string? actualExpr = null,
+        [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
+        => actual.Is(actualExpr: actualExpr!).Value(expected, expectedExpr!);
 
     /// <summary>
     /// Verify that actual is expected and return continuation for further assertions of the value
@@ -27,9 +27,9 @@ public static class AssertionExtensionsNullableNumerical
     public static ContinueWith<IsNullableSByte> Is(
         this sbyte? actual,
         sbyte? expected,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
-        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => actual.Is(actualExpr: actualExpr).Value(expected, expectedExpr);
+        [CallerArgumentExpression(nameof(actual))] string? actualExpr = null,
+        [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
+        => actual.Is(actualExpr: actualExpr!).Value(expected, expectedExpr!);
 
     /// <summary>
     /// Verify that actual is expected and return continuation for further assertions of the value
@@ -37,9 +37,9 @@ public static class AssertionExtensionsNullableNumerical
     public static ContinueWith<IsNullableUShort> Is(
         this ushort? actual,
         ushort? expected,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
-        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => actual.Is(actualExpr: actualExpr).Value(expected, expectedExpr);
+        [CallerArgumentExpression(nameof(actual))] string? actualExpr = null,
+        [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
+        => actual.Is(actualExpr: actualExpr!).Value(expected, expectedExpr!);
 
     /// <summary>
     /// Verify that actual is expected and return continuation for further assertions of the value
@@ -47,9 +47,9 @@ public static class AssertionExtensionsNullableNumerical
     public static ContinueWith<IsNullableShort> Is(
         this short? actual,
         short? expected,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
-        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => actual.Is(actualExpr: actualExpr).Value(expected, expectedExpr);
+        [CallerArgumentExpression(nameof(actual))] string? actualExpr = null,
+        [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
+        => actual.Is(actualExpr: actualExpr!).Value(expected, expectedExpr!);
 
     /// <summary>
     /// Verify that actual is expected and return continuation for further assertions of the value
@@ -57,9 +57,9 @@ public static class AssertionExtensionsNullableNumerical
     public static ContinueWith<IsNullableUInt> Is(
         this uint? actual,
         uint? expected,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
-        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => actual.Is(actualExpr: actualExpr).Value(expected, expectedExpr);
+        [CallerArgumentExpression(nameof(actual))] string? actualExpr = null,
+        [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
+        => actual.Is(actualExpr: actualExpr!).Value(expected, expectedExpr!);
 
     /// <summary>
     /// Verify that actual is expected and return continuation for further assertions of the value
@@ -67,9 +67,9 @@ public static class AssertionExtensionsNullableNumerical
     public static ContinueWith<IsNullableInt> Is(
         this int? actual,
         int? expected,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
-        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => actual.Is(actualExpr: actualExpr).Value(expected, expectedExpr);
+        [CallerArgumentExpression(nameof(actual))] string? actualExpr = null,
+        [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
+        => actual.Is(actualExpr: actualExpr!).Value(expected, expectedExpr!);
 
     /// <summary>
     /// Verify that actual is expected and return continuation for further assertions of the value
@@ -77,9 +77,9 @@ public static class AssertionExtensionsNullableNumerical
     public static ContinueWith<IsNullableULong> Is(
         this ulong? actual,
         ulong? expected,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
-        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => actual.Is(actualExpr: actualExpr).Value(expected, expectedExpr);
+        [CallerArgumentExpression(nameof(actual))] string? actualExpr = null,
+        [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
+        => actual.Is(actualExpr: actualExpr!).Value(expected, expectedExpr!);
 
     /// <summary>
     /// Verify that actual is expected and return continuation for further assertions of the value
@@ -87,9 +87,9 @@ public static class AssertionExtensionsNullableNumerical
     public static ContinueWith<IsNullableLong> Is(
         this long? actual,
         long? expected,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
-        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => actual.Is(actualExpr: actualExpr).Value(expected, expectedExpr);
+        [CallerArgumentExpression(nameof(actual))] string? actualExpr = null,
+        [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
+        => actual.Is(actualExpr: actualExpr!).Value(expected, expectedExpr!);
 
     /// <summary>
     /// Get available assertions for the given value
@@ -101,8 +101,8 @@ public static class AssertionExtensionsNullableNumerical
     public static IsNullableByte Is(
         this byte? actual,
         Ignore _ = default,
-        [CallerArgument(nameof(actual))] string actualExpr = null)
-        => IsNullableByte.Create(actual, actualExpr);
+        [CallerArgument(nameof(actual))] string? actualExpr = null)
+        => IsNullableByte.Create(actual, actualExpr!);
 
     /// <summary>
     /// Get available assertions for the given value
@@ -114,8 +114,8 @@ public static class AssertionExtensionsNullableNumerical
     public static IsNullableSByte Is(
         this sbyte? actual,
         Ignore _ = default,
-        [CallerArgument(nameof(actual))] string actualExpr = null)
-        => IsNullableSByte.Create(actual, actualExpr);
+        [CallerArgument(nameof(actual))] string? actualExpr = null)
+        => IsNullableSByte.Create(actual, actualExpr!);
 
     /// <summary>
     /// Get available assertions for the given value
@@ -127,8 +127,8 @@ public static class AssertionExtensionsNullableNumerical
     public static IsNullableShort Is(
         this short? actual,
         Ignore _ = default,
-        [CallerArgument(nameof(actual))] string actualExpr = null)
-        => IsNullableShort.Create(actual, actualExpr);
+        [CallerArgument(nameof(actual))] string? actualExpr = null)
+        => IsNullableShort.Create(actual, actualExpr!);
 
     /// <summary>
     /// Get available assertions for the given value
@@ -140,8 +140,8 @@ public static class AssertionExtensionsNullableNumerical
     public static IsNullableUShort Is(
         this ushort? actual,
         Ignore _ = default,
-        [CallerArgument(nameof(actual))] string actualExpr = null)
-        => IsNullableUShort.Create(actual, actualExpr);
+        [CallerArgument(nameof(actual))] string? actualExpr = null)
+        => IsNullableUShort.Create(actual, actualExpr!);
 
     /// <summary>
     /// Get available assertions for the given value
@@ -153,8 +153,8 @@ public static class AssertionExtensionsNullableNumerical
     public static IsNullableInt Is(
         this int? actual,
         Ignore _ = default,
-        [CallerArgument(nameof(actual))] string actualExpr = null)
-        => IsNullableInt.Create(actual, actualExpr);
+        [CallerArgument(nameof(actual))] string? actualExpr = null)
+        => IsNullableInt.Create(actual, actualExpr!);
 
     /// <summary>
     /// Get available assertions for the given value
@@ -166,8 +166,8 @@ public static class AssertionExtensionsNullableNumerical
     public static IsNullableUInt Is(
         this uint? actual,
         Ignore _ = default,
-        [CallerArgument(nameof(actual))] string actualExpr = null)
-        => IsNullableUInt.Create(actual, actualExpr);
+        [CallerArgument(nameof(actual))] string? actualExpr = null)
+        => IsNullableUInt.Create(actual, actualExpr!);
 
     /// <summary>
     /// Get available assertions for the given value
@@ -179,8 +179,8 @@ public static class AssertionExtensionsNullableNumerical
     public static IsNullableLong Is(
         this long? actual,
         Ignore _ = default,
-        [CallerArgument(nameof(actual))] string actualExpr = null)
-        => IsNullableLong.Create(actual, actualExpr);
+        [CallerArgument(nameof(actual))] string? actualExpr = null)
+        => IsNullableLong.Create(actual, actualExpr!);
 
     /// <summary>
     /// Get available assertions for the given value
@@ -192,6 +192,6 @@ public static class AssertionExtensionsNullableNumerical
     public static IsNullableULong Is(
         this ulong? actual,
         Ignore _ = default,
-        [CallerArgument(nameof(actual))] string actualExpr = null)
-        => IsNullableULong.Create(actual, actualExpr);
+        [CallerArgument(nameof(actual))] string? actualExpr = null)
+        => IsNullableULong.Create(actual, actualExpr!);
 }

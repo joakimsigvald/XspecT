@@ -21,9 +21,9 @@ public static class AssertionExtensionsNumerical
     public static ContinueWith<IsInt> Is(
         this int actual,
         int expected,
-        [CallerArgument(nameof(actual))] string actualExpr = null,
-        [CallerArgument(nameof(expected))] string expectedExpr = null)
-        => actual.Is(actualExpr: actualExpr).Value(expected, expectedExpr);
+        [CallerArgument(nameof(actual))] string? actualExpr = null,
+        [CallerArgument(nameof(expected))] string? expectedExpr = null)
+        => actual.Is(actualExpr: actualExpr!).Value(expected, expectedExpr!);
 
     /// <summary>
     /// Verify that the value is same as expected
@@ -36,9 +36,9 @@ public static class AssertionExtensionsNumerical
     public static ContinueWith<IsByte> Is(
         this byte actual,
         byte expected,
-        [CallerArgument(nameof(actual))] string actualExpr = null,
-        [CallerArgument(nameof(expected))] string expectedExpr = null)
-        => actual.Is(actualExpr: actualExpr).Value(expected, expectedExpr);
+        [CallerArgument(nameof(actual))] string? actualExpr = null,
+        [CallerArgument(nameof(expected))] string? expectedExpr = null)
+        => actual.Is(actualExpr: actualExpr!).Value(expected, expectedExpr!);
 
     /// <summary>
     /// Verify that the value is same as expected
@@ -51,9 +51,9 @@ public static class AssertionExtensionsNumerical
     public static ContinueWith<IsSByte> Is(
         this sbyte actual,
         sbyte expected,
-        [CallerArgument(nameof(actual))] string actualExpr = null,
-        [CallerArgument(nameof(expected))] string expectedExpr = null)
-        => actual.Is(actualExpr: actualExpr).Value(expected, expectedExpr);
+        [CallerArgument(nameof(actual))] string? actualExpr = null,
+        [CallerArgument(nameof(expected))] string? expectedExpr = null)
+        => actual.Is(actualExpr: actualExpr!).Value(expected, expectedExpr!);
 
     /// <summary>
     /// Verify that the value is same as expected
@@ -66,9 +66,9 @@ public static class AssertionExtensionsNumerical
     public static ContinueWith<IsShort> Is(
         this short actual,
         short expected,
-        [CallerArgument(nameof(actual))] string actualExpr = null,
-        [CallerArgument(nameof(expected))] string expectedExpr = null)
-        => actual.Is(actualExpr: actualExpr).Value(expected, expectedExpr);
+        [CallerArgument(nameof(actual))] string? actualExpr = null,
+        [CallerArgument(nameof(expected))] string? expectedExpr = null)
+        => actual.Is(actualExpr: actualExpr!).Value(expected, expectedExpr!);
 
     /// <summary>
     /// Verify that the value is same as expected
@@ -81,9 +81,9 @@ public static class AssertionExtensionsNumerical
     public static ContinueWith<IsUShort> Is(
         this ushort actual,
         ushort expected,
-        [CallerArgument(nameof(actual))] string actualExpr = null,
-        [CallerArgument(nameof(expected))] string expectedExpr = null)
-        => actual.Is(actualExpr: actualExpr).Value(expected, expectedExpr);
+        [CallerArgument(nameof(actual))] string? actualExpr = null,
+        [CallerArgument(nameof(expected))] string? expectedExpr = null)
+        => actual.Is(actualExpr: actualExpr!).Value(expected, expectedExpr!);
 
     /// <summary>
     /// Verify that the value is same as expected
@@ -96,9 +96,9 @@ public static class AssertionExtensionsNumerical
     public static ContinueWith<IsLong> Is(
         this long actual,
         long expected,
-        [CallerArgument(nameof(actual))] string actualExpr = null,
-        [CallerArgument(nameof(expected))] string expectedExpr = null)
-        => actual.Is(actualExpr: actualExpr).Value(expected, expectedExpr);
+        [CallerArgument(nameof(actual))] string? actualExpr = null,
+        [CallerArgument(nameof(expected))] string? expectedExpr = null)
+        => actual.Is(actualExpr: actualExpr!).Value(expected, expectedExpr!);
 
     /// <summary>
     /// Verify that the value is same as expected
@@ -111,9 +111,9 @@ public static class AssertionExtensionsNumerical
     public static ContinueWith<IsULong> Is(
         this ulong actual,
         ulong expected,
-        [CallerArgument(nameof(actual))] string actualExpr = null,
-        [CallerArgument(nameof(expected))] string expectedExpr = null)
-        => actual.Is(actualExpr: actualExpr).Value(expected, expectedExpr);
+        [CallerArgument(nameof(actual))] string? actualExpr = null,
+        [CallerArgument(nameof(expected))] string? expectedExpr = null)
+        => actual.Is(actualExpr: actualExpr!).Value(expected, expectedExpr!);
 
     /// <summary>
     /// Get available assertions for the given value
@@ -125,8 +125,8 @@ public static class AssertionExtensionsNumerical
     public static IsByte Is(
         this byte actual,
         Ignore _ = default,
-        [CallerArgument(nameof(actual))] string actualExpr = null)
-        => IsByte.Create(actual, actualExpr);
+        [CallerArgument(nameof(actual))] string? actualExpr = null)
+        => IsByte.Create(actual, actualExpr!);
 
     /// <summary>
     /// Get available assertions for the given value
@@ -138,8 +138,8 @@ public static class AssertionExtensionsNumerical
     public static IsSByte Is(
         this sbyte actual,
         Ignore _ = default,
-        [CallerArgument(nameof(actual))] string actualExpr = null)
-        => IsSByte.Create(actual, actualExpr);
+        [CallerArgument(nameof(actual))] string? actualExpr = null)
+        => IsSByte.Create(actual, actualExpr!);
 
     /// <summary>
     /// Get available assertions for the given value
@@ -151,8 +151,8 @@ public static class AssertionExtensionsNumerical
     public static IsShort Is(
         this short actual,
         Ignore _ = default,
-        [CallerArgument(nameof(actual))] string actualExpr = null)
-        => IsShort.Create(actual, actualExpr);
+        [CallerArgument(nameof(actual))] string? actualExpr = null)
+        => IsShort.Create(actual, actualExpr!);
 
     /// <summary>
     /// Get available assertions for the given value
@@ -164,8 +164,8 @@ public static class AssertionExtensionsNumerical
     public static IsUShort Is(
         this ushort actual,
         Ignore _ = default,
-        [CallerArgument(nameof(actual))] string actualExpr = null)
-        => IsUShort.Create(actual, actualExpr);
+        [CallerArgument(nameof(actual))] string? actualExpr = null)
+        => IsUShort.Create(actual, actualExpr!);
 
     /// <summary>
     /// Get available assertions for the given value
@@ -177,8 +177,8 @@ public static class AssertionExtensionsNumerical
     public static IsInt Is(
         this int actual,
         Ignore _ = default,
-        [CallerArgument(nameof(actual))] string actualExpr = null)
-        => IsInt.Create(actual, actualExpr);
+        [CallerArgument(nameof(actual))] string? actualExpr = null)
+        => IsInt.Create(actual, actualExpr!);
 
     /// <summary>
     /// Get available assertions for the given value
@@ -190,8 +190,8 @@ public static class AssertionExtensionsNumerical
     public static IsUInt Is(
         this uint actual,
         Ignore _ = default,
-        [CallerArgument(nameof(actual))] string actualExpr = null)
-        => IsUInt.Create(actual, actualExpr);
+        [CallerArgument(nameof(actual))] string? actualExpr = null)
+        => IsUInt.Create(actual, actualExpr!);
 
     /// <summary>
     /// Get available assertions for the given value
@@ -203,8 +203,8 @@ public static class AssertionExtensionsNumerical
     public static IsLong Is(
         this long actual,
         Ignore _ = default,
-        [CallerArgument(nameof(actual))] string actualExpr = null)
-        => IsLong.Create(actual, actualExpr);
+        [CallerArgument(nameof(actual))] string? actualExpr = null)
+        => IsLong.Create(actual, actualExpr!);
 
     /// <summary>
     /// Get available assertions for the given value
@@ -216,6 +216,6 @@ public static class AssertionExtensionsNumerical
     public static IsULong Is(
         this ulong actual,
         Ignore _ = default,
-        [CallerArgument(nameof(actual))] string actualExpr = null)
-        => IsULong.Create(actual, actualExpr);
+        [CallerArgument(nameof(actual))] string? actualExpr = null)
+        => IsULong.Create(actual, actualExpr!);
 }

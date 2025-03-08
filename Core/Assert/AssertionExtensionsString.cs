@@ -20,9 +20,9 @@ public static class AssertionExtensionsString
     public static ContinueWith<IsStringContinuation> Is(
         this string actual,
         string expected,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
-        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => actual.Is(actualExpr: actualExpr).Value(expected, expectedExpr);
+        [CallerArgumentExpression(nameof(actual))] string? actualExpr = null,
+        [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
+        => actual.Is(actualExpr: actualExpr!).Value(expected, expectedExpr!);
 
     /// <summary>
     /// Get available assertions for the given string
@@ -34,8 +34,8 @@ public static class AssertionExtensionsString
     public static IsString Is(
         this string actual,
         Ignore _ = default,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => IsString.Create(actual, actualExpr);
+        [CallerArgumentExpression(nameof(actual))] string? actualExpr = null)
+        => IsString.Create(actual, actualExpr!);
 
     /// <summary>
     /// Get available assertions for the characteristics of the given string
@@ -47,6 +47,6 @@ public static class AssertionExtensionsString
     public static DoesString Does(
         this string actual,
         Ignore _ = default,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => DoesString.Create(actual, actualExpr);
+        [CallerArgumentExpression(nameof(actual))] string? actualExpr = null)
+        => DoesString.Create(actual, actualExpr!);
 }

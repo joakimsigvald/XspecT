@@ -21,10 +21,10 @@ public static class AssertionExtensions
     public static ContinueWith<IsNullableStruct<TValue>> Is<TValue>(
         this TValue? actual,
         TValue? expected,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
-        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
+        [CallerArgumentExpression(nameof(actual))] string? actualExpr = null,
+        [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
         where TValue : struct
-        => actual.Is(actualExpr: actualExpr).Value(expected, expectedExpr);
+        => actual.Is(actualExpr: actualExpr).Value(expected, expectedExpr!);
 
     /// <summary>
     /// Get available assertions for the given value
@@ -36,8 +36,8 @@ public static class AssertionExtensions
     public static IsBool Is(
         this bool actual,
         Ignore _ = default,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => IsBool.Create(actual, actualExpr);
+        [CallerArgumentExpression(nameof(actual))] string? actualExpr = null)
+        => IsBool.Create(actual, actualExpr!);
 
     /// <summary>
     /// Get available assertions for the given object
@@ -49,9 +49,9 @@ public static class AssertionExtensions
     public static IsNullableStruct<TValue> Is<TValue>
         (this TValue? actual,
         Ignore _ = default,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
+        [CallerArgumentExpression(nameof(actual))] string? actualExpr = null)
         where TValue : struct
-        => IsNullableStruct<TValue>.Create(actual, actualExpr);
+        => IsNullableStruct<TValue>.Create(actual, actualExpr!);
 
     /// <summary>
     /// Get available assertions for the given enumerable
@@ -64,22 +64,20 @@ public static class AssertionExtensions
     public static IsEnumerable<TItem> Is<TItem>(
         this IEnumerable<TItem> actual,
         Ignore _ = default,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => IsEnumerable<TItem>.Create(actual, actualExpr);
+        [CallerArgumentExpression(nameof(actual))] string? actualExpr = null)
+        => IsEnumerable<TItem>.Create(actual, actualExpr!);
 
     /// <summary>
     /// Get available assertions for the given enumerable
     /// </summary>
     /// <typeparam name="TItem"></typeparam>
     /// <param name="actual"></param>
-    /// <param name="_"></param>
     /// <param name="actualExpr"></param>
     /// <returns></returns>
     public static DoesEnumerable<TItem> Does<TItem>(
         this IEnumerable<TItem> actual,
-        //Ignore _ = default,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => DoesEnumerable<TItem>.Create(actual, actualExpr);
+        [CallerArgumentExpression(nameof(actual))] string? actualExpr = null)
+        => DoesEnumerable<TItem>.Create(actual, actualExpr!);
 
     /// <summary>
     /// Get available assertions for the given comparable
@@ -92,9 +90,9 @@ public static class AssertionExtensions
     public static IsComparable<TValue> Is<TValue>(
         this TValue actual,
         Ignore _ = default,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
+        [CallerArgumentExpression(nameof(actual))] string? actualExpr = null)
         where TValue : IComparable<TValue>
-        => IsComparable<TValue>.Create(actual, actualExpr);
+        => IsComparable<TValue>.Create(actual, actualExpr!);
 
     /// <summary>
     /// Get available assertions for enumerable
@@ -107,8 +105,8 @@ public static class AssertionExtensions
     public static HasEnumerable<TItem> Has<TItem>(
         this IEnumerable<TItem> actual,
         Ignore _ = default,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null)
-        => HasEnumerable<TItem>.Create(actual, actualExpr);
+        [CallerArgumentExpression(nameof(actual))] string? actualExpr = null)
+        => HasEnumerable<TItem>.Create(actual, actualExpr!);
 
     /// <summary>
     /// Verify that the value satisfies a given condition
@@ -121,10 +119,10 @@ public static class AssertionExtensions
     /// <returns></returns>
     public static ContinueWithActual<TActual> Satisfies<TActual>(
         this TActual actual, Func<TActual, bool> condition,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
-        [CallerArgumentExpression(nameof(condition))] string conditionExpr = null)
+        [CallerArgumentExpression(nameof(actual))] string? actualExpr = null,
+        [CallerArgumentExpression(nameof(condition))] string? conditionExpr = null)
     {
-        DoesValue<TActual>.Create(actual, actualExpr).Satisfy(condition, conditionExpr);
+        DoesValue<TActual>.Create(actual, actualExpr!).Satisfy(condition, conditionExpr!);
         return new(actual);
     }
 

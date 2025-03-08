@@ -22,8 +22,8 @@ public static class AssertionExtensionsFractional
     public static IsFloat Is(
         this float actual,
         Ignore _ = default,
-        [CallerArgument(nameof(actual))] string actualExpr = null)
-        => IsFloat.Create(actual, actualExpr);
+        [CallerArgument(nameof(actual))] string? actualExpr = null)
+        => IsFloat.Create(actual, actualExpr!);
 
     /// <summary>
     /// Get available assertions for the given value
@@ -35,8 +35,8 @@ public static class AssertionExtensionsFractional
     public static IsDouble Is(
         this double actual,
         Ignore _ = default,
-        [CallerArgument(nameof(actual))] string actualExpr = null)
-        => IsDouble.Create(actual, actualExpr);
+        [CallerArgument(nameof(actual))] string? actualExpr = null)
+        => IsDouble.Create(actual, actualExpr!);
 
     /// <summary>
     /// Get available assertions for the given value
@@ -48,8 +48,8 @@ public static class AssertionExtensionsFractional
     public static IsDecimal Is(
         this decimal actual,
         Ignore _ = default,
-        [CallerArgument(nameof(actual))] string actualExpr = null)
-        => IsDecimal.Create(actual, actualExpr);
+        [CallerArgument(nameof(actual))] string? actualExpr = null)
+        => IsDecimal.Create(actual, actualExpr!);
 
     /// <summary>
     /// Verify that actual is expected and return continuation for further assertions of the value
@@ -57,9 +57,9 @@ public static class AssertionExtensionsFractional
     public static ContinueWith<IsNullableFloat> Is(
         this float? actual,
         float? expected,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
-        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => actual.Is(actualExpr: actualExpr).Value(expected, expectedExpr);
+        [CallerArgumentExpression(nameof(actual))] string? actualExpr = null,
+        [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
+        => actual.Is(actualExpr: actualExpr!).Value(expected, expectedExpr!);
 
     /// <summary>
     /// Verify that actual is expected and return continuation for further assertions of the value
@@ -67,9 +67,9 @@ public static class AssertionExtensionsFractional
     public static ContinueWith<IsNullableDouble> Is(
         this double? actual,
         double? expected,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
-        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => actual.Is(actualExpr: actualExpr).Value(expected, expectedExpr);
+        [CallerArgumentExpression(nameof(actual))] string? actualExpr = null,
+        [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
+        => actual.Is(actualExpr: actualExpr!).Value(expected, expectedExpr!);
 
     /// <summary>
     /// Verify that actual is expected and return continuation for further assertions of the value
@@ -77,9 +77,9 @@ public static class AssertionExtensionsFractional
     public static ContinueWith<IsNullableDecimal> Is(
         this decimal? actual,
         decimal? expected,
-        [CallerArgumentExpression(nameof(actual))] string actualExpr = null,
-        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => actual.Is(actualExpr: actualExpr).Value(expected, expectedExpr);
+        [CallerArgumentExpression(nameof(actual))] string? actualExpr = null,
+        [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
+        => actual.Is(actualExpr: actualExpr!).Value(expected, expectedExpr!);
 
     /// <summary>
     /// Get available assertions for the given value
@@ -91,8 +91,8 @@ public static class AssertionExtensionsFractional
     public static IsNullableFloat Is(
         this float? actual,
         Ignore _ = default,
-        [CallerArgument(nameof(actual))] string actualExpr = null)
-        => IsNullableFloat.Create(actual, actualExpr);
+        [CallerArgument(nameof(actual))] string? actualExpr = null)
+        => IsNullableFloat.Create(actual, actualExpr!);
 
     /// <summary>
     /// Get available assertions for the given value
@@ -104,8 +104,8 @@ public static class AssertionExtensionsFractional
     public static IsNullableDouble Is(
         this double? actual,
         Ignore _ = default,
-        [CallerArgument(nameof(actual))] string actualExpr = null)
-        => IsNullableDouble.Create(actual, actualExpr);
+        [CallerArgument(nameof(actual))] string? actualExpr = null)
+        => IsNullableDouble.Create(actual, actualExpr!);
 
     /// <summary>
     /// Get available assertions for the given value
@@ -117,6 +117,6 @@ public static class AssertionExtensionsFractional
     public static IsNullableDecimal Is(
         this decimal? actual,
         Ignore _ = default,
-        [CallerArgument(nameof(actual))] string actualExpr = null)
-        => IsNullableDecimal.Create(actual, actualExpr);
+        [CallerArgument(nameof(actual))] string? actualExpr = null)
+        => IsNullableDecimal.Create(actual, actualExpr!);
 }
