@@ -9,50 +9,58 @@ namespace XspecT.Assert.Continuations;
 public record IsObject : Constraint<object, IsObject>
 {
     /// <summary>
-    /// Should().NotBeSameAs(expected)
+    /// Assert that the object is not same as the given object
     /// </summary>
+    /// <returns>A continuation for making additional asserts on the object</returns>
     public ContinueWith<IsObject> Not(
         object expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
         => Assert(Describe(expected), () => NotSame(expected, Actual), expectedExpr).And();
 
     /// <summary>
-    /// Should().BeNull()
+    /// Assert that the object is null
     /// </summary>
     public void Null() => Assert(null, () => Xunit.Assert.Null(Actual), null);
 
     /// <summary>
-    /// Should().NotBeNull()
+    /// Assert that the object is not null
     /// </summary>
+    /// <returns>A continuation for making additional asserts on the object</returns>
     public ContinueWith<IsObject> NotNull()
         => Assert(null, () => Xunit.Assert.NotNull(Actual), null).And();
 
     /// <summary>
-    /// Should().Be(expected)
+    /// Assert that the object is equal to the given object
     /// </summary>
+    /// <returns>A continuation for making additional asserts on the object</returns>
     public ContinueWith<IsObject> EqualTo(
         object expected,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
         => Assert(Describe(expected), () => Equal(expected, Actual), expectedExpr).And();
 
     /// <summary>
-    /// Should().NotBe(expected)
+    /// Assert that the object is not equal to the given object
     /// </summary>
+    /// <returns>A continuation for making additional asserts on the object</returns>
     public ContinueWith<IsObject> NotEqualTo(
         object expected,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
         => Assert(Describe(expected), () => NotEqual(expected, Actual), expectedExpr).And();
 
     /// <summary>
-    /// Should().BeEquivalentTo(expected)
+    /// Assert that the object is equivalent to the given object with respect to public fields and properties, but ignoring type
+    /// (if it walks like a duck...)
     /// </summary>
+    /// <returns>A continuation for making additional asserts on the object</returns>
     public ContinueWith<IsObject> Like(
         object expected,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
         => Assert(Describe(expected), () => Equivalent(expected, Actual), expectedExpr).And();
 
     /// <summary>
-    /// Should().NotBeEquivalentTo(expected)
+    /// Assert that the object is not equivalent to the given object with respect to public fields and properties, but ignoring type
+    /// (if it doesn't walk like a duck...)
     /// </summary>
+    /// <returns>A continuation for making additional asserts on the object</returns>
     public ContinueWith<IsObject> NotLike(
         object expected,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
@@ -70,16 +78,20 @@ public record IsObject : Constraint<object, IsObject>
         }, expectedExpr).And();
 
     /// <summary>
-    /// Should().BeEquivalentTo(expected)
+    /// Assert that the object is equivalent to the given object with respect to public fields and properties, but ignoring type
+    /// (if it walks like a duck...)
     /// </summary>
+    /// <returns>A continuation for making additional asserts on the object</returns>
     public ContinueWith<IsObject> EquivalentTo(
         object expected,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
         => Assert(Describe(expected), () => Equivalent(expected, Actual), expectedExpr).And();
 
     /// <summary>
-    /// Should().BeEquivalentTo(expected)
+    /// Assert that the object is not equivalent to the given object with respect to public fields and properties, but ignoring type
+    /// (if it doesn't walk like a duck...)
     /// </summary>
+    /// <returns>A continuation for making additional asserts on the object</returns>
     public ContinueWith<IsObject> NotEquivalentTo(
         object expected,
         [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)

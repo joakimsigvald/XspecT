@@ -9,6 +9,10 @@ public class WhenNot : Spec
         => new object().Is().Not(new object()).And.NotNull();
 
     [Fact]
+    public void GivenNotSameButEqual_ThenDoesNotThrow()
+        => new MyRecord("abc").Is().Not(new MyRecord("abc"));
+
+    [Fact]
     public void GivenSame_ThenGetException()
     {
         var actual = new object();

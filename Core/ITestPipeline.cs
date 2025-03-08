@@ -13,23 +13,13 @@ namespace XspecT;
 public interface ITestPipeline<TSUT, TResult>
 {
     /// <summary>
-    /// Runs the test pipeline and generates the result, which can be accessed by the Result property. When the test is run, any provided arrangement will be applied in the natural* order, then the subject-under-test will be created and the method-under-test called.<br/>
-    /// The natural order of setup is:<br/>
-    /// 1) First default values are applied (in the inverse order that they are provided)<br/>
-    /// 2) then values to be used as arguments to constructors are applied (in the inverse order that they are provided)<br/>
-    /// 3) then specific values are applied (in the inverse order that they are provided)<br/>
-    /// 4) then mock setups are applied (in the order that they are provided)<br/>
+    /// Runs the test pipeline and generates the result, which can be accessed by the Result property. When the test is run, any provided arrangement will be applied, then the subject-under-test will be created and the method-under-test called.<br/>
     /// </summary>
     /// <returns>The test result, containing any return values or exceptions thrown, upon which assertions can be made</returns>
     ITestResultWithSUT<TSUT, TResult> Then();
 
     /// <summary>
-    /// Runs the test pipeline and generates the result, which can be accessed by the Result property. When the test is run, any provided arrangement will be applied in the natural* order, then the subject-under-test will be created and the method-under-test called.<br/>
-    /// The natural order of setup is:<br/>
-    /// 1) First default values are applied (in the inverse order that they are provided)<br/>
-    /// 2) then values to be used as arguments to constructors are applied (in the inverse order that they are provided)<br/>
-    /// 3) then specific values are applied (in the inverse order that they are provided)<br/>
-    /// 4) then mock setups are applied (in the order that they are provided)<br/>
+    /// Runs the test pipeline and generates the result, which can be accessed by the Result property. When the test is run, any provided arrangement will be applied, then the subject-under-test will be created and the method-under-test called.<br/>
     /// </summary>
     /// <typeparam name="TSubject"></typeparam>
     /// <param name="subject"></param>

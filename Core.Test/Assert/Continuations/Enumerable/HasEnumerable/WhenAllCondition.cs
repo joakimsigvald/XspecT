@@ -1,5 +1,4 @@
 ﻿using XspecT.Assert;
-using Xunit.Sdk;
 
 namespace XspecT.Test.Assert.Continuations.Enumerable.HasEnumerable;
 

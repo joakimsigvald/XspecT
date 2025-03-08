@@ -111,7 +111,7 @@ public static class AssertionExtensions
         => HasEnumerable<TItem>.Create(actual, actualExpr);
 
     /// <summary>
-    /// Verify that actual object satisfy a given condition
+    /// Verify that the value satisfies a given condition
     /// </summary>
     /// <typeparam name="TActual"></typeparam>
     /// <param name="actual"></param>

@@ -8,11 +8,11 @@ namespace XspecT.Assert.Continuations;
 public record DoesValue<TValue> : Constraint<TValue, DoesValue<TValue>>
 {
     /// <summary>
-    /// 
+    /// Verify that the value satisfies a given condition
     /// </summary>
     /// <param name="condition"></param>
-    /// <param name="conditionExpr"></param>
-    /// <returns></returns>
+    /// <param name="conditionExpr">Ignore, provided by runtime</param>
+    /// <returns>A continuation for making additional asserts on the value</returns>
     public ContinueWithActual<TValue> Satisfy(
         Func<TValue, bool> condition,
         [CallerArgumentExpression(nameof(condition))] string conditionExpr = null)

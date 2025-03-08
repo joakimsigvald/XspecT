@@ -6,12 +6,12 @@
 public record DoesEnumerableContinuation<TItem> : DoesEnumerable<TItem>
 {
     /// <summary>
-    /// Continuation to assert that the string is satisfying some expectation
+    /// Get available asserts fo the given enumerable
     /// </summary>
     /// <returns></returns>
     public HasEnumerable<TItem> Has() => Actual.Has(actualExpr: ActualExpr);
     /// <summary>
-    /// Continuation to assert that the string is satisfying some expectation
+    /// Get available asserts fo the given enumerable
     /// </summary>
     /// <returns></returns>
     public IsEnumerable<TItem> Is() => Actual.Is(actualExpr: ActualExpr);

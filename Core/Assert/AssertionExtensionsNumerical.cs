@@ -11,8 +11,13 @@ namespace XspecT.Assert;
 public static class AssertionExtensionsNumerical
 {
     /// <summary>
-    /// Verify that actual is expected and return continuation for further assertions of the value
+    /// Verify that the value is same as expected
     /// </summary>
+    /// <param name="actual"></param>
+    /// <param name="expected"></param>
+    /// <param name="actualExpr">Ignore, provided by runtime</param>
+    /// <param name="expectedExpr">Ignore, provided by runtime</param>
+    /// <returns>A continuation for further assertions of the value</returns>
     public static ContinueWith<IsInt> Is(
         this int actual,
         int expected,
@@ -21,8 +26,13 @@ public static class AssertionExtensionsNumerical
         => actual.Is(actualExpr: actualExpr).Value(expected, expectedExpr);
 
     /// <summary>
-    /// Verify that actual is expected and return continuation for further assertions of the value
+    /// Verify that the value is same as expected
     /// </summary>
+    /// <param name="actual"></param>
+    /// <param name="expected"></param>
+    /// <param name="actualExpr">Ignore, provided by runtime</param>
+    /// <param name="expectedExpr">Ignore, provided by runtime</param>
+    /// <returns>A continuation for further assertions of the value</returns>
     public static ContinueWith<IsByte> Is(
         this byte actual,
         byte expected,
@@ -31,8 +41,13 @@ public static class AssertionExtensionsNumerical
         => actual.Is(actualExpr: actualExpr).Value(expected, expectedExpr);
 
     /// <summary>
-    /// Verify that actual is expected and return continuation for further assertions of the value
+    /// Verify that the value is same as expected
     /// </summary>
+    /// <param name="actual"></param>
+    /// <param name="expected"></param>
+    /// <param name="actualExpr">Ignore, provided by runtime</param>
+    /// <param name="expectedExpr">Ignore, provided by runtime</param>
+    /// <returns>A continuation for further assertions of the value</returns>
     public static ContinueWith<IsSByte> Is(
         this sbyte actual,
         sbyte expected,
@@ -41,8 +56,13 @@ public static class AssertionExtensionsNumerical
         => actual.Is(actualExpr: actualExpr).Value(expected, expectedExpr);
 
     /// <summary>
-    /// Verify that actual is expected and return continuation for further assertions of the value
+    /// Verify that the value is same as expected
     /// </summary>
+    /// <param name="actual"></param>
+    /// <param name="expected"></param>
+    /// <param name="actualExpr">Ignore, provided by runtime</param>
+    /// <param name="expectedExpr">Ignore, provided by runtime</param>
+    /// <returns>A continuation for further assertions of the value</returns>
     public static ContinueWith<IsShort> Is(
         this short actual,
         short expected,
@@ -51,8 +71,13 @@ public static class AssertionExtensionsNumerical
         => actual.Is(actualExpr: actualExpr).Value(expected, expectedExpr);
 
     /// <summary>
-    /// Verify that actual is expected and return continuation for further assertions of the value
+    /// Verify that the value is same as expected
     /// </summary>
+    /// <param name="actual"></param>
+    /// <param name="expected"></param>
+    /// <param name="actualExpr">Ignore, provided by runtime</param>
+    /// <param name="expectedExpr">Ignore, provided by runtime</param>
+    /// <returns>A continuation for further assertions of the value</returns>
     public static ContinueWith<IsUShort> Is(
         this ushort actual,
         ushort expected,
@@ -61,8 +86,13 @@ public static class AssertionExtensionsNumerical
         => actual.Is(actualExpr: actualExpr).Value(expected, expectedExpr);
 
     /// <summary>
-    /// Verify that actual is expected and return continuation for further assertions of the value
+    /// Verify that the value is same as expected
     /// </summary>
+    /// <param name="actual"></param>
+    /// <param name="expected"></param>
+    /// <param name="actualExpr">Ignore, provided by runtime</param>
+    /// <param name="expectedExpr">Ignore, provided by runtime</param>
+    /// <returns>A continuation for further assertions of the value</returns>
     public static ContinueWith<IsLong> Is(
         this long actual,
         long expected,
@@ -71,8 +101,13 @@ public static class AssertionExtensionsNumerical
         => actual.Is(actualExpr: actualExpr).Value(expected, expectedExpr);
 
     /// <summary>
-    /// Verify that actual is expected and return continuation for further assertions of the value
+    /// Verify that the value is same as expected
     /// </summary>
+    /// <param name="actual"></param>
+    /// <param name="expected"></param>
+    /// <param name="actualExpr">Ignore, provided by runtime</param>
+    /// <param name="expectedExpr">Ignore, provided by runtime</param>
+    /// <returns>A continuation for further assertions of the value</returns>
     public static ContinueWith<IsULong> Is(
         this ulong actual,
         ulong expected,

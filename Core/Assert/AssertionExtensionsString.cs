@@ -10,7 +10,7 @@ namespace XspecT.Assert;
 public static class AssertionExtensionsString
 {
     /// <summary>
-    /// Verify that actual string is same as expected
+    /// Verify that the string is same as expected
     /// </summary>
     /// <param name="actual"></param>
     /// <param name="expected"></param>

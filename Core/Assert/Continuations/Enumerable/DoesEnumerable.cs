@@ -9,11 +9,11 @@ namespace XspecT.Assert.Continuations.Enumerable;
 public record DoesEnumerable<TItem> : EnumerableConstraint<TItem, DoesEnumerableContinuation<TItem>>
 {
     /// <summary>
-    /// 
+    /// Assert that the enumerable contains the given item
     /// </summary>
     /// <param name="expected"></param>
-    /// <param name="expectedExpr"></param>
-    /// <returns></returns>
+    /// <param name="expectedExpr">Ignore, provided by runtime</param>
+    /// <returns>A continuation for making additional asserts on the enumerable</returns>
     public ContinueWith<DoesEnumerableContinuation<TItem>> Contain(
         TItem expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
         => Assert($"{expected}",
@@ -21,11 +21,11 @@ public record DoesEnumerable<TItem> : EnumerableConstraint<TItem, DoesEnumerable
             expectedExpr, "", "contains").And();
 
     /// <summary>
-    /// 
+    /// Assert that the enumerable does not contain the given item
     /// </summary>
     /// <param name="expected"></param>
-    /// <param name="expectedExpr"></param>
-    /// <returns></returns>
+    /// <param name="expectedExpr">Ignore, provided by runtime</param>
+    /// <returns>A continuation for making additional asserts on the enumerable</returns>
     public ContinueWith<DoesEnumerableContinuation<TItem>> NotContain(
         TItem expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
         => Assert($"{expected}", () => Xunit.Assert.DoesNotContain(expected, Actual), expectedExpr, "").And();
