@@ -5,9 +5,9 @@
 /// </summary>
 public record IsDecimal : IsFractional<decimal, IsDecimal>
 {
-    private protected override void AssertEqual(decimal expected, decimal precision)
-        => Xunit.Assert.True(Math.Abs(Actual - expected) <= precision);
+    private protected override void AssertEqual(decimal expected, decimal actual, decimal precision)
+        => Xunit.Assert.True(Math.Abs(actual - expected) <= precision);
 
-    private protected override void AssertNotEqual(decimal expected, decimal precision)
-        => Xunit.Assert.False(Math.Abs(Actual - expected) <= precision);
+    private protected override void AssertNotEqual(decimal expected, decimal actual, decimal precision)
+        => Xunit.Assert.False(Math.Abs(actual - expected) <= precision);
 }

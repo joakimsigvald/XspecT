@@ -17,7 +17,7 @@ public record DoesValue<TValue> : Constraint<TValue, DoesValue<TValue>>
         Func<TValue?, bool> condition,
         [CallerArgumentExpression(nameof(condition))] string? conditionExpr = null)
     {
-        Assert(conditionExpr!.ParseValue(), () => Xunit.Assert.True(condition(Actual)), conditionExpr!, "", "satisfies");
+        Assert(conditionExpr!.ParseValue(), actual => Xunit.Assert.True(condition(actual)), conditionExpr!, "", "satisfies");
         return new(Actual);
     }
 }

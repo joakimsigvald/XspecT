@@ -31,19 +31,33 @@ public abstract record Constraint<TActual, TContinuation>
 
     internal virtual ContinueWith<TContinuation> Value(
         TActual expected, string expectedExpr)
-        => Assert(expected, () => Xunit.Assert.Equal(expected, Actual), expectedExpr, methodName: string.Empty)
+        => Assert(expected, actual => Xunit.Assert.Equal(expected, actual), expectedExpr, methodName: string.Empty)
         .And();
 
-    private protected Action NotNullAnd(Action<TActual> assert)
-        => () =>
+    private protected static Action<TActual?> NotNullAnd(Action<TActual> assert)
+        => actual =>
         {
-            Xunit.Assert.NotNull(Actual);
-            assert(Actual);
+            Xunit.Assert.NotNull(actual);
+            assert(actual);
+        };
+
+    private protected Action<TActual?> Not(Action<TActual?> assert)
+        => actual =>
+        {
+            try
+            {
+                assert(Actual);
+            }
+            catch (Xunit.Sdk.XunitException)
+            {
+                return;
+            }
+            Xunit.Assert.Fail();
         };
 
     private protected Constraint<TActual, TContinuation> Assert(
         object? expected,
-        Action assert,
+        Action<TActual?> assert,
         string expectedExpr,
         string auxVerb = "be",
         string? verb = null,
@@ -52,7 +66,7 @@ public abstract record Constraint<TActual, TContinuation>
         {
             try
             {
-                assert();
+                assert(Actual);
             }
             catch (Exception ex)
             {
@@ -63,8 +77,8 @@ public abstract record Constraint<TActual, TContinuation>
         }, new() { Expected = expectedExpr, Verb = verb, MethodName = methodName! });
 
     private static Xunit.Sdk.XunitException? GetExpectedAsException(Xunit.Sdk.XunitException? ex)
-        => ex is null || ex.Message.StartsWith("Expected") 
-            ? ex 
+        => ex is null || ex.Message.StartsWith("Expected")
+            ? ex
             : GetExpectedAsException(ex.InnerException as Xunit.Sdk.XunitException);
 
     private protected virtual string Describe(TActual? value) => value?.ToString() ?? "null";
@@ -83,7 +97,7 @@ public abstract record Constraint<TActual, TContinuation>
     }
 }
 
-internal class AssertExpression 
+internal class AssertExpression
 {
     internal required string Expected { get; init; }
     internal string? Verb { get; init; }

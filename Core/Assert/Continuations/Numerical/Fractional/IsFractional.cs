@@ -21,7 +21,7 @@ public abstract record IsFractional<TActual, TIsFractional> : IsNumerical<TActua
     /// <returns></returns>
     public ContinueWith<TIsFractional> Around(
         TActual expected, TActual precision, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => Assert(expected, () => AssertEqual(expected, precision), expectedExpr).And();
+        => Assert(expected, actual => AssertEqual(expected, actual, precision), expectedExpr).And();
 
     /// <summary>
     /// Asserts that the actual value is not approximately equal to the given value, within the provided precision
@@ -32,8 +32,8 @@ public abstract record IsFractional<TActual, TIsFractional> : IsNumerical<TActua
     /// <returns></returns>
     public ContinueWith<TIsFractional> NotAround(
         TActual expected, TActual precision, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => Assert(expected, () => AssertNotEqual(expected, precision), expectedExpr).And();
+        => Assert(expected, actual => AssertNotEqual(expected, actual, precision), expectedExpr).And();
 
-    private protected abstract void AssertEqual(TActual expected, TActual precision);
-    private protected abstract void AssertNotEqual(TActual expected, TActual precision);
+    private protected abstract void AssertEqual(TActual expected, TActual actual, TActual precision);
+    private protected abstract void AssertNotEqual(TActual expected, TActual actual, TActual precision);
 }

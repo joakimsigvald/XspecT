@@ -27,14 +27,14 @@ public record IsEnumerable<TItem> : EnumerableConstraint<TItem, IsEnumerableCont
     /// </summary>
     /// <returns>A continuation for making further assertions on the enumerable</returns>
     public ContinueWith<IsEnumerableContinuation<TItem>> Null()
-        => Assert(Ignore.Me, () => Xunit.Assert.Null(Actual), string.Empty).And();
+        => Assert(Ignore.Me, Xunit.Assert.Null, string.Empty).And();
 
     /// <summary>
     /// Assert that the enumerable is not null
     /// </summary>
     /// <returns>A continuation for making further assertions on the enumerable</returns>
     public ContinueWith<IsEnumerableContinuation<TItem>> NotNull()
-        => Assert(Ignore.Me, () => Xunit.Assert.NotNull(Actual), string.Empty).And();
+        => Assert(Ignore.Me, Xunit.Assert.NotNull, string.Empty).And();
 
     /// <summary>
     /// Assert that the two enumerables do not refer to the same object
@@ -45,7 +45,7 @@ public record IsEnumerable<TItem> : EnumerableConstraint<TItem, IsEnumerableCont
     public ContinueWith<IsEnumerableContinuation<TItem>> Not(
         IEnumerable<TItem> expected,
         [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
-        => Assert(Describe(expected), () => Xunit.Assert.NotSame(expected, Actual), expectedExpr!).And();
+        => Assert(Describe(expected), actual => Xunit.Assert.NotSame(expected, actual), expectedExpr!).And();
 
     /// <summary>
     /// Assert that both enumerables has the same number of elements and that elements at same position are equal to each other
@@ -56,7 +56,7 @@ public record IsEnumerable<TItem> : EnumerableConstraint<TItem, IsEnumerableCont
     public ContinueWith<IsEnumerableContinuation<TItem>> EqualTo(
         IEnumerable<TItem> expected,
         [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
-        => Assert(Describe(expected), () => Xunit.Assert.Equal(expected, Actual), expectedExpr!).And();
+        => Assert(Describe(expected), actual => Xunit.Assert.Equal(expected, actual), expectedExpr!).And();
 
     /// <summary>
     /// Assert that the enumerables are not equal, with regard to length, order and equality of elements
@@ -67,7 +67,7 @@ public record IsEnumerable<TItem> : EnumerableConstraint<TItem, IsEnumerableCont
     public ContinueWith<IsEnumerableContinuation<TItem>> NotEqualTo(
         IEnumerable<TItem> expected,
         [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
-        => Assert(Describe(expected), () => Xunit.Assert.NotEqual(expected, Actual), expectedExpr!).And();
+        => Assert(Describe(expected), actual => Xunit.Assert.NotEqual(expected, actual), expectedExpr!).And();
 
     internal override IsEnumerableContinuation<TItem> Continue() => Create(Actual, ActualExpr);
 }

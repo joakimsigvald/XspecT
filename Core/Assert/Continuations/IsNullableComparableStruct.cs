@@ -19,14 +19,14 @@ public abstract record IsNullableComparableStruct<TActual, TContinuation, TValue
     /// <summary>
     /// Assert that Actual is null
     /// </summary>
-    public void Null() => Assert(Ignore.Me, () => Xunit.Assert.Null(Actual), string.Empty);
+    public void Null() => Assert(Ignore.Me, Xunit.Assert.Null, string.Empty);
 
     /// <summary>
     /// Assert that Actual is not null
     /// </summary>
     public ContinueWith<TValueContinuation> NotNull()
     {
-        Assert(Ignore.Me, () => Xunit.Assert.NotNull(Actual), string.Empty);
+        Assert(Ignore.Me, actual => Xunit.Assert.NotNull(actual), string.Empty);
         return new(ValueContinuation);
     }
 
@@ -35,7 +35,7 @@ public abstract record IsNullableComparableStruct<TActual, TContinuation, TValue
     /// </summary>
     public ContinueWith<TContinuation> Not(
         TActual? expected, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
-        => Assert(expected, () => Xunit.Assert.NotEqual(expected, Actual), expectedExpr!).And();
+        => Assert(expected, actual => Xunit.Assert.NotEqual(expected, actual), expectedExpr!).And();
 
     /// <summary>
     /// actual.Should().NotBe(expected)
@@ -97,11 +97,8 @@ public abstract record IsNullableComparableStruct<TActual, TContinuation, TValue
         string auxVerb = "be",
         [CallerMemberName] string? methodName = null)
     {
-        Assert(expected, () =>
-            {
-                Xunit.Assert.NotNull(Actual);
-                Xunit.Assert.True(comparer(Actual.Value.CompareTo(expected)));
-            }, expectedExpr, auxVerb, methodName: methodName);
+        Assert(expected, NotNullAnd(actual => Xunit.Assert.True(comparer(actual!.Value.CompareTo(expected)))), 
+            expectedExpr, auxVerb, methodName: methodName);
         return new(ValueContinuation);
     }
 }
