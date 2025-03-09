@@ -14,8 +14,8 @@ public record IsNullableDateTime : IsNullableComparableStruct<DateTime, IsNullab
     /// <param name="expectedExpr"></param>
     /// <returns></returns>
     public ContinueWith<IsDateTime> Before(
-        DateTime expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => CompareTo(expected, x => x < 0, expectedExpr, "occur");
+        DateTime expected, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
+        => CompareTo(expected, x => x < 0, expectedExpr!, "occur");
 
     /// <summary>
     /// Asserts that the nullable dateTime is after the given value
@@ -24,8 +24,8 @@ public record IsNullableDateTime : IsNullableComparableStruct<DateTime, IsNullab
     /// <param name="expectedExpr"></param>
     /// <returns></returns>
     public ContinueWith<IsDateTime> After(
-        DateTime expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => CompareTo(expected, x => x > 0, expectedExpr, "occur");
+        DateTime expected, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
+        => CompareTo(expected, x => x > 0, expectedExpr!, "occur");
 
     /// <summary>
     /// Asserts that the nullable dateTime is not before the given value
@@ -34,8 +34,8 @@ public record IsNullableDateTime : IsNullableComparableStruct<DateTime, IsNullab
     /// <param name="expectedExpr"></param>
     /// <returns></returns>
     public ContinueWith<IsDateTime> NotBefore(
-        DateTime expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => CompareTo(expected, x => x >= 0, expectedExpr, "occur");
+        DateTime expected, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
+        => CompareTo(expected, x => x >= 0, expectedExpr!, "occur");
 
     /// <summary>
     /// Asserts that the nullable dateTime is not after the given value
@@ -44,6 +44,6 @@ public record IsNullableDateTime : IsNullableComparableStruct<DateTime, IsNullab
     /// <param name="expectedExpr"></param>
     /// <returns></returns>
     public ContinueWith<IsDateTime> NotAfter(
-        DateTime expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => CompareTo(expected, x => x <= 0, expectedExpr, "occur");
+        DateTime expected, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
+        => CompareTo(expected, x => x <= 0, expectedExpr!, "occur");
 }

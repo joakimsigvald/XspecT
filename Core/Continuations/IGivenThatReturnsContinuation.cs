@@ -30,7 +30,7 @@ public interface IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns
     /// <returns>Continuation for providing method invocation result to mock</returns>
     IGivenThatContinuation<TSUT, TResult, TService, TReturns2> AndThat<TReturns2>(
         Expression<Func<TService, TReturns2>> call,
-        [CallerArgumentExpression(nameof(call))] string callExpr = null);
+        [CallerArgumentExpression(nameof(call))] string? callExpr = null);
 
     /// <summary>
     /// Provide async method invocation to mock
@@ -41,7 +41,7 @@ public interface IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns
     /// <returns>Continuation for providing method invocation result to mock</returns>
     IGivenThatContinuation<TSUT, TResult, TService, TReturns2> AndThat<TReturns2>(
         Expression<Func<TService, Task<TReturns2>>> call,
-        [CallerArgumentExpression(nameof(call))] string callExpr = null);
+        [CallerArgumentExpression(nameof(call))] string? callExpr = null);
 
     /// <summary>
     /// Returns a continuation for providing the next mocked result of a sequence of method invocations.

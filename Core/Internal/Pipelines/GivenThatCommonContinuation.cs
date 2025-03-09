@@ -19,7 +19,7 @@ internal abstract class GivenThatCommonContinuation<TSUT, TResult, TService, TRe
     protected GivenThatCommonContinuation(
         Spec<TSUT, TResult> spec,
         Func<Mock<TService>, bool, object> setup,
-        string callExpr = null)
+        string callExpr)
         : this(spec, isSequential => setup(spec.GetMock<TService>(), isSequential), callExpr)
     {
     }
@@ -28,7 +28,7 @@ internal abstract class GivenThatCommonContinuation<TSUT, TResult, TService, TRe
         Spec<TSUT, TResult> spec,
         Func<bool, object> setup,
         string callExpr,
-        string tapExpr = null,
+        string? tapExpr = null,
         Lazy<object> lazyContinuation = null,
         bool isSequential = false)
     {

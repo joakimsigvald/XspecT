@@ -32,7 +32,7 @@ public static class AssertionExtensionsString
     /// <param name="actualExpr"></param>
     /// <returns></returns>
     public static IsString Is(
-        this string actual,
+        this string? actual,
         Ignore _ = default,
         [CallerArgumentExpression(nameof(actual))] string? actualExpr = null)
         => IsString.Create(actual, actualExpr!);
@@ -45,7 +45,7 @@ public static class AssertionExtensionsString
     /// <param name="actualExpr"></param>
     /// <returns></returns>
     public static DoesString Does(
-        this string actual,
+        this string? actual,
         Ignore _ = default,
         [CallerArgumentExpression(nameof(actual))] string? actualExpr = null)
         => DoesString.Create(actual, actualExpr!);

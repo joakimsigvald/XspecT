@@ -16,7 +16,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> Default<TValue>(
         Func<TValue> defaultValue,
-        [CallerArgumentExpression(nameof(defaultValue))] string defaultValueExpr = null);
+        [CallerArgumentExpression(nameof(defaultValue))] string? defaultValueExpr = null);
 
     /// <summary>
     /// Provide a default value, that will be used as test data where no specific value is given
@@ -27,7 +27,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> Default<TValue>(
         TValue defaultValue,
-        [CallerArgumentExpression(nameof(defaultValue))] string defaultValueExpr = null);
+        [CallerArgumentExpression(nameof(defaultValue))] string? defaultValueExpr = null);
 
     /// <summary>
     /// Provide a value or object instance that will be used when creating subject under test
@@ -38,7 +38,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> Using<TValue>(
         TValue defaultValue, 
-        [CallerArgumentExpression(nameof(defaultValue))] string defaultValueExpr = null);
+        [CallerArgumentExpression(nameof(defaultValue))] string? defaultValueExpr = null);
 
     /// <summary>
     /// Provide a value or object instance that will be used when creating subject under test
@@ -49,7 +49,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> Using<TValue>(
         Func<TValue> defaultValue, 
-        [CallerArgumentExpression(nameof(defaultValue))] string defaultValueExpr = null);
+        [CallerArgumentExpression(nameof(defaultValue))] string? defaultValueExpr = null);
 
     /// <summary>
     /// Provide a default setup, that will be applied in all mocks and auto-generated test-data.
@@ -60,7 +60,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> Default<TValue>(
         Action<TValue> setup,
-        [CallerArgumentExpression(nameof(setup))] string setupExpr = null)
+        [CallerArgumentExpression(nameof(setup))] string? setupExpr = null)
         where TValue : class;
 
     /// <summary>
@@ -72,7 +72,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> Default<TValue>(
         Func<TValue, TValue> transform,
-        [CallerArgumentExpression(nameof(transform))] string transformExpr = null);
+        [CallerArgumentExpression(nameof(transform))] string? transformExpr = null);
 
     /// <summary>
     /// Provide a value of a given type, that can be mentioned in the test pipeline as A, An, The, or TheFirst.
@@ -83,7 +83,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> A<TValue>(
         TValue value,
-        [CallerArgumentExpression(nameof(value))] string valueExpr = null);
+        [CallerArgumentExpression(nameof(value))] string? valueExpr = null);
 
     /// <summary>
     /// Provide setup for a value of a given type, that can be mentioned in the test pipeline as A, An, The, or TheFirst.
@@ -94,7 +94,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> A<TValue>(
         Action<TValue> setup,
-        [CallerArgumentExpression(nameof(setup))] string setupExpr = null)
+        [CallerArgumentExpression(nameof(setup))] string? setupExpr = null)
         where TValue : class;
 
     /// <summary>
@@ -106,7 +106,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> A<TValue>(
         Func<TValue, TValue> transform,
-        [CallerArgumentExpression(nameof(transform))] string transformExpr = null);
+        [CallerArgumentExpression(nameof(transform))] string? transformExpr = null);
 
     /// <summary>
     /// Provide a value of a given type, that can be mentioned in the test pipeline as A, An, The, or TheFirst.
@@ -117,7 +117,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> An<TValue>(
         TValue value,
-        [CallerArgumentExpression(nameof(value))] string valueExpr = null);
+        [CallerArgumentExpression(nameof(value))] string? valueExpr = null);
 
     /// <summary>
     /// Provide setup for a value of a given type, that can be mentioned in the test pipeline as A, An, The, or TheFirst.
@@ -128,7 +128,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> An<TValue>(
         Action<TValue> setup,
-        [CallerArgumentExpression(nameof(setup))] string setupExpr = null)
+        [CallerArgumentExpression(nameof(setup))] string? setupExpr = null)
         where TValue : class;
 
     /// <summary>
@@ -140,7 +140,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> An<TValue>(
         Func<TValue, TValue> transform,
-        [CallerArgumentExpression(nameof(transform))] string transformExpr = null);
+        [CallerArgumentExpression(nameof(transform))] string? transformExpr = null);
 
     /// <summary>
     /// Provide a second value of a given type, that can be mentioned in the test pipeline as ASecond or TheSecond.
@@ -151,7 +151,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> ASecond<TValue>(
         TValue value,
-        [CallerArgumentExpression(nameof(value))] string valueExpr = null);
+        [CallerArgumentExpression(nameof(value))] string? valueExpr = null);
 
     /// <summary>
     /// Provide setup for a second value of a given type, that can be mentioned in the test pipeline as ASecond or TheSecond.
@@ -162,7 +162,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> ASecond<TValue>(
         Action<TValue> setup,
-        [CallerArgumentExpression(nameof(setup))] string setupExpr = null)
+        [CallerArgumentExpression(nameof(setup))] string? setupExpr = null)
         where TValue : class;
 
     /// <summary>
@@ -174,7 +174,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> ASecond<TValue>(
         Func<TValue, TValue> transform,
-        [CallerArgumentExpression(nameof(transform))] string transformExpr = null);
+        [CallerArgumentExpression(nameof(transform))] string? transformExpr = null);
 
     /// <summary>
     /// Provide a third value of a given type, that can be mentioned in the test pipeline as AThird or TheThird.
@@ -185,7 +185,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> AThird<TValue>(
         TValue value,
-        [CallerArgumentExpression(nameof(value))] string valueExpr = null);
+        [CallerArgumentExpression(nameof(value))] string? valueExpr = null);
 
     /// <summary>
     /// Provide setup for a third value of a given type, that can be mentioned in the test pipeline as AThird or TheThird.
@@ -196,7 +196,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> AThird<TValue>(
         Action<TValue> setup,
-        [CallerArgumentExpression(nameof(setup))] string setupExpr = null)
+        [CallerArgumentExpression(nameof(setup))] string? setupExpr = null)
         where TValue : class;
 
     /// <summary>
@@ -208,7 +208,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> AThird<TValue>(
         Func<TValue, TValue> transform,
-        [CallerArgumentExpression(nameof(transform))] string transformExpr = null);
+        [CallerArgumentExpression(nameof(transform))] string? transformExpr = null);
 
     /// <summary>
     /// Provide a fourth value of a given type, that can be mentioned in the test pipeline as AFourth or TheFourth.
@@ -219,7 +219,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> AFourth<TValue>(
         TValue value,
-        [CallerArgumentExpression(nameof(value))] string valueExpr = null);
+        [CallerArgumentExpression(nameof(value))] string? valueExpr = null);
 
     /// <summary>
     /// Provide setup for a fourth value of a given type, that can be mentioned in the test pipeline as AFourth or TheFourth.
@@ -230,7 +230,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> AFourth<TValue>(
         Action<TValue> setup,
-        [CallerArgumentExpression(nameof(setup))] string setupExpr = null)
+        [CallerArgumentExpression(nameof(setup))] string? setupExpr = null)
         where TValue : class;
 
     /// <summary>
@@ -242,7 +242,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> AFourth<TValue>(
         Func<TValue, TValue> transform,
-        [CallerArgumentExpression(nameof(transform))] string transformExpr = null);
+        [CallerArgumentExpression(nameof(transform))] string? transformExpr = null);
 
     /// <summary>
     /// Provide a fifth value of a given type, that can be mentioned in the test pipeline as AFifth or TheFifth.
@@ -253,7 +253,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> AFifth<TValue>(
         TValue value,
-        [CallerArgumentExpression(nameof(value))] string valueExpr = null);
+        [CallerArgumentExpression(nameof(value))] string? valueExpr = null);
 
     /// <summary>
     /// Provide setup for a fifth value of a given type, that can be mentioned in the test pipeline as AFifth or TheFifth.
@@ -264,7 +264,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> AFifth<TValue>(
         Action<TValue> setup,
-        [CallerArgumentExpression(nameof(setup))] string setupExpr = null)
+        [CallerArgumentExpression(nameof(setup))] string? setupExpr = null)
         where TValue : class;
 
     /// <summary>
@@ -276,7 +276,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> AFifth<TValue>(
         Func<TValue, TValue> transform,
-        [CallerArgumentExpression(nameof(transform))] string transformExpr = null);
+        [CallerArgumentExpression(nameof(transform))] string? transformExpr = null);
 
     /// <summary>
     /// Specify that referenced collections of the given type have zero elements.
@@ -330,7 +330,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> One<TValue>(
         TValue value,
-        [CallerArgumentExpression(nameof(value))] string valueExpr = null);
+        [CallerArgumentExpression(nameof(value))] string? valueExpr = null);
 
     /// <summary>
     /// Specify that referenced collections of the given type have one element, unless otherwise specified, 
@@ -342,7 +342,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> One<TValue>(
         Action<TValue> setup,
-        [CallerArgumentExpression(nameof(setup))] string setupExpr = null);
+        [CallerArgumentExpression(nameof(setup))] string? setupExpr = null);
 
     /// <summary>
     /// Specify that referenced collections of the given type have one element, unless otherwise specified, 
@@ -354,7 +354,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> One<TValue>(
         Func<TValue, TValue> transform,
-        [CallerArgumentExpression(nameof(transform))] string transformExpr = null);
+        [CallerArgumentExpression(nameof(transform))] string? transformExpr = null);
 
     /// <summary>
     /// Specify that referenced collections of the given type have two elements, unless otherwise specified, 
@@ -366,7 +366,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> Two<TValue>(
         Action<TValue, int> setup,
-        [CallerArgumentExpression(nameof(setup))] string setupExpr = null);
+        [CallerArgumentExpression(nameof(setup))] string? setupExpr = null);
 
     /// <summary>
     /// Specify that referenced collections of the given type have two elements, unless otherwise specified, 
@@ -378,7 +378,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> Two<TValue>(
         Action<TValue> setup,
-        [CallerArgumentExpression(nameof(setup))] string setupExpr = null);
+        [CallerArgumentExpression(nameof(setup))] string? setupExpr = null);
 
     /// <summary>
     /// Specify that referenced collections of the given type have two elements, unless otherwise specified, 
@@ -390,7 +390,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> Two<TValue>(
         Func<TValue, TValue> transform,
-        [CallerArgumentExpression(nameof(transform))] string transformExpr = null);
+        [CallerArgumentExpression(nameof(transform))] string? transformExpr = null);
 
     /// <summary>
     /// Specify that referenced collections of the given type have two elements, unless otherwise specified, 
@@ -402,7 +402,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> Two<TValue>(
         Func<TValue, int, TValue> transform,
-        [CallerArgumentExpression(nameof(transform))] string transformExpr = null);
+        [CallerArgumentExpression(nameof(transform))] string? transformExpr = null);
 
     /// <summary>
     /// Specify that referenced collections of the given type have three elements, unless otherwise specified, 
@@ -414,7 +414,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> Three<TValue>(
         Action<TValue, int> setup,
-        [CallerArgumentExpression(nameof(setup))] string setupExpr = null);
+        [CallerArgumentExpression(nameof(setup))] string? setupExpr = null);
 
     /// <summary>
     /// Specify that referenced collections of the given type have three elements, unless otherwise specified, 
@@ -426,7 +426,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> Three<TValue>(
         Action<TValue> setup,
-        [CallerArgumentExpression(nameof(setup))] string setupExpr = null);
+        [CallerArgumentExpression(nameof(setup))] string? setupExpr = null);
 
     /// <summary>
     /// Specify that referenced collections of the given type have three elements, unless otherwise specified, 
@@ -438,7 +438,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> Three<TValue>(
         Func<TValue, TValue> transform,
-        [CallerArgumentExpression(nameof(transform))] string transformExpr = null);
+        [CallerArgumentExpression(nameof(transform))] string? transformExpr = null);
 
     /// <summary>
     /// Specify that referenced collections of the given type have three elements, unless otherwise specified, 
@@ -450,7 +450,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> Three<TValue>(
         Func<TValue, int, TValue> transform,
-        [CallerArgumentExpression(nameof(transform))] string transformExpr = null);
+        [CallerArgumentExpression(nameof(transform))] string? transformExpr = null);
 
     /// <summary>
     /// Specify that referenced collections of the given type have four elements, unless otherwise specified, 
@@ -462,7 +462,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> Four<TValue>(
         Action<TValue, int> setup,
-        [CallerArgumentExpression(nameof(setup))] string setupExpr = null);
+        [CallerArgumentExpression(nameof(setup))] string? setupExpr = null);
 
     /// <summary>
     /// Specify that referenced collections of the given type have four elements, unless otherwise specified, 
@@ -474,7 +474,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> Four<TValue>(
         Action<TValue> setup,
-        [CallerArgumentExpression(nameof(setup))] string setupExpr = null);
+        [CallerArgumentExpression(nameof(setup))] string? setupExpr = null);
 
     /// <summary>
     /// Specify that referenced collections of the given type have four elements, unless otherwise specified, 
@@ -486,7 +486,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> Four<TValue>(
         Func<TValue, TValue> transform,
-        [CallerArgumentExpression(nameof(transform))] string transformExpr = null);
+        [CallerArgumentExpression(nameof(transform))] string? transformExpr = null);
 
     /// <summary>
     /// Specify that referenced collections of the given type have four elements, unless otherwise specified, 
@@ -498,7 +498,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> Four<TValue>(
         Func<TValue, int, TValue> transform,
-        [CallerArgumentExpression(nameof(transform))] string transformExpr = null);
+        [CallerArgumentExpression(nameof(transform))] string? transformExpr = null);
 
     /// <summary>
     /// Specify that referenced collections of the given type have five elements, unless otherwise specified, 
@@ -510,7 +510,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> Five<TValue>(
         Action<TValue, int> setup,
-        [CallerArgumentExpression(nameof(setup))] string setupExpr = null);
+        [CallerArgumentExpression(nameof(setup))] string? setupExpr = null);
 
     /// <summary>
     /// Specify that referenced collections of the given type have five elements, unless otherwise specified, 
@@ -522,7 +522,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> Five<TValue>(
         Action<TValue> setup,
-        [CallerArgumentExpression(nameof(setup))] string setupExpr = null);
+        [CallerArgumentExpression(nameof(setup))] string? setupExpr = null);
 
     /// <summary>
     /// Specify that referenced collections of the given type have five elements, unless otherwise specified, 
@@ -534,7 +534,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> Five<TValue>(
         Func<TValue, TValue> transform,
-        [CallerArgumentExpression(nameof(transform))] string transformExpr = null);
+        [CallerArgumentExpression(nameof(transform))] string? transformExpr = null);
 
     /// <summary>
     /// Specify that referenced collections of the given type have five elements, unless otherwise specified, 
@@ -546,5 +546,5 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> Five<TValue>(
         Func<TValue, int, TValue> transform,
-        [CallerArgumentExpression(nameof(transform))] string transformExpr = null);
+        [CallerArgumentExpression(nameof(transform))] string? transformExpr = null);
 }

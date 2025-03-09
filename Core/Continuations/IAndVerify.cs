@@ -18,7 +18,7 @@ public interface IAndVerify<TResult> : IAndThen<TResult>
     /// <returns></returns>
     public IAndVerify<TResult> And<TObject>(
         Expression<Action<TObject>> expression,
-        [CallerArgumentExpression(nameof(expression))] string expressionExpr = null) 
+        [CallerArgumentExpression(nameof(expression))] string? expressionExpr = null) 
         where TObject : class;
 
     /// <summary>
@@ -31,7 +31,7 @@ public interface IAndVerify<TResult> : IAndThen<TResult>
     /// <returns></returns>
     public IAndVerify<TResult> And<TObject>(
         Expression<Action<TObject>> expression, Times times,
-        [CallerArgumentExpression(nameof(expression))] string expressionExpr = null) 
+        [CallerArgumentExpression(nameof(expression))] string? expressionExpr = null) 
         where TObject : class;
 
     /// <summary>
@@ -44,7 +44,7 @@ public interface IAndVerify<TResult> : IAndThen<TResult>
     /// <returns></returns>
     public IAndVerify<TResult> And<TObject>(
         Expression<Action<TObject>> expression, Func<Times> times,
-        [CallerArgumentExpression(nameof(expression))] string expressionExpr = null) 
+        [CallerArgumentExpression(nameof(expression))] string? expressionExpr = null) 
         where TObject : class;
 
     /// <summary>
@@ -57,7 +57,7 @@ public interface IAndVerify<TResult> : IAndThen<TResult>
     /// <returns></returns>
     public IAndVerify<TResult> And<TObject, TReturns>(
         Expression<Func<TObject, TReturns>> expression,
-        [CallerArgumentExpression(nameof(expression))] string expressionExpr = null) 
+        [CallerArgumentExpression(nameof(expression))] string? expressionExpr = null) 
         where TObject : class;
 
     /// <summary>
@@ -71,7 +71,7 @@ public interface IAndVerify<TResult> : IAndThen<TResult>
     /// <returns></returns>
     public IAndVerify<TResult> And<TObject, TReturns>(
         Expression<Func<TObject, TReturns>> expression, Times times,
-        [CallerArgumentExpression(nameof(expression))] string expressionExpr = null)
+        [CallerArgumentExpression(nameof(expression))] string? expressionExpr = null)
         where TObject : class;
 
     /// <summary>
@@ -85,6 +85,6 @@ public interface IAndVerify<TResult> : IAndThen<TResult>
     /// <returns></returns>
     public IAndVerify<TResult> And<TObject, TReturns>(
         Expression<Func<TObject, TReturns>> expression, Func<Times> times,
-        [CallerArgumentExpression(nameof(expression))] string expressionExpr = null)
+        [CallerArgumentExpression(nameof(expression))] string? expressionExpr = null)
         where TObject : class;
 }

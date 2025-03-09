@@ -29,7 +29,7 @@ public interface IGivenTestPipeline<TSUT, TResult> : ITestPipeline<TSUT, TResult
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> And<TValue>(
         Action<TValue> setup,
-        [CallerArgumentExpression(nameof(setup))] string setupExpr = null) where TValue : class;
+        [CallerArgumentExpression(nameof(setup))] string? setupExpr = null) where TValue : class;
 
     /// <summary>
     /// Transform any value and use the transformed value as default
@@ -40,7 +40,7 @@ public interface IGivenTestPipeline<TSUT, TResult> : ITestPipeline<TSUT, TResult
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> And<TValue>(
         Func<TValue, TValue> setup,
-        [CallerArgumentExpression(nameof(setup))] string setupExpr = null) where TValue : class;
+        [CallerArgumentExpression(nameof(setup))] string? setupExpr = null) where TValue : class;
 
     /// <summary>
     /// Provide a default value as a lambda, to be evaluated during test execution AFTER any subsequently added arrangement.
@@ -52,7 +52,7 @@ public interface IGivenTestPipeline<TSUT, TResult> : ITestPipeline<TSUT, TResult
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> And<TValue>(
         Func<TValue> defaultValue,
-        [CallerArgumentExpression(nameof(defaultValue))] string defaultValueExpr = null);
+        [CallerArgumentExpression(nameof(defaultValue))] string? defaultValueExpr = null);
 
     /// <summary>
     /// Provide a default value as a lambda, to be evaluated during test execution AFTER any subsequently added arrangement.
@@ -63,5 +63,5 @@ public interface IGivenTestPipeline<TSUT, TResult> : ITestPipeline<TSUT, TResult
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> And<TValue>(
         TValue defaultValue,
-        [CallerArgumentExpression(nameof(defaultValue))] string defaultValueExpr = null);
+        [CallerArgumentExpression(nameof(defaultValue))] string? defaultValueExpr = null);
 }

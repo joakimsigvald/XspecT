@@ -20,7 +20,7 @@ public interface IGivenThatVoidContinuation<TSUT, TResult, TService>
     /// <returns></returns>
     IGivenThatCommonContinuation<TSUT, TResult, TService, Void> Tap(
         Action callback,
-        [CallerArgumentExpression(nameof(callback))] string callbackExpr = null);
+        [CallerArgumentExpression(nameof(callback))] string? callbackExpr = null);
 
     /// <summary>
     /// Provide a callback to tap the mocked function call with one input argument
@@ -31,7 +31,7 @@ public interface IGivenThatVoidContinuation<TSUT, TResult, TService>
     /// <returns></returns>
     IGivenThatCommonContinuation<TSUT, TResult, TService, Void> Tap<TArg>(
         Action<TArg> callback,
-        [CallerArgumentExpression(nameof(callback))] string callbackExpr = null);
+        [CallerArgumentExpression(nameof(callback))] string? callbackExpr = null);
 
     /// <summary>
     /// Provide a callback to tap the mocked function call with two input arguments
@@ -43,7 +43,7 @@ public interface IGivenThatVoidContinuation<TSUT, TResult, TService>
     /// <returns></returns>
     IGivenThatCommonContinuation<TSUT, TResult, TService, Void> Tap<TArg1, TArg2>(
         Action<TArg1, TArg2> callback,
-        [CallerArgumentExpression(nameof(callback))] string callbackExpr = null);
+        [CallerArgumentExpression(nameof(callback))] string? callbackExpr = null);
 
     /// <summary>
     /// Provide a callback to tap the mocked function call with three input arguments
@@ -56,7 +56,7 @@ public interface IGivenThatVoidContinuation<TSUT, TResult, TService>
     /// <returns></returns>
     IGivenThatCommonContinuation<TSUT, TResult, TService, Void> Tap<TArg1, TArg2, TArg3>(
         Action<TArg1, TArg2, TArg3> callback,
-        [CallerArgumentExpression(nameof(callback))] string callbackExpr = null);
+        [CallerArgumentExpression(nameof(callback))] string? callbackExpr = null);
 
     /// <summary>
     /// Provide a callback to tap the mocked function call with four input arguments
@@ -70,7 +70,7 @@ public interface IGivenThatVoidContinuation<TSUT, TResult, TService>
     /// <returns></returns>
     IGivenThatCommonContinuation<TSUT, TResult, TService, Void> Tap<TArg1, TArg2, TArg3, TArg4>(
         Action<TArg1, TArg2, TArg3, TArg4> callback,
-        [CallerArgumentExpression(nameof(callback))] string callbackExpr = null);
+        [CallerArgumentExpression(nameof(callback))] string? callbackExpr = null);
 
     /// <summary>
     /// Provide a callback to tap the mocked function call with five input arguments
@@ -85,5 +85,5 @@ public interface IGivenThatVoidContinuation<TSUT, TResult, TService>
     /// <returns></returns>
     IGivenThatCommonContinuation<TSUT, TResult, TService, Void> Tap<TArg1, TArg2, TArg3, TArg4, TArg5>(
         Action<TArg1, TArg2, TArg3, TArg4, TArg5> callback,
-        [CallerArgumentExpression(nameof(callback))] string callbackExpr = null);
+        [CallerArgumentExpression(nameof(callback))] string? callbackExpr = null);
 }

@@ -28,7 +28,7 @@ public interface ITestResult<TResult>
     /// <param name="expectedExpr"></param>
     /// <returns></returns>
     IAndThen<TResult> Throws<TError>(
-        Func<TError> expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null) 
+        Func<TError> expected, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null) 
         where TError : Exception;
 
     /// <summary>

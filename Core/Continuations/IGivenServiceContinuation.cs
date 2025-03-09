@@ -18,7 +18,7 @@ public interface IGivenServiceContinuation<TSUT, TResult, TService>
     /// <returns></returns>
     IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> Returns<TReturns>(
         Func<TReturns> value,
-        [CallerArgumentExpression(nameof(value))] string valueExpr = null);
+        [CallerArgumentExpression(nameof(value))] string? valueExpr = null);
 
     /// <summary>
     /// Setup mock to throw an exception for any call, unless otherwise specified
@@ -34,7 +34,7 @@ public interface IGivenServiceContinuation<TSUT, TResult, TService>
     /// <param name="expectedExpr"></param>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> Throws(
-        Func<Exception> expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null);
+        Func<Exception> expected, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null);
 
     /// <summary>
     /// Mock the method invocation
@@ -44,7 +44,7 @@ public interface IGivenServiceContinuation<TSUT, TResult, TService>
     /// <returns>Continuation for providing method invocation result to mock</returns>
     IGivenThatVoidContinuation<TSUT, TResult, TService> That(
         Expression<Action<TService>> call,
-        [CallerArgumentExpression(nameof(call))] string callExpr = null);
+        [CallerArgumentExpression(nameof(call))] string? callExpr = null);
 
     /// <summary>
     /// Mock the method invocation
@@ -55,7 +55,7 @@ public interface IGivenServiceContinuation<TSUT, TResult, TService>
     /// <returns>Continuation for providing method invocation result to mock</returns>
     IGivenThatContinuation<TSUT, TResult, TService, TReturns> That<TReturns>(
         Expression<Func<TService, TReturns>> call,
-        [CallerArgumentExpression(nameof(call))] string callExpr = null);
+        [CallerArgumentExpression(nameof(call))] string? callExpr = null);
 
     /// <summary>
     /// Provide async method invocation to mock
@@ -66,5 +66,5 @@ public interface IGivenServiceContinuation<TSUT, TResult, TService>
     /// <returns>Continuation for providing method invocation result to mock</returns>
     IGivenThatContinuation<TSUT, TResult, TService, TReturns> That<TReturns>(
         Expression<Func<TService, Task<TReturns>>> call,
-        [CallerArgumentExpression(nameof(call))] string callExpr = null);
+        [CallerArgumentExpression(nameof(call))] string? callExpr = null);
 }
