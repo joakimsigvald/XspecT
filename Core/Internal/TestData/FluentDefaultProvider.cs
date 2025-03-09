@@ -11,17 +11,14 @@ internal class FluentDefaultProvider : DefaultValueProvider
 
     protected override object GetDefaultValue(Type type, Mock mock)
     {
-        var ex = GetDefaultException();
+        var ex = _dataProvider.GetDefaultException(GetMockedType(mock));
         if (ex is not null)
             throw ex;
         var (val, found) = _dataProvider.Use(type);
-        return found ? val
+        return found ? val!
             : IsReturningSelf(type, mock) ? mock.Object
             : IsTask(type) ? GetTask(type, mock)
             : _dataProvider.Create(type);
-
-        Exception GetDefaultException()
-            => _dataProvider.GetDefaultException(GetMockedType(mock));
     }
 
     private static bool IsReturningSelf(Type type, Mock mock)

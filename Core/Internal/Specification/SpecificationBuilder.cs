@@ -39,7 +39,7 @@ internal class SpecificationBuilder
     internal void AddMockReturnsDefault<TService>(string returnsExpr)
         => _textBuilder.AddPhraseOrSentence($"{Given} {GetMockName<TService>(' ')}returns {returnsExpr.ParseValue()}");
 
-    internal void AddMockReturns(string returnsExpr)
+    internal void AddMockReturns(string? returnsExpr)
         => _textBuilder.AddWord($"returns {returnsExpr?.ParseValue()}".Trim());
 
     internal void AddMockThrowsDefault<TService, TException>()
@@ -113,7 +113,7 @@ internal class SpecificationBuilder
     internal void AddVerify<TService>(string expressionExpr)
         => _textBuilder.AddWord($"{NameOf<TService>()}.{expressionExpr.ParseCall(true)}");
 
-    internal void AddAssertThrows<TError>(string binder)
+    internal void AddAssertThrows<TError>(string? binder)
         => _textBuilder.AddWord($"throws {NameOf<TError>()} {binder}".Trim());
 
     internal void AddAssertThrows(string expectedExpr)

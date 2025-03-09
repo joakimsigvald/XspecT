@@ -4,7 +4,7 @@ namespace XspecT.Internal.TestData;
 
 internal class DataProvider
 {
-    private readonly Dictionary<Type, object> _defaultValues = [];
+    private readonly Dictionary<Type, object?> _defaultValues = [];
     private readonly Dictionary<Type, Func<Exception>> _defaultExceptions = [];
     private readonly Dictionary<Type, Dictionary<int, object>> _numberedMentions = [];
     private readonly TestDataGenerator _testDataGenerator;
@@ -12,20 +12,19 @@ internal class DataProvider
 
     public DataProvider() => _testDataGenerator = new(this.CreateAutoFixture(), this.CreateAutoMocker());
 
-    internal (object val, bool found) Retrieve(Type type, int index = 0)
+    internal (object? val, bool found) Retrieve(Type type, int index = 0)
         => _numberedMentions.TryGetValue(type, out var map)
             && map.TryGetValue(index, out var val)
         ? (val, found: true)
         : (null, found: false);
 
-    internal bool TryGetDefault(Type type, out object val)
+    internal bool TryGetDefault(Type type, out object? val)
     {
         var found = _defaultValues.TryGetValue(type, out val);
         if (found) 
             return true;
 
-        Func<object, object> setup;
-        if (!_defaultSetups.TryGetValue(type, out setup))
+        if (!_defaultSetups.TryGetValue(type, out Func<object, object>? setup))
             return false;
         val = _testDataGenerator.CreateDefault(type);
         val = setup(val);
@@ -41,7 +40,7 @@ internal class DataProvider
         var instance = TryGetDefault(typeof(TValue), out var val)
             ? val
             : _testDataGenerator.Instantiate<TValue>();
-        return (TValue)ApplyDefaultSetup(type, instance);
+        return (TValue)(ApplyDefaultSetup(type, instance) ?? default!);
     }
 
     internal void Use<TValue>(TValue value, ApplyTo applyTo)
@@ -66,7 +65,7 @@ internal class DataProvider
         Use(Task.FromResult(value), applyTo);
     }
 
-    internal (object val, bool found) Use(Type type)
+    internal (object? val, bool found) Use(Type type)
         => TryGetDefault(type, out var value) ? (value, true) : (null, false);
 
     internal void AddDefaultSetup(Type type, Func<object, object> setup)
@@ -79,7 +78,7 @@ internal class DataProvider
         => obj => setup2(setup1(obj));
 
     internal TValue Create<TValue>()
-        => (TValue)ApplyDefaultSetup(typeof(TValue), _testDataGenerator.Create<TValue>());
+        => (TValue)ApplyDefaultSetup(typeof(TValue), _testDataGenerator.Create<TValue>()!);
 
     internal object Create(Type type)
         => ApplyDefaultSetup(type, _testDataGenerator.Create(type));
@@ -94,7 +93,7 @@ internal class DataProvider
         ? setup(newValue)
         : newValue;
 
-    internal Exception GetDefaultException(Type type)
+    internal Exception? GetDefaultException(Type type)
         => _defaultExceptions.TryGetValue(type, out var ex) ? ex() : null;
 
     internal void SetDefaultException(Type type, Func<Exception> ex)

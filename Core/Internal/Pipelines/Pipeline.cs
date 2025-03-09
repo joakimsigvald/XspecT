@@ -9,7 +9,7 @@ namespace XspecT.Internal.Pipelines;
 
 internal class Pipeline<TSUT, TResult>(Fixture<TSUT> classFixture) : Fixture<TSUT>(classFixture)
 {
-    private TestResult<TSUT, TResult> _result;
+    private TestResult<TSUT, TResult>? _result;
 
     internal ITestResultWithSUT<TSUT, TResult> Then() => TestResult;
 
@@ -96,11 +96,9 @@ internal class Pipeline<TSUT, TResult>(Fixture<TSUT> classFixture) : Fixture<TSU
 
     private void PrepareToExecute()
     {
-        if (_methodUnderTest is null)
-            throw new SetupFailed("When must be called before Then");
         if (!_fixture.IsSetUp)
             _fixture.SetUp(Arrange());
-        SpecificationGenerator.AddWhen(_methodUnderTest.Expression);
+        SpecificationGenerator.AddWhen(MethodUnderTest.Expression);
         _fixture.AddToSpecification();
     }
 
@@ -109,7 +107,7 @@ internal class Pipeline<TSUT, TResult>(Fixture<TSUT> classFixture) : Fixture<TSU
         const string cue = "could not resolve to an object. (Parameter 'serviceType')";
         try
         {
-            var (result, hasResult) = _fixture.Invoke<TResult>(_methodUnderTest);
+            var (result, hasResult) = _fixture.Invoke<TResult>(MethodUnderTest);
             return new(_fixture.SubjectUnderTest, result, null, _context, hasResult);
         }
         catch (ArgumentException ex) when (ex.Message.Contains(cue))
@@ -121,6 +119,8 @@ internal class Pipeline<TSUT, TResult>(Fixture<TSUT> classFixture) : Fixture<TSU
             return new(_fixture.SubjectUnderTest, default, ex, _context, false);
         }
     }
+
+    private Command MethodUnderTest => _methodUnderTest ?? throw new SetupFailed("When must be called before Then or Result");
 
     private void AssertHasNotRun()
     {
