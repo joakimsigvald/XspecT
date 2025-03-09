@@ -62,7 +62,7 @@ public static class AssertionExtensions
     /// <param name="actualExpr"></param>
     /// <returns></returns>
     public static IsEnumerable<TItem> Is<TItem>(
-        this IEnumerable<TItem> actual,
+        this IEnumerable<TItem>? actual,
         Ignore _ = default,
         [CallerArgumentExpression(nameof(actual))] string? actualExpr = null)
         => IsEnumerable<TItem>.Create(actual, actualExpr!);
@@ -75,7 +75,7 @@ public static class AssertionExtensions
     /// <param name="actualExpr"></param>
     /// <returns></returns>
     public static DoesEnumerable<TItem> Does<TItem>(
-        this IEnumerable<TItem> actual,
+        this IEnumerable<TItem>? actual,
         [CallerArgumentExpression(nameof(actual))] string? actualExpr = null)
         => DoesEnumerable<TItem>.Create(actual, actualExpr!);
 
@@ -103,7 +103,7 @@ public static class AssertionExtensions
     /// <param name="actualExpr"></param>
     /// <returns></returns>
     public static HasEnumerable<TItem> Has<TItem>(
-        this IEnumerable<TItem> actual,
+        this IEnumerable<TItem>? actual,
         Ignore _ = default,
         [CallerArgumentExpression(nameof(actual))] string? actualExpr = null)
         => HasEnumerable<TItem>.Create(actual, actualExpr!);
@@ -118,7 +118,7 @@ public static class AssertionExtensions
     /// <param name="conditionExpr"></param>
     /// <returns></returns>
     public static ContinueWithActual<TActual> Satisfies<TActual>(
-        this TActual actual, Func<TActual, bool> condition,
+        this TActual actual, Func<TActual?, bool> condition,
         [CallerArgumentExpression(nameof(actual))] string? actualExpr = null,
         [CallerArgumentExpression(nameof(condition))] string? conditionExpr = null)
     {

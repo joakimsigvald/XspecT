@@ -8,7 +8,10 @@ namespace XspecT.Assert.Continuations;
 /// </summary>
 public record Constraint
 {
-    internal string? ActualExpr { get; set; }
+    /// <summary>
+    /// 
+    /// </summary>
+    internal string ActualExpr { get; set; } = "!UNDESCRIBED!";
     internal string? AuxiliaryVerb { get; set; }
 }
 
@@ -21,8 +24,8 @@ public abstract record Constraint<TActual, TContinuation>
 {
     internal Constraint() : base() => AuxiliaryVerb = typeof(TContinuation).Name.ToWords()[0];
 
-    internal static TContinuation Create(TActual actual, string? actualExpr = null)
-        => new() { Actual = actual, ActualExpr = actualExpr?.ParseActual() };
+    internal static TContinuation Create(TActual? actual, string actualExpr)
+        => new() { Actual = actual, ActualExpr = actualExpr.ParseActual() };
 
     internal TActual? Actual { get; private set; }
 
@@ -31,8 +34,15 @@ public abstract record Constraint<TActual, TContinuation>
         => Assert(expected, () => Xunit.Assert.Equal(expected, Actual), expectedExpr, methodName: string.Empty)
         .And();
 
+    private protected Action NotNullAnd(Action<TActual> assert)
+        => () =>
+        {
+            Xunit.Assert.NotNull(Actual);
+            assert(Actual);
+        };
+
     private protected Constraint<TActual, TContinuation> Assert(
-        object expected,
+        object? expected,
         Action assert,
         string expectedExpr,
         string auxVerb = "be",
@@ -48,16 +58,16 @@ public abstract record Constraint<TActual, TContinuation>
             {
                 var verbStr = $"{auxVerb} {methodName!.AsWords()}".Trim();
                 var expectationStr = $"{verbStr} {expected}".Trim();
-                throw new Xunit.Sdk.XunitException($"Expected {ActualExpr} to {expectationStr} but found {Describe(Actual)}", GetExpected(ex as Xunit.Sdk.XunitException));
+                throw new Xunit.Sdk.XunitException($"Expected {ActualExpr} to {expectationStr} but found {Describe(Actual)}", GetExpectedAsException(ex as Xunit.Sdk.XunitException));
             }
         }, new() { Expected = expectedExpr, Verb = verb, MethodName = methodName! });
 
-    private static Xunit.Sdk.XunitException GetExpected(Xunit.Sdk.XunitException? ex)
+    private static Xunit.Sdk.XunitException? GetExpectedAsException(Xunit.Sdk.XunitException? ex)
         => ex is null || ex.Message.StartsWith("Expected") 
             ? ex 
-            : GetExpected(ex.InnerException as Xunit.Sdk.XunitException);
+            : GetExpectedAsException(ex.InnerException as Xunit.Sdk.XunitException);
 
-    private protected virtual string Describe(TActual value) => value?.ToString() ?? "null";
+    private protected virtual string Describe(TActual? value) => value?.ToString() ?? "null";
 
     internal ContinueWith<TContinuation> And() => new(Continue());
     internal ContinueWithThat<TContinuation, TThat> AndThat<TThat>(TThat that) => new(Continue(), that);

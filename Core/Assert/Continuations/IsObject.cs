@@ -13,20 +13,20 @@ public record IsObject : Constraint<object, IsObject>
     /// </summary>
     /// <returns>A continuation for making additional asserts on the object</returns>
     public ContinueWith<IsObject> Not(
-        object expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => Assert(Describe(expected), () => NotSame(expected, Actual), expectedExpr).And();
+        object expected, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
+        => Assert(Describe(expected), () => NotSame(expected, Actual), expectedExpr!).And();
 
     /// <summary>
     /// Assert that the object is null
     /// </summary>
-    public void Null() => Assert(null, () => Xunit.Assert.Null(Actual), null);
+    public void Null() => Assert(Ignore.Me, () => Xunit.Assert.Null(Actual), string.Empty);
 
     /// <summary>
     /// Assert that the object is not null
     /// </summary>
     /// <returns>A continuation for making additional asserts on the object</returns>
     public ContinueWith<IsObject> NotNull()
-        => Assert(null, () => Xunit.Assert.NotNull(Actual), null).And();
+        => Assert(Ignore.Me, () => Xunit.Assert.NotNull(Actual), string.Empty).And();
 
     /// <summary>
     /// Assert that the object is equal to the given object
@@ -34,7 +34,7 @@ public record IsObject : Constraint<object, IsObject>
     /// <returns>A continuation for making additional asserts on the object</returns>
     public ContinueWith<IsObject> EqualTo(
         object expected,
-        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
+        [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
         => Assert(Describe(expected), () => Equal(expected, Actual), expectedExpr).And();
 
     /// <summary>
@@ -43,7 +43,7 @@ public record IsObject : Constraint<object, IsObject>
     /// <returns>A continuation for making additional asserts on the object</returns>
     public ContinueWith<IsObject> NotEqualTo(
         object expected,
-        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
+        [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
         => Assert(Describe(expected), () => NotEqual(expected, Actual), expectedExpr).And();
 
     /// <summary>
@@ -53,8 +53,8 @@ public record IsObject : Constraint<object, IsObject>
     /// <returns>A continuation for making additional asserts on the object</returns>
     public ContinueWith<IsObject> Like(
         object expected,
-        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => Assert(Describe(expected), () => Equivalent(expected, Actual), expectedExpr).And();
+        [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
+        => Assert(Describe(expected), () => Equivalent(expected, Actual), expectedExpr!).And();
 
     /// <summary>
     /// Assert that the object is not equivalent to the given object with respect to public fields and properties, but ignoring type
@@ -63,7 +63,7 @@ public record IsObject : Constraint<object, IsObject>
     /// <returns>A continuation for making additional asserts on the object</returns>
     public ContinueWith<IsObject> NotLike(
         object expected,
-        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
+        [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
         => Assert(Describe(expected), () =>
         {
             try
@@ -75,7 +75,7 @@ public record IsObject : Constraint<object, IsObject>
                 return;
             }
             Fail();
-        }, expectedExpr).And();
+        }, expectedExpr!).And();
 
     /// <summary>
     /// Assert that the object is equivalent to the given object with respect to public fields and properties, but ignoring type
@@ -84,8 +84,8 @@ public record IsObject : Constraint<object, IsObject>
     /// <returns>A continuation for making additional asserts on the object</returns>
     public ContinueWith<IsObject> EquivalentTo(
         object expected,
-        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => Assert(Describe(expected), () => Equivalent(expected, Actual), expectedExpr).And();
+        [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
+        => Assert(Describe(expected), () => Equivalent(expected, Actual), expectedExpr!).And();
 
     /// <summary>
     /// Assert that the object is not equivalent to the given object with respect to public fields and properties, but ignoring type
@@ -94,7 +94,7 @@ public record IsObject : Constraint<object, IsObject>
     /// <returns>A continuation for making additional asserts on the object</returns>
     public ContinueWith<IsObject> NotEquivalentTo(
         object expected,
-        [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
+        [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
         => Assert(Describe(expected), () =>
         {
             try
@@ -106,5 +106,5 @@ public record IsObject : Constraint<object, IsObject>
                 return;
             }
             Fail();
-        }, expectedExpr).And();
+        }, expectedExpr!).And();
 }

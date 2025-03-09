@@ -13,9 +13,10 @@ public record HasEnumerable<TItem> : EnumerableConstraint<TItem, HasEnumerableCo
     /// <returns>A continuation for making additional asserts on the enumerable or accessing the single item</returns>
     public ContinueWithThat<HasEnumerableContinuation<TItem>, TItem> Single()
     {
-        TItem theItem = default;
-        return Assert("element", () => theItem = Xunit.Assert.Single(Actual), null, "have")
-            .AndThat(theItem);
+        TItem? theItem = default;
+        return Assert("element",
+            NotNullAnd(actual => theItem = Xunit.Assert.Single(actual)), string.Empty, "have")
+            .AndThat(theItem!);
     }
 
     /// <summary>
@@ -25,15 +26,15 @@ public record HasEnumerable<TItem> : EnumerableConstraint<TItem, HasEnumerableCo
     /// <param name="expectedExpr">Ignore, provided by runtime</param>
     /// <returns>A continuation for making additional asserts on the enumerable or accessing the single item</returns>
     public ContinueWithThat<HasEnumerableContinuation<TItem>, TItem> Single(
-        Func<TItem, bool> condition, [CallerArgumentExpression(nameof(condition))] string expectedExpr = null)
+        Func<TItem, bool> condition, [CallerArgumentExpression(nameof(condition))] string? expectedExpr = null)
     {
-        TItem theItem = default;
+        TItem? theItem = default;
         return Assert(
                 "element satisfying the condition",
-                () => theItem = Xunit.Assert.Single(Actual, new Predicate<TItem>(condition)),
-                expectedExpr,
+                NotNullAnd(actual => theItem = Xunit.Assert.Single(actual, new Predicate<TItem>(condition))),
+                expectedExpr!,
                 "have")
-            .AndThat(theItem);
+            .AndThat(theItem!);
     }
 
     /// <summary>
@@ -43,8 +44,8 @@ public record HasEnumerable<TItem> : EnumerableConstraint<TItem, HasEnumerableCo
     /// <param name="expectedExpr">Ignore, provided by runtime</param>
     /// <returns>A continuation for making additional asserts on the enumerable</returns>
     public ContinueWith<HasEnumerableContinuation<TItem>> Count(
-        int expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => Assert(expected, () => Xunit.Assert.Equal(expected, Actual.Count()), expectedExpr, "have").And();
+        int expected, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
+        => Assert(expected, NotNullAnd(actual => Xunit.Assert.Equal(expected, actual.Count())), expectedExpr!, "have").And();
 
     /// <summary>
     /// Assert that the all the items of the enumerable satisfy the given indexed condition.
@@ -54,10 +55,10 @@ public record HasEnumerable<TItem> : EnumerableConstraint<TItem, HasEnumerableCo
     /// <param name="expectedExpr">Ignore, provided by runtime</param>
     /// <returns>A continuation for making additional asserts on the enumerable</returns>
     public ContinueWith<HasEnumerableContinuation<TItem>> All(
-        Func<TItem, int, bool> condition, [CallerArgumentExpression(nameof(condition))] string expectedExpr = null)
+        Func<TItem, int, bool> condition, [CallerArgumentExpression(nameof(condition))] string? expectedExpr = null)
         => Assert("elements satisfying the condition",
-            () => Xunit.Assert.DoesNotContain(Actual.Select((it, i) => (it, i)), t => !condition(t.it, t.i)),
-            expectedExpr,
+            NotNullAnd(actual => Xunit.Assert.DoesNotContain(actual.Select((it, i) => (it, i)), t => !condition(t.it, t.i))),
+            expectedExpr!,
             "have")
         .And();
 
@@ -69,11 +70,11 @@ public record HasEnumerable<TItem> : EnumerableConstraint<TItem, HasEnumerableCo
     /// <param name="expectedExpr">Ignore, provided by runtime</param>
     /// <returns>A continuation for making additional asserts on the enumerable</returns>
     public ContinueWith<HasEnumerableContinuation<TItem>> All(
-        Func<TItem, bool> condition, [CallerArgumentExpression(nameof(condition))] string expectedExpr = null)
+        Func<TItem, bool> condition, [CallerArgumentExpression(nameof(condition))] string? expectedExpr = null)
         => Assert(
             "elements satisfying the condition",
-            () => Xunit.Assert.DoesNotContain(Actual, it => !condition(it)),
-            expectedExpr,
+            NotNullAnd(actual => Xunit.Assert.DoesNotContain(actual, it => !condition(it))),
+            expectedExpr!,
             "have").And();
 
     /// <summary>
@@ -84,11 +85,11 @@ public record HasEnumerable<TItem> : EnumerableConstraint<TItem, HasEnumerableCo
     /// <param name="assertExpr">Ignore, provided by runtime</param>
     /// <returns>A continuation for making additional asserts on the enumerable</returns>
     public ContinueWith<HasEnumerableContinuation<TItem>> All(
-        Action<TItem, int> assert, [CallerArgumentExpression(nameof(assert))] string assertExpr = null)
+        Action<TItem, int> assert, [CallerArgumentExpression(nameof(assert))] string? assertExpr = null)
         => Assert(
             "elements satisfying the assertion",
-            () => Actual.Select((it, i) => (it, i)).ToList().ForEach(t => assert(t.it, t.i)),
-            assertExpr,
+            NotNullAnd(actual => actual.Select((it, i) => (it, i)).ToList().ForEach(t => assert(t.it, t.i))),
+            assertExpr!,
             "have").And();
 
     /// <summary>
@@ -97,11 +98,12 @@ public record HasEnumerable<TItem> : EnumerableConstraint<TItem, HasEnumerableCo
     /// <param name="assert"></param>
     /// <param name="assertExpr">Ignore, provided by runtime</param>
     /// <returns>A continuation for making additional asserts on the enumerable</returns>
-    public ContinueWith<HasEnumerableContinuation<TItem>> All(Action<TItem> assert, [CallerArgumentExpression(nameof(assert))] string assertExpr = null)
+    public ContinueWith<HasEnumerableContinuation<TItem>> All(
+        Action<TItem> assert, [CallerArgumentExpression(nameof(assert))] string? assertExpr = null)
         => Assert(
             "elements satisfying the assertion",
-            () => Actual.ToList().ForEach(assert), assertExpr,
+            NotNullAnd(actual => actual.ToList().ForEach(assert)), assertExpr!,
             "have").And();
 
-    internal override HasEnumerableContinuation<TItem> Continue() => Create(Actual);
+    internal override HasEnumerableContinuation<TItem> Continue() => Create(Actual, ActualExpr);
 }

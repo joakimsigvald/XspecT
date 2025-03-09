@@ -53,5 +53,5 @@ public record DoesString : StringConstraint<DoesStringContinuation>
             () => Xunit.Assert.EndsWith(expected, Actual), 
             expectedExpr, "", "ends with").And();
 
-    internal override DoesStringContinuation Continue() => Create(Actual);
+    internal override DoesStringContinuation Continue() => Create(Actual, ActualExpr);
 }

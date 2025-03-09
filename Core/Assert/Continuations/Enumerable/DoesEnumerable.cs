@@ -15,10 +15,10 @@ public record DoesEnumerable<TItem> : EnumerableConstraint<TItem, DoesEnumerable
     /// <param name="expectedExpr">Ignore, provided by runtime</param>
     /// <returns>A continuation for making additional asserts on the enumerable</returns>
     public ContinueWith<DoesEnumerableContinuation<TItem>> Contain(
-        TItem expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
+        TItem expected, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
         => Assert($"{expected}",
-            () => Xunit.Assert.Contains(expected, Actual),
-            expectedExpr, "", "contains").And();
+            NotNullAnd(actual => Xunit.Assert.Contains(expected, actual)),
+            expectedExpr!, string.Empty, "contains").And();
 
     /// <summary>
     /// Assert that the enumerable does not contain the given item
@@ -27,8 +27,9 @@ public record DoesEnumerable<TItem> : EnumerableConstraint<TItem, DoesEnumerable
     /// <param name="expectedExpr">Ignore, provided by runtime</param>
     /// <returns>A continuation for making additional asserts on the enumerable</returns>
     public ContinueWith<DoesEnumerableContinuation<TItem>> NotContain(
-        TItem expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => Assert($"{expected}", () => Xunit.Assert.DoesNotContain(expected, Actual), expectedExpr, "").And();
+        TItem expected, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
+        => Assert($"{expected}",
+            NotNullAnd(actual => Xunit.Assert.DoesNotContain(expected, actual)), expectedExpr!, string.Empty).And();
 
-    internal override DoesEnumerableContinuation<TItem> Continue() => Create(Actual);
+    internal override DoesEnumerableContinuation<TItem> Continue() => Create(Actual, ActualExpr);
 }

@@ -14,10 +14,10 @@ public record DoesValue<TValue> : Constraint<TValue, DoesValue<TValue>>
     /// <param name="conditionExpr">Ignore, provided by runtime</param>
     /// <returns>A continuation for making additional asserts on the value</returns>
     public ContinueWithActual<TValue> Satisfy(
-        Func<TValue, bool> condition,
-        [CallerArgumentExpression(nameof(condition))] string conditionExpr = null)
+        Func<TValue?, bool> condition,
+        [CallerArgumentExpression(nameof(condition))] string? conditionExpr = null)
     {
-        Assert(conditionExpr.ParseValue(), () => Xunit.Assert.True(condition(Actual)), conditionExpr, "", "satisfies");
+        Assert(conditionExpr!.ParseValue(), () => Xunit.Assert.True(condition(Actual)), conditionExpr!, "", "satisfies");
         return new(Actual);
     }
 }

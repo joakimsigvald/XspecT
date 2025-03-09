@@ -12,25 +12,25 @@ public record IsNullableStruct<TValue> : Constraint<TValue?, IsNullableStruct<TV
     /// Should().NotBeSameAs(expected)
     /// </summary>
     public ContinueWith<IsNullableStruct<TValue>> Not(
-        TValue expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => Assert(Describe(expected), () => Xunit.Assert.NotEqual(expected, Actual), expectedExpr).And();
+        TValue expected, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
+        => Assert(Describe(expected), () => Xunit.Assert.NotEqual(expected, Actual), expectedExpr!).And();
 
     /// <summary>
     /// Should().NotBeSameAs(expected)
     /// </summary>
     public ContinueWith<IsNullableStruct<TValue>> Not(
-        TValue? expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
-        => Assert(Describe(expected), () => Xunit.Assert.NotEqual(expected, Actual), expectedExpr).And();
+        TValue? expected, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
+        => Assert(Describe(expected), () => Xunit.Assert.NotEqual(expected, Actual), expectedExpr!).And();
 
     /// <summary>
     /// Should().BeNull()
     /// </summary>
     public ContinueWith<IsNullableStruct<TValue>> Null()
-        => Assert(null, () => Xunit.Assert.Null(Actual), null).And();
+        => Assert(Ignore.Me, () => Xunit.Assert.Null(Actual), string.Empty).And();
 
     /// <summary>
     /// Should().NotBeNull()
     /// </summary>
     public ContinueWith<IsNullableStruct<TValue>> NotNull()
-        => Assert(null, () => Xunit.Assert.NotNull(Actual), null).And();
+        => Assert(Ignore.Me, () => Xunit.Assert.NotNull(Actual), string.Empty).And();
 }

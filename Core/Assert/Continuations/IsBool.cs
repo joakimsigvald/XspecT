@@ -9,13 +9,13 @@ public record IsBool : Constraint<bool, IsBool>
     /// actual.Should().BeTrue()
     /// </summary>
     public ContinueWith<IsBool> True()
-        => Assert(null, () => Xunit.Assert.True(Actual), null).And();
+        => Assert(Ignore.Me, () => Xunit.Assert.True(Actual), string.Empty).And();
 
     /// <summary>
     /// actual.Should().BeFalse()
     /// </summary>
     public ContinueWith<IsBool> False()
-        => Assert(null, () => Xunit.Assert.False(Actual), null).And();
+        => Assert(Ignore.Me, () => Xunit.Assert.False(Actual), string.Empty).And();
 
     private protected override string Describe(bool value) => $"{value}".ToLower();
 }
