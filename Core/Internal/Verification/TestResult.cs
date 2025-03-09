@@ -10,15 +10,15 @@ namespace XspecT.Internal.Verification;
 
 internal class TestResult<TSUT, TResult> : ITestResultWithSUT<TSUT, TResult>
 {
-    private readonly Exception _error;
+    private readonly Exception? _error;
     private readonly Context _context;
     private readonly bool _hasResult;
-    private TResult _result;
+    private TResult? _result;
 
     internal TestResult(
         TSUT tsut,
         TResult result, 
-        Exception error, 
+        Exception? error, 
         Context context, 
         bool hasResult)
     {
@@ -31,7 +31,7 @@ internal class TestResult<TSUT, TResult> : ITestResultWithSUT<TSUT, TResult>
 
     public TResult Result
     {
-        get => _hasResult && _error is null ? _result : throw UnexpectedError;
+        get => _hasResult && _error is null ? _result! : throw UnexpectedError;
         init => _result = value;
     }
 
@@ -45,10 +45,10 @@ internal class TestResult<TSUT, TResult> : ITestResultWithSUT<TSUT, TResult>
     }
 
     public IAndThen<TResult> Throws<TError>(
-        Func<TError> expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null) 
+        Func<TError> expected, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null) 
         where TError : Exception
     {
-        SpecificationGenerator.AddAssertThrows(expectedExpr);
+        SpecificationGenerator.AddAssertThrows(expectedExpr!);
         AssertError(expected());
         return And();
     }

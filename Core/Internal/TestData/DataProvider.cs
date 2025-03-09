@@ -40,7 +40,7 @@ internal class DataProvider
         var instance = TryGetDefault(typeof(TValue), out var val)
             ? val
             : _testDataGenerator.Instantiate<TValue>();
-        return (TValue)(ApplyDefaultSetup(type, instance) ?? default!);
+        return (TValue)(ApplyDefaultSetup(type, instance!) ?? default!);
     }
 
     internal void Use<TValue>(TValue value, ApplyTo applyTo)

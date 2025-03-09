@@ -35,7 +35,7 @@ public interface ITestPipeline<TSUT, TResult>
     /// <returns>A continuation to apply additional assertions on the test result</returns>
     IAndVerify<TResult> Then<TService>(
         Expression<Action<TService>> expression,
-        [CallerArgumentExpression(nameof(expression))] string expressionExpr = null)
+        [CallerArgumentExpression(nameof(expression))] string? expressionExpr = null)
         where TService : class;
 
     /// <summary>
@@ -48,7 +48,7 @@ public interface ITestPipeline<TSUT, TResult>
     /// <returns>A continuation to apply additional assertions on the test result</returns>
     IAndVerify<TResult> Then<TService>(
         Expression<Action<TService>> expression, Times times,
-        [CallerArgumentExpression(nameof(expression))] string expressionExpr = null)
+        [CallerArgumentExpression(nameof(expression))] string? expressionExpr = null)
         where TService : class;
 
     /// <summary>
@@ -61,7 +61,7 @@ public interface ITestPipeline<TSUT, TResult>
     /// <returns>A continuation to apply additional assertions on the test result</returns>
     IAndVerify<TResult> Then<TService>(
         Expression<Action<TService>> expression, Func<Times> times,
-        [CallerArgumentExpression(nameof(expression))] string expressionExpr = null)
+        [CallerArgumentExpression(nameof(expression))] string? expressionExpr = null)
         where TService : class;
 
     /// <summary>
@@ -74,7 +74,7 @@ public interface ITestPipeline<TSUT, TResult>
     /// <returns>A continuation to apply additional assertions on the test result</returns>
     IAndVerify<TResult> Then<TService, TReturns>(
         Expression<Func<TService, TReturns>> expression,
-        [CallerArgumentExpression(nameof(expression))] string expressionExpr = null)
+        [CallerArgumentExpression(nameof(expression))] string? expressionExpr = null)
         where TService : class;
 
     /// <summary>
@@ -88,7 +88,7 @@ public interface ITestPipeline<TSUT, TResult>
     /// <returns>A continuation to apply additional assertions on the test result</returns>
     IAndVerify<TResult> Then<TService, TReturns>(
         Expression<Func<TService, TReturns>> expression, Times times,
-        [CallerArgumentExpression(nameof(expression))] string expressionExpr = null)
+        [CallerArgumentExpression(nameof(expression))] string? expressionExpr = null)
         where TService : class;
 
     /// <summary>
@@ -102,7 +102,7 @@ public interface ITestPipeline<TSUT, TResult>
     /// <returns>A continuation to apply additional assertions on the test result</returns>
     IAndVerify<TResult> Then<TService, TReturns>(
         Expression<Func<TService, TReturns>> expression, Func<Times> times,
-        [CallerArgumentExpression(nameof(expression))] string expressionExpr = null)
+        [CallerArgumentExpression(nameof(expression))] string? expressionExpr = null)
         where TService : class;
 
     /// <summary>
@@ -112,7 +112,7 @@ public interface ITestPipeline<TSUT, TResult>
     /// <param name="actExpr"></param>
     /// <returns></returns>
     ITestPipeline<TSUT, TResult> When(Action<TSUT> act,
-        [CallerArgumentExpression(nameof(act))] string actExpr = null);
+        [CallerArgumentExpression(nameof(act))] string? actExpr = null);
 
     /// <summary>
     /// Provide the method-under-test to the test-pipeline
@@ -121,7 +121,7 @@ public interface ITestPipeline<TSUT, TResult>
     /// <param name="actExpr"></param>
     /// <returns></returns>
     ITestPipeline<TSUT, TResult> When(Action act,
-        [CallerArgumentExpression(nameof(act))] string actExpr = null);
+        [CallerArgumentExpression(nameof(act))] string? actExpr = null);
 
     /// <summary>
     /// Provide the method-under-test to the test-pipeline
@@ -130,7 +130,7 @@ public interface ITestPipeline<TSUT, TResult>
     /// <param name="actExpr"></param>
     /// <returns>A continuation for providing further arrangement, or executing the test</returns>
     ITestPipeline<TSUT, TResult> When(Func<TSUT, TResult> act,
-        [CallerArgumentExpression(nameof(act))] string actExpr = null);
+        [CallerArgumentExpression(nameof(act))] string? actExpr = null);
 
     /// <summary>
     /// Provide the method-under-test to the test-pipeline
@@ -139,7 +139,7 @@ public interface ITestPipeline<TSUT, TResult>
     /// <param name="actExpr"></param>
     /// <returns>A continuation for providing further arrangement, or executing the test</returns>
     ITestPipeline<TSUT, TResult> When(Func<TResult> act,
-        [CallerArgumentExpression(nameof(act))] string actExpr = null);
+        [CallerArgumentExpression(nameof(act))] string? actExpr = null);
 
     /// <summary>
     /// Provide the method-under-test to the test-pipeline
@@ -148,7 +148,7 @@ public interface ITestPipeline<TSUT, TResult>
     /// <param name="actExpr"></param>
     /// <returns></returns>
     ITestPipeline<TSUT, TResult> When(Func<TSUT, Task> act,
-        [CallerArgumentExpression(nameof(act))] string actExpr = null);
+        [CallerArgumentExpression(nameof(act))] string? actExpr = null);
 
     /// <summary>
     /// Provide the method-under-test to the test-pipeline
@@ -157,7 +157,7 @@ public interface ITestPipeline<TSUT, TResult>
     /// <param name="actExpr"></param>
     /// <returns></returns>
     ITestPipeline<TSUT, TResult> When(Func<Task> act,
-        [CallerArgumentExpression(nameof(act))] string actExpr = null);
+        [CallerArgumentExpression(nameof(act))] string? actExpr = null);
 
     /// <summary>
     /// Provide the method-under-test to the test-pipeline
@@ -166,7 +166,7 @@ public interface ITestPipeline<TSUT, TResult>
     /// <param name="actExpr"></param>
     /// <returns></returns>
     ITestPipeline<TSUT, TResult> When(Func<TSUT, Task<TResult>> act,
-        [CallerArgumentExpression(nameof(act))] string actExpr = null);
+        [CallerArgumentExpression(nameof(act))] string? actExpr = null);
 
     /// <summary>
     /// Provide the method-under-test to the test-pipeline
@@ -175,7 +175,7 @@ public interface ITestPipeline<TSUT, TResult>
     /// <param name="actExpr"></param>
     /// <returns></returns>
     ITestPipeline<TSUT, TResult> When(Func<Task<TResult>> act,
-        [CallerArgumentExpression(nameof(act))] string actExpr = null);
+        [CallerArgumentExpression(nameof(act))] string? actExpr = null);
 
     /// <summary>
     /// Provide a Setup method that will be called before the method-under-test, 
@@ -185,7 +185,7 @@ public interface ITestPipeline<TSUT, TResult>
     /// <param name="setUpExpr"></param>
     /// <returns>A continuation to provide further arrangement to the test-pipeline</returns>
     ITestPipeline<TSUT, TResult> After(Action<TSUT> setUp,
-        [CallerArgumentExpression(nameof(setUp))] string setUpExpr = null);
+        [CallerArgumentExpression(nameof(setUp))] string? setUpExpr = null);
 
     /// <summary>
     /// Provide a Setup method that will be called before the method-under-test.
@@ -195,7 +195,7 @@ public interface ITestPipeline<TSUT, TResult>
     /// <param name="setUpExpr"></param>
     /// <returns>A continuation to provide further arrangement to the test-pipeline</returns>
     ITestPipeline<TSUT, TResult> After(Func<TSUT, Task> setUp,
-        [CallerArgumentExpression(nameof(setUp))] string setUpExpr = null);
+        [CallerArgumentExpression(nameof(setUp))] string? setUpExpr = null);
 
     /// <summary>
     /// Provide a Teardown method that will be called on Dispose of the test class/fixture, 
@@ -205,7 +205,7 @@ public interface ITestPipeline<TSUT, TResult>
     /// <param name="tearDownExpr"></param>
     /// <returns>A continuation to provide further arrangement to the test-pipeline</returns>
     ITestPipeline<TSUT, TResult> Before(Action<TSUT> tearDown,
-        [CallerArgumentExpression(nameof(tearDown))] string tearDownExpr = null);
+        [CallerArgumentExpression(nameof(tearDown))] string? tearDownExpr = null);
 
     /// <summary>
     /// Provide a Teardown method that will be called on Dispose of the test class/fixture, 
@@ -215,7 +215,7 @@ public interface ITestPipeline<TSUT, TResult>
     /// <param name="tearDownExpr"></param>
     /// <returns>A continuation to provide further arrangement to the test-pipeline</returns>
     ITestPipeline<TSUT, TResult> Before(Func<TSUT, Task> tearDown,
-        [CallerArgumentExpression(nameof(tearDown))] string tearDownExpr = null);
+        [CallerArgumentExpression(nameof(tearDown))] string? tearDownExpr = null);
 
     /// <summary>
     /// Provide any arrangement to the test, which will be applied during test execution in reverse order of where in the test-pipeline it was provided
@@ -226,7 +226,7 @@ public interface ITestPipeline<TSUT, TResult>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> Given<TValue>(
         Action<TValue> setup,
-        [CallerArgumentExpression(nameof(setup))] string setupExpr = null) 
+        [CallerArgumentExpression(nameof(setup))] string? setupExpr = null) 
         where TValue : class;
 
     /// <summary>
@@ -238,7 +238,7 @@ public interface ITestPipeline<TSUT, TResult>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> Given<TValue>(
         TValue defaultValue,
-        [CallerArgumentExpression(nameof(defaultValue))] string defaultValueExpr = null);
+        [CallerArgumentExpression(nameof(defaultValue))] string? defaultValueExpr = null);
 
     /// <summary>
     /// A continuation to provide further arrangement
@@ -263,5 +263,5 @@ public interface ITestPipeline<TSUT, TResult>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> Given<TValue>(
         Func<TValue> defaultValue,
-        [CallerArgumentExpression(nameof(defaultValue))] string defaultValueExpr = null);
+        [CallerArgumentExpression(nameof(defaultValue))] string? defaultValueExpr = null);
 }

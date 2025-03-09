@@ -17,6 +17,6 @@ internal class ValueResolver : IMockResolver
     private object GetValue(Type type)
     {
         var (val, found) = _context.Use(type);
-        return found ? val : _context.Create(type);
+        return found ? val! : _context.Create(type);
     }
 }

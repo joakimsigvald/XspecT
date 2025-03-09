@@ -9,7 +9,7 @@ internal static class TypeExtensions
     {
         if (type.IsArray)
         {
-            var elementType = type.GetElementType();
+            var elementType = type.GetElementType()!;
             var rank = type.GetArrayRank();
             return $"{elementType.Alias()}[{new string(',', rank - 1)}]";
         }

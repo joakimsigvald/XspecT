@@ -7,7 +7,7 @@ using XspecT.Internal.Verification;
 
 namespace XspecT.Internal.Pipelines;
 
-internal class Pipeline<TSUT, TResult>(Fixture<TSUT> classFixture) : Fixture<TSUT>(classFixture)
+internal class Pipeline<TSUT, TResult>(Fixture<TSUT>? classFixture) : Fixture<TSUT>(classFixture)
 {
     private TestResult<TSUT, TResult>? _result;
 
@@ -116,7 +116,7 @@ internal class Pipeline<TSUT, TResult>(Fixture<TSUT> classFixture) : Fixture<TSU
         }
         catch (Exception ex) when (ex is not SetupFailed)
         {
-            return new(_fixture.SubjectUnderTest, default, ex, _context, false);
+            return new(_fixture.SubjectUnderTest, default!, ex, _context, false);
         }
     }
 

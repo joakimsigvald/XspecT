@@ -48,7 +48,10 @@ You can provide a default interface instance with 'Given<{mockName}>().Returns(A
     private static Type GetMockedType(Mock mock)
     {
         var mockType = mock.GetType();
-        var mockedTypeProperty = mockType.GetProperty("MockedType", BindingFlags.NonPublic | BindingFlags.Instance);
-        return mockedTypeProperty.GetValue(mock) as Type;
+        var mockedTypeProperty = 
+            mockType.GetProperty("MockedType", BindingFlags.NonPublic | BindingFlags.Instance)
+            ?? throw new InvalidOperationException($"Failed to get mocked type property of type {mockType}");
+        return mockedTypeProperty.GetValue(mock) as Type 
+            ?? throw new InvalidOperationException($"Failed to get type of mock property {mockedTypeProperty}");
     }
 }

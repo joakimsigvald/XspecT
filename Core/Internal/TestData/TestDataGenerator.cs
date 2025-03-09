@@ -2,6 +2,7 @@
 using AutoFixture.Kernel;
 using Moq;
 using Moq.AutoMock;
+using System.Diagnostics.CodeAnalysis;
 
 namespace XspecT.Internal.TestData;
 
@@ -28,7 +29,7 @@ internal class TestDataGenerator
     internal TValue Create<TValue>()
         => typeof(TValue).IsInterface ? _mocker.Get<TValue>() : CreateValue<TValue>();
 
-    internal void Use<TService>(TService service)
+    internal void Use<TService>([DisallowNull] TService service)
     {
         _mocker.Use(service);
         var type = typeof(TService);
@@ -91,7 +92,7 @@ internal class TestDataGenerator
     {
         try
         {
-            return Activator.CreateInstance(type);
+            return Activator.CreateInstance(type)!;
         }
         catch (ArgumentException)
         {

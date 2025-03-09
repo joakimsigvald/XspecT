@@ -6,7 +6,7 @@ namespace XspecT.Internal.Pipelines;
 internal class SpecFixture<TSUT> : IDisposable
 {
     private bool _disposed;
-    private Lazy<TSUT> _sut;
+    private Lazy<TSUT>? _sut;
     private readonly List<Command> _setUp = [];
     private readonly List<Command> _tearDown = [];
 
@@ -21,7 +21,7 @@ internal class SpecFixture<TSUT> : IDisposable
             Invoke<object>(setUp);
     }
     internal bool IsSetUp => _sut is not null;
-    internal TSUT SubjectUnderTest => _sut.Value;
+    internal TSUT SubjectUnderTest => _sut!.Value;
     internal void TearDown()
     {
         foreach (var tearDown in _tearDown)
@@ -40,14 +40,13 @@ internal class SpecFixture<TSUT> : IDisposable
     internal (TResult result, bool hasResult) Invoke<TResult>(
         Command command, [CallerArgumentExpression(nameof(command))] string? commandName = null)
     {
-        var sut = _sut.Value;
         return command.Invocation switch
         {
-            Func<TSUT, Task<TResult>> queryAsync => (AsyncHelper.Execute(() => queryAsync(sut)), true),
+            Func<TSUT, Task<TResult>> queryAsync => (AsyncHelper.Execute(() => queryAsync(SubjectUnderTest)), true),
             Func<Task<TResult>> queryAsync => (AsyncHelper.Execute(() => queryAsync()), true),
             Func<TSUT, Task> actAsync => ActOnSubjectAndReturnAsync(actAsync),
             Func<Task> actAsync => ActAndReturnAsync(actAsync),
-            Func<TSUT, TResult> query => (query(sut), true),
+            Func<TSUT, TResult> query => (query(SubjectUnderTest), true),
             Func<TResult> query => (query(), true),
             Action<TSUT> act => ActOnSubjectAndReturn(act),
             Action act => ActAndReturn(act),
@@ -62,7 +61,7 @@ internal class SpecFixture<TSUT> : IDisposable
 
         (TResult, bool) ActOnSubjectAndReturn(Action<TSUT> act)
         {
-            act(_sut.Value);
+            act(SubjectUnderTest);
             return (default!, false);
         }
 
@@ -74,7 +73,7 @@ internal class SpecFixture<TSUT> : IDisposable
 
         (TResult, bool) ActOnSubjectAndReturnAsync(Func<TSUT, Task> actAsync)
         {
-            AsyncHelper.Execute(() => actAsync(sut));
+            AsyncHelper.Execute(() => actAsync(SubjectUnderTest));
             return (default!, false);
         }
     }

@@ -15,7 +15,7 @@ internal class InterfaceCustomization : ISpecimenBuilder
             var (val, found) = _context.Use(type);
             try
             {
-                return found ? val : _context.GetMock(type).Object;
+                return found ? val! : _context.GetMock(type).Object;
             }
             catch { }
         }

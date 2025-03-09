@@ -12,8 +12,8 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <returns></returns>
     public ITestPipeline<TSUT, TResult> When(
         Action act,
-        [CallerArgumentExpression(nameof(act))] string expr = null)
-        => SetAction(act, expr);
+        [CallerArgumentExpression(nameof(act))] string? expr = null)
+        => SetAction(act, expr!);
 
     /// <summary>
     /// Provide the method-under-test to the test-pipeline
@@ -23,8 +23,8 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <returns></returns>
     public ITestPipeline<TSUT, TResult> When(
         Action<TSUT> act,
-        [CallerArgumentExpression(nameof(act))] string expr = null)
-        => SetAction(act, expr);
+        [CallerArgumentExpression(nameof(act))] string? expr = null)
+        => SetAction(act, expr!);
 
     /// <summary>
     /// Provide the method-under-test to the test-pipeline
@@ -34,8 +34,8 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <returns></returns>
     public ITestPipeline<TSUT, TResult> When(
     Func<TSUT, TResult> act,
-        [CallerArgumentExpression(nameof(act))] string expr = null)
-        => SetAction(act, expr);
+        [CallerArgumentExpression(nameof(act))] string? expr = null)
+        => SetAction(act, expr!);
 
     /// <summary>
     /// Provide the method-under-test to the test-pipeline
@@ -44,8 +44,8 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <param name="expr"></param>
     /// <returns></returns>
     public ITestPipeline<TSUT, TResult> When(
-    Func<TResult> act, [CallerArgumentExpression(nameof(act))] string expr = null)
-        => SetAction(act, expr);
+    Func<TResult> act, [CallerArgumentExpression(nameof(act))] string? expr = null)
+        => SetAction(act, expr!);
 
     /// <summary>
     /// Provide the method-under-test to the test-pipeline
@@ -54,8 +54,8 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <param name="expr"></param>
     /// <returns></returns>
     public ITestPipeline<TSUT, TResult> When(
-        Func<TSUT, Task> act, [CallerArgumentExpression(nameof(act))] string expr = null)
-        => SetAction(act, expr);
+        Func<TSUT, Task> act, [CallerArgumentExpression(nameof(act))] string? expr = null)
+        => SetAction(act, expr!);
 
     /// <summary>
     /// Provide the method-under-test to the test-pipeline
@@ -64,8 +64,8 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <param name="expr"></param>
     /// <returns></returns>
     public ITestPipeline<TSUT, TResult> When(
-        Func<Task> act, [CallerArgumentExpression(nameof(act))] string expr = null) 
-        => SetAction(act, expr);
+        Func<Task> act, [CallerArgumentExpression(nameof(act))] string? expr = null) 
+        => SetAction(act, expr!);
 
     /// <summary>
     /// Provide the method-under-test to the test-pipeline
@@ -74,8 +74,8 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <param name="expr"></param>
     /// <returns></returns>
     public ITestPipeline<TSUT, TResult> When(
-        Func<TSUT, Task<TResult>> act, [CallerArgumentExpression(nameof(act))] string expr = null) 
-        => SetAction(act, expr);
+        Func<TSUT, Task<TResult>> act, [CallerArgumentExpression(nameof(act))] string? expr = null) 
+        => SetAction(act, expr!);
 
     /// <summary>
     /// Provide the method-under-test to the test-pipeline
@@ -84,8 +84,8 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <param name="expr"></param>
     /// <returns></returns>
     public ITestPipeline<TSUT, TResult> When(
-        Func<Task<TResult>> act, [CallerArgumentExpression(nameof(act))] string expr = null)
-        => SetAction(act, expr);
+        Func<Task<TResult>> act, [CallerArgumentExpression(nameof(act))] string? expr = null)
+        => SetAction(act, expr!);
 
     /// <summary>
     /// Provide the tearDown to the test-pipeline
@@ -94,8 +94,8 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <param name="expr"></param>
     /// <returns></returns>
     public ITestPipeline<TSUT, TResult> Before(
-        Action<TSUT> tearDown, [CallerArgumentExpression(nameof(tearDown))] string expr = null)
-        => SetTearDown(tearDown, expr);
+        Action<TSUT> tearDown, [CallerArgumentExpression(nameof(tearDown))] string? expr = null)
+        => SetTearDown(tearDown, expr!);
 
     /// <summary>
     /// Provide the tearDown to the test-pipeline
@@ -104,8 +104,8 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <param name="expr"></param>
     /// <returns></returns>
     public ITestPipeline<TSUT, TResult> Before(
-        Func<TSUT, Task> tearDown, [CallerArgumentExpression(nameof(tearDown))] string expr = null)
-        => SetTearDown(tearDown, expr);
+        Func<TSUT, Task> tearDown, [CallerArgumentExpression(nameof(tearDown))] string? expr = null)
+        => SetTearDown(tearDown, expr!);
 
     /// <summary>
     /// Provide the setUp to the test-pipeline
@@ -114,8 +114,8 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <param name="expr"></param>
     /// <returns></returns>
     public ITestPipeline<TSUT, TResult> After(
-        Action<TSUT> setUp, [CallerArgumentExpression(nameof(setUp))] string expr = null)
-        => PrependSetUp(setUp, expr);
+        Action<TSUT> setUp, [CallerArgumentExpression(nameof(setUp))] string? expr = null)
+        => PrependSetUp(setUp, expr!);
 
     /// <summary>
     /// Provide the setUp to the test-pipeline
@@ -124,8 +124,8 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <param name="expr"></param>
     /// <returns></returns>
     public ITestPipeline<TSUT, TResult> After(
-        Func<TSUT, Task> setUp, [CallerArgumentExpression(nameof(setUp))] string expr = null)
-        => PrependSetUp(setUp, expr);
+        Func<TSUT, Task> setUp, [CallerArgumentExpression(nameof(setUp))] string? expr = null)
+        => PrependSetUp(setUp, expr!);
 
     private Spec<TSUT, TResult> SetAction(Delegate act, string expr)
     {

@@ -18,10 +18,10 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <returns></returns>
     public IGivenTestPipeline<TSUT, TResult> Given<TValue>(
         Action<TValue> setup,
-        [CallerArgumentExpression(nameof(setup))] string setupExpr = null)
+        [CallerArgumentExpression(nameof(setup))] string? setupExpr = null)
         where TValue : class
     {
-        _pipeline.SetDefault(setup, setupExpr);
+        _pipeline.SetDefault(setup, setupExpr!);
         return new GivenTestPipeline<TSUT, TResult>(this);
     }
 
@@ -34,9 +34,9 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <returns></returns>
     public IGivenTestPipeline<TSUT, TResult> Given<TValue>(
         Func<TValue, TValue> transform,
-        [CallerArgumentExpression(nameof(transform))] string transformExpr = null)
+        [CallerArgumentExpression(nameof(transform))] string? transformExpr = null)
     {
-        _pipeline.SetDefault(transform, transformExpr);
+        _pipeline.SetDefault(transform, transformExpr!);
         return new GivenTestPipeline<TSUT, TResult>(this);
     }
 
@@ -49,8 +49,8 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <returns></returns>
     public IGivenTestPipeline<TSUT, TResult> Given<TValue>(
         TValue defaultValue,
-        [CallerArgumentExpression(nameof(defaultValue))] string defaultValueExpr = null)
-        => GivenDefault(defaultValue, ApplyTo.All, defaultValueExpr);
+        [CallerArgumentExpression(nameof(defaultValue))] string? defaultValueExpr = null)
+        => GivenDefault(defaultValue, ApplyTo.All, defaultValueExpr!);
 
     /// <summary>
     /// Provide an array of default values, that will be applied in all mocks and auto-generated test-data, where no specific value or setup is given.
@@ -62,9 +62,9 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <returns></returns>
     public IGivenTestPipeline<TSUT, TResult> Given<TValue>(
         TValue[] defaultValues,
-        [CallerArgumentExpression(nameof(defaultValues))] string defaultValuesExpr = null)
+        [CallerArgumentExpression(nameof(defaultValues))] string? defaultValuesExpr = null)
     {
-        _pipeline.SetDefault(defaultValues, ApplyTo.All, defaultValuesExpr);
+        _pipeline.SetDefault(defaultValues, ApplyTo.All, defaultValuesExpr!);
         defaultValues?.Take(5).Select((value, i) => _pipeline.Mention(i, value)).ToArray();
         return new GivenTestPipeline<TSUT, TResult>(this);
     }
@@ -96,8 +96,8 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <returns></returns>
     public IGivenTestPipeline<TSUT, TResult> Given<TValue>(
         Func<TValue> defaultValue,
-        [CallerArgumentExpression(nameof(defaultValue))] string defaultValueExpr = null)
-        => GivenDefault(defaultValue, ApplyTo.All, defaultValueExpr);
+        [CallerArgumentExpression(nameof(defaultValue))] string? defaultValueExpr = null)
+        => GivenDefault(defaultValue, ApplyTo.All, defaultValueExpr!);
 
     internal IGivenTestPipeline<TSUT, TResult> GivenDefault<TValue>(TValue defaultValue, ApplyTo applyTo, string defaultValueExpr)
     {
@@ -110,8 +110,8 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
 
     internal IGivenTestPipeline<TSUT, TResult> SetupMention<TValue>(
         Action mention,
-        string mentionExpr = null,
-        [CallerMemberName] string article = null)
+        string mentionExpr,
+        [CallerMemberName] string? article = null)
         => ArrangeFirst(() =>
         {
             SpecificationGenerator.AddGiven<TValue>(mentionExpr, article);
@@ -119,10 +119,10 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
         });
 
     internal IGivenTestPipeline<TSUT, TResult> SetupMentionCount<TValue>(
-        Action mention, [CallerMemberName] string count = null)
+        Action mention, [CallerMemberName] string? count = null)
         => ArrangeFirst(() =>
         {
-            SpecificationGenerator.AddGivenCount<TValue>(count);
+            SpecificationGenerator.AddGivenCount<TValue>(count!);
             mention();
         });
 

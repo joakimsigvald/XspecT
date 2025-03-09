@@ -12,55 +12,55 @@ internal class AndVerify<TSUT, TResult> : AndThen<TSUT, TResult>, IAndVerify<TRe
 
     public IAndVerify<TResult> And<TObject>(
         Expression<Action<TObject>> expression,
-        [CallerArgumentExpression(nameof(expression))] string expressionExpr = null) 
+        [CallerArgumentExpression(nameof(expression))] string? expressionExpr = null) 
         where TObject : class
     {
         SpecificationGenerator.AddThen();
-        return Parent.Verify(expression, expressionExpr);
+        return Parent.Verify(expression, expressionExpr!);
     }
 
     public IAndVerify<TResult> And<TObject>(
         Expression<Action<TObject>> expression, Times times,
-        [CallerArgumentExpression(nameof(expression))] string expressionExpr = null) 
+        [CallerArgumentExpression(nameof(expression))] string? expressionExpr = null) 
         where TObject : class
     {
         SpecificationGenerator.AddThen();
-        return Parent.Verify(expression, times, expressionExpr);
+        return Parent.Verify(expression, times, expressionExpr!);
     }
 
     public IAndVerify<TResult> And<TObject>(
         Expression<Action<TObject>> expression, Func<Times> times,
-        [CallerArgumentExpression(nameof(expression))] string expressionExpr = null) 
+        [CallerArgumentExpression(nameof(expression))] string? expressionExpr = null) 
         where TObject : class
     {
         SpecificationGenerator.AddThen();
-        return Parent.Verify(expression, times, expressionExpr);
+        return Parent.Verify(expression, times, expressionExpr!);
     }
 
     public IAndVerify<TResult> And<TObject, TReturns>(
         Expression<Func<TObject, TReturns>> expression,
-        [CallerArgumentExpression(nameof(expression))] string expressionExpr = null) 
+        [CallerArgumentExpression(nameof(expression))] string? expressionExpr = null) 
         where TObject : class
     {
         SpecificationGenerator.AddThen();
-        return Parent.Verify(expression, expressionExpr);
+        return Parent.Verify(expression, expressionExpr!);
     }
 
     public IAndVerify<TResult> And<TObject, TReturns>(
         Expression<Func<TObject, TReturns>> expression, Times times,
-        [CallerArgumentExpression(nameof(expression))] string expressionExpr = null)
+        [CallerArgumentExpression(nameof(expression))] string? expressionExpr = null)
         where TObject : class
     {
         SpecificationGenerator.AddThen();
-        return Parent.Verify(expression, times, expressionExpr);
+        return Parent.Verify(expression, times, expressionExpr!);
     }
 
     public IAndVerify<TResult> And<TObject, TReturns>(
         Expression<Func<TObject, TReturns>> expression, Func<Times> times,
-        [CallerArgumentExpression(nameof(expression))] string expressionExpr = null)
+        [CallerArgumentExpression(nameof(expression))] string? expressionExpr = null)
         where TObject : class
     {
         SpecificationGenerator.AddThen();
-        return Parent.Verify(expression, times, expressionExpr);
+        return Parent.Verify(expression, times, expressionExpr!);
     }
 }
