@@ -13,7 +13,7 @@ internal class GivenThatContinuation<TSUT, TResult, TService, TReturns, TActualR
     internal GivenThatContinuation(
         Spec<TSUT, TResult> spec,
         Expression<Func<TService, TActualReturns>> call,
-        string callExpr = null)
+        string callExpr)
         : base(spec, GetSetup(call), callExpr) { }
 
     private static Func<Mock<TService>, bool, object> GetSetup(Expression<Func<TService, TActualReturns>> call)
@@ -21,21 +21,21 @@ internal class GivenThatContinuation<TSUT, TResult, TService, TReturns, TActualR
 
     public IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns> Tap(
         Action callback,
-        [CallerArgumentExpression(nameof(callback))] string callbackExpr = null)
-        => ContinueWith(() => MockSetup.Callback(callback), callbackExpr);
+        [CallerArgumentExpression(nameof(callback))] string? callbackExpr = null)
+        => ContinueWith(() => MockSetup.Callback(callback), callbackExpr!);
 
     public IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns> Tap<TArg>(
         Action<TArg> callback,
-        [CallerArgumentExpression(nameof(callback))] string callbackExpr = null)
-        => ContinueWith(() => MockSetup.Callback(callback), callbackExpr);
+        [CallerArgumentExpression(nameof(callback))] string? callbackExpr = null)
+        => ContinueWith(() => MockSetup.Callback(callback), callbackExpr!);
 
     public IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> Returns<TArg>(
         Func<TArg, TReturns> returns,
-        [CallerArgumentExpression(nameof(returns))] string returnsExpr = null)
+        [CallerArgumentExpression(nameof(returns))] string? returnsExpr = null)
     {
         if (returns is null)
             throw new SetupFailed($"{nameof(returns)} may not be null");
-        TReturns retVal = default;
+        TReturns? retVal = default;
         var continuation = ContinueWith(() => MockSetup.Callback(callback));
         return continuation.Returns(() => retVal, returnsExpr);
 
@@ -44,14 +44,14 @@ internal class GivenThatContinuation<TSUT, TResult, TService, TReturns, TActualR
 
     public IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns> Tap<TArg1, TArg2>(
         Action<TArg1, TArg2> callback,
-        [CallerArgumentExpression(nameof(callback))] string callbackExpr = null)
-        => ContinueWith(() => MockSetup.Callback(callback), callbackExpr);
+        [CallerArgumentExpression(nameof(callback))] string? callbackExpr = null)
+        => ContinueWith(() => MockSetup.Callback(callback), callbackExpr!);
 
     public IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> Returns<TArg1, TArg2>(Func<TArg1, TArg2, TReturns> returns)
     {
         if (returns is null)
             throw new SetupFailed($"{nameof(returns)} may not be null");
-        TReturns retVal = default;
+        TReturns? retVal = default;
         var continuation = ContinueWith(() => MockSetup.Callback(callback));
         return continuation.Returns(() => retVal);
 
@@ -60,14 +60,14 @@ internal class GivenThatContinuation<TSUT, TResult, TService, TReturns, TActualR
 
     public IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns> Tap<TArg1, TArg2, TArg3>(
         Action<TArg1, TArg2, TArg3> callback,
-        [CallerArgumentExpression(nameof(callback))] string callbackExpr = null)
-        => ContinueWith(() => MockSetup.Callback(callback));
+        [CallerArgumentExpression(nameof(callback))] string? callbackExpr = null)
+        => ContinueWith(() => MockSetup.Callback(callback), callbackExpr);
 
     public IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> Returns<TArg1, TArg2, TArg3>(Func<TArg1, TArg2, TArg3, TReturns> returns)
     {
         if (returns is null)
             throw new SetupFailed($"{nameof(returns)} may not be null");
-        TReturns retVal = default;
+        TReturns? retVal = default;
         var continuation = ContinueWith(() => MockSetup.Callback(callback));
         return continuation.Returns(() => retVal);
 
@@ -76,14 +76,14 @@ internal class GivenThatContinuation<TSUT, TResult, TService, TReturns, TActualR
 
     public IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns> Tap<TArg1, TArg2, TArg3, TArg4>(
         Action<TArg1, TArg2, TArg3, TArg4> callback,
-        [CallerArgumentExpression(nameof(callback))] string callbackExpr = null)
-        => ContinueWith(() => MockSetup.Callback(callback), callbackExpr);
+        [CallerArgumentExpression(nameof(callback))] string? callbackExpr = null)
+        => ContinueWith(() => MockSetup.Callback(callback), callbackExpr!);
 
     public IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> Returns<TArg1, TArg2, TArg3, TArg4>(Func<TArg1, TArg2, TArg3, TArg4, TReturns> returns)
     {
         if (returns is null)
             throw new SetupFailed($"{nameof(returns)} may not be null");
-        TReturns retVal = default;
+        TReturns? retVal = default;
         var continuation = ContinueWith(() => MockSetup.Callback(callback));
         return continuation.Returns(() => retVal);
 
@@ -92,14 +92,14 @@ internal class GivenThatContinuation<TSUT, TResult, TService, TReturns, TActualR
 
     public IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns> Tap<TArg1, TArg2, TArg3, TArg4, TArg5>(
         Action<TArg1, TArg2, TArg3, TArg4, TArg5> callback,
-        [CallerArgumentExpression(nameof(callback))] string callbackExpr = null)
-        => ContinueWith(() => MockSetup.Callback(callback), callbackExpr);
+        [CallerArgumentExpression(nameof(callback))] string? callbackExpr = null)
+        => ContinueWith(() => MockSetup.Callback(callback), callbackExpr!);
 
     public IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> Returns<TArg1, TArg2, TArg3, TArg4, TArg5>(Func<TArg1, TArg2, TArg3, TArg4, TArg5, TReturns> returns)
     {
         if (returns is null)
             throw new SetupFailed($"{nameof(returns)} may not be null");
-        TReturns retVal = default;
+        TReturns? retVal = default;
         var continuation = ContinueWith(() => MockSetup.Callback(callback));
         return continuation.Returns(() => retVal);
 

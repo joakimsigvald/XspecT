@@ -17,7 +17,7 @@ internal class GivenServiceContinuation<TSUT, TResult, TService> : IGivenService
         [CallerArgumentExpression(nameof(returns))] string? returnsExpr = null)
     {
         _spec.ArrangeLast(DoSetupReturnsDefault);
-        return new GivenThatReturnsContinuation<TSUT, TResult, TService, TReturns>(_spec);
+        return new GivenThatReturnsContinuation<TSUT, TResult, TService, TReturns>(_spec, null);
 
         void DoSetupReturnsDefault()
         {

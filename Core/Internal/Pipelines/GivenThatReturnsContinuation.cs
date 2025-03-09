@@ -9,10 +9,10 @@ internal class GivenThatReturnsContinuation<TSUT, TResult, TService, TReturns>
     where TService : class
 {
     private readonly GivenServiceContinuation<TSUT, TResult, TService> _serviceContinuation;
-    private readonly GivenThatCommonContinuation<TSUT, TResult, TService, TReturns> _previous;
+    private readonly GivenThatCommonContinuation<TSUT, TResult, TService, TReturns>? _previous;
 
     internal GivenThatReturnsContinuation(
-        Spec<TSUT, TResult> spec, GivenThatCommonContinuation<TSUT, TResult, TService, TReturns> previous = null) 
+        Spec<TSUT, TResult> spec, GivenThatCommonContinuation<TSUT, TResult, TService, TReturns>? previous) 
         : base(spec)
     {
         _serviceContinuation = new(spec);
@@ -21,7 +21,7 @@ internal class GivenThatReturnsContinuation<TSUT, TResult, TService, TReturns>
 
     public IGivenThatCommonContinuation<TSUT, TResult, TService, TReturns> AndNext()
     {
-        if (!_previous._isSequential)
+        if (_previous is null || !_previous._isSequential)
             throw new SetupFailed("AndNext must be preceded by First, which starts a sequential mock setup: Given...That...First");
         return _previous.AndNext();
     }
@@ -31,11 +31,11 @@ internal class GivenThatReturnsContinuation<TSUT, TResult, TService, TReturns>
 
     public IGivenThatContinuation<TSUT, TResult, TService, TReturns2> AndThat<TReturns2>(
         Expression<Func<TService, TReturns2>> call,
-        [CallerArgumentExpression(nameof(call))] string callExpr = null)
-        => _serviceContinuation.That(call, callExpr);
+        [CallerArgumentExpression(nameof(call))] string? callExpr = null)
+        => _serviceContinuation.That(call, callExpr!);
 
     public IGivenThatContinuation<TSUT, TResult, TService, TReturns2> AndThat<TReturns2>(
         Expression<Func<TService, Task<TReturns2>>> call,
-        [CallerArgumentExpression(nameof(call))] string callExpr = null) 
-        => _serviceContinuation.That(call, callExpr);
+        [CallerArgumentExpression(nameof(call))] string? callExpr = null) 
+        => _serviceContinuation.That(call, callExpr!);
 }

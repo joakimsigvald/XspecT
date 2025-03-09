@@ -13,7 +13,7 @@ internal abstract class GivenThatCommonContinuation<TSUT, TResult, TService, TRe
     private readonly Lazy<object> _lazyContinuation;
     private readonly Func<bool, object> _setup;
     private readonly string _callExpr;
-    private readonly string _tapExpr;
+    private readonly string? _tapExpr;
     internal readonly bool _isSequential;
 
     protected GivenThatCommonContinuation(
@@ -29,7 +29,7 @@ internal abstract class GivenThatCommonContinuation<TSUT, TResult, TService, TRe
         Func<bool, object> setup,
         string callExpr,
         string? tapExpr = null,
-        Lazy<object> lazyContinuation = null,
+        Lazy<object>? lazyContinuation = null,
         bool isSequential = false)
     {
         _spec = spec;
@@ -47,11 +47,11 @@ internal abstract class GivenThatCommonContinuation<TSUT, TResult, TService, TRe
     }
 
     public IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> Returns(
-        Func<TReturns> returns, [CallerArgumentExpression(nameof(returns))] string returnsExpr = null)
+        Func<TReturns?> returns, [CallerArgumentExpression(nameof(returns))] string? returnsExpr = null)
     {
         if (returns is null)
             throw new SetupFailed($"{nameof(returns)} may not be null");
-        _spec.ArrangeLast(() => SetupReturns(returns, returnsExpr));
+        _spec.ArrangeLast(() => SetupReturns(returns, returnsExpr!));
         return new GivenThatReturnsContinuation<TSUT, TResult, TService, TReturns>(_spec, this);
     }
 
@@ -66,9 +66,9 @@ internal abstract class GivenThatCommonContinuation<TSUT, TResult, TService, TRe
     }
 
     public IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> Throws(
-        Func<Exception> expected, [CallerArgumentExpression(nameof(expected))] string expectedExpr = null)
+        Func<Exception> expected, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
     {
-        _spec.ArrangeLast(() => SetupThrows(expected, expectedExpr));
+        _spec.ArrangeLast(() => SetupThrows(expected, expectedExpr!));
         return new GivenThatReturnsContinuation<TSUT, TResult, TService, TReturns>(_spec, this);
     }
 
@@ -79,13 +79,13 @@ internal abstract class GivenThatCommonContinuation<TSUT, TResult, TService, TRe
         => InSequence("next", _lazyContinuation);
 
     protected GivenThatNextContinuation<TSUT, TResult, TService, TReturns> ContinueWith(
-        Func<IFluentInterface> callback, string callbackExpr = null)
-        => new(_spec, _ => callback(), _callExpr, callbackExpr);
+        Func<IFluentInterface> callback, string? tapExpr = null)
+        => new(_spec, _ => callback(), _callExpr, tapExpr);
 
     protected object Continuation => _lazyContinuation.Value;
 
     private GivenThatNextContinuation<TSUT, TResult, TService, TReturns> InSequence(
-        string callExpr, Lazy<object> lazyContinuation = null)
+        string callExpr, Lazy<object>? lazyContinuation = null)
         => new(_spec, _setup, callExpr, lazyContinuation: lazyContinuation, isSequential: true);
 
     private object DoSetup() => _setup(_isSequential);
@@ -102,22 +102,22 @@ internal abstract class GivenThatCommonContinuation<TSUT, TResult, TService, TRe
             sequentialTaskContinuation.Returns(Task.CompletedTask);
         else if (Continuation is Moq.Language.ISetupSequentialResult<TReturns>)
             return;
-        else if (Continuation is Moq.Language.ISetupSequentialResult<Task<TReturns>> sequentialAsyncContinuation)
+        else if (Continuation is Moq.Language.ISetupSequentialResult<Task<TReturns?>> sequentialAsyncContinuation)
             sequentialAsyncContinuation.Returns(Task.FromResult(default(TReturns)));
         else throw new NotImplementedException();
     }
 
-    private void SetupReturns(Func<TReturns> returns, string returnsExpr)
+    private void SetupReturns(Func<TReturns?> returns, string returnsExpr)
     {
         SpecifyMock();
         SpecificationGenerator.AddMockReturns(returnsExpr);
-        if (Continuation is Moq.Language.Flow.IReturnsThrows<TService, TReturns> syncContinuation)
+        if (Continuation is Moq.Language.Flow.IReturnsThrows<TService, TReturns?> syncContinuation)
             syncContinuation.Returns(returns);
-        else if (Continuation is Moq.Language.Flow.IReturnsThrows<TService, Task<TReturns>> asyncContinuation)
+        else if (Continuation is Moq.Language.Flow.IReturnsThrows<TService, Task<TReturns?>> asyncContinuation)
             asyncContinuation.ReturnsAsync(returns);
-        else if (Continuation is Moq.Language.ISetupSequentialResult<TReturns> sequentialContinuation)
+        else if (Continuation is Moq.Language.ISetupSequentialResult<TReturns?> sequentialContinuation)
             sequentialContinuation.Returns(returns);
-        else if (Continuation is Moq.Language.ISetupSequentialResult<Task<TReturns>> sequentialAsyncContinuation)
+        else if (Continuation is Moq.Language.ISetupSequentialResult<Task<TReturns?>> sequentialAsyncContinuation)
             sequentialAsyncContinuation.ReturnsAsync(returns);
         else throw new NotImplementedException();
     }
