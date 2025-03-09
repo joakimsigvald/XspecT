@@ -14,37 +14,37 @@ internal abstract class TestPipeline<TSUT, TResult, TParent>(TParent parent) whe
 
     public IAndVerify<TResult> Then<TService>(
         Expression<Action<TService>> expression,
-        [CallerArgumentExpression(nameof(expression))] string expressionExpr = null) 
+        [CallerArgumentExpression(nameof(expression))] string? expressionExpr = null) 
         where TService : class
-        => Parent.Then(expression, expressionExpr);
+        => Parent.Then(expression, expressionExpr!);
 
     public IAndVerify<TResult> Then<TService>(
         Expression<Action<TService>> expression, Times times,
-        [CallerArgumentExpression(nameof(expression))] string expressionExpr = null)
+        [CallerArgumentExpression(nameof(expression))] string? expressionExpr = null)
         where TService : class
-        => Parent.Then(expression, times, expressionExpr);
+        => Parent.Then(expression, times, expressionExpr!);
 
     public IAndVerify<TResult> Then<TService>(
         Expression<Action<TService>> expression, Func<Times> times,
-        [CallerArgumentExpression(nameof(expression))] string expressionExpr = null) 
+        [CallerArgumentExpression(nameof(expression))] string? expressionExpr = null) 
         where TService : class
-        => Parent.Then(expression, times, expressionExpr);
+        => Parent.Then(expression, times, expressionExpr!);
 
     public IAndVerify<TResult> Then<TService, TReturns>(
         Expression<Func<TService, TReturns>> expression,
-        [CallerArgumentExpression(nameof(expression))] string expressionExpr = null)
+        [CallerArgumentExpression(nameof(expression))] string? expressionExpr = null)
         where TService : class
-        => Parent.Then(expression, expressionExpr);
+        => Parent.Then(expression, expressionExpr!);
 
     public IAndVerify<TResult> Then<TService, TReturns>(
         Expression<Func<TService, TReturns>> expression, Times times,
-        [CallerArgumentExpression(nameof(expression))] string expressionExpr = null)
+        [CallerArgumentExpression(nameof(expression))] string? expressionExpr = null)
         where TService : class
-        => Parent.Then(expression, times, expressionExpr);
+        => Parent.Then(expression, times, expressionExpr!);
 
     public IAndVerify<TResult> Then<TService, TReturns>(
         Expression<Func<TService, TReturns>> expression, Func<Times> times,
-        [CallerArgumentExpression(nameof(expression))] string expressionExpr = null)
+        [CallerArgumentExpression(nameof(expression))] string? expressionExpr = null)
         where TService : class
-        => Parent.Then(expression, times, expressionExpr);
+        => Parent.Then(expression, times, expressionExpr!);
 }

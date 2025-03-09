@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using AutoFixture;
+using System.Text;
 using System.Text.RegularExpressions;
 using XspecT.Internal.Specification;
 
@@ -80,7 +81,7 @@ public static partial class ExpressionParser
         expr = expr.ToSingleLine();
         if (string.IsNullOrEmpty(expr))
             return expr;
-        string prefix = null;
+        string? prefix = null;
         var propNames = expr.Split('.').Reverse().ToList();
         var thenValueRegex = ThenValueRegex();
         var thenValueSegment = propNames.SkipWhile(prop => !thenValueRegex.IsMatch(prop)).FirstOrDefault();
@@ -132,7 +133,7 @@ public static partial class ExpressionParser
 
     private static bool TryParseMentionType(string expr, out string description)
     {
-        description = null;
+        description = string.Empty;
         var match = MentionTypeRegex().Match(expr);
         if (!match.Success)
             return false;
@@ -157,7 +158,7 @@ public static partial class ExpressionParser
 
     private static bool TryParseMentionValue(string expr, out string description)
     {
-        description = null;
+        description = string.Empty;
         var match = MentionValueRegex().Match(expr);
         if (!match.Success)
             return false;
@@ -170,7 +171,7 @@ public static partial class ExpressionParser
 
     private static bool TryParseTupleExpression(string expr, out string description)
     {
-        description = null;
+        description = string.Empty;
         var match = TupleExpressionRegex().Match(expr);
         if (!match.Success)
             return false;
@@ -182,7 +183,7 @@ public static partial class ExpressionParser
 
     private static bool TryParseAssignmentLambda(string expr, out string description)
     {
-        description = null;
+        description = string.Empty;
         var match = AssignmentLambdaRegex().Match(expr);
         if (!match.Success)
             return false;
@@ -197,7 +198,7 @@ public static partial class ExpressionParser
 
     private static bool TryParseIndexedAssignment(string expr, out string description)
     {
-        description = null;
+        description = string.Empty;
         var match = IndexedAssignmentRegex().Match(expr);
         if (!match.Success)
             return false;
@@ -215,7 +216,7 @@ public static partial class ExpressionParser
 
     private static bool TryParseZeroArgLambda(string expr, out string description)
     {
-        description = null;
+        description = string.Empty;
         var match = ZeroArgLambdaRegex().Match(expr);
         if (!match.Success)
             return false;
@@ -227,7 +228,7 @@ public static partial class ExpressionParser
     private static bool TryParseOneArgLambdaInstanceMethodExpression(
         string expr, bool skipSubjectRef, out string description)
     {
-        description = null;
+        description = string.Empty;
         var match = OneArgLambdaInstanceMethodRegex().Match(expr);
         if (!match.Success || match.Groups.Count != 4)
             return false;
@@ -245,7 +246,7 @@ public static partial class ExpressionParser
 
     private static bool TryParseOneArgLambdaValueExpression(string expr, out string description)
     {
-        description = null;
+        description = string.Empty;
         var match = OneArgLambdaValueRegex().Match(expr);
         if (!match.Success)
             return false;
@@ -256,7 +257,7 @@ public static partial class ExpressionParser
 
     private static bool TryParseConstructorCall(string expr, out string description)
     {
-        description = null;
+        description = string.Empty;
         var match = ConstructorCallRegex().Match(expr);
         if (!match.Success)
             return false;
@@ -270,7 +271,7 @@ public static partial class ExpressionParser
 
     private static bool TryParseMethodCall(string expr, out string description)
     {
-        description = null;
+        description = string.Empty;
         var match = MethodCallRegex().Match(expr);
         if (!match.Success)
             return false;
@@ -284,7 +285,7 @@ public static partial class ExpressionParser
 
     private static bool TryParseWith(string expr, out string description)
     {
-        description = null;
+        description = string.Empty;
         var match = WithLambdaRegex().Match(expr);
         if (!match.Success)
             return false;
@@ -301,7 +302,7 @@ public static partial class ExpressionParser
 
     private static bool TryParseAssignment(string expr, out string description)
     {
-        description = null;
+        description = string.Empty;
         var match = AssignmentRegex().Match(expr);
         if (!match.Success)
             return false;
@@ -313,7 +314,7 @@ public static partial class ExpressionParser
 
     private static bool TryParseString(string expr, out string description)
     {
-        description = null;
+        description = string.Empty;
         var match = StringRegex().Match(expr);
         if (!match.Success)
             return false;
@@ -324,7 +325,7 @@ public static partial class ExpressionParser
 
     private static bool TryParseArithmeticExpression(string expr, out string description)
     {
-        description = null;
+        description = string.Empty;
         var match = ArithmeticRegex().Match(expr);
         if (!match.Success)
             return false;

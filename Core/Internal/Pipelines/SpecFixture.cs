@@ -37,7 +37,8 @@ internal class SpecFixture<TSUT> : IDisposable
         SpecificationGenerator.AddThen();
     }
 
-    internal (TResult result, bool hasResult) Invoke<TResult>(Command command, [CallerArgumentExpression(nameof(command))] string commandName = null)
+    internal (TResult result, bool hasResult) Invoke<TResult>(
+        Command command, [CallerArgumentExpression(nameof(command))] string? commandName = null)
     {
         var sut = _sut.Value;
         return command.Invocation switch
@@ -50,31 +51,31 @@ internal class SpecFixture<TSUT> : IDisposable
             Func<TResult> query => (query(), true),
             Action<TSUT> act => ActOnSubjectAndReturn(act),
             Action act => ActAndReturn(act),
-            _ => throw new SetupFailed($"Failed to run {commandName}, unexpected signature")
+            _ => throw new SetupFailed($"Failed to run {commandName!}, unexpected signature")
         };
 
         (TResult, bool) ActAndReturn(Action act)
         {
             act();
-            return (default, false);
+            return (default!, false);
         }
 
         (TResult, bool) ActOnSubjectAndReturn(Action<TSUT> act)
         {
             act(_sut.Value);
-            return (default, false);
+            return (default!, false);
         }
 
         (TResult, bool) ActAndReturnAsync(Func<Task> actAsync)
         {
             AsyncHelper.Execute(() => actAsync());
-            return (default, false);
+            return (default!, false);
         }
 
         (TResult, bool) ActOnSubjectAndReturnAsync(Func<TSUT, Task> actAsync)
         {
             AsyncHelper.Execute(() => actAsync(sut));
-            return (default, false);
+            return (default!, false);
         }
     }
 

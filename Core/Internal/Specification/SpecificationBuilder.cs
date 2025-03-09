@@ -4,16 +4,19 @@ namespace XspecT.Internal.Specification;
 
 internal class SpecificationBuilder
 {
-    private string _description;
     private readonly List<Action> _applications = [];
     private int _givenCount;
     private int _recordingSuppressionCount;
     private int _thenCount;
-    private string _currentMockSetup;
+    private string? _currentMockSetup;
     private readonly TextBuilder _textBuilder = new();
     private bool _isChainOfAssertions = false;
 
-    internal string Specification => _description ??= Build();
+    private readonly Lazy<string> _lazySpecification;
+
+    internal SpecificationBuilder() => _lazySpecification = new Lazy<string>(Build);
+
+    internal string Specification => _lazySpecification.Value;
 
     internal void Init(string prologue) => _textBuilder.Init(prologue);
 
@@ -93,7 +96,7 @@ internal class SpecificationBuilder
         }
     }
 
-    internal void AddGiven<TModel>(string setupExpr, string article)
+    internal void AddGiven<TModel>(string setupExpr, string? article)
     {
         _currentMockSetup = null;
         var articleStr = string.IsNullOrEmpty(article) ? string.Empty : $"{article.AsWords()} ";
