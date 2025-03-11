@@ -18,11 +18,11 @@
     <PackageProjectUrl>https://github.com/joakimsigvald/XspecT</PackageProjectUrl>
     <RepositoryUrl>https://github.com/joakimsigvald/XspecT.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageVersion>18.1.1</PackageVersion>
+    <PackageVersion>18.2.0</PackageVersion>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>icon.png</PackageIcon>
-    <PackageReleaseNotes>Fixed issue with default setup not being applied to auto-generated data and updated to latest pre-release of AutoFixture to remove warnings for vulnerabilities</PackageReleaseNotes>
+    <PackageReleaseNotes>New throws assertion with condition</PackageReleaseNotes>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>

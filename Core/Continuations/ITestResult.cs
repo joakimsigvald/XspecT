@@ -40,6 +40,17 @@ public interface ITestResult<TResult>
     IAndThen<TResult> Throws<TError>(Action<TError> assert);
 
     /// <summary>
+    /// Asserts that the test-run threw an error that satisfies the given predicate
+    /// </summary>
+    /// <typeparam name="TError"></typeparam>
+    /// <param name="condition"></param>
+    /// <param name="conditionExpr"></param>
+    /// <returns></returns>
+    IAndThen<TResult> Throws<TError>(
+        Func<TError, bool> condition, 
+        [CallerArgumentExpression(nameof(condition))] string? conditionExpr = null);
+
+    /// <summary>
     /// Asserts that the test-run threw an error
     /// </summary>
     /// <returns></returns>

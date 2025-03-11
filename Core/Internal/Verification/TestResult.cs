@@ -17,9 +17,9 @@ internal class TestResult<TSUT, TResult> : ITestResultWithSUT<TSUT, TResult>
 
     internal TestResult(
         TSUT tsut,
-        TResult result, 
-        Exception? error, 
-        Context context, 
+        TResult result,
+        Exception? error,
+        Context context,
         bool hasResult)
     {
         SubjectUnderTest = tsut;
@@ -45,7 +45,7 @@ internal class TestResult<TSUT, TResult> : ITestResultWithSUT<TSUT, TResult>
     }
 
     public IAndThen<TResult> Throws<TError>(
-        Func<TError> expected, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null) 
+        Func<TError> expected, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
         where TError : Exception
     {
         SpecificationGenerator.AddAssertThrows(expectedExpr!);
@@ -58,6 +58,15 @@ internal class TestResult<TSUT, TResult> : ITestResultWithSUT<TSUT, TResult>
     {
         SpecificationGenerator.AddAssertThrows<TError>("where");
         AssertError(assert);
+        return And();
+    }
+
+    public IAndThen<TResult> Throws<TError>(
+        Func<TError, bool> condition, [CallerArgumentExpression(nameof(condition))] string? conditionExpr = null)
+    {
+        var conditionSpec = conditionExpr!.ParseValue();
+        SpecificationGenerator.AddAssertThrows<TError>($"where {conditionSpec}");
+        AssertError(condition, conditionSpec);
         return And();
     }
 
@@ -81,22 +90,22 @@ internal class TestResult<TSUT, TResult> : ITestResultWithSUT<TSUT, TResult>
     }
 
     internal IAndVerify<TResult> Verify<TService>(
-        Expression<Action<TService>> expression, string expressionExpr) 
+        Expression<Action<TService>> expression, string expressionExpr)
         where TService : class
         => CombineWithErrorOnFail<TService>(mock => mock.Verify(expression), expressionExpr);
 
     internal IAndVerify<TResult> Verify<TService>(
-        Expression<Action<TService>> expression, Times times, string expressionExpr) 
+        Expression<Action<TService>> expression, Times times, string expressionExpr)
         where TService : class
         => CombineWithErrorOnFail<TService>(mock => mock.Verify(expression, times), expressionExpr);
 
     internal IAndVerify<TResult> Verify<TService>(
-        Expression<Action<TService>> expression, Func<Times> times, string expressionExpr) 
+        Expression<Action<TService>> expression, Func<Times> times, string expressionExpr)
         where TService : class
         => CombineWithErrorOnFail<TService>(mock => mock.Verify(expression, times), expressionExpr);
 
     internal IAndVerify<TResult> Verify<TService, TReturns>(
-        Expression<Func<TService, TReturns>> expression, string expressionExpr) 
+        Expression<Func<TService, TReturns>> expression, string expressionExpr)
         where TService : class
         => CombineWithErrorOnFail<TService>(mock => mock.Verify(expression), expressionExpr);
 
@@ -129,6 +138,13 @@ internal class TestResult<TSUT, TResult> : ITestResultWithSUT<TSUT, TResult>
         {
             throw new XunitException($"Thrown exception {typeof(TError)} didn't meet expectations", ex);
         }
+    }
+
+    private void AssertError<TError>(Func<TError, bool> predicate, string predicateExpr)
+    {
+        var error = AssertError<TError>();
+        if (!predicate(error))
+            throw new XunitException($"Thrown exception {typeof(TError)} didn't satisfy {predicateExpr}.");
     }
 
     private TError AssertError<TError>()
