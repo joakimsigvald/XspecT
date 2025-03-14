@@ -54,32 +54,6 @@ public static class AssertionExtensions
         => IsNullableStruct<TValue>.Create(actual, actualExpr!);
 
     /// <summary>
-    /// Get available assertions for the given enumerable
-    /// </summary>
-    /// <typeparam name="TItem"></typeparam>
-    /// <param name="actual"></param>
-    /// <param name="_"></param>
-    /// <param name="actualExpr"></param>
-    /// <returns></returns>
-    public static IsEnumerable<TItem> Is<TItem>(
-        this IEnumerable<TItem>? actual,
-        Ignore _ = default,
-        [CallerArgumentExpression(nameof(actual))] string? actualExpr = null)
-        => IsEnumerable<TItem>.Create(actual, actualExpr!);
-
-    /// <summary>
-    /// Get available assertions for the given enumerable
-    /// </summary>
-    /// <typeparam name="TItem"></typeparam>
-    /// <param name="actual"></param>
-    /// <param name="actualExpr"></param>
-    /// <returns></returns>
-    public static DoesEnumerable<TItem> Does<TItem>(
-        this IEnumerable<TItem>? actual,
-        [CallerArgumentExpression(nameof(actual))] string? actualExpr = null)
-        => DoesEnumerable<TItem>.Create(actual, actualExpr!);
-
-    /// <summary>
     /// Get available assertions for the given comparable
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
@@ -93,20 +67,6 @@ public static class AssertionExtensions
         [CallerArgumentExpression(nameof(actual))] string? actualExpr = null)
         where TValue : IComparable<TValue>
         => IsComparable<TValue>.Create(actual, actualExpr!);
-
-    /// <summary>
-    /// Get available assertions for enumerable
-    /// </summary>
-    /// <typeparam name="TItem"></typeparam>
-    /// <param name="actual"></param>
-    /// <param name="_"></param>
-    /// <param name="actualExpr"></param>
-    /// <returns></returns>
-    public static HasEnumerable<TItem> Has<TItem>(
-        this IEnumerable<TItem>? actual,
-        Ignore _ = default,
-        [CallerArgumentExpression(nameof(actual))] string? actualExpr = null)
-        => HasEnumerable<TItem>.Create(actual, actualExpr!);
 
     /// <summary>
     /// Verify that the value satisfies a given condition

@@ -59,6 +59,28 @@ public record IsEnumerable<TItem> : EnumerableConstraint<TItem, IsEnumerableCont
         => Assert(Describe(expected), actual => Xunit.Assert.Equal(expected, actual), expectedExpr!).And();
 
     /// <summary>
+    /// Assert that both enumerables are the same instance
+    /// </summary>
+    /// <param name="expected"></param>
+    /// <param name="expectedExpr"></param>
+    /// <returns></returns>
+    public ContinueWith<IsEnumerableContinuation<TItem>> SameAs(
+        IEnumerable<TItem> expected,
+        [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
+        => Assert(Describe(expected), actual => Xunit.Assert.Same(expected, actual), expectedExpr!, methodName: string.Empty).And();
+
+    /// <summary>
+    /// Assert that both enumerables are not the same instance
+    /// </summary>
+    /// <param name="expected"></param>
+    /// <param name="expectedExpr"></param>
+    /// <returns></returns>
+    public ContinueWith<IsEnumerableContinuation<TItem>> NotSameAs(
+        IEnumerable<TItem> expected,
+        [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
+        => Assert(Describe(expected), actual => Xunit.Assert.NotSame(expected, actual), expectedExpr!, methodName: "not").And();
+
+    /// <summary>
     /// Assert that the enumerables are not equal, with regard to length, order and equality of elements
     /// </summary>
     /// <param name="expected">The enumerable to validate against</param>
