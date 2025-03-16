@@ -13,6 +13,7 @@ public record Constraint
     /// </summary>
     internal string ActualExpr { get; set; } = "!UNDESCRIBED!";
     internal string? AuxiliaryVerb { get; set; }
+    internal bool Inverted { private protected get; init; } = false;
 }
 
 /// <summary>
@@ -23,8 +24,6 @@ public abstract record Constraint<TActual, TContinuation>
     where TContinuation : Constraint<TActual, TContinuation>, new()
 {
     internal Constraint() : base() => AuxiliaryVerb = typeof(TContinuation).Name.ToWords()[0];
-
-    private bool Inverted { get; init; } = false;
 
     /// <summary>
     /// Invert the following assertion

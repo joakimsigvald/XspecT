@@ -10,7 +10,7 @@ internal static class StringExtensions
         if (verbalizationStrategy == VerbalizationStrategy.PresentSingularS)
         {
             var firstWord = words[0];
-            if (firstWord.EndsWith("y"))
+            if (firstWord.EndsWith('y'))
                 words[0] = $"{firstWord[..^1]}ies";
             else
                 words[0] = $"{firstWord}s";

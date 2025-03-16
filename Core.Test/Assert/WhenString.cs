@@ -112,7 +112,7 @@ public class WhenString : Spec<string>
     [Fact]
     public void IsNotNullAndNotContainOtherString()
     {
-        "abcd".Is().NotNull().And.Does().NotContain("xxx");
+        "abcd".Is().NotNull().And.Does().Not().Contain("xxx");
         Specification.Is(
             """
             "abcd" is not null

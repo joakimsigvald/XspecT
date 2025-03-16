@@ -14,24 +14,16 @@ public class ContinueWith<TContinuation> where TContinuation : Constraint
     /// <summary>
     /// Get a continuation to make the next assertion
     /// </summary>
-    public TContinuation And
-    {
-        get
-        {
-            SpecificationGenerator.AddAssertConjunction("and");
-            return _continuation with { ActualExpr = string.Empty, AuxiliaryVerb = null };
-        }
-    }
+    public TContinuation And => Continue("and");
 
     /// <summary>
     /// Get a continuation to make the next assertion
     /// </summary>
-    public TContinuation But
+    public TContinuation But => Continue("but");
+
+    private TContinuation Continue(string conjunction) 
     {
-        get
-        {
-            SpecificationGenerator.AddAssertConjunction("but");
-            return _continuation with { ActualExpr = string.Empty, AuxiliaryVerb = null };
-        }
+        SpecificationGenerator.AddAssertConjunction(conjunction);
+        return _continuation with { ActualExpr = string.Empty, AuxiliaryVerb = null, Inverted = false };
     }
 }

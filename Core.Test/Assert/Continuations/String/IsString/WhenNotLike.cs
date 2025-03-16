@@ -10,7 +10,7 @@ public class WhenNotLike : StringSpec
     [InlineData("", "abc")]
     [InlineData("abc", "abcd")]
     public void GivenNotLikeString_ThenDoesNotThrow(string actual, string expected)
-        => actual.Is().NotLike(expected).And.Does().NotContain("XXX");
+        => actual.Is().NotLike(expected).And.Does().Not().Contain("XXX");
 
     [Theory]
     [InlineData(null, null)]

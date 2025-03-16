@@ -9,13 +9,13 @@ public class WhenNotContain : EnumerableSpec
     [InlineData("abc", 'd')]
     [InlineData("abc", 'A')]
     public void GivenListNotContainItem_ThenDoesNotThrow(string actual, char expected)
-        => actual.ToList().Does().NotContain(expected).And.Is().NotNull();
+        => actual.ToList().Does().Not().Contain(expected).And.Is().NotNull();
 
     [Theory]
     [InlineData("abc", 'a')]
     public void GivenListContainItem_ThenGetException(string actual, char expected)
     {
-        var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => actual.ToList().Does().NotContain(expected));
+        var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => actual.ToList().Does().Not().Contain(expected));
         ex.Message.Is("Actual.ToList() does not contain expected");
         ex.InnerException.Message.Is($"Expected actual.ToList() to not contain {expected} but found {Describe(actual)}");
     }

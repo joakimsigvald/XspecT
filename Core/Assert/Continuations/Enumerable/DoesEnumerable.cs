@@ -26,6 +26,7 @@ public record DoesEnumerable<TItem> : EnumerableConstraint<TItem, DoesEnumerable
     /// <param name="expected"></param>
     /// <param name="expectedExpr">Ignore, provided by runtime</param>
     /// <returns>A continuation for making additional asserts on the enumerable</returns>
+    [Obsolete("Use Not().Contain instead")]
     public ContinueWith<DoesEnumerableContinuation<TItem>> NotContain(
         TItem expected, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
         => Assert($"{expected}",
