@@ -8,6 +8,12 @@ namespace XspecT.Assert.Continuations.String;
 public record DoesString : StringConstraint<DoesStringContinuation>
 {
     /// <summary>
+    /// Invert the following assertion
+    /// </summary>
+    public DoesString Not
+        => Create(Actual, ActualExpr, true);
+
+    /// <summary>
     /// Asserts that the string contains the expected string
     /// </summary>
     public ContinueWith<DoesStringContinuation> Contain(
@@ -15,11 +21,14 @@ public record DoesString : StringConstraint<DoesStringContinuation>
         => Assert(
             Describe(expected), 
             actual => Xunit.Assert.Contains(expected, actual), 
-            expectedExpr!, string.Empty, "contains").And();
+            expectedExpr!, 
+            Inverted ? "not" : string.Empty, 
+            Inverted ? "does not contain" : "contains").And();
 
     /// <summary>
     /// Asserts that the string does not contain the expected string
     /// </summary>
+    [Obsolete("Use Not.Contain instead")]
     public ContinueWith<DoesStringContinuation> NotContain(
         string expected, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
         => Assert(

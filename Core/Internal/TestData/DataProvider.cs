@@ -6,7 +6,7 @@ internal class DataProvider
 {
     private readonly Dictionary<Type, object?> _defaultValues = [];
     private readonly Dictionary<Type, Func<Exception>> _defaultExceptions = [];
-    private readonly Dictionary<Type, Dictionary<int, object>> _numberedMentions = [];
+    private readonly Dictionary<Type, Dictionary<int, object?>> _numberedMentions = [];
     private readonly TestDataGenerator _testDataGenerator;
     private readonly Dictionary<Type, Func<object, object>> _defaultSetups = [];
 
@@ -31,7 +31,7 @@ internal class DataProvider
         return true;
     }
 
-    internal Dictionary<int, object> GetMentions(Type type)
+    internal Dictionary<int, object?> GetMentions(Type type)
         => _numberedMentions.TryGetValue(type, out var val) ? val : _numberedMentions[type] = [];
 
     internal TValue Instantiate<TValue>()

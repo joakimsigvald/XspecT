@@ -24,8 +24,10 @@ public abstract record Constraint<TActual, TContinuation>
 {
     internal Constraint() : base() => AuxiliaryVerb = typeof(TContinuation).Name.ToWords()[0];
 
-    internal static TContinuation Create(TActual? actual, string actualExpr)
-        => new() { Actual = actual, ActualExpr = actualExpr.ParseActual() };
+    private protected bool Inverted { get; init; } = false;
+
+    internal static TContinuation Create(TActual? actual, string actualExpr, bool inverted = false)
+        => new() { Actual = actual, ActualExpr = actualExpr.ParseActual(), Inverted = inverted };
 
     internal TActual? Actual { get; private set; }
 
@@ -62,19 +64,34 @@ public abstract record Constraint<TActual, TContinuation>
         string auxVerb = "be",
         string? verb = null,
         [CallerMemberName] string? methodName = null)
-        => Assert(() =>
-        {
-            try
+    {
+        //if (Inverted)
+        //    auxVerb = $"not {auxVerb}".TrimEnd();
+        return Assert(() =>
             {
-                assert(Actual);
-            }
-            catch (Exception ex)
-            {
-                var verbStr = $"{auxVerb} {methodName!.AsWords()}".Trim();
-                var expectationStr = $"{verbStr} {expected}".Trim();
-                throw new Xunit.Sdk.XunitException($"Expected {ActualExpr} to {expectationStr} but found {Describe(Actual)}", GetExpectedAsException(ex as Xunit.Sdk.XunitException));
-            }
-        }, new() { Expected = expectedExpr, Verb = verb, MethodName = methodName! });
+                try
+                {
+                    assert(Actual);
+                }
+                catch (Exception ex)
+                {
+                    if (Inverted)
+                        return;
+                    Fail(ex);
+                }
+                if (Inverted)
+                    Fail();
+
+                void Fail(Exception? ex = null)
+                {
+                    var verbStr = $"{auxVerb} {methodName!.AsWords()}".Trim();
+                    var expectationStr = $"{verbStr} {expected}".Trim();
+                    throw new Xunit.Sdk.XunitException(
+                        $"Expected {ActualExpr} to {expectationStr} but found {Describe(Actual)}",
+                        GetExpectedAsException(ex as Xunit.Sdk.XunitException));
+                }
+            }, new() { Expected = expectedExpr, Verb = verb, MethodName = methodName! });
+    }
 
     private static Xunit.Sdk.XunitException? GetExpectedAsException(Xunit.Sdk.XunitException? ex)
         => ex is null || ex.Message.StartsWith("Expected")

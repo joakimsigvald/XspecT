@@ -18,19 +18,19 @@ internal class Context
         => ApplyTo(setup, Mention<TValue>(index));
 
     internal TValue Mention<TValue>(int index, Func<TValue, TValue> transform)
-        => (TValue)Mention(typeof(TValue), transform.Invoke(Mention<TValue>(index)), index);
+        => (TValue)Mention(typeof(TValue), transform.Invoke(Mention<TValue>(index)), index)!;
 
     internal TValue Mention<TValue>(int index, Func<TValue, int, TValue> transform)
-        => (TValue)Mention(typeof(TValue), transform.Invoke(Mention<TValue>(index), index), index);
+        => (TValue)Mention(typeof(TValue), transform.Invoke(Mention<TValue>(index), index), index)!;
 
     internal TValue Mention<TValue>(int index)
     {
         var type = typeof(TValue);
         var (val, found) = _dataProvider.Retrieve(type, index);
         if (found)
-            return (TValue)val;
+            return (TValue)val!;
         var newValue = _dataProvider.TryGetDefault(type, out var defaultValue)
-            ? (TValue)defaultValue
+            ? (TValue)defaultValue!
             : Create<TValue>();
 
         return Mention(newValue, index);
@@ -53,7 +53,7 @@ internal class Context
             });
 
     internal void SetDefault<TValue>(Func<TValue, TValue> setup)
-        => _dataProvider.AddDefaultSetup(typeof(TValue), _ => setup((TValue)_));
+        => _dataProvider.AddDefaultSetup(typeof(TValue), _ => setup((TValue)_)!);
 
     internal TValue Mention<TValue>(TValue value, int index = 0)
     {
@@ -95,7 +95,7 @@ internal class Context
         => count == 0 ? Mention(Array.Empty<TValue>())
         : Mention(Enumerable.Range(0, count).Select(i => Mention<TValue>(i)).ToArray());
 
-    private object Mention(Type type, object value, int index = 0)
+    private object? Mention(Type type, object? value, int index = 0)
         => _dataProvider.GetMentions(type)[index] = value;
 
     private TValue[] Reuse<TValue>(TValue[] arr, int count, int? minCount)
