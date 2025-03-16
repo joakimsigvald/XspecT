@@ -69,7 +69,7 @@ public class WhenString : Spec<string>
     [Fact]
     public void DoesNotContainOtherString()
     {
-        "abcd".Does().NotContain("xxx");
+        "abcd".Does().Not().Contain("xxx");
         Specification.Is(
             """
             "abcd" does not contain "xxx"

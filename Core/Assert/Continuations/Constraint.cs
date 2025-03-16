@@ -22,23 +22,19 @@ public abstract record Constraint<TActual, TContinuation>
     : Constraint
     where TContinuation : Constraint<TActual, TContinuation>, new()
 {
-    private bool inverted = false;
-
     internal Constraint() : base() => AuxiliaryVerb = typeof(TContinuation).Name.ToWords()[0];
 
-    private protected bool Inverted
-    {
-        get => inverted;
-        init
-        {
-            inverted = value;
-            if (inverted)
-                AuxiliaryVerb = $"{AuxiliaryVerb} not";
-        }
-    }
+    private protected bool Inverted { get; init; } = false;
 
-    internal static TContinuation Create(TActual? actual, string actualExpr, bool inverted = false)
-        => new() { Actual = actual, ActualExpr = actualExpr.ParseActual(), Inverted = inverted };
+    /// <summary>
+    /// Invert the following assertion
+    /// </summary>
+    /// <returns></returns>
+    public TContinuation Not()
+        => new() { Actual = Actual, ActualExpr = ActualExpr, Inverted = true, AuxiliaryVerb = $"{AuxiliaryVerb} not" };
+
+    internal static TContinuation Create(TActual? actual, string actualExpr)
+        => new() { Actual = actual, ActualExpr = actualExpr.ParseActual() };
 
     internal TActual? Actual { get; private set; }
 
