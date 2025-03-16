@@ -22,9 +22,20 @@ public abstract record Constraint<TActual, TContinuation>
     : Constraint
     where TContinuation : Constraint<TActual, TContinuation>, new()
 {
+    private bool inverted = false;
+
     internal Constraint() : base() => AuxiliaryVerb = typeof(TContinuation).Name.ToWords()[0];
 
-    private protected bool Inverted { get; init; } = false;
+    private protected bool Inverted
+    {
+        get => inverted;
+        init
+        {
+            inverted = value;
+            if (inverted)
+                AuxiliaryVerb = $"{AuxiliaryVerb} not";
+        }
+    }
 
     internal static TContinuation Create(TActual? actual, string actualExpr, bool inverted = false)
         => new() { Actual = actual, ActualExpr = actualExpr.ParseActual(), Inverted = inverted };
@@ -65,8 +76,8 @@ public abstract record Constraint<TActual, TContinuation>
         string? verb = null,
         [CallerMemberName] string? methodName = null)
     {
-        //if (Inverted)
-        //    auxVerb = $"not {auxVerb}".TrimEnd();
+        if (Inverted)
+            auxVerb = $"not {auxVerb}".TrimEnd();
         return Assert(() =>
             {
                 try
@@ -108,8 +119,10 @@ public abstract record Constraint<TActual, TContinuation>
         Action assert,
         AssertExpression expression)
     {
+        var verb = expression.Verb 
+            ?? $"{AuxiliaryVerb} {expression.MethodName.AsWords()}".Trim();
         SpecificationGenerator.Assert(
-                assert, ActualExpr, expression.Expected, expression.Verb ?? $"{AuxiliaryVerb} {expression.MethodName.AsWords()}".Trim());
+                assert, ActualExpr, expression.Expected, verb);
         return (TContinuation)this;
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace XspecT.Assert.Continuations.Numerical.Nullable;
+﻿namespace XspecT.Assert.Continuations.Numerical;
 
 /// <summary>
 /// Base class that allows an assertions to be made on the provided numerical

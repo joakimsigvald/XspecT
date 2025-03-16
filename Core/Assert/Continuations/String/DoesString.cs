@@ -22,7 +22,7 @@ public record DoesString : StringConstraint<DoesStringContinuation>
             Describe(expected), 
             actual => Xunit.Assert.Contains(expected, actual), 
             expectedExpr!, 
-            Inverted ? "not" : string.Empty, 
+            string.Empty, 
             Inverted ? "does not contain" : "contains").And();
 
     /// <summary>
@@ -48,7 +48,7 @@ public record DoesString : StringConstraint<DoesStringContinuation>
             Describe(expected),
             actual => Xunit.Assert.StartsWith(expected, actual),
             expectedExpr!,
-            Inverted ? "not" : string.Empty,
+            string.Empty,
             Inverted ? "does not start with" : "starts with").And();
 
     /// <summary>
@@ -63,7 +63,7 @@ public record DoesString : StringConstraint<DoesStringContinuation>
             Describe(expected),
             actual => Xunit.Assert.EndsWith(expected, actual), 
             expectedExpr!, 
-            Inverted ? "not" : string.Empty,
+            string.Empty,
             Inverted ? "does not end with" : "ends with").And();
 
     internal override DoesStringContinuation Continue() => Create(Actual, ActualExpr);

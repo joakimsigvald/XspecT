@@ -38,6 +38,7 @@ public abstract record IsComparable<TActual, TContinuation> : Constraint<TActual
     /// <summary>
     /// Assert that the value is not greater than expected (i.e. less than or equal)
     /// </summary>
+    [Obsolete("Use Not.GreaterThan instead")]
     public ContinueWith<TContinuation> NotGreaterThan(
         TActual expected, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
         => CompareTo(expected, x => x <= 0, expectedExpr!);
