@@ -5,7 +5,7 @@ namespace XspecT.Test.Assert.Continuations.Enumerable.HasEnumerable;
 public class WhenSingle : Spec
 {
     [Fact]
-    public void GivenSingle_ThenDoesNotThrow() => One<int>().Has().Single().And.Is().NotEmpty();
+    public void GivenSingle_ThenDoesNotThrow() => One<int>().Has().Single().And.Is().Not().Empty();
 
     [Fact]
     public void GivenSingle_AndVerifyIt() 

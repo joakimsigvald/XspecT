@@ -19,6 +19,7 @@ public record IsEnumerable<TItem> : EnumerableConstraint<TItem, IsEnumerableCont
     /// Assert that the enumerable is not empty
     /// </summary>
     /// <returns>A continuation for making further assertions on the enumerable</returns>
+    [Obsolete("Use Not().Empty instead")]
     public ContinueWith<IsEnumerableContinuation<TItem>> NotEmpty()
         => Assert(Ignore.Me, NotNullAnd(Xunit.Assert.NotEmpty), string.Empty).And();
 
@@ -33,6 +34,7 @@ public record IsEnumerable<TItem> : EnumerableConstraint<TItem, IsEnumerableCont
     /// Assert that the enumerable is not null
     /// </summary>
     /// <returns>A continuation for making further assertions on the enumerable</returns>
+    [Obsolete("Use Not().Null instead")]
     public ContinueWith<IsEnumerableContinuation<TItem>> NotNull()
         => Assert(Ignore.Me, Xunit.Assert.NotNull, string.Empty).And();
 
@@ -75,6 +77,7 @@ public record IsEnumerable<TItem> : EnumerableConstraint<TItem, IsEnumerableCont
     /// <param name="expected"></param>
     /// <param name="expectedExpr"></param>
     /// <returns></returns>
+    [Obsolete("Use Not().SameAs instead")]
     public ContinueWith<IsEnumerableContinuation<TItem>> NotSameAs(
         IEnumerable<TItem> expected,
         [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
@@ -86,6 +89,7 @@ public record IsEnumerable<TItem> : EnumerableConstraint<TItem, IsEnumerableCont
     /// <param name="expected">The enumerable to validate against</param>
     /// <param name="expectedExpr">Provided by the compiler for building the specification description</param>
     /// <returns>A continuation for making further assertions on the enumerable</returns>
+    [Obsolete("Use Not().EqualTo instead")]
     public ContinueWith<IsEnumerableContinuation<TItem>> NotEqualTo(
         IEnumerable<TItem> expected,
         [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)

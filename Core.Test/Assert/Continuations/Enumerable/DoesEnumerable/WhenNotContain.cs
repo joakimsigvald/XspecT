@@ -9,7 +9,7 @@ public class WhenNotContain : EnumerableSpec
     [InlineData("abc", 'd')]
     [InlineData("abc", 'A')]
     public void GivenListNotContainItem_ThenDoesNotThrow(string actual, char expected)
-        => actual.ToList().Does().Not().Contain(expected).And.Is().NotNull();
+        => actual.ToList().Does().Not().Contain(expected).And.Is().Not().Null();
 
     [Theory]
     [InlineData("abc", 'a')]

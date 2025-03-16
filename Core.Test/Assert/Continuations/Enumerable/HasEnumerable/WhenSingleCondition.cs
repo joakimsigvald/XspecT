@@ -8,7 +8,7 @@ public class WhenSingleCondition : Spec
     public void GivenSingleConditionSatisfied_ThenDoesNotThrow()
     {
         int[] arr = [123];
-        arr.Has().Single(it => it == 123).And.Is().NotEmpty();
+        arr.Has().Single(it => it == 123).And.Is().Not().Empty();
     }
 
     [Fact]

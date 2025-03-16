@@ -39,7 +39,7 @@ public static class AssertionExtensionsEnumerable
         IEnumerable<TItem> expected,
         [CallerArgumentExpression(nameof(actual))] string? actualExpr = null,
         [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
-        => actual.Is(actualExpr: actualExpr!).NotSameAs(expected, expectedExpr!);
+        => actual.Is(actualExpr: actualExpr!).Not().SameAs(expected, expectedExpr!);
 
     /// <summary>
     /// Get available assertions for the given enumerable

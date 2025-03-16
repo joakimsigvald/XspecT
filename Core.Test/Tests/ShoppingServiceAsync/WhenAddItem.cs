@@ -20,7 +20,7 @@ public abstract class WhenAddItem : ShoppingServiceAsyncSpec<ShoppingCart>
         [Fact]
         public void ThenCartItemsIsNotNull()
         {
-            Result.Items.Is().NotNull();
+            Result.Items.Is().Not().Null();
             Specification.Is(
                 """
                 Given CartItems ??= []
@@ -34,7 +34,7 @@ public abstract class WhenAddItem : ShoppingServiceAsyncSpec<ShoppingCart>
         [Fact]
         public void ThenCartItemsIsNotEmpty()
         {
-            Result.Items.Is().NotEmpty();
+            Result.Items.Is().Not().Empty();
             Specification.Is(
                 """
                 Given CartItems ??= []

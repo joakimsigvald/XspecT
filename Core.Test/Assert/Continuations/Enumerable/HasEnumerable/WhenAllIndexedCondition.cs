@@ -13,7 +13,7 @@ public class WhenAllIndexedCondition : Spec
     public void GivenAllSatisfyCondition_ThenDoesNotThrow()
     {
         int[] arr = [1, 2];
-        arr.Has().All((it, i) => it == i + 1).And.Is().NotEmpty();
+        arr.Has().All((it, i) => it == i + 1).And.Is().Not().Empty();
     }
 
     [Fact]

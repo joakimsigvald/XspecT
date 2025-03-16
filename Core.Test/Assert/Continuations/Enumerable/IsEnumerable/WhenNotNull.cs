@@ -5,14 +5,14 @@ namespace XspecT.Test.Assert.Continuations.Enumerable.IsEnumerable;
 public class WhenNotNull : Spec
 {
     [Fact]
-    public void GivenNotNull_ThenDoesNotThrow() => Zero<int>().Is().NotNull().And.Empty();
+    public void GivenNotNull_ThenDoesNotThrow() => Zero<int>().Is().Not().Null().And.Empty();
 
     [Fact]
     public void GivenNull_ThenGetException()
     {
         int[] arr = null;
-        var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => arr.Is().NotNull());
+        var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => arr.Is().Not().Null());
         ex.Message.Is($"Arr is not null");
-        ex.InnerException.Message.Is($"Expected arr to be not null but found null");
+        ex.InnerException.Message.Is($"Expected arr to not be null but found null");
     }
 }

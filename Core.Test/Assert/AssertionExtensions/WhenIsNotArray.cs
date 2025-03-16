@@ -21,6 +21,6 @@ public class WhenIsNotArray : Spec<int[]>
             Then Result is not arr
             """);
         ex.InnerException.Message.Is(
-            "Expected Result to be not [1, 2] but found [1, 2]");
+            "Expected Result to not be [1, 2] but found [1, 2]");
     }
 }
