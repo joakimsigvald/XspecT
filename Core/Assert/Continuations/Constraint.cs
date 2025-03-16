@@ -24,7 +24,7 @@ public abstract record Constraint<TActual, TContinuation>
 {
     internal Constraint() : base() => AuxiliaryVerb = typeof(TContinuation).Name.ToWords()[0];
 
-    private protected bool Inverted { get; init; } = false;
+    private bool Inverted { get; init; } = false;
 
     /// <summary>
     /// Invert the following assertion
@@ -69,11 +69,11 @@ public abstract record Constraint<TActual, TContinuation>
         Action<TActual?> assert,
         string expectedExpr,
         string auxVerb = "be",
-        string? verb = null,
+        VerbalizationStrategy verbalizationStrategy = VerbalizationStrategy.None,
         [CallerMemberName] string? methodName = null)
     {
-        if (Inverted)
-            auxVerb = $"not {auxVerb}".TrimEnd();
+        if (!Inverted && verbalizationStrategy == VerbalizationStrategy.PresentSingularS)
+            AuxiliaryVerb = string.Empty;
         return Assert(() =>
             {
                 try
@@ -91,13 +91,19 @@ public abstract record Constraint<TActual, TContinuation>
 
                 void Fail(Exception? ex = null)
                 {
+                    if (verbalizationStrategy == VerbalizationStrategy.PresentSingularS)
+                        auxVerb = string.Empty;
+                    if (Inverted)
+                        auxVerb = $"not {auxVerb}".TrimEnd();
                     var verbStr = $"{auxVerb} {methodName!.AsWords()}".Trim();
                     var expectationStr = $"{verbStr} {expected}".Trim();
                     throw new Xunit.Sdk.XunitException(
                         $"Expected {ActualExpr} to {expectationStr} but found {Describe(Actual)}",
                         GetExpectedAsException(ex as Xunit.Sdk.XunitException));
                 }
-            }, new() { Expected = expectedExpr, Verb = verb, MethodName = methodName! });
+            }, 
+            new() { Expected = expectedExpr, MethodName = methodName! },
+            Inverted ? VerbalizationStrategy.None : verbalizationStrategy);
     }
 
     private static Xunit.Sdk.XunitException? GetExpectedAsException(Xunit.Sdk.XunitException? ex)
@@ -113,10 +119,10 @@ public abstract record Constraint<TActual, TContinuation>
 
     private protected TContinuation Assert(
         Action assert,
-        AssertExpression expression)
+        AssertExpression expression,
+        VerbalizationStrategy verbalizationStrategy = VerbalizationStrategy.None)
     {
-        var verb = expression.Verb 
-            ?? $"{AuxiliaryVerb} {expression.MethodName.AsWords()}".Trim();
+        var verb = $"{AuxiliaryVerb} {expression.MethodName.AsWords(verbalizationStrategy)}".Trim();
         SpecificationGenerator.Assert(
                 assert, ActualExpr, expression.Expected, verb);
         return (TContinuation)this;
@@ -126,6 +132,7 @@ public abstract record Constraint<TActual, TContinuation>
 internal class AssertExpression
 {
     internal required string Expected { get; init; }
-    internal string? Verb { get; init; }
     internal required string MethodName { get; init; }
 }
+
+internal enum VerbalizationStrategy { None, PresentSingularS}

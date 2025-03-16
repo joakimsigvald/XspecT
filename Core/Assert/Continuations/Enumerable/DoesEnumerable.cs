@@ -18,7 +18,7 @@ public record DoesEnumerable<TItem> : EnumerableConstraint<TItem, DoesEnumerable
         TItem expected, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
         => Assert($"{expected}",
             NotNullAnd(actual => Xunit.Assert.Contains(expected, actual)),
-            expectedExpr!, string.Empty, "contains").And();
+            expectedExpr!, verbalizationStrategy: VerbalizationStrategy.PresentSingularS).And();
 
     /// <summary>
     /// Assert that the enumerable does not contain the given item

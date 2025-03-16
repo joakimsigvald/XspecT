@@ -1,9 +1,22 @@
-﻿namespace XspecT.Internal.Specification;
+﻿using XspecT.Assert.Continuations;
+
+namespace XspecT.Internal.Specification;
 
 internal static class StringExtensions
 {
-    internal static string AsWords(this string str)
-        => string.Join(' ', str.ToWords());
+    internal static string AsWords(this string str, VerbalizationStrategy verbalizationStrategy = VerbalizationStrategy.None)
+    {
+        var words = str.ToWords();
+        if (verbalizationStrategy == VerbalizationStrategy.PresentSingularS)
+        {
+            var firstWord = words[0];
+            if (firstWord.EndsWith("y"))
+                words[0] = $"{firstWord[..^1]}ies";
+            else
+                words[0] = $"{firstWord}s";
+        }
+        return string.Join(' ', words);
+    }
 
     internal static string[] ToWords(this string str)
         => string.IsNullOrWhiteSpace(str)

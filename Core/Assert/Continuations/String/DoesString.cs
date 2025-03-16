@@ -16,8 +16,7 @@ public record DoesString : StringConstraint<DoesStringContinuation>
             Describe(expected), 
             actual => Xunit.Assert.Contains(expected, actual), 
             expectedExpr!, 
-            string.Empty, 
-            Inverted ? "does not contain" : "contains").And();
+            verbalizationStrategy: VerbalizationStrategy.PresentSingularS).And();
 
     /// <summary>
     /// Asserts that the string does not contain the expected string
@@ -42,8 +41,7 @@ public record DoesString : StringConstraint<DoesStringContinuation>
             Describe(expected),
             actual => Xunit.Assert.StartsWith(expected, actual),
             expectedExpr!,
-            string.Empty,
-            Inverted ? "does not start with" : "starts with").And();
+            verbalizationStrategy: VerbalizationStrategy.PresentSingularS).And();
 
     /// <summary>
     /// Asserts that the string ends with a suffix
@@ -57,8 +55,8 @@ public record DoesString : StringConstraint<DoesStringContinuation>
             Describe(expected),
             actual => Xunit.Assert.EndsWith(expected, actual), 
             expectedExpr!, 
-            string.Empty,
-            Inverted ? "does not end with" : "ends with").And();
+            verbalizationStrategy: VerbalizationStrategy.PresentSingularS)
+        .And();
 
     internal override DoesStringContinuation Continue() => Create(Actual, ActualExpr);
 }
