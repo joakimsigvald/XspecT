@@ -64,7 +64,7 @@ public record IsObject : Constraint<object, IsObject>
     public ContinueWith<IsObject> NotLike(
         object expected,
         [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
-        => Assert(Describe(expected), Not(_ => Like(expected)), expectedExpr!).And();
+        => Assert(Describe(expected), AssertNot(_ => Like(expected)), expectedExpr!).And();
 
     /// <summary>
     /// Assert that the object is equivalent to the given object with respect to public fields and properties, but ignoring type
@@ -84,5 +84,5 @@ public record IsObject : Constraint<object, IsObject>
     public ContinueWith<IsObject> NotEquivalentTo(
         object expected,
         [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
-        => Assert(Describe(expected), Not(_ => EquivalentTo(expected)), expectedExpr!).And();
+        => Assert(Describe(expected), AssertNot(_ => EquivalentTo(expected)), expectedExpr!).And();
 }

@@ -46,8 +46,10 @@ public record DoesString : StringConstraint<DoesStringContinuation>
         string expected, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
         => Assert(
             Describe(expected),
-            actual => Xunit.Assert.StartsWith(expected, actual), 
-            expectedExpr!, string.Empty, "starts with").And();
+            actual => Xunit.Assert.StartsWith(expected, actual),
+            expectedExpr!,
+            Inverted ? "not" : string.Empty,
+            Inverted ? "does not start with" : "starts with").And();
 
     /// <summary>
     /// Asserts that the string ends with a suffix
@@ -60,7 +62,9 @@ public record DoesString : StringConstraint<DoesStringContinuation>
         => Assert(
             Describe(expected),
             actual => Xunit.Assert.EndsWith(expected, actual), 
-            expectedExpr!, string.Empty, "ends with").And();
+            expectedExpr!, 
+            Inverted ? "not" : string.Empty,
+            Inverted ? "does not end with" : "ends with").And();
 
     internal override DoesStringContinuation Continue() => Create(Actual, ActualExpr);
 }

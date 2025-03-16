@@ -43,7 +43,7 @@ public abstract record Constraint<TActual, TContinuation>
             assert(actual);
         };
 
-    private protected Action<TActual?> Not(Action<TActual?> assert)
+    private protected Action<TActual?> AssertNot(Action<TActual?> assert)
         => actual =>
         {
             try
