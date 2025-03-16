@@ -1,5 +1,4 @@
-﻿using XspecT.Assert.Continuations.Numerical.Fractional;
-using XspecT.Assert.Continuations.Numerical.Nullable;
+﻿using XspecT.Assert.Continuations.Numerical.Nullable;
 
 namespace XspecT.Assert.Continuations.Numerical.Fractional.Nullable;
 

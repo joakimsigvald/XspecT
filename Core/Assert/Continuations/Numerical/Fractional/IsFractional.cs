@@ -29,6 +29,7 @@ public abstract record IsFractional<TActual, TIsFractional> : IsNumerical<TActua
     /// <param name="precision"></param>
     /// <param name="expectedExpr"></param>
     /// <returns></returns>
+    [Obsolete("Use Not() Around instead")]
     public ContinueWith<TIsFractional> NotAround(
         TActual expected, TActual precision, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
         => Assert(expected, actual => AssertNotEqual(expected, actual, precision), expectedExpr!).And();
