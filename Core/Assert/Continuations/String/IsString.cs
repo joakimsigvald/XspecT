@@ -25,6 +25,7 @@ public record IsString : StringConstraint<IsStringContinuation>
     /// Asserts that the string is not equivalent to expected, ignoring casing and leading or trailing whitespace
     /// actual.Should().NotBeEquivalentTo(expected)
     /// </summary>
+    [Obsolete("Use Not().Like instead")]
     public ContinueWith<IsStringContinuation> NotLike(
         string expected,
         [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
@@ -49,6 +50,7 @@ public record IsString : StringConstraint<IsStringContinuation>
     /// Asserts that the string is not equivalent to expected, ignoring casing and leading or trailing whitespace
     /// actual.Should().NotBeEquivalentTo(expected)
     /// </summary>
+    [Obsolete("Use Not().EquivalentTo instead")]
     public ContinueWith<IsStringContinuation> NotEquivalentTo(
         string expected,
         [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
@@ -72,12 +74,14 @@ public record IsString : StringConstraint<IsStringContinuation>
     /// <summary>
     /// Asserts that the string is not empty
     /// </summary>
+    [Obsolete("Use Not().Empty instead")]
     public ContinueWith<IsStringContinuation> NotEmpty()
         => Assert(Ignore.Me, NotNullAnd(Xunit.Assert.NotEmpty), string.Empty).And();
 
     /// <summary>
     /// Asserts that the string is not null
     /// </summary>
+    [Obsolete("Use Not().Null instead")]
     public ContinueWith<IsStringContinuation> NotNull()
         => Assert(Ignore.Me, Xunit.Assert.NotNull, string.Empty).And();
 
@@ -90,6 +94,7 @@ public record IsString : StringConstraint<IsStringContinuation>
     /// <summary>
     /// Asserts that the string is not null or empty
     /// </summary>
+    [Obsolete("Use Not().NullOrEmpty instead")]
     public ContinueWith<IsStringContinuation> NotNullOrEmpty()
         => Assert(Ignore.Me, actual => Xunit.Assert.NotEmpty(actual ?? string.Empty), string.Empty).And();
 
@@ -102,6 +107,7 @@ public record IsString : StringConstraint<IsStringContinuation>
     /// <summary>
     /// Asserts that the string contains non-whitespace characters
     /// </summary>
+    [Obsolete("Use Not().NullOrWhitespace instead")]
     public ContinueWith<IsStringContinuation> NotNullOrWhitespace()
         => Assert(Ignore.Me, actual => Xunit.Assert.NotEmpty((Actual ?? string.Empty).Trim()), string.Empty).And();
 

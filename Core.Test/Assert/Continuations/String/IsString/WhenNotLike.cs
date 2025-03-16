@@ -10,7 +10,7 @@ public class WhenNotLike : StringSpec
     [InlineData("", "abc")]
     [InlineData("abc", "abcd")]
     public void GivenNotLikeString_ThenDoesNotThrow(string actual, string expected)
-        => actual.Is().NotLike(expected).And.Does().Not().Contain("XXX");
+        => actual.Is().Not().Like(expected).And.Does().Not().Contain("XXX");
 
     [Theory]
     [InlineData(null, null)]
@@ -19,8 +19,8 @@ public class WhenNotLike : StringSpec
     [InlineData("abc", "ABC")]
     public void GivenLikeString_ThenGetException(string actual, string expected)
     {
-        var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => actual.Is().NotLike(expected));
+        var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => actual.Is().Not().Like(expected));
         ex.Message.Is("Actual is not like expected");
-        ex.InnerException.Message.Is($"Expected actual to be not like {Describe(expected)} but found {Describe(actual)}");
+        ex.InnerException.Message.Is($"Expected actual to not be like {Describe(expected)} but found {Describe(actual)}");
     }
 }

@@ -6,14 +6,14 @@ public class WhenNotNull : StringSpec
 {
     [Fact]
     public void GivenNotNull_ThenDoesNotThrow()
-        => "".Is().NotNull().And.NotNull();
+        => "".Is().Not().Null().And.Not().Null();
 
     [Fact]
     public void GivenNull_ThenGetException()
     {
         string str = null;
-        var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => str.Is().NotNull());
+        var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => str.Is().Not().Null());
         ex.Message.Is("Str is not null");
-        ex.InnerException.Message.Is($"Expected str to be not null but found {Describe(str)}");
+        ex.InnerException.Message.Is($"Expected str to not be null but found {Describe(str)}");
     }
 }

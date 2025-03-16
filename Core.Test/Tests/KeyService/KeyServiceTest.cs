@@ -14,7 +14,7 @@ public class WhenKeyKey : KeyServiceSpec
     [Fact]
     public void ThenGetsKey()
     {
-        Result.A.Is().NotNullOrEmpty();
+        Result.A.Is().Not().NullOrEmpty();
         Specification.Is(
             """
             When _.GetKey()
