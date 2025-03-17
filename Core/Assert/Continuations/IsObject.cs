@@ -19,12 +19,13 @@ public record IsObject : Constraint<object, IsObject>
     /// <summary>
     /// Assert that the object is null
     /// </summary>
-    public void Null() => Assert(Ignore.Me, Xunit.Assert.Null, string.Empty);
+    public ContinueWith<IsObject> Null() => Assert(Ignore.Me, Xunit.Assert.Null, string.Empty).And();
 
     /// <summary>
     /// Assert that the object is not null
     /// </summary>
     /// <returns>A continuation for making additional asserts on the object</returns>
+    [Obsolete("Use Not().Null instead")]
     public ContinueWith<IsObject> NotNull()
         => Assert(Ignore.Me, Xunit.Assert.NotNull, string.Empty).And();
 
@@ -41,6 +42,7 @@ public record IsObject : Constraint<object, IsObject>
     /// Assert that the object is not equal to the given object
     /// </summary>
     /// <returns>A continuation for making additional asserts on the object</returns>
+    [Obsolete("Use Not().EqualTo instead")]
     public ContinueWith<IsObject> NotEqualTo(
         object expected,
         [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
@@ -61,6 +63,7 @@ public record IsObject : Constraint<object, IsObject>
     /// (if it doesn't walk like a duck...)
     /// </summary>
     /// <returns>A continuation for making additional asserts on the object</returns>
+    [Obsolete("Use Not().Like instead")]
     public ContinueWith<IsObject> NotLike(
         object expected,
         [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
@@ -81,6 +84,7 @@ public record IsObject : Constraint<object, IsObject>
     /// (if it doesn't walk like a duck...)
     /// </summary>
     /// <returns>A continuation for making additional asserts on the object</returns>
+    [Obsolete("Use Not().EquivalentTo instead")]
     public ContinueWith<IsObject> NotEquivalentTo(
         object expected,
         [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)

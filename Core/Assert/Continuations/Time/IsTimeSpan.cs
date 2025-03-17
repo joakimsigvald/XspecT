@@ -25,6 +25,7 @@ public record IsTimeSpan : IsComparable<TimeSpan, IsTimeSpan>
     /// <param name="precision"></param>
     /// <param name="expectedExpr"></param>
     /// <returns></returns>
+    [Obsolete("Use Not().CloseTo instead")]
     public ContinueWith<IsTimeSpan> NotCloseTo(
         TimeSpan expected, TimeSpan precision, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
         => Assert(expected, actual => Xunit.Assert.False((Actual - expected).Duration() <= precision), expectedExpr!).And();
@@ -47,6 +48,7 @@ public record IsTimeSpan : IsComparable<TimeSpan, IsTimeSpan>
     /// Asserts that the timeSpan is zero or greater than zero
     /// </summary>
     /// <returns></returns>
+    [Obsolete("Use Not().Negative instead")]
     public ContinueWith<IsTimeSpan> NotNegative()
         => Assert(Ignore.Me, actual => Xunit.Assert.True(actual >= TimeSpan.Zero), string.Empty).And();
 
@@ -54,6 +56,7 @@ public record IsTimeSpan : IsComparable<TimeSpan, IsTimeSpan>
     /// Asserts that the timeSpan is zero or less than zero
     /// </summary>
     /// <returns></returns>
+    [Obsolete("Use Not().Positive instead")]
     public ContinueWith<IsTimeSpan> NotPositive()
         => Assert(Ignore.Me, actual => Xunit.Assert.True(actual <= TimeSpan.Zero), string.Empty).And();
 }

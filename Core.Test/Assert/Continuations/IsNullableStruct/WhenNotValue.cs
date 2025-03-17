@@ -11,7 +11,7 @@ public class WhenNotValue : Spec
     {
         Money? actual = actualAmount is null ? null : new Money(actualAmount.Value, "SEK");
         Money expected = new(expectedAmount, "SEK");
-        actual.Is().Not(expected).And(expected).Is().NotNull();
+        actual.Is().Not(expected).And(expected).Is().Not().Null();
     }
 
     [Fact]

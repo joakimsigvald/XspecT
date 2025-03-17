@@ -19,11 +19,12 @@ public abstract record IsNullableComparableStruct<TActual, TContinuation, TValue
     /// <summary>
     /// Assert that Actual is null
     /// </summary>
-    public void Null() => Assert(Ignore.Me, Xunit.Assert.Null, string.Empty);
+    public ContinueWith<TContinuation> Null() => Assert(Ignore.Me, Xunit.Assert.Null, string.Empty).And();
 
     /// <summary>
     /// Assert that Actual is not null
     /// </summary>
+    [Obsolete("Use Not().Null instead")]
     public ContinueWith<TValueContinuation> NotNull()
     {
         Assert(Ignore.Me, actual => Xunit.Assert.NotNull(actual), string.Empty);
@@ -61,6 +62,7 @@ public abstract record IsNullableComparableStruct<TActual, TContinuation, TValue
     /// <summary>
     /// actual.Should().BeLessThanOrEqualTo(expected)
     /// </summary>
+    [Obsolete("Use Not().GreaterThan instead")]
     public ContinueWith<TValueContinuation> NotGreaterThan(
         TActual expected, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
         => CompareTo(expected, x => x <= 0, expectedExpr!);
@@ -68,6 +70,7 @@ public abstract record IsNullableComparableStruct<TActual, TContinuation, TValue
     /// <summary>
     /// actual.Should().BeGreaterThanOrEqualTo(expected)
     /// </summary>
+    [Obsolete("Use Not().LessThan instead")]
     public ContinueWith<TValueContinuation> NotLessThan(
         TActual expected, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
         => CompareTo(expected, x => x >= 0, expectedExpr!);

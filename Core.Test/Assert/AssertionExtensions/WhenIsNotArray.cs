@@ -6,14 +6,14 @@ public class WhenIsNotArray : Spec<int[]>
 {
     public WhenIsNotArray() => Given().Default(() => new int[] { 1, 2, 3 });
 
-    [Fact] public void GivenNotSame_ThenDoesNotThrow() => When(_ => _.IsNot(null)).Then();
+    [Fact] public void GivenNotSame_ThenDoesNotThrow() => When(_ => _.Is().Not(null)).Then();
 
     [Fact]
     public void GivenFail_ThenGetException()
     {
         int[] arr = [1, 2];
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(()
-            => When(_ => arr).Then().Result.IsNot(arr));
+            => When(_ => arr).Then().Result.Is().Not(arr));
         ex.Message.Is(
             """
             Given new int[] { 1, 2, 3 } as default

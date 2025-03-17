@@ -8,7 +8,7 @@ public class WhenNullableDateTime : Spec<DateTime?>
     public void IsSame()
     {
         When(_ => A(_)).Then().Result.Is(The<DateTime?>())
-            .And.NotNull();
+            .And.Not().Null();
         Specification.Is(
             """
             When a _
@@ -46,8 +46,8 @@ public class WhenNullableDateTime : Spec<DateTime?>
     {
         Given((DateTime?)DateTime.Now).When(_ => A(_));
         Result.Is().Before(The<DateTime?>().Value.AddDays(1)).And.After(The<DateTime?>().Value.AddDays(-1));
-        Result.Is().NotBefore(The<DateTime?>().Value);
-        Result.Is().NotAfter(The<DateTime?>().Value);
+        Result.Is().Not().Before(The<DateTime?>().Value);
+        Result.Is().Not().After(The<DateTime?>().Value);
         Specification.Is(
             """
             Given (DateTime?)DateTime.Now

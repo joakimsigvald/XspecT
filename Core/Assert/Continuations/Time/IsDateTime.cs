@@ -33,6 +33,7 @@ public record IsDateTime : IsComparable<DateTime, IsDateTime>
     /// <param name="expected"></param>
     /// <param name="expectedExpr"></param>
     /// <returns></returns>
+    [Obsolete("Use Not().Before instead")]
     public ContinueWith<IsDateTime> NotBefore(
         DateTime expected, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
         => CompareTo(expected, x => x >= 0, expectedExpr!, "occur");
@@ -43,6 +44,7 @@ public record IsDateTime : IsComparable<DateTime, IsDateTime>
     /// <param name="expected"></param>
     /// <param name="expectedExpr"></param>
     /// <returns></returns>
+    [Obsolete("Use Not().After instead")]
     public ContinueWith<IsDateTime> NotAfter(
         DateTime expected, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
         => CompareTo(expected, x => x <= 0, expectedExpr!, "occur");
@@ -65,6 +67,7 @@ public record IsDateTime : IsComparable<DateTime, IsDateTime>
     /// <param name="tolerance"></param>
     /// <param name="expectedExpr"></param>
     /// <returns></returns>
+    [Obsolete("Use Not().CloseTo instead")]
     public ContinueWith<IsDateTime> NotCloseTo(
         DateTime expected, TimeSpan tolerance, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
         => Assert(expected, actual => Xunit.Assert.False((actual - expected).Duration() <= tolerance), expectedExpr!).And();

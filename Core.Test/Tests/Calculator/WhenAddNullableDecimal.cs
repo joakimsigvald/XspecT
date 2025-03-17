@@ -49,7 +49,7 @@ public class Add_2_3 : Spec<decimal?>
     [Fact]
     public void Then_Not_Return_Null()
     {
-        Result.Is().NotNull();
+        Result.Is().Not().Null();
         Specification.Is(
             """
             When add 2, 3

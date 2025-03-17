@@ -33,6 +33,7 @@ public record IsNullableDateTime : IsNullableComparableStruct<DateTime, IsNullab
     /// <param name="expected"></param>
     /// <param name="expectedExpr"></param>
     /// <returns></returns>
+    [Obsolete("Use Not().Before instead")]
     public ContinueWith<IsDateTime> NotBefore(
         DateTime expected, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
         => CompareTo(expected, x => x >= 0, expectedExpr!, "occur");
@@ -43,6 +44,7 @@ public record IsNullableDateTime : IsNullableComparableStruct<DateTime, IsNullab
     /// <param name="expected"></param>
     /// <param name="expectedExpr"></param>
     /// <returns></returns>
+    [Obsolete("Use Not().After instead")]
     public ContinueWith<IsDateTime> NotAfter(
         DateTime expected, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
         => CompareTo(expected, x => x <= 0, expectedExpr!, "occur");

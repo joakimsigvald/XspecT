@@ -6,15 +6,15 @@ public class WhenNotEquivalentTo : Spec
 {
     [Fact]
     public void GivenNotEquivalentTo_ThenDoesNotThrow()
-        => new MyRecord("abc").Is().NotEquivalentTo(new MyOtherRecord("def")).And.NotNull();
+        => new MyRecord("abc").Is().Not().EquivalentTo(new MyOtherRecord("def")).And.Not().Null();
 
     [Fact]
     public void GivenEquivalentTo_ThenGetException()
     {
         var actual = new MyRecord("abc");
         var expected = new MyOtherRecord("abc");
-        var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => actual.Is().NotEquivalentTo(expected));
+        var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => actual.Is().Not().EquivalentTo(expected));
         ex.Message.Is("Actual is not equivalent to expected");
-        ex.InnerException.Message.Is($"Expected actual to be not equivalent to {expected} but found {actual}");
+        ex.InnerException.Message.Is($"Expected actual to not be equivalent to {expected} but found {actual}");
     }
 }

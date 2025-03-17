@@ -31,7 +31,7 @@ public class WhenObject : Spec<object>
     [Fact]
     public void IsLike()
     {
-        new MyArrayModel(1, 2).Is().NotEqualTo(new MyArrayModel(1, 2))
+        new MyArrayModel(1, 2).Is().Not().EqualTo(new MyArrayModel(1, 2))
             .But.Like(new MyArrayModel(1, 2)).And.Like(new MyArrayModel(2, 1));
         Specification.Is(
             """
@@ -51,14 +51,14 @@ public class WhenObject : Spec<object>
     [Fact]
     public void IsNotLike()
     {
-        new MyArrayModel(1, 2).Is().NotLike(new MyArrayModel(1, 2, 1));
+        new MyArrayModel(1, 2).Is().Not().Like(new MyArrayModel(1, 2, 1));
         Specification.Is("""New MyArrayModel(1, 2) is not like new MyArrayModel(1, 2, 1)""");
     }
 
     [Fact]
     public void IsNotEquivalentTo()
     {
-        new MyArrayModel(1, 2).Is().NotEquivalentTo(new MyArrayModel(1, 2, 1));
+        new MyArrayModel(1, 2).Is().Not().EquivalentTo(new MyArrayModel(1, 2, 1));
         Specification.Is(
             """
             New MyArrayModel(1, 2) is not equivalent to new MyArrayModel(1, 2, 1)

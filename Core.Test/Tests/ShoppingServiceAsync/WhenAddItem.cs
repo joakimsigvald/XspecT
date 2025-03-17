@@ -1,7 +1,7 @@
 ﻿using XspecT.Assert;
 using XspecT.Test.Subjects;
 
-namespace XspecT.Test.Tests.AsyncShoppingService;
+namespace XspecT.Test.Tests.ShoppingServiceAsync;
 
 public abstract class WhenAddItem : ShoppingServiceAsyncSpec<ShoppingCart>
 {
@@ -9,7 +9,7 @@ public abstract class WhenAddItem : ShoppingServiceAsyncSpec<ShoppingCart>
     protected ShoppingCartItem[] CartItems;
     protected readonly ShoppingCartItem NewItem = new("N1");
 
-    protected WhenAddItem() 
+    protected WhenAddItem()
         => Given<IShoppingCartRepository>()
         .That(_ => _.GetCart(CartId)).Returns(() => new ShoppingCart { Id = CartId, Items = CartItems })
         .When(_ => _.AddToCart(CartId, NewItem))
@@ -185,7 +185,7 @@ public abstract class WhenAddItem : ShoppingServiceAsyncSpec<ShoppingCart>
         [Fact]
         public void ThenItemsAssertNotNull()
         {
-            Result.Items.Has().All(it => it.Is().NotNull());
+            Result.Items.Has().All(it => it.Is().Not().Null());
             Specification.Is(
                 """
                 Given CartItems = [new ShoppingCartItem("A1")]
@@ -193,7 +193,7 @@ public abstract class WhenAddItem : ShoppingServiceAsyncSpec<ShoppingCart>
                   and IShoppingCartRepository.GetCart(CartId) returns new ShoppingCart { Id =
                       CartId, Items = CartItems }
                 When _.AddToCart(CartId, NewItem)
-                Then Result.Items has all it.Is().NotNull()
+                Then Result.Items has all it.Is().Not().Null()
                 """);
         }
 

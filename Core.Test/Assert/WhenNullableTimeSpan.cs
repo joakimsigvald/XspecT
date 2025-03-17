@@ -8,7 +8,7 @@ public class WhenNullableTimeSpan : Spec<TimeSpan?>
     public void IsSame()
     {
         When(_ => A(_)).Then().Result.Is(The<TimeSpan?>())
-            .And.NotNull();
+            .And.Not().Null();
         Specification.Is(
             """
             When a _

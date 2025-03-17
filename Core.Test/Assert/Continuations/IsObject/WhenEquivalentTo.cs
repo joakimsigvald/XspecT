@@ -6,7 +6,7 @@ public class WhenEquivalentTo : Spec
 {
     [Fact]
     public void GivenEquivalentTo_ThenDoesNotThrow()
-        => new MyRecord("abc").Is().EquivalentTo(new MyOtherRecord("abc")).And.NotNull();
+        => new MyRecord("abc").Is().EquivalentTo(new MyOtherRecord("abc")).And.Not().Null();
 
     [Fact]
     public void GivenNotEquivalentTo_ThenGetException()

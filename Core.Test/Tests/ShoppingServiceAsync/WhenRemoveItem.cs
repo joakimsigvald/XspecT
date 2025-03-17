@@ -1,7 +1,7 @@
 ﻿using XspecT.Assert;
 using XspecT.Test.Subjects;
 
-namespace XspecT.Test.Tests.AsyncShoppingService;
+namespace XspecT.Test.Tests.ShoppingServiceAsync;
 
 public abstract class WhenRemoveItem : ShoppingServiceAsyncSpec<ShoppingCart>
 {

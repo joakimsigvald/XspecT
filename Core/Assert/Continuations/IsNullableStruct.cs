@@ -31,6 +31,7 @@ public record IsNullableStruct<TValue> : Constraint<TValue?, IsNullableStruct<TV
     /// <summary>
     /// Should().NotBeNull()
     /// </summary>
+    [Obsolete("Use Not().Null instead")]
     public ContinueWith<IsNullableStruct<TValue>> NotNull()
         => Assert(Ignore.Me, actual => Xunit.Assert.NotNull(actual), string.Empty).And();
 }

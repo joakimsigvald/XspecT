@@ -34,12 +34,13 @@ public static class AssertionExtensionsEnumerable
     /// <param name="actualExpr"></param>
     /// <param name="expectedExpr"></param>
     /// <returns></returns>
+    [Obsolete("Use Is().Not or Is().Not().SameAs instead")]
     public static ContinueWith<IsEnumerableContinuation<TItem>> IsNot<TItem>(
         this IEnumerable<TItem> actual,
         IEnumerable<TItem> expected,
         [CallerArgumentExpression(nameof(actual))] string? actualExpr = null,
         [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
-        => actual.Is(actualExpr: actualExpr!).Not().SameAs(expected, expectedExpr!);
+        => actual.Is(actualExpr: actualExpr!).Not(expected, expectedExpr!);
 
     /// <summary>
     /// Get available assertions for the given enumerable

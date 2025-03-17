@@ -32,8 +32,8 @@ public class WhenDateTime : Spec<DateTime>
         When(_ => A(_))
             .Then().Result.Is().Before(The<DateTime>().AddDays(1))
             .And.After(The<DateTime>().AddDays(-1))
-            .And.NotBefore(The<DateTime>())
-            .And.NotAfter(The<DateTime>());
+            .And.Not().Before(The<DateTime>())
+            .And.Not().After(The<DateTime>());
         Specification.Is(
             """
             When a _

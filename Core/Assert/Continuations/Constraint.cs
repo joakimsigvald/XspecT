@@ -127,11 +127,3 @@ public abstract record Constraint<TActual, TContinuation>
         return (TContinuation)this;
     }
 }
-
-internal class AssertExpression
-{
-    internal required string Expected { get; init; }
-    internal required string MethodName { get; init; }
-}
-
-internal enum VerbalizationStrategy { None, PresentSingularS}
