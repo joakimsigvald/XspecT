@@ -30,7 +30,13 @@ public abstract record Constraint<TActual, TContinuation>
     /// </summary>
     /// <returns></returns>
     public TContinuation Not()
-        => new() { Actual = Actual, ActualExpr = ActualExpr, Inverted = true, AuxiliaryVerb = $"{AuxiliaryVerb} not" };
+        => new() 
+        { 
+            Actual = Actual, 
+            ActualExpr = ActualExpr, 
+            Inverted = true, 
+            AuxiliaryVerb = $"{AuxiliaryVerb} not" 
+        };
 
     internal static TContinuation Create(TActual? actual, string actualExpr)
         => new() { Actual = actual, ActualExpr = actualExpr.ParseActual() };

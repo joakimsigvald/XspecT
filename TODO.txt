@@ -1,15 +1,3 @@
-* Create Some() and All() on Enumeration that returns continuation that tests the following assertion against each element
-  - similar to Not
-* Create Nor, following Not-assertion that negates the following assertion as well
-  - 3.Is().Not().LessThan(2).Nor.LessThan(3)
-* Create But, following negated assertion that does not negate following assertion
-  - 3.Is().Not().LessThan(2).But.LessThan(4)
-* Disallow And following negated assertion, since it is ambiguos
-  - 3.Is().Not().LessThan(2).And.LessThan(3) ??
-* Create ButNot, following assertion that negates following assertion
-  - 3.Is().LessThan(4).ButNot().LessThan(2) ??
-* Disallow Not following And, since it is bad grammar, use ButNot instead
-  - 3.Is().LessThan(4).And.Not().LessThan(2) ??
 * Provide custom data generator for Enums and bools to get random values
 * CollectionFixture om man vill dela mellan fler klasser
 * Separate ClassFixture class from Spec and only allow Arrange on fixture, not when/Then
