@@ -19,7 +19,7 @@ public record IsObject : Constraint<object, IsObject>
     /// <summary>
     /// Assert that the object is null
     /// </summary>
-    public ContinueWith<IsObject> Null() => Assert(Ignore.Me, Xunit.Assert.Null, string.Empty).And();
+    public ContinueWith<IsObject> Null() => Assert(Ignore.Me, Xunit.Assert.Null).And();
 
     /// <summary>
     /// Assert that the object is not null
@@ -27,7 +27,7 @@ public record IsObject : Constraint<object, IsObject>
     /// <returns>A continuation for making additional asserts on the object</returns>
     [Obsolete("Use Not().Null instead")]
     public ContinueWith<IsObject> NotNull()
-        => Assert(Ignore.Me, Xunit.Assert.NotNull, string.Empty).And();
+        => Assert(Ignore.Me, Xunit.Assert.NotNull).And();
 
     /// <summary>
     /// Assert that the object is equal to the given object

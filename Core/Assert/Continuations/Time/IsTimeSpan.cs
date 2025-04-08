@@ -35,14 +35,14 @@ public record IsTimeSpan : IsComparable<TimeSpan, IsTimeSpan>
     /// </summary>
     /// <returns></returns>
     public ContinueWith<IsTimeSpan> Negative()
-        => Assert(Ignore.Me, actual => Xunit.Assert.True(actual < TimeSpan.Zero), string.Empty).And();
+        => Assert(Ignore.Me, actual => Xunit.Assert.True(actual < TimeSpan.Zero)).And();
 
     /// <summary>
     /// Asserts that the timeSpan is greater than zero
     /// </summary>
     /// <returns></returns>
     public ContinueWith<IsTimeSpan> Positive()
-        => Assert(Ignore.Me, actual => Xunit.Assert.True(actual > TimeSpan.Zero), string.Empty).And();
+        => Assert(Ignore.Me, actual => Xunit.Assert.True(actual > TimeSpan.Zero)).And();
 
     /// <summary>
     /// Asserts that the timeSpan is zero or greater than zero
@@ -50,7 +50,7 @@ public record IsTimeSpan : IsComparable<TimeSpan, IsTimeSpan>
     /// <returns></returns>
     [Obsolete("Use Not().Negative instead")]
     public ContinueWith<IsTimeSpan> NotNegative()
-        => Assert(Ignore.Me, actual => Xunit.Assert.True(actual >= TimeSpan.Zero), string.Empty).And();
+        => Assert(Ignore.Me, actual => Xunit.Assert.True(actual >= TimeSpan.Zero)).And();
 
     /// <summary>
     /// Asserts that the timeSpan is zero or less than zero
@@ -58,5 +58,5 @@ public record IsTimeSpan : IsComparable<TimeSpan, IsTimeSpan>
     /// <returns></returns>
     [Obsolete("Use Not().Positive instead")]
     public ContinueWith<IsTimeSpan> NotPositive()
-        => Assert(Ignore.Me, actual => Xunit.Assert.True(actual <= TimeSpan.Zero), string.Empty).And();
+        => Assert(Ignore.Me, actual => Xunit.Assert.True(actual <= TimeSpan.Zero)).And();
 }

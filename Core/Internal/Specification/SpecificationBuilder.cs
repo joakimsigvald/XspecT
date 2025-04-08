@@ -63,7 +63,7 @@ internal class SpecificationBuilder
     internal void AddBefore(string tearDownExpr)
         => _textBuilder.AddSentence($"before {tearDownExpr.ParseCall()}");
 
-    internal void AddAssert(string actual, string verb, string expected)
+    internal void AddAssert(string actual, string verb, string? expected)
     {
         if (_isChainOfAssertions)
             _textBuilder.AddWord(actual);

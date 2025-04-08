@@ -19,7 +19,7 @@ public abstract record IsNullableComparableStruct<TActual, TContinuation, TValue
     /// <summary>
     /// Assert that Actual is null
     /// </summary>
-    public ContinueWith<TContinuation> Null() => Assert(Ignore.Me, Xunit.Assert.Null, string.Empty).And();
+    public ContinueWith<TContinuation> Null() => Assert(Ignore.Me, Xunit.Assert.Null).And();
 
     /// <summary>
     /// Assert that Actual is not null
@@ -27,7 +27,7 @@ public abstract record IsNullableComparableStruct<TActual, TContinuation, TValue
     [Obsolete("Use Not().Null instead")]
     public ContinueWith<TValueContinuation> NotNull()
     {
-        Assert(Ignore.Me, actual => Xunit.Assert.NotNull(actual), string.Empty);
+        Assert(Ignore.Me, actual => Xunit.Assert.NotNull(actual));
         return new(ValueContinuation);
     }
 

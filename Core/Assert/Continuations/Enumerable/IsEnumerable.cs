@@ -13,7 +13,7 @@ public record IsEnumerable<TItem> : EnumerableConstraint<TItem, IsEnumerableCont
     /// </summary>
     /// <returns>A continuation for making further assertions on the enumerable</returns>
     public ContinueWith<IsEnumerableContinuation<TItem>> Empty()
-        => Assert(Ignore.Me, NotNullAnd(Xunit.Assert.Empty), string.Empty).And();
+        => Assert(Ignore.Me, NotNullAnd(Xunit.Assert.Empty)).And();
 
     /// <summary>
     /// Assert that the enumerable is not empty
@@ -21,14 +21,14 @@ public record IsEnumerable<TItem> : EnumerableConstraint<TItem, IsEnumerableCont
     /// <returns>A continuation for making further assertions on the enumerable</returns>
     [Obsolete("Use Not().Empty instead")]
     public ContinueWith<IsEnumerableContinuation<TItem>> NotEmpty()
-        => Assert(Ignore.Me, NotNullAnd(Xunit.Assert.NotEmpty), string.Empty).And();
+        => Assert(Ignore.Me, NotNullAnd(Xunit.Assert.NotEmpty)).And();
 
     /// <summary>
     /// Assert that the enumerable is null
     /// </summary>
     /// <returns>A continuation for making further assertions on the enumerable</returns>
     public ContinueWith<IsEnumerableContinuation<TItem>> Null()
-        => Assert(Ignore.Me, Xunit.Assert.Null, string.Empty).And();
+        => Assert(Ignore.Me, Xunit.Assert.Null).And();
 
     /// <summary>
     /// Assert that the enumerable is not null
@@ -36,7 +36,7 @@ public record IsEnumerable<TItem> : EnumerableConstraint<TItem, IsEnumerableCont
     /// <returns>A continuation for making further assertions on the enumerable</returns>
     [Obsolete("Use Not().Null instead")]
     public ContinueWith<IsEnumerableContinuation<TItem>> NotNull()
-        => Assert(Ignore.Me, Xunit.Assert.NotNull, string.Empty).And();
+        => Assert(Ignore.Me, Xunit.Assert.NotNull).And();
 
     /// <summary>
     /// Assert that the two enumerables do not refer to the same object

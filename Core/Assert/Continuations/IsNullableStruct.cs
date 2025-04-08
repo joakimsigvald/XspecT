@@ -26,12 +26,12 @@ public record IsNullableStruct<TValue> : Constraint<TValue?, IsNullableStruct<TV
     /// Should().BeNull()
     /// </summary>
     public ContinueWith<IsNullableStruct<TValue>> Null()
-        => Assert(Ignore.Me, Xunit.Assert.Null, string.Empty).And();
+        => Assert(Ignore.Me, Xunit.Assert.Null).And();
 
     /// <summary>
     /// Should().NotBeNull()
     /// </summary>
     [Obsolete("Use Not().Null instead")]
     public ContinueWith<IsNullableStruct<TValue>> NotNull()
-        => Assert(Ignore.Me, actual => Xunit.Assert.NotNull(actual), string.Empty).And();
+        => Assert(Ignore.Me, actual => Xunit.Assert.NotNull(actual)).And();
 }

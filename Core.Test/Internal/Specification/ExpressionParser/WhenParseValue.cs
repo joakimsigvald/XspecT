@@ -5,7 +5,7 @@ namespace XspecT.Test.Internal.Specification.ExpressionParser;
 public class WhenParseValue : Spec<string>
 {
     [Theory]
-    [InlineData(null, null)]
+    [InlineData(null, "")]
     [InlineData("", "")]
     [InlineData("A<MyModel>", "a MyModel")]
     [InlineData("() => A<MyModel>()", "a MyModel")]

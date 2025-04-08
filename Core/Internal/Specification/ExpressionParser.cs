@@ -15,39 +15,27 @@ public static partial class ExpressionParser
     /// </summary>
     /// <param name="expr"></param>
     /// <returns></returns>
-    public static string ParseValue(this string expr)
-    {
-        expr = expr.ToSingleLine();
-        if (string.IsNullOrEmpty(expr))
-            return expr;
-        if (TryParseMentionType(expr, out string description))
-            return description;
-        if (TryParseConstructorCall(expr, out description))
-            return description;
-        if (TryParseMentionValue(expr, out description))
-            return description;
-        if (TryParseAssignmentLambda(expr, out description))
-            return description;
-        if (TryParseIndexedAssignment(expr, out description))
-            return description;
-        if (TryParseZeroArgLambda(expr, out description))
-            return description;
-        if (TryParseString(expr, out description))
-            return description;
-        if (TryParseMethodCall(expr, out description))
-            return description;
-        if (TryParseWith(expr, out description))
-            return description;
-        if (TryParseAssignment(expr, out description))
-            return description;
-        if (TryParseOneArgLambdaValueExpression(expr, out description))
-            return description;
-        if (TryParseTupleExpression(expr, out description))
-            return description;
-        if (TryParseArithmeticExpression(expr, out description))
-            return description;
-        return expr;
-    }
+    public static string ParseValue(this string? expr)
+        => string.IsNullOrWhiteSpace(expr)
+        ? string.Empty
+        : ParseSingleLineValue(expr.ToSingleLine());
+
+    private static string ParseSingleLineValue(string line)
+        => TryParseMentionType(line, out string description)
+            || TryParseConstructorCall(line, out description)
+            || TryParseMentionValue(line, out description)
+            || TryParseAssignmentLambda(line, out description)
+            || TryParseIndexedAssignment(line, out description)
+            || TryParseZeroArgLambda(line, out description)
+            || TryParseString(line, out description)
+            || TryParseMethodCall(line, out description)
+            || TryParseWith(line, out description)
+            || TryParseAssignment(line, out description)
+            || TryParseOneArgLambdaValueExpression(line, out description)
+            || TryParseTupleExpression(line, out description)
+            || TryParseArithmeticExpression(line, out description)
+            ? description
+        : line;
 
     /// <summary>
     /// 
@@ -85,7 +73,7 @@ public static partial class ExpressionParser
         var propNames = expr.Split('.').Reverse().ToList();
         var thenValueRegex = ThenValueRegex();
         var thenValueSegment = propNames.SkipWhile(prop => !thenValueRegex.IsMatch(prop)).FirstOrDefault();
-        if (thenValueSegment is not null) 
+        if (thenValueSegment is not null)
         {
             propNames = propNames.TakeWhile(prop => prop != thenValueSegment).ToList();
             var valueMatch = thenValueRegex.Match(thenValueSegment);
@@ -94,13 +82,13 @@ public static partial class ExpressionParser
         }
         propNames.Reverse();
         if (prefix is null)
-            return propNames.Count == 1 
-                ? propNames.Single().ParseValue() 
+            return propNames.Count == 1
+                ? propNames.Single().ParseValue()
                 : string.Join('.', propNames);
         if (propNames.Count == 0)
             return prefix;
-        return IsOneWord(prefix) 
-            ? $"{prefix}.{string.Join('.', propNames)}" 
+        return IsOneWord(prefix)
+            ? $"{prefix}.{string.Join('.', propNames)}"
             : $"{prefix}'s {string.Join('.', propNames)}"; ;
     }
 
@@ -339,7 +327,7 @@ public static partial class ExpressionParser
             return false;
         description = values[0].ParseValue();
         for (int i = 0; i < operators.Length; i++)
-            description += $" {operators[i]} {values[i+1].ParseValue()}";
+            description += $" {operators[i]} {values[i + 1].ParseValue()}";
         return true;
     }
 

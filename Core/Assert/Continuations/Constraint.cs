@@ -72,7 +72,7 @@ public abstract record Constraint<TActual, TContinuation>
     private protected Constraint<TActual, TContinuation> Assert(
         object? expected,
         Action<TActual?> assert,
-        string expectedExpr,
+        string? expectedExpr = null,
         string auxVerb = "be",
         VerbalizationStrategy verbalizationStrategy = VerbalizationStrategy.None,
         [CallerMemberName] string? methodName = null)
@@ -123,7 +123,7 @@ public abstract record Constraint<TActual, TContinuation>
     private protected TContinuation Assert(
         Action assert,
         string methodName,
-        string expected,
+        string? expected,
         VerbalizationStrategy verbalizationStrategy = VerbalizationStrategy.None)
     {
         var verb = $"{AuxiliaryVerb} {methodName.AsWords(verbalizationStrategy)}".Trim();

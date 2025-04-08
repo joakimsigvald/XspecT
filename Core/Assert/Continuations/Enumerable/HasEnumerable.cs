@@ -15,7 +15,7 @@ public record HasEnumerable<TItem> : EnumerableConstraint<TItem, HasEnumerableCo
     {
         TItem? theItem = default;
         return Assert("element",
-            NotNullAnd(actual => theItem = Xunit.Assert.Single(actual)), string.Empty, "have")
+            NotNullAnd(actual => theItem = Xunit.Assert.Single(actual)), auxVerb: "have")
             .AndThat(theItem!);
     }
 
