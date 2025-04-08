@@ -30,12 +30,12 @@ public abstract record Constraint<TActual, TContinuation>
     /// </summary>
     /// <returns></returns>
     public TContinuation Not()
-        => new() 
-        { 
-            Actual = Actual, 
-            ActualExpr = ActualExpr, 
-            Inverted = true, 
-            AuxiliaryVerb = $"{AuxiliaryVerb} not" 
+        => new()
+        {
+            Actual = Actual,
+            ActualExpr = ActualExpr,
+            Inverted = true,
+            AuxiliaryVerb = $"{AuxiliaryVerb} not"
         };
 
     internal static TContinuation Create(TActual? actual, string actualExpr)
@@ -81,40 +81,38 @@ public abstract record Constraint<TActual, TContinuation>
             AuxiliaryVerb = string.Empty;
         return Assert(() =>
             {
+                Xunit.Sdk.XunitException? xuex = null;
                 try
                 {
                     assert(Actual);
+                    if (!Inverted)
+                        return;
                 }
                 catch (Exception ex)
                 {
                     if (Inverted)
                         return;
-                    Fail(ex);
+                    xuex = ex as Xunit.Sdk.XunitException;
                 }
-                if (Inverted)
-                    Fail();
+                throw new Xunit.Sdk.XunitException(
+                    $"Expected {ActualExpr} to {GetExpectation()} but found {Describe(Actual)}",
+                    GetExpectedException(xuex));
+            }, methodName!, expectedExpr, Inverted ? VerbalizationStrategy.None : verbalizationStrategy);
 
-                void Fail(Exception? ex = null)
-                {
-                    if (verbalizationStrategy == VerbalizationStrategy.PresentSingularS)
-                        auxVerb = string.Empty;
-                    if (Inverted)
-                        auxVerb = $"not {auxVerb}".TrimEnd();
-                    var verbStr = $"{auxVerb} {methodName!.AsWords()}".Trim();
-                    var expectationStr = $"{verbStr} {expected}".Trim();
-                    throw new Xunit.Sdk.XunitException(
-                        $"Expected {ActualExpr} to {expectationStr} but found {Describe(Actual)}",
-                        GetExpectedAsException(ex as Xunit.Sdk.XunitException));
-                }
-            }, 
-            new() { Expected = expectedExpr, MethodName = methodName! },
-            Inverted ? VerbalizationStrategy.None : verbalizationStrategy);
+        string GetExpectation() => $"{GetVerb()} {expected}".Trim();
+
+        string GetVerb() => $"{GetAuxVerb()} {methodName!.AsWords()}".Trim();
+
+        string GetAuxVerb() => 
+            ((Inverted ? "not " : string.Empty)
+            + (verbalizationStrategy == VerbalizationStrategy.PresentSingularS ? string.Empty : auxVerb))
+            .TrimEnd();
     }
 
-    private static Xunit.Sdk.XunitException? GetExpectedAsException(Xunit.Sdk.XunitException? ex)
+    private static Xunit.Sdk.XunitException? GetExpectedException(Xunit.Sdk.XunitException? ex)
         => ex is null || ex.Message.StartsWith("Expected")
             ? ex
-            : GetExpectedAsException(ex.InnerException as Xunit.Sdk.XunitException);
+            : GetExpectedException(ex.InnerException as Xunit.Sdk.XunitException);
 
     private protected virtual string Describe(TActual? value) => value?.ToString() ?? "null";
 
@@ -124,12 +122,12 @@ public abstract record Constraint<TActual, TContinuation>
 
     private protected TContinuation Assert(
         Action assert,
-        AssertExpression expression,
+        string methodName,
+        string expected,
         VerbalizationStrategy verbalizationStrategy = VerbalizationStrategy.None)
     {
-        var verb = $"{AuxiliaryVerb} {expression.MethodName.AsWords(verbalizationStrategy)}".Trim();
-        SpecificationGenerator.Assert(
-                assert, ActualExpr, expression.Expected, verb);
+        var verb = $"{AuxiliaryVerb} {methodName.AsWords(verbalizationStrategy)}".Trim();
+        SpecificationGenerator.Assert(assert, ActualExpr, expected, verb);
         return (TContinuation)this;
     }
 }

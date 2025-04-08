@@ -126,7 +126,7 @@ public record IsString : StringConstraint<IsStringContinuation>
 
     internal override ContinueWith<IsStringContinuation> Value(
         string expected, string expectedExpr)
-        => Assert(() => Equal(expected, Actual), new() { Expected = expectedExpr, MethodName = string.Empty }).And();
+        => Assert(() => Equal(expected, Actual), string.Empty, expectedExpr).And();
 
     internal override IsStringContinuation Continue() => Create(Actual, ActualExpr);
 }
