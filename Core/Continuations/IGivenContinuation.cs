@@ -333,6 +333,17 @@ public interface IGivenContinuation<TSUT, TResult>
         [CallerArgumentExpression(nameof(value))] string? valueExpr = null);
 
     /// <summary>
+    /// Specify that referenced collections of the given type have the given elements, 
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="values"></param>
+    /// <param name="valueExpr"></param>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> Some<TValue>(
+        IEnumerable<TValue> values,
+        [CallerArgumentExpression(nameof(values))] string? valueExpr = null);
+
+    /// <summary>
     /// Specify that referenced collections of the given type have one element, unless otherwise specified, 
     /// and that the given setup will be applied to the one element.
     /// </summary>

@@ -1,4 +1,6 @@
-﻿namespace XspecT.Assert.Continuations;
+﻿using XspecT.Internal.Specification;
+
+namespace XspecT.Assert.Continuations;
 
 /// <summary>
 /// 
@@ -13,5 +15,12 @@ public class ContinueWithThat<TContinuation, TThat>(TContinuation continuation, 
     /// <summary>
     /// 
     /// </summary>
-    public TThat That => that;
+    public TThat That
+    {
+        get
+        {
+            SpecificationGenerator.AddThat();
+            return that;
+        }
+    }
 }

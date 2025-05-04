@@ -61,6 +61,9 @@ internal class Context
         return value;
     }
 
+    internal TValue[] MentionMany<TValue>(TValue[] values)
+        => Mention(values);
+
     internal TValue[] MentionMany<TValue>(int count, int? minCount)
     {
         var (val, found) = _dataProvider.Retrieve(typeof(TValue[]));
@@ -93,7 +96,7 @@ internal class Context
 
     private TValue[] MentionMany<TValue>(int count)
         => count == 0 ? Mention(Array.Empty<TValue>())
-        : Mention(Enumerable.Range(0, count).Select(i => Mention<TValue>(i)).ToArray());
+        : Mention(Enumerable.Range(0, count).Select(Mention<TValue>).ToArray());
 
     private object? Mention(Type type, object? value, int index = 0)
         => _dataProvider.GetMentions(type)[index] = value;

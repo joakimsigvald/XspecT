@@ -5,8 +5,9 @@ namespace XspecT.Test.Internal.Specification.ExpressionParser;
 public class WhenParseActual : Spec<string>
 {
     [Theory]
-    [InlineData(null, null)]
+    [InlineData(null, "")]
     [InlineData("", "")]
+    [InlineData("Something().That", "")]
     [InlineData("Then().Result.Name", "Result.Name")]
     [InlineData("And(Result).Id", "Result.Id")]
     [InlineData("The<int>()", "the int")]

@@ -67,6 +67,9 @@ internal class Pipeline<TSUT, TResult>(Fixture<TSUT>? classFixture) : Fixture<TS
     internal TValue[] MentionMany<TValue>(int count, int? minCount = null)
         => _context.MentionMany<TValue>(count, minCount);
 
+    internal TValue[] MentionMany<TValue>(TValue[] values)
+        => _context.MentionMany(values);
+
     internal TValue[] MentionMany<TValue>(Action<TValue> setup, int count)
         => _context.MentionMany(setup, count);
 

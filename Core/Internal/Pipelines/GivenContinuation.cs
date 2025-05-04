@@ -174,7 +174,11 @@ internal class GivenContinuation<TSUT, TResult> : IGivenContinuation<TSUT, TResu
     public IGivenTestPipeline<TSUT, TResult> One<TValue>(
         TValue value, [CallerArgumentExpression(nameof(value))] string? valueExpr = null)
         => _spec.SetupMention<TValue>(() => _spec.One(value), valueExpr!);
-    
+
+    public IGivenTestPipeline<TSUT, TResult> Some<TValue>(
+        IEnumerable<TValue> values, [CallerArgumentExpression(nameof(values))] string? valueExpr = null)
+        => _spec.SetupMention<TValue>(() => _spec.Some(values), valueExpr!);
+
     public IGivenTestPipeline<TSUT, TResult> One<TValue>(
         Action<TValue> setup, 
         [CallerArgumentExpression(nameof(setup))] string? setupExpr = null)

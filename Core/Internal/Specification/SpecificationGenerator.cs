@@ -85,6 +85,8 @@ internal static class SpecificationGenerator
     internal static void AddAssertConjunction(string conjunction)
          => Builder.Add(() => Builder.AddAssertConjunction(conjunction));
 
+    internal static void AddThat() => Builder.Add(Builder.AddThat);
+
     internal static void Init(string prologue) => Builder.Init(prologue);
 
     internal static SpecificationBuilder Builder => _builder ??= new();

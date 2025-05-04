@@ -38,7 +38,7 @@ public abstract record Constraint<TActual, TContinuation>
             AuxiliaryVerb = $"{AuxiliaryVerb} not"
         };
 
-    internal static TContinuation Create(TActual? actual, string actualExpr)
+    internal static TContinuation Create(TActual? actual, string actualExpr) 
         => new() { Actual = actual, ActualExpr = actualExpr.ParseActual() };
 
     internal TActual? Actual { get; private set; }

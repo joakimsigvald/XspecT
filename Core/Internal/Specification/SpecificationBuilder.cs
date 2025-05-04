@@ -80,6 +80,12 @@ internal class SpecificationBuilder
         _textBuilder.AddPhraseOrSentence(Then);
     }
 
+    internal void AddThat()
+    {
+        _isChainOfAssertions = true;
+        _textBuilder.AddWord(That);
+    }
+
     internal void AddGiven(string valueExpr, ApplyTo applyTo)
     {
         _currentMockSetup = null;
@@ -148,4 +154,6 @@ internal class SpecificationBuilder
     private string Given => 0 == _givenCount++ ? "Given" : "and";
 
     private string Then => 0 == _thenCount++ ? "Then" : "and";
+
+    private const string That = "that";
 }

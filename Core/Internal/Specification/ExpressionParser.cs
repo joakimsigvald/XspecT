@@ -67,8 +67,8 @@ public static partial class ExpressionParser
     public static string ParseActual(this string expr)
     {
         expr = expr.ToSingleLine();
-        if (string.IsNullOrEmpty(expr))
-            return expr;
+        if (string.IsNullOrEmpty(expr) || expr.EndsWith(".That"))
+            return string.Empty;
         string? prefix = null;
         var propNames = expr.Split('.').Reverse().ToList();
         var thenValueRegex = ThenValueRegex();

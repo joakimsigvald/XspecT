@@ -21,6 +21,19 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     }
 
     /// <summary>
+    /// Yields an array with the provided elements
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <returns></returns>
+    protected internal TValue[] Some<TValue>(IEnumerable<TValue> values)
+    {
+        var arr = values.Take(5).ToArray();
+        for (var i = 0; i < arr.Length; i++)
+            _pipeline.Mention(i, arr[i]);
+        return _pipeline.MentionMany(arr);
+    }
+
+    /// <summary>
     /// Yields an array with one customized element of the given type
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
