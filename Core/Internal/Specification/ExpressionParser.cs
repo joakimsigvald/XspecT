@@ -1,9 +1,7 @@
-﻿using AutoFixture;
-using System.Text;
+﻿using System.Text;
 using System.Text.RegularExpressions;
-using XspecT.Internal.Specification;
 
-namespace XspecT;
+namespace XspecT.Internal.Specification;
 
 /// <summary>
 /// 
@@ -115,6 +113,19 @@ public static partial class ExpressionParser
             addSpace = !_lineBreakCues.Contains(line[^1]);
         }
         return sb.ToString();
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="expr"></param>
+    /// <returns></returns>
+    public static bool IsTaggedValueExpression(string expr)
+    {
+        if (string.IsNullOrEmpty(expr))
+            return false;
+        var match = AssignmentRegex().Match(expr);
+        return match.Success;
     }
 
     private static readonly char[] _lineBreakCues = ['.', '(', '['];

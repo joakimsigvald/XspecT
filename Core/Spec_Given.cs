@@ -99,13 +99,15 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
         [CallerArgumentExpression(nameof(defaultValue))] string? defaultValueExpr = null)
         => GivenDefault(defaultValue, ApplyTo.All, defaultValueExpr!);
 
-    internal IGivenTestPipeline<TSUT, TResult> GivenDefault<TValue>(TValue defaultValue, ApplyTo applyTo, string defaultValueExpr)
+    internal IGivenTestPipeline<TSUT, TResult> GivenDefault<TValue>(
+        TValue defaultValue, ApplyTo applyTo, string defaultValueExpr)
     {
         _pipeline.SetDefault(defaultValue, applyTo, defaultValueExpr);
         return new GivenTestPipeline<TSUT, TResult>(this);
     }
 
-    internal IGivenTestPipeline<TSUT, TResult> GivenDefault<TValue>(Func<TValue> value, ApplyTo applyTo, string defaultValueExpr)
+    internal IGivenTestPipeline<TSUT, TResult> GivenDefault<TValue>(
+        Func<TValue> value, ApplyTo applyTo, string defaultValueExpr)
         => ArrangeFirst(() => _pipeline.SetDefault(value(), applyTo, defaultValueExpr));
 
     internal IGivenTestPipeline<TSUT, TResult> SetupMention<TValue>(

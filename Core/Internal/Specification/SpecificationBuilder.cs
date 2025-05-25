@@ -102,12 +102,17 @@ internal class SpecificationBuilder
         }
     }
 
-    internal void AddGiven<TModel>(string setupExpr, string? article)
+    internal void AddGiven<TValue>(string setupExpr, string? article)
     {
         _currentMockSetup = null;
         var articleStr = string.IsNullOrEmpty(article) ? string.Empty : $"{article.AsWords()} ";
-        _textBuilder.AddPhraseOrSentence($"{Given} {articleStr}{NameOf<TModel>()} {{ {setupExpr.ParseValue()} }}");
+        _textBuilder.AddPhraseOrSentence($"{Given} {articleStr}{ParseSetupExpression<TValue>(setupExpr)}");
     }
+
+    private static string ParseSetupExpression<TValue>(string setupExpr)
+        => ExpressionParser.IsTaggedValueExpression(setupExpr)
+            ? setupExpr
+            : $"{NameOf<TValue>()} {{ {setupExpr.ParseValue()} }}";
 
     internal void AddGivenCount<TModel>(string count)
     {

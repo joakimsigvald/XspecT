@@ -22,16 +22,6 @@ public abstract record IsNullableComparableStruct<TActual, TContinuation, TValue
     public ContinueWith<TContinuation> Null() => Assert(Ignore.Me, Xunit.Assert.Null).And();
 
     /// <summary>
-    /// Assert that Actual is not null
-    /// </summary>
-    [Obsolete("Use Not().Null instead")]
-    public ContinueWith<TValueContinuation> NotNull()
-    {
-        Assert(Ignore.Me, actual => Xunit.Assert.NotNull(actual));
-        return new(ValueContinuation);
-    }
-
-    /// <summary>
     /// actual.Should().NotBe(expected)
     /// </summary>
     public ContinueWith<TContinuation> Not(
@@ -58,22 +48,6 @@ public abstract record IsNullableComparableStruct<TActual, TContinuation, TValue
     public ContinueWith<TValueContinuation> LessThan(
         TActual expected, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
         => CompareTo(expected, x => x < 0, expectedExpr!);
-
-    /// <summary>
-    /// actual.Should().BeLessThanOrEqualTo(expected)
-    /// </summary>
-    [Obsolete("Use Not().GreaterThan instead")]
-    public ContinueWith<TValueContinuation> NotGreaterThan(
-        TActual expected, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
-        => CompareTo(expected, x => x <= 0, expectedExpr!);
-
-    /// <summary>
-    /// actual.Should().BeGreaterThanOrEqualTo(expected)
-    /// </summary>
-    [Obsolete("Use Not().LessThan instead")]
-    public ContinueWith<TValueContinuation> NotLessThan(
-        TActual expected, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
-        => CompareTo(expected, x => x >= 0, expectedExpr!);
 
     internal ContinueWith<TValueContinuation> Value(
         TActual expected, string expectedExpr)

@@ -5,6 +5,7 @@ namespace XspecT.Internal.TestData;
 internal class Context
 {
     private readonly DataProvider _dataProvider = new();
+    private readonly Dictionary<Type, Dictionary<object, int>> _tagIndices = [];
 
     internal TSUT CreateSUT<TSUT>()
     {
@@ -35,6 +36,14 @@ internal class Context
 
         return Mention(newValue, index);
     }
+
+    internal TValue Mention<TValue>(Tag<TValue> tag) => Mention<TValue>(GetTagIndex(tag));
+
+    internal TValue Mention<TValue>(Tag<TValue> tag, TValue value)
+        => Mention(value, GetTagIndex(tag));
+
+    internal Dictionary<object, int> GetTagIndices(Type type)
+        => _tagIndices.TryGetValue(type, out var val) ? val : _tagIndices[type] = [];
 
     internal static TValue ApplyTo<TValue>(Action<TValue> setup, TValue value)
     {
@@ -93,6 +102,17 @@ internal class Context
 
     internal void SetupThrows<TService>(Func<Exception> ex)
         => _dataProvider.SetDefaultException(typeof(TService), ex);
+
+    internal int GetTagIndex<TValue>(Tag<TValue> tag)
+    {
+        var typedTagIndices = GetTagIndices(typeof(TValue));
+        return typedTagIndices.TryGetValue(tag, out var index) 
+            ? index
+            : typedTagIndices[tag] = GetNextTagIndex(typedTagIndices);
+    }
+
+    private static int GetNextTagIndex(Dictionary<object, int> typedTagIndices)
+        => typedTagIndices.Count > 0 ? typedTagIndices.Values.Min() - 1 : -1;
 
     private TValue[] MentionMany<TValue>(int count)
         => count == 0 ? Mention(Array.Empty<TValue>())

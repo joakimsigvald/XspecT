@@ -2,7 +2,6 @@
 using XspecT.Assert.Continuations;
 using XspecT.Assert.Continuations.Numerical.Fractional;
 using XspecT.Assert.Continuations.Numerical.Fractional.Nullable;
-
 using CallerArgument = System.Runtime.CompilerServices.CallerArgumentExpressionAttribute;
 
 namespace XspecT.Assert;

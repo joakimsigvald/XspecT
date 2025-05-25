@@ -19,17 +19,6 @@ public record DoesString : StringConstraint<DoesStringContinuation>
             verbalizationStrategy: VerbalizationStrategy.PresentSingularS).And();
 
     /// <summary>
-    /// Asserts that the string does not contain the expected string
-    /// </summary>
-    [Obsolete("Use Not().Contain instead")]
-    public ContinueWith<DoesStringContinuation> NotContain(
-        string expected, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
-        => Assert(
-            Describe(expected),
-            actual => Xunit.Assert.DoesNotContain(expected, actual), 
-            expectedExpr!, string.Empty).And();
-
-    /// <summary>
     /// Asserts that the string starts with a prefix
     /// </summary>
     /// <param name="expected"></param>

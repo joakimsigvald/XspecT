@@ -26,6 +26,23 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     protected internal TValue The<TValue>() => _pipeline.Mention<TValue>();
 
     /// <summary>
+    /// Reference an auto-generated, or previously provided value by the given tag
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="tag">The tag is used to distinguish between different values. Each tag instance corresponds to one value</param>
+    /// <returns>The value associated to the tag</returns>
+    protected internal TValue The<TValue>(Tag<TValue> tag) => _pipeline.Mention(tag);
+
+    /// <summary>
+    /// Provide a specific value for the given tag
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="tag">The tag is used to distinguish between different values. Each tag instance corresponds to one value</param>
+    /// <param name="value">The value to set</param>
+    /// <returns>The value associated to the tag</returns>
+    protected internal TValue The<TValue>(Tag<TValue> tag, TValue value) => _pipeline.Mention(tag, value);
+
+    /// <summary>
     /// Yields a value of the given type
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
@@ -63,28 +80,8 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
     /// <returns></returns>
-    [Obsolete("The- should not be used for altering values, only get values for assertion")]
-    protected internal TValue TheFirst<TValue>(Action<TValue> setup)
-        => _pipeline.Mention(0, setup);
-
-    /// <summary>
-    /// Yields a customized value of the given type
-    /// </summary>
-    /// <typeparam name="TValue"></typeparam>
-    /// <param name="setup"></param>
-    /// <returns></returns>
     protected internal TValue AFirst<TValue>(Action<TValue> setup)
         => _pipeline.Mention(0, setup);
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <typeparam name="TValue"></typeparam>
-    /// <param name="transform"></param>
-    /// <returns></returns>
-    [Obsolete("The- should not be used for altering values, only get values for assertion")]
-    protected internal TValue The<TValue>(Func<TValue, TValue> transform)
-        => _pipeline.Mention(0, transform);
 
     /// <summary>
     /// Yields a customized value of the given type
@@ -117,15 +114,6 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <param name="value"></param>
     /// <returns></returns>
     protected internal TValue AFirst<TValue>(TValue value) => _pipeline.Mention(0, value);
-
-    /// <summary>
-    /// Yields a customized value of the given type
-    /// </summary>
-    /// <typeparam name="TValue"></typeparam>
-    /// <param name="transform"></param>
-    /// <returns></returns>
-    [Obsolete("The- should not be used for altering values, only get values for assertion")]
-    protected internal TValue TheFirst<TValue>(Func<TValue, TValue> transform) => _pipeline.Mention(0, transform);
 
     /// <summary>
     /// Provide a specific value of the given type, that can be referenced at different points of the test, with the keywords, A, An or The

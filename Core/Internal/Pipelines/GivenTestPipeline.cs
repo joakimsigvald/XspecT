@@ -49,12 +49,18 @@ internal class GivenTestPipeline<TSUT, TResult>
         => Parent.When(act, actExpr!);
 
     public ITestPipeline<TSUT, TResult> After(
-        Action<TSUT> setUp, [CallerArgumentExpression(nameof(setUp))] string? setUpExpr = null)
-        => Parent.After(setUp, setUpExpr!);
+        Action<TSUT> setUp, 
+        Func<int>? delayBeforeNextMs = null,
+        [CallerArgumentExpression(nameof(setUp))] string? setUpExpr = null,
+        [CallerArgumentExpression(nameof(delayBeforeNextMs))] string? delayExpr = null) 
+        => Parent.After(setUp, delayBeforeNextMs, setUpExpr!, delayExpr!);
 
     public ITestPipeline<TSUT, TResult> After(
-        Func<TSUT, Task> setUp, [CallerArgumentExpression(nameof(setUp))] string? setUpExpr = null)
-        => Parent.After(setUp, setUpExpr!);
+        Func<TSUT, Task> setUp, 
+        Func<int>? delayBeforeNextMs = null,
+        [CallerArgumentExpression(nameof(setUp))] string? setUpExpr = null,
+        [CallerArgumentExpression(nameof(delayBeforeNextMs))] string? delayExpr = null) 
+        => Parent.After(setUp, delayBeforeNextMs, setUpExpr!, delayExpr!);
 
     public ITestPipeline<TSUT, TResult> Before(
         Action<TSUT> tearDown, [CallerArgumentExpression(nameof(tearDown))] string? tearDownExpr = null)

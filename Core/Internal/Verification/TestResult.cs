@@ -29,14 +29,26 @@ internal class TestResult<TSUT, TResult> : ITestResultWithSUT<TSUT, TResult>
         _hasResult = hasResult;
     }
 
+    /// <summary>
+    /// Provide the return value of the tested method
+    /// </summary>
     public TResult Result
     {
         get => _hasResult && _error is null ? _result! : throw UnexpectedError;
         init => _result = value;
     }
 
+    /// <summary>
+    /// Provide the subject under test for non-static test methods.
+    /// For static test-methods only returns the default- or auto-generated value of the type declared as Subject under test.
+    /// </summary>
     public TSUT SubjectUnderTest { get; }
 
+    /// <summary>
+    /// Assert that the method under test threw a specific type of exception
+    /// </summary>
+    /// <typeparam name="TError"></typeparam>
+    /// <returns></returns>
     public IAndThen<TResult> Throws<TError>()
     {
         SpecificationGenerator.AddAssertThrows<TError>();
@@ -44,6 +56,13 @@ internal class TestResult<TSUT, TResult> : ITestResultWithSUT<TSUT, TResult>
         return And();
     }
 
+    /// <summary>
+    /// Assert that the method under test threw a specific exception (expected)
+    /// </summary>
+    /// <typeparam name="TError"></typeparam>
+    /// <param name="expected"></param>
+    /// <param name="expectedExpr"></param>
+    /// <returns></returns>
     public IAndThen<TResult> Throws<TError>(
         Func<TError> expected, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
         where TError : Exception
@@ -53,6 +72,12 @@ internal class TestResult<TSUT, TResult> : ITestResultWithSUT<TSUT, TResult>
         return And();
     }
 
+    /// <summary>
+    /// Assert that the method under test threw a specific type of exception, satisfying some condition (assert)
+    /// </summary>
+    /// <typeparam name="TError"></typeparam>
+    /// <param name="assert"></param>
+    /// <returns></returns>
     public IAndThen<TResult> Throws<TError>(
         Action<TError> assert)
     {
@@ -61,6 +86,13 @@ internal class TestResult<TSUT, TResult> : ITestResultWithSUT<TSUT, TResult>
         return And();
     }
 
+    /// <summary>
+    /// Assert that the method under test threw a specific type of exception, satisfying some condition
+    /// </summary>
+    /// <typeparam name="TError"></typeparam>
+    /// <param name="condition"></param>
+    /// <param name="conditionExpr"></param>
+    /// <returns></returns>
     public IAndThen<TResult> Throws<TError>(
         Func<TError, bool> condition, [CallerArgumentExpression(nameof(condition))] string? conditionExpr = null)
     {
@@ -70,18 +102,31 @@ internal class TestResult<TSUT, TResult> : ITestResultWithSUT<TSUT, TResult>
         return And();
     }
 
+    /// <summary>
+    /// Assert that the method under test threw an exception
+    /// </summary>
+    /// <returns></returns>
     public IAndThen<TResult> Throws()
     {
         AssertError<Exception>();
         return And();
     }
 
+    /// <summary>
+    /// Assert that the method under test did not throw a specific exception
+    /// </summary>
+    /// <typeparam name="TError"></typeparam>
+    /// <returns></returns>
     public IAndThen<TResult> DoesNotThrow<TError>()
     {
         AssertNoError<TError>();
         return And();
     }
 
+    /// <summary>
+    /// Assert that the method under test did not throw any exception
+    /// </summary>
+    /// <returns></returns>
     public IAndThen<TResult> DoesNotThrow()
     {
         SpecificationGenerator.AddAssert();

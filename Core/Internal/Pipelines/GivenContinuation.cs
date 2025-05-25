@@ -73,6 +73,12 @@ internal class GivenContinuation<TSUT, TResult> : IGivenContinuation<TSUT, TResu
         [CallerArgumentExpression(nameof(transform))] string? transformExpr = null)
         => _spec.SetupMention<TValue>(() => _spec.An(transform), transformExpr!);
 
+    public IGivenTestPipeline<TSUT, TResult> The<TValue>(
+        Tag<TValue> tag, TValue value,
+        [CallerArgumentExpression(nameof(tag))] string? tagExpr = null,
+        [CallerArgumentExpression(nameof(value))] string? valueExpr = null)
+        => _spec.SetupMention<TValue>(() => _spec.The(tag, value), $"{tagExpr} = {valueExpr!}");
+
     public IGivenTestPipeline<TSUT, TResult> AFirst<TValue>(
         TValue value,
         [CallerArgumentExpression(nameof(value))] string? valueExpr = null)

@@ -59,8 +59,8 @@ internal static class SpecificationGenerator
     internal static void AddGiven(string valueExpr, ApplyTo applyTo)
         => Builder.Add(() => Builder.AddGiven(valueExpr, applyTo));
 
-    internal static void AddGiven<TModel>(string setupExpr, string? article = null)
-        => Builder.Add(() => Builder.AddGiven<TModel>(setupExpr, article));
+    internal static void AddGiven<TValue>(string setupExpr, string? article = null)
+        => Builder.Add(() => Builder.AddGiven<TValue>(setupExpr, article));
 
     internal static void AddGivenCount<TModel>(string count)
         => Builder.Add(() => Builder.AddGivenCount<TModel>(count));

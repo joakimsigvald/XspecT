@@ -20,17 +20,5 @@ public record DoesEnumerable<TItem> : EnumerableConstraint<TItem, DoesEnumerable
             NotNullAnd(actual => Xunit.Assert.Contains(expected, actual)),
             expectedExpr!, verbalizationStrategy: VerbalizationStrategy.PresentSingularS).And();
 
-    /// <summary>
-    /// Assert that the enumerable does not contain the given item
-    /// </summary>
-    /// <param name="expected"></param>
-    /// <param name="expectedExpr">Ignore, provided by runtime</param>
-    /// <returns>A continuation for making additional asserts on the enumerable</returns>
-    [Obsolete("Use Not().Contain instead")]
-    public ContinueWith<DoesEnumerableContinuation<TItem>> NotContain(
-        TItem expected, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
-        => Assert($"{expected}",
-            NotNullAnd(actual => Xunit.Assert.DoesNotContain(expected, actual)), expectedExpr!, string.Empty).And();
-
     internal override DoesEnumerableContinuation<TItem> Continue() => Create(Actual, ActualExpr);
 }

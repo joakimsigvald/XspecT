@@ -111,21 +111,43 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// Provide the setUp to the test-pipeline
     /// </summary>
     /// <param name="setUp"></param>
-    /// <param name="expr"></param>
+    /// <param name="delayMs">Delay between this method invocation and the next in the pipeline</param>
+    /// <param name="expr">Provided by the compiler</param>
+    /// <param name="delayExpr">Provided by the compiler</param>
     /// <returns></returns>
     public ITestPipeline<TSUT, TResult> After(
-        Action<TSUT> setUp, [CallerArgumentExpression(nameof(setUp))] string? expr = null)
-        => PrependSetUp(setUp, expr!);
+        Action<TSUT> setUp, 
+        Func<int>? delayMs = null,
+        [CallerArgumentExpression(nameof(setUp))] string? expr = null,
+        [CallerArgumentExpression(nameof(delayMs))] string? delayExpr = null)
+    {
+        AddDelay(delayMs, delayExpr!);
+        return PrependSetUp(setUp, expr!);
+    }
 
     /// <summary>
     /// Provide the setUp to the test-pipeline
     /// </summary>
     /// <param name="setUp"></param>
-    /// <param name="expr"></param>
+    /// <param name="delayMs">Delay between this method invocation and the next in the pipeline</param>
+    /// <param name="expr">Provided by the compiler</param>
+    /// <param name="delayExpr">Provided by the compiler</param>
     /// <returns></returns>
     public ITestPipeline<TSUT, TResult> After(
-        Func<TSUT, Task> setUp, [CallerArgumentExpression(nameof(setUp))] string? expr = null)
-        => PrependSetUp(setUp, expr!);
+        Func<TSUT, Task> setUp, Func<int>? delayMs = null,
+        [CallerArgumentExpression(nameof(setUp))] string? expr = null,
+        [CallerArgumentExpression(nameof(delayMs))] string? delayExpr = null)
+    {
+        AddDelay(delayMs, delayExpr!);
+        return PrependSetUp(setUp, expr!);
+    }
+
+    private void AddDelay(Func<int>? delayMs, string delayExpr)
+    {
+        if (delayMs is null)
+            return;
+            PrependSetUp((Func<TSUT, Task>)(_ => Task.Delay(delayMs())), $"wait {delayExpr} ms");
+    }
 
     private Spec<TSUT, TResult> SetAction(Delegate act, string expr)
     {

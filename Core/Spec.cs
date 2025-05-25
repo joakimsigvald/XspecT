@@ -30,7 +30,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     private readonly Pipeline<TSUT, TResult> _pipeline;
 
     /// <summary>
-    /// 
+    /// Create a new specification
     /// </summary>
     protected Spec()
     {
@@ -39,7 +39,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     }
 
     /// <summary>
-    /// 
+    /// Create a new specification with a class-fixture
     /// </summary>
     /// <param name="classFixture"></param>
     protected Spec(IFixture<TSUT> classFixture)
@@ -58,7 +58,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     private readonly Lazy<string> _lazySpecification = new(() => SpecificationGenerator.Builder.Specification);
 
     /// <summary>
-    /// 
+    /// Teardown
     /// </summary>
     /// <exception cref="NotImplementedException"></exception>
     public void Dispose() => _pipeline.TearDown();

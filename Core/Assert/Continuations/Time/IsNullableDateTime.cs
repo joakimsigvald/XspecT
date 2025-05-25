@@ -26,26 +26,4 @@ public record IsNullableDateTime : IsNullableComparableStruct<DateTime, IsNullab
     public ContinueWith<IsDateTime> After(
         DateTime expected, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
         => CompareTo(expected, x => x > 0, expectedExpr!, "occur");
-
-    /// <summary>
-    /// Asserts that the nullable dateTime is not before the given value
-    /// </summary>
-    /// <param name="expected"></param>
-    /// <param name="expectedExpr"></param>
-    /// <returns></returns>
-    [Obsolete("Use Not().Before instead")]
-    public ContinueWith<IsDateTime> NotBefore(
-        DateTime expected, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
-        => CompareTo(expected, x => x >= 0, expectedExpr!, "occur");
-
-    /// <summary>
-    /// Asserts that the nullable dateTime is not after the given value
-    /// </summary>
-    /// <param name="expected"></param>
-    /// <param name="expectedExpr"></param>
-    /// <returns></returns>
-    [Obsolete("Use Not().After instead")]
-    public ContinueWith<IsDateTime> NotAfter(
-        DateTime expected, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
-        => CompareTo(expected, x => x <= 0, expectedExpr!, "occur");
 }

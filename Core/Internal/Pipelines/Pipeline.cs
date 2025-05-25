@@ -43,6 +43,14 @@ internal class Pipeline<TSUT, TResult>(Fixture<TSUT>? classFixture) : Fixture<TS
     internal TValue Mention<TValue>(int index = 0)
         => index < 0 ? _context.Create<TValue>() : _context.Mention<TValue>(index);
 
+    internal TValue Mention<TValue>(Tag<TValue> tag) => _context.Mention(tag);
+
+    internal TValue Mention<TValue>(Tag<TValue> tag, TValue value)
+    {
+        AssertHasNotRun();
+        return _context.Mention(tag, value);
+    }
+
     internal TValue Create<TValue>(Action<TValue> setup) 
         => Context.ApplyTo(setup, _context.Create<TValue>());
 

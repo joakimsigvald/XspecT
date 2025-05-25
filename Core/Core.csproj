@@ -18,11 +18,13 @@
     <PackageProjectUrl>https://github.com/joakimsigvald/XspecT</PackageProjectUrl>
     <RepositoryUrl>https://github.com/joakimsigvald/XspecT.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageVersion>18.4.0</PackageVersion>
+    <PackageVersion>18.5.0</PackageVersion>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>icon.png</PackageIcon>
-    <PackageReleaseNotes>Added Given().Some to provide pregenerated items. Removed obsolete methods. Fixed specification for That</PackageReleaseNotes>
+    <PackageReleaseNotes>Added tagged mentions - for more readable use of several values of the same type,
+    and delay on After, for test where timing between method invocations are essential,
+  removed obsolete test methods (use Not(). instead of prefix Not)</PackageReleaseNotes>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>

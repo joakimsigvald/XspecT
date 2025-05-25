@@ -1,4 +1,5 @@
 ﻿using XspecT.Assert;
+using XspecT.Internal.Specification;
 
 namespace XspecT.Test.Internal.Specification.ExpressionParser;
 

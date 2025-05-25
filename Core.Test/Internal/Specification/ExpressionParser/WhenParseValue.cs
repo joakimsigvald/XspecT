@@ -1,4 +1,5 @@
 ﻿using XspecT.Assert;
+using static XspecT.Internal.Specification.ExpressionParser;
 
 namespace XspecT.Test.Internal.Specification.ExpressionParser;
 
@@ -33,7 +34,21 @@ public class WhenParseValue : Spec<string>
         _ => _.Name = A<string>()
                 + ASecond<string>()
         """, "Name = a string + a second string")]
+    [InlineData("() => The(delay)", "the delay")]
     public void ThenReturnDescription(string valueExpr, string expected)
         => When(_ => valueExpr.ParseValue())
+        .Then().Result.Is(expected);
+}
+public class IsTaggedValueExpression : Spec<bool>
+{
+    [Theory]
+    [InlineData(null, false)]
+    [InlineData("", false)]
+    [InlineData("hej", false)]
+    [InlineData("_.Hej = 123", false)]
+    [InlineData("Hej = 123", true)]
+    [InlineData("_hej123 = 123", true)]
+    public void Test(string expression, bool expected)
+        => When(_ => IsTaggedValueExpression(expression))
         .Then().Result.Is(expected);
 }

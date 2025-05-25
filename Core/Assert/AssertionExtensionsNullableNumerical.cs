@@ -1,7 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using XspecT.Assert.Continuations;
 using XspecT.Assert.Continuations.Numerical.Nullable;
-
 using CallerArgument = System.Runtime.CompilerServices.CallerArgumentExpressionAttribute;
 
 namespace XspecT.Assert;

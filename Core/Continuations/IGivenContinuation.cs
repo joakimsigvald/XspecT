@@ -143,6 +143,19 @@ public interface IGivenContinuation<TSUT, TResult>
         [CallerArgumentExpression(nameof(transform))] string? transformExpr = null);
 
     /// <summary>
+    /// Provide the value associated to the given tag.
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="tag"></param>
+    /// <param name="value"></param>
+    /// <param name="valueExpr"></param>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> The<TValue>(
+        Tag<TValue> tag, TValue value,
+        [CallerArgumentExpression(nameof(tag))] string? tagExpr = null,
+        [CallerArgumentExpression(nameof(value))] string? valueExpr = null);
+
+    /// <summary>
     /// Provide a second value of a given type, that can be mentioned in the test pipeline as ASecond or TheSecond.
     /// </summary>
     /// <typeparam name="TValue"></typeparam>

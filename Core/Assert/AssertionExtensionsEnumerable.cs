@@ -26,23 +26,6 @@ public static class AssertionExtensionsEnumerable
         => actual.Is(actualExpr: actualExpr!).SameAs(expected, expectedExpr!);
 
     /// <summary>
-    /// Assert that both enumerables are not the same instance
-    /// </summary>
-    /// <typeparam name="TItem"></typeparam>
-    /// <param name="actual"></param>
-    /// <param name="expected"></param>
-    /// <param name="actualExpr"></param>
-    /// <param name="expectedExpr"></param>
-    /// <returns></returns>
-    [Obsolete("Use Is().Not or Is().Not().SameAs instead")]
-    public static ContinueWith<IsEnumerableContinuation<TItem>> IsNot<TItem>(
-        this IEnumerable<TItem> actual,
-        IEnumerable<TItem> expected,
-        [CallerArgumentExpression(nameof(actual))] string? actualExpr = null,
-        [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
-        => actual.Is(actualExpr: actualExpr!).Not(expected, expectedExpr!);
-
-    /// <summary>
     /// Get available assertions for the given enumerable
     /// </summary>
     /// <typeparam name="TItem"></typeparam>
