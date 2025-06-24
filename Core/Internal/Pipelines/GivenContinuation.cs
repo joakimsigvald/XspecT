@@ -77,7 +77,7 @@ internal class GivenContinuation<TSUT, TResult> : IGivenContinuation<TSUT, TResu
         Tag<TValue> tag, TValue value,
         [CallerArgumentExpression(nameof(tag))] string? tagExpr = null,
         [CallerArgumentExpression(nameof(value))] string? valueExpr = null)
-        => _spec.SetupMention<TValue>(() => _spec.The(tag, value), $"{tagExpr} = {valueExpr!}");
+        => _spec.SetupMention<TValue>(() => _spec.The(tag, value), $"{tagExpr} is {valueExpr!}");
 
     public IGivenTestPipeline<TSUT, TResult> AFirst<TValue>(
         TValue value,

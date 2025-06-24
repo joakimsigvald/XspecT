@@ -120,13 +120,8 @@ public static partial class ExpressionParser
     /// </summary>
     /// <param name="expr"></param>
     /// <returns></returns>
-    public static bool IsTaggedValueExpression(string expr)
-    {
-        if (string.IsNullOrEmpty(expr))
-            return false;
-        var match = AssignmentRegex().Match(expr);
-        return match.Success;
-    }
+    public static bool IsTaggedValueExpression(string expr) 
+        => !string.IsNullOrEmpty(expr) && IsRegex().Match(expr).Success;
 
     private static readonly char[] _lineBreakCues = ['.', '(', '['];
 
@@ -355,6 +350,9 @@ public static partial class ExpressionParser
 
     [GeneratedRegex(@"^(\w+)\s*=+\s+(.+)$")]
     private static partial Regex AssignmentRegex();
+
+    [GeneratedRegex(@"^(\w+)\s*is\s+(.+)$")]
+    private static partial Regex IsRegex();
 
     [GeneratedRegex(@"^\((\w+),\s*\w+\)\s*=>\s*(\w+)\.(\w+)\s*=+\s*(.+)$")]
     private static partial Regex IndexedAssignmentRegex();

@@ -98,7 +98,7 @@ internal class SpecificationBuilder
                 yield return "using";
             yield return valueExpr.ParseValue();
             if (applyTo == ApplyTo.Default)
-                yield return "as default";
+                yield return "is default";
         }
     }
 

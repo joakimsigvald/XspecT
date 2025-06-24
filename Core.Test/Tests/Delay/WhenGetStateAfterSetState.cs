@@ -32,9 +32,9 @@ public abstract class WhenGetStateAfterSetStateWithAfterDelay : Spec<DelayedStat
             Result.Is(The(state));
             Specification.Is(
                 """
-                Given the wait = 200
-                  and the delay = 100
-                  and the delay as default
+                Given the wait is 200
+                  and the delay is 100
+                  and the delay is default
                 When _.State
                 After wait () => The(wait) ms
                 After _.SetState(the state)

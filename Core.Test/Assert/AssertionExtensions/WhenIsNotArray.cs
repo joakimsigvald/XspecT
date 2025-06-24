@@ -16,7 +16,7 @@ public class WhenIsNotArray : Spec<int[]>
             => When(_ => arr).Then().Result.Is().Not(arr));
         ex.Message.Is(
             """
-            Given new int[] { 1, 2, 3 } as default
+            Given new int[] { 1, 2, 3 } is default
             When arr
             Then Result is not arr
             """);

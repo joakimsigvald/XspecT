@@ -45,9 +45,10 @@ public class IsTaggedValueExpression : Spec<bool>
     [InlineData(null, false)]
     [InlineData("", false)]
     [InlineData("hej", false)]
-    [InlineData("_.Hej = 123", false)]
-    [InlineData("Hej = 123", true)]
-    [InlineData("_hej123 = 123", true)]
+    [InlineData("_.Hej is 123", false)]
+    [InlineData("Hej = 123", false)]
+    [InlineData("Hej is 123", true)]
+    [InlineData("_hej123 is 123", true)]
     public void Test(string expression, bool expected)
         => When(_ => IsTaggedValueExpression(expression))
         .Then().Result.Is(expected);

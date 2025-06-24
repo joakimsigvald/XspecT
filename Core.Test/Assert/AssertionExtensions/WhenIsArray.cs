@@ -15,7 +15,7 @@ public class WhenIsArray : Spec<int[]>
             => When(_ => _).Then().Result.Is([1, 2, 3]));
         ex.Message.Is(
             """
-            Given new int[] { 1, 2, 3 } as default
+            Given new int[] { 1, 2, 3 } is default
             When _
             Then Result is [1, 2, 3]
             """);
