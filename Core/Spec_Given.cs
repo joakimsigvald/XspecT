@@ -41,6 +41,18 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     }
 
     /// <summary>
+    /// Provide a tag to setup some expectation, such as associating it with a value.
+    /// </summary>
+    /// <typeparam name="TValue">The type of value the tag is associated with</typeparam>
+    /// <param name="tag">The tag</param>
+    /// <param name="tagExpr">Leave empty. Provided by the compiler</param>
+    /// <returns></returns>
+    public IGivenTag<TSUT, TResult, TValue> Given<TValue>(
+        Tag<TValue> tag,
+        [CallerArgumentExpression(nameof(tag))] string? tagExpr = null)
+        => new GivenTag<TSUT, TResult, TValue>(this, tag, tagExpr!);
+
+    /// <summary>
     /// Provide a default value, that will be applied in all mocks and auto-generated test-data, where no specific value or setup is given.
     /// </summary>
     /// <typeparam name="TValue"></typeparam>

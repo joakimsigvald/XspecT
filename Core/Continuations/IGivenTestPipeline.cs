@@ -64,4 +64,15 @@ public interface IGivenTestPipeline<TSUT, TResult> : ITestPipeline<TSUT, TResult
     IGivenTestPipeline<TSUT, TResult> And<TValue>(
         TValue defaultValue,
         [CallerArgumentExpression(nameof(defaultValue))] string? defaultValueExpr = null);
+
+    /// <summary>
+    /// Provide a tag to setup some expectation, such as associating it with a value.
+    /// </summary>
+    /// <typeparam name="TValue">The type of value the tag is associated with</typeparam>
+    /// <param name="tag">The tag</param>
+    /// <param name="tagExpr">Leave empty. Provided by the compiler</param>
+    /// <returns></returns>
+    IGivenTag<TSUT, TResult, TValue> And<TValue>(
+        Tag<TValue> tag,
+        [CallerArgumentExpression(nameof(tag))] string? tagExpr = null);
 }

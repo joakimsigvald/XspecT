@@ -34,6 +34,24 @@ public class WhenGivenUsingAndDefaultValue : Spec<MyWrapper<string>, (string, st
             Then Result is ("DEF", "ABC")
             """);
     }
+
+    [Fact]
+    public void UsingTag_ThenApplyBothAsLambdas()
+    {
+        Tag<string> def = new();
+        Given().Default(() => "ABC").And(def).IsUsed()
+            .And(def).Is("DEF")
+            .When(_ => _.GetValues(A<string>()))
+            .Then().Result.Is(("DEF", "ABC"));
+        Specification.Is(
+            """
+            Given def is "DEF"
+              and using def
+              and "ABC" is default
+            When _.GetValues(a string)
+            Then Result is ("DEF", "ABC")
+            """);
+    }
 }
 
 public class WhenGivenUsingAndDefaultModel : Spec<MyWrapper<MyModel>, (MyModel, MyModel)>
