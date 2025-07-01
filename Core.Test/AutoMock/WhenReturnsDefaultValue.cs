@@ -20,6 +20,23 @@ public class WhenReturnsDefaultValue : Spec<MyValueIntService, string>
     }
 
     [Fact]
+    public void GivenTag_ThenUseDefaultValue()
+    {
+        Tag<string> name = new();
+        When(_ => _.GetValue(A<MyValueInt>()))
+            .Given<IMyValueIntRepo>().Returns(name)
+            .And(name).Is(A<string>())
+            .Then().Result.Is(The<string>());
+        Specification.Is(
+            """
+            Given name is a string
+              and IMyValueIntRepo returns name
+            When _.GetValue(a MyValueInt)
+            Then Result is the string
+            """);
+    }
+
+    [Fact]
     public void GivenMethodReturnsTaskOfValue_ThenUseDefaultValue()
     {
         When(_ => _.GetValueAsync(A<MyValueInt>()))

@@ -49,11 +49,13 @@ internal abstract class GivenThatCommonContinuation<TSUT, TResult, TService, TRe
     public IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> Returns(
         Func<TReturns?> returns, [CallerArgumentExpression(nameof(returns))] string? returnsExpr = null)
     {
-        if (returns is null)
-            throw new SetupFailed($"{nameof(returns)} may not be null");
-        _spec.ArrangeLast(() => SetupReturns(returns, returnsExpr!));
+        _spec.ArrangeLast(() => SetupReturns(returns!, returnsExpr!));
         return new GivenThatReturnsContinuation<TSUT, TResult, TService, TReturns>(_spec, this);
     }
+
+    public IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> Returns(
+        Tag<TReturns?> tag, [CallerArgumentExpression(nameof(tag))] string? tagExpr = null)
+        => Returns(() => _spec.The(tag), tagExpr!);
 
     public IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> ReturnsDefault()
         => Returns(() => default);
