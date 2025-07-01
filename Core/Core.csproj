@@ -18,13 +18,13 @@
     <PackageProjectUrl>https://github.com/joakimsigvald/XspecT</PackageProjectUrl>
     <RepositoryUrl>https://github.com/joakimsigvald/XspecT.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageVersion>18.6.0</PackageVersion>
+    <PackageVersion>18.6.1</PackageVersion>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>icon.png</PackageIcon>
     <PackageReleaseNotes>Improved usage of tags.
-    Added methods Given(tag).IsDefault() and Given(tag).IsUsed().
-    Removed special method Given().The(tag, value) and replaced it with Given(tag).Is(value)</PackageReleaseNotes>
+    Use Given().Default and Given().Using with tags. Removed special methods IsDefault and IsUsed from previous version
+    Use mock returns with tags</PackageReleaseNotes>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>
