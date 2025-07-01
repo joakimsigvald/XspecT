@@ -124,7 +124,7 @@ public class GivenSomeSpecificElements : WhenList
         Result[1].Id.Is(2);
         Result[2].Id.Is(3);
         Specification.Is(
-@"Given some MyModel { [_one, _two, _three] }
+@"Given some MyModel is [_one, _two, _three]
   and IMyRepository.List() returns a MyModel[]
 When _.List()
 Then Result has count 3

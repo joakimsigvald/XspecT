@@ -12,7 +12,7 @@ public class WhenGivenValueSetup : Spec<MyService, MyModel>
             .Then().Result.Name.Is(The<string>());
         Specification.Is(
             """
-            Given MyModel { Name = a string }
+            Given MyModel has Name = a string
             When MyService.Echo(a MyModel)
             Then Result.Name is the string
             """);
@@ -27,7 +27,7 @@ public class WhenGivenValueSetup : Spec<MyService, MyModel>
             .Then().Result.Name.Is(The<string>());
         Specification.Is(
             """
-            Given MyModel { Name = a string }
+            Given MyModel has Name = a string
               and IMyRepository.GetModel() returns a MyModel
             When _.GetModel()
             Then Result.Name is the string
@@ -42,7 +42,7 @@ public class WhenGivenValueSetup : Spec<MyService, MyModel>
             .Then().Result.Name.Does().StartWith(The<string>());
         Specification.Is(
             """
-            Given MyModel { Name = a string + a second string }
+            Given MyModel has Name = a string + a second string
             When MyService.Echo(a MyModel)
             Then Result.Name starts with the string
             """);

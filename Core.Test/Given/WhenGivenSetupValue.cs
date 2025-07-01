@@ -16,7 +16,7 @@ public class WhenGivenSetupValue : Spec<MyService, DateTime>
             .Then().Result.Is(_now);
         Specification.Is(
             """
-            Given a DateTime { _now }
+            Given a DateTime is _now
               and a DateTime
             When _.GetTime()
             Then Result is _now
@@ -33,8 +33,8 @@ public class WhenGivenSetupValue : Spec<MyService, DateTime>
             .Then().Result.Is(_now);
         Specification.Is(
             """
-            Given a DateTime { _anotherTime }
-              and a DateTime { _now }
+            Given a DateTime is _anotherTime
+              and a DateTime is _now
               and a DateTime
             When _.GetTime()
             Then Result is _now

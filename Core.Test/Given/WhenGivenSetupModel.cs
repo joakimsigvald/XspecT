@@ -15,7 +15,7 @@ public class WhenGivenSetupModel : Spec<MyService, MyModel>
             .Then().Result.Is(_myModel);
         Specification.Is(
             """
-            Given a second MyModel { _myModel }
+            Given a second MyModel is _myModel
               and IMyRepository.GetModel() returns a second MyModel
             When _.GetModel()
             Then Result is _myModel
@@ -31,7 +31,7 @@ public class WhenGivenSetupModel : Spec<MyService, MyModel>
             .Then().Result.Is().Null();
         Specification.Is(
             """
-            Given a second MyModel { (MyModel)null }
+            Given a second MyModel is (MyModel)null
               and IMyRepository.GetModel() returns a second MyModel
             When _.GetModel()
             Then Result is null
@@ -47,7 +47,7 @@ public class WhenGivenSetupModel : Spec<MyService, MyModel>
             .Then().Result.Is().Not().Null(); //Not the provide null mentioned value
         Specification.Is(
             """
-            Given a MyModel { (MyModel)null }
+            Given a MyModel is (MyModel)null
               and IMyRepository.GetModels() returns one MyModel
             When _.GetModel()
             Then Result is not null

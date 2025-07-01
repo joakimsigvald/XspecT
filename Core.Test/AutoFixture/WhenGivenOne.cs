@@ -12,7 +12,7 @@ public class GivenOneSpecificElement : WhenList
     {
         Then().Result.Has().Single().That.Is(_theModel);
         Specification.Is(
-@"Given one MyModel { _theModel }
+@"Given one MyModel is _theModel
   and IMyRepository.List() returns a MyModel[]
 When _.List()
 Then Result has single that is _theModel");
@@ -67,7 +67,7 @@ public class GivenOneElementWithSetup : WhenList
     {
         Then().Result.Single().Name.Is(The<string>());
         Specification.Is(
-@"Given one MyModel { Name = a string }
+@"Given one MyModel has Name = a string
   and IMyRepository.List() returns a MyModel[]
 When _.List()
 Then Result.Single().Name is the string");
@@ -84,7 +84,7 @@ public class GivenOneElementWithTransform : WhenList
     {
         Then().Result.Single().Name.Is(The<string>());
         Specification.Is(
-@"Given one MyModel { Name = a string }
+@"Given one MyModel has Name = a string
   and IMyRepository.List() returns a MyModel[]
 When _.List()
 Then Result.Single().Name is the string");

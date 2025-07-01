@@ -22,7 +22,7 @@ public class WhenGivenArrayOfValues : Spec<MyService, IEnumerable<int>>
         When(_ => _.GetIds()).Given<MyModel>(_ => _.Values = Two<int>()).Then().Result.Is().Empty();
         Specification.Is(
             """
-            Given MyModel { Values = two int }
+            Given MyModel has Values = two int
             When _.GetIds()
             Then Result is empty
             """);
@@ -36,7 +36,7 @@ public class WhenGivenArrayOfValues : Spec<MyService, IEnumerable<int>>
             .Then().Result.Is(Two<int>());
         Specification.Is(
             """
-            Given MyModel { Values = two int }
+            Given MyModel has Values = two int
             When _.GetModel().Values
             Then Result is two int
             """);
@@ -51,7 +51,7 @@ public class WhenGivenArrayOfValues : Spec<MyService, IEnumerable<int>>
             .Then().Result.Is(One<int>());
         Specification.Is(
             """
-            Given MyModel { Values = some int }
+            Given MyModel has Values = some int
               and one int
             When _.GetModel().Values
             Then Result is one int
@@ -67,7 +67,7 @@ public class WhenGivenArrayOfValues : Spec<MyService, IEnumerable<int>>
             .Then().Result.Has().Count(2);
         Specification.Is(
             """
-            Given MyModel { Values = some int }
+            Given MyModel has Values = some int
               and zero int
             When _.GetModel().Values
             Then Result has count 2
@@ -83,7 +83,7 @@ public class WhenGivenArrayOfValues : Spec<MyService, IEnumerable<int>>
             .Then().Result.Has().Count(3);
         Specification.Is(
             """
-            Given MyModel { Values = many int }
+            Given MyModel has Values = many int
               and zero int
             When _.GetModel().Values
             Then Result has count 3

@@ -110,9 +110,13 @@ internal class SpecificationBuilder
     }
 
     private static string ParseSetupExpression<TValue>(string setupExpr)
-        => ExpressionParser.IsTaggedValueExpression(setupExpr)
-            ? setupExpr
-            : $"{NameOf<TValue>()} {{ {setupExpr.ParseValue()} }}";
+    {
+        if (ExpressionParser.IsTaggedValueExpression(setupExpr))
+            return setupExpr;
+        var value = setupExpr.ParseValue();
+        var verb = value.Contains('=') && !value.StartsWith("new") ? "has" : "is";
+        return $"{NameOf<TValue>()} {verb} {value}";
+    }
 
     internal void AddGivenCount<TModel>(string count)
     {

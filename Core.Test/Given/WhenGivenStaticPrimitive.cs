@@ -24,7 +24,7 @@ public class WhenGivenStaticPrimitive : Spec<string>
         Given().Default<string>(_ => value).When(_ => _).Then().Result.Is(value);
         Specification.Is(
             """
-            Given string { value }
+            Given string is value
             When _
             Then Result is value
             """);
@@ -40,7 +40,7 @@ public class WhenGivenStaticPrimitive : Spec<string>
         Specification.Is(
             """
             Given defaultValue is default
-              and a string { aValue }
+              and a string is aValue
             When the string
             Then Result is aValue
             """);
@@ -56,7 +56,7 @@ public class WhenGivenStaticPrimitive : Spec<string>
         Specification.Is(
             """
             Given defaultValue is default
-              and a second string { aValue }
+              and a second string is aValue
             When the second string
             Then Result is aValue
             """);
@@ -72,7 +72,7 @@ public class WhenGivenStaticPrimitive : Spec<string>
         Specification.Is(
             """
             Given defaultValue is default
-              and a third string { aValue }
+              and a third string is aValue
             When the third string
             Then Result is aValue
             """);
@@ -88,7 +88,7 @@ public class WhenGivenStaticPrimitive : Spec<string>
         Specification.Is(
             """
             Given defaultValue is default
-              and a fourth string { aValue }
+              and a fourth string is aValue
             When the fourth string
             Then Result is aValue
             """);
@@ -104,7 +104,7 @@ public class WhenGivenStaticPrimitive : Spec<string>
         Specification.Is(
             """
             Given defaultValue is default
-              and a fifth string { aValue }
+              and a fifth string is aValue
             When the fifth string
             Then Result is aValue
             """);
@@ -119,7 +119,7 @@ public class WhenGivenStaticPrimitive : Spec<string>
             .Then().Result.Is(value);
         Specification.Is(
             """
-            Given a second string { value }
+            Given a second string is value
             When the second string
             Then Result is value
             """);
@@ -134,7 +134,7 @@ public class WhenGivenStaticPrimitive : Spec<string>
             .Then().Result.Is(value);
         Specification.Is(
             """
-            Given a third string { value }
+            Given a third string is value
             When the third string
             Then Result is value
             """);
@@ -149,7 +149,7 @@ public class WhenGivenStaticPrimitive : Spec<string>
             .Then().Result.Is(value);
         Specification.Is(
             """
-            Given a fourth string { value }
+            Given a fourth string is value
             When the fourth string
             Then Result is value
             """);
@@ -164,7 +164,7 @@ public class WhenGivenStaticPrimitive : Spec<string>
             .Then().Result.Is(value);
         Specification.Is(
             """
-            Given a fifth string { value }
+            Given a fifth string is value
             When the fifth string
             Then Result is value
             """);

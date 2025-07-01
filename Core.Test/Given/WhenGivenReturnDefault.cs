@@ -27,7 +27,7 @@ public class WhenGivenReturnDefault : Spec<MyService, MyModel>
             .Then().Result.Name.Is(The<string>());
         Specification.Is(
             """
-            Given MyModel { Name = a string }
+            Given MyModel has Name = a string
               and IMyRepository returns a MyModel
             When _.GetModel()
             Then Result.Name is the string

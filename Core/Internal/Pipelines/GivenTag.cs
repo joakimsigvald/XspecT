@@ -10,5 +10,5 @@ internal class GivenTag<TSUT, TResult, TValue>(
     public IGivenTestPipeline<TSUT, TResult> Is(
         TValue value,
         [CallerArgumentExpression(nameof(value))] string? valueExpr = null)
-        => spec.SetupMention<TValue>(() => spec.The(tag, value), $"{tagExpr} is {valueExpr!}", string.Empty);
+        => spec.SetupMention<TValue>(() => spec.Assign(tag, value), $"{tagExpr} is {valueExpr!}", string.Empty);
 }

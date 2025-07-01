@@ -45,7 +45,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// The tagged value is applied lazily while running the pipeline.
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
-    /// <param name="tag">Tag, which associated value will be used when auto-generating objects
+    /// <param name="tag">Tag, which associated value will be used when auto-generating objects</param>
     /// <param name="tagExpr">Do not use, will be provided by the compiler</param>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> Default<TValue>(
@@ -57,7 +57,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// The tagged value is applied lazily while running the pipeline.
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
-    /// <param name="tag">Tag, which associated value will be used when auto-generating objects
+    /// <param name="tag">Tag, which associated value will be used when auto-generating objects</param>
     /// <param name="tagExpr">Do not use, will be provided by the compiler</param>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> Using<TValue>(

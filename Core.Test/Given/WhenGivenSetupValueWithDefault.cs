@@ -33,7 +33,7 @@ public class WhenGivenSetupValueWithDefault : Spec<MyService, int>
         Specification.Is(
             """
             Given _defaultId
-              and a second int { 2 }
+              and a second int is 2
               and IMyRepository.GetNextId() returns a second int
             When _.GetNextId()
             Then Result is 2

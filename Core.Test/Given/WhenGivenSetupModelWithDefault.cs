@@ -14,7 +14,7 @@ public class WhenGivenSetupModelWithDefault : Spec<MyService, MyModel>
             .Then().Result.Name.Is(_defaultName);
         Specification.Is(
             """
-            Given MyModel { Name = _defaultName }
+            Given MyModel has Name = _defaultName
             When _.GetModel()
             Then Result.Name is _defaultName
             """);
@@ -29,7 +29,7 @@ public class WhenGivenSetupModelWithDefault : Spec<MyService, MyModel>
             .Then().Result.Name.Is(_defaultName);
         Specification.Is(
             """
-            Given MyModel { Name = _defaultName }
+            Given MyModel has Name = _defaultName
               and IMyRepository.GetModel() returns a second MyModel
             When _.GetModel()
             Then Result.Name is _defaultName
@@ -46,8 +46,8 @@ public class WhenGivenSetupModelWithDefault : Spec<MyService, MyModel>
             .Then().Result.Name.Is(_defaultName);
         Specification.Is(
             """
-            Given MyModel { Name = "123" }
-              and MyModel { Name = _defaultName }
+            Given MyModel has Name = "123"
+              and MyModel has Name = _defaultName
               and IMyRepository.GetModel() returns a second MyModel
             When _.GetModel()
             Then Result.Name is _defaultName
@@ -64,8 +64,8 @@ public class WhenGivenSetupModelWithDefault : Spec<MyService, MyModel>
             .Then().Result.Name.Is(_defaultName).And(Result).Id.Is(123);
         Specification.Is(
             """
-            Given MyModel { Id = 123 }
-              and MyModel { Name = _defaultName }
+            Given MyModel has Id = 123
+              and MyModel has Name = _defaultName
               and IMyRepository.GetModel() returns a second MyModel
             When _.GetModel()
             Then Result.Name is _defaultName
@@ -84,7 +84,7 @@ public class WhenGivenSetupModelWithDefault : Spec<MyService, MyModel>
         Specification.Is(
             """
             Given _defaultName
-              and MyModel { Name = a string }
+              and MyModel has Name = a string
               and IMyRepository.GetModel() returns a second MyModel
             When _.GetModel()
             Then Result.Name is _defaultName
@@ -101,8 +101,8 @@ public class WhenGivenSetupModelWithDefault : Spec<MyService, MyModel>
             .Then().Result.Name.Is("Altered");
         Specification.Is(
             """
-            Given MyModel { Name = _defaultName }
-              and a second MyModel { Name = "Altered" }
+            Given MyModel has Name = _defaultName
+              and a second MyModel has Name = "Altered"
               and IMyRepository.GetModel() returns a second MyModel
             When _.GetModel()
             Then Result.Name is "Altered"
@@ -118,7 +118,7 @@ public class WhenGivenSetupModelWithDefault : Spec<MyService, MyModel>
             .Then().Result.Name.Is(_defaultName);
         Specification.Is(
             """
-            Given MyModel { Name = _defaultName }
+            Given MyModel has Name = _defaultName
               and IMyRepository.GetModel() returns the MyModel
             When MyService.Echo(a MyModel)
             Then Result.Name is _defaultName
@@ -135,8 +135,8 @@ public class WhenGivenSetupModelWithDefault : Spec<MyService, MyModel>
             .Then().Result.Name.Is("My model");
         Specification.Is(
             """
-            Given MyModel { Name = _defaultName }
-              and a second MyModel { new MyModel() { Name = "My model" } }
+            Given MyModel has Name = _defaultName
+              and a second MyModel is new MyModel() { Name = "My model" }
               and IMyRepository.GetModel() returns a second MyModel
             When _.GetModel()
             Then Result.Name is "My model"
@@ -168,7 +168,7 @@ public class WhenGivenSetupModelWithDefault : Spec<MyService, MyModel>
             .Then().Result.Id.Is(123);
         Specification.Is(
             """
-            Given MyModel { Id = 123 }
+            Given MyModel has Id = 123
               and IMyRepository.SetModel(the MyModel) returns another MyModel
             When MyService.Echo(a MyModel)
             Then Result.Id is 123
@@ -190,8 +190,8 @@ public class OverrideDefaultSetupAfterWhenReturn : Spec<MyService, MyModel>
             .Then().Result.Name.Is(_theName);
         Specification.Is(
             """
-            Given MyModel { Name = "Something" }
-              and MyModel { Name = _theName }
+            Given MyModel has Name = "Something"
+              and MyModel has Name = _theName
             When _.GetModel()
             Then Result.Name is _theName
             """);
@@ -212,7 +212,7 @@ public class OverrideDefaultValueAfterWhenReturn : Spec<MyService, MyModel>
         Specification.Is(
             """
             Given "Something"
-              and MyModel { Name = _theName }
+              and MyModel has Name = _theName
             When _.GetModel()
             Then Result.Name is _theName
             """);
@@ -234,8 +234,8 @@ public class OverrideDefaultSetupAfterWhenArgument : Spec<MyService, MyModel>
             .Then().Result.Name.Is(_theName);
         Specification.Is(
             """
-            Given MyModel { Name = "Something" }
-              and MyModel { Name = _theName }
+            Given MyModel has Name = "Something"
+              and MyModel has Name = _theName
             When MyService.Echo(a MyModel)
             Then Result.Name is _theName
             """);
@@ -256,7 +256,7 @@ public class OverrideDefaultValueAfterWhenArgument : Spec<MyService, MyModel>
         Specification.Is(
             """
             Given "Something"
-              and MyModel { Name = _theName }
+              and MyModel has Name = _theName
             When MyService.Echo(a MyModel)
             Then Result.Name is _theName
             """);

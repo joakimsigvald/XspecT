@@ -23,7 +23,7 @@ public class WhenPurchase : Spec<Subjects.Purchase.PurchaseHandler, PurchaseResp
             .And(The<Checkout>()).IsOpen.Is().False();
             Specification.Is(
                 """
-                Given Checkout { IsOpen = true }
+                Given Checkout has IsOpen = true
                   and ICheckoutProvider.GetExistingCheckout(the int) returns a Checkout
                   and IBasketRepository.GetEditable(the int) returns the Checkout's Basket
                 When _.Purchase(an int)

@@ -13,7 +13,7 @@ public class WhenGivenStaticModel : Spec<MyModel>
             .Then().Result.Name.Is(value);
         Specification.Is(
             """
-            Given MyModel { Name = value }
+            Given MyModel has Name = value
             When _
             Then Result.Name is value
             """);
@@ -28,7 +28,7 @@ public class WhenGivenStaticModel : Spec<MyModel>
             .Then().Result.Name.Is(value);
         Specification.Is(
             """
-            Given MyModel { Name = value }
+            Given MyModel has Name = value
             When a MyModel
             Then Result.Name is value
             """);
@@ -97,7 +97,7 @@ public class WhenGivenStaticModel : Spec<MyModel>
             .Then().Result.Name.Is(name).And(Result).Id.Is(id);
         Specification.Is(
             """
-            Given MyModel { Name = name }
+            Given MyModel has Name = name
               and new MyModel { Id = id }
             When _
             Then Result.Name is name
@@ -114,8 +114,8 @@ public class WhenGivenStaticModel : Spec<MyModel>
             .Then().Result.Name.Is(name).And(Result).Id.Is(id);
         Specification.Is(
             """
-            Given MyModel { Name = name }
-              and MyModel { Id = id }
+            Given MyModel has Name = name
+              and MyModel has Id = id
             When _
             Then Result.Name is name
               and Result.Id is id
@@ -131,8 +131,8 @@ public class WhenGivenStaticModel : Spec<MyModel>
             .Then().Result.Name.Is().Null().And(Result).Id.Is(id);
         Specification.Is(
             """
-            Given MyModel { Name = name }
-              and a MyModel { new MyModel { Id = id } }
+            Given MyModel has Name = name
+              and a MyModel is new MyModel { Id = id }
             When the MyModel
             Then Result.Name is null
               and Result.Id is id
@@ -148,8 +148,8 @@ public class WhenGivenStaticModel : Spec<MyModel>
             .Then().Result.Name.Is(name).And(Result).Id.Is(id);
         Specification.Is(
             """
-            Given MyModel { Name = name }
-              and a MyModel { Id = id }
+            Given MyModel has Name = name
+              and a MyModel has Id = id
             When the MyModel
             Then Result.Name is name
               and Result.Id is id
@@ -165,8 +165,8 @@ public class WhenGivenStaticModel : Spec<MyModel>
             .Then().Result.Name.Is(name);
         Specification.Is(
             """
-            Given MyModel { Name = defaultName }
-              and a MyModel { Name = name }
+            Given MyModel has Name = defaultName
+              and a MyModel has Name = name
             When the MyModel
             Then Result.Name is name
             """);
@@ -181,7 +181,7 @@ public class WhenGivenStaticModel : Spec<MyModel>
             .Then().Result.Name.Is(name);
         Specification.Is(
             """
-            Given a second MyModel { Name = name }
+            Given a second MyModel has Name = name
             When the second MyModel
             Then Result.Name is name
             """);
@@ -196,7 +196,7 @@ public class WhenGivenStaticModel : Spec<MyModel>
             .Then().Result.Name.Is(name);
         Specification.Is(
             """
-            Given a third MyModel { Name = name }
+            Given a third MyModel has Name = name
             When the third MyModel
             Then Result.Name is name
             """);
@@ -211,7 +211,7 @@ public class WhenGivenStaticModel : Spec<MyModel>
             .Then().Result.Name.Is(name);
         Specification.Is(
             """
-            Given a fourth MyModel { Name = name }
+            Given a fourth MyModel has Name = name
             When the fourth MyModel
             Then Result.Name is name
             """);
@@ -226,7 +226,7 @@ public class WhenGivenStaticModel : Spec<MyModel>
             .Then().Result.Name.Is(name);
         Specification.Is(
             """
-            Given a fifth MyModel { Name = name }
+            Given a fifth MyModel has Name = name
             When the fifth MyModel
             Then Result.Name is name
             """);

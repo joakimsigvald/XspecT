@@ -13,7 +13,7 @@ public class WhenGetRecordWithBsonIdFromMock : Spec<BsonIdService, RecordMongoDb
         Then().Result.Is().Not().Null();
         Specification.Is(
             """
-            Given RecordMongoDb { Value = "123" }
+            Given RecordMongoDb has Value = "123"
             When _.GetRecord()
             Then Result is not null
             """);

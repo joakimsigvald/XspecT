@@ -17,7 +17,7 @@ public abstract class WhenGetArrayOfModels : Spec<MyService, MyModel[]>
             Then().Result.Is(Two<MyModel>()).And(Result).First().Name.Is(The<string>());
             Specification.Is(
                 """
-            Given MyModel { Name = a string }
+            Given MyModel has Name = a string
               and two MyModel
               and IMyRepository.GetModels() returns a MyModel[]
             When _.GetModels()
