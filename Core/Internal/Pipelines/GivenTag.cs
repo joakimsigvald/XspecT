@@ -1,5 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using XspecT.Continuations;
+using XspecT.Internal.Specification;
 
 namespace XspecT.Internal.Pipelines;
 
@@ -10,5 +11,15 @@ internal class GivenTag<TSUT, TResult, TValue>(
     public IGivenTestPipeline<TSUT, TResult> Is(
         TValue value,
         [CallerArgumentExpression(nameof(value))] string? valueExpr = null)
-        => spec.SetupMention<TValue>(() => spec.Assign(tag, value), $"{tagExpr} is {valueExpr!}", string.Empty);
+        => spec.SetupMention<TValue>(() => spec.Assign(tag, value), $"{tagExpr} is {valueExpr!.ParseValue()}", true);
+
+    public IGivenTestPipeline<TSUT, TResult> Has(
+        Action<TValue> setup,
+        [CallerArgumentExpression(nameof(setup))] string? setupExpr = null)
+        => spec.SetupMention<TValue>(() => spec.Apply(tag, setup), $"{tagExpr} has {setupExpr!.ParseValue()}", true);
+
+    public IGivenTestPipeline<TSUT, TResult> Has(
+        Func<TValue, TValue> transform,
+        [CallerArgumentExpression(nameof(transform))] string? transformExpr = null)
+        => spec.SetupMention<TValue>(() => spec.Apply(tag, transform), $"{tagExpr} has {transformExpr!.ParseValue()}", true);
 }

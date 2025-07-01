@@ -20,4 +20,24 @@ public interface IGivenTag<TSUT, TResult, TValue>
     IGivenTestPipeline<TSUT, TResult> Is(
         TValue value,
         [CallerArgumentExpression(nameof(value))] string? valueExpr = null);
+
+    /// <summary>
+    /// Apply setup to the value associated with the tag
+    /// </summary>
+    /// <param name="setup"></param>
+    /// <param name="setupExpr"></param>
+    /// <returns>The pipeline, so that further setup can be provided</returns>
+    IGivenTestPipeline<TSUT, TResult> Has(
+        Action<TValue> setup,
+        [CallerArgumentExpression(nameof(setup))] string? setupExpr = null);
+
+    /// <summary>
+    /// Apply transform to the value associated with the tag
+    /// </summary>
+    /// <param name="transform"></param>
+    /// <param name="transformExpr"></param>
+    /// <returns>The pipeline, so that further setup can be provided</returns>
+    IGivenTestPipeline<TSUT, TResult> Has(
+        Func<TValue, TValue> transform,
+        [CallerArgumentExpression(nameof(transform))] string? transformExpr = null);
 }

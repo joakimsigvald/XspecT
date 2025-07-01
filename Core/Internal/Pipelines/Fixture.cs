@@ -14,7 +14,7 @@ internal abstract class Fixture<TSUT>(Fixture<TSUT>? classFixture = null)
     internal void SetDefault<TModel>(
         Action<TModel> setup, string setupExpr) where TModel : class
     {
-        SpecificationGenerator.AddGiven<TModel>(setupExpr);
+        SpecificationGenerator.AddGiven<TModel>(setupExpr, false);
         AssertIsNotSetUp();
         _context.SetDefault(setup);
     }
@@ -22,7 +22,7 @@ internal abstract class Fixture<TSUT>(Fixture<TSUT>? classFixture = null)
     internal void SetDefault<TValue>(
         Func<TValue, TValue> transform, string transformExpr)
     {
-        SpecificationGenerator.AddGiven<TValue>(transformExpr);
+        SpecificationGenerator.AddGiven<TValue>(transformExpr, false);
         AssertIsNotSetUp();
         _context.SetDefault(transform);
     }

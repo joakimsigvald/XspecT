@@ -28,6 +28,11 @@ internal class GivenServiceContinuation<TSUT, TResult, TService> : IGivenService
         }
     }
 
+    public IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> Returns<TReturns>(
+        Tag<TReturns> tag,
+        [CallerArgumentExpression(nameof(tag))] string? tagExpr = null)
+        => Returns(() => _spec.The(tag), tagExpr);
+
     public IGivenTestPipeline<TSUT, TResult> Throws<TException>() where TException : Exception
     {
         SpecificationGenerator.AddMockThrowsDefault<TService, TException>();

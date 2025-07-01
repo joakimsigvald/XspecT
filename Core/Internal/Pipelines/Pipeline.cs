@@ -45,50 +45,62 @@ internal class Pipeline<TSUT, TResult>(Fixture<TSUT>? classFixture) : Fixture<TS
 
     internal TValue Mention<TValue>(Tag<TValue> tag) => _context.Mention(tag);
 
-    internal TValue Mention<TValue>(Tag<TValue> tag, TValue value)
+    internal TValue Assign<TValue>(Tag<TValue> tag, TValue value)
     {
         AssertHasNotRun();
-        return _context.Mention(tag, value);
+        return _context.Assign(tag, value);
+    }
+
+    internal TValue Apply<TValue>(Tag<TValue> tag, Action<TValue> setup)
+    {
+        AssertHasNotRun();
+        return _context.Apply(tag, setup);
+    }
+
+    internal TValue Apply<TValue>(Tag<TValue> tag, Func<TValue, TValue> transform)
+    {
+        AssertHasNotRun();
+        return _context.Apply(tag, transform);
     }
 
     internal TValue Create<TValue>(Action<TValue> setup) 
         => Context.ApplyTo(setup, _context.Create<TValue>());
 
-    internal TValue Mention<TValue>(int index, Action<TValue> setup)
+    internal TValue Apply<TValue>(int index, Action<TValue> setup)
     {
         AssertHasNotRun();
-        return _context.Mention(index, setup);
+        return _context.Apply(index, setup);
     }
 
-    internal TValue Mention<TValue>(int index, Func<TValue, TValue> transform)
+    internal TValue Apply<TValue>(int index, Func<TValue, TValue> transform)
     {
         AssertHasNotRun();
-        return _context.Mention(index, transform);
+        return _context.Apply(index, transform);
     }
 
-    internal TValue Mention<TValue>(int index, TValue value)
+    internal TValue Assign<TValue>(int index, TValue value)
     {
         AssertHasNotRun();
-        return _context.Mention(value, index);
+        return _context.Assign(value, index);
     }
 
     internal TValue[] MentionMany<TValue>(int count, int? minCount = null)
         => _context.MentionMany<TValue>(count, minCount);
 
-    internal TValue[] MentionMany<TValue>(TValue[] values)
-        => _context.MentionMany(values);
+    internal TValue[] AssignMany<TValue>(TValue[] values)
+        => _context.AssignMany(values);
 
-    internal TValue[] MentionMany<TValue>(Action<TValue> setup, int count)
-        => _context.MentionMany(setup, count);
+    internal TValue[] ApplyMany<TValue>(Action<TValue> setup, int count)
+        => _context.ApplyMany(setup, count);
 
-    internal TValue[] MentionMany<TValue>(Func<TValue, TValue> transform, int count)
-        => _context.MentionMany(transform, count);
+    internal TValue[] ApplyMany<TValue>(Func<TValue, TValue> transform, int count)
+        => _context.ApplyMany(transform, count);
 
-    internal TValue[] MentionMany<TValue>(Func<TValue, int, TValue> transform, int count)
-        => _context.MentionMany(transform, count);
+    internal TValue[] ApplyMany<TValue>(Func<TValue, int, TValue> transform, int count)
+        => _context.ApplyMany(transform, count);
 
-    internal TValue[] MentionMany<TValue>(Action<TValue, int> setup, int count)
-        => _context.MentionMany(setup, count);
+    internal TValue[] ApplyMany<TValue>(Action<TValue, int> setup, int count)
+        => _context.ApplyMany(setup, count);
 
     internal void SetAction(Delegate act, string actExpr)
     {

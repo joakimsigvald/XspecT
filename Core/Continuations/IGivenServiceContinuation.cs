@@ -21,6 +21,17 @@ public interface IGivenServiceContinuation<TSUT, TResult, TService>
         [CallerArgumentExpression(nameof(value))] string? valueExpr = null);
 
     /// <summary>
+    /// Setup mock to return a tagged value as default for any invocation where no specific mock-setup has been provided
+    /// </summary>
+    /// <typeparam name="TReturns"></typeparam>
+    /// <param name="value"></param>
+    /// <param name="valueExpr"></param>
+    /// <returns></returns>
+    IGivenThatReturnsContinuation<TSUT, TResult, TService, TReturns> Returns<TReturns>(
+        Tag<TReturns> value,
+        [CallerArgumentExpression(nameof(value))] string? valueExpr = null);
+
+    /// <summary>
     /// Setup mock to throw an exception for any call, unless otherwise specified
     /// </summary>
     /// <typeparam name="TException"></typeparam>

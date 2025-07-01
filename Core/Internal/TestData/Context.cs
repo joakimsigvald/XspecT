@@ -15,14 +15,14 @@ internal class Context
             : Create<TSUT>();
     }
 
-    internal TValue Mention<TValue>(int index, Action<TValue> setup)
+    internal TValue Apply<TValue>(int index, Action<TValue> setup)
         => ApplyTo(setup, Mention<TValue>(index));
 
-    internal TValue Mention<TValue>(int index, Func<TValue, TValue> transform)
-        => (TValue)Mention(typeof(TValue), transform.Invoke(Mention<TValue>(index)), index)!;
+    internal TValue Apply<TValue>(int index, Func<TValue, TValue> transform)
+        => (TValue)Assign(typeof(TValue), transform.Invoke(Mention<TValue>(index)), index)!;
 
-    internal TValue Mention<TValue>(int index, Func<TValue, int, TValue> transform)
-        => (TValue)Mention(typeof(TValue), transform.Invoke(Mention<TValue>(index), index), index)!;
+    internal TValue Apply<TValue>(int index, Func<TValue, int, TValue> transform)
+        => (TValue)Assign(typeof(TValue), transform.Invoke(Mention<TValue>(index), index), index)!;
 
     internal TValue Mention<TValue>(int index)
     {
@@ -34,13 +34,19 @@ internal class Context
             ? (TValue)defaultValue!
             : Create<TValue>();
 
-        return Mention(newValue, index);
+        return Assign(newValue, index);
     }
 
     internal TValue Mention<TValue>(Tag<TValue> tag) => Mention<TValue>(GetTagIndex(tag));
 
-    internal TValue Mention<TValue>(Tag<TValue> tag, TValue value)
-        => Mention(value, GetTagIndex(tag));
+    internal TValue Assign<TValue>(Tag<TValue> tag, TValue value)
+        => Assign(value, GetTagIndex(tag));
+
+    internal TValue Apply<TValue>(Tag<TValue> tag, Action<TValue> setup)
+        => Apply(GetTagIndex(tag), setup);
+
+    internal TValue Apply<TValue>(Tag<TValue> tag, Func<TValue, TValue> transform)
+        => Apply(GetTagIndex(tag), transform);
 
     internal Dictionary<object, int> GetTagIndices(Type type)
         => _tagIndices.TryGetValue(type, out var val) ? val : _tagIndices[type] = [];
@@ -64,34 +70,34 @@ internal class Context
     internal void SetDefault<TValue>(Func<TValue, TValue> setup)
         => _dataProvider.AddDefaultSetup(typeof(TValue), _ => setup((TValue)_)!);
 
-    internal TValue Mention<TValue>(TValue value, int index = 0)
+    internal TValue Assign<TValue>(TValue value, int index = 0)
     {
-        Mention(typeof(TValue), value, index);
+        Assign(typeof(TValue), value, index);
         return value;
     }
 
-    internal TValue[] MentionMany<TValue>(TValue[] values)
-        => Mention(values);
+    internal TValue[] AssignMany<TValue>(TValue[] values)
+        => Assign(values);
 
     internal TValue[] MentionMany<TValue>(int count, int? minCount)
     {
         var (val, found) = _dataProvider.Retrieve(typeof(TValue[]));
         return found && val is TValue[] arr
-            ? Mention(Reuse(arr, count, minCount))
+            ? Assign(Reuse(arr, count, minCount))
             : MentionMany<TValue>(count);
     }
 
-    internal TValue[] MentionMany<TValue>(Action<TValue> setup, int count)
-        => Mention(Enumerable.Range(0, count).Select(i => Mention(i, setup)).ToArray());
+    internal TValue[] ApplyMany<TValue>(Action<TValue> setup, int count)
+        => Assign(Enumerable.Range(0, count).Select(i => Apply(i, setup)).ToArray());
 
-    internal TValue[] MentionMany<TValue>(Action<TValue, int> setup, int count)
-        => Mention(Enumerable.Range(0, count).Select(i => Mention<TValue>(i, _ => setup(_, i))).ToArray());
+    internal TValue[] ApplyMany<TValue>(Action<TValue, int> setup, int count)
+        => Assign(Enumerable.Range(0, count).Select(i => Apply<TValue>(i, _ => setup(_, i))).ToArray());
 
-    internal TValue[] MentionMany<TValue>(Func<TValue, TValue> transform, int count)
-        => Mention(Enumerable.Range(0, count).Select(i => Mention(i, transform)).ToArray());
+    internal TValue[] ApplyMany<TValue>(Func<TValue, TValue> transform, int count)
+        => Assign(Enumerable.Range(0, count).Select(i => Apply(i, transform)).ToArray());
 
-    internal TValue[] MentionMany<TValue>(Func<TValue, int, TValue> transform, int count)
-        => Mention(Enumerable.Range(0, count).Select(i => Mention(i, transform)).ToArray());
+    internal TValue[] ApplyMany<TValue>(Func<TValue, int, TValue> transform, int count)
+        => Assign(Enumerable.Range(0, count).Select(i => Apply(i, transform)).ToArray());
 
     internal TValue Create<TValue>() => _dataProvider.Create<TValue>();
 
@@ -115,10 +121,10 @@ internal class Context
         => typedTagIndices.Count > 0 ? typedTagIndices.Values.Min() - 1 : -1;
 
     private TValue[] MentionMany<TValue>(int count)
-        => count == 0 ? Mention(Array.Empty<TValue>())
-        : Mention(Enumerable.Range(0, count).Select(Mention<TValue>).ToArray());
+        => count == 0 ? Assign(Array.Empty<TValue>())
+        : Assign(Enumerable.Range(0, count).Select(Mention<TValue>).ToArray());
 
-    private object? Mention(Type type, object? value, int index = 0)
+    private object? Assign(Type type, object? value, int index = 0)
         => _dataProvider.GetMentions(type)[index] = value;
 
     private TValue[] Reuse<TValue>(TValue[] arr, int count, int? minCount)

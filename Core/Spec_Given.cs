@@ -77,7 +77,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
         [CallerArgumentExpression(nameof(defaultValues))] string? defaultValuesExpr = null)
     {
         _pipeline.SetDefault(defaultValues, ApplyTo.All, defaultValuesExpr!);
-        defaultValues?.Take(5).Select((value, i) => _pipeline.Mention(i, value)).ToArray();
+        defaultValues?.Take(5).Select((value, i) => _pipeline.Assign(i, value)).ToArray();
         return new GivenTestPipeline<TSUT, TResult>(this);
     }
 
@@ -125,10 +125,11 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     internal IGivenTestPipeline<TSUT, TResult> SetupMention<TValue>(
         Action mention,
         string mentionExpr,
+        bool isCustomExpression = false,
         [CallerMemberName] string? article = null)
         => ArrangeFirst(() =>
         {
-            SpecificationGenerator.AddGiven<TValue>(mentionExpr, article);
+            SpecificationGenerator.AddGiven<TValue>(mentionExpr, isCustomExpression, article);
             mention();
         });
 

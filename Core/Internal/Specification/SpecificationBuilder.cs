@@ -102,17 +102,23 @@ internal class SpecificationBuilder
         }
     }
 
-    internal void AddGiven<TValue>(string setupExpr, string? article)
+    internal void AddGiven<TValue>(string setupExpr, bool isCustomExpression, string? article)
     {
         _currentMockSetup = null;
+        _textBuilder.AddPhraseOrSentence(GetGivenExpression<TValue>(setupExpr, isCustomExpression, article));
+    }
+
+    private string GetGivenExpression<TValue>(string setupExpr, bool isCustomExpression, string? article)
+    {
+        if (isCustomExpression)
+            return $"{Given} {setupExpr}";
+
         var articleStr = string.IsNullOrEmpty(article) ? string.Empty : $"{article.AsWords()} ";
-        _textBuilder.AddPhraseOrSentence($"{Given} {articleStr}{ParseSetupExpression<TValue>(setupExpr)}");
+        return $"{Given} {articleStr}{ParseSetupExpression<TValue>(setupExpr)}";
     }
 
     private static string ParseSetupExpression<TValue>(string setupExpr)
     {
-        if (ExpressionParser.IsTaggedValueExpression(setupExpr))
-            return setupExpr;
         var value = setupExpr.ParseValue();
         var verb = value.Contains('=') && !value.StartsWith("new") ? "has" : "is";
         return $"{NameOf<TValue>()} {verb} {value}";
