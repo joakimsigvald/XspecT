@@ -1,6 +1,6 @@
 # XspecT: A fluent unit testing framework
 
-Framework for writing and running automated tests in .Net in a fluent style, 
+Framework for writing and running automated tests in .Net (8+) in a fluent style, 
 based on the popular "Given-When-Then" pattern, built upon XUnit, Moq, AutoMock and AutoFixture.
 
 Whether you are beginner or expert in unit-testing, this framework will help you to write more descriptive, concise and maintainable tests.
@@ -122,6 +122,7 @@ Note that when no return value is asserted, we can use the non-generic base clas
 `Throws` and `DoesNotThrow` can be used to verify exceptions.
 
 ### Test a class instance with dependencies
+
 To test an instance method `[MyClass].[MyMethod]`, create an abstract class named `When[MyMethod]` inheriting `XspecT.Spec<[MyClass], [TheResult]>`.
 The subject under test will be created automatically with mocks and default values by AutoMock.
 Subject-under-test is available as the single input parameter to the lambda that is provided to the method `When`.
@@ -170,4 +171,34 @@ is that class fixtures don't have test methods or assertions.
 
 When using a class fixture and having more that one test method, no setup should be put in the constructor, 
 since the constructor is run once for each test method and provide the setup to the shared class fixture 
-(i.e would add the same setup multiple times and second time after the test pipeline was executed, which is not allowed)
+(i.e would add the same setup multiple times and second time after the test pipeline was executed, which is not allowed).
+
+### Tags
+Tags can be used as a complement to AFirst, ASecond, etc. to refer to values in a test setup in a more expressive way.
+They are particularly useful when having several values of the same type.
+A tag is a simple object of the generic type Tag<TValue>. Each tag instance represents a unique value.
+Start by creating one tag for each 'tagged' value you want to use in the test setup.
+
+Example:
+```
+protected static Tag<string> name = new();
+protected static Tag<int> age = new(), shoeSize= new();
+```
+
+#### Set and reference tagged values
+Then you can use the tags to set or reference values in a test-pipeline.
+
+Example:
+```
+Given(surname).Is("Anton").And(lastname).Is("Jonson")
+.When(_ => _.CreateUser(The(surname), The(lastname)))
+.Then().Result.FullName.Is("Anton Jonson");
+```
+
+#### Use tagged values as default or for auto-generation
+You can also specify that the value associated with a tag should be the default value of that type, or used when auto-generating subject-under-test.
+
+Example:
+```
+Given().Default(name).And().Using(age);
+```

@@ -14,7 +14,7 @@ internal class GivenContinuation<TSUT, TResult> : IGivenContinuation<TSUT, TResu
         TValue defaultValue,
         [CallerArgumentExpression(nameof(defaultValue))] string? defaultValueExpr = null)
         => _spec.GivenDefault(defaultValue, ApplyTo.Default, defaultValueExpr!);
- 
+
     public IGivenTestPipeline<TSUT, TResult> Default<TValue>(
         Func<TValue> defaultValue,
         [CallerArgumentExpression(nameof(defaultValue))] string? defaultValueExpr = null)
@@ -24,11 +24,21 @@ internal class GivenContinuation<TSUT, TResult> : IGivenContinuation<TSUT, TResu
         TValue defaultValue,
         [CallerArgumentExpression(nameof(defaultValue))] string? defaultValueExpr = null)
         => _spec.GivenDefault(defaultValue, ApplyTo.Using, defaultValueExpr!);
-    
+
     public IGivenTestPipeline<TSUT, TResult> Using<TValue>(
         Func<TValue> defaultValue,
         [CallerArgumentExpression(nameof(defaultValue))] string? defaultValueExpr = null)
         => _spec.GivenDefault(defaultValue, ApplyTo.Using, defaultValueExpr!);
+
+    public IGivenTestPipeline<TSUT, TResult> Default<TValue>(
+        Tag<TValue> tag,
+        [CallerArgumentExpression(nameof(tag))] string? tagExpr = null)
+        => Default(() => _spec.The(tag), tagExpr!);
+
+    public IGivenTestPipeline<TSUT, TResult> Using<TValue>(
+        Tag<TValue> tag,
+        [CallerArgumentExpression(nameof(tag))] string? tagExpr = null)
+        => Using(() => _spec.The(tag), tagExpr!);
 
     public IGivenTestPipeline<TSUT, TResult> Default<TValue>(
         Action<TValue> defaultSetup,

@@ -20,17 +20,4 @@ public interface IGivenTag<TSUT, TResult, TValue>
     IGivenTestPipeline<TSUT, TResult> Is(
         TValue value,
         [CallerArgumentExpression(nameof(value))] string? valueExpr = null);
-
-    /// <summary>
-    /// Setup the value associated with the tag to be used as default value for the given type.
-    /// Typically this is used to control what value a mock returns, unless explicitly stated.
-    /// </summary>
-    /// <returns>The pipeline, so that further setup can be provided</returns>
-    IGivenTestPipeline<TSUT, TResult> IsDefault();
-
-    /// <summary>
-    /// Setup the value associated with the tag to be used as argument when auto-generating test subject.
-    /// </summary>
-    /// <returns>The pipeline, so that further setup can be provided</returns>
-    IGivenTestPipeline<TSUT, TResult> IsUsed();
 }

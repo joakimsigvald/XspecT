@@ -37,8 +37,32 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <param name="defaultValueExpr"></param>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> Using<TValue>(
-        TValue defaultValue, 
+        TValue defaultValue,
         [CallerArgumentExpression(nameof(defaultValue))] string? defaultValueExpr = null);
+
+    /// <summary>
+    /// Provide a tagged default value, that will be used as test data where no specific value is given
+    /// The tagged value is applied lazily while running the pipeline.
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="tag">Tag, which associated value will be used when auto-generating objects
+    /// <param name="tagExpr">Do not use, will be provided by the compiler</param>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> Default<TValue>(
+        Tag<TValue> tag,
+        [CallerArgumentExpression(nameof(tag))] string? tagExpr = null);
+
+    /// <summary>
+    /// Provide a tagged value or object instance that will be used when creating subject under test
+    /// The tagged value is applied lazily while running the pipeline.
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="tag">Tag, which associated value will be used when auto-generating objects
+    /// <param name="tagExpr">Do not use, will be provided by the compiler</param>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> Using<TValue>(
+        Tag<TValue> tag,
+        [CallerArgumentExpression(nameof(tag))] string? tagExpr = null);
 
     /// <summary>
     /// Provide a value or object instance that will be used when creating subject under test

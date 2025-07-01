@@ -7,7 +7,7 @@ public abstract class WhenGetStateAfterSetStateWithAfterDelay : Spec<DelayedStat
     private static readonly Tag<int> delay = new(), state = new(), wait = new();
 
     protected WhenGetStateAfterSetStateWithAfterDelay()
-        => Given(delay).IsDefault()
+        => Given().Default(delay)
         .When(_ => _.State)
         .After(_ => _.SetState(The(state)), () => The(wait));
 
