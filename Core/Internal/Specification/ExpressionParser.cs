@@ -78,7 +78,7 @@ public static partial class ExpressionParser
             if (valueMatch.Groups.Count == 2 && !string.IsNullOrEmpty(valueMatch.Groups[1].Value))
                 prefix = valueMatch.Groups[1].Value.ParseValue();
         }
-        if (propNames.Any(HasMismatchedParentheses))
+        if (propNames.Any(IsAndWithMismatchedParentheses))
             throw new SetupFailed("No trainwrecks in And! chain additional properties/method calls outside of the And-expression");
 
         propNames.Reverse();
@@ -93,8 +93,11 @@ public static partial class ExpressionParser
             : $"{prefix}'s {string.Join('.', propNames)}"; ;
     }
 
-    private static bool HasMismatchedParentheses(string arg)
+    private static bool IsAndWithMismatchedParentheses(string arg)
     {
+        if (!arg.StartsWith("And("))
+            return false;
+
         const string left = "([{";
         const string right = ")]}";
         return arg.Count(left.Contains) != arg.Count(right.Contains);

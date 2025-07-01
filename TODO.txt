@@ -1,4 +1,3 @@
-* Fix specification for Result.Name.Is("aaa").And(Result.Id).Is(123) -- second assert after And is specified incorrectly
 * Provide custom data generator for Enums and bools to get random values
 * CollectionFixture om man vill dela mellan fler klasser
 * Separate ClassFixture class from Spec and only allow Arrange on fixture, not when/Then
