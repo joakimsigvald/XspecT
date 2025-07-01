@@ -74,7 +74,7 @@ public class WhenGivenTagSetup : Spec<MyService, MyModel>
             .And(model).Has(_ => _.Id = An<int>())
             .And().Default(model)
             .When(_ => _.GetModel())
-            .Then().Result.Name.Is(The<string>()); //TODO: Fix specification for: .And(Result.Id).Is(The<int>());
+            .Then().Result.Name.Is(The<string>()).And(Result).Id.Is(The<int>());
         Specification.Is(
             """
             Given model is default
@@ -82,6 +82,7 @@ public class WhenGivenTagSetup : Spec<MyService, MyModel>
               and model has Name = a string
             When _.GetModel()
             Then Result.Name is the string
+              and Result.Id is the int
             """);
     }
 
@@ -92,13 +93,14 @@ public class WhenGivenTagSetup : Spec<MyService, MyModel>
         Given(model).Has(_ => _ with { Name = A<string>(), Id = An<int>() })
             .And<IMyRepository>().Returns(model)
             .When(_ => _.GetModel())
-            .Then().Result.Name.Is(The<string>()); //TODO: Fix specification for: .And(Result.Id).Is(The<int>());
+            .Then().Result.Name.Is(The<string>()).And(Result).Id.Is(The<int>());
         Specification.Is(
             """
             Given model has Name = a string, Id = an int
               and IMyRepository returns model
             When _.GetModel()
             Then Result.Name is the string
+              and Result.Id is the int
             """);
     }
 }

@@ -6,7 +6,7 @@ namespace XspecT.Test.AutoMock;
 public class WhenReturnsDefaultValue : Spec<MyValueIntService, string>
 {
     [Fact]
-    public void GivenMethodReturnsValue_ThenUseDefaultValue()//TODO
+    public void GivenMethodReturnsValue_ThenUseDefaultValue()
     {
         When(_ => _.GetValue(A<MyValueInt>()))
             .Given<IMyValueIntRepo>().Returns(A<string>)

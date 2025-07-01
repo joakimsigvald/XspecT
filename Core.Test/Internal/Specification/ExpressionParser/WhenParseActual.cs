@@ -14,4 +14,9 @@ public class WhenParseActual : Spec<string>
     [InlineData("The<int>()", "the int")]
     public void ThenReturnDescription(string returnsExpr, string expected)
         => When(_ => returnsExpr.ParseActual()).Then().Result.Is(expected);
+
+    [Theory]
+    [InlineData("And(Result.Id)")]
+    public void GivenInvalidSetup_ThenThrow(string returnsExpr)
+        => Xunit.Assert.Throws<SetupFailed>(() => When(_ => returnsExpr.ParseActual()).Then());
 }

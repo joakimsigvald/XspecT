@@ -78,6 +78,9 @@ public static partial class ExpressionParser
             if (valueMatch.Groups.Count == 2 && !string.IsNullOrEmpty(valueMatch.Groups[1].Value))
                 prefix = valueMatch.Groups[1].Value.ParseValue();
         }
+        if (propNames.Any(HasMismatchedParentheses))
+            throw new SetupFailed("No trainwrecks in And! chain additional properties/method calls outside of the And-expression");
+
         propNames.Reverse();
         if (prefix is null)
             return propNames.Count == 1
@@ -88,6 +91,13 @@ public static partial class ExpressionParser
         return IsOneWord(prefix)
             ? $"{prefix}.{string.Join('.', propNames)}"
             : $"{prefix}'s {string.Join('.', propNames)}"; ;
+    }
+
+    private static bool HasMismatchedParentheses(string arg)
+    {
+        const string left = "([{";
+        const string right = ")]}";
+        return arg.Count(left.Contains) != arg.Count(right.Contains);
     }
 
     /// <summary>
