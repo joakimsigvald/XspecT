@@ -3,7 +3,7 @@
 /// <summary>
 /// A continuation object to apply additional assertions to a test-run
 /// </summary>
-public interface IAndThen<TResult>
+public interface IAndThen<TResult>//
 {
     /// <summary>
     /// Provides the result of the test-run, to apply additional assertions

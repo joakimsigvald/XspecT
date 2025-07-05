@@ -122,23 +122,23 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
         Func<TValue> value, ApplyTo applyTo, string defaultValueExpr)
         => ArrangeFirst(() => _pipeline.SetDefault(value(), applyTo, defaultValueExpr));
 
-    internal IGivenTestPipeline<TSUT, TResult> SetupMention<TValue>(
-        Action mention,
-        string mentionExpr,
+    internal IGivenTestPipeline<TSUT, TResult> Apply<TValue>(
+        Action setup,
+        string setupExpr,
         bool isCustomExpression = false,
         [CallerMemberName] string? article = null)
         => ArrangeFirst(() =>
         {
-            SpecificationGenerator.AddGiven<TValue>(mentionExpr, isCustomExpression, article);
-            mention();
+            SpecificationGenerator.AddGiven<TValue>(setupExpr, isCustomExpression, article);
+            setup();
         });
 
-    internal IGivenTestPipeline<TSUT, TResult> SetupMentionCount<TValue>(
-        Action mention, [CallerMemberName] string? count = null)
+    internal IGivenTestPipeline<TSUT, TResult> ApplyMany<TValue>(
+        Action setup, [CallerMemberName] string? count = null)
         => ArrangeFirst(() =>
         {
             SpecificationGenerator.AddGivenCount<TValue>(count!);
-            mention();
+            setup();
         });
 
     internal Mock<TService> GetMock<TService>() where TService : class

@@ -1,7 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
-using XspecT.Continuations;
 
-namespace XspecT;
+namespace XspecT.Continuations;
 
 /// <summary>
 /// Continuation for setting up an expectation for a tag, such as associating it with a value
@@ -9,7 +8,7 @@ namespace XspecT;
 /// <typeparam name="TSUT"></typeparam>
 /// <typeparam name="TResult"></typeparam>
 /// <typeparam name="TValue"></typeparam>
-public interface IGivenTag<TSUT, TResult, TValue> 
+public interface IGivenTag<TSUT, TResult, TValue>
 {
     /// <summary>
     /// Associate a tag with a value, which can be referenced in the pipeline using 'The([tag])'

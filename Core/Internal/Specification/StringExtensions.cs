@@ -1,6 +1,4 @@
-﻿using XspecT.Assert.Continuations;
-
-namespace XspecT.Internal.Specification;
+﻿namespace XspecT.Internal.Specification;
 
 internal static class StringExtensions
 {
@@ -12,6 +10,8 @@ internal static class StringExtensions
             var firstWord = words[0];
             if (firstWord.EndsWith('y'))
                 words[0] = $"{firstWord[..^1]}ies";
+            else if (firstWord.EndsWith("ve"))
+                words[0] = $"{firstWord[..^2]}s";
             else
                 words[0] = $"{firstWord}s";
         }

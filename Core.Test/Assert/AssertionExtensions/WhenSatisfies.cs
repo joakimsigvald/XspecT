@@ -9,15 +9,15 @@ public class WhenSatisfies : Spec
     public void GivenTrue_ThenDoesNotThrow()
     {
         MyRecord actual = new("Abc");
-        actual.Satisfies(_ => _.Name == "Abc").And.Satisfies(_ => _.Name == "Abc").And.Is().Not().Null();
+        actual.Has(_ => _.Name == "Abc").And.Has(_ => _.Name == "Abc").And.Is().Not().Null();
     }
 
     [Fact]
     public void GivenFalse_ThenGetException()
     {
         MyRecord myRecord = new("XXX");
-        var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => myRecord.Satisfies(_ => _.Name == "Abc"));
-        ex.Message.Is("MyRecord satisfies _.Name == \"Abc\"");
-        ex.InnerException.Message.Is($"Expected myRecord to satisfy _.Name == \"Abc\" but found {myRecord}");
+        var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => myRecord.Has(_ => _.Name == "Abc"));
+        ex.Message.Is("MyRecord has _.Name == \"Abc\"");
+        ex.InnerException.Message.Is($"Expected myRecord to have _.Name == \"Abc\" but found {myRecord}");
     }
 }

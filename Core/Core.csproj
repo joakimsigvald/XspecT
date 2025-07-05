@@ -22,9 +22,8 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>icon.png</PackageIcon>
-    <PackageReleaseNotes>Improved usage of tags.
-    Use Given().Default and Given().Using with tags. Removed special methods IsDefault and IsUsed from previous version
-    Use mock returns with tags</PackageReleaseNotes>
+    <PackageReleaseNotes>Added documentation.
+    Renamed Assertion 'Satisfies' to Has</PackageReleaseNotes>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>

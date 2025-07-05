@@ -9,21 +9,21 @@ public record IsNullableStruct<TValue> : Constraint<TValue?, IsNullableStruct<TV
     where TValue : struct
 {
     /// <summary>
-    /// Should().NotBeSameAs(expected)
+    /// Assert that the value is not same as the given value
     /// </summary>
     public ContinueWith<IsNullableStruct<TValue>> Not(
         TValue expected, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
         => Assert(Describe(expected), actual => Xunit.Assert.NotEqual(expected, actual), expectedExpr!).And();
 
     /// <summary>
-    /// Should().NotBeSameAs(expected)
+    /// Assert that the value is not same as the given value
     /// </summary>
     public ContinueWith<IsNullableStruct<TValue>> Not(
         TValue? expected, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
         => Assert(Describe(expected), actual => Xunit.Assert.NotEqual(expected, actual), expectedExpr!).And();
 
     /// <summary>
-    /// Should().BeNull()
+    /// Assert that the value is null
     /// </summary>
     public ContinueWith<IsNullableStruct<TValue>> Null()
         => Assert(Ignore.Me, Xunit.Assert.Null).And();

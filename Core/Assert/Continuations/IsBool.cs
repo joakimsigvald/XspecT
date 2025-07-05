@@ -6,13 +6,13 @@
 public record IsBool : Constraint<bool, IsBool>
 {
     /// <summary>
-    /// actual.Should().BeTrue()
+    /// Assert that the value is true
     /// </summary>
     public ContinueWith<IsBool> True()
         => Assert(Ignore.Me, Xunit.Assert.True).And();
 
     /// <summary>
-    /// actual.Should().BeFalse()
+    /// Assert that the value is false
     /// </summary>
     public ContinueWith<IsBool> False()
         => Assert(Ignore.Me, Xunit.Assert.False).And();

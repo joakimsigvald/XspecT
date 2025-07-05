@@ -11,6 +11,7 @@ public class ContinueWithActual<TActual>(TActual? actual)
     /// 
     /// </summary>
     public TActual? And => actual;
+
     /// <summary>
     /// 
     /// </summary>
