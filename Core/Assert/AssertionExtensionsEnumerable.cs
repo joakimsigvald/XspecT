@@ -5,7 +5,7 @@ using XspecT.Assert.Continuations.Enumerable;
 namespace XspecT.Assert;
 
 /// <summary>
-/// Fluent assertions with verbs Is, Has and Does
+/// Fluent assertions on enumerables
 /// </summary>
 public static class AssertionExtensionsEnumerable
 {

@@ -1,11 +1,10 @@
 ﻿using System.Runtime.CompilerServices;
 using XspecT.Assert.Continuations;
-using XspecT.Internal.Specification;
 
 namespace XspecT.Assert;
 
 /// <summary>
-/// Fluent assertions with verbs Is, Has and Does
+/// Fluent assertions on Object
 /// </summary>
 public static class AssertionExtensionsObject
 {

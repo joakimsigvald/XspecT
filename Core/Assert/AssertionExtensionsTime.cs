@@ -5,7 +5,7 @@ using XspecT.Assert.Continuations.Time;
 namespace XspecT.Assert;
 
 /// <summary>
-/// Fluent assertions with verbs Is, Has and Does
+/// Fluent assertions on DateTime and TimeSpan
 /// </summary>
 public static class AssertionExtensionsTime
 {

@@ -6,7 +6,7 @@ using CallerArgument = System.Runtime.CompilerServices.CallerArgumentExpressionA
 namespace XspecT.Assert;
 
 /// <summary>
-/// Fluent assertions with verbs Is, Has and Does
+/// Fluent assertions on nullable integer type numbers
 /// </summary>
 public static class AssertionExtensionsNullableNumerical
 {

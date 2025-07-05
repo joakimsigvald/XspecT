@@ -13,7 +13,7 @@ public class ContinueWithThat<TContinuation, TThat>(TContinuation continuation, 
     : ContinueWith<TContinuation>(continuation) where TContinuation : Constraint
 {
     /// <summary>
-    /// 
+    /// Continuation to apply assertions on the element
     /// </summary>
     public TThat That
     {

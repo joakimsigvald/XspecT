@@ -5,7 +5,7 @@ using XspecT.Assert.Continuations.String;
 namespace XspecT.Assert;
 
 /// <summary>
-/// Fluent assertions with verbs Is, Has and Does
+/// Fluent assertions on string
 /// </summary>
 public static class AssertionExtensionsString
 {
