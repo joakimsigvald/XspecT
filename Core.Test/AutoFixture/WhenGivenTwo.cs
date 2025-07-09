@@ -1,4 +1,5 @@
 ﻿using XspecT.Assert;
+using Xunit.Sdk;
 
 namespace XspecT.Test.AutoFixture;
 
@@ -15,6 +16,13 @@ public class GivenTwoElements : WhenList
   and IMyRepository.List() returns a MyModel[]
 When _.List()
 Then Result has count 2");
+    }
+
+    [Fact]
+    public void AndExpectingThree_ThenGetException()
+    {
+        var ex = Xunit.Assert.Throws<XunitException>(() => Then().Result.Has().Count(3));
+        Xunit.Assert.StartsWith("Expected Result to have count 3 but found 2: [", ex.InnerException.Message);
     }
 
     [Fact]

@@ -17,5 +17,6 @@ public record IsBool : Constraint<bool, IsBool>
     public ContinueWith<IsBool> False()
         => Assert(Ignore.Me, Xunit.Assert.False).And();
 
-    private protected override string Describe(bool value) => $"{value}".ToLower();
+    private protected override string Describe(bool value, string? methodName = null) 
+        => $"{value}".ToLower();
 }

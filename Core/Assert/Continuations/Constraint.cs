@@ -95,7 +95,7 @@ public abstract record Constraint<TActual, TContinuation>
                     xuex = ex as Xunit.Sdk.XunitException;
                 }
                 throw new Xunit.Sdk.XunitException(
-                    $"Expected {ActualExpr} to {GetExpectation()} but found {Describe(Actual)}",
+                    $"Expected {ActualExpr} to {GetExpectation()} but found {Describe(Actual, methodName!)}",
                     GetExpectedException(xuex));
             }, methodName!, expectedExpr, Inverted ? VerbalizationStrategy.None : verbalizationStrategy);
 
@@ -114,7 +114,7 @@ public abstract record Constraint<TActual, TContinuation>
             ? ex
             : GetExpectedException(ex.InnerException as Xunit.Sdk.XunitException);
 
-    private protected virtual string Describe(TActual? value) => value?.ToString() ?? "null";
+    private protected virtual string Describe(TActual? value, string? methodName = null) => value?.ToString() ?? "null";
 
     internal ContinueWith<TContinuation> And() => new(Continue());
     internal ContinueWithThat<TContinuation, TThat> AndThat<TThat>(TThat that) => new(Continue(), that);

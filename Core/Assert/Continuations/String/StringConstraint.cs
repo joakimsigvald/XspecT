@@ -6,6 +6,6 @@
 public abstract record StringConstraint<TContinuation> : Constraint<string, TContinuation>
     where TContinuation : StringConstraint<TContinuation>, new()
 {
-    private protected override string Describe(string? value) 
+    private protected override string Describe(string? value, string? methodName = null) 
         => value is null ? "null" : $"\"{value}\"" ?? "null";
 }

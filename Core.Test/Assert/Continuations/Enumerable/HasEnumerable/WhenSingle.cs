@@ -17,7 +17,7 @@ public class WhenSingle : Spec
         int[] arr = Zero<int>();
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => arr.Has().Single().That.Is(123));
         ex.Message.Is($"Arr has single");
-        ex.InnerException.Message.Is($"Expected arr to have single element but found []");
+        ex.InnerException.Message.Is($"Expected arr to have single element but found 0: []");
     }
 
     [Fact]
@@ -26,6 +26,6 @@ public class WhenSingle : Spec
         int[] arr = [1, 3];
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => arr.Has().Single().That.Is(123));
         ex.Message.Is($"Arr has single");
-        ex.InnerException.Message.Is($"Expected arr to have single element but found [1, 3]");
+        ex.InnerException.Message.Is($"Expected arr to have single element but found 2: [1, 3]");
     }
 }

@@ -6,8 +6,14 @@
 public abstract record EnumerableConstraint<TItem, TContinuation> : Constraint<IEnumerable<TItem>, TContinuation>
     where TContinuation : EnumerableConstraint<TItem, TContinuation>, new()
 {
-    private protected override string Describe(IEnumerable<TItem>? value)
-        => value is null ? "null"
-        : value.Any() ? $"[{string.Join(", ", value)}]"
-        : "[]";
+    static readonly string[] methodsWithCount = ["Single", "Count"];
+
+    private protected override string Describe(IEnumerable<TItem>? value, string? methodName = null)
+    {
+        if (value is null) return "null";
+        ICollection<TItem> enumeratedValue = value as ICollection<TItem> ?? [.. value];
+        return methodsWithCount.Contains(methodName)
+            ? $"{enumeratedValue.Count}: [{string.Join(", ", enumeratedValue)}]" 
+            : $"[{string.Join(", ", value)}]";
+    }
 }
