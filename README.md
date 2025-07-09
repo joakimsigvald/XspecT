@@ -5,7 +5,7 @@ based on the popular "Given-When-Then" pattern, built upon XUnit, Moq, AutoMock 
 
 Whether you are beginner or expert in unit-testing, this framework will help you to write more descriptive, concise and maintainable tests.
 
-## Usage
+## Introduction
 
 It is assumed that you are already familiar with Xunit and Moq, or similar test- and mocking frameworks.
 XspecT includes a fluent assertion framework called `XspecT.Assert`, which is similar to FluentAssertions, 
@@ -62,7 +62,7 @@ so that you can more easily se what behavior the test actually expects, than fro
 
 After this introduction, we should be ready to look at more examples.
 
-### Test a static method with [Theory]
+## Test a static method with [Theory]
 
 If you are used to writing one test class per production class and use Theory for test input, you can use a similar style with *XspecT*.
 First you create your test-class overriding `Spec<[ReturnType]>` with the expected return type as generic argument.
@@ -89,7 +89,7 @@ public class CalculatorSpec : Spec<int>
 }
 ```
 
-### Recommended conventions
+## Recommended conventions
 
 For more complex and realistic scenarios, it is recommended to create tests in a separate project from the production code, named `[MyProject].Spec` or `[MyProject].Test`. 
 The test-project should mimic the production project's folder structure, but in addition have one folder for each class to test, named as the class. 
@@ -121,7 +121,7 @@ Note that when no return value is asserted, we can use the non-generic base clas
 
 `Throws` and `DoesNotThrow` can be used to verify exceptions.
 
-### Test a class instance with dependencies
+## Test a class instance with dependencies
 
 To test an instance method `[MyClass].[MyMethod]`, create an abstract class named `When[MyMethod]` inheriting `XspecT.Spec<[MyClass], [TheResult]>`.
 The subject under test will be created automatically with mocks and default values by AutoMock.
@@ -153,7 +153,7 @@ public class WhenPlaceOrder : Spec<MyProject.ShoppingService>
 }
 ```
 
-### Sync vs. Async
+## Sync vs. Async
 
 Weather your method-under-test or mocked methods are sync or async, the tests are specified in the exact same way. 
 The XspecT framework will call async methods synchronously, so that the test does not have to await any calls, but can always be treated as if they are testing synchronous methods.
@@ -162,7 +162,7 @@ However in some cases you have to use async and await keywords in the lambdas yo
 This primer should be enough to get you started. More documentation is available as code comments.
 More examples and features can also be found as Unit tests in the source code, which is available on GitHub.
 
-### Class fixtures
+## Class fixtures
 
 XspecT now support the Xunit feature of sharing setup between tests in a common class fixture.
 A class fixture is created in the same way as a test class, by inheriting `Spec` and providing setup.
@@ -173,7 +173,7 @@ When using a class fixture and having more that one test method, no setup should
 since the constructor is run once for each test method and provide the setup to the shared class fixture 
 (i.e would add the same setup multiple times and second time after the test pipeline was executed, which is not allowed).
 
-### Tags
+## Tags
 Tags can be used as a complement to AFirst, ASecond, etc. to refer to values in a test setup in a more expressive way.
 They are particularly useful when having several values of the same type.
 A tag is a simple object of the generic type Tag<TValue>. Each tag instance represents a unique value.
@@ -185,7 +185,7 @@ protected static Tag<string> name = new();
 protected static Tag<int> age = new(), shoeSize= new();
 ```
 
-#### Set and reference tagged values
+### Set and reference tagged values
 Then you can use the tags to set or reference values in a test-pipeline.
 
 Example:
@@ -195,7 +195,7 @@ Given(surname).Is("Anton").And(lastname).Is("Jonson")
 .Then().Result.FullName.Is("Anton Jonson");
 ```
 
-#### Use tagged values as default or for auto-generation
+### Use tagged values as default or for auto-generation
 You can also specify that the value associated with a tag should be the default value of that type, or used when auto-generating subject-under-test.
 
 Example:
