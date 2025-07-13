@@ -59,6 +59,22 @@ public class WhenGivenArrayOfValues : Spec<MyService, IEnumerable<int>>
     }
 
     [Fact]
+    public void GivenModelHasAnyNoValues_AndGivenTwoValues_ThenModelHasTwoValues()
+    {
+        When(_ => _.GetModel().Values)
+            .Given<MyModel>(_ => _.Values = AnyNumberOf<int>())
+            .And(Two<int>())
+            .Then().Result.Is(Two<int>());
+        Specification.Is(
+            """
+            Given MyModel has Values = any number of int
+              and two int
+            When _.GetModel().Values
+            Then Result is two int
+            """);
+    }
+
+    [Fact]
     public void GivenModelHasSomeValues_AndGivenZeroValues_ThenModelHasTwoValues()
     {
         When(_ => _.GetModel().Values)

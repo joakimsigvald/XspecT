@@ -45,6 +45,28 @@ public record IsEnumerable<TItem> : EnumerableConstraint<TItem, IsEnumerableCont
         => Assert(Describe(expected), actual => Xunit.Assert.Equal(expected, actual), expectedExpr!).And();
 
     /// <summary>
+    /// Assert that both enumerables has equal elements in any order
+    /// </summary>
+    /// <param name="expected">The enumerable to validate against</param>
+    /// <param name="expectedExpr">Provided by the compiler for building the specification description</param>
+    /// <returns>A continuation for making further assertions on the enumerable</returns>
+    public ContinueWith<IsEnumerableContinuation<TItem>> Like(
+        IEnumerable<TItem> expected,
+        [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
+        => Assert(Describe(expected), actual => Xunit.Assert.Equivalent(expected, actual), expectedExpr!).And();
+
+    /// <summary>
+    /// Assert that both enumerables has equal elements in any order
+    /// </summary>
+    /// <param name="expected">The enumerable to validate against</param>
+    /// <param name="expectedExpr">Provided by the compiler for building the specification description</param>
+    /// <returns>A continuation for making further assertions on the enumerable</returns>
+    public ContinueWith<IsEnumerableContinuation<TItem>> EquivalentTo(
+        IEnumerable<TItem> expected,
+        [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
+        => Assert(Describe(expected), actual => Xunit.Assert.Equivalent(expected, actual), expectedExpr!).And();
+
+    /// <summary>
     /// Assert that both enumerables are the same instance
     /// </summary>
     /// <param name="expected"></param>

@@ -217,6 +217,14 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     protected internal TValue[] Zero<TValue>() => _pipeline.MentionMany<TValue>(0);
 
     /// <summary>
+    /// Yields an array with any number of elements, including zero, of the given type. 
+    /// If such an array exists it will be returned, otherwise and array with one element will be returned.
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <returns></returns>
+    protected internal TValue[] AnyNumberOf<TValue>() => _pipeline.MentionMany<TValue>(1, 0);
+
+    /// <summary>
     /// Yields an array with at least one elements of the given type. 
     /// If such an array exists it will be returned, otherwise and array with two elements will be returned.
     /// </summary>
