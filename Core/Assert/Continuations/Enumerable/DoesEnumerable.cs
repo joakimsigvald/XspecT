@@ -15,7 +15,7 @@ public record DoesEnumerable<TItem> : EnumerableConstraint<TItem, DoesEnumerable
     /// <param name="expected"></param>
     /// <param name="expectedExpr">Ignore, provided by runtime</param>
     /// <returns>A continuation for making additional asserts on the enumerable</returns>
-    public ContinueWith<DoesEnumerableContinuation<TItem>> Contain(//
+    public ContinueWith<DoesEnumerableContinuation<TItem>> Contain(
         TItem expected, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
         => Assert($"{expected}",
             NotNullAnd(actual => Xunit.Assert.Contains(expected, actual)),

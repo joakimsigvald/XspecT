@@ -210,4 +210,13 @@ public class WhenString : Spec<string>
     [Fact]
     public void DoesNotContainSubstringFails()
         => Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => "abcd".Does().Contain("xxx"));
+
+    [Fact]
+    public void WhenOneOf()
+    {
+        "x".Is().OneOf(["x", "y", "z"]);
+        Specification.Is("""
+            "x" is one of ["x", "y", "z"]
+            """);
+    }
 }

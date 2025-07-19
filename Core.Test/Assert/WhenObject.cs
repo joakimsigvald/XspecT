@@ -82,4 +82,11 @@ public class WhenObject : Spec<object>
                   == An<int>()
             """);
     }
+
+    [Fact]
+    public void WhenOneOf()
+    {
+        A<MyModel>().Is().OneOf(Three<MyModel>());
+        Specification.Is("A MyModel is one of three MyModel");
+    }
 }

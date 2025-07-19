@@ -16,6 +16,13 @@ public record IsEnumerable<TItem> : EnumerableConstraint<TItem, IsEnumerableCont
         => Assert(Ignore.Me, NotNullAnd(Xunit.Assert.Empty)).And();
 
     /// <summary>
+    /// Assert that all the elements of the enumerable are different from each other, using identity
+    /// </summary>
+    /// <returns>A continuation for making further assertions on the enumerable</returns>
+    public ContinueWith<IsEnumerableContinuation<TItem>> Distinct()
+        => Assert(Ignore.Me, NotNullAnd(Xunit.Assert.Distinct)).And();
+
+    /// <summary>
     /// Assert that the enumerable is null
     /// </summary>
     /// <returns>A continuation for making further assertions on the enumerable</returns>
