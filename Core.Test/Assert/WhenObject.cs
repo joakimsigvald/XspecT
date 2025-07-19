@@ -69,7 +69,7 @@ public class WhenObject : Spec<object>
     public void Match()
     {
         new MyArrayModel(1, 2).Has(_ => _.Values.Length == 2);
-        Specification.Is("""New MyArrayModel(1, 2) has _.Values.Length == 2""");
+        Specification.Is("New MyArrayModel(1, 2) has _.Values.Length == 2");
     }
 
     [Fact]

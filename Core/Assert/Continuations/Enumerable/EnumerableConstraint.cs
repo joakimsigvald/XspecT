@@ -6,7 +6,7 @@
 public abstract record EnumerableConstraint<TItem, TContinuation> : Constraint<IEnumerable<TItem>, TContinuation>
     where TContinuation : EnumerableConstraint<TItem, TContinuation>, new()
 {
-    static readonly string[] methodsWithCount = ["Single", "Count"];
+    static readonly string[] methodsWithCount = ["Single", "Count", "OneItem", "TwoItems", "ThreeItems", "FourItems", "FiveItems"];
 
     private protected override string Describe(IEnumerable<TItem>? value, string? methodName = null)
     {
