@@ -40,10 +40,9 @@ internal class Pipeline<TSUT, TResult>(Fixture<TSUT>? classFixture) : Fixture<TS
         where TService : class
         => TestResult.Verify(expression, times, expressionExpr);
 
-    internal TValue Mention<TValue>(int index = 0)
-        => index < 0 ? _context.Create<TValue>() : _context.Mention<TValue>(index);
+    internal TValue Mention<TValue>(int? index = 0) => _context.Produce<TValue>(index);
 
-    internal TValue Mention<TValue>(Tag<TValue> tag) => _context.Mention(tag);
+    internal TValue Mention<TValue>(Tag<TValue> tag) => _context.Produce(tag);
 
     internal TValue Assign<TValue>(Tag<TValue> tag, TValue value)
     {
@@ -66,16 +65,16 @@ internal class Pipeline<TSUT, TResult>(Fixture<TSUT>? classFixture) : Fixture<TS
     internal TValue Create<TValue>(Action<TValue> setup) 
         => Context.ApplyTo(setup, _context.Create<TValue>());
 
-    internal TValue Apply<TValue>(int index, Action<TValue> setup)
+    internal TValue Apply<TValue>(Action<TValue> setup, int index)
     {
         AssertHasNotRun();
-        return _context.Apply(index, setup);
+        return _context.Apply(setup, index);
     }
 
-    internal TValue Apply<TValue>(int index, Func<TValue, TValue> transform)
+    internal TValue Apply<TValue>(Func<TValue, TValue> transform, int index)
     {
         AssertHasNotRun();
-        return _context.Apply(index, transform);
+        return _context.Apply(transform, index);
     }
 
     internal TValue Assign<TValue>(int index, TValue value)

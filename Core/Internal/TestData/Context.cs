@@ -1,4 +1,5 @@
 ﻿using Moq;
+using XspecT.Internal.Specification;
 
 namespace XspecT.Internal.TestData;
 
@@ -6,6 +7,7 @@ internal class Context
 {
     private readonly DataProvider _dataProvider = new();
     private readonly Dictionary<Type, Dictionary<object, int>> _tagIndices = [];
+    private readonly Dictionary<Type, HashSet<object?>> _generatedValues = [];
 
     internal TSUT CreateSUT<TSUT>()
     {
@@ -15,38 +17,50 @@ internal class Context
             : Create<TSUT>();
     }
 
-    internal TValue Apply<TValue>(int index, Action<TValue> setup)
-        => ApplyTo(setup, Mention<TValue>(index));
+    internal TValue Apply<TValue>(Action<TValue> setup, int index)
+        => Produce<TValue>(index, (v, i) =>
+        {
+            setup(v);
+            return v;
+        });
 
-    internal TValue Apply<TValue>(int index, Func<TValue, TValue> transform)
-        => (TValue)Assign(typeof(TValue), transform.Invoke(Mention<TValue>(index)), index)!;
+    internal TValue Apply<TValue>(Func<TValue, TValue> transform, int index)
+        => Produce<TValue>(index, (v, i) => transform(v));
 
     internal TValue Apply<TValue>(int index, Func<TValue, int, TValue> transform)
-        => (TValue)Assign(typeof(TValue), transform.Invoke(Mention<TValue>(index), index), index)!;
+        => Produce(index, transform);
 
-    internal TValue Mention<TValue>(int index)
+    internal TValue Produce<TValue>(int? index, Func<TValue, int, TValue>? transform = null)
     {
-        var type = typeof(TValue);
-        var (val, found) = _dataProvider.Retrieve(type, index);
-        if (found)
-            return (TValue)val!;
-        var newValue = _dataProvider.TryGetDefault(type, out var defaultValue)
-            ? (TValue)defaultValue!
-            : Create<TValue>();
+        if (index is null)
+            return ApplyUniqueConstraint(Create<TValue>);
 
-        return Assign(newValue, index);
+        var (val, found) = _dataProvider.Retrieve(typeof(TValue), index.Value);
+        return found && transform is null
+            ? (TValue)val!
+            : Assign(ApplyUniqueConstraint(Get), index.Value);
+
+        TValue Get()
+        {
+            var newValue = found
+                ? (TValue)val!
+                : _dataProvider.TryGetDefault(typeof(TValue), out var defaultValue)
+                ? (TValue)defaultValue!
+                : Create<TValue>();
+            return transform is null ? newValue : transform(newValue, index.Value);
+        }
     }
 
-    internal TValue Mention<TValue>(Tag<TValue> tag) => Mention<TValue>(GetTagIndex(tag));
+    internal TValue Produce<TValue>(Tag<TValue> tag) => Produce<TValue>(GetTagIndex(tag));
 
     internal TValue Assign<TValue>(Tag<TValue> tag, TValue value)
         => Assign(value, GetTagIndex(tag));
 
     internal TValue Apply<TValue>(Tag<TValue> tag, Action<TValue> setup)
-        => Apply(GetTagIndex(tag), setup);
+        => Apply(setup, GetTagIndex(tag));
 
     internal TValue Apply<TValue>(Tag<TValue> tag, Func<TValue, TValue> transform)
-        => Apply(GetTagIndex(tag), transform);
+        => Apply(transform, GetTagIndex(tag));
 
     internal Dictionary<object, int> GetTagIndices(Type type)
         => _tagIndices.TryGetValue(type, out var val) ? val : _tagIndices[type] = [];
@@ -88,13 +102,13 @@ internal class Context
     }
 
     internal TValue[] ApplyMany<TValue>(Action<TValue> setup, int count)
-        => Assign(Enumerable.Range(0, count).Select(i => Apply(i, setup)).ToArray());
+        => Assign(Enumerable.Range(0, count).Select(i => Apply(setup, i)).ToArray());
 
     internal TValue[] ApplyMany<TValue>(Action<TValue, int> setup, int count)
-        => Assign(Enumerable.Range(0, count).Select(i => Apply<TValue>(i, _ => setup(_, i))).ToArray());
+        => Assign(Enumerable.Range(0, count).Select(i => Apply<TValue>(_ => setup(_, i), i)).ToArray());
 
     internal TValue[] ApplyMany<TValue>(Func<TValue, TValue> transform, int count)
-        => Assign(Enumerable.Range(0, count).Select(i => Apply(i, transform)).ToArray());
+        => Assign(Enumerable.Range(0, count).Select(i => Apply(transform, i)).ToArray());
 
     internal TValue[] ApplyMany<TValue>(Func<TValue, int, TValue> transform, int count)
         => Assign(Enumerable.Range(0, count).Select(i => Apply(i, transform)).ToArray());
@@ -109,10 +123,32 @@ internal class Context
     internal void SetupThrows<TService>(Func<Exception> ex)
         => _dataProvider.SetDefaultException(typeof(TService), ex);
 
-    internal int GetTagIndex<TValue>(Tag<TValue> tag)
+    internal void SetUnique<TValue>()
+    {
+        if (!_generatedValues.ContainsKey(typeof(TValue)))
+            _generatedValues[typeof(TValue)] = [];
+    }
+
+    private TValue ApplyUniqueConstraint<TValue>(Func<TValue> generateValue)
+    {
+        var type = typeof(TValue);
+        if (!_generatedValues.TryGetValue(type, out var generated))
+            return generateValue();
+
+        const int attempts = 10;
+        for (var i = 0; i < attempts; i++)
+        {
+            var value = generateValue();
+            if (generated.Add(value))
+                return value;
+        }
+        throw new SetupFailed($"Failed to find a unique value of {type.Alias()} after {attempts} attempts");
+    }
+
+    private int GetTagIndex<TValue>(Tag<TValue> tag)
     {
         var typedTagIndices = GetTagIndices(typeof(TValue));
-        return typedTagIndices.TryGetValue(tag, out var index) 
+        return typedTagIndices.TryGetValue(tag, out var index)
             ? index
             : typedTagIndices[tag] = GetNextTagIndex(typedTagIndices);
     }
@@ -122,7 +158,9 @@ internal class Context
 
     private TValue[] MentionMany<TValue>(int count)
         => count == 0 ? Assign(Array.Empty<TValue>())
-        : Assign(Enumerable.Range(0, count).Select(Mention<TValue>).ToArray());
+        : Assign(Enumerable.Range(0, count)
+            .Select(i => Produce<TValue>(i))
+            .ToArray());
 
     private object? Assign(Type type, object? value, int index = 0)
         => _dataProvider.GetMentions(type)[index] = value;
@@ -133,5 +171,7 @@ internal class Context
         : Extend(arr, count);
 
     private TValue[] Extend<TValue>(TValue[] arr, int count)
-        => [.. arr, .. Enumerable.Range(arr.Length, count - arr.Length).Select(Mention<TValue>)];
+        => [
+            .. arr, 
+            .. Enumerable.Range(arr.Length, count - arr.Length).Select(i => Produce<TValue>(i))];
 }

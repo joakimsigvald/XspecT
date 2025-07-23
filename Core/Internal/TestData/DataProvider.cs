@@ -21,13 +21,13 @@ internal class DataProvider
     internal bool TryGetDefault(Type type, out object? val)
     {
         var found = _defaultValues.TryGetValue(type, out val);
-        if (found) 
+        if (found)
             return true;
 
-        if (!_defaultSetups.TryGetValue(type, out Func<object, object>? setup))
+        if (!_defaultSetups.ContainsKey(type))
             return false;
-        val = _testDataGenerator.CreateDefault(type);
-        val = setup(val);
+
+        val = ApplyDefaultSetup(type, _testDataGenerator.CreateDefault(type));
         return true;
     }
 
@@ -88,10 +88,30 @@ internal class DataProvider
 
     internal Mock GetMock(Type type) => _testDataGenerator.GetMock(type);
 
-    internal object ApplyDefaultSetup(Type type, object newValue)
+    //private object GetAdjustedValue(Type type, object newValue)
+    //{
+    //    var value = ApplyDefaultSetup(type, newValue);
+    //    return _generatedValues.TryGetValue(type, out var generated)
+    //        ? GetUnique(type, value, generated)
+    //        : value;
+    //}
+
+    //private object GetUnique(Type type, object value, HashSet<object> generated)
+    //{
+    //    const int attempts = 5;
+    //    for (var i = 0; i < attempts; i++)
+    //    {
+    //        if (generated.Add(value))
+    //            return value;
+    //        value = ApplyDefaultSetup(type, value);
+    //    }
+    //    throw new SetupFailed($"Failed to find a unique value of {type.Alias()} after {attempts} attempts");
+    //}
+
+    private object ApplyDefaultSetup(Type type, object newValue)
         => _defaultSetups.TryGetValue(type, out var setup)
-        ? setup(newValue)
-        : newValue;
+            ? setup(newValue)
+            : newValue;
 
     internal Exception? GetDefaultException(Type type)
         => _defaultExceptions.TryGetValue(type, out var ex) ? ex() : null;

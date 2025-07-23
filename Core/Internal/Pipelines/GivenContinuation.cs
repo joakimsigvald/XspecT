@@ -20,6 +20,9 @@ internal class GivenContinuation<TSUT, TResult> : IGivenContinuation<TSUT, TResu
         [CallerArgumentExpression(nameof(defaultValue))] string? defaultValueExpr = null)
         => _spec.GivenDefault(defaultValue, ApplyTo.Default, defaultValueExpr!);
 
+    public IGivenTestPipeline<TSUT, TResult> Unique<TValue>()
+        => _spec.GivenUnique<TValue>();
+
     public IGivenTestPipeline<TSUT, TResult> Using<TValue>(
         TValue defaultValue,
         [CallerArgumentExpression(nameof(defaultValue))] string? defaultValueExpr = null)

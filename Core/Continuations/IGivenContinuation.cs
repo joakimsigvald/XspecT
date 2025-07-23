@@ -99,6 +99,13 @@ public interface IGivenContinuation<TSUT, TResult>
         [CallerArgumentExpression(nameof(transform))] string? transformExpr = null);
 
     /// <summary>
+    /// Ensure that all values generated of the given type are different with regards to equality.
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> Unique<TValue>();
+
+    /// <summary>
     /// Provide a value of a given type, that can be mentioned in the test pipeline as A, An, The, or TheFirst.
     /// </summary>
     /// <typeparam name="TValue"></typeparam>

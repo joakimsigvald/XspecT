@@ -122,6 +122,9 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
         Func<TValue> value, ApplyTo applyTo, string defaultValueExpr)
         => ArrangeFirst(() => _pipeline.SetDefault(value(), applyTo, defaultValueExpr));
 
+    internal IGivenTestPipeline<TSUT, TResult> GivenUnique<TValue>()
+        => ArrangeFirst(() => _pipeline.SetUnique<TValue>());
+
     internal IGivenTestPipeline<TSUT, TResult> Apply<TValue>(
         Action setup,
         string setupExpr,
