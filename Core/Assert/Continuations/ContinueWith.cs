@@ -21,9 +21,20 @@ public class ContinueWith<TContinuation> where TContinuation : Constraint
     /// </summary>
     public TContinuation But => Continue("but");
 
+    internal TContinuation Or => Continue("or");
+
     private TContinuation Continue(string conjunction) 
     {
         SpecificationGenerator.AddAssertConjunction(conjunction);
-        return _continuation with { ActualExpr = string.Empty, AuxiliaryVerb = null, Inverted = false };
+        if (_continuation.IsEither && conjunction != "or")
+            throw new SetupFailed("Cannot continue either with and or but, only with or");
+        return _continuation with 
+        { 
+            ActualExpr = string.Empty, 
+            AuxiliaryVerb = null, 
+            Inverted = false,
+            Exception = _continuation.Exception,
+            IsEither = _continuation.IsEither && _continuation.Exception is null,
+        };
     }
 }

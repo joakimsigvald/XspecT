@@ -1,5 +1,4 @@
 ﻿using System.Runtime.CompilerServices;
-using XspecT.Assert.Continuations.String;
 using XspecT.Internal.Specification;
 
 namespace XspecT.Assert.Continuations;
@@ -15,6 +14,8 @@ public record Constraint
     internal string ActualExpr { get; set; } = "!UNDESCRIBED!";
     internal string? AuxiliaryVerb { get; set; }
     internal bool Inverted { private protected get; init; } = false;
+    internal bool IsEither { get; set; } = false;
+    internal Exception? Exception { get; set; }
 }
 
 /// <summary>
@@ -36,7 +37,18 @@ public abstract record Constraint<TActual, TContinuation>
             Actual = Actual,
             ActualExpr = ActualExpr,
             Inverted = true,
+            IsEither = IsEither,
             AuxiliaryVerb = $"{AuxiliaryVerb} not"
+        };
+
+    internal TContinuation Either
+        => new()
+        {
+            Actual = Actual,
+            ActualExpr = ActualExpr,
+            Inverted = Inverted,
+            AuxiliaryVerb = $"{AuxiliaryVerb} either",
+            IsEither = true
         };
 
     /// <summary>
@@ -51,7 +63,7 @@ public abstract record Constraint<TActual, TContinuation>
             actual => Xunit.Assert.Contains(actual, values),
             expectedExpr!).And();
 
-    internal static TContinuation Create(TActual? actual, string actualExpr) 
+    internal static TContinuation Create(TActual? actual, string actualExpr)
         => new() { Actual = actual, ActualExpr = actualExpr.ParseActual() };
 
     internal TActual? Actual { get; private set; }
@@ -107,16 +119,23 @@ public abstract record Constraint<TActual, TContinuation>
                         return;
                     xuex = ex as Xunit.Sdk.XunitException;
                 }
-                throw new Xunit.Sdk.XunitException(
-                    $"Expected {ActualExpr} to {GetExpectation()} but found {Describe(Actual, methodName!)}",
-                    GetExpectedException(xuex));
+                Exception ??= GetException(xuex);
+                if (IsEither)
+                    return;
+
+                throw Exception;
             }, methodName!, expectedExpr, Inverted ? VerbalizationStrategy.None : verbalizationStrategy);
+
+        Xunit.Sdk.XunitException GetException(Xunit.Sdk.XunitException? innerEx)
+            => new Xunit.Sdk.XunitException(
+                    $"Expected {ActualExpr} to {GetExpectation()} but found {Describe(Actual, methodName!)}",
+                    GetExpectedException(innerEx));
 
         string GetExpectation() => $"{GetVerb()} {expected}".Trim();
 
         string GetVerb() => $"{GetAuxVerb()} {methodName!.AsWords()}".Trim();
 
-        string GetAuxVerb() => 
+        string GetAuxVerb() =>
             ((Inverted ? "not " : string.Empty)
             + (verbalizationStrategy == VerbalizationStrategy.PresentSingularS ? string.Empty : auxVerb))
             .TrimEnd();
