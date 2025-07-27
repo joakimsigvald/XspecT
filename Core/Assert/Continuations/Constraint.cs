@@ -3,18 +3,29 @@ using XspecT.Internal.Specification;
 
 namespace XspecT.Assert.Continuations;
 
+[Flags]
+internal enum ConstraintState
+{
+    Normal = 0,
+    Inverted = 1,
+    Either = 2,
+    InvertedEither = 3,
+    Succeeded = 4,
+    EitherSucceeded = 6,
+    InvertedEitherSucceeded = 7,
+    Failed = 8,
+    EitherFailed = 10,
+    InvertedEitherFailed = 11,
+};
+
 /// <summary>
 /// 
 /// </summary>
 public record Constraint
 {
-    /// <summary>
-    /// 
-    /// </summary>
     internal string ActualExpr { get; set; } = "!UNDESCRIBED!";
     internal string? AuxiliaryVerb { get; set; }
-    internal bool Inverted { private protected get; init; } = false;
-    internal bool IsEither { get; set; } = false;
+    internal ConstraintState State { get; set; } = default;
     internal Exception? Exception { get; set; }
 }
 
@@ -36,20 +47,25 @@ public abstract record Constraint<TActual, TContinuation>
         {
             Actual = Actual,
             ActualExpr = ActualExpr,
-            Inverted = true,
-            IsEither = IsEither,
+            State = State | ConstraintState.Inverted,
             AuxiliaryVerb = $"{AuxiliaryVerb} not"
         };
 
     internal TContinuation Either
-        => new()
+    {
+        get
         {
-            Actual = Actual,
-            ActualExpr = ActualExpr,
-            Inverted = Inverted,
-            AuxiliaryVerb = $"{AuxiliaryVerb} either",
-            IsEither = true
-        };
+            if (State.HasFlag(ConstraintState.Inverted))
+                throw new SetupFailed("Either-or cannot be used after not");
+            return new()
+            {
+                Actual = Actual,
+                ActualExpr = ActualExpr,
+                State = State | ConstraintState.Either,
+                AuxiliaryVerb = $"{AuxiliaryVerb} either",
+            };
+        }
+    }
 
     /// <summary>
     /// Asserts that the string is equivalent to expected, ignoring casing and leading or trailing whitespace
@@ -102,29 +118,40 @@ public abstract record Constraint<TActual, TContinuation>
         VerbalizationStrategy verbalizationStrategy = VerbalizationStrategy.None,
         [CallerMemberName] string? methodName = null)
     {
-        if (!Inverted && verbalizationStrategy == VerbalizationStrategy.PresentSingularS)
+        var isInverted = State.HasFlag(ConstraintState.Inverted);
+        if (!isInverted && verbalizationStrategy == VerbalizationStrategy.PresentSingularS)
             AuxiliaryVerb = string.Empty;
         return Assert(() =>
             {
-                Xunit.Sdk.XunitException? xuex = null;
-                try
-                {
-                    assert(Actual);
-                    if (!Inverted)
-                        return;
-                }
-                catch (Exception ex)
-                {
-                    if (Inverted)
-                        return;
-                    xuex = ex as Xunit.Sdk.XunitException;
-                }
-                Exception ??= GetException(xuex);
-                if (IsEither)
+                if (State.HasFlag(ConstraintState.Succeeded))
                     return;
 
-                throw Exception;
-            }, methodName!, expectedExpr, Inverted ? VerbalizationStrategy.None : verbalizationStrategy);
+                DoAssert();
+                if (State.HasFlag(ConstraintState.Succeeded)
+                    || State.HasFlag(ConstraintState.Either))
+                    return;
+
+                throw Exception!;
+            }, methodName!, expectedExpr, isInverted ? VerbalizationStrategy.None : verbalizationStrategy);
+
+        void DoAssert()
+        {
+            Xunit.Sdk.XunitException? xuex = null;
+            if (State.HasFlag(ConstraintState.Failed))
+                State = State & ~ConstraintState.Either;
+            try
+            {
+                assert(Actual);
+                State |= isInverted ? ConstraintState.Failed : ConstraintState.Succeeded;
+            }
+            catch (Exception ex)
+            {
+                State |= isInverted ? ConstraintState.Succeeded : ConstraintState.Failed;
+                xuex = ex as Xunit.Sdk.XunitException;
+            }
+            if (State.HasFlag(ConstraintState.Failed))
+                Exception ??= GetException(xuex);
+        }
 
         Xunit.Sdk.XunitException GetException(Xunit.Sdk.XunitException? innerEx)
             => new Xunit.Sdk.XunitException(
@@ -136,7 +163,7 @@ public abstract record Constraint<TActual, TContinuation>
         string GetVerb() => $"{GetAuxVerb()} {methodName!.AsWords()}".Trim();
 
         string GetAuxVerb() =>
-            ((Inverted ? "not " : string.Empty)
+            ((isInverted ? "not " : string.Empty)
             + (verbalizationStrategy == VerbalizationStrategy.PresentSingularS ? string.Empty : auxVerb))
             .TrimEnd();
     }

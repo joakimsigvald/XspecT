@@ -40,7 +40,40 @@ public class WhenEitherIsGreaterThanOrLessThan : Spec<int>
         .Then().Result.Is().Either
         .GreaterThan(10).And.LessThan(5));
     }
+
+    [Fact]
+    public void AndContinueWithAnotherOr_ThenThrowsSetupFailed()
+    {
+        Xunit.Assert.Throws<SetupFailed>(
+            () => When(_ => 7)
+        .Then().Result.Is().Either
+        .GreaterThan(10).Or.LessThan(10).Or.LessThan(10));
+    }
+
+    [Fact]
+    public void AndContinueWithAnotherAnd_ThenExecuteAndIfOrSucceeded()
+    {
+        When(_ => 7)
+        .Then().Result.Is().Either
+        .GreaterThan(10).Or.LessThan(10).And.LessThan(9);
+        Specification.Is("""
+            When 7
+            Then Result is either greater than 10
+                or less than 10
+                and less than 9
+            """);
+    }
+
+    [Fact]
+    public void AndPrecededWithNot_ThenThrowsSetupFailed()
+    {
+        Xunit.Assert.Throws<SetupFailed>(
+            () => When(_ => 7)
+        .Then().Result.Is().Not().Either
+        .GreaterThan(10).Or.LessThan(5));
+    }
 }
+
 public class WhenEitherWithoutOr : Spec<int>
 {
     [Fact]

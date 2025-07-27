@@ -25,4 +25,19 @@ public class WhenEitherIsEvenOrNotEven : Spec<int>
                 or not even
             """);
     }
+
+    [Fact]
+    public void AndThirdIsTrue_ThenFail()
+    {
+        var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(
+            () => When(_ => 1)
+        .Then().Result.Is().Either
+        .Even().Or.Even().Or.Not().Even());
+        ex.Message.Is("""
+            When 1
+            Then Result is either even
+                or even
+            """);
+        ex.InnerException.Message.Is("Expected Result to be even but found 1");
+    }
 }

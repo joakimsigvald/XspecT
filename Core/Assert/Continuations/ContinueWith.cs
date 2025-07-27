@@ -25,16 +25,18 @@ public class ContinueWith<TContinuation> where TContinuation : Constraint
 
     private TContinuation Continue(string conjunction) 
     {
+        var isEither = _continuation.State.HasFlag(ConstraintState.Either);
         SpecificationGenerator.AddAssertConjunction(conjunction);
-        if (_continuation.IsEither && conjunction != "or")
+        if (isEither && conjunction != "or")
             throw new SetupFailed("Cannot continue either with and or but, only with or");
+        if (!isEither && conjunction == "or")
+            throw new SetupFailed("Cannot continue or unless preceded with Either");
         return _continuation with 
         { 
             ActualExpr = string.Empty, 
             AuxiliaryVerb = null, 
-            Inverted = false,
-            Exception = _continuation.Exception,
-            IsEither = _continuation.IsEither && _continuation.Exception is null,
+            State = _continuation.State,
+            Exception = _continuation.Exception
         };
     }
 }
