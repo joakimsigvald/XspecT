@@ -123,7 +123,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
         => ArrangeFirst(() => _pipeline.SetDefault(value(), applyTo, defaultValueExpr));
 
     internal IGivenTestPipeline<TSUT, TResult> GivenUnique<TValue>()
-        => ArrangeFirst(() => _pipeline.SetUnique<TValue>());
+        => ArrangeFirst(_pipeline.SetUnique<TValue>);
 
     internal IGivenTestPipeline<TSUT, TResult> Apply<TValue>(
         Action setup,

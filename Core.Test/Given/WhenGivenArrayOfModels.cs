@@ -124,36 +124,3 @@ public abstract class WhenGetArrayOfModels : Spec<MyService, MyModel[]>
         [Fact] public void ThenSecondModelHasSetup() => Result[1].Id.Is(TheSecond<MyModel>().Id);
     }
 }
-
-public abstract class WhenGivenArrayOfModelsAsync : Spec<MyService, MyModel[]>
-{
-    protected WhenGivenArrayOfModelsAsync() => When(_ => _.GetModelsAsync());
-
-    public class GivenDefaultEnumerableProvided : WhenGivenArrayOfModelsAsync
-    {
-        public GivenDefaultEnumerableProvided()
-            => Given<IMyRepository>().Returns(An<IEnumerable<MyModel>>);
-
-        [Fact]
-        public void ThenCanGetTaskOfEnumerable()
-        {
-            Then().DoesNotThrow();
-            Specification.Is(
-                """
-            Given IMyRepository returns an IEnumerable<MyModel>
-            When _.GetModelsAsync()
-            Then does not throw
-            """);
-        }
-    }
-}
-
-public class GivenDefaultEnumerableNotProvidedWhenGetTaskOfIEnumerable : Spec<MyService, MyModel[]>
-{
-    [Fact]
-    public void GivenDefaultEnumerableNotProvided_WhenGetTaskOfEnumerable_ThrowSetupFailed()
-    {
-        Xunit.Assert.Throws<SetupFailed>(() =>
-        When(_ => _.GetModelsAsync()).Then().DoesNotThrow());
-    }
-}

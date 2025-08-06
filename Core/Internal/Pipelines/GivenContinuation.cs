@@ -1,10 +1,11 @@
-﻿using System.Runtime.CompilerServices;
+﻿using Moq;
+using System.Runtime.CompilerServices;
 using XspecT.Continuations;
 using XspecT.Internal.TestData;
 
 namespace XspecT.Internal.Pipelines;
 
-internal class GivenContinuation<TSUT, TResult> : IGivenContinuation<TSUT, TResult> 
+internal class GivenContinuation<TSUT, TResult> : IGivenContinuation<TSUT, TResult>
 {
     private readonly Spec<TSUT, TResult> _spec;
 
@@ -167,118 +168,129 @@ internal class GivenContinuation<TSUT, TResult> : IGivenContinuation<TSUT, TResu
         => _spec.Apply<TValue>(() => _spec.AFifth(transform), transformExpr!);
 
     public IGivenTestPipeline<TSUT, TResult> Zero<TValue>()
-        => _spec.ApplyMany<TValue>(() => _spec.Zero<TValue>());
+        => ApplyAsDefault(_spec.Zero<TValue>);
 
     public IGivenTestPipeline<TSUT, TResult> One<TValue>()
-        => _spec.ApplyMany<TValue>(() => _spec.One<TValue>());
+        => ApplyAsDefault(_spec.One<TValue>);
 
     public IGivenTestPipeline<TSUT, TResult> Two<TValue>()
-        => _spec.ApplyMany<TValue>(() => _spec.Two<TValue>());
+        => ApplyAsDefault(_spec.Two<TValue>);
 
     public IGivenTestPipeline<TSUT, TResult> Three<TValue>()
-        => _spec.ApplyMany<TValue>(() => _spec.Three<TValue>());
+        => ApplyAsDefault(_spec.Three<TValue>);
 
     public IGivenTestPipeline<TSUT, TResult> Four<TValue>()
-        => _spec.ApplyMany<TValue>(() => _spec.Four<TValue>());
+        => ApplyAsDefault(_spec.Four<TValue>);
 
     public IGivenTestPipeline<TSUT, TResult> Five<TValue>()
-        => _spec.ApplyMany<TValue>(() => _spec.Five<TValue>());
+        => ApplyAsDefault(_spec.Five<TValue>);
 
     public IGivenTestPipeline<TSUT, TResult> One<TValue>(
         TValue value, [CallerArgumentExpression(nameof(value))] string? valueExpr = null)
-        => _spec.Apply<TValue>(() => _spec.One(value), valueExpr!);
+        => ApplyAsDefault(() => _spec.One(value), valueExpr!);
 
     public IGivenTestPipeline<TSUT, TResult> Some<TValue>(
         IEnumerable<TValue> values, [CallerArgumentExpression(nameof(values))] string? valueExpr = null)
-        => _spec.Apply<TValue>(() => _spec.Some(values), valueExpr!);
+        => ApplyAsDefault(() => _spec.Some(values), valueExpr!);
 
     public IGivenTestPipeline<TSUT, TResult> One<TValue>(
-        Action<TValue> setup, 
+        Action<TValue> setup,
         [CallerArgumentExpression(nameof(setup))] string? setupExpr = null)
-        => _spec.Apply<TValue>(() => _spec.One(setup), setupExpr!);
+        => ApplyAsDefault(() => _spec.One(setup), setupExpr!);
 
     public IGivenTestPipeline<TSUT, TResult> One<TValue>(
-        Func<TValue, TValue> transform, 
+        Func<TValue, TValue> transform,
         [CallerArgumentExpression(nameof(transform))] string? transformExpr = null)
-        => _spec.Apply<TValue>(() => _spec.One(transform), transformExpr!);
+        => ApplyAsDefault(() => _spec.One(transform), transformExpr!);
 
     public IGivenTestPipeline<TSUT, TResult> Two<TValue>(
-        Action<TValue, int> setup, 
+        Action<TValue, int> setup,
         [CallerArgumentExpression(nameof(setup))] string? setupExpr = null)
-        => _spec.Apply<TValue>(() => _spec.Two(setup), setupExpr!);
+        => ApplyAsDefault(() => _spec.Two(setup), setupExpr!);
 
     public IGivenTestPipeline<TSUT, TResult> Two<TValue>(
-        Action<TValue> setup, 
+        Action<TValue> setup,
         [CallerArgumentExpression(nameof(setup))] string? setupExpr = null)
-        => _spec.Apply<TValue>(() => _spec.Two(setup), setupExpr!);
+        => ApplyAsDefault(() => _spec.Two(setup), setupExpr!);
 
     public IGivenTestPipeline<TSUT, TResult> Two<TValue>(
-        Func<TValue, TValue> transform, 
+        Func<TValue, TValue> transform,
         [CallerArgumentExpression(nameof(transform))] string? transformExpr = null)
-        => _spec.Apply<TValue>(() => _spec.Two(transform), transformExpr!);
+        => ApplyAsDefault(() => _spec.Two(transform), transformExpr!);
 
     public IGivenTestPipeline<TSUT, TResult> Two<TValue>(
-        Func<TValue, int, TValue> transform, 
+        Func<TValue, int, TValue> transform,
         [CallerArgumentExpression(nameof(transform))] string? transformExpr = null)
-        => _spec.Apply<TValue>(() => _spec.Two(transform), transformExpr!);
+        => ApplyAsDefault(() => _spec.Two(transform), transformExpr!);
 
     public IGivenTestPipeline<TSUT, TResult> Three<TValue>(
-        Action<TValue, int> setup, 
+        Action<TValue, int> setup,
         [CallerArgumentExpression(nameof(setup))] string? setupExpr = null)
-        => _spec.Apply<TValue>(() => _spec.Three(setup), setupExpr!);
+        => ApplyAsDefault(() => _spec.Three(setup), setupExpr!);
 
     public IGivenTestPipeline<TSUT, TResult> Three<TValue>(
-        Action<TValue> setup, 
+        Action<TValue> setup,
         [CallerArgumentExpression(nameof(setup))] string? setupExpr = null)
-        => _spec.Apply<TValue>(() => _spec.Three(setup), setupExpr!);
+        => ApplyAsDefault(() => _spec.Three(setup), setupExpr!);
 
     public IGivenTestPipeline<TSUT, TResult> Three<TValue>(
-        Func<TValue, TValue> transform, 
+        Func<TValue, TValue> transform,
         [CallerArgumentExpression(nameof(transform))] string? transformExpr = null)
-        => _spec.Apply<TValue>(() => _spec.Three(transform), transformExpr!);
+        => ApplyAsDefault(() => _spec.Three(transform), transformExpr!);
 
     public IGivenTestPipeline<TSUT, TResult> Three<TValue>(
-        Func<TValue, int, TValue> transform, 
+        Func<TValue, int, TValue> transform,
         [CallerArgumentExpression(nameof(transform))] string? transformExpr = null)
-        => _spec.Apply<TValue>(() => _spec.Three(transform), transformExpr!);
+        => ApplyAsDefault(() => _spec.Three(transform), transformExpr!);
 
     public IGivenTestPipeline<TSUT, TResult> Four<TValue>(
-        Action<TValue, int> setup, 
+        Action<TValue, int> setup,
         [CallerArgumentExpression(nameof(setup))] string? setupExpr = null)
-        => _spec.Apply<TValue>(() => _spec.Four(setup), setupExpr!);
+        => ApplyAsDefault(() => _spec.Four(setup), setupExpr!);
 
     public IGivenTestPipeline<TSUT, TResult> Four<TValue>(
-        Action<TValue> setup, 
+        Action<TValue> setup,
         [CallerArgumentExpression(nameof(setup))] string? setupExpr = null)
-        => _spec.Apply<TValue>(() => _spec.Four(setup), setupExpr!);
+        => ApplyAsDefault(() => _spec.Four(setup), setupExpr!);
 
     public IGivenTestPipeline<TSUT, TResult> Four<TValue>(
-        Func<TValue, TValue> transform, 
+        Func<TValue, TValue> transform,
         [CallerArgumentExpression(nameof(transform))] string? transformExpr = null)
-        => _spec.Apply<TValue>(() => _spec.Four(transform), transformExpr!);
+        => ApplyAsDefault(() => _spec.Four(transform), transformExpr!);
 
     public IGivenTestPipeline<TSUT, TResult> Four<TValue>(
-        Func<TValue, int, TValue> transform, 
+        Func<TValue, int, TValue> transform,
         [CallerArgumentExpression(nameof(transform))] string? transformExpr = null)
-        => _spec.Apply<TValue>(() => _spec.Four(transform), transformExpr!);
+        => ApplyAsDefault(() => _spec.Four(transform), transformExpr!);
 
     public IGivenTestPipeline<TSUT, TResult> Five<TValue>(
-        Action<TValue, int> setup, 
+        Action<TValue, int> setup,
         [CallerArgumentExpression(nameof(setup))] string? setupExpr = null)
-        => _spec.Apply<TValue>(() => _spec.Five(setup), setupExpr!);
+        => ApplyAsDefault(() => _spec.Five(setup), setupExpr!);
 
     public IGivenTestPipeline<TSUT, TResult> Five<TValue>(
-        Action<TValue> setup, 
+        Action<TValue> setup,
         [CallerArgumentExpression(nameof(setup))] string? setupExpr = null)
-        => _spec.Apply<TValue>(() => _spec.Five(setup), setupExpr!);
+        => ApplyAsDefault(() => _spec.Five(setup), setupExpr!);
 
     public IGivenTestPipeline<TSUT, TResult> Five<TValue>(
-        Func<TValue, TValue> transform, 
+        Func<TValue, TValue> transform,
         [CallerArgumentExpression(nameof(transform))] string? transformExpr = null)
-        => _spec.Apply<TValue>(() => _spec.Five(transform), transformExpr!);
+        => ApplyAsDefault(() => _spec.Five(transform), transformExpr!);
 
     public IGivenTestPipeline<TSUT, TResult> Five<TValue>(
-        Func<TValue, int, TValue> transform, 
+        Func<TValue, int, TValue> transform,
         [CallerArgumentExpression(nameof(transform))] string? transformExpr = null)
-        => _spec.Apply<TValue>(() => _spec.Five(transform), transformExpr!);
+        => ApplyAsDefault(() => _spec.Five(transform), transformExpr!);
+
+    private IGivenTestPipeline<TSUT, TResult> ApplyAsDefault<TValue>(
+        Func<TValue[]> getValues, string transformExpr,
+        [CallerMemberName] string? article = null)
+        => _spec.Apply<TValue>(() => _spec.Given(getValues(), string.Empty), transformExpr!, article: article);
+
+    private IGivenTestPipeline<TSUT, TResult> ApplyAsDefault<TValue>(
+        Func<TValue[]> getValues,
+        Ignore ignore = default,
+        [CallerMemberName] string? count = null)
+        => _spec.ApplyMany<TValue>(() => _spec.Given(getValues(), string.Empty), count);
 }

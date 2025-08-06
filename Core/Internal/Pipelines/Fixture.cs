@@ -29,7 +29,8 @@ internal abstract class Fixture<TSUT>(Fixture<TSUT>? classFixture = null)
 
     internal void SetDefault<TValue>(TValue defaultValue, ApplyTo applyTo, string defaultValuesExpr)
     {
-        SpecificationGenerator.AddGiven(defaultValuesExpr, applyTo);
+        if (!string.IsNullOrEmpty(defaultValuesExpr))
+            SpecificationGenerator.AddGiven(defaultValuesExpr, applyTo);
         AssertIsNotSetUp();
         _context.Use(defaultValue, applyTo);
     }

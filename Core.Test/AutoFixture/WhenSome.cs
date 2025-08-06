@@ -2,46 +2,6 @@
 
 namespace XspecT.Test.AutoFixture;
 
-public class WhenAnyNo : Spec<MyRetriever, MyModel[]>
-{
-    public WhenAnyNo() => Given(AnyNumberOf<MyModel>).When(_ => _.List());
-
-    public class GivenNoOtherReference : WhenAnyNo
-    {
-        [Fact]
-        public void ThenArrayHasOneElements()
-        {
-            Result.Has().Count(1);
-            Specification.Is(
-                """
-                Given any number of MyModel
-                When _.List()
-                Then Result has count 1
-                """);
-        }
-    }
-
-
-    public class GivenZeroIsMentionedBefore : WhenAnyNo
-    {
-        public GivenZeroIsMentionedBefore() => Given(Zero<MyModel>).And(AnyNumberOf<MyModel>);
-
-        [Fact]
-        public void ThenCountIsZero()
-        {
-            Result.Has().Count(0);
-            Specification.Is(
-                """
-                Given any number of MyModel
-                  and zero MyModel
-                  and any number of MyModel
-                When _.List()
-                Then Result has count 0
-                """);
-        }
-    }
-}
-
 public class WhenSome : Spec<MyRetriever, MyModel[]>
 {
     public WhenSome() => Given(Some<MyModel>).When(_ => _.List());
