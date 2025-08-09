@@ -2,7 +2,7 @@
 
 namespace XspecT.Test.AutoFixture;
 
-public class WhenSomeOther : Spec<MyRetriever, MyModel[]>
+public abstract class WhenSomeOther : Spec<MyRetriever, MyModel[]>
 {
     public WhenSomeOther() => Given(() => SomeOther<MyModel>()).When(_ => _.List());
 

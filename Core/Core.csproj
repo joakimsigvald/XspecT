@@ -18,15 +18,12 @@
     <PackageProjectUrl>https://github.com/joakimsigvald/XspecT</PackageProjectUrl>
     <RepositoryUrl>https://github.com/joakimsigvald/XspecT.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageVersion>18.8.1</PackageVersion>
+    <PackageVersion>18.8.2</PackageVersion>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>icon.png</PackageIcon>
     <PackageReleaseNotes>
-      Added assertion Either/Or to test that at least one of two conditions is true.
-      Added SomeOther to yield a different array of items, similar to Other to yield one different item
-      Apply Given().[SomeAmount]() with or without setup as default for collections of that type. 
-      This is expected behaviour but was not implemented
+      Added SomeOther with setup or transform to yield a different array of items with specific properties
     </PackageReleaseNotes>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>

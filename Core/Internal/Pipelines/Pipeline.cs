@@ -62,7 +62,7 @@ internal class Pipeline<TSUT, TResult>(Fixture<TSUT>? classFixture) : Fixture<TS
         return _context.Apply(tag, transform);
     }
 
-    internal TValue Create<TValue>(Action<TValue> setup) 
+    internal TValue Create<TValue>(Action<TValue> setup)
         => Context.ApplyTo(setup, _context.Create<TValue>());
 
     internal TValue Apply<TValue>(Action<TValue> setup, int index)
