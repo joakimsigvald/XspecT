@@ -88,6 +88,17 @@ public class WhenString : Spec<string>
     }
 
     [Fact]
+    public void IsNotNullAndIs_Abc()
+    {
+        "abc".Is().Not().Null().But.Is("abc");
+        Specification.Is(
+            """
+            "abc" is not null
+                but is "abc"
+            """);
+    }
+
+    [Fact]
     public void IsNotNullAndStartWithSubstring()
     {
         "abcd".Is().Not().Null().And.Does().StartWith("abc");

@@ -1,4 +1,4 @@
-﻿namespace XspecT.Test.Given;
+﻿namespace XspecT.Test.Given.TestData;
 
 public interface IMyRepository
 {

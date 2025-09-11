@@ -1,4 +1,6 @@
-﻿namespace XspecT.Test.Given;
+﻿using XspecT.Test.Given.TestData;
+
+namespace XspecT.Test.Given;
 
 public class GivenDefaultEnumerableNotProvidedWhenGetTaskOfIEnumerable : Spec<MyService, MyModel[]>
 {

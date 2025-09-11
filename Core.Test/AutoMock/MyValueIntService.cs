@@ -1,4 +1,4 @@
-﻿using XspecT.Test.Given;
+﻿using XspecT.Test.Given.TestData;
 
 namespace XspecT.Test.AutoMock;
 

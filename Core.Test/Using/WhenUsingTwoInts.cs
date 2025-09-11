@@ -1,5 +1,5 @@
 ﻿using XspecT.Assert;
-using XspecT.Test.Given;
+using XspecT.Test.Given.TestData;
 
 namespace XspecT.Test.Using;
 
