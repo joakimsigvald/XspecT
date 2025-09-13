@@ -1,4 +1,4 @@
-﻿namespace XspecT.Test.Given.TestData;
+﻿namespace XspecT.Test.TestData;
 
 public class MyService(IMyRepository repo, IMySettings settings, Func<DateTime> getTime)
 {

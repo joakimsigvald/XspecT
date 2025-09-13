@@ -1,5 +1,5 @@
 ﻿using XspecT.Assert;
-using XspecT.Test.Given.TestData;
+using XspecT.Test.TestData;
 
 namespace XspecT.Test.Given;
 
@@ -13,7 +13,7 @@ public class WhenGivenInterface : Spec<MyService, string>
             .Then().Result.Is(TheSecond<string>());
         Specification.Is(
             """
-            Given new MySettings { ConnectionString = ASecond<string>() }
+            Given new MySettings { ConnectionString = a second string }
             When _.GetConnectionString()
             Then Result is the second string
             """);

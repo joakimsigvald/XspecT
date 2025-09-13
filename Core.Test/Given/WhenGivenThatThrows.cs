@@ -1,5 +1,5 @@
 ﻿using XspecT.Assert;
-using XspecT.Test.Given.TestData;
+using XspecT.Test.TestData;
 using Xunit.Sdk;
 
 namespace XspecT.Test.Given;
@@ -113,6 +113,6 @@ public class WhenGivenThatThrows : Spec<MyService, MyModel>
         When(_ => _.GetModel())
              .Given<IMyRepository>().That(_ => _.GetModel()).Throws(A<NotFound>);
         var ex = Xunit.Assert.Throws<XunitException>(() => Then().Throws<NotFound>(_ => _.Message == "Something else"));
-        ex.Message.Is("""Thrown exception XspecT.Test.Given.TestData.NotFound didn't satisfy _.Message == "Something else".""");
+        ex.Message.Is("""Thrown exception XspecT.Test.TestData.NotFound didn't satisfy _.Message == "Something else".""");
     }
 }

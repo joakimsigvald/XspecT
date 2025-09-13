@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using XspecT.Internal.Specification;
+﻿using XspecT.Internal.Specification;
 
 namespace XspecT.Assert.Continuations;
 

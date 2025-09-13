@@ -21,6 +21,7 @@ public static partial class ExpressionParser
     private static string ParseSingleLineValue(string line)
         => TryParseMentionType(line, out string description)
             || TryParseConstructorCall(line, out description)
+            || TryParseObjectInitializerCall(line, out description)
             || TryParseMentionValue(line, out description)
             || TryParseAssignmentLambda(line, out description)
             || TryParseIndexedAssignment(line, out description)
@@ -268,6 +269,20 @@ public static partial class ExpressionParser
         return true;
     }
 
+    private static bool TryParseObjectInitializerCall(string expr, out string description)
+    {
+        description = string.Empty;
+        var match = ObjectInitializerCallRegex().Match(expr);
+        if (!match.Success)
+            return false;
+
+        var constructorRef = match.Groups[1].Value;
+        var methodArgs = match.Groups[2].Value;
+        var args = methodArgs.Split(',').Select(arg => ParseValue(arg.Trim()));
+        description = $"{constructorRef} {{ {string.Join(", ", args)} }}";
+        return true;
+    }
+
     private static bool TryParseMethodCall(string expr, out string description)
     {
         description = string.Empty;
@@ -370,6 +385,9 @@ public static partial class ExpressionParser
 
     [GeneratedRegex(@"^(new(?:\s+\w+)?)\s*\((.+)\)$")]
     private static partial Regex ConstructorCallRegex();
+
+    [GeneratedRegex(@"^(new(?:\s+\w+)?)\s*\{(.+)\}$")]
+    private static partial Regex ObjectInitializerCallRegex();
 
     [GeneratedRegex(@"^((?:new\s+)?\w+)\((.+)\)$")]
     private static partial Regex MethodCallRegex();

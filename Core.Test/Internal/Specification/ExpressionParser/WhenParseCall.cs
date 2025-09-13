@@ -13,6 +13,7 @@ public class WhenParseCall : Spec<string>
     [InlineData("_ => MyService.Echo(The<MyEnum>())", "MyService.Echo(the MyEnum)")]
     [InlineData("_ => [1, 2, 3]", "[1, 2, 3]")]
     [InlineData("_ => A<List<int>>()", "a List<int>")]
+    [InlineData("_ => new MyModel { Id = An<int>() }", "new MyModel { Id = an int }")]
     [InlineData("""
         x
 
