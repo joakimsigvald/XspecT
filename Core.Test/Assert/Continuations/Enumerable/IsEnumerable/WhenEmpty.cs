@@ -13,6 +13,6 @@ public class WhenEmpty : Spec
         int[] arr = [1];
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => arr.Is().Empty());
         ex.Message.Is($"Arr is empty");
-        ex.InnerException.Message.Is($"Expected arr to be empty but found [1]");
+        ex.HasInnerMessage($"Expected arr to be empty but found [1]");
     }
 }

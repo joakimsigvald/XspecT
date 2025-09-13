@@ -51,16 +51,17 @@ internal class Context
         }
     }
 
-    internal TValue Produce<TValue>(Tag<TValue> tag) => Produce<TValue>(GetTagIndex(tag));
+    internal TValue Produce<TValue>(Tag<TValue> tag, string tagName)
+        => Produce<TValue>(GetTagIndex(tag, tagName));
 
-    internal TValue Assign<TValue>(Tag<TValue> tag, TValue value)
-        => Assign(value, GetTagIndex(tag));
+    internal TValue Assign<TValue>(Tag<TValue> tag, TValue value, string tagName)
+        => Assign(value, GetTagIndex(tag, tagName));
 
-    internal TValue Apply<TValue>(Tag<TValue> tag, Action<TValue> setup)
-        => Apply(setup, GetTagIndex(tag));
+    internal TValue Apply<TValue>(Tag<TValue> tag, Action<TValue> setup, string tagName)
+        => Apply(setup, GetTagIndex(tag, tagName));
 
-    internal TValue Apply<TValue>(Tag<TValue> tag, Func<TValue, TValue> transform)
-        => Apply(transform, GetTagIndex(tag));
+    internal TValue Apply<TValue>(Tag<TValue> tag, Func<TValue, TValue> transform, string tagName)
+        => Apply(transform, GetTagIndex(tag, tagName));
 
     internal Dictionary<object, int> GetTagIndices(Type type)
         => _tagIndices.TryGetValue(type, out var val) ? val : _tagIndices[type] = [];
@@ -145,12 +146,16 @@ internal class Context
         throw new SetupFailed($"Failed to find a unique value of {type.Alias()} after {attempts} attempts");
     }
 
-    private int GetTagIndex<TValue>(Tag<TValue> tag)
+    private int GetTagIndex<TValue>(Tag<TValue> tag, string tagName)
     {
-        var typedTagIndices = GetTagIndices(typeof(TValue));
-        return typedTagIndices.TryGetValue(tag, out var index)
-            ? index
-            : typedTagIndices[tag] = GetNextTagIndex(typedTagIndices);
+        var type = typeof(TValue);
+        var typedTagIndices = GetTagIndices(type);
+        if (typedTagIndices.TryGetValue(tag, out var index))
+            return index;
+
+        index = GetNextTagIndex(typedTagIndices);
+        SpecificationGenerator.TagIndex(type, index, tagName);
+        return typedTagIndices[tag] = index;
     }
 
     private static int GetNextTagIndex(Dictionary<object, int> typedTagIndices)
@@ -163,7 +168,10 @@ internal class Context
             .ToArray());
 
     private object? Assign(Type type, object? value, int index = 0)
-        => _dataProvider.GetMentions(type)[index] = value;
+    {
+        SpecificationGenerator.Assign(type, index, value);
+        return _dataProvider.GetMentions(type)[index] = value;
+    }
 
     private TValue[] Reuse<TValue>(TValue[] arr, int count, int? minCount)
         => arr.Length >= minCount || arr.Length == count ? arr
@@ -172,6 +180,6 @@ internal class Context
 
     private TValue[] Extend<TValue>(TValue[] arr, int count)
         => [
-            .. arr, 
+            .. arr,
             .. Enumerable.Range(arr.Length, count - arr.Length).Select(i => Produce<TValue>(i))];
 }

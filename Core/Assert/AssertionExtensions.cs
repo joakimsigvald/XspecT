@@ -117,4 +117,31 @@ public static class AssertionExtensions
         SpecificationGenerator.AddThen();
         return actual;
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="ex"></param>
+    /// <param name="expected"></param>
+    public static void HasInnerMessage(this Xunit.Sdk.XunitException ex, string expected)
+    {
+        var innerEx = ex.InnerException;
+        innerEx!.Is().Not().Null();
+        var parts = innerEx!.Message.Split("---");
+        parts[0].Is($"{Environment.NewLine}{expected}{Environment.NewLine}");
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="ex"></param>
+    /// <param name="expected"></param>
+    public static void HasAssignments(this Xunit.Sdk.XunitException ex, string expected)
+    {
+        var innerEx = ex.InnerException;
+        innerEx!.Is().Not().Null();
+        var parts = innerEx!.Message.Split("---");
+        var (_, assignments) = parts.Has().TwoItems().That;
+        assignments.Is($"{Environment.NewLine}{expected}{Environment.NewLine}");
+    }
 }

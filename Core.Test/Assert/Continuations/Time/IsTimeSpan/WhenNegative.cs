@@ -16,6 +16,6 @@ public class WhenNegative : Spec
         var a = TimeSpan.FromDays(days);
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => a.Is().Negative());
         ex.Message.Is("A is negative");
-        ex.InnerException.Message.Is($"Expected a to be negative but found {a}");
+        ex.HasInnerMessage($"Expected a to be negative but found {a}");
     }
 }

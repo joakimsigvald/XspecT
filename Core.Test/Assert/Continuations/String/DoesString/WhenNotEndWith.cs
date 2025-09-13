@@ -22,6 +22,6 @@ public class WhenNotEndWith : StringSpec
     {
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => actual.Does().Not().EndWith(expected));
         ex.Message.Is("Actual does not end with expected");
-        ex.InnerException.Message.Is($"Expected actual to not end with {Describe(expected)} but found {Describe(actual)}");
+        ex.HasInnerMessage($"Expected actual to not end with {Describe(expected)} but found {Describe(actual)}");
     }
 }

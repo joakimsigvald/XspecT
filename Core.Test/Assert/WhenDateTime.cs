@@ -49,7 +49,7 @@ public class WhenDateTime : Spec<DateTime>
     {
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(
             () => When(_ => A(_)).Then().Result.Is().Before(The<DateTime>().AddDays(-1)));
-        ex.InnerException.Message.Is(
+        ex.HasInnerMessage(
             $"Expected Result to occur before {The<DateTime>().AddDays(-1)} but found {The<DateTime>()}");
     }
 }

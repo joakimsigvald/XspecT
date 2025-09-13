@@ -21,6 +21,6 @@ public class WhenNot : StringSpec
     {
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => actual.Is().Not(expected));
         ex.Message.Is("Actual is not expected");
-        ex.InnerException.Message.Is($"Expected actual to be not {Describe(expected)} but found {Describe(actual)}");
+        ex.HasInnerMessage($"Expected actual to be not {Describe(expected)} but found {Describe(actual)}");
     }
 }

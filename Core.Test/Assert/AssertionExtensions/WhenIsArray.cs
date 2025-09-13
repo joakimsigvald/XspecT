@@ -19,7 +19,7 @@ public class WhenIsArray : Spec<int[]>
             When _
             Then Result is [1, 2, 3]
             """);
-        ex.InnerException.Message.Is(
+        ex.HasInnerMessage(
             "Expected Result to be [1, 2, 3] but found [1, 2, 3]");
     }
 }

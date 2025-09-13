@@ -13,6 +13,6 @@ public class WhenNotNull : Spec
         int[] arr = null;
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => arr.Is().Not().Null());
         ex.Message.Is($"Arr is not null");
-        ex.InnerException.Message.Is($"Expected arr to not be null but found null");
+        ex.HasInnerMessage($"Expected arr to not be null but found null");
     }
 }

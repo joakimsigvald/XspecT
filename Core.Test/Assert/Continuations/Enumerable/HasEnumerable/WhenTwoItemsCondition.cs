@@ -31,6 +31,6 @@ public class WhenTwoItemsCondition : Spec
         int[] arr = [1, 2, 3];
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => arr.Has().TwoItems(it => it > 0));
         ex.Message.Is($"Arr has two items it > 0");
-        ex.InnerException.Message.Is($"Expected arr to have two items satisfying the condition but found 3: [1, 2, 3]");
+        ex.HasInnerMessage($"Expected arr to have two items satisfying the condition but found 3: [1, 2, 3]");
     }
 }

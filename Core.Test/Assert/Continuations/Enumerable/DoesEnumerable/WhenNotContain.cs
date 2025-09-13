@@ -17,6 +17,6 @@ public class WhenNotContain : EnumerableSpec
     {
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => actual.ToList().Does().Not().Contain(expected));
         ex.Message.Is("Actual.ToList() does not contain expected");
-        ex.InnerException.Message.Is($"Expected actual.ToList() to not contain {expected} but found {Describe(actual)}");
+        ex.HasInnerMessage($"Expected actual.ToList() to not contain {expected} but found {Describe(actual)}");
     }
 }

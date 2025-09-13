@@ -1,4 +1,6 @@
-﻿namespace XspecT;
+﻿using System.Runtime.CompilerServices;
+
+namespace XspecT;
 
 public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
 {
@@ -31,7 +33,9 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="tag">The tag is used to distinguish between different values. Each tag instance corresponds to one value</param>
     /// <returns>The value associated to the tag</returns>
-    protected internal TValue The<TValue>(Tag<TValue> tag) => _pipeline.Mention(tag);
+    protected internal TValue The<TValue>(
+        Tag<TValue> tag, [CallerArgumentExpression(nameof(tag))] string tagName = null) 
+        => _pipeline.Mention(tag, tagName);
 
     /// <summary>
     /// Yields a value of the given type
@@ -281,9 +285,9 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <returns></returns>
     protected internal TValue Another<TValue>(Action<TValue> setup) => _pipeline.Create(setup);
 
-    internal TValue Assign<TValue>(Tag<TValue> tag, TValue value) => _pipeline.Assign(tag, value);
+    internal TValue Assign<TValue>(Tag<TValue> tag, TValue value, string tagName) => _pipeline.Assign(tag, value, tagName);
 
-    internal TValue Apply<TValue>(Tag<TValue> tag, Action<TValue> setup) => _pipeline.Apply(tag, setup);
+    internal TValue Apply<TValue>(Tag<TValue> tag, Action<TValue> setup, string tagName) => _pipeline.Apply(tag, setup, tagName);
 
-    internal TValue Apply<TValue>(Tag<TValue> tag, Func<TValue, TValue> transform) => _pipeline.Apply(tag, transform);
+    internal TValue Apply<TValue>(Tag<TValue> tag, Func<TValue, TValue> transform, string tagName) => _pipeline.Apply(tag, transform, tagName);
 }

@@ -65,7 +65,7 @@ internal class SpecificationBuilder
 
     internal void AddAssert(string actual, string verb, string? expected)
     {
-        if (_isChainOfAssertions) 
+        if (_isChainOfAssertions)
         {
             actual = actual.Split(".That.").Last();
             _textBuilder.AddWord(actual.ParseValue());
@@ -147,7 +147,7 @@ internal class SpecificationBuilder
 
     internal void AddAssert(string assertName) => _textBuilder.AddWord(assertName.AsWords());
 
-    internal void AddUnique(string type) 
+    internal void AddUnique(string type)
         => _textBuilder.AddPhraseOrSentence($"{Given} all {type} are unique");
 
     internal void AddAssertConjunction(string conjunction)

@@ -32,7 +32,7 @@ public class WhenDistinct : Spec
         int[] arr = [1, 1];
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => arr.Is().Distinct());
         ex.Message.Is($"Arr is distinct");
-        ex.InnerException.Message.Is($"Expected arr to be distinct but found [1, 1]");
+        ex.HasInnerMessage($"Expected arr to be distinct but found [1, 1]");
     }
 
     [Fact]
@@ -41,6 +41,6 @@ public class WhenDistinct : Spec
         MyModel[] arr = [new(), new()];
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => arr.Is().Distinct());
         ex.Message.Is($"Arr is distinct");
-        ex.InnerException.Message.Is($"Expected arr to be distinct but found [MyModel {{ Id = 0, Name =  }}, MyModel {{ Id = 0, Name =  }}]");
+        ex.HasInnerMessage($"Expected arr to be distinct but found [MyModel {{ Id = 0, Name =  }}, MyModel {{ Id = 0, Name =  }}]");
     }
 }

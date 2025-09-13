@@ -20,7 +20,7 @@ public class WhenIsNotArray : Spec<int[]>
             When arr
             Then Result is not arr
             """);
-        ex.InnerException.Message.Is(
+        ex.HasInnerMessage(
             "Expected Result to not be [1, 2] but found [1, 2]");
     }
 }

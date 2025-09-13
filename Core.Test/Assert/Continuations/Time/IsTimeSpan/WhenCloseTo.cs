@@ -19,6 +19,6 @@ public class WhenCloseTo : Spec
         var tolerance = TimeSpan.FromDays(0);
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => a.Is().CloseTo(b, tolerance));
         ex.Message.Is("A is close to b");
-        ex.InnerException.Message.Is($"Expected a to be close to {b} but found {a}");
+        ex.HasInnerMessage($"Expected a to be close to {b} but found {a}");
     }
 }

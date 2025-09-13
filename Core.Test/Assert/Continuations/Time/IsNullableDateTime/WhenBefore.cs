@@ -16,6 +16,6 @@ public class WhenBefore : Spec
         var b = a.Value.AddDays(-1);
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => a.Is().Before(b));
         ex.Message.Is("A is before b");
-        ex.InnerException.Message.Is($"Expected a to occur before {b} but found {a}");
+        ex.HasInnerMessage($"Expected a to occur before {b} but found {a}");
     }
 }

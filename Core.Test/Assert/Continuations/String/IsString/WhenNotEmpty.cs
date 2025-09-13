@@ -16,6 +16,6 @@ public class WhenNotEmpty : StringSpec
     {
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => actual.Is().Not().Empty());
         ex.Message.Is("Actual is not empty");
-        ex.InnerException.Message.Is($"Expected actual to not be empty but found {Describe(actual)}");
+        ex.HasInnerMessage($"Expected actual to not be empty but found {Describe(actual)}");
     }
 }

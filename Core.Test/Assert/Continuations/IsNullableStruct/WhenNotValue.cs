@@ -21,6 +21,6 @@ public class WhenNotValue : Spec
         Money expected = new(1, "SEK");
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => actual.Is().Not(expected));
         ex.Message.Is("Actual is not expected");
-        ex.InnerException.Message.Is($"Expected actual to be not {expected} but found {actual}");
+        ex.HasInnerMessage($"Expected actual to be not {expected} but found {actual}");
     }
 }

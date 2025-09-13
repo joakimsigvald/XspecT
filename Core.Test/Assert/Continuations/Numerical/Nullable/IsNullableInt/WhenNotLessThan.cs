@@ -15,6 +15,6 @@ public class WhenNotLessThan : Spec
     {
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => a.Is().Not().LessThan(b));
         ex.Message.Is("A is not less than b");
-        ex.InnerException.Message.Is($"Expected a to not be less than {b} but found {a}");
+        ex.HasInnerMessage($"Expected a to not be less than {b} but found {a}");
     }
 }

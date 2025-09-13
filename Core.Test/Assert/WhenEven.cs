@@ -13,7 +13,7 @@ public class WhenEven : Spec<int>
             When 1
             Then Result is even
             """);
-        ex.InnerException.Message.Is("Expected Result to be even but found 1");
+        ex.HasInnerMessage("Expected Result to be even but found 1");
     }
 
     [Fact]
@@ -45,6 +45,6 @@ public class WhenEven : Spec<int>
             When 2
             Then Result is not even
             """);
-        ex.InnerException.Message.Is("Expected Result to not be even but found 2");
+        ex.HasInnerMessage("Expected Result to not be even but found 2");
     }
 }

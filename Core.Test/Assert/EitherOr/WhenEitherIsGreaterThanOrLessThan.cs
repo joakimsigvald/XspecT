@@ -29,7 +29,7 @@ public class WhenEitherIsGreaterThanOrLessThan : Spec<int>
             Then Result is either greater than 10
                 or less than 5
             """);
-        ex.InnerException.Message.Is("Expected Result to be greater than 10 but found 7");
+        ex.HasInnerMessage("Expected Result to be greater than 10 but found 7");
     }
 
     [Fact]

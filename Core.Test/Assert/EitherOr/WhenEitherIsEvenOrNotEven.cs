@@ -38,6 +38,6 @@ public class WhenEitherIsEvenOrNotEven : Spec<int>
             Then Result is either even
                 or even
             """);
-        ex.InnerException.Message.Is("Expected Result to be even but found 1");
+        ex.HasInnerMessage("Expected Result to be even but found 1");
     }
 }

@@ -25,6 +25,6 @@ public class WhenNotNullableValue : Spec
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => actual.Is().Not(expected));
         ex.Message.Is("Actual is not expected");
         string expectedStr = expected?.ToString() ?? "null";
-        ex.InnerException.Message.Is($"Expected actual to be not {expectedStr} but found {expectedStr}");
+        ex.HasInnerMessage($"Expected actual to be not {expectedStr} but found {expectedStr}");
     }
 }

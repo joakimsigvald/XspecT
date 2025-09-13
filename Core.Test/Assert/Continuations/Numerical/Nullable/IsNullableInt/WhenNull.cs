@@ -12,6 +12,6 @@ public class WhenNull : Spec
         int? x = 1;
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => x.Is().Null());
         ex.Message.Is("X is null");
-        ex.InnerException.Message.Is("Expected x to be null but found 1");
+        ex.HasInnerMessage("Expected x to be null but found 1");
     }
 }

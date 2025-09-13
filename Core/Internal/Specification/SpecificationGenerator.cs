@@ -1,15 +1,58 @@
 ﻿using System.Runtime.CompilerServices;
+using System.Text;
 using XspecT.Internal.TestData;
 using Xunit.Sdk;
 
 namespace XspecT.Internal.Specification;
+
+internal class SpecificationAssignments
+{
+    private Dictionary<Type, Dictionary<int, object?>> _assignments = [];
+    private Dictionary<Type, Dictionary<int, string>> _tagNames = [];
+
+    internal void TagIndex(Type type, int index, string tagName)
+    {
+        var typedTagNames = _tagNames.TryGetValue(type, out var val) ? val : _tagNames[type] = [];
+        typedTagNames[index] = tagName;
+    }
+
+    internal string ListAssignments()
+    {
+        StringBuilder sb = new();
+        foreach (var typedAssignments in _assignments)
+            foreach (var assignment in typedAssignments.Value)
+                sb.AppendLine(DescribeAssignment(typedAssignments.Key, assignment.Key, assignment.Value));
+        return sb.ToString();
+    }
+
+    internal string DescribeAssignment(Type type, int index, object? value)
+    {
+        string name = _tagNames.TryGetValue(type, out var typedTagNames)
+            && typedTagNames.TryGetValue(index, out var val) ? val
+            : $"{index + 1}";
+        return $"{type.Alias()}:{name} = {value}";
+    }
+
+    internal void Assign(Type type, int index, object? value)
+    {
+        var typedAssignments = _assignments.TryGetValue(type, out var val) ? val : _assignments[type] = [];
+        typedAssignments[index] = value;
+    }
+}
 
 internal static class SpecificationGenerator
 {
     [ThreadStatic]
     private static SpecificationBuilder? _builder;
 
-    internal static void Clear() => _builder = null;
+    [ThreadStatic]
+    private static SpecificationAssignments? _assignments;
+
+    internal static void Clear()
+    {
+        _builder = null;
+        _assignments = null;
+    }
 
     internal static void AddMockSetup<TService>(string callExpr)
         => Builder.Add(() => Builder.AddMockSetup<TService>(callExpr));
@@ -92,5 +135,13 @@ internal static class SpecificationGenerator
     internal static void AddUnique<TValue>()
          => Builder.Add(() => Builder.AddUnique(typeof(TValue).Alias()));
 
+    internal static void Assign(Type type, int index, object? value) => Assignments.Assign(type, index, value);
+
+    internal static string ListAssignments() => Assignments.ListAssignments();
+
+    internal static void TagIndex(Type type, int index, string tagName)
+         => Assignments.TagIndex(type, index, tagName);
+
     internal static SpecificationBuilder Builder => _builder ??= new();
+    internal static SpecificationAssignments Assignments => _assignments ??= new();
 }
