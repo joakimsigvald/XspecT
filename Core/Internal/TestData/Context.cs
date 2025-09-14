@@ -85,14 +85,14 @@ internal class Context
     internal void SetDefault<TValue>(Func<TValue, TValue> setup)
         => _dataProvider.AddDefaultSetup(typeof(TValue), _ => setup((TValue)_)!);
 
-    internal TValue Assign<TValue>(TValue value, int index = 0)
-    {
-        Assign(typeof(TValue), value, index);
-        return value;
-    }
-
     internal TValue[] AssignMany<TValue>(TValue[] values)
         => Assign(values);
+
+    internal TValue Assign<TValue>(TValue value, int index = 0)
+    {
+        _dataProvider.Assign(typeof(TValue), value, index);
+        return value;
+    }
 
     internal TValue[] MentionMany<TValue>(int count, int? minCount)
     {
@@ -167,12 +167,6 @@ internal class Context
             .Select(i => Produce<TValue>(i))
             .ToArray());
 
-    private object? Assign(Type type, object? value, int index = 0)
-    {
-        SpecificationGenerator.Assign(type, index, value);
-        return _dataProvider.GetMentions(type)[index] = value;
-    }
-
     private TValue[] Reuse<TValue>(TValue[] arr, int count, int? minCount)
         => arr.Length >= minCount || arr.Length == count ? arr
         : arr.Length > count ? arr[..count]
@@ -181,5 +175,6 @@ internal class Context
     private TValue[] Extend<TValue>(TValue[] arr, int count)
         => [
             .. arr,
-            .. Enumerable.Range(arr.Length, count - arr.Length).Select(i => Produce<TValue>(i))];
+            .. Enumerable.Range(arr.Length, count - arr.Length).Select(i => Produce<TValue>(i))
+            ];
 }

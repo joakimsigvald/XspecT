@@ -123,25 +123,24 @@ public static class AssertionExtensions
     /// </summary>
     /// <param name="ex"></param>
     /// <param name="expected"></param>
-    public static void HasInnerMessage(this Xunit.Sdk.XunitException ex, string expected)
-    {
-        var innerEx = ex.InnerException;
-        innerEx!.Is().Not().Null();
-        var parts = innerEx!.Message.Split("---");
-        parts[0].Is($"{Environment.NewLine}{expected}{Environment.NewLine}");
-    }
+    internal static void HasInnerMessage(this Xunit.Sdk.XunitException ex, string expected) 
+        => SplitInnerExceptionMessage(ex)[0].Is($"{Environment.NewLine}{expected}{Environment.NewLine}");
 
     /// <summary>
     /// 
     /// </summary>
     /// <param name="ex"></param>
     /// <param name="expected"></param>
-    public static void HasAssignments(this Xunit.Sdk.XunitException ex, string expected)
+    internal static void HasAssignments(this Xunit.Sdk.XunitException ex, string expected)
+    {
+        SplitInnerExceptionMessage(ex).Has().TwoItems().That.second
+            .Is($"{Environment.NewLine}{expected}{Environment.NewLine}");
+    }
+
+    private static string[] SplitInnerExceptionMessage(Xunit.Sdk.XunitException ex)
     {
         var innerEx = ex.InnerException;
         innerEx!.Is().Not().Null();
-        var parts = innerEx!.Message.Split("---");
-        var (_, assignments) = parts.Has().TwoItems().That;
-        assignments.Is($"{Environment.NewLine}{expected}{Environment.NewLine}");
+        return innerEx!.Message.Split("---");
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Moq;
+using XspecT.Internal.Specification;
 
 namespace XspecT.Internal.TestData;
 
@@ -31,8 +32,11 @@ internal class DataProvider
         return true;
     }
 
-    internal Dictionary<int, object?> GetMentions(Type type)
-        => _numberedMentions.TryGetValue(type, out var val) ? val : _numberedMentions[type] = [];
+    internal void Assign(Type type, object? value, int index)
+    {
+        SpecificationGenerator.Assign(type, index, value);
+        GetMentions(type)[index] = value;
+    }
 
     internal TValue Instantiate<TValue>()
     {
@@ -76,6 +80,9 @@ internal class DataProvider
 
     private static Func<object, object> MergeDefaultSetups(Func<object, object> setup1, Func<object, object> setup2)
         => obj => setup2(setup1(obj));
+
+    private Dictionary<int, object?> GetMentions(Type type)
+        => _numberedMentions.TryGetValue(type, out var val) ? val : _numberedMentions[type] = [];
 
     internal TValue Create<TValue>()
         => (TValue)ApplyDefaultSetup(typeof(TValue), _testDataGenerator.Create<TValue>()!);

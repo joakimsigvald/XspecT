@@ -138,7 +138,7 @@ public abstract record Constraint<TActual, TContinuation>
         {
             Xunit.Sdk.XunitException? xuex = null;
             if (State.HasFlag(ConstraintState.Failed))
-                State = State & ~ConstraintState.Either;
+                State &= ~ConstraintState.Either;
             try
             {
                 assert(Actual);
@@ -181,7 +181,7 @@ public abstract record Constraint<TActual, TContinuation>
             ? ex
             : GetExpectedException(ex.InnerException as Xunit.Sdk.XunitException);
 
-    private protected virtual string Describe(TActual? value, string? methodName = null) => value?.ToString() ?? "null";
+    private protected virtual string Describe(TActual? value, string? methodName = null) => value.ParseValue();
 
     internal ContinueWith<TContinuation> And() => new(Continue());
     internal ContinueWithThat<TContinuation, TThat> AndThat<TThat>(TThat that) => new(Continue(), that);

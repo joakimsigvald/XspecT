@@ -8,12 +8,8 @@ public abstract record EnumerableConstraint<TItem, TContinuation> : Constraint<I
 {
     static readonly string[] methodsWithCount = ["Single", "Count", "OneItem", "TwoItems", "ThreeItems", "FourItems", "FiveItems"];
 
-    private protected override string Describe(IEnumerable<TItem>? value, string? methodName = null)
-    {
-        if (value is null) return "null";
-        ICollection<TItem> enumeratedValue = value as ICollection<TItem> ?? [.. value];
-        return methodsWithCount.Contains(methodName)
-            ? $"{enumeratedValue.Count}: [{string.Join(", ", enumeratedValue)}]" 
-            : $"[{string.Join(", ", value)}]";
-    }
+    private protected override string Describe(IEnumerable<TItem>? value, string? methodName = null) 
+        => value is ICollection<TItem> col && methodsWithCount.Contains(methodName)
+        ? $"{col.Count}: {base.Describe(value, methodName)}"
+        : base.Describe(value, methodName);
 }
