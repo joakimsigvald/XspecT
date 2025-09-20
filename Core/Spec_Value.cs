@@ -33,9 +33,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="tag">The tag is used to distinguish between different values. Each tag instance corresponds to one value</param>
     /// <returns>The value associated to the tag</returns>
-    protected internal TValue The<TValue>(
-        Tag<TValue> tag, [CallerArgumentExpression(nameof(tag))] string tagName = null) 
-        => _pipeline.Mention(tag, tagName);
+    protected internal TValue The<TValue>(Tag<TValue> tag) => _pipeline.Mention(tag, tag.Name);
 
     /// <summary>
     /// Yields a value of the given type

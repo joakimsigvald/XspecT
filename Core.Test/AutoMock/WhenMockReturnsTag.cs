@@ -25,3 +25,36 @@ public class WhenMockReturnsTag : Spec<InterfaceService, int>
             """);
     }
 }
+
+public class WhenMockWithTag : Spec<InterfaceService>
+{
+    static readonly Tag<int> value = new(nameof(value));
+
+    [Fact]
+    public void WhenThrowsSpecificException()
+    {
+        When(_ => _.SetValue(The(value)))
+        .Given<IMyService>().That(_ => _.SetValue(The(value))).Throws(() => new ArgumentException())
+        .Then().Throws<ArgumentException>();
+        Specification.Is(
+            """
+            Given IMyService.SetValue(the value) throws new ArgumentException()
+            When _.SetValue(the value)
+            Then throws ArgumentException
+            """);
+    }
+
+    [Fact]
+    public void WhenThrowsTypeOfException()
+    {
+        When(_ => _.SetValue(The(value)))
+        .Given<IMyService>().That(_ => _.SetValue(The(value))).Throws<ArgumentException>()
+        .Then().Throws<ArgumentException>();
+        Specification.Is(
+            """
+            Given IMyService.SetValue(the value) throws ArgumentException
+            When _.SetValue(the value)
+            Then throws ArgumentException
+            """);
+    }
+}

@@ -137,6 +137,8 @@ internal abstract class GivenThatCommonContinuation<TSUT, TResult, TService, TRe
             sequentialContinuation.Throws<TException>();
         else if (Continuation is Moq.Language.ISetupSequentialResult<Task<TReturns>> sequentialAsyncContinuation)
             sequentialAsyncContinuation.ThrowsAsync(It.IsAny<TException>());
+        else if (Continuation is Moq.Language.Flow.ISetup<TService> setupContinuation)
+            setupContinuation.Throws<TException>();
         else throw new NotImplementedException();
     }
 
@@ -154,6 +156,8 @@ internal abstract class GivenThatCommonContinuation<TSUT, TResult, TService, TRe
             sequentialContinuation.Throws(expected());
         else if (Continuation is Moq.Language.ISetupSequentialResult<Task<TReturns>> sequentialAsyncContinuation)
             sequentialAsyncContinuation.ThrowsAsync(expected());
+        else if (Continuation is Moq.Language.Flow.ISetup<TService> setupContinuation)
+            setupContinuation.Throws(expected());
         else throw new NotImplementedException();
     }
 

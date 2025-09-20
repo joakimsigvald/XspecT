@@ -44,7 +44,7 @@ public class WhenIsValueFail : Spec<MyModel>
     [Fact]
     public void GivenTaggedAssignment_ThenShowAssignments()
     {
-        Tag<int> id = new();
+        Tag<int> id = new(nameof(id));
         var ex = Xunit.Assert.Throws<XunitException>(()
             => When(_ => new MyModel { Id = The(id) }).Then().Result.Is().Null());
         ex.Message.Is(

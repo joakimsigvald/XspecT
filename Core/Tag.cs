@@ -9,4 +9,17 @@
 /// `The(age)`, `The(length)` and `The(size)`.
 /// </summary>
 /// <typeparam name="TValue">The type of the value associated to the tag</typeparam>
-public class Tag<TValue>();
+/// <remarks>
+/// Please, provide the name of the tag, using nameOf([variable name]),
+/// otherwise a unique name will be auto-generated on the form Tag_[number]
+/// </remarks>
+/// <param name="name"></param>
+public class Tag<TValue>(string? name = null)
+{
+    /// <summary>
+    /// The name of the tag is used when printing the tag value on test failed
+    /// </summary>
+    public string Name { get; init; } = name ?? $"Tag_{++_nextNumber}";
+
+    [ThreadStatic] private static int _nextNumber;
+}
