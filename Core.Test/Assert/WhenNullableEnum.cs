@@ -22,7 +22,7 @@ public class WhenNullableEnum : Spec<MyEnum?>
     [Fact]
     public void NullIsNull()
     {
-        A((MyEnum?)null).Is(null);
+        The((MyEnum?)null).Is(null);
         Specification.Is("A (MyEnum?)null is null");
     }
 }

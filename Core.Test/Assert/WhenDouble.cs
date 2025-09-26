@@ -4,7 +4,7 @@ namespace XspecT.Test.Assert;
 
 public class WhenDouble : Spec<double>
 {
-    [Fact] public void IsAroundSame() => When(_ => A(_)).Then().Result.Is().Around(The<double>(), 1);
+    [Fact] public void IsAroundSame() => When(_ => The(_)).Then().Result.Is().Around(The<double>(), 1);
     [Fact] public void IsAroundUpperBound() => When(_ => 1).Then().Result.Is().Around(2, 1);
     [Fact] public void IsAroundLowerBound() => When(_ => 1).Then().Result.Is().Around(0, 1);
     [Fact] public void IsNotAroundAboveUpperBound() => When(_ => 1).Then().Result.Is().Not().Around(2.001, 1);

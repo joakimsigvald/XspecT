@@ -6,7 +6,7 @@ public class WhenNotCloseTo : Spec
 {
     [Fact]
     public void GivenNotCloseTo_ThenDoesNotThrow()
-        => A<TimeSpan>().Is().Not().CloseTo(The<TimeSpan>().Add(TimeSpan.FromDays(1)), TimeSpan.Zero);
+        => The<TimeSpan>().Is().Not().CloseTo(The<TimeSpan>().Add(TimeSpan.FromDays(1)), TimeSpan.Zero);
 
     [Theory]
     [InlineData(0, 0)]
@@ -14,7 +14,7 @@ public class WhenNotCloseTo : Spec
     [InlineData(1, 2)]
     public void GivenFail_ThenGetException(int days, int toleranceDays)
     {
-        var a = A<TimeSpan>();
+        var a = Another<TimeSpan>();
         var b = a.Add(TimeSpan.FromDays(days));
         var tolerance = TimeSpan.FromDays(toleranceDays);
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => a.Is().Not().CloseTo(b, tolerance));

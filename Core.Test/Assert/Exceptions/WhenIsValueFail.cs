@@ -10,7 +10,7 @@ public class WhenIsValueFail : Spec<MyModel>
     public void GivenNumberedAssignment_ThenShowAssignments()
     {
         var ex = Xunit.Assert.Throws<XunitException>(()
-            => When(_ => new MyModel { Id = An<int>() }).Then().Result.Is().Null());
+            => When(_ => new MyModel { Id = The<int>() }).Then().Result.Is().Null());
         ex.Message.Is(
             """
             When new MyModel { Id = an int }

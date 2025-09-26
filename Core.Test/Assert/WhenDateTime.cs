@@ -7,7 +7,7 @@ public class WhenDateTime : Spec<DateTime>
     [Fact]
     public void IsSame()
     {
-        When(_ => A(_)).Then().Result.Is(The<DateTime>());
+        When(_ => The(_)).Then().Result.Is(The<DateTime>());
         Specification.Is(
             """
             When a _
@@ -18,7 +18,7 @@ public class WhenDateTime : Spec<DateTime>
     [Fact]
     public void IsNot()
     {
-        When(_ => A(_)).Then().Result.Is().Not(Another<DateTime>());
+        When(_ => The(_)).Then().Result.Is().Not(Another<DateTime>());
         Specification.Is(
             """
             When a _
@@ -29,7 +29,7 @@ public class WhenDateTime : Spec<DateTime>
     [Fact]
     public void IsBeforeEtc()
     {
-        When(_ => A(_))
+        When(The)
             .Then().Result.Is().Before(The<DateTime>().AddDays(1))
             .And.After(The<DateTime>().AddDays(-1))
             .And.Not().Before(The<DateTime>())
@@ -48,7 +48,7 @@ public class WhenDateTime : Spec<DateTime>
     public void BeforeFailWithMessage() 
     {
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(
-            () => When(_ => A(_)).Then().Result.Is().Before(The<DateTime>().AddDays(-1)));
+            () => When(_ => The(_)).Then().Result.Is().Before(The<DateTime>().AddDays(-1)));
         ex.HasInnerMessage(
             $"Expected Result to occur before {The<DateTime>().AddDays(-1)} but found {The<DateTime>()}");
     }

@@ -112,6 +112,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <param name="value"></param>
     /// <param name="valueExpr"></param>
     /// <returns></returns>
+    [Obsolete("Use The or Another instead, this method will be removed in next release")]
     IGivenTestPipeline<TSUT, TResult> A<TValue>(
         TValue value,
         [CallerArgumentExpression(nameof(value))] string? valueExpr = null);
@@ -123,6 +124,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <param name="setup"></param>
     /// <param name="setupExpr"></param>
     /// <returns></returns>
+    [Obsolete("Use The or Another instead, this method will be removed in next release")]
     IGivenTestPipeline<TSUT, TResult> A<TValue>(
         Action<TValue> setup,
         [CallerArgumentExpression(nameof(setup))] string? setupExpr = null)
@@ -135,6 +137,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <param name="transform"></param>
     /// <param name="transformExpr"></param>
     /// <returns></returns>
+    [Obsolete("Use The or Another instead, this method will be removed in next release")]
     IGivenTestPipeline<TSUT, TResult> A<TValue>(
         Func<TValue, TValue> transform,
         [CallerArgumentExpression(nameof(transform))] string? transformExpr = null);
@@ -146,6 +149,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <param name="value"></param>
     /// <param name="valueExpr"></param>
     /// <returns></returns>
+    [Obsolete("Use The or Another instead, this method will be removed in next release")]
     IGivenTestPipeline<TSUT, TResult> An<TValue>(
         TValue value,
         [CallerArgumentExpression(nameof(value))] string? valueExpr = null);
@@ -157,6 +161,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <param name="setup"></param>
     /// <param name="setupExpr"></param>
     /// <returns></returns>
+    [Obsolete("Use The or Another instead, this method will be removed in next release")]
     IGivenTestPipeline<TSUT, TResult> An<TValue>(
         Action<TValue> setup,
         [CallerArgumentExpression(nameof(setup))] string? setupExpr = null)
@@ -169,6 +174,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <param name="transform"></param>
     /// <param name="transformExpr"></param>
     /// <returns></returns>
+    [Obsolete("Use The or Another instead, this method will be removed in next release")]
     IGivenTestPipeline<TSUT, TResult> An<TValue>(
         Func<TValue, TValue> transform,
         [CallerArgumentExpression(nameof(transform))] string? transformExpr = null);
@@ -180,6 +186,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <param name="value"></param>
     /// <param name="valueExpr"></param>
     /// <returns></returns>
+    [Obsolete("Use TheSecond instead, this method will be removed in next release")]
     IGivenTestPipeline<TSUT, TResult> ASecond<TValue>(
         TValue value,
         [CallerArgumentExpression(nameof(value))] string? valueExpr = null);
@@ -191,6 +198,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <param name="setup"></param>
     /// <param name="setupExpr"></param>
     /// <returns></returns>
+    [Obsolete("Use TheSecond instead, this method will be removed in next release")]
     IGivenTestPipeline<TSUT, TResult> ASecond<TValue>(
         Action<TValue> setup,
         [CallerArgumentExpression(nameof(setup))] string? setupExpr = null)
@@ -203,6 +211,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <param name="transform"></param>
     /// <param name="transformExpr"></param>
     /// <returns></returns>
+    [Obsolete("Use TheSecond instead, this method will be removed in next release")]
     IGivenTestPipeline<TSUT, TResult> ASecond<TValue>(
         Func<TValue, TValue> transform,
         [CallerArgumentExpression(nameof(transform))] string? transformExpr = null);
@@ -214,6 +223,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <param name="value"></param>
     /// <param name="valueExpr"></param>
     /// <returns></returns>
+    [Obsolete("Use TheThird instead, this method will be removed in next release")]
     IGivenTestPipeline<TSUT, TResult> AThird<TValue>(
         TValue value,
         [CallerArgumentExpression(nameof(value))] string? valueExpr = null);
@@ -225,6 +235,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <param name="setup"></param>
     /// <param name="setupExpr"></param>
     /// <returns></returns>
+    [Obsolete("Use TheThird instead, this method will be removed in next release")]
     IGivenTestPipeline<TSUT, TResult> AThird<TValue>(
         Action<TValue> setup,
         [CallerArgumentExpression(nameof(setup))] string? setupExpr = null)
@@ -237,6 +248,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <param name="transform"></param>
     /// <param name="transformExpr"></param>
     /// <returns></returns>
+    [Obsolete("Use TheThird instead, this method will be removed in next release")]
     IGivenTestPipeline<TSUT, TResult> AThird<TValue>(
         Func<TValue, TValue> transform,
         [CallerArgumentExpression(nameof(transform))] string? transformExpr = null);
@@ -248,6 +260,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <param name="value"></param>
     /// <param name="valueExpr"></param>
     /// <returns></returns>
+    [Obsolete("Use TheFourth instead, this method will be removed in next release")]
     IGivenTestPipeline<TSUT, TResult> AFourth<TValue>(
         TValue value,
         [CallerArgumentExpression(nameof(value))] string? valueExpr = null);
@@ -259,6 +272,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <param name="setup"></param>
     /// <param name="setupExpr"></param>
     /// <returns></returns>
+    [Obsolete("Use TheFourth instead, this method will be removed in next release")]
     IGivenTestPipeline<TSUT, TResult> AFourth<TValue>(
         Action<TValue> setup,
         [CallerArgumentExpression(nameof(setup))] string? setupExpr = null)
@@ -271,6 +285,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <param name="transform"></param>
     /// <param name="transformExpr"></param>
     /// <returns></returns>
+    [Obsolete("Use TheFourth instead, this method will be removed in next release")]
     IGivenTestPipeline<TSUT, TResult> AFourth<TValue>(
         Func<TValue, TValue> transform,
         [CallerArgumentExpression(nameof(transform))] string? transformExpr = null);
@@ -282,6 +297,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <param name="value"></param>
     /// <param name="valueExpr"></param>
     /// <returns></returns>
+    [Obsolete("Use TheFifth instead, this method will be removed in next release")]
     IGivenTestPipeline<TSUT, TResult> AFifth<TValue>(
         TValue value,
         [CallerArgumentExpression(nameof(value))] string? valueExpr = null);
@@ -293,6 +309,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <param name="setup"></param>
     /// <param name="setupExpr"></param>
     /// <returns></returns>
+    [Obsolete("Use TheFifth instead, this method will be removed in next release")]
     IGivenTestPipeline<TSUT, TResult> AFifth<TValue>(
         Action<TValue> setup,
         [CallerArgumentExpression(nameof(setup))] string? setupExpr = null)
@@ -305,6 +322,7 @@ public interface IGivenContinuation<TSUT, TResult>
     /// <param name="transform"></param>
     /// <param name="transformExpr"></param>
     /// <returns></returns>
+    [Obsolete("Use TheFifth instead, this method will be removed in next release")]
     IGivenTestPipeline<TSUT, TResult> AFifth<TValue>(
         Func<TValue, TValue> transform,
         [CallerArgumentExpression(nameof(transform))] string? transformExpr = null);

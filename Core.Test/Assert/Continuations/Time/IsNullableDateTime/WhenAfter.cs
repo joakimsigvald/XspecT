@@ -6,13 +6,13 @@ public class WhenAfter : Spec
 {
     [Fact]
     public void GivenAfter_ThenDoesNotThrow()
-        => A<DateTime?>().Is().After(The<DateTime?>().Value.AddDays(-1))
+        => The<DateTime?>().Is().After(The<DateTime?>().Value.AddDays(-1))
         .And.CloseTo(The<DateTime?>().Value, TimeSpan.Zero);
 
     [Fact]
     public void GivenFail_ThenGetException()
     {
-        var a = A<DateTime?>();
+        var a = Another<DateTime?>();
         var b = a.Value.AddDays(1);
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => a.Is().After(b));
         ex.Message.Is("A is after b");

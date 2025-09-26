@@ -1,15 +1,13 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace XspecT;
+﻿namespace XspecT;
 
 public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
 {
-
     /// <summary>
     /// Yields a value of the given type
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
+    [Obsolete("Use The or Another instead, this method will be removed")]
     protected internal TValue A<TValue>() => _pipeline.Mention<TValue>();
 
     /// <summary>
@@ -17,6 +15,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
+    [Obsolete("Use The or Another instead, this method will be removed")]
     protected internal TValue An<TValue>() => _pipeline.Mention<TValue>();
 
     /// <summary>
@@ -40,6 +39,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
+    [Obsolete("Use TheFirst instead, this method will be removed")]
     protected internal TValue AFirst<TValue>() => _pipeline.Mention<TValue>();
 
     /// <summary>
@@ -55,7 +55,8 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
     /// <returns></returns>
-    protected internal TValue A<TValue>(Action<TValue> setup) 
+    [Obsolete("Use The or Another instead, this method will be removed")]
+    protected internal TValue A<TValue>(Action<TValue> setup)
         => _pipeline.Apply(setup, 0);
 
     /// <summary>
@@ -64,6 +65,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
     /// <returns></returns>
+    [Obsolete("Use The or Another instead, this method will be removed")]
     protected internal TValue An<TValue>(Action<TValue> setup)
         => _pipeline.Apply(setup, 0);
 
@@ -73,6 +75,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
     /// <returns></returns>
+    [Obsolete("Use The or Another instead, this method will be removed")]
     protected internal TValue AFirst<TValue>(Action<TValue> setup)
         => _pipeline.Apply(setup, 0);
 
@@ -82,6 +85,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="transform"></param>
     /// <returns></returns>
+    [Obsolete("Use The or Another instead, this method will be removed")]
     protected internal TValue A<TValue>(Func<TValue, TValue> transform) => _pipeline.Apply(transform, 0);
 
     /// <summary>
@@ -90,6 +94,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="transform"></param>
     /// <returns></returns>
+    [Obsolete("Use The or Another instead, this method will be removed")]
     protected internal TValue An<TValue>(Func<TValue, TValue> transform) => _pipeline.Apply(transform, 0);
 
     /// <summary>
@@ -98,6 +103,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="transform"></param>
     /// <returns></returns>
+    [Obsolete("Use TheFirst instead, this method will be removed")]
     protected internal TValue AFirst<TValue>(Func<TValue, TValue> transform) => _pipeline.Apply(transform, 0);
 
     /// <summary>
@@ -106,6 +112,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="value"></param>
     /// <returns></returns>
+    [Obsolete("Use TheFirst instead, this method will be removed")]
     protected internal TValue AFirst<TValue>(TValue value) => _pipeline.Assign(0, value);
 
     /// <summary>
@@ -114,7 +121,16 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="value"></param>
     /// <returns></returns>
+    [Obsolete("Use The instead, this method will be removed")]
     protected internal TValue A<TValue>(TValue value) => _pipeline.Assign(0, value);
+
+    /// <summary>
+    /// Provide a specific value of the given type, that can be referenced at different points of the test, with the keywords, A, An or The
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    protected internal TValue The<TValue>(TValue value) => _pipeline.Assign(0, value);
 
     /// <summary>
     /// Yields a second value of the given type
@@ -128,6 +144,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
+    [Obsolete("Use TheSecond instead, this method will be removed")]
     protected internal TValue ASecond<TValue>() => _pipeline.Mention<TValue>(1);
 
     /// <summary>
@@ -136,6 +153,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
     /// <returns></returns>
+    [Obsolete("Use TheSecond instead, this method will be removed")]
     protected internal TValue ASecond<TValue>(Action<TValue> setup) => _pipeline.Apply(setup, 1);
 
     /// <summary>
@@ -144,6 +162,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="transform"></param>
     /// <returns></returns>
+    [Obsolete("Use TheSecond instead, this method will be removed")]
     protected internal TValue ASecond<TValue>(Func<TValue, TValue> transform) => _pipeline.Apply(transform, 1);
 
     /// <summary>
@@ -152,6 +171,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="value"></param>
     /// <returns></returns>
+    [Obsolete("Use TheSecond instead, this method will be removed")]
     protected internal TValue ASecond<TValue>(TValue value) => _pipeline.Assign(1, value);
 
     /// <summary>
@@ -166,6 +186,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
+    [Obsolete("Use TheThird instead, this method will be removed")]
     protected internal TValue AThird<TValue>() => _pipeline.Mention<TValue>(2);
 
     /// <summary>
@@ -174,6 +195,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
     /// <returns></returns>
+    [Obsolete("Use TheThird instead, this method will be removed")]
     protected internal TValue AThird<TValue>(Action<TValue> setup) => _pipeline.Apply(setup, 2);
 
     /// <summary>
@@ -182,6 +204,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="transform"></param>
     /// <returns></returns>
+    [Obsolete("Use TheThird instead, this method will be removed")]
     protected internal TValue AThird<TValue>(Func<TValue, TValue> transform) => _pipeline.Apply(transform, 2);
 
     /// <summary>
@@ -190,6 +213,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="value"></param>
     /// <returns></returns>
+    [Obsolete("Use TheThird instead, this method will be removed")]
     protected internal TValue AThird<TValue>(TValue value) => _pipeline.Assign(2, value);
 
     /// <summary>
@@ -204,6 +228,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
+    [Obsolete("Use TheFourth instead, this method will be removed")]
     protected internal TValue AFourth<TValue>() => _pipeline.Mention<TValue>(3);
 
     /// <summary>
@@ -212,6 +237,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
     /// <returns></returns>
+    [Obsolete("Use TheFourth instead, this method will be removed")]
     protected internal TValue AFourth<TValue>(Action<TValue> setup) => _pipeline.Apply(setup, 3);
 
     /// <summary>
@@ -220,6 +246,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="transform"></param>
     /// <returns></returns>
+    [Obsolete("Use TheFourth instead, this method will be removed")]
     protected internal TValue AFourth<TValue>(Func<TValue, TValue> transform) => _pipeline.Apply(transform, 3);
 
     /// <summary>
@@ -228,6 +255,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="value"></param>
     /// <returns></returns>
+    [Obsolete("Use TheFourth instead, this method will be removed")]
     protected internal TValue AFourth<TValue>(TValue value) => _pipeline.Assign(3, value);
 
     /// <summary>
@@ -242,6 +270,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
+    [Obsolete("Use TheFifth instead, this method will be removed")]
     protected internal TValue AFifth<TValue>() => _pipeline.Mention<TValue>(4);
 
     /// <summary>
@@ -250,6 +279,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="setup"></param>
     /// <returns></returns>
+    [Obsolete("Use TheFifth instead, this method will be removed")]
     protected internal TValue AFifth<TValue>(Action<TValue> setup) => _pipeline.Apply(setup, 4);
 
     /// <summary>
@@ -258,6 +288,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="value"></param>
     /// <returns></returns>
+    [Obsolete("Use TheFifth instead, this method will be removed")]
     protected internal TValue AFifth<TValue>(TValue value) => _pipeline.Assign(4, value);
 
     /// <summary>
@@ -266,6 +297,7 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="transform"></param>
     /// <returns></returns>
+    [Obsolete("Use TheFifth instead, this method will be removed")]
     protected internal TValue AFifth<TValue>(Func<TValue, TValue> transform) => _pipeline.Apply(transform, 4);
 
     /// <summary>

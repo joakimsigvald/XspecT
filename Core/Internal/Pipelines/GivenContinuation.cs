@@ -54,113 +54,134 @@ internal class GivenContinuation<TSUT, TResult> : IGivenContinuation<TSUT, TResu
         [CallerArgumentExpression(nameof(defaultTransform))] string? defaultTransformExpr = null)
         => _spec.Given(defaultTransform, defaultTransformExpr!);
 
+    [Obsolete("Remove")]
     public IGivenTestPipeline<TSUT, TResult> A<TValue>(
         TValue value,
         [CallerArgumentExpression(nameof(value))] string? valueExpr = null)
         => _spec.Apply<TValue>(() => _spec.A(value), valueExpr!);
 
+    [Obsolete("Remove")]
     public IGivenTestPipeline<TSUT, TResult> A<TValue>(
         Action<TValue> setup,
         [CallerArgumentExpression(nameof(setup))] string? setupExpr = null)
          where TValue : class
         => _spec.Apply<TValue>(() => _spec.A(setup), setupExpr!);
 
+    [Obsolete("Remove")]
     public IGivenTestPipeline<TSUT, TResult> A<TValue>(
         Func<TValue, TValue> transform,
         [CallerArgumentExpression(nameof(transform))] string? transformExpr = null)
         => _spec.Apply<TValue>(() => _spec.A(transform), transformExpr!);
 
+    [Obsolete("Remove")]
     public IGivenTestPipeline<TSUT, TResult> An<TValue>(
         TValue value,
         [CallerArgumentExpression(nameof(value))] string? valueExpr = null)
-        => _spec.Apply<TValue>(() => _spec.A(value), valueExpr!);
+        => _spec.Apply<TValue>(() => _spec.The(value), valueExpr!);
 
+    [Obsolete("Remove")]
     public IGivenTestPipeline<TSUT, TResult> An<TValue>(
         Action<TValue> setup,
         [CallerArgumentExpression(nameof(setup))] string? setupExpr = null)
          where TValue : class
         => _spec.Apply<TValue>(() => _spec.An(setup), setupExpr!);
 
+    [Obsolete("Remove")]
     public IGivenTestPipeline<TSUT, TResult> An<TValue>(
         Func<TValue, TValue> transform,
         [CallerArgumentExpression(nameof(transform))] string? transformExpr = null)
         => _spec.Apply<TValue>(() => _spec.An(transform), transformExpr!);
 
+    [Obsolete("Remove")]
     public IGivenTestPipeline<TSUT, TResult> AFirst<TValue>(
         TValue value,
         [CallerArgumentExpression(nameof(value))] string? valueExpr = null)
         => _spec.Apply<TValue>(() => _spec.AFirst(value), valueExpr!);
 
+    [Obsolete("Remove")]
     public IGivenTestPipeline<TSUT, TResult> AFirst<TValue>(
         Action<TValue> setup,
         [CallerArgumentExpression(nameof(setup))] string? setupExpr = null)
          where TValue : class
         => _spec.Apply<TValue>(() => _spec.AFirst(setup), setupExpr!);
 
+    [Obsolete("Remove")]
     public IGivenTestPipeline<TSUT, TResult> AFirst<TValue>(
         Func<TValue, TValue> transform,
         [CallerArgumentExpression(nameof(transform))] string? transformExpr = null)
         => _spec.Apply<TValue>(() => _spec.AFirst(transform), transformExpr!);
 
+    [Obsolete("Remove")]
     public IGivenTestPipeline<TSUT, TResult> ASecond<TValue>(
         TValue value,
         [CallerArgumentExpression(nameof(value))] string? valueExpr = null)
         => _spec.Apply<TValue>(() => _spec.ASecond(value), valueExpr!);
 
+    [Obsolete("Remove")]
     public IGivenTestPipeline<TSUT, TResult> ASecond<TValue>(
         Action<TValue> setup,
         [CallerArgumentExpression(nameof(setup))] string? setupExpr = null)
          where TValue : class
         => _spec.Apply<TValue>(() => _spec.ASecond(setup), setupExpr!);
 
+    [Obsolete("Remove")]
     public IGivenTestPipeline<TSUT, TResult> ASecond<TValue>(
         Func<TValue, TValue> transform,
         [CallerArgumentExpression(nameof(transform))] string? transformExpr = null)
         => _spec.Apply<TValue>(() => _spec.ASecond(transform), transformExpr!);
 
+    [Obsolete("Remove")]
     public IGivenTestPipeline<TSUT, TResult> AThird<TValue>(
         TValue value,
         [CallerArgumentExpression(nameof(value))] string? valueExpr = null)
         => _spec.Apply<TValue>(() => _spec.AThird(value), valueExpr!);
 
+    [Obsolete("Remove")]
     public IGivenTestPipeline<TSUT, TResult> AThird<TValue>(
         Action<TValue> setup,
         [CallerArgumentExpression(nameof(setup))] string? setupExpr = null)
          where TValue : class
         => _spec.Apply<TValue>(() => _spec.AThird(setup), setupExpr!);
 
+    [Obsolete("Remove")]
     public IGivenTestPipeline<TSUT, TResult> AThird<TValue>(
         Func<TValue, TValue> transform,
         [CallerArgumentExpression(nameof(transform))] string? transformExpr = null)
         => _spec.Apply<TValue>(() => _spec.AThird(transform), transformExpr!);
 
+    [Obsolete("Remove")]
     public IGivenTestPipeline<TSUT, TResult> AFourth<TValue>(
         TValue value,
         [CallerArgumentExpression(nameof(value))] string? valueExpr = null)
         => _spec.Apply<TValue>(() => _spec.AFourth(value), valueExpr!);
 
+    [Obsolete("Remove")]
     public IGivenTestPipeline<TSUT, TResult> AFourth<TValue>(
         Action<TValue> setup,
         [CallerArgumentExpression(nameof(setup))] string? setupExpr = null)
          where TValue : class
         => _spec.Apply<TValue>(() => _spec.AFourth(setup), setupExpr!);
 
+    [Obsolete("Remove")]
     public IGivenTestPipeline<TSUT, TResult> AFourth<TValue>(
         Func<TValue, TValue> transform,
         [CallerArgumentExpression(nameof(transform))] string? transformExpr = null)
         => _spec.Apply<TValue>(() => _spec.AFourth(transform), transformExpr!);
 
+    [Obsolete("Remove")]
     public IGivenTestPipeline<TSUT, TResult> AFifth<TValue>(
         TValue value,
         [CallerArgumentExpression(nameof(value))] string? valueExpr = null)
         => _spec.Apply<TValue>(() => _spec.AFifth(value), valueExpr!);
 
+    [Obsolete("Remove")]
     public IGivenTestPipeline<TSUT, TResult> AFifth<TValue>(
         Action<TValue> setup,
         [CallerArgumentExpression(nameof(setup))] string? setupExpr = null)
          where TValue : class
         => _spec.Apply<TValue>(() => _spec.AFifth(setup), setupExpr!);
 
+    [Obsolete("Remove")]
     public IGivenTestPipeline<TSUT, TResult> AFifth<TValue>(
         Func<TValue, TValue> transform,
         [CallerArgumentExpression(nameof(transform))] string? transformExpr = null)

@@ -7,7 +7,7 @@ public class WhenNullableDateTime : Spec<DateTime?>
     [Fact]
     public void IsSame()
     {
-        When(_ => A(_)).Then().Result.Is(The<DateTime?>())
+        When(_ => The(_)).Then().Result.Is(The<DateTime?>())
             .And.Not().Null();
         Specification.Is(
             """
@@ -20,7 +20,7 @@ public class WhenNullableDateTime : Spec<DateTime?>
     [Fact]
     public void IsSameNotNullable()
     {
-        When(_ => A(_)).Then().Result.Is(The<DateTime?>().Value)
+        When(_ => The(_)).Then().Result.Is(The<DateTime?>().Value)
             .And.CloseTo(The<DateTime?>().Value, TimeSpan.Zero);
         Specification.Is(
             """
@@ -44,7 +44,7 @@ public class WhenNullableDateTime : Spec<DateTime?>
     [Fact]
     public void IsBeforeEtc()
     {
-        Given((DateTime?)DateTime.Now).When(_ => A(_));
+        Given((DateTime?)DateTime.Now).When(_ => The(_));
         Result.Is().Before(The<DateTime?>().Value.AddDays(1)).And.After(The<DateTime?>().Value.AddDays(-1));
         Result.Is().Not().Before(The<DateTime?>().Value);
         Result.Is().Not().After(The<DateTime?>().Value);
