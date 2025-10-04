@@ -55,7 +55,7 @@ public class WhenArray : Spec<int[]>
     public void IsNotEmptyAndSingle()
     {
         var values = new[] { 1 };
-        values.Is().Not().Empty().And.Has().Single(it => it == 1);
+        values.Is().Not().Empty().And.Has().OneItem(it => it == 1);
         Specification.Is(
             """
             Values is not empty

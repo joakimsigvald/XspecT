@@ -8,19 +8,6 @@ namespace XspecT.Assert.Continuations.Enumerable;
 public record HasEnumerable<TItem> : EnumerableConstraint<TItem, HasEnumerableContinuation<TItem>>
 {
     /// <summary>
-    /// Assert that the enumerable contains a single item
-    /// </summary>
-    /// <returns>A continuation for making additional asserts on the enumerable or accessing the single item</returns>
-    [Obsolete("Use OneItem instead")]
-    public ContinueWithThat<HasEnumerableContinuation<TItem>, TItem> Single()
-    {
-        TItem? theItem = default;
-        return Assert("element",
-            NotNullAnd(actual => theItem = Xunit.Assert.Single(actual)), auxVerb: "have")
-            .AndThat(theItem!);
-    }
-
-    /// <summary>
     /// Assert that the enumerable contains exactly one item
     /// </summary>
     /// <returns>A continuation for making additional asserts on the enumerable or accessing the one item</returns>
@@ -118,25 +105,6 @@ public record HasEnumerable<TItem> : EnumerableConstraint<TItem, HasEnumerableCo
                 fifthItem = items[4];
             }), auxVerb: "have")
             .AndThat((firstItem!, secondItem!, thirdItem!, fourthItem!, fifthItem!));
-    }
-
-    /// <summary>
-    /// Assert that the enumerable contains a single item satisfying the given condition
-    /// </summary>
-    /// <param name="condition"></param>
-    /// <param name="expectedExpr">Ignore, provided by runtime</param>
-    /// <returns>A continuation for making additional asserts on the enumerable or accessing the single item</returns>
-    [Obsolete("Use OneItem instead")]
-    public ContinueWithThat<HasEnumerableContinuation<TItem>, TItem> Single(
-        Func<TItem, bool> condition, [CallerArgumentExpression(nameof(condition))] string? expectedExpr = null)
-    {
-        TItem? theItem = default;
-        return Assert(
-                "element satisfying the condition",
-                NotNullAnd(actual => theItem = Xunit.Assert.Single(actual, new Predicate<TItem>(condition))),
-                expectedExpr!,
-                "have")
-            .AndThat(theItem!);
     }
 
     /// <summary>

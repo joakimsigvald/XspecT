@@ -48,7 +48,7 @@ public abstract class WhenAddItem : ShoppingServiceAsyncSpec<ShoppingCart>
         [Fact]
         public void ThenCartHasOneItem()
         {
-            Result.Items.Has().Single();
+            Result.Items.Has().OneItem();
             Specification.Is(
                 """
                 Given CartItems ??= []
