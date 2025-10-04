@@ -33,4 +33,12 @@ public class WhenList : Spec<List<string>>
         list1.Is().EquivalentTo(list2);
         Specification.Is("List1 is equivalent to list2");
     }
+
+    [Fact]
+    public void ChainAssertions()
+    {
+        When(_ => ["1", "2", "3"])
+        .Then().Result.Is().Not().Null().And.Not().Empty()
+        .And.Has().All((it, i) => it.Is($"{i + 1}"));
+    }
 }
