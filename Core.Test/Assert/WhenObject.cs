@@ -78,8 +78,8 @@ public class WhenObject : Spec<object>
         new MyModel(TheFirst<string>(), The<int>()).Has(it => it.Value == TheFirst<string>() && it.Id == The<int>());
         Specification.Is(
             """
-            New MyModel(a first string, an int) has it.Value == TheFirst<string>() && it.Id
-                  == An<int>()
+            New MyModel(the first string, the int) has it.Value == TheFirst<string>() && it.
+                  Id == The<int>()
             """);
     }
 

@@ -11,7 +11,7 @@ public class WhenNullableDateTime : Spec<DateTime?>
             .And.Not().Null();
         Specification.Is(
             """
-            When a _
+            When the _
             Then Result is the DateTime?
                 and not null
             """);
@@ -24,7 +24,7 @@ public class WhenNullableDateTime : Spec<DateTime?>
             .And.CloseTo(The<DateTime?>().Value, TimeSpan.Zero);
         Specification.Is(
             """
-            When a _
+            When the _
             Then Result is the DateTime?'s Value
                 and close to the DateTime?'s Value
             """);
@@ -51,7 +51,7 @@ public class WhenNullableDateTime : Spec<DateTime?>
         Specification.Is(
             """
             Given (DateTime?)DateTime.Now
-            When a _
+            When the _
             Then Result is before the DateTime?'s Value.AddDays(1)
                 and after the DateTime?'s Value.AddDays(-1)
             Result is not before the DateTime?'s Value

@@ -13,7 +13,7 @@ public class WhenIsValueFail : Spec<MyModel>
             => When(_ => new MyModel { Id = The<int>() }).Then().Result.Is().Null());
         ex.Message.Is(
             """
-            When new MyModel { Id = an int }
+            When new MyModel { Id = the int }
             Then Result is null
             """);
         var theInt = The<int>();

@@ -11,7 +11,7 @@ public class WhenNullableTimeSpan : Spec<TimeSpan?>
             .And.Not().Null();
         Specification.Is(
             """
-            When a _
+            When the _
             Then Result is the TimeSpan?
                 and not null
             """);
@@ -24,7 +24,7 @@ public class WhenNullableTimeSpan : Spec<TimeSpan?>
             .And.CloseTo(The<TimeSpan?>().Value, TimeSpan.Zero);
         Specification.Is(
             """
-            When a _
+            When the _
             Then Result is the TimeSpan?'s Value
                 and close to the TimeSpan?'s Value
             """);

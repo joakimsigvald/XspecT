@@ -10,7 +10,7 @@ public class WhenDateTime : Spec<DateTime>
         When(_ => The(_)).Then().Result.Is(The<DateTime>());
         Specification.Is(
             """
-            When a _
+            When the _
             Then Result is the DateTime
             """);
     }
@@ -21,7 +21,7 @@ public class WhenDateTime : Spec<DateTime>
         When(_ => The(_)).Then().Result.Is().Not(Another<DateTime>());
         Specification.Is(
             """
-            When a _
+            When the _
             Then Result is not another DateTime
             """);
     }
@@ -36,7 +36,7 @@ public class WhenDateTime : Spec<DateTime>
             .And.Not().After(The<DateTime>());
         Specification.Is(
             """
-            When a _
+            When The
             Then Result is before the DateTime's AddDays(1)
                 and after the DateTime's AddDays(-1)
                 and not before the DateTime
