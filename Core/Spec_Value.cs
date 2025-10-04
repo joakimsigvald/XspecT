@@ -273,7 +273,22 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <returns></returns>
-    protected internal TValue Another<TValue>() => _pipeline.Mention<TValue>((int?)null);
+    protected internal TValue Any<TValue>() => _pipeline.Mention<TValue>(null);
+
+    /// <summary>
+    /// Yields a customized value of the given type that cannot be retrieved again
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="setup"></param>
+    /// <returns></returns>
+    protected internal TValue Any<TValue>(Action<TValue> setup) => _pipeline.Create(setup);
+
+    /// <summary>
+    /// Yields a value of the given type that cannot be retrieved again
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <returns></returns>
+    protected internal TValue Another<TValue>() => _pipeline.Mention<TValue>(null);
 
     /// <summary>
     /// Yields a customized value of the given type that cannot be retrieved again

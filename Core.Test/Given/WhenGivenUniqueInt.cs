@@ -43,11 +43,11 @@ public class WhenGivenUniqueInt : Spec<int[]>
     {
         int range = 10;
         When(_ => [
-            Another<int>(),
-            Another<int>(),
-            Another<int>(),
-            Another<int>(),
-            Another<int>()])
+            Any<int>(),
+            Any<int>(),
+            Any<int>(),
+            Any<int>(),
+            Any<int>()])
             .Given().Default<int>(i => i % range).And().Unique<int>()
             .Then().Result.Is().Distinct()
             .And.Has().All(i => i >= 0 && i < range);
@@ -55,8 +55,7 @@ public class WhenGivenUniqueInt : Spec<int[]>
             """
             Given int is i % range
               and all int are unique
-            When [Another<int>(), Another<int>(), Another<int>(), Another<int>(),
-                  Another<int>()]
+            When [Any<int>(), Any<int>(), Any<int>(), Any<int>(), Any<int>()]
             Then Result is distinct
                 and has all i >= 0 && i < range
             """);
