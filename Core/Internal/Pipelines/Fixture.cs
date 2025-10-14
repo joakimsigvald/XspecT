@@ -89,7 +89,7 @@ internal abstract class Fixture<TSUT>(Fixture<TSUT>? classFixture = null)
 
     public void TearDown()
     {
-        if (classFixture is null)
+        if (classFixture is null && _fixture.IsSetUp)
             _fixture.Dispose();
     }
 }
