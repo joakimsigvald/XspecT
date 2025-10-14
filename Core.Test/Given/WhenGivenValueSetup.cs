@@ -1,4 +1,5 @@
-﻿using XspecT.Assert;
+﻿using AutoFixture;
+using XspecT.Assert;
 using XspecT.Test.TestData;
 
 namespace XspecT.Test.Given;
@@ -80,5 +81,19 @@ public class WhenGivenValueSetup : Spec<MyService, MyModel>
             When _.GetModel()
             Then Result.Name has char.IsLower(_[0])
             """);
+    }
+}
+
+public abstract class WhenGivenValueTransform : Spec<MyModel>
+{
+    public class GivenTransformFails : WhenGivenValueTransform
+    {
+        [Fact]
+        public void ThenThrowsSetupFailed() 
+        {
+            var ex = Xunit.Assert.Throws<SetupFailed>(() => 
+            Given().A<MyModel>(_ => throw new ApplicationException("Error"))
+            .When(_ => A<MyModel>()).Then());
+        }
     }
 }

@@ -47,7 +47,16 @@ internal class Context
                 : _dataProvider.TryGetDefault(typeof(TValue), out var defaultValue)
                 ? (TValue)defaultValue!
                 : Create<TValue>();
-            return transform is null ? newValue : transform(newValue, index.Value);
+            if (transform is null)
+                return newValue;
+            try
+            {
+                return transform(newValue, index.Value);
+            }
+            catch (Exception ex)
+            {
+                throw new SetupFailed("Failed to apply transform", ex);
+            }
         }
     }
 
