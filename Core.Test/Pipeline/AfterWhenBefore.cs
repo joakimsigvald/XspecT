@@ -1,4 +1,5 @@
 ﻿using XspecT.Assert;
+using XspecT.Test.TestData;
 
 namespace XspecT.Test.Pipeline;
 
@@ -48,6 +49,22 @@ public class AfterWhenBefore : Spec<MyStateService, int>
             Before _.Counter = 3
             Before _.Counter = 2
             Then Result is 1
+            """);
+    }
+
+    [Fact]
+    public void GivenSetupFail_ThenDontTearDown()
+    {
+        var ex = Xunit.Assert.Throws<SetupFailed>(() 
+            => Given().A<MyModel>(m => throw new ApplicationException())
+            .When(_ => A<MyModel>())
+            .Before(_ => throw new InvalidOperationException("Unexpected exception"))
+            .Then());
+        ex.InnerException.Has().Type<ApplicationException>();
+        Specification.Is(
+            """
+            Given a MyModel is throw new ApplicationException()
+            Ex.InnerException has type ApplicationException
             """);
     }
 
