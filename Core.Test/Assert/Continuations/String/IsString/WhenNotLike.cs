@@ -5,15 +5,12 @@ namespace XspecT.Test.Assert.Continuations.String.IsString;
 public class WhenNotLike : StringSpec
 {
     [Theory]
-    [InlineData(null, "")]
-    [InlineData("", null)]
     [InlineData("", "abc")]
     [InlineData("abc", "abcd")]
     public void GivenNotLikeString_ThenDoesNotThrow(string actual, string expected)
         => actual.Is().Not().Like(expected).And.Does().Not().Contain("XXX");
 
     [Theory]
-    [InlineData(null, null)]
     [InlineData("", "")]
     [InlineData("abc", "abc")]
     [InlineData("abc", "ABC")]

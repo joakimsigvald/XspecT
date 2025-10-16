@@ -24,7 +24,7 @@ public class WhenNot : Spec
     [Fact]
     public void GivenNull_ThenGetException()
     {
-        object actual = null;
+        object? actual = null;
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => actual.Is().Not(actual));
         ex.Message.Is("Actual is not actual");
         ex.HasInnerMessage($"Expected actual to be not null but found null");

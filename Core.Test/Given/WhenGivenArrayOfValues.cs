@@ -62,7 +62,7 @@ public class WhenGivenArrayOfValues : Spec<MyService, IEnumerable<int>>
     [Fact]
     public void GivenModelHasAnyNoValues_AndGivenTwoValues_ThenModelHasTwoValues()
     {
-        When(_ => _.GetModel().Values)
+        When(_ => _.GetModel()?.Values)
             .Given<MyModel>(_ => _.Values = AnyNumberOf<int>())
             .And(Two<int>())
             .Then().Result.Is(Two<int>());
@@ -78,7 +78,7 @@ public class WhenGivenArrayOfValues : Spec<MyService, IEnumerable<int>>
     [Fact]
     public void GivenModelHasSomeValues_AndGivenZeroValues_ThenModelHasTwoValues()
     {
-        When(_ => _.GetModel().Values)
+        When(_ => _.GetModel()!.Values)
             .Given<MyModel>(_ => _.Values = Some<int>())
             .And(Zero<int>())
             .Then().Result.Has().Count(2);

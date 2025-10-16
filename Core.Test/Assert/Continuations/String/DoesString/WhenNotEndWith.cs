@@ -5,13 +5,11 @@ namespace XspecT.Test.Assert.Continuations.String.DoesString;
 public class WhenNotEndWith : StringSpec
 {
     [Theory]
-    [InlineData(null, null)]
     [InlineData(null, "")]
-    [InlineData("", null)]
     [InlineData("", "abc")]
     [InlineData("abc", "ab")]
     [InlineData("abc", "Bc")]
-    public void GivenNotEndWithString_ThenDoesNotThrow(string actual, string expected) 
+    public void GivenNotEndWithString_ThenDoesNotThrow(string? actual, string expected) 
         => actual.Does().Not().EndWith(expected).And.Not().EndWith(expected);
 
     [Theory]

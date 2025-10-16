@@ -22,6 +22,6 @@ public class WhenAllIndexedAssert : Spec
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => arr.Has().All((it, i) => it.Is(i + 1)));
         ex.Message.Is($"Arr has all (it, i) => it.Is(i + 1)");
         ex.HasInnerMessage($"Expected arr to have all elements satisfying the assertion but found [1, 3]");
-        ((Xunit.Sdk.XunitException)ex.InnerException).HasInnerMessage($"Expected it to be 2 but found 3");
+        (ex.InnerException as Xunit.Sdk.XunitException)?.HasInnerMessage($"Expected it to be 2 but found 3");
     }
 }

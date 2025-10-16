@@ -5,7 +5,7 @@
 /// </summary>
 /// <typeparam name="TActual"></typeparam>
 /// <param name="actual"></param>
-public class ContinueWithActual<TActual>(TActual? actual)
+public class ContinueWithNullableActual<TActual>(TActual? actual)
 {
     /// <summary>
     /// Continuation to apply additional assertions on the value
@@ -16,4 +16,22 @@ public class ContinueWithActual<TActual>(TActual? actual)
     /// Continuation to apply additional assertions on the value
     /// </summary>
     public TActual? But => actual;
+}
+
+/// <summary>
+/// 
+/// </summary>
+/// <typeparam name="TActual"></typeparam>
+/// <param name="actual"></param>
+public class ContinueWithActual<TActual>(TActual actual)
+{
+    /// <summary>
+    /// Continuation to apply additional assertions on the value
+    /// </summary>
+    public TActual And => actual;
+
+    /// <summary>
+    /// Continuation to apply additional assertions on the value
+    /// </summary>
+    public TActual But => actual;
 }

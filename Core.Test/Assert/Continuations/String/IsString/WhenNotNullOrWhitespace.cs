@@ -12,7 +12,7 @@ public class WhenNotNullOrWhitespace : StringSpec
     [InlineData(null)]
     [InlineData("")]
     [InlineData(" ")]
-    public void GivenNullOrWhitespace_ThenGetException(string actual)
+    public void GivenNullOrWhitespace_ThenGetException(string? actual)
     {
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => actual.Is().Not().NullOrWhitespace());
         ex.Message.Is("Actual is not null or whitespace");

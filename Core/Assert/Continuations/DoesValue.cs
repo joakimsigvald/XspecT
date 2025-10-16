@@ -8,6 +8,6 @@ internal record DoesValue<TValue> : Constraint<TValue, DoesValue<TValue>>
         Func<TValue?, bool> condition, string? conditionExpr = null)
     {
         Assert(conditionExpr!.ParseValue(), actual => Xunit.Assert.True(condition(actual)), conditionExpr!, "", verbalizationStrategy: VerbalizationStrategy.PresentSingularS);
-        return new(Actual);
+        return new(Actual!);
     }
 }

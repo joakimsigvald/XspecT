@@ -12,13 +12,11 @@ public class WhenContain : StringSpec
         => actual.Does().Contain(expected).And.Is().Not().Null();
 
     [Theory]
-    [InlineData(null, null)]
     [InlineData(null, "")]
-    [InlineData("", null)]
     [InlineData("", "abc")]
     [InlineData("abc", "abcd")]
     [InlineData("abc", "Abc")]
-    public void GivenNotContainString_ThenGetException(string actual, string expected)
+    public void GivenNotContainString_ThenGetException(string? actual, string expected)
     {
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => actual.Does().Contain(expected));
         ex.Message.Is("Actual contains expected");

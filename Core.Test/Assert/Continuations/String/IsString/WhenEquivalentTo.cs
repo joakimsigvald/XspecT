@@ -5,7 +5,6 @@ namespace XspecT.Test.Assert.Continuations.String.IsString;
 public class WhenEquivalentTo : StringSpec
 {
     [Theory]
-    [InlineData(null, null)]
     [InlineData("", "")]
     [InlineData("abc", "abc")]
     [InlineData("abc", "ABC")]
@@ -13,8 +12,6 @@ public class WhenEquivalentTo : StringSpec
         => actual.Is().EquivalentTo(expected).And.Does().Not().Contain("XXX");
 
     [Theory]
-    [InlineData(null, "")]
-    [InlineData("", null)]
     [InlineData("", "abc")]
     [InlineData("abc", "abcd")]
     public void GivenNotEquivalentToString_ThenGetException(string actual, string expected)

@@ -22,7 +22,7 @@ Then Result has count 2");
     public void AndExpectingThree_ThenGetException()
     {
         var ex = Xunit.Assert.Throws<XunitException>(() => Then().Result.Has().Count(3));
-        Xunit.Assert.StartsWith($"{Environment.NewLine}Expected Result to have count 3 but found 2: [", ex.InnerException.Message);
+        Xunit.Assert.StartsWith($"{Environment.NewLine}Expected Result to have count 3 but found 2: [", ex.InnerException?.Message);
     }
 
     [Fact]

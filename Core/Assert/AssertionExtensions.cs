@@ -73,27 +73,11 @@ public static class AssertionExtensions
     /// <typeparam name="TActual"></typeparam>
     /// <param name="actual"></param>
     /// <param name="condition"></param>
-    /// <param name="actualExpr"></param>
-    /// <param name="conditionExpr"></param>
-    /// <returns></returns>
-    [Obsolete("Use Has instead")]
-    public static ContinueWithActual<TActual> Satisfies<TActual>(
-        this TActual actual, Func<TActual?, bool> condition,
-        [CallerArgumentExpression(nameof(actual))] string? actualExpr = null,
-        [CallerArgumentExpression(nameof(condition))] string? conditionExpr = null)
-        => Has(actual, condition, actualExpr, conditionExpr);
-
-    /// <summary>
-    /// Verify that the value satisfies a given condition
-    /// </summary>
-    /// <typeparam name="TActual"></typeparam>
-    /// <param name="actual"></param>
-    /// <param name="condition"></param>
     /// <param name="actualExpr">Provided by runtime</param>
     /// <param name="conditionExpr">Provided by runtime</param>
     /// <returns></returns>
     public static ContinueWithActual<TActual> Has<TActual>(
-        this TActual actual, Func<TActual?, bool> condition,
+        this TActual actual, Func<TActual, bool> condition,
         [CallerArgumentExpression(nameof(actual))] string? actualExpr = null,
         [CallerArgumentExpression(nameof(condition))] string? conditionExpr = null)
     {

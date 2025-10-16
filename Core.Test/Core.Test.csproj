@@ -6,7 +6,7 @@
     <AssemblyName>XspecT.Test</AssemblyName>
     <RootNamespace>XspecT.Test</RootNamespace>
     <IsTestProject>true</IsTestProject>
-    <Nullable></Nullable>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>

@@ -64,7 +64,7 @@ public record IsString : StringConstraint<IsStringContinuation>
     /// <param name="expectedExpr"></param>
     /// <returns></returns>
     public ContinueWith<IsStringContinuation> Not(
-        string expected, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
+        string? expected, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
         => Assert(
             Describe(expected),
             actual => NotEqual(actual, expected), 

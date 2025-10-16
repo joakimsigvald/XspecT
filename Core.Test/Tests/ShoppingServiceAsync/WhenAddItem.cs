@@ -6,7 +6,7 @@ namespace XspecT.Test.Tests.ShoppingServiceAsync;
 public abstract class WhenAddItem : ShoppingServiceAsyncSpec<ShoppingCart>
 {
     protected int CartId = 123;
-    protected ShoppingCartItem[] CartItems;
+    protected ShoppingCartItem[] CartItems = [];
     protected readonly ShoppingCartItem NewItem = new("N1");
 
     protected WhenAddItem()

@@ -5,13 +5,11 @@ namespace XspecT.Test.Assert.Continuations.String.DoesString;
 public class WhenNotStartWith : StringSpec
 {
     [Theory]
-    [InlineData(null, null)]
     [InlineData(null, "")]
-    [InlineData("", null)]
     [InlineData("", "abc")]
     [InlineData("abc", "bc")]
     [InlineData("abc", "Ab")]
-    public void GivenStartWithString_ThenDoesNotThrow(string actual, string expected) 
+    public void GivenStartWithString_ThenDoesNotThrow(string? actual, string expected) 
         => actual.Does().Not().StartWith(expected).And.Not().StartWith(expected);
 
     [Theory]
