@@ -17,7 +17,6 @@ public class WhenNotCloseTo : Spec
         var b = a.AddDays(1);
         var tolerance = TimeSpan.FromDays(1);
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => a.Is().Not().CloseTo(b, tolerance));
-        ex.Message.Is("A is not close to b");
-        ex.HasInnerMessage($"Expected a to not be close to {b} but found {a}");
+        ex.HasMessage($"Expected a to not be close to {b} but found {a}", "A is not close to b");
     }
 }

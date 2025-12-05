@@ -118,12 +118,16 @@ public static class AssertionExtensions
         return actual;
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="ex"></param>
-    /// <param name="expected"></param>
-    internal static void HasInnerMessage(this Xunit.Sdk.XunitException ex, string expected) 
+    internal static void HasMessage(this Xunit.Sdk.XunitException ex, string error, string? spec = null)
+    {
+        ex.Message.Is(error);
+        if (spec is null)
+            return;
+
+        ex.HasInnerMessage(spec);
+    }
+
+    private static void HasInnerMessage(this Xunit.Sdk.XunitException ex, string expected)
         => SplitInnerExceptionMessage(ex)[0].Is($"{Environment.NewLine}{expected}{Environment.NewLine}");
 
     /// <summary>
@@ -141,6 +145,6 @@ public static class AssertionExtensions
     {
         var innerEx = ex.InnerException;
         innerEx!.Is().Not().Null();
-        return innerEx!.Message.Split("---");
+        return innerEx!.Message.Split("----");
     }
 }

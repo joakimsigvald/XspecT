@@ -37,8 +37,8 @@ public class WhenOneItemCondition : Spec
     {
         int[] arr = [999];
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => arr.Has().OneItem(it => it == 123));
-        ex.Message.Is($"Arr has one item it = 123");
-        ex.HasInnerMessage($"Expected arr to have one item satisfying the condition but found 1: [999]");
+        ex.HasMessage($"Expected arr to have one item satisfying the condition but found 1: [999]",
+            "Arr has one item it = 123");
     }
 
     [Fact]
@@ -46,8 +46,8 @@ public class WhenOneItemCondition : Spec
     {
         int[] arr = Zero<int>();
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => arr.Has().OneItem(it => it == 123));
-        ex.Message.Is($"Arr has one item it = 123");
-        ex.HasInnerMessage($"Expected arr to have one item satisfying the condition but found 0: []");
+        ex.HasMessage($"Expected arr to have one item satisfying the condition but found 0: []",
+            "Arr has one item it = 123");
     }
 
     [Fact]
@@ -55,7 +55,7 @@ public class WhenOneItemCondition : Spec
     {
         int[] arr = [1, 3];
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => arr.Has().OneItem(it => it > 0));
-        ex.Message.Is($"Arr has one item it > 0");
-        ex.HasInnerMessage($"Expected arr to have one item satisfying the condition but found 2: [1, 3]");
+        ex.HasMessage($"Expected arr to have one item satisfying the condition but found 2: [1, 3]",
+            "Arr has one item it > 0");
     }
 }

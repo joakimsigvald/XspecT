@@ -13,7 +13,6 @@ public class WhenNull : StringSpec
     {
         var str = "";
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => str.Is().Null());
-        ex.Message.Is("Str is null");
-        ex.HasInnerMessage($"Expected str to be null but found {Describe(str)}");
+        ex.HasMessage($"Expected str to be null but found {Describe(str)}", "Str is null");
     }
 }

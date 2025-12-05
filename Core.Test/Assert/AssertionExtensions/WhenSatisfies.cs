@@ -17,7 +17,7 @@ public class WhenSatisfies : Spec
     {
         MyRecord myRecord = new("XXX");
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => myRecord.Has(_ => _.Name == "Abc"));
-        ex.Message.Is("MyRecord has _.Name == \"Abc\"");
-        ex.HasInnerMessage($"Expected myRecord to have _.Name == \"Abc\" but found {myRecord}");
+        ex.HasMessage($"Expected myRecord to have _.Name == \"Abc\" but found {myRecord}",
+            "MyRecord has _.Name == \"Abc\"");
     }
 }

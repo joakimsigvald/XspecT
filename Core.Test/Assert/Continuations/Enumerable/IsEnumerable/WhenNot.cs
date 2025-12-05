@@ -13,7 +13,6 @@ public class WhenNot : Spec
         int[] arr = [1, 2];
         var arrAgain = arr;
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => arr.Is().Not(arrAgain));
-        ex.Message.Is($"Arr is not arrAgain");
-        ex.HasInnerMessage($"Expected arr to not be [1, 2] but found [1, 2]");
+        ex.HasMessage($"Expected arr to not be [1, 2] but found [1, 2]", "Arr is not arrAgain");
     }
 }

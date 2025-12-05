@@ -13,13 +13,12 @@ public class WhenIsArray : Spec<int[]>
     {
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(()
             => When(_ => _).Then().Result.Is([1, 2, 3]));
-        ex.Message.Is(
+        ex.HasMessage(
+            "Expected Result to be [1, 2, 3] but found [1, 2, 3]",
             """
             Given new int[] { 1, 2, 3 } is default
             When _
             Then Result is [1, 2, 3]
             """);
-        ex.HasInnerMessage(
-            "Expected Result to be [1, 2, 3] but found [1, 2, 3]");
     }
 }

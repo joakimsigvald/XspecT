@@ -30,7 +30,7 @@ public class WhenThreeItemsCondition : Spec
     {
         int[] arr = [1, 2, 3, 4];
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => arr.Has().ThreeItems(it => it > 0));
-        ex.Message.Is($"Arr has three items it > 0");
-        ex.HasInnerMessage($"Expected arr to have three items satisfying the condition but found 4: [1, 2, 3, 4]");
+        ex.HasMessage($"Expected arr to have three items satisfying the condition but found 4: [1, 2, 3, 4]",
+            "Arr has three items it > 0");
     }
 }

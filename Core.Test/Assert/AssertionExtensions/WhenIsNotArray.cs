@@ -14,13 +14,12 @@ public class WhenIsNotArray : Spec<int[]>
         int[] arr = [1, 2];
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(()
             => When(_ => arr).Then().Result.Is().Not(arr));
-        ex.Message.Is(
+        ex.HasMessage(
+            "Expected Result to not be [1, 2] but found [1, 2]",
             """
             Given new int[] { 1, 2, 3 } is default
             When arr
             Then Result is not arr
             """);
-        ex.HasInnerMessage(
-            "Expected Result to not be [1, 2] but found [1, 2]");
     }
 }

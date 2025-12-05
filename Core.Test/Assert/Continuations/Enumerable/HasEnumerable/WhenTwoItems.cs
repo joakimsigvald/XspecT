@@ -32,8 +32,7 @@ public class WhenTwoItems : Spec
     {
         int[] arr = Zero<int>();
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => arr.Has().TwoItems());
-        ex.Message.Is($"Arr has two items");
-        ex.HasInnerMessage($"Expected arr to have two items but found 0: []");
+        ex.HasMessage($"Expected arr to have two items but found 0: []", "Arr has two items");
     }
 
     [Fact]
@@ -41,7 +40,6 @@ public class WhenTwoItems : Spec
     {
         int[] arr = [1, 2, 3];
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => arr.Has().TwoItems());
-        ex.Message.Is($"Arr has two items");
-        ex.HasInnerMessage($"Expected arr to have two items but found 3: [1, 2, 3]");
+        ex.HasMessage($"Expected arr to have two items but found 3: [1, 2, 3]", "Arr has two items");
     }
 }

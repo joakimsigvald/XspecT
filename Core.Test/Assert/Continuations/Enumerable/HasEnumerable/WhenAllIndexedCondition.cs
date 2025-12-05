@@ -20,8 +20,8 @@ public class WhenAllIndexedCondition : Spec
     public void GivenConditionNotSatisfiedForAll_ThenGetException()
     {
         int[] arr = [1, 3];
-        var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => arr.Has().All((it, i) => it == i + 1));
-        ex.Message.Is($"Arr has all (it, i) => it == i + 1");
-        ex.HasInnerMessage($"Expected arr to have all elements satisfying the condition but found [1, 3]");
+        var ex = Xunit.Assert.Throws<XunitException>(() => arr.Has().All((it, i) => it == i + 1));
+        ex.HasMessage($"Expected arr to have all elements satisfying the condition but found [1, 3]",
+            "Arr has all (it, i) => it == i + 1");
     }
 }

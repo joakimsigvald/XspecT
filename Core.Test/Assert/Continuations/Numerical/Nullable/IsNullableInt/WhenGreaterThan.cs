@@ -12,7 +12,6 @@ public class WhenGreaterThan : Spec
     public void GivenFail_ThenGetException(int? a, int b)
     {
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => a.Is().GreaterThan(b));
-        ex.Message.Is("A is greater than b");
-        ex.HasInnerMessage($"Expected a to be greater than {b} but found {a}");
+        ex.HasMessage($"Expected a to be greater than {b} but found {a}", "A is greater than b");
     }
 }

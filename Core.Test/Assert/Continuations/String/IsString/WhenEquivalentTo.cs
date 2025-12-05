@@ -20,7 +20,7 @@ public class WhenEquivalentTo : StringSpec
     public void GivenNotEquivalentToString_ThenGetException(string actual, string expected)
     {
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => actual.Is().EquivalentTo(expected));
-        ex.Message.Is("Actual is equivalent to expected");
-        ex.HasInnerMessage($"Expected actual to be equivalent to {Describe(expected)} but found {Describe(actual)}");
+        ex.HasMessage($"Expected actual to be equivalent to {Describe(expected)} but found {Describe(actual)}",
+            "Actual is equivalent to expected");
     }
 }

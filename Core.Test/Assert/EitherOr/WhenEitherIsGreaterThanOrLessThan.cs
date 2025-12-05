@@ -24,12 +24,12 @@ public class WhenEitherIsGreaterThanOrLessThan : Spec<int>
             () => When(_ => 7)
         .Then().Result.Is().Either
         .GreaterThan(10).Or.LessThan(5));
-        ex.Message.Is("""
+        ex.HasMessage("Expected Result to be greater than 10 but found 7",
+            """
             When 7
             Then Result is either greater than 10
                 or less than 5
             """);
-        ex.HasInnerMessage("Expected Result to be greater than 10 but found 7");
     }
 
     [Fact]

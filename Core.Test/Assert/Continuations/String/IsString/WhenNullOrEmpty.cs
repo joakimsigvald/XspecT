@@ -15,7 +15,6 @@ public class WhenNullOrEmpty : StringSpec
     {
         var str = "abc";
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => str.Is().NullOrEmpty());
-        ex.Message.Is("Str is null or empty");
-        ex.HasInnerMessage($"Expected str to be null or empty but found {Describe(str)}");
+        ex.HasMessage($"Expected str to be null or empty but found {Describe(str)}", "Str is null or empty");
     }
 }

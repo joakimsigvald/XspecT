@@ -17,8 +17,7 @@ public class WhenNot : Spec
     {
         var actual = new object();
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => actual.Is().Not(actual));
-        ex.Message.Is("Actual is not actual");
-        ex.HasInnerMessage($"Expected actual to be not {actual} but found {actual}");
+        ex.HasMessage($"Expected actual to be not {actual} but found {actual}", "Actual is not actual");
     }
 
     [Fact]
@@ -26,7 +25,6 @@ public class WhenNot : Spec
     {
         object actual = null;
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => actual.Is().Not(actual));
-        ex.Message.Is("Actual is not actual");
-        ex.HasInnerMessage($"Expected actual to be not null but found null");
+        ex.HasMessage($"Expected actual to be not null but found null", "Actual is not actual");
     }
 }

@@ -86,7 +86,7 @@ internal class SpecificationBuilder
     internal void AddThat()
     {
         _isChainOfAssertions = true;
-        _textBuilder.AddWord(That);
+        _textBuilder.AddWord(_that);
     }
 
     internal void AddGiven(string valueExpr, ApplyTo applyTo)
@@ -176,5 +176,5 @@ internal class SpecificationBuilder
 
     private string Then => 0 == _thenCount++ ? "Then" : "and";
 
-    private const string That = "that";
+    private const string _that = "that";
 }

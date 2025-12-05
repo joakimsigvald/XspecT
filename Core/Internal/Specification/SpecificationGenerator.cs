@@ -57,9 +57,25 @@ internal static class SpecificationGenerator
         }
         catch (XunitException ex)
         {
-            throw new XunitException(Builder.Specification, ex);
+            var message = ex.Message;
+            var innerXspecTEx = GetExpectedException(ex.InnerException as XunitException);
+            if (innerXspecTEx is not null)
+                message = $"{message}{Environment.NewLine}{innerXspecTEx.Message}";
+            var assignmentList = ListAssignments();
+            var specMessage = $"""
+
+                    {Builder.Specification}
+                    ----
+                    {assignmentList}
+                    """;
+            throw new XunitException(message, new XunitException(specMessage));
         }
     }
+
+    private static XunitException? GetExpectedException(XunitException? ex)
+        => ex is null || ex.Message.StartsWith("Expected")
+            ? ex
+            : GetExpectedException(ex.InnerException as XunitException);
 
     internal static void AddThen() => Builder.Add(Builder.AddThen);
 

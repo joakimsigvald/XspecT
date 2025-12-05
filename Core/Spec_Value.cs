@@ -1,6 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace XspecT;
+﻿namespace XspecT;
 
 public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
 {

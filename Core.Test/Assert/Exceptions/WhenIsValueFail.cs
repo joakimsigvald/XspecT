@@ -11,13 +11,12 @@ public class WhenIsValueFail : Spec<MyModel>
     {
         var ex = Xunit.Assert.Throws<XunitException>(()
             => When(_ => new MyModel { Id = An<int>() }).Then().Result.Is().Null());
-        ex.Message.Is(
+        var theInt = The<int>();
+        ex.HasMessage($"Expected Result to be null but found MyModel {{ Id = {theInt}, Name = , Values =  }}",
             """
             When new MyModel { Id = an int }
             Then Result is null
             """);
-        var theInt = The<int>();
-        ex.HasInnerMessage($"Expected Result to be null but found MyModel {{ Id = {theInt}, Name = , Values =  }}");
         ex.HasAssignments($"int:1 = {theInt}");
     }
 
@@ -26,13 +25,12 @@ public class WhenIsValueFail : Spec<MyModel>
     {
         var ex = Xunit.Assert.Throws<XunitException>(()
             => When(_ => new MyModel { Id = Two<int>()[1] }).Then().Result.Is().Null());
-        ex.Message.Is(
+        var ints = Two<int>();
+        ex.HasMessage($"Expected Result to be null but found MyModel {{ Id = {ints[1]}, Name = , Values =  }}",
             """
             When new MyModel { Id = Two<int>()[1] }
             Then Result is null
             """);
-        var ints = Two<int>();
-        ex.HasInnerMessage($"Expected Result to be null but found MyModel {{ Id = {ints[1]}, Name = , Values =  }}");
         ex.HasAssignments(
             $"""
                 int:1 = {ints[0]}
@@ -47,13 +45,12 @@ public class WhenIsValueFail : Spec<MyModel>
         Tag<int> id = new(nameof(id));
         var ex = Xunit.Assert.Throws<XunitException>(()
             => When(_ => new MyModel { Id = The(id) }).Then().Result.Is().Null());
-        ex.Message.Is(
+        var theInt = The(id);
+        ex.HasMessage($"Expected Result to be null but found MyModel {{ Id = {theInt}, Name = , Values =  }}",
             """
             When new MyModel { Id = the id }
             Then Result is null
             """);
-        var theInt = The(id);
-        ex.HasInnerMessage($"Expected Result to be null but found MyModel {{ Id = {theInt}, Name = , Values =  }}");
         ex.HasAssignments($"int:id = {theInt}");
     }
 }

@@ -154,17 +154,7 @@ public abstract record Constraint<TActual, TContinuation>
         }
 
         Xunit.Sdk.XunitException GetException(Xunit.Sdk.XunitException? innerEx)
-        {
-            var assignmentList = SpecificationGenerator.ListAssignments();
-
-            return new($"""
-
-                    Expected {ActualExpr} to {GetExpectation()} but found {Describe(Actual, methodName!)}
-                    ---
-                    {assignmentList}
-                    """,
-                    GetExpectedException(innerEx));
-        }
+            => new($"Expected {ActualExpr} to {GetExpectation()} but found {Describe(Actual, methodName!)}", innerEx);
 
         string GetExpectation() => $"{GetVerb()} {expected}".Trim();
 
@@ -175,11 +165,6 @@ public abstract record Constraint<TActual, TContinuation>
             + (verbalizationStrategy == VerbalizationStrategy.PresentSingularS ? string.Empty : auxVerb))
             .TrimEnd();
     }
-
-    private static Xunit.Sdk.XunitException? GetExpectedException(Xunit.Sdk.XunitException? ex)
-        => ex is null || ex.Message.StartsWith($"{Environment.NewLine}Expected")
-            ? ex
-            : GetExpectedException(ex.InnerException as Xunit.Sdk.XunitException);
 
     private protected virtual string Describe(TActual? value, string? methodName = null) => value.ParseValue();
 

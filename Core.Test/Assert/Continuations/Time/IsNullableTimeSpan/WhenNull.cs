@@ -11,7 +11,6 @@ public class WhenNull : Spec
     {
         TimeSpan? x = TimeSpan.Zero;
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => x.Is().Null());
-        ex.Message.Is("X is null");
-        ex.HasInnerMessage("Expected x to be null but found 00:00:00");
+        ex.HasMessage("Expected x to be null but found 00:00:00", "X is null");
     }
 }

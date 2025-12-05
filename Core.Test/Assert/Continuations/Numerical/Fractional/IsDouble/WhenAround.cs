@@ -16,7 +16,6 @@ public class WhenAround : Spec
     public void GivenFail_ThenGetException(double a, double b, double precision)
     {
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => a.Is().Around(b, precision));
-        ex.Message.Is($"A is around b");
-        ex.HasInnerMessage($"Expected a to be around {b} but found {a}");
+        ex.HasMessage($"Expected a to be around {b} but found {a}", "A is around b");
     }
 }

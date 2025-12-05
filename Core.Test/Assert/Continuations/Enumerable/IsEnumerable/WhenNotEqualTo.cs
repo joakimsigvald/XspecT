@@ -13,7 +13,6 @@ public class WhenNotEqualTo : Spec
         int[] arr = [1, 2];
         int[] secondArr = [1, 2];
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => arr.Is().Not().EqualTo(secondArr));
-        ex.Message.Is($"Arr is not equal to secondArr");
-        ex.HasInnerMessage($"Expected arr to not be equal to [1, 2] but found [1, 2]");
+        ex.HasMessage($"Expected arr to not be equal to [1, 2] but found [1, 2]", "Arr is not equal to secondArr");
     }
 }

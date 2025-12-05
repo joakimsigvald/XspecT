@@ -12,7 +12,6 @@ public class WhenCount : Spec
     {
         int[] arr = [1];
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => arr.Has().Count(2));
-        ex.Message.Is($"Arr has count 2");
-        ex.HasInnerMessage($"Expected arr to have count 2 but found 1: [1]");
+        ex.HasMessage($"Expected arr to have count 2 but found 1: [1]", "Arr has count 2");
     }
 }

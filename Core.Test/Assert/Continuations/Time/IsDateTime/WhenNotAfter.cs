@@ -16,7 +16,6 @@ public class WhenNotAfter : Spec
         var a = A<DateTime>();
         var b = a.AddDays(-1);
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => a.Is().Not().After(b));
-        ex.Message.Is("A is not after b");
-        ex.HasInnerMessage($"Expected a to not occur after {b} but found {a}");
+        ex.HasMessage($"Expected a to not occur after {b} but found {a}", "A is not after b");
     }
 }

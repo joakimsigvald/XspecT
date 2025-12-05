@@ -12,7 +12,6 @@ public class WhenLessThan : Spec
     public void GivenFail_ThenGetException(int? a, int b)
     {
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => a.Is().LessThan(b));
-        ex.Message.Is("A is less than b");
-        ex.HasInnerMessage($"Expected a to be less than {b} but found {a}");
+        ex.HasMessage($"Expected a to be less than {b} but found {a}", "A is less than b");
     }
 }

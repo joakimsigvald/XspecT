@@ -33,11 +33,11 @@ public class WhenEitherIsEvenOrNotEven : Spec<int>
             () => When(_ => 1)
         .Then().Result.Is().Either
         .Even().Or.Even().Or.Not().Even());
-        ex.Message.Is("""
+        ex.HasMessage("Expected Result to be even but found 1",
+            """
             When 1
             Then Result is either even
                 or even
             """);
-        ex.HasInnerMessage("Expected Result to be even but found 1");
     }
 }

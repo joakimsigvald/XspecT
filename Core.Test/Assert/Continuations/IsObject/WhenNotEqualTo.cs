@@ -14,7 +14,7 @@ public class WhenNotEqualTo : Spec
         var actual = new MyRecord("abc");
         var expected = new MyRecord("abc");
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => actual.Is().Not().EqualTo(expected));
-        ex.Message.Is("Actual is not equal to expected");
-        ex.HasInnerMessage($"Expected actual to not be equal to {expected} but found {actual}");
+        ex.HasMessage($"Expected actual to not be equal to {expected} but found {actual}",
+            "Actual is not equal to expected");
     }
 }
