@@ -95,6 +95,11 @@ internal class GivenTestPipeline<TSUT, TResult>
         [CallerArgumentExpression(nameof(defaultValue))] string? defaultValueExpr = null) 
         => Parent.Given(defaultValue, defaultValueExpr!);
 
+    public IGivenTag<TSUT, TResult, TValue> Given<TValue>(
+        Tag<TValue> tag,
+        [CallerArgumentExpression(nameof(tag))] string? tagExpr = null)
+        => Parent.Given(tag, tagExpr!);
+
     public IGivenTestPipeline<TSUT, TResult> And<TValue>(
         Action<TValue> setup,
         [CallerArgumentExpression(nameof(setup))] string? setupExpr = null) where TValue : class

@@ -52,14 +52,14 @@ public class WhenArray : Spec<int[]>
     }
 
     [Fact]
-    public void IsNotEmptyAndSingle()
+    public void IsNotEmptyAndHasOneItem()
     {
         var values = new[] { 1 };
-        values.Is().Not().Empty().And.Has().Single(it => it == 1);
+        values.Is().Not().Empty().And.Has().OneItem(it => it == 1);
         Specification.Is(
             """
             Values is not empty
-                and has single it = 1
+                and has one item it = 1
             """);
     }
 }

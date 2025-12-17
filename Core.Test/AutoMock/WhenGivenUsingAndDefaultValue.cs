@@ -40,7 +40,7 @@ public class WhenGivenUsingAndDefaultValue : Spec<MyWrapper<string>, (string, st
     {
         Tag<string> def = new();
         Given().Default(() => "ABC").And().Using(def)
-            .And(def).Is("DEF")
+            .Given(def).Is("DEF")
             .When(_ => _.GetValues(A<string>()))
             .Then().Result.Is(("DEF", "ABC"));
         Specification.Is(
@@ -79,7 +79,7 @@ public class WhenGivenUsingAndDefaultModel : Spec<MyWrapper<MyModel>, (MyModel, 
     {
         Tag<MyModel> one = new(), two = new();
         Given().Default(one).And().Using(two)
-            .And(one).Is(_first).And(two).Is(_second)
+            .Given(one).Is(_first).And(two).Is(_second)
             .When(_ => _.GetValues(A<MyModel>()))
             .Then().Result.Is((_second, _first));
         Specification.Is(
