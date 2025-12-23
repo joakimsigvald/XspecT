@@ -19,7 +19,9 @@ public class Tag<TValue>(string? name = null)
     /// <summary>
     /// The name of the tag is used when printing the tag value on test failed
     /// </summary>
-    public string Name { get; init; } = name ?? $"Tag_{++_nextNumber}";
+    public string Name { get; init; } = name ?? $"Tag_{Next()}";
 
-    [ThreadStatic] private static int _nextNumber;
+    private static int _nextNumber;
+
+    private static int Next() => Interlocked.Increment(ref _nextNumber);
 }
