@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq.Expressions;
 
 namespace XspecT.Internal.Specification;
 
@@ -13,4 +14,10 @@ internal static class ObjectExtensions
             bool b => b ? "true" : "false",
             _ => value.ToString()
         } ?? "null";
+
+    internal static string ParseValue<TItem>(this Expression<Func<TItem, bool>> condition)
+    {
+        var str = condition.ToString();
+        return str;
+    }
 }
