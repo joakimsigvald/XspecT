@@ -8,19 +8,6 @@ namespace XspecT.Assert.Continuations.Enumerable;
 public record HasEnumerable<TItem> : EnumerableConstraint<TItem, HasEnumerableContinuation<TItem>>
 {
     /// <summary>
-    /// Assert that the enumerable contains a single item
-    /// </summary>
-    /// <returns>A continuation for making additional asserts on the enumerable or accessing the single item</returns>
-    [Obsolete("Use OneItem instead")]
-    public ContinueWithThat<HasEnumerableContinuation<TItem>, TItem> Single()
-    {
-        TItem? theItem = default;
-        return Assert("element",
-            NotNullAnd(actual => theItem = Xunit.Assert.Single(actual)), auxVerb: "have")
-            .AndThat(theItem!);
-    }
-
-    /// <summary>
     /// Assert that the enumerable contains exactly one item
     /// </summary>
     /// <returns>A continuation for making additional asserts on the enumerable or accessing the one item</returns>
@@ -259,6 +246,50 @@ public record HasEnumerable<TItem> : EnumerableConstraint<TItem, HasEnumerableCo
     public ContinueWith<HasEnumerableContinuation<TItem>> Count(
         int expected, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
         => Assert(expected, NotNullAnd(actual => Xunit.Assert.Equal(expected, actual.Count())), expectedExpr!, "have").And();
+
+    /// <summary>
+    /// Assert that the enumerable has at least the given count
+    /// </summary>
+    /// <param name="expected">Lowest allowed count</param>
+    /// <param name="expectedExpr">Ignore, provided by runtime</param>
+    /// <returns>A continuation for making additional asserts on the enumerable</returns>
+    public ContinueWith<HasEnumerableContinuation<TItem>> CountAtLeast(
+        int expected, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
+        => Assert(expected, NotNullAnd(actual => Xunit.Assert.True(actual.Count() >= expected)), $"'{expectedExpr}' = {expected}", "have").And();
+
+    /// <summary>
+    /// Assert that the enumerable has at most the given count
+    /// </summary>
+    /// <param name="expected">Highest allowed count</param>
+    /// <param name="expectedExpr">Ignore, provided by runtime</param>
+    /// <returns>A continuation for making additional asserts on the enumerable</returns>
+    public ContinueWith<HasEnumerableContinuation<TItem>> CountAtMost(
+        int expected, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
+        => Assert(expected, NotNullAnd(actual => Xunit.Assert.True(actual.Count() <= expected)), $"'{expectedExpr}' = {expected}", "have").And();
+
+    /// <summary>
+    /// Assert that the enumerable has count between (including) from and to
+    /// </summary>
+    /// <param name="from">Lowest allowed count</param>
+    /// <param name="to">Highest allowed count</param>
+    /// <param name="fromExpr">Ignore, provided by runtime</param>
+    /// <param name="toExpr">Ignore, provided by runtime</param>
+    /// <returns>A continuation for making additional asserts on the enumerable</returns>
+    public ContinueWith<HasEnumerableContinuation<TItem>> CountInRange(
+        int from,
+        int to,
+        [CallerArgumentExpression(nameof(from))] string? fromExpr = null,
+        [CallerArgumentExpression(nameof(to))] string? toExpr = null)
+    {
+        if (from > to)
+            throw new SetupFailed("Given range must be in ascending order");
+
+        return Assert(from, NotNullAnd(actual =>
+        {
+            var actualCount = actual.Count();
+            Xunit.Assert.True(actualCount >= from && actualCount <= to);
+        }), $"['{fromExpr}', '{toExpr}'] = [{from}, {to}]", "have").And();
+    }
 
     /// <summary>
     /// Assert that the all the items of the enumerable satisfy the given indexed condition.

@@ -10,12 +10,12 @@ public class GivenOneSpecificElement : WhenList
     [Fact]
     public void ThenElementCanBeRetrieved()
     {
-        Then().Result.Has().Single().That.Is(_theModel);
+        Then().Result.Has().OneItem().That.Is(_theModel);
         Specification.Is(
 @"Given one MyModel is _theModel
   and IMyRepository.List() returns a MyModel[]
 When _.List()
-Then Result has single that is _theModel");
+Then Result has one item that is _theModel");
     }
 }
 

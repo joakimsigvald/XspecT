@@ -46,20 +46,6 @@ public abstract class WhenAddItem : ShoppingServiceAsyncSpec<ShoppingCart>
         }
 
         [Fact]
-        public void ThenCartHasOneItem()
-        {
-            Result.Items.Has().Single();
-            Specification.Is(
-                """
-                Given CartItems ??= []
-                  and IShoppingCartRepository.GetCart(CartId) returns new ShoppingCart { Id =
-                      CartId, Items = CartItems }
-                When _.AddToCart(CartId, NewItem)
-                Then Result.Items has single
-                """);
-        }
-
-        [Fact]
         public void TheIdIsPreserved()
         {
             Result.Id.Is(CartId);

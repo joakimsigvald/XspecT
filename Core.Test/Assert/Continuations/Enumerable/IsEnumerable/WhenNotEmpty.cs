@@ -5,7 +5,7 @@ namespace XspecT.Test.Assert.Continuations.Enumerable.IsEnumerable;
 public class WhenNotEmpty : Spec
 {
     [Fact]
-    public void GivenNotEmpty_ThenDoesNotThrow() => One<int>().Is().Not().Empty().And.Has().Single();
+    public void GivenNotEmpty_ThenDoesNotThrow() => One<int>().Is().Not().Empty().And.Has().OneItem();
 
     [Fact]
     public void GivenEmpty_ThenGetException()
