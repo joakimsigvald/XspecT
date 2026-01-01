@@ -14,10 +14,10 @@ public class WhenSomeOtherWithIndexedSetup : Spec<MyRetriever, MyModel[]>
         Result.Has().Count(The<int>());
         Result.Has().All((m, i) => m.Id == i);
         Specification.Is(
-            """
+            $$$"""
             Given some other MyModel { Id = i, An<int>(i => 1 + i % 10) }
             When _.List()
-            Then Result has count the int
+            Then Result has count 'the int' = {{{The<int>()}}}
             Result has all Id = i
             """);
     }

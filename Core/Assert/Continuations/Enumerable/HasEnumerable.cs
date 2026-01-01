@@ -382,6 +382,7 @@ public record HasEnumerable<TItem> : EnumerableConstraint<TItem, HasEnumerableCo
     {
         if (from > to)
             throw new SetupFailed("Given range must be in ascending order");
+
         var expectedStr = $"between {Express(fromExpr, from)} and {Express(toExpr, to)} items where {conditionExpr}";
         return Assert(expectedStr, NotNullAnd(actual =>
         {
@@ -395,7 +396,7 @@ public record HasEnumerable<TItem> : EnumerableConstraint<TItem, HasEnumerableCo
     private static string Express<TValue>(string? valueExpr, TValue value) 
     {
         var valueStr = value.ParseValue();
-        return valueExpr is null || valueExpr == valueStr ? valueStr : $"'{valueExpr}' = {value}";
+        return valueExpr is null || valueExpr == valueStr ? valueStr : $"'{valueExpr.ParseValue()}' = {value}";
     }
 
     /// <summary>
