@@ -2,6 +2,7 @@
 using AutoFixture.Kernel;
 using Moq;
 using Moq.AutoMock;
+using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
 
 namespace XspecT.Internal.TestData;
@@ -11,6 +12,7 @@ internal class TestDataGenerator
     private readonly AutoMocker _mocker;
     private readonly Fixture _fixture;
     private readonly Fixture _defaultFixture;
+    private readonly ConcurrentBag<Type> _usages = [];
 
     internal TestDataGenerator(Fixture fixture, AutoMocker mocker)
     {
@@ -31,10 +33,15 @@ internal class TestDataGenerator
 
     internal void Use<TService>([DisallowNull] TService service)
     {
-        _mocker.Use(service);
         var type = typeof(TService);
+        if (_usages.Contains(type))
+            return;
+
+        _usages.Add(type);
+        _mocker.Use(service);
         if (type != service.GetType()) //Explicit cast was provided, so don't use implicit cast to all interfaces
             return;
+
         var allInterfaces = type.GetInterfaces();
         foreach (var anInterface in allInterfaces)
             _mocker.Use(anInterface, service);
