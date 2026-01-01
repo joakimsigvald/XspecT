@@ -15,6 +15,12 @@ public abstract record EnumerableConstraint<TItem, TContinuation> : Constraint<I
             ? $"{col.Count}: {DescribeAtMostFive(col)}"
             : DescribeAtMostFive(value);
 
+    private protected static string Express<TValue>(string? valueExpr, TValue value)
+    {
+        var valueStr = value.ParseValue();
+        return valueExpr is null || valueExpr == valueStr ? valueStr : $"'{valueExpr.ParseValue()}' = {value}";
+    }
+
     private static string DescribeAtMostFive(IEnumerable<TItem>? value) 
         => value?.Count() > 5
             ? '[' + string.Join(", ", value.Take(4).Select(it => it.ParseValue()).Append("...")) + ']'

@@ -1,5 +1,4 @@
-﻿using System.Linq.Expressions;
-using XspecT.Assert;
+﻿using XspecT.Assert;
 using XspecT.Internal.Specification;
 using Xunit.Sdk;
 
@@ -32,16 +31,15 @@ public class Count : Spec
     [InlineData(1, 1, 3)]
     public void GivenAtLeast(int count, params int[] numbers)
     {
-        numbers.Has().CountAtLeast(count);
-        Specification.Is(
-            $"Numbers has count at least 'count' = {count}");
+        numbers.Has().Count().AtLeast(count);
+        Specification.Is($"Numbers has at least 'count' = {count} items");
     }
 
     [Fact]
     public void GivenAtLeastFail()
     {
-        var ex = Xunit.Assert.Throws<XunitException>(() => Two<int>().Has().CountAtLeast(3));
-        ex.Message.Is($"Expected two int to have count at least 3 but found {Two<int>().ParseValue()}");
+        var ex = Xunit.Assert.Throws<XunitException>(() => Two<int>().Has().Count().AtLeast(3));
+        ex.Message.Is($"Expected two int to have at least 3 items but found {Two<int>().ParseValue()}");
     }
 
     [Theory]
@@ -49,9 +47,8 @@ public class Count : Spec
     [InlineData(2, 1, 3)]
     public void GivenAtMost(int count, params int[] numbers)
     {
-        numbers.Has().CountAtMost(count);
-        Specification.Is(
-            $"Numbers has count at most 'count' = {count}");
+        numbers.Has().Count().AtMost(count);
+        Specification.Is($"Numbers has at most 'count' = {count} items");
     }
 
     [Theory]
@@ -59,9 +56,8 @@ public class Count : Spec
     [InlineData(1, 2, 1, 3)]
     public void GivenInRange(int from, int to, params int[] numbers)
     {
-        numbers.Has().CountInRange(from, to);
-        Specification.Is(
-            $"Numbers has between 'from' = {from} and 'to' = {to} items");
+        numbers.Has().Count().InRange(from, to);
+        Specification.Is($"Numbers has between 'from' = {from} and 'to' = {to} items");
     }
 
     [Theory]
@@ -69,15 +65,14 @@ public class Count : Spec
     [InlineData(11, 12, 1, 3)]
     public void GivenNotInRange(int from, int to, params int[] numbers)
     {
-        numbers.Has().Not().CountInRange(from, to);
-        Specification.Is(
-            $"Numbers has not between 'from' = {from} and 'to' = {to} items");
+        numbers.Has().Not().Count().InRange(from, to);
+        Specification.Is($"Numbers has not between 'from' = {from} and 'to' = {to} items");
     }
 
     [Fact]
     public void GivenInvalidRange()
     {
-        var ex = Xunit.Assert.Throws<SetupFailed>(() => Two<int>().Has().CountInRange(3, 2));
+        var ex = Xunit.Assert.Throws<SetupFailed>(() => Two<int>().Has().Count().InRange(3, 2));
         ex.Message.Is("Given range must be in ascending order");
     }
 
@@ -86,7 +81,7 @@ public class Count : Spec
     [InlineData(1, 2, 1, 3)]
     public void GivenConditionalCount(int count, int greaterThan, params int[] numbers)
     {
-        numbers.Has().Count(count, it => it > greaterThan);
+        numbers.Has().Count(it => it > greaterThan).At(count);
         Specification.Is($"Numbers has 'count' = {count} items where it => it > greaterThan");
     }
 
@@ -95,7 +90,7 @@ public class Count : Spec
     [InlineData(1, 2, 1, 3)]
     public void GivenConditionalCountAtLeast(int count, int greaterThan, params int[] numbers)
     {
-        numbers.Has().CountAtLeast(count, it => it > greaterThan);
+        numbers.Has().Count(it => it > greaterThan).AtLeast(count);
         Specification.Is($"Numbers has at least 'count' = {count} items where it => it > greaterThan");
     }
 
@@ -104,7 +99,7 @@ public class Count : Spec
     [InlineData(1, 2, 1, 3)]
     public void GivenConditionalCountAtMost(int count, int greaterThan, params int[] numbers)
     {
-        numbers.Has().CountAtMost(count, it => it > greaterThan);
+        numbers.Has().Count(it => it > greaterThan).AtMost(count);
         Specification.Is($"Numbers has at most 'count' = {count} items where it => it > greaterThan");
     }
 
@@ -113,16 +108,15 @@ public class Count : Spec
     [InlineData(1, 2, 2, 1, 3)]
     public void GivenConditionalInRange(int from, int to, int greaterThan, params int[] numbers)
     {
-        numbers.Has().CountInRange(from, to, it => it > greaterThan);
-        Specification.Is(
-            $"Numbers has between 'from' = {from} and 'to' = {to} items where it => it > greaterThan");
+        numbers.Has().Count(it => it > greaterThan).InRange(from, to);
+        Specification.Is($"Numbers has between 'from' = {from} and 'to' = {to} items where it => it > greaterThan");
     }
 
     [Fact]
     public void GivenConditionalInRangeFail()
     {
         int[] oneAndTwo = [1, 2];
-        var ex = Xunit.Assert.Throws<XunitException>(() => oneAndTwo.Has().CountInRange(1, 2, it => it < 0));
+        var ex = Xunit.Assert.Throws<XunitException>(() => oneAndTwo.Has().Count(it => it < 0).InRange(1, 2));
         ex.Message.Is("Expected oneAndTwo to have between 1 and 2 items where it => it < 0 but found [1, 2]");
     }
 }

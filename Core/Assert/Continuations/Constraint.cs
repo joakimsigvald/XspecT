@@ -82,7 +82,7 @@ public abstract record Constraint<TActual, TContinuation>
     internal static TContinuation Create(TActual? actual, string actualExpr)
         => new() { Actual = actual, ActualExpr = actualExpr.ParseActual() };
 
-    internal TActual? Actual { get; private set; }
+    internal TActual? Actual { get; set; }
 
     internal virtual ContinueWith<TContinuation> Value(
         TActual expected, string expectedExpr)
@@ -180,6 +180,6 @@ public abstract record Constraint<TActual, TContinuation>
     {
         var verb = $"{AuxiliaryVerb} {methodName.AsWords(verbalizationStrategy)}".Trim();
         SpecificationGenerator.Assert(assert, ActualExpr, expected, verb);
-        return (TContinuation)this;
+        return Continue();
     }
 }

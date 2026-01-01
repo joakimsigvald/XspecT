@@ -1,7 +1,4 @@
-﻿using Moq.Protected;
-using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
-using XspecT.Internal.Specification;
+﻿using System.Runtime.CompilerServices;
 
 namespace XspecT.Assert.Continuations.Enumerable;
 
@@ -241,6 +238,22 @@ public record HasEnumerable<TItem> : EnumerableConstraint<TItem, HasEnumerableCo
     }
 
     /// <summary>
+    /// Continuations to make count-related assertions on the collection
+    /// </summary>
+    /// <param name="condition">condition that items have to meet to be counted</param>
+    /// <param name="conditionExpr">Ignore, provided by runtime</param>
+    /// <returns></returns>
+    public CountContinuation<TItem> Count(
+        Func<TItem, bool>? condition = null,
+        [CallerArgumentExpression(nameof(condition))] string? conditionExpr = null) => new(this, condition, conditionExpr)
+    {
+        Actual = Actual,
+        ActualExpr = ActualExpr,
+        AuxiliaryVerb = AuxiliaryVerb,
+        State = State,
+    };
+
+    /// <summary>
     /// Assert that the enumerable has the given count
     /// </summary>
     /// <param name="expected"></param>
@@ -251,152 +264,6 @@ public record HasEnumerable<TItem> : EnumerableConstraint<TItem, HasEnumerableCo
     {
         var expectedStr = Express(expectedExpr, expected);
         return Assert(expected, NotNullAnd(actual => Xunit.Assert.Equal(expected, actual.Count())), expectedStr, "have").And();
-    }
-
-    /// <summary>
-    /// Assert that the enumerable has the given count with the given condition
-    /// </summary>
-    /// <param name="expected"></param>
-    /// <param name="condition"></param>
-    /// <param name="expectedExpr">Ignore, provided by runtime</param>
-    /// <param name="conditionExpr">Ignore, provided by runtime</param>
-    /// <returns>A continuation for making additional asserts on the enumerable</returns>
-    public ContinueWith<HasEnumerableContinuation<TItem>> Count(
-        int expected,
-        Func<TItem, bool> condition,
-        [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null,
-        [CallerArgumentExpression(nameof(condition))] string? conditionExpr = null)
-    {
-        var expectedStr = $"{Express(expectedExpr, expected)} items where {conditionExpr}";
-        return Assert(expectedStr, NotNullAnd(actual => Xunit.Assert.Equal(expected, actual.Count(condition))),
-               expectedStr, "have", methodName: null).And();
-    }
-
-    /// <summary>
-    /// Assert that the enumerable has at least the given count
-    /// </summary>
-    /// <param name="expected">Lowest allowed count</param>
-    /// <param name="expectedExpr">Ignore, provided by runtime</param>
-    /// <returns>A continuation for making additional asserts on the enumerable</returns>
-    public ContinueWith<HasEnumerableContinuation<TItem>> CountAtLeast(
-        int expected, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
-    {
-        var expectedStr = Express(expectedExpr, expected);
-        return Assert(expected, NotNullAnd(actual => Xunit.Assert.True(actual.Count() >= expected)), expectedStr, "have").And();
-    }
-
-    /// <summary>
-    /// Assert that the enumerable has at least the given count with the given condition
-    /// </summary>
-    /// <param name="expected">Lowest allowed count</param>
-    /// <param name="condition"></param>
-    /// <param name="expectedExpr">Ignore, provided by runtime</param>
-    /// <param name="conditionExpr">Ignore, provided by runtime</param>
-    /// <returns>A continuation for making additional asserts on the enumerable</returns>
-    public ContinueWith<HasEnumerableContinuation<TItem>> CountAtLeast(
-        int expected,
-        Func<TItem, bool> condition,
-        [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null,
-        [CallerArgumentExpression(nameof(condition))] string? conditionExpr = null)
-    {
-        var expectedStr = $"{Express(expectedExpr, expected)} items where {conditionExpr}";
-        return Assert(expectedStr, NotNullAnd(actual => Xunit.Assert.True(actual.Count(condition) >= expected)),
-                expectedStr, "have", methodName: "at least").And();
-    }
-
-    /// <summary>
-    /// Assert that the enumerable has at most the given count
-    /// </summary>
-    /// <param name="expected">Highest allowed count</param>
-    /// <param name="expectedExpr">Ignore, provided by runtime</param>
-    /// <returns>A continuation for making additional asserts on the enumerable</returns>
-    public ContinueWith<HasEnumerableContinuation<TItem>> CountAtMost(
-        int expected, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
-    {
-        var expectedStr = Express(expectedExpr, expected);
-        return Assert(expected, NotNullAnd(actual => Xunit.Assert.True(actual.Count() <= expected)), expectedStr, "have").And();
-    }
-
-    /// <summary>
-    /// Assert that the enumerable has at most the given count with the given condition
-    /// </summary>
-    /// <param name="expected">Highest allowed count</param>
-    /// <param name="condition"></param>
-    /// <param name="expectedExpr">Ignore, provided by runtime</param>
-    /// <param name="conditionExpr">Ignore, provided by runtime</param>
-    /// <returns>A continuation for making additional asserts on the enumerable</returns>
-    public ContinueWith<HasEnumerableContinuation<TItem>> CountAtMost(
-        int expected,
-        Func<TItem, bool> condition,
-        [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null,
-        [CallerArgumentExpression(nameof(condition))] string? conditionExpr = null)
-    {
-        var expectedStr = $"{Express(expectedExpr, expected)} items where {conditionExpr}";
-        return Assert(expectedStr, NotNullAnd(actual => Xunit.Assert.True(actual.Count(condition) <= expected)),
-                expectedStr, "have", methodName: "at most").And();
-    }
-
-    /// <summary>
-    /// Assert that the enumerable has count between (including) from and to
-    /// </summary>
-    /// <param name="from">Lowest allowed count</param>
-    /// <param name="to">Highest allowed count</param>
-    /// <param name="fromExpr">Ignore, provided by runtime</param>
-    /// <param name="toExpr">Ignore, provided by runtime</param>
-    /// <returns>A continuation for making additional asserts on the enumerable</returns>
-    public ContinueWith<HasEnumerableContinuation<TItem>> CountInRange(
-        int from,
-        int to,
-        [CallerArgumentExpression(nameof(from))] string? fromExpr = null,
-        [CallerArgumentExpression(nameof(to))] string? toExpr = null)
-    {
-        if (from > to)
-            throw new SetupFailed("Given range must be in ascending order");
-
-        var expectedStr = $"between {Express(fromExpr, from)} and {Express(toExpr, to)} items";
-        return Assert(expectedStr, NotNullAnd(actual =>
-        {
-            var actualCount = actual.Count();
-            Xunit.Assert.True(actualCount >= from && actualCount <= to);
-        }), expectedStr, "have",
-        methodName: null).And();
-    }
-
-    /// <summary>
-    /// Assert that the enumerable has count between (including) from and to with the given condition
-    /// </summary>
-    /// <param name="from">Lowest allowed count</param>
-    /// <param name="to">Highest allowed count</param>
-    /// <param name="condition"></param>
-    /// <param name="fromExpr">Ignore, provided by runtime</param>
-    /// <param name="toExpr">Ignore, provided by runtime</param>
-    /// <param name="conditionExpr">Ignore, provided by runtime</param>
-    /// <returns>A continuation for making additional asserts on the enumerable</returns>
-    public ContinueWith<HasEnumerableContinuation<TItem>> CountInRange(
-        int from,
-        int to,
-        Func<TItem, bool> condition,
-        [CallerArgumentExpression(nameof(from))] string? fromExpr = null,
-        [CallerArgumentExpression(nameof(to))] string? toExpr = null,
-        [CallerArgumentExpression(nameof(condition))] string? conditionExpr = null)
-    {
-        if (from > to)
-            throw new SetupFailed("Given range must be in ascending order");
-
-        var expectedStr = $"between {Express(fromExpr, from)} and {Express(toExpr, to)} items where {conditionExpr}";
-        return Assert(expectedStr, NotNullAnd(actual =>
-        {
-            var actualCount = actual.Count(condition);
-            Xunit.Assert.True(actualCount >= from && actualCount <= to);
-        }), expectedStr, 
-        "have", 
-        methodName: null).And();
-    }
-
-    private static string Express<TValue>(string? valueExpr, TValue value) 
-    {
-        var valueStr = value.ParseValue();
-        return valueExpr is null || valueExpr == valueStr ? valueStr : $"'{valueExpr.ParseValue()}' = {value}";
     }
 
     /// <summary>
