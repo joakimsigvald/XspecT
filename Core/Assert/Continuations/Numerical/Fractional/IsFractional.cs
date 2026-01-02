@@ -14,14 +14,14 @@ public abstract record IsFractional<TActual, TIsFractional> : IsNumerical<TActua
     /// <summary>
     /// Asserts that the actual value is approximately equal to the given value, within the provided precision
     /// </summary>
-    /// <param name="expected"></param>
-    /// <param name="precision"></param>
-    /// <param name="expectedExpr"></param>
+    /// <param name="expected">Expected value</param>
+    /// <param name="tolerance">Allowed difference +/- expected value</param>
+    /// <param name="expectedExpr">Ignore, provided by the compiler</param>
     /// <returns></returns>
     public ContinueWith<TIsFractional> Around(
-        TActual expected, TActual precision, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
-        => Assert(expected, actual => AssertEqual(expected, actual, precision), expectedExpr!).And();
+        TActual expected, TActual tolerance, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
+        => Assert(expected, actual => AssertEqual(expected, actual, tolerance), expectedExpr!).And();
 
-    private protected abstract void AssertEqual(TActual expected, TActual actual, TActual precision);
-    private protected abstract void AssertNotEqual(TActual expected, TActual actual, TActual precision);
+    private protected abstract void AssertEqual(TActual expected, TActual actual, TActual tolerance);
+    private protected abstract void AssertNotEqual(TActual expected, TActual actual, TActual tolerance);
 }

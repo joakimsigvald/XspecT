@@ -18,11 +18,11 @@
     <PackageProjectUrl>https://github.com/joakimsigvald/XspecT</PackageProjectUrl>
     <RepositoryUrl>https://github.com/joakimsigvald/XspecT.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageVersion>19.0.0</PackageVersion>
+    <PackageVersion>19.0.1</PackageVersion>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>icon.png</PackageIcon>
-    <PackageReleaseNotes>Upgraded to .Net10 + New assertions on collection order: myCollection.Has().Order(orderBy).Descending() / .Ascending()</PackageReleaseNotes>
+    <PackageReleaseNotes>Added details on the assertion framework to README</PackageReleaseNotes>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>

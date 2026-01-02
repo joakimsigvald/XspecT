@@ -5,9 +5,9 @@
 /// </summary>
 public record IsDouble : IsFractional<double, IsDouble>
 {
-    private protected override void AssertEqual(double expected, double actual, double precision)
-        => Xunit.Assert.Equal(expected, actual, precision);
+    private protected override void AssertEqual(double expected, double actual, double tolerance)
+        => Xunit.Assert.Equal(expected, actual, tolerance);
 
-    private protected override void AssertNotEqual(double expected, double actual, double precision)
-        => Xunit.Assert.NotEqual(expected, actual, precision);
+    private protected override void AssertNotEqual(double expected, double actual, double tolerance)
+        => Xunit.Assert.NotEqual(expected, actual, tolerance);
 }

@@ -1,9 +1,9 @@
 # XspecT: A fluent unit testing framework
 
-Framework for writing and running automated tests in .Net (8+) in a fluent style, 
+Framework for writing and running automated tests in .Net (10+) in a fluent style, 
 based on the popular "Given-When-Then" pattern, built upon XUnit, Moq, AutoMock and AutoFixture.
 
-Whether you are beginner or expert in unit-testing, this framework will help you to write more descriptive, concise and maintainable tests.
+Whether you are beginner or expert in unit-testing, this framework will help you to write more descriptive, concise and maintainable tests with less code.
 
 ## Introduction
 
@@ -30,23 +30,33 @@ A test execution contains three different phases: *arrange*, *act* and *assert*.
 
 We will begin with the first stage:
 
+### Arrange
+
 There are a number of different methods in `Spec` that can be called to arrange the test pipeline.
 These are:
 * `Given` (for arrangement)
 * `After` (for setup)
 * `Before` (for teardown)
 
-These methods can be called directly on the base class, or chained on each other (most tests can be expressed as one-liners, although it may not be recommended for readability).
+The motivation behind the naming of `After` and before `Before` is that `When` is executed before `Before` and after `After`.
+These methods can be called directly on the base class, or chained on each other (most tests can be expressed as one-liners).
 
 In addition there are a number of methods to refer to test-data that can either be provided explicitly or auto-generated (with or without constraints).
 Up to 5 different values can be provided of any given type, as well as collections of up to five elements of any type.
 The methods for referring to/creating test data are named `A`, `An`, `The`, `AFirst`, `TheFirst`, `ASecond`, `TheSecond` and so on for single values
-and `Some`, `Many`, `Zero`, `One`, `Two`, `Three`, `Four` and `Five` for collections
+and `Some`, `Many`, `Zero`, `One`, `Two`, `Three`, `Four` and `Five` for collections.
+Calling any of these methods multiple times yield the same value every time within the same test.
+`A`, `An`, `The`, `AFirst` and `TheFirst` are synonyms,yielding the first auto-generated value of the given type.
+`Any` or `Another` give a new value that cannot be referenced again.
+
+### Act
 
 The *act* stage is specified by calling `When` with the lambda that will be executed. 
 The lambda takes the subject-under-test as argument and should call the method-under-test.
 The subject-under-test will be automatically generated based on the arrangement (unless static or explicitly provided).
-It doesn't matter in which order `Given` or `When` is called, and they may also be chained in any order.
+It doesn't matter in which order `Given`, `Before`, `After` or `When` is called, and they may be chained in any order.
+
+### Assert
 
 Finally to specify the *assert* stage, call `Then` or `Result`, followed by any assertions you want to make. 
 It is not until one of these two methods are called that the test-pipeline is executed and the test result provided.
@@ -55,10 +65,12 @@ This means that in most cases you don't have to worry about the order in which t
 In more complex tests, different arrangements may depend on each other, which makes the order in which they are supplied significant, but it is recommended to keep unit tests as simple, targeted and readable as possible.
 
 Should a test fail, this can be due to either invalid setup or that the test condition (assertion) is not satisfied.
-In the first case a `SetupFailed` exception is thrown detailing the error in the setup (this could be for instance if `Given` is called after `Then` or `When` is called multiple times)
-In the second case, you are in the *red* zone of the red-green-refactor cycle and need to either fix the test or the implementation being tested.
+In the first case a `SetupFailed` exception is thrown detailing the error in the setup (this could be for instance if `Given` is called after `Then`, or `When` is called multiple times)
+In the second case, you are in the *red* zone of the red-green-refactor cycle and need to either fix the test or the implementation under test.
 To help with this, the built in assertion framework supply not only the details of the error, but also a complete description of the test (the *specification*, which is auto-generated from the test implementation),
 so that you can more easily se what behavior the test actually expects, than from reading the test implementation alone.
+
+Apart from verifying the result (return value) of the method, you can also verify that it throws the expected exceotion with `Then().Throws`.
 
 After this introduction, we should be ready to look at more examples.
 
@@ -86,6 +98,38 @@ public class CalculatorSpec : Spec<int>
     [InlineData(3, 4, 7)]
     public void GivenTwoNumbers_WhenAdd_ReturnSum(int term1, int term2, int sum)
         => When(_ => Add(term1, term2)).Then().Result.Is(sum);
+}
+```
+
+## Test a class instance with dependencies
+
+To test an instance method `[MyClass].[MyMethod]`, create an abstract class named `When[MyMethod]` inheriting `XspecT.Spec<[MyClass], [ReturnType]>`.
+The subject under test will be created automatically with mocks and default values by AutoMock.
+Subject-under-test is available as the single input parameter to the lambda that is provided to the method `When`.
+You can supply or modify you own constructor arguments by calling `Given` or `Given().Using`.
+You can even provide the instance to test by using any of those two methods.
+
+To mock behavior of any dependency call `Given<[TheService]>().That(_ => _.[TheMethod](...)).Returns/Throws(...)`. 
+
+To verify a call to a mocked dependency, call `Then<[TheService]>([SomeLambdaExpression])`. 
+
+Both mocking and verification of behavior is based on `Moq` framework.
+ 
+Example:
+```
+namespace MyProject.Spec.ShoppingService;
+
+public class WhenPlaceOrder : Spec<MyProject.ShoppingService>
+{
+    protected WhenPlaceOrder() 
+        => When(_ => _.PlaceOrder(An<int>()))
+        .Given<ICartRepository>().That(_ => _.GetCart(The<int>()))
+        .Returns(() => A<Cart>(_ => _.Id = The<int>()));
+
+    [Fact] public void ThenOrderIsCreated() => Then<IOrderService>(_ => _.CreateOrder(The<Cart>()));
+
+    [Fact] public void ThenLogsOrderCreated()
+        => Then<ILogger>(_ => _.Information($"OrderCreated from Cart {The<int>()}"));
 }
 ```
 
@@ -121,46 +165,11 @@ Note that when no return value is asserted, we can use the non-generic base clas
 
 `Throws` and `DoesNotThrow` can be used to verify exceptions.
 
-## Test a class instance with dependencies
-
-To test an instance method `[MyClass].[MyMethod]`, create an abstract class named `When[MyMethod]` inheriting `XspecT.Spec<[MyClass], [TheResult]>`.
-The subject under test will be created automatically with mocks and default values by AutoMock.
-Subject-under-test is available as the single input parameter to the lambda that is provided to the method `When`.
-You can supply or modify you own constructor arguments by calling `Given` or `Given().Using`.
-You can even provide the instance to test by using any of those two methods.
-
-To mock behavior of any dependency call `Given<[TheService]>().That(_ => _.[TheMethod](...)).Returns/Throws(...)`. 
-
-To verify a call to a mocked dependency, call `Then<[TheService]>([SomeLambdaExpression])`. 
-
-Both mocking and verification of behavior is based on Moq framework.
- 
-Example:
-```
-namespace MyProject.Spec.ShoppingService;
-
-public class WhenPlaceOrder : Spec<MyProject.ShoppingService>
-{
-    protected WhenPlaceOrder() 
-        => When(_ => _.PlaceOrder(An<int>()))
-        .Given<ICartRepository>().That(_ => _.GetCart(The<int>()))
-        .Returns(() => A<Cart>(_ => _.Id = The<int>()));
-
-    [Fact] public void ThenOrderIsCreated() => Then<IOrderService>(_ => _.CreateOrder(The<Cart>()));
-
-    [Fact] public void ThenLogsOrderCreated()
-        => Then<ILogger>(_ => _.Information($"OrderCreated from Cart {The<int>()}"));
-}
-```
-
 ## Sync vs. Async
 
 Weather your method-under-test or mocked methods are sync or async, the tests are specified in the exact same way. 
 The XspecT framework will call async methods synchronously, so that the test does not have to await any calls, but can always be treated as if they are testing synchronous methods.
 However in some cases you have to use async and await keywords in the lambdas you provide to the test-pipeline to deal with async scenarios.
-
-This primer should be enough to get you started. More documentation is available as code comments.
-More examples and features can also be found as Unit tests in the source code, which is available on GitHub.
 
 ## Class fixtures
 
@@ -202,3 +211,143 @@ Example:
 ```
 Given().Default(name).And().Using(age);
 ```
+
+## Assertions
+A deep dive in the fluent assertion framework.
+
+### Fluent assertions
+Assertions are made directly on the value to be verified. 
+Several assertions can be chained together: Every assertion returns a continuation (unless it fails and throws a XunitException).
+The continuation is context-aware and allows different assertions depending on what was asserted previously.
+```
+3.Is().GreaterThan(2).And.LessThan(4);
+
+3.Is().Either.GreaterThan(4).Or.LessThan(4);
+```
+
+#### Not
+Any assertion can be negated by placing Not before
+```
+3.Is().Not().GreaterThan(4);
+```
+
+### Values
+Values of any type can be verified with any of the two extension methods `Is` and `Has`
+
+#### Is
+* Equal: 
+  `Result.Is(3)`
+  `Result.Is().EqualTo(3)`
+* Equivalent: (for objects)
+  `Result.Is().Like(new MyObject {Id = 3})`
+  `Result.Is().EquivalentTo(new MyObject {Id = 3})`
+* Not equal: 
+  `Result.Is().Not(3)`
+* Null:
+  `Result.Is().Null()`
+* Greater than:
+  `3.Is().GreaterThan(2)`
+* Less than:
+  `3.Is().LessThan(2)`
+* Aproximally equal with tolerance: 
+  `Result.Is().Around(3, 0.1)`
+* Even: (true if number is divisable by 2)
+  `Result.Is().Even()`
+* OneOf:
+  `Result.Is().OneOf(Three<int>())`
+* True: (for booleans)
+  `Result.Is().True()`
+* False: (for booleans)
+  `Result.Is().False()`
+
+#### Has
+* Verify that the result has a given condition: 
+  `Result.Has(_ => _.Id == 3)`
+* Verify that the result has the given type: 
+  `Result.Has().Type<MyModel>()`
+
+### Strings
+#### Is
+* Like
+  `" ABC ".Is().Like("abc")`
+* EquivalentTo
+  `" ABC ".Is().EquivalentTo("abc")`
+* Empty
+  `"".Is().Empty()`
+* NullOrEmpty
+  `((string)null).Is().NullOrEmpty()`
+* NullOrWhitespace
+  `" ".Is().NullOrWhitespace()`
+
+#### Does
+* Contain
+  `"ABC".Does().Contain("AB")`
+* StartWith
+  `"ABC".Does().StartWith("AB")`
+* EndWith
+  `"ABC".Does().EndWith("BC")`
+
+### Time
+* Before
+  `DateTime.Now.Is().Before(DateTime.Now.AddDays(1))`
+* After
+  `DateTime.Now.Is().After(DateTime.Now.AddDays(-1))`
+* CloseTo
+  `DateTime.Now.Is().CloseTo(DateTime.Now.AddDays(1), TimeSpan.FromDays(2))`
+  `TimeSpan.FromDays(4).Is().CloseTo(TimeSpan.FromDays(3), TimeSpan.FromDays(2))`
+* Positive
+  `TimeSpan.FromDays(1).Is().Positive()`
+* Negative
+  `TimeSpan.FromDays(1).Is().Negative()`
+
+### Collections
+#### Is
+* EqualTo 
+  - all elements are equal and in the same order
+  `list.Is().EqualTo(otherList)`
+* Like
+  - all elements are equal but order may differ
+  `list.Is().Like(otherList)`
+* SameAs
+  - reference equal
+  `list.Is().SameAs(otherList)`
+* EquivalentTo
+  - all elements are equal but order may differ
+  `list.Is().EquivalentTo(otherList)`
+* Empty
+  `list.Is().Empty()`
+* Distinct
+  `list.Is().Distinct()` - all elements in the collection are different
+#### Does
+* Contain
+  `list.Does().Contain(3)`
+
+#### Has
+* Count
+  `list.Has().Count(3)`
+  `list.Has().Count(it => it > 3).At(2)` - with condition
+* Count at least
+  `list.Has().Count().AtLeast(2)`
+  `list.Has().Count(it => it > 3).AtLeast(2)` - with condition
+* Count at most
+  `list.Has().Count().AtMost(2)`
+  `list.Has().Count(it => it > 3).AtMost(2)` - with condition
+* Count in range
+  `list.Has().Count().InRange(2, 4)`
+  `list.Has().Count(it => it > 3).InRange(2, 4)` - with condition
+* Order ascending
+  `list.Has().Order().Ascending()`
+  `list.Has().Count(it => it.Age).Ascending()` - with condition
+* Order descending
+  `list.Has().Order().Descending()`
+  `list.Has().Count(it => it.Age).Descending()` - with condition
+* [One/Two/Three/Four/Five]Items
+  - verify that the collection has the given number of items and return them as a n-tuple
+  `list.Has().OneItem().That.Age.Is(3)`
+  `list.Has().OneItem(it => it.Age == 3).That.Gender.Is('F')` - with filter
+* All
+  `list.Has().All(it => it.Age > 3)` - all items in the collection match the criteria
+  `list.Has().All((it, i) => it.Age > i)` - with index of item
+  `list.Has().All(it => it.Age.Is().GreaterThan(3))` - apply assertion to all items
+* Some
+  `list.Has().Some(it => it.Age > 3)` - at least one item in the collection matches the criteria

@@ -11,12 +11,12 @@ public record IsTimeSpan : IsComparable<TimeSpan, IsTimeSpan>
     /// Asserts that the timeSpan is within the specified precision time from the given value
     /// </summary>
     /// <param name="expected"></param>
-    /// <param name="precision"></param>
+    /// <param name="tolerance"></param>
     /// <param name="expectedExpr"></param>
     /// <returns></returns>
     public ContinueWith<IsTimeSpan> CloseTo(
-        TimeSpan expected, TimeSpan precision, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
-        => Assert(expected, actual => Xunit.Assert.True((Actual - expected).Duration() <= precision), expectedExpr!).And();
+        TimeSpan expected, TimeSpan tolerance, [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
+        => Assert(expected, actual => Xunit.Assert.True((Actual - expected).Duration() <= tolerance), expectedExpr!).And();
 
     /// <summary>
     /// Asserts that the timeSpan is less than zero

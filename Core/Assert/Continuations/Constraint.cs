@@ -51,6 +51,18 @@ public abstract record Constraint<TActual, TContinuation>
             AuxiliaryVerb = $"{AuxiliaryVerb} not"
         };
 
+    /// <summary>
+    /// Asserts that the string is equivalent to expected, ignoring casing and leading or trailing whitespace
+    /// actual.Should().BeEquivalentTo(expected)
+    /// </summary>
+    public ContinueWith<TContinuation> OneOf(
+        TActual[] values,
+        [CallerArgumentExpression(nameof(values))] string? expectedExpr = null)
+        => Assert(
+            $"[{string.Join(", ", values.Select(v => Describe(v)))}]",
+            actual => Xunit.Assert.Contains(actual, values),
+            expectedExpr!).And();
+
     internal TContinuation Either
     {
         get
@@ -66,18 +78,6 @@ public abstract record Constraint<TActual, TContinuation>
             };
         }
     }
-
-    /// <summary>
-    /// Asserts that the string is equivalent to expected, ignoring casing and leading or trailing whitespace
-    /// actual.Should().BeEquivalentTo(expected)
-    /// </summary>
-    public ContinueWith<TContinuation> OneOf(
-        TActual[] values,
-        [CallerArgumentExpression(nameof(values))] string? expectedExpr = null)
-        => Assert(
-            $"[{string.Join(", ", values.Select(v => Describe(v)))}]",
-            actual => Xunit.Assert.Contains(actual, values),
-            expectedExpr!).And();
 
     internal static TContinuation Create(TActual? actual, string actualExpr)
         => new() { Actual = actual, ActualExpr = actualExpr.ParseActual() };
