@@ -246,12 +246,30 @@ public record HasEnumerable<TItem> : EnumerableConstraint<TItem, HasEnumerableCo
     public CountContinuation<TItem> Count(
         Func<TItem, bool>? condition = null,
         [CallerArgumentExpression(nameof(condition))] string? conditionExpr = null) => new(this, condition, conditionExpr)
+        {
+            Actual = Actual,
+            ActualExpr = ActualExpr,
+            AuxiliaryVerb = AuxiliaryVerb,
+            State = State,
+        };
+
+    /// <summary>
+    /// Continuations to make order-related assertions on the collection
+    /// </summary>
+    /// <param name="by">function that collection should be ordered by</param>
+    /// <param name="byExpr">Ignore, provided by runtime</param>
+    /// <returns></returns>
+    public OrderContinuation<TItemComp> Order<TItemComp>(
+        Func<TItemComp, int>? by = null,
+        [CallerArgumentExpression(nameof(by))] string? byExpr = null)
+        where TItemComp : TItem, IComparable<TItemComp>
+        => new((this as HasEnumerable<TItemComp>)!, by, byExpr)
     {
-        Actual = Actual,
-        ActualExpr = ActualExpr,
-        AuxiliaryVerb = AuxiliaryVerb,
-        State = State,
-    };
+            Actual = Actual as IEnumerable<TItemComp>,
+            ActualExpr = ActualExpr,
+            AuxiliaryVerb = AuxiliaryVerb,
+            State = State,
+        };
 
     /// <summary>
     /// Assert that the enumerable has the given count
