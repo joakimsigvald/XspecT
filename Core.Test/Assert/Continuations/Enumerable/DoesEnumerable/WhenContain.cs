@@ -7,7 +7,7 @@ public class WhenContain : EnumerableSpec
     [Theory]
     [InlineData("abc", 'a')]
     public void GivenListContainItem_ThenDoesNotThrow(string actual, char expected)
-        => actual.ToList().Does().Contain(expected).And.Is().Not().Null();
+        => actual.ToList().Does().Contain(expected).and.Is().not.Null();
 
     [Theory]
     [InlineData("", 'a')]

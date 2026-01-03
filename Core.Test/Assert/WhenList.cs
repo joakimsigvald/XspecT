@@ -38,7 +38,7 @@ public class WhenList : Spec<List<string>>
     public void ChainAssertions()
     {
         When(_ => ["1", "2", "3"])
-        .Then().Result.Is().Not().Null().And.Not().Empty()
-        .And.Has().All((it, i) => it.Is($"{i + 1}"));
+        .Then().Result.Is().not.Null().and.not.Empty()
+        .and.Has().All((it, i) => it.Is($"{i + 1}"));
     }
 }

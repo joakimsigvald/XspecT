@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 
 namespace XspecT.Continuations;
 
@@ -18,7 +19,15 @@ public interface IGivenTestPipeline<TSUT, TResult> : ITestPipeline<TSUT, TResult
     /// A continuation to provide further arrangement to the test
     /// </summary>
     /// <returns></returns>
+    [Obsolete("Use and instead")]
     IGivenContinuation<TSUT, TResult> And();
+
+    /// <summary>
+    /// A continuation to provide further arrangement to the test
+    /// </summary>
+    /// <returns></returns>
+    [SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Special convension of binding words")]
+    IGivenContinuation<TSUT, TResult> and { get; }
 
     /// <summary>
     /// Provide any arrangement to the test, which will be applied during test execution in reverse order of where in the test-pipeline it was provided

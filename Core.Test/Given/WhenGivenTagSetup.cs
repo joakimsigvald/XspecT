@@ -11,7 +11,7 @@ public class WhenGivenTagSetup : Spec<MyService, MyModel>
         Tag<MyModel> model = new();
         Given(model).Has(_ => _.Name = A<string>())
             .And(model).Has(_ => _.Id = An<int>())
-            .And().Default(model)
+            .and.Default(model)
             .When(_ => _.GetModel())
             .Then().Result.Name.Is(The<string>()).And(Result).Id.Is(The<int>());
         Specification.Is(

@@ -6,7 +6,7 @@ public class WhenEmpty : StringSpec
 {
     [Fact]
     public void GivenEmpty_ThenDoesNotThrow()
-        => "".Is().Empty().And.Does().Contain("");
+        => "".Is().Empty().and.Does().Contain("");
 
     [Theory]
     [InlineData(null)]

@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using XspecT.Internal.Specification;
 
 namespace XspecT.Assert.Continuations;
@@ -42,7 +43,22 @@ public abstract record Constraint<TActual, TContinuation>
     /// Invert the following assertion
     /// </summary>
     /// <returns></returns>
+    [Obsolete("Use not instead")]
     public TContinuation Not()
+        => new()
+        {
+            Actual = Actual,
+            ActualExpr = ActualExpr,
+            State = State | ConstraintState.Inverted,
+            AuxiliaryVerb = $"{AuxiliaryVerb} not"
+        };
+
+    /// <summary>
+    /// Invert the following assertion
+    /// </summary>
+    /// <returns></returns>
+    [SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Special convension of binding words")]
+    public TContinuation not
         => new()
         {
             Actual = Actual,
@@ -63,7 +79,28 @@ public abstract record Constraint<TActual, TContinuation>
             actual => Xunit.Assert.Contains(actual, values),
             expectedExpr!).And();
 
+    [Obsolete("Use either instead")]
     internal TContinuation Either
+    {
+        get
+        {
+            if (State.HasFlag(ConstraintState.Inverted))
+                throw new SetupFailed("Either-or cannot be used after not");
+            return new()
+            {
+                Actual = Actual,
+                ActualExpr = ActualExpr,
+                State = State | ConstraintState.Either,
+                AuxiliaryVerb = $"{AuxiliaryVerb} either",
+            };
+        }
+    }
+
+    /// <summary>
+    /// Used to provide two assertions, separated by 'or', one of which has to pass for the test to pass
+    /// </summary>
+    [SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Special convension of binding words")]
+    public TContinuation either
     {
         get
         {

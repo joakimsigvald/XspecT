@@ -8,13 +8,13 @@ public class WhenNotNegative : Spec
     [InlineData(0)]
     [InlineData(1)]
     public void GivenNotNegative_ThenDoesNotThrow(int days)
-        => TimeSpan.FromDays(days).Is().Not().Negative();
+        => TimeSpan.FromDays(days).Is().not.Negative();
 
     [Fact]
     public void GivenFail_ThenGetException()
     {
         var a = TimeSpan.FromDays(-1);
-        var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => a.Is().Not().Negative());
+        var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => a.Is().not.Negative());
         ex.HasMessage($"Expected a to not be negative but found {a}", "A is not negative");
     }
 }

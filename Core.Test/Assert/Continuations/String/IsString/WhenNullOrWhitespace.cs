@@ -9,7 +9,7 @@ public class WhenNullOrWhitespace : StringSpec
     [InlineData("")]
     [InlineData(" ")]
     public void GivenNullOrWhitespace_ThenDoesNotThrow(string actual)
-        => actual.Is().NullOrWhitespace().And.NullOrWhitespace();
+        => actual.Is().NullOrWhitespace().and.NullOrWhitespace();
 
     [Fact]
     public void GivenNotNullOrWhitespace_ThenGetException()

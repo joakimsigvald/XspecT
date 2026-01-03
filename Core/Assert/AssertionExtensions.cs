@@ -128,7 +128,7 @@ public static class AssertionExtensions
     private static string[] SplitInnerExceptionMessage(Xunit.Sdk.XunitException ex)
     {
         var innerEx = ex.InnerException;
-        innerEx!.Is().Not().Null();
+        innerEx!.Is().not.Null();
         return innerEx!.Message.Split("----");
     }
 }

@@ -9,7 +9,7 @@ public class WhenSatisfies : Spec
     public void GivenTrue_ThenDoesNotThrow()
     {
         MyRecord actual = new("Abc");
-        actual.Has(_ => _.Name == "Abc").And.Has(_ => _.Name == "Abc").And.Is().Not().Null();
+        actual.Has(_ => _.Name == "Abc").and.Has(_ => _.Name == "Abc").and.Is().not.Null();
     }
 
     [Fact]

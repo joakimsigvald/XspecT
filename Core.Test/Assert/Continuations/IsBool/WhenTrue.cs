@@ -6,7 +6,7 @@ public class WhenTrue : Spec
 {
     [Fact]
     public void GivenTrue_ThenDoesNotThrow()
-        => true.Is().True().And.True();
+        => true.Is().True().and.True();
 
     [Fact]
     public void GivenFalse_ThenGetException()

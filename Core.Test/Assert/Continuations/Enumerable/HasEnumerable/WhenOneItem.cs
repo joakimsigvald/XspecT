@@ -7,7 +7,7 @@ public class WhenOneItem : Spec
     [Fact]
     public void GivenOneItem_ThenDoesNotThrow()
     {
-        One<int>().Has().OneItem().And.Is().Not().Empty();
+        One<int>().Has().OneItem().and.Is().not.Empty();
         Specification.Is(
             """
             One int has one item

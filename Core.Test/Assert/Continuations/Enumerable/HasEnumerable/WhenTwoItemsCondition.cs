@@ -8,7 +8,7 @@ public class WhenTwoItemsCondition : Spec
     public void GivenTwoItemsConditionSatisfied_ThenDoesNotThrow()
     {
         int[] arr = [1, 1];
-        arr.Has().TwoItems(it => it == 1).And.Is().Not().Empty();
+        arr.Has().TwoItems(it => it == 1).and.Is().not.Empty();
     }
 
     [Fact]

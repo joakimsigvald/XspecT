@@ -34,7 +34,7 @@ public class WhenGivenStaticPrimitive : Spec<string>
     [InlineData("abc", "def")]
     public void GivenDefaultAndAValue_ThenUseAValue(string defaultValue, string aValue)
     {
-        Given().Default(defaultValue).And().A(aValue)
+        Given().Default(defaultValue).and.A(aValue)
             .When(_ => The<string>())
             .Then().Result.Is(aValue);
         Specification.Is(
@@ -50,7 +50,7 @@ public class WhenGivenStaticPrimitive : Spec<string>
     [InlineData("abc", "def")]
     public void GivenDefaultAndASecondValue_ThenUseTheSecondValue(string defaultValue, string aValue)
     {
-        Given().Default(defaultValue).And().ASecond(aValue)
+        Given().Default(defaultValue).and.ASecond(aValue)
             .When(_ => TheSecond<string>())
             .Then().Result.Is(aValue);
         Specification.Is(
@@ -66,7 +66,7 @@ public class WhenGivenStaticPrimitive : Spec<string>
     [InlineData("abc", "def")]
     public void GivenDefaultAndAThirdValue_ThenUseTheThirdValue(string defaultValue, string aValue)
     {
-        Given().Default(defaultValue).And().AThird(aValue)
+        Given().Default(defaultValue).and.AThird(aValue)
             .When(_ => TheThird<string>())
             .Then().Result.Is(aValue);
         Specification.Is(
@@ -82,7 +82,7 @@ public class WhenGivenStaticPrimitive : Spec<string>
     [InlineData("abc", "def")]
     public void GivenDefaultAndAFourthValue_ThenUseTheFourthValue(string defaultValue, string aValue)
     {
-        Given().Default(defaultValue).And().AFourth(aValue)
+        Given().Default(defaultValue).and.AFourth(aValue)
             .When(_ => TheFourth<string>())
             .Then().Result.Is(aValue);
         Specification.Is(
@@ -98,7 +98,7 @@ public class WhenGivenStaticPrimitive : Spec<string>
     [InlineData("abc", "def")]
     public void GivenDefaultAndAFifthValue_ThenUseTheFifthValue(string defaultValue, string aValue)
     {
-        Given().Default(defaultValue).And().AFifth(aValue)
+        Given().Default(defaultValue).and.AFifth(aValue)
             .When(_ => TheFifth<string>())
             .Then().Result.Is(aValue);
         Specification.Is(

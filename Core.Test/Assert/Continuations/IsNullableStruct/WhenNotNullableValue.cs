@@ -12,7 +12,7 @@ public class WhenNotNullableValue : Spec
     {
         Money? actual = actualAmount is null ? null : new Money(actualAmount.Value, "SEK");
         Money? expected = expectedAmount is null ? null : new Money(expectedAmount.Value, "SEK");
-        actual.Is().Not(expected).And.Is().Not(expected);
+        actual.Is().Not(expected).and.Is().Not(expected);
     }
 
     [Theory]

@@ -7,7 +7,7 @@ public class WhenFourItems : Spec
     [Fact]
     public void GivenFourItems_ThenDoesNotThrow()
     {
-        Four<int>().Has().FourItems().And.Is().Not().Empty();
+        Four<int>().Has().FourItems().and.Is().not.Empty();
         Specification.Is(
             """
             Four int has four items

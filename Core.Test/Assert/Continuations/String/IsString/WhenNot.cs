@@ -11,7 +11,7 @@ public class WhenNot : StringSpec
     [InlineData("abc", "abcd")]
     [InlineData("abc", "ABC")]
     public void GivenNotSameString_ThenDoesNotThrow(string actual, string expected)
-        => actual.Is().Not(expected).And.Does().Not().Contain("XXX");
+        => actual.Is().Not(expected).and.Does().not.Contain("XXX");
 
     [Theory]
     [InlineData(null, null)]

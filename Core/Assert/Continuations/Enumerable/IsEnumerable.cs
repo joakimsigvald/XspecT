@@ -38,7 +38,7 @@ public record IsEnumerable<TItem> : EnumerableConstraint<TItem, IsEnumerableCont
     public ContinueWith<IsEnumerableContinuation<TItem>> Not(
         IEnumerable<TItem> expected,
         [CallerArgumentExpression(nameof(expected))] string? expectedExpr = null)
-        => Not().SameAs(expected, expectedExpr);
+        => not.SameAs(expected, expectedExpr);
 
     /// <summary>
     /// Assert that both enumerables has the same number of elements and that elements at same position are equal to each other

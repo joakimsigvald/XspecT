@@ -6,7 +6,7 @@ public class WhenNot : Spec
 {
     [Fact]
     public void GivenNotSame_ThenDoesNotThrow()
-        => new object().Is().Not(new object()).And.Not().Null();
+        => new object().Is().Not(new object()).and.not.Null();
 
     [Fact]
     public void GivenNotSameButEqual_ThenDoesNotThrow()

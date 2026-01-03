@@ -209,7 +209,7 @@ You can also specify that the value associated with a tag should be the default 
 
 Example:
 ```
-Given().Default(name).And().Using(age);
+Given().Default(name).and.Using(age);
 ```
 
 ## Assertions
@@ -220,134 +220,136 @@ Assertions are made directly on the value to be verified.
 Several assertions can be chained together: Every assertion returns a continuation (unless it fails and throws a XunitException).
 The continuation is context-aware and allows different assertions depending on what was asserted previously.
 ```
-3.Is().GreaterThan(2).And.LessThan(4);
+3.Is().GreaterThan(2).and.LessThan(4);
 
-3.Is().Either.GreaterThan(4).Or.LessThan(4);
+3.Is().either.GreaterThan(4).or.LessThan(4);
 ```
 
 #### Not
 Any assertion can be negated by placing Not before
 ```
-3.Is().Not().GreaterThan(4);
+3.Is().not.GreaterThan(4);
 ```
 
 ### Values
 Values of any type can be verified with any of the two extension methods `Is` and `Has`
 
 #### Is
-* Equal: 
-  `Result.Is(3)`
-  `Result.Is().EqualTo(3)`
-* Equivalent: (for objects)
-  `Result.Is().Like(new MyObject {Id = 3})`
-  `Result.Is().EquivalentTo(new MyObject {Id = 3})`
-* Not equal: 
-  `Result.Is().Not(3)`
-* Null:
-  `Result.Is().Null()`
-* Greater than:
-  `3.Is().GreaterThan(2)`
-* Less than:
-  `3.Is().LessThan(2)`
-* Aproximally equal with tolerance: 
-  `Result.Is().Around(3, 0.1)`
-* Even: (true if number is divisable by 2)
-  `Result.Is().Even()`
-* OneOf:
-  `Result.Is().OneOf(Three<int>())`
-* True: (for booleans)
-  `Result.Is().True()`
-* False: (for booleans)
-  `Result.Is().False()`
+- Equal:  
+  `Result.Is(3)`  
+  `Result.Is().EqualTo(3)`  
+- Equivalent: (for objects)  
+  `Result.Is().Like(new MyObject {Id = 3})`  
+  `Result.Is().EquivalentTo(new MyObject {Id = 3})`  
+- Not equal:  
+  `Result.Is().Not(3)`  
+- Null:  
+  `Result.Is().Null()`  
+- Greater than:  
+  `3.Is().GreaterThan(2)`  
+- Less than:  
+  `3.Is().LessThan(2)`  
+- Aproximally equal with tolerance:  
+  `Result.Is().Around(3, 0.1)`  
+- Even: (true if number is divisable by 2)  
+  `Result.Is().Even()`  
+- OneOf:  
+  `Result.Is().OneOf(Three<int>())`  
+- True: (for booleans)  
+  `Result.Is().True()`  
+- False: (for booleans)  
+  `Result.Is().False()`  
 
 #### Has
-* Verify that the result has a given condition: 
-  `Result.Has(_ => _.Id == 3)`
-* Verify that the result has the given type: 
-  `Result.Has().Type<MyModel>()`
+- Verify that the result has a given condition:  
+  `Result.Has(_ => _.Id == 3)`  
+- Verify that the result has the given type:  
+  `Result.Has().Type<MyModel>()`  
 
 ### Strings
 #### Is
-* Like
-  `" ABC ".Is().Like("abc")`
-* EquivalentTo
-  `" ABC ".Is().EquivalentTo("abc")`
-* Empty
-  `"".Is().Empty()`
-* NullOrEmpty
-  `((string)null).Is().NullOrEmpty()`
-* NullOrWhitespace
-  `" ".Is().NullOrWhitespace()`
+- Like  
+  `" ABC ".Is().Like("abc")`  
+- EquivalentTo  
+  `" ABC ".Is().EquivalentTo("abc")`  
+- Empty  
+  `"".Is().Empty()`  
+- NullOrEmpty  
+  `((string)null).Is().NullOrEmpty()`  
+- NullOrWhitespace  
+  `" ".Is().NullOrWhitespace()`  
 
 #### Does
-* Contain
-  `"ABC".Does().Contain("AB")`
-* StartWith
-  `"ABC".Does().StartWith("AB")`
-* EndWith
-  `"ABC".Does().EndWith("BC")`
+- Contain  
+  `"ABC".Does().Contain("AB")`  
+- StartWith  
+  `"ABC".Does().StartWith("AB")`  
+- EndWith  
+  `"ABC".Does().EndWith("BC")`  
 
 ### Time
-* Before
-  `DateTime.Now.Is().Before(DateTime.Now.AddDays(1))`
-* After
-  `DateTime.Now.Is().After(DateTime.Now.AddDays(-1))`
-* CloseTo
-  `DateTime.Now.Is().CloseTo(DateTime.Now.AddDays(1), TimeSpan.FromDays(2))`
-  `TimeSpan.FromDays(4).Is().CloseTo(TimeSpan.FromDays(3), TimeSpan.FromDays(2))`
-* Positive
-  `TimeSpan.FromDays(1).Is().Positive()`
-* Negative
-  `TimeSpan.FromDays(1).Is().Negative()`
+- Before  
+  `DateTime.Now.Is().Before(DateTime.Now.AddDays(1))`  
+- After  
+  `DateTime.Now.Is().After(DateTime.Now.AddDays(-1))`  
+- CloseTo  
+  `DateTime.Now.Is().CloseTo(DateTime.Now.AddDays(1), TimeSpan.FromDays(2))`  
+  `TimeSpan.FromDays(4).Is().CloseTo(TimeSpan.FromDays(3), TimeSpan.FromDays(2))`  
+- Positive  
+  `TimeSpan.FromDays(1).Is().Positive()`  
+- Negative  
+  `TimeSpan.FromDays(1).Is().Negative()`  
 
 ### Collections
 #### Is
-* EqualTo 
-  - all elements are equal and in the same order
-  `list.Is().EqualTo(otherList)`
-* Like
-  - all elements are equal but order may differ
-  `list.Is().Like(otherList)`
-* SameAs
-  - reference equal
-  `list.Is().SameAs(otherList)`
-* EquivalentTo
-  - all elements are equal but order may differ
-  `list.Is().EquivalentTo(otherList)`
-* Empty
-  `list.Is().Empty()`
-* Distinct
-  `list.Is().Distinct()` - all elements in the collection are different
+- EqualTo  
+  all elements are equal and in the same order  
+  `list.Is().EqualTo(otherList)`  
+- Like  
+  all elements are equal but order may differ  
+  `list.Is().Like(otherList)`  
+- SameAs  
+  reference equal  
+  `list.Is().SameAs(otherList)`  
+- EquivalentTo  
+  all elements are equal but order may differ  
+  `list.Is().EquivalentTo(otherList)`  
+- Empty  
+  `list.Is().Empty()`  
+- Distinct  
+  `list.Is().Distinct()` // all elements in the collection are different  
+  `list.Is().Distinct(it => it.Id)` // all elements have different values of the given property
+
 #### Does
-* Contain
-  `list.Does().Contain(3)`
+- Contain  
+  `list.Does().Contain(3)`  
 
 #### Has
-* Count
-  `list.Has().Count(3)`
-  `list.Has().Count(it => it > 3).At(2)` - with condition
-* Count at least
-  `list.Has().Count().AtLeast(2)`
-  `list.Has().Count(it => it > 3).AtLeast(2)` - with condition
-* Count at most
-  `list.Has().Count().AtMost(2)`
-  `list.Has().Count(it => it > 3).AtMost(2)` - with condition
-* Count in range
-  `list.Has().Count().InRange(2, 4)`
-  `list.Has().Count(it => it > 3).InRange(2, 4)` - with condition
-* Order ascending
-  `list.Has().Order().Ascending()`
-  `list.Has().Count(it => it.Age).Ascending()` - with condition
-* Order descending
-  `list.Has().Order().Descending()`
-  `list.Has().Count(it => it.Age).Descending()` - with condition
-* [One/Two/Three/Four/Five]Items
-  - verify that the collection has the given number of items and return them as a n-tuple
-  `list.Has().OneItem().That.Age.Is(3)`
-  `list.Has().OneItem(it => it.Age == 3).That.Gender.Is('F')` - with filter
-* All
-  `list.Has().All(it => it.Age > 3)` - all items in the collection match the criteria
-  `list.Has().All((it, i) => it.Age > i)` - with index of item
-  `list.Has().All(it => it.Age.Is().GreaterThan(3))` - apply assertion to all items
-* Some
-  `list.Has().Some(it => it.Age > 3)` - at least one item in the collection matches the criteria
+- Count  
+  `list.Has().Count(3)`  
+  `list.Has().Count(it => it > 3).At(2)` // with condition  
+- Count at least  
+  `list.Has().Count().AtLeast(2)`  
+  `list.Has().Count(it => it > 3).AtLeast(2)` // with condition  
+- Count at most  
+  `list.Has().Count().AtMost(2)`  
+  `list.Has().Count(it => it > 3).AtMost(2)` // with condition  
+- Count in range  
+  `list.Has().Count().InRange(2, 4)`  
+  `list.Has().Count(it => it > 3).InRange(2, 4)` // with condition  
+- Order ascending  
+  `list.Has().Order().Ascending()`  
+  `list.Has().Order(it => it.Age).Ascending()` // with condition  
+- Order descending  
+  `list.Has().Order().Descending()`  
+  `list.Has().Order(it => it.Age).Descending()` // with condition  
+- [One/Two/Three/Four/Five]Items  
+  verify that the collection has the given number of items and return them as a n-tuple  
+  `list.Has().OneItem().That.Age.Is(3)`  
+  `list.Has().OneItem(it => it.Age == 3).That.Gender.Is('F')` - with filter  
+- All  
+  `list.Has().All(it => it.Age > 3)` // all items in the collection match the criteria  
+  `list.Has().All((it, i) => it.Age > i)` // with index of item  
+  `list.Has().All(it => it.Age.Is().GreaterThan(3))` // apply assertion to all items  
+- Some  
+  `list.Has().Some(it => it.Age > 3)` - at least one item in the collection matches the criteria  

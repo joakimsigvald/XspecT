@@ -8,13 +8,13 @@ public class WhenNotEmpty : StringSpec
     [InlineData(null)]
     [InlineData("abc")]
     public void GivenNotEmpty_ThenDoesNotThrow(string actual)
-        => actual.Is().Not().Empty().And.Not().Empty();
+        => actual.Is().not.Empty().and.not.Empty();
 
     [Theory]
     [InlineData("")]
     public void GivenEmpty_ThenGetException(string actual)
     {
-        var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => actual.Is().Not().Empty());
+        var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => actual.Is().not.Empty());
         ex.HasMessage($"Expected actual to not be empty but found {Describe(actual)}", "Actual is not empty");
     }
 }

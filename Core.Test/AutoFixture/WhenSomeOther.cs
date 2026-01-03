@@ -88,7 +88,7 @@ Then Result has count 2");
         [Fact]
         public void ThenTwoModelsAreNotThoseTwoModels()
         {
-            Result.Is().Not().Like(Two<MyModel>());
+            Result.Is().not.Like(Two<MyModel>());
             Specification.Is(
 @"Given some MyModel
   and two MyModel
@@ -109,7 +109,7 @@ Then Result is not like two MyModel");
         {
             Then();
             SomeOther<MyModel>(count).Length.Is(count);
-            SomeOther<MyModel>().Is().Not().Like(SomeOther<MyModel>());
+            SomeOther<MyModel>().Is().not.Like(SomeOther<MyModel>());
         }
     }
 }

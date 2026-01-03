@@ -23,7 +23,7 @@ public class WhenHasClassFixture(MyClassFixture fixture)
     [Fact]
     public void ThenSetupIsRunOnceBeforeSecondTest()
     {
-        When(_ => _.GetValue()).Then().Result.Is(The<int>() + 1).And.Not(3);
+        When(_ => _.GetValue()).Then().Result.Is(The<int>() + 1).and.Not(3);
         Specification.Is(
             """
             Given _component = new MyComponent(an IMyLogger, a 1)

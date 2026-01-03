@@ -8,7 +8,7 @@ public class WhenGivenUsingAndDefaultValue : Spec<MyWrapper<string>, (string, st
     [Fact]
     public void ThenApplyBothAsValues()
     {
-        Given().Default("ABC").And().Using("DEF")
+        Given().Default("ABC").and.Using("DEF")
             .When(_ => _.GetValues(A<string>()))
             .Then().Result.Is(("DEF", "ABC"));
         Specification.Is(
@@ -23,7 +23,7 @@ public class WhenGivenUsingAndDefaultValue : Spec<MyWrapper<string>, (string, st
     [Fact]
     public void ThenApplyBothAsLambdas()
     {
-        Given().Default(() => "ABC").And().Using(() => "DEF")
+        Given().Default(() => "ABC").and.Using(() => "DEF")
             .When(_ => _.GetValues(A<string>()))
             .Then().Result.Is(("DEF", "ABC"));
         Specification.Is(
@@ -39,7 +39,7 @@ public class WhenGivenUsingAndDefaultValue : Spec<MyWrapper<string>, (string, st
     public void UsingTag_ThenApplyBothAsLambdas()
     {
         Tag<string> def = new();
-        Given().Default(() => "ABC").And().Using(def)
+        Given().Default(() => "ABC").and.Using(def)
             .Given(def).Is("DEF")
             .When(_ => _.GetValues(A<string>()))
             .Then().Result.Is(("DEF", "ABC"));
@@ -62,7 +62,7 @@ public class WhenGivenUsingAndDefaultModel : Spec<MyWrapper<MyModel>, (MyModel, 
     [Fact]
     public void ThenApplyBothAsValues()
     {
-        Given().Default(_first).And().Using(_second)
+        Given().Default(_first).and.Using(_second)
             .When(_ => _.GetValues(A<MyModel>()))
             .Then().Result.Is((_second, _first));
         Specification.Is(
@@ -78,7 +78,7 @@ public class WhenGivenUsingAndDefaultModel : Spec<MyWrapper<MyModel>, (MyModel, 
     public void GivenTagsThenApplyBothAsValues()
     {
         Tag<MyModel> one = new(), two = new();
-        Given().Default(one).And().Using(two)
+        Given().Default(one).and.Using(two)
             .Given(one).Is(_first).And(two).Is(_second)
             .When(_ => _.GetValues(A<MyModel>()))
             .Then().Result.Is((_second, _first));
@@ -96,7 +96,7 @@ public class WhenGivenUsingAndDefaultModel : Spec<MyWrapper<MyModel>, (MyModel, 
     [Fact]
     public void ThenApplyBothAsLambdas()
     {
-        Given().Default(() => _first).And().Using(() => _second)
+        Given().Default(() => _first).and.Using(() => _second)
             .When(_ => _.GetValues(A<MyModel>()))
             .Then().Result.Is((_second, _first));
         Specification.Is(

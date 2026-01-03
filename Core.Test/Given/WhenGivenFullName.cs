@@ -10,9 +10,9 @@ public class WhenGivenFullName : Spec<MyValueTypeModel, MyFullName>
     {
         Given(A<MyFullName>()).When(_ => _.Name)
             .Then().Result.Is(The<MyFullName>())
-            .And(Result).Primitive.first.Primitive.Is().Not().NullOrEmpty()
-            .And(Result).Primitive.middle.Primitive.Is().Not().NullOrEmpty()
-            .And(Result).Primitive.last.Primitive.Is().Not().NullOrEmpty();
+            .And(Result).Primitive.first.Primitive.Is().not.NullOrEmpty()
+            .And(Result).Primitive.middle.Primitive.Is().not.NullOrEmpty()
+            .And(Result).Primitive.last.Primitive.Is().not.NullOrEmpty();
         Specification.Is(
             """
             Given a MyFullName

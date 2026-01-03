@@ -8,7 +8,7 @@ public class WhenThreeItemsCondition : Spec
     public void GivenThreeItemsConditionSatisfied_ThenDoesNotThrow()
     {
         int[] arr = [1, 1, 1];
-        arr.Has().ThreeItems(it => it == 1).And.Is().Not().Empty();
+        arr.Has().ThreeItems(it => it == 1).and.Is().not.Empty();
     }
 
     [Fact]

@@ -6,7 +6,7 @@ public class WhenLike : Spec
 {
     [Fact]
     public void GivenLike_ThenDoesNotThrow()
-        => new MyRecord("abc").Is().Like(new MyOtherRecord("abc")).And.Not().Null();
+        => new MyRecord("abc").Is().Like(new MyOtherRecord("abc")).and.not.Null();
 
     [Fact]
     public void GivenNotLike_ThenGetException()

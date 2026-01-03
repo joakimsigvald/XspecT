@@ -6,13 +6,13 @@ public class WhenAllAssert : Spec
 {
     [Fact]
     public void GivenEmpty_ThenDoesNotThrow() 
-        => Zero<int>().Has().All(it => it.Is(1)).And.Is().Empty();
+        => Zero<int>().Has().All(it => it.Is(1)).and.Is().Empty();
 
     [Fact]
     public void GivenAllSatisfyCondition_ThenDoesNotThrow()
     {
         int[] arr = [1, 2];
-        arr.Has().All(it => it.Is().Not().LessThan(1)).And.Is().Not().Empty();
+        arr.Has().All(it => it.Is().not.LessThan(1)).and.Is().not.Empty();
     }
 
     [Fact]

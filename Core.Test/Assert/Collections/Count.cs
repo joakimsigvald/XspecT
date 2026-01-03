@@ -24,7 +24,7 @@ public class Count : Spec
     [Theory]
     [InlineData(2, 1)]
     [InlineData(1, 1, 3)]
-    public void GivenNotCount(int count, params int[] numbers) => numbers.Has().Not().Count(count);
+    public void GivenNotCount(int count, params int[] numbers) => numbers.Has().not.Count(count);
 
     [Theory]
     [InlineData(1, 1)]
@@ -65,7 +65,7 @@ public class Count : Spec
     [InlineData(11, 12, 1, 3)]
     public void GivenNotInRange(int from, int to, params int[] numbers)
     {
-        numbers.Has().Not().Count().InRange(from, to);
+        numbers.Has().not.Count().InRange(from, to);
         Specification.Is($"Numbers has not between 'from' = {from} and 'to' = {to} items");
     }
 

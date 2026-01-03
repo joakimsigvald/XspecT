@@ -30,7 +30,7 @@ public class WhenGivenSetupValue : Spec<MyService, DateTime>
         Given(A<DateTime>)
             .When(_ => _.GetTime())
             .Given().A(_now)
-            .And().A(_anotherTime) //Ignore this since a specific value has already been provided
+            .and.A(_anotherTime) //Ignore this since a specific value has already been provided
             .Then().Result.Is(_now);
         Specification.Is(
             """

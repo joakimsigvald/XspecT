@@ -10,7 +10,7 @@ public class WhenGivenZipCode : Spec<MyValueTypeModel, MyZipCode>
     {
         Given(A<MyZipCode>).When(_ => _.ZipCode)
             .Then().Result.Is(The<MyZipCode>())
-            .And(Result).Primitive.Is().Not().LessThan(0).And.LessThan(100_000);
+            .And(Result).Primitive.Is().not.LessThan(0).and.LessThan(100_000);
         Specification.Is(
             """
             Given a MyZipCode

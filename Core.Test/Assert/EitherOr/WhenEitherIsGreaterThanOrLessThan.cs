@@ -8,8 +8,8 @@ public class WhenEitherIsGreaterThanOrLessThan : Spec<int>
     public void AndBothIsTrue()
     {
         When(_ => 3)
-        .Then().Result.Is().Either
-        .GreaterThan(1).Or.LessThan(5);
+        .Then().Result.Is().either
+        .GreaterThan(1).or.LessThan(5);
         Specification.Is("""
             When 3
             Then Result is either greater than 1
@@ -22,8 +22,8 @@ public class WhenEitherIsGreaterThanOrLessThan : Spec<int>
     {
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(
             () => When(_ => 7)
-        .Then().Result.Is().Either
-        .GreaterThan(10).Or.LessThan(5));
+        .Then().Result.Is().either
+        .GreaterThan(10).or.LessThan(5));
         ex.HasMessage("Expected Result to be greater than 10 but found 7",
             """
             When 7
@@ -37,8 +37,8 @@ public class WhenEitherIsGreaterThanOrLessThan : Spec<int>
     {
         Xunit.Assert.Throws<SetupFailed>(
             () => When(_ => 7)
-        .Then().Result.Is().Either
-        .GreaterThan(10).And.LessThan(5));
+        .Then().Result.Is().either
+        .GreaterThan(10).and.LessThan(5));
     }
 
     [Fact]
@@ -46,16 +46,16 @@ public class WhenEitherIsGreaterThanOrLessThan : Spec<int>
     {
         Xunit.Assert.Throws<SetupFailed>(
             () => When(_ => 7)
-        .Then().Result.Is().Either
-        .GreaterThan(10).Or.LessThan(10).Or.LessThan(10));
+        .Then().Result.Is().either
+        .GreaterThan(10).or.LessThan(10).or.LessThan(10));
     }
 
     [Fact]
     public void AndContinueWithAnotherAnd_ThenExecuteAndIfOrSucceeded()
     {
         When(_ => 7)
-        .Then().Result.Is().Either
-        .GreaterThan(10).Or.LessThan(10).And.LessThan(9);
+        .Then().Result.Is().either
+        .GreaterThan(10).or.LessThan(10).and.LessThan(9);
         Specification.Is("""
             When 7
             Then Result is either greater than 10
@@ -69,8 +69,8 @@ public class WhenEitherIsGreaterThanOrLessThan : Spec<int>
     {
         Xunit.Assert.Throws<SetupFailed>(
             () => When(_ => 7)
-        .Then().Result.Is().Not().Either
-        .GreaterThan(10).Or.LessThan(5));
+        .Then().Result.Is().not.either
+        .GreaterThan(10).or.LessThan(5));
     }
 }
 
@@ -80,7 +80,7 @@ public class WhenEitherWithoutOr : Spec<int>
     public void AndIsTrue()
     {
         When(_ => 3)
-        .Then().Result.Is().Either
+        .Then().Result.Is().either
         .GreaterThan(1);
         Specification.Is("""
             When 3
@@ -92,7 +92,7 @@ public class WhenEitherWithoutOr : Spec<int>
     public void AndIsFalse_ThenDoesNotThrow()
     {
         When(_ => 3)
-        .Then().Result.Is().Either
+        .Then().Result.Is().either
         .GreaterThan(10);
         Specification.Is("""
             When 3

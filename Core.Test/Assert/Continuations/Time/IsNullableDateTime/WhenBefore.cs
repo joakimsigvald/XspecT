@@ -7,7 +7,7 @@ public class WhenBefore : Spec
     [Fact]
     public void GivenBefore_ThenDoesNotThrow()
         => A<DateTime?>().Is().Before(The<DateTime?>().Value.AddDays(1))
-        .And.CloseTo(The<DateTime?>().Value, TimeSpan.Zero);
+        .and.CloseTo(The<DateTime?>().Value, TimeSpan.Zero);
 
     [Fact]
     public void GivenFail_ThenGetException()

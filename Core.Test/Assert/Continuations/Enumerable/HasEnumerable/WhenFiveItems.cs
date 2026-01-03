@@ -7,7 +7,7 @@ public class WhenFiveItems : Spec
     [Fact]
     public void GivenFiveItems_ThenDoesNotThrow()
     {
-        Five<int>().Has().FiveItems().And.Is().Not().Empty();
+        Five<int>().Has().FiveItems().and.Is().not.Empty();
         Specification.Is(
             """
             Five int has five items

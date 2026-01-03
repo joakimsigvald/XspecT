@@ -8,7 +8,7 @@ public class WhenOneItemCondition : Spec
     public void GivenOneItemConditionSatisfied_ThenDoesNotThrow()
     {
         int[] arr = [123];
-        arr.Has().OneItem(it => it == 123).And.Is().Not().Empty();
+        arr.Has().OneItem(it => it == 123).and.Is().not.Empty();
     }
 
     [Fact]

@@ -7,7 +7,7 @@ public class WhenThreeItems : Spec
     [Fact]
     public void GivenThreeItems_ThenDoesNotThrow()
     {
-        Three<int>().Has().ThreeItems().And.Is().Not().Empty();
+        Three<int>().Has().ThreeItems().and.Is().not.Empty();
         Specification.Is(
             """
             Three int has three items

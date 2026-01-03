@@ -10,7 +10,7 @@ public class WhenEquivalentTo : StringSpec
     [InlineData("abc", "abc")]
     [InlineData("abc", "ABC")]
     public void GivenEquivalentToString_ThenDoesNotThrow(string actual, string expected)
-        => actual.Is().EquivalentTo(expected).And.Does().Not().Contain("XXX");
+        => actual.Is().EquivalentTo(expected).and.Does().not.Contain("XXX");
 
     [Theory]
     [InlineData(null, "")]

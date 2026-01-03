@@ -7,7 +7,7 @@ public class WhenTwoItems : Spec
     [Fact]
     public void GivenTwoItems_ThenDoesNotThrow()
     {
-        Two<int>().Has().TwoItems().And.Is().Not().Empty();
+        Two<int>().Has().TwoItems().and.Is().not.Empty();
         Specification.Is(
             """
             Two int has two items

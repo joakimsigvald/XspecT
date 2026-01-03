@@ -21,7 +21,7 @@ public class Add_1_1 : Spec<decimal?>
     [Fact]
     public void Then_Return_Between_1_And_3()
     {
-        Result.Is().GreaterThan(1).And.LessThan(3);
+        Result.Is().GreaterThan(1).and.LessThan(3);
         Specification.Is(
             """
             When add 1M, 1M
@@ -49,7 +49,7 @@ public class Add_2_3 : Spec<decimal?>
     [Fact]
     public void Then_Not_Return_Null()
     {
-        Result.Is().Not().Null();
+        Result.Is().not.Null();
         Specification.Is(
             """
             When add 2, 3

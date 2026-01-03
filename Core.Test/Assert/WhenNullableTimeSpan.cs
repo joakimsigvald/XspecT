@@ -8,7 +8,7 @@ public class WhenNullableTimeSpan : Spec<TimeSpan?>
     public void IsSame()
     {
         When(_ => A(_)).Then().Result.Is(The<TimeSpan?>())
-            .And.Not().Null();
+            .and.not.Null();
         Specification.Is(
             """
             When a _
@@ -21,7 +21,7 @@ public class WhenNullableTimeSpan : Spec<TimeSpan?>
     public void IsSameNotNullable()
     {
         When(_ => A(_)).Then().Result.Is(The<TimeSpan?>().Value)
-            .And.CloseTo(The<TimeSpan?>().Value, TimeSpan.Zero);
+            .and.CloseTo(The<TimeSpan?>().Value, TimeSpan.Zero);
         Specification.Is(
             """
             When a _

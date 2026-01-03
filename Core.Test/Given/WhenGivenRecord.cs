@@ -26,7 +26,7 @@ public class WhenGivenRecord : Spec<MyService, MyRecord>
             .And<MyRecord>(_ => _ with { Name = _.Name + ASecond<string>() })
             .When(_ => MyService.Echo(The<MyRecord>()))
             .Then().Result.Name.Does().StartWith(The<string>())
-            .And.EndWith(TheSecond<string>())
+            .and.EndWith(TheSecond<string>())
             ;
         Specification.Is(
             """
@@ -56,9 +56,9 @@ public class WhenGivenRecord : Spec<MyService, MyRecord>
     public void GivenTwoThatSetup_ThenReturnFirstSetupAppliedToSecondSetup()
     {
         Given().A<MyRecord>(_ => _ with { Name = _.Name + ASecond<string>() })
-            .And().A<MyRecord>(_ => _ with { Name = A<string>() })
+            .and.A<MyRecord>(_ => _ with { Name = A<string>() })
             .When(_ => MyService.Echo(The<MyRecord>()))
-            .Then().Result.Name.Does().StartWith(The<string>()).And.EndWith(TheSecond<string>());
+            .Then().Result.Name.Does().StartWith(The<string>()).and.EndWith(TheSecond<string>());
         Specification.Is(
             """
             Given a MyRecord has Name = a string

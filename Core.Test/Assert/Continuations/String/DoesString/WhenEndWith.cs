@@ -9,7 +9,7 @@ public class WhenEndWith : StringSpec
     [InlineData("abc", "abc")]
     [InlineData("xabcyz", "cyz")]
     public void GivenEndWithString_ThenDoesNotThrow(string actual, string expected) 
-        => actual.Does().EndWith(expected).And.EndWith(expected);
+        => actual.Does().EndWith(expected).and.EndWith(expected);
 
     [Theory]
     [InlineData(null, null)]

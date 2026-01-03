@@ -127,7 +127,7 @@ public class WhenGivenStaticModel : Spec<MyModel>
     [InlineData("abc", 123)]
     public void GivenDefaultSetupAndAModel_ThenNotUseDefaultSetupOnTheModel(string name, int id)
     {
-        Given().Default<MyModel>(_ => _.Name = name).And().A(new MyModel { Id = id })
+        Given().Default<MyModel>(_ => _.Name = name).and.A(new MyModel { Id = id })
             .When(_ => The<MyModel>())
             .Then().Result.Name.Is().Null().And(Result).Id.Is(id);
         Specification.Is(
@@ -144,7 +144,7 @@ public class WhenGivenStaticModel : Spec<MyModel>
     [InlineData("abc", 123)]
     public void GivenDefaultSetupAndSpecificSetup_ThenUseBothSetupsOnTheModel(string name, int id)
     {
-        Given().Default<MyModel>(_ => _.Name = name).And().A<MyModel>(_ => _.Id = id)
+        Given().Default<MyModel>(_ => _.Name = name).and.A<MyModel>(_ => _.Id = id)
             .When(_ => The<MyModel>())
             .Then().Result.Name.Is(name).And(Result).Id.Is(id);
         Specification.Is(
@@ -161,7 +161,7 @@ public class WhenGivenStaticModel : Spec<MyModel>
     [InlineData("abc", "def")]
     public void GivenDefaultSetupOverriddenBySpecificSetup_ThenUseSpecificSetupOnTheModel(string defaultName, string name)
     {
-        Given().Default<MyModel>(_ => _.Name = defaultName).And().A<MyModel>(_ => _.Name = name)
+        Given().Default<MyModel>(_ => _.Name = defaultName).and.A<MyModel>(_ => _.Name = name)
             .When(_ => The<MyModel>())
             .Then().Result.Name.Is(name);
         Specification.Is(

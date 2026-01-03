@@ -127,4 +127,5 @@ internal class GivenTestPipeline<TSUT, TResult>
 
     public IGivenServiceContinuation<TSUT, TResult, TService> And<TService>() where TService : class => Given<TService>();
     public IGivenContinuation<TSUT, TResult> And() => Given();
+    public IGivenContinuation<TSUT, TResult> and => Given();
 }

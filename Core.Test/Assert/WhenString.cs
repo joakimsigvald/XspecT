@@ -27,7 +27,7 @@ public class WhenString : Spec<string>
     [Fact]
     public void IsNotEmpty()
     {
-        "x".Is().Not().Empty();
+        "x".Is().not.Empty();
         Specification.Is(
             """
             "x" is not empty
@@ -47,7 +47,7 @@ public class WhenString : Spec<string>
     [Fact]
     public void DoesContainAndContainSubstrings()
     {
-        "abcd".Does().Contain("abc").And.Contain("bcd");
+        "abcd".Does().Contain("abc").and.Contain("bcd");
         Specification.Is(
             """
             "abcd" contains "abc"
@@ -58,7 +58,7 @@ public class WhenString : Spec<string>
     [Fact]
     public void DoesContainAndIsNotNull()
     {
-        "abcd".Does().Contain("abc").And.Is().Not().Null();
+        "abcd".Does().Contain("abc").and.Is().not.Null();
         Specification.Is(
             """
             "abcd" contains "abc"
@@ -69,7 +69,7 @@ public class WhenString : Spec<string>
     [Fact]
     public void DoesNotContainOtherString()
     {
-        "abcd".Does().Not().Contain("xxx");
+        "abcd".Does().not.Contain("xxx");
         Specification.Is(
             """
             "abcd" does not contain "xxx"
@@ -79,7 +79,7 @@ public class WhenString : Spec<string>
     [Fact]
     public void IsNotNullAndContainSubstring()
     {
-        "abcd".Is().Not().Null().And.Does().Contain("abc");
+        "abcd".Is().not.Null().and.Does().Contain("abc");
         Specification.Is(
             """
             "abcd" is not null
@@ -90,7 +90,7 @@ public class WhenString : Spec<string>
     [Fact]
     public void IsNotNullAndIs_Abc()
     {
-        "abc".Is().Not().Null().But.Is("abc");
+        "abc".Is().not.Null().but.Is("abc");
         Specification.Is(
             """
             "abc" is not null
@@ -101,7 +101,7 @@ public class WhenString : Spec<string>
     [Fact]
     public void IsNotNullAndStartWithSubstring()
     {
-        "abcd".Is().Not().Null().And.Does().StartWith("abc");
+        "abcd".Is().not.Null().and.Does().StartWith("abc");
         Specification.Is(
             """
             "abcd" is not null
@@ -112,7 +112,7 @@ public class WhenString : Spec<string>
     [Fact]
     public void IsNotNullAndEndWithSubstring()
     {
-        "abcd".Is().Not().Null().And.Does().EndWith("bcd");
+        "abcd".Is().not.Null().and.Does().EndWith("bcd");
         Specification.Is(
             """
             "abcd" is not null
@@ -123,7 +123,7 @@ public class WhenString : Spec<string>
     [Fact]
     public void IsNotNullAndNotContainOtherString()
     {
-        "abcd".Is().Not().Null().And.Does().Not().Contain("xxx");
+        "abcd".Is().not.Null().and.Does().not.Contain("xxx");
         Specification.Is(
             """
             "abcd" is not null
@@ -134,7 +134,7 @@ public class WhenString : Spec<string>
     [Fact]
     public void IsNotNullAndNot()
     {
-        "A".Is().Not().Null().And.Not("B");
+        "A".Is().not.Null().and.Not("B");
         Specification.Is(
             """
             "A" is not null
@@ -155,7 +155,7 @@ public class WhenString : Spec<string>
     [Fact]
     public void IsLike()
     {
-        "AbC".Is().Like("aBc").And.Like("AbC");
+        "AbC".Is().Like("aBc").and.Like("AbC");
         Specification.Is(
             """
             "AbC" is like "aBc"
@@ -166,7 +166,7 @@ public class WhenString : Spec<string>
     [Fact]
     public void IsEquivalentTo()
     {
-        "AbC".Is().EquivalentTo("aBc").And.EquivalentTo("AbC");
+        "AbC".Is().EquivalentTo("aBc").and.EquivalentTo("AbC");
         Specification.Is(
             """
             "AbC" is equivalent to "aBc"
@@ -177,7 +177,7 @@ public class WhenString : Spec<string>
     [Fact]
     public void IsNotLike()
     {
-        "AbC".Is().Not().Like("bac");
+        "AbC".Is().not.Like("bac");
         Specification.Is(
             """
             "AbC" is not like "bac"
@@ -187,7 +187,7 @@ public class WhenString : Spec<string>
     [Fact]
     public void IsNotEquivalentTo()
     {
-        "AbC".Is().Not().EquivalentTo("bac");
+        "AbC".Is().not.EquivalentTo("bac");
         Specification.Is(
             """
             "AbC" is not equivalent to "bac"

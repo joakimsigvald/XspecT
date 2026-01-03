@@ -8,9 +8,9 @@ public class WhenGivenUniqueInt : Spec<int[]>
     public void ThenGenerateUniqueIntArray()
     {
         int range = 10;
-        When(_ => Five<int>()).Given().Default<int>(i => i % range).And().Unique<int>()
+        When(_ => Five<int>()).Given().Default<int>(i => i % range).and.Unique<int>()
             .Then().Result.Is().Distinct()
-            .And.Has().All(i => i >= 0 && i < range);
+            .and.Has().All(i => i >= 0 && i < range);
         Specification.Is(
             """
             Given int is i % range
@@ -28,7 +28,7 @@ public class WhenGivenUniqueInt : Spec<int[]>
         When(_ => Five<int>(i => i % range))
             .Given().Unique<int>()
             .Then().Result.Is().Distinct()
-            .And.Has().All(i => i >= 0 && i < range);
+            .and.Has().All(i => i >= 0 && i < range);
         Specification.Is(
             """
             Given all int are unique
@@ -48,9 +48,9 @@ public class WhenGivenUniqueInt : Spec<int[]>
             Any<int>(),
             Any<int>(),
             Any<int>()])
-            .Given().Default<int>(i => i % range).And().Unique<int>()
+            .Given().Default<int>(i => i % range).and.Unique<int>()
             .Then().Result.Is().Distinct()
-            .And.Has().All(i => i >= 0 && i < range);
+            .and.Has().All(i => i >= 0 && i < range);
         Specification.Is(
             """
             Given int is i % range

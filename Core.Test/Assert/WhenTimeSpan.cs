@@ -31,9 +31,9 @@ public class WhenTimeSpan : Spec<TimeSpan>
     {
         When(_ => A(_))
             .Then().Result.Is().LessThan(2 * The<TimeSpan>())
-            .And.GreaterThan(The<TimeSpan>() / 2)
-            .And.Not().LessThan(The<TimeSpan>())
-            .And.Not().GreaterThan(The<TimeSpan>());
+            .and.GreaterThan(The<TimeSpan>() / 2)
+            .and.not.LessThan(The<TimeSpan>())
+            .and.not.GreaterThan(The<TimeSpan>());
         Specification.Is(
             """
             When a _

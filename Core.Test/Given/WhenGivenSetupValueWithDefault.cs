@@ -29,7 +29,7 @@ public class WhenGivenSetupValueWithDefault : Spec<MyService, int>
         Given<IMyRepository>().That(_ => _.GetNextId()).Returns(() => ASecond<int>())
             .When(_ => _.GetNextId())
             .Given(_defaultId)
-            .And().ASecond(2)
+            .and.ASecond(2)
             .Then().Result.Is(2);
         Specification.Is(
             """

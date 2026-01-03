@@ -13,7 +13,7 @@ public static class WhenClassFixtureSpecifyWhen
     public class GivenOneAndTwo : Spec<MyWrapper<int>, (int, int)>, IClassFixture<WhenGetValues>
     {
         public GivenOneAndTwo(WhenGetValues _) : base(_)
-            => Given().Using(1).And().Default(2);
+            => Given().Using(1).and.Default(2);
 
         [Fact] public void ThenReturnOneAndTwo() => Result.Is((1, 2));
     }
@@ -21,7 +21,7 @@ public static class WhenClassFixtureSpecifyWhen
     public class GivenThreeAndFour : Spec<MyWrapper<int>, (int, int)>, IClassFixture<WhenGetValues>
     {
         public GivenThreeAndFour(WhenGetValues _) : base(_) 
-            => Given().Using(3).And().Default(4);
+            => Given().Using(3).and.Default(4);
 
         [Fact] public void ThenReturnThreeAndFour() => Result.Is((3, 4));
     }

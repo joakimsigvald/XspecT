@@ -20,7 +20,7 @@ public abstract class WhenAddInt : Spec<int>
                 """);
         }
 
-        [Fact] public void Then_Return_Between_1_And_3() => Result.Is().GreaterThan(1).And.LessThan(3);
+        [Fact] public void Then_Return_Between_1_And_3() => Result.Is().GreaterThan(1).and.LessThan(3);
     }
 
     public class Given_2_3 : WhenAddInt

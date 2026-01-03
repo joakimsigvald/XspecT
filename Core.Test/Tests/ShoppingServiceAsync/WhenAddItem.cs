@@ -20,7 +20,7 @@ public abstract class WhenAddItem : ShoppingServiceAsyncSpec<ShoppingCart>
         [Fact]
         public void ThenCartItemsIsNotNull()
         {
-            Result.Items.Is().Not().Null();
+            Result.Items.Is().not.Null();
             Specification.Is(
                 """
                 Given CartItems ??= []
@@ -34,7 +34,7 @@ public abstract class WhenAddItem : ShoppingServiceAsyncSpec<ShoppingCart>
         [Fact]
         public void ThenCartItemsIsNotEmpty()
         {
-            Result.Items.Is().Not().Empty();
+            Result.Items.Is().not.Empty();
             Specification.Is(
                 """
                 Given CartItems ??= []
@@ -171,7 +171,7 @@ public abstract class WhenAddItem : ShoppingServiceAsyncSpec<ShoppingCart>
         [Fact]
         public void ThenItemsAssertNotNull()
         {
-            Result.Items.Has().All(it => it.Is().Not().Null());
+            Result.Items.Has().All(it => it.Is().not.Null());
             Specification.Is(
                 """
                 Given CartItems = [new ShoppingCartItem("A1")]
@@ -179,7 +179,7 @@ public abstract class WhenAddItem : ShoppingServiceAsyncSpec<ShoppingCart>
                   and IShoppingCartRepository.GetCart(CartId) returns new ShoppingCart { Id =
                       CartId, Items = CartItems }
                 When _.AddToCart(CartId, NewItem)
-                Then Result.Items has all it.Is().Not().Null()
+                Then Result.Items has all it.Is().not.Null()
                 """);
         }
 

@@ -8,7 +8,7 @@ public class WhenNullOrEmpty : StringSpec
     [InlineData(null)]
     [InlineData("")]
     public void GivenNullOrEmpty_ThenDoesNotThrow(string actual)
-        => actual.Is().NullOrEmpty().And.NullOrEmpty();
+        => actual.Is().NullOrEmpty().and.NullOrEmpty();
 
     [Fact]
     public void GivenNotNullOrEmpty_ThenGetException()

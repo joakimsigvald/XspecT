@@ -7,7 +7,7 @@ public class WhenAfter : Spec
     [Fact]
     public void GivenAfter_ThenDoesNotThrow()
         => A<DateTime?>().Is().After(The<DateTime?>().Value.AddDays(-1))
-        .And.CloseTo(The<DateTime?>().Value, TimeSpan.Zero);
+        .and.CloseTo(The<DateTime?>().Value, TimeSpan.Zero);
 
     [Fact]
     public void GivenFail_ThenGetException()

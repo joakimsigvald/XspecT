@@ -98,7 +98,7 @@ public class WhenGivenSetupModelWithDefault : Spec<MyService, MyModel>
         Given<IMyRepository>().That(_ => _.GetModel()).Returns(() => ASecond<MyModel>())
             .When(_ => _.GetModel())
             .Given<MyModel>(_ => _.Name = _defaultName)
-            .And().ASecond<MyModel>(_ => _.Name = "Altered")
+            .and.ASecond<MyModel>(_ => _.Name = "Altered")
             .Then().Result.Name.Is("Altered");
         Specification.Is(
             """

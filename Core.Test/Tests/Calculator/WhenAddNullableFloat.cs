@@ -21,7 +21,7 @@ public class AddF_1_1 : Spec<float?>
     [Fact]
     public void Then_Return_Between_1_And_3()
     {
-        Result.Is().GreaterThan(1).And.LessThan(3);
+        Result.Is().GreaterThan(1).and.LessThan(3);
         Specification.Is(
             """
             When add 1, 1

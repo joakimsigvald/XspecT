@@ -29,7 +29,7 @@ public class WhenEven : Spec<int>
     [Fact]
     public void GivenIsNotEven()
     {
-        When(_ => 1).Then().Result.Is().Not().Even();
+        When(_ => 1).Then().Result.Is().not.Even();
         Specification.Is("""
             When 1
             Then Result is not even
@@ -40,7 +40,7 @@ public class WhenEven : Spec<int>
     public void GivenIsNotEvenFail()
     {
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(
-            () => When(_ => 2).Then().Result.Is().Not().Even());
+            () => When(_ => 2).Then().Result.Is().not.Even());
         ex.HasMessage("Expected Result to not be even but found 2",
             """
             When 2

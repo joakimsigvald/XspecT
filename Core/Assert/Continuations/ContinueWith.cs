@@ -1,4 +1,6 @@
-﻿using XspecT.Internal.Specification;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
+using XspecT.Internal.Specification;
 
 namespace XspecT.Assert.Continuations;
 
@@ -14,23 +16,38 @@ public class ContinueWith<TContinuation> where TContinuation : Constraint
     /// <summary>
     /// Get a continuation to make the next assertion
     /// </summary>
+    [Obsolete("Use and instead")]
     public TContinuation And => Continue("and");
 
     /// <summary>
     /// Get a continuation to make the next assertion
     /// </summary>
+    [Obsolete("Use but instead")]
     public TContinuation But => Continue("but");
 
-    internal TContinuation Or => Continue("or");
+    /// <summary>
+    /// Get a continuation to make the next assertion
+    /// </summary>
+    [SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Special convension of binding words")]
+    public TContinuation and => Continue();
 
-    private TContinuation Continue(string conjunction) 
+    /// <summary>
+    /// Get a continuation to make the next assertion
+    /// </summary>
+    [SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Special convension of binding words")]
+    public TContinuation but => Continue();
+
+    [SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Special convension of binding words")]
+    internal TContinuation or => Continue();
+
+    private TContinuation Continue([CallerMemberName] string? conjunction = null) 
     {
         var isEither = _continuation.State.HasFlag(ConstraintState.Either);
-        SpecificationGenerator.AddAssertConjunction(conjunction);
+        SpecificationGenerator.AddAssertConjunction(conjunction!);
         if (isEither && conjunction != "or")
             throw new SetupFailed("Cannot continue either with and or but, only with or");
         if (!isEither && conjunction == "or")
-            throw new SetupFailed("Cannot continue or unless preceded with Either");
+            throw new SetupFailed("Cannot continue or unless preceded with either");
         return _continuation with 
         { 
             ActualExpr = string.Empty, 
