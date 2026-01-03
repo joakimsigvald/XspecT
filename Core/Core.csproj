@@ -18,11 +18,14 @@
     <PackageProjectUrl>https://github.com/joakimsigvald/XspecT</PackageProjectUrl>
     <RepositoryUrl>https://github.com/joakimsigvald/XspecT.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageVersion>19.0.1</PackageVersion>
+    <PackageVersion>19.1.0</PackageVersion>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>icon.png</PackageIcon>
-    <PackageReleaseNotes>Added details on the assertion framework to README</PackageReleaseNotes>
+    <PackageReleaseNotes>
+		Introduced lowercase keyword-style properties as bindes between setup (and) and assertions (not, and, but, either, or).
+        Added Distinct by selector assertion on collections
+</PackageReleaseNotes>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>

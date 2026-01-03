@@ -23,6 +23,32 @@ public record IsEnumerable<TItem> : EnumerableConstraint<TItem, IsEnumerableCont
         => Assert(Ignore.Me, NotNullAnd(Xunit.Assert.Distinct)).And();
 
     /// <summary>
+    /// Assert that all the elements of the enumerable are different with respect to the given selector
+    /// </summary>
+    /// <returns>A continuation for making further assertions on the enumerable</returns>
+    public ContinueWith<IsEnumerableContinuation<TItem>> Distinct<TSelector>(
+        Func<TItem, TSelector> selector,
+        [CallerArgumentExpression(nameof(selector))] string? selectorExpr = null)
+    {
+        var expectedStr = ExpressExpectation(selectorExpr!);
+        return Assert(expectedStr, NotNullAnd(list => Xunit.Assert.Distinct(list.Select(selector))), expectedStr).And();
+    }
+
+    /// <summary>
+    /// Assert that all the elements of the enumerable are different with respect to the given selector
+    /// </summary>
+    /// <returns>A continuation for making further assertions on the enumerable</returns>
+    public ContinueWith<IsEnumerableContinuation<TItem>> Distinct<TSelector>(
+        Func<TItem, int, TSelector> selector,
+        [CallerArgumentExpression(nameof(selector))] string? selectorExpr = null)
+    {
+        var expectedStr = ExpressExpectation(selectorExpr!);
+        return Assert(expectedStr, NotNullAnd(list => Xunit.Assert.Distinct(list.Select(selector))), expectedStr).And();
+    }
+
+    private string ExpressExpectation(string selectorStr) => $"by {selectorStr}";
+
+    /// <summary>
     /// Assert that the enumerable is null
     /// </summary>
     /// <returns>A continuation for making further assertions on the enumerable</returns>
