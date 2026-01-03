@@ -22,7 +22,7 @@ public class WhenTwoItemsCondition : Spec
     public void GivenTwoItemsConditionSatisfied_AndVerifyIt_ThenDoesNotThrow()
     {
         int[] arr = [1, 1];
-        arr.Has().TwoItems(it => it == 1).That.first.Is().LessThan(200);
+        arr.Has().TwoItems(it => it == 1).that.first.Is().LessThan(200);
     }
 
     [Fact]

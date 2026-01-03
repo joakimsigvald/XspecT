@@ -121,7 +121,7 @@ public static class AssertionExtensions
     /// <param name="expected"></param>
     internal static void HasAssignments(this Xunit.Sdk.XunitException ex, string expected)
     {
-        SplitInnerExceptionMessage(ex).Has().TwoItems().That.second
+        SplitInnerExceptionMessage(ex).Has().TwoItems().that.second
             .Is($"{Environment.NewLine}{expected}{Environment.NewLine}");
     }
 

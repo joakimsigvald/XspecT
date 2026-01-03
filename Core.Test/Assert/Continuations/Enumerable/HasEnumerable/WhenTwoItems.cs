@@ -18,7 +18,7 @@ public class WhenTwoItems : Spec
     [Fact]
     public void GivenTwoItems_AndVerifyIt()
     {
-        var (first, second) = Two<int>().Has().TwoItems().That;
+        var (first, second) = Two<int>().Has().TwoItems().that;
         first.Is(TheFirst<int>());
         second.Is(TheSecond<int>());
         Specification.Is("""

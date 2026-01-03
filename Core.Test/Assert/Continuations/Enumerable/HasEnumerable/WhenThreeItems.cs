@@ -18,7 +18,7 @@ public class WhenThreeItems : Spec
     [Fact]
     public void GivenThreeItems_AndVerifyIt()
     {
-        var (first, second, third) = Three<int>().Has().ThreeItems().That;
+        var (first, second, third) = Three<int>().Has().ThreeItems().that;
         first.Is(TheFirst<int>());
         second.Is(TheSecond<int>());
         third.Is(TheThird<int>());

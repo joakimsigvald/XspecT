@@ -22,7 +22,7 @@ public class WhenThreeItemsCondition : Spec
     public void GivenThreeItemsConditionSatisfied_AndVerifyIt_ThenDoesNotThrow()
     {
         int[] arr = [1, 1, 1];
-        arr.Has().ThreeItems(it => it == 1).That.first.Is().LessThan(200);
+        arr.Has().ThreeItems(it => it == 1).that.first.Is().LessThan(200);
     }
 
     [Fact]

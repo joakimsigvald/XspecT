@@ -8,7 +8,7 @@ public class WhenFourItemsCondition : Spec
     public void GivenFourItemsConditionSatisfied_AndVerifyIt_ThenDoesNotThrow()
     {
         int[] arr = [1, 2, 3, 4];
-        arr.Has().FourItems(it => it > 0).That.fourth.Is(4);
+        arr.Has().FourItems(it => it > 0).that.fourth.Is(4);
     }
 
     [Fact]

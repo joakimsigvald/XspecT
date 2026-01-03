@@ -18,7 +18,7 @@ public class WhenFourItems : Spec
     [Fact]
     public void GivenFourItems_AndVerifyIt()
     {
-        Four<int>().Has().FourItems().That.fourth.Is(TheFourth<int>());
+        Four<int>().Has().FourItems().that.fourth.Is(TheFourth<int>());
         Specification.Is("Four int has four items that fourth is the fourth int");
     }
 }

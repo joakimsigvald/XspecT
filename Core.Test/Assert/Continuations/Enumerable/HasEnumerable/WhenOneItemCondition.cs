@@ -22,14 +22,14 @@ public class WhenOneItemCondition : Spec
     public void GivenOneItemConditionSatisfied_AndVerifyIt_ThenDoesNotThrow()
     {
         int[] arr = [123];
-        arr.Has().OneItem(it => it == 123).That.Is().LessThan(200);
+        arr.Has().OneItem(it => it == 123).that.Is().LessThan(200);
     }
 
     [Fact]
     public void GivenOneSatisfyingItemOutOfTwo_AndVerifyIt_ThenDoesNotThrow()
     {
         int[] arr = [123, 999];
-        arr.Has().OneItem(it => it == 123).That.Is().GreaterThan(100);
+        arr.Has().OneItem(it => it == 123).that.Is().GreaterThan(100);
     }
 
     [Fact]

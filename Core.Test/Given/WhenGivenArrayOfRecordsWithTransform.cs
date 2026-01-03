@@ -31,7 +31,7 @@ public class WhenGivenOneSpecificModel : Spec<MyService, MyModel[]>
 
     [Fact]
     public void ThenCanReferenceThatModel()
-        => Result.Has().OneItem().That.Name.Is("abc");
+        => Result.Has().OneItem().that.Name.Is("abc");
 }
 
 public class WhenGivenSomeSpecificModels : Spec<MyService, MyModel[]>
@@ -41,7 +41,7 @@ public class WhenGivenSomeSpecificModels : Spec<MyService, MyModel[]>
 
     [Fact]
     public void ThenCanReferenceThoseModels()
-        => Result.Has().OneItem().That.Name.Is("abc");
+        => Result.Has().OneItem().that.Name.Is("abc");
 }
 
 public class WhenGivenFiveModels : Spec<MyService, MyModel[]>
@@ -51,5 +51,5 @@ public class WhenGivenFiveModels : Spec<MyService, MyModel[]>
 
     [Fact]
     public void ThenCanReferenceThoseModels()
-        => Result.Has().FiveItems().That.third.Is(AThird<MyModel>());
+        => Result.Has().FiveItems().that.third.Is(AThird<MyModel>());
 }

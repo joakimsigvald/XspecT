@@ -8,7 +8,7 @@ public class WhenFiveItemsCondition : Spec
     public void GivenFiveItemsConditionSatisfied_AndVerifyIt_ThenDoesNotThrow()
     {
         int[] arr = [1, 2, 3, 4, 5];
-        arr.Has().FiveItems(it => it > 0).That.fifth.Is(5);
+        arr.Has().FiveItems(it => it > 0).that.fifth.Is(5);
     }
 
     [Fact]
