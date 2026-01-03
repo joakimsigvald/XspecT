@@ -66,7 +66,7 @@ public static partial class ExpressionParser
     public static string ParseActual(this string expr)
     {
         expr = expr.ToSingleLine();
-        if (string.IsNullOrEmpty(expr) || expr.EndsWith(".That"))
+        if (string.IsNullOrEmpty(expr) || expr.EndsWith(".That", StringComparison.InvariantCultureIgnoreCase))
             return string.Empty;
         string? prefix = null;
         var propNames = expr.Split('.').Reverse().ToList();

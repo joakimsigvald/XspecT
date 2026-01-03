@@ -8,11 +8,14 @@ namespace XspecT.Assert.Continuations;
 /// </summary>
 /// <typeparam name="TContinuation"></typeparam>
 /// <typeparam name="TThat"></typeparam>
-/// <param name="continuation"></param>
-/// <param name="that"></param>
-public class ContinueWithThat<TContinuation, TThat>(TContinuation continuation, TThat that)
-    : ContinueWith<TContinuation>(continuation) where TContinuation : Constraint
+public class ContinueWithThat<TContinuation, TThat> : ContinueWith<TContinuation> 
+    where TContinuation : Constraint
 {
+    private readonly TThat _that;
+
+    internal ContinueWithThat(TContinuation continuation, TThat that) : base(continuation)
+        => _that = that;
+
     /// <summary>
     /// Continuation to apply assertions on the element
     /// </summary>
@@ -22,7 +25,7 @@ public class ContinueWithThat<TContinuation, TThat>(TContinuation continuation, 
         get
         {
             SpecificationGenerator.AddThat();
-            return that;
+            return _that;
         }
     }
 
@@ -35,7 +38,7 @@ public class ContinueWithThat<TContinuation, TThat>(TContinuation continuation, 
         get
         {
             SpecificationGenerator.AddThat();
-            return that;
+            return _that;
         }
     }
 }

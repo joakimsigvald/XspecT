@@ -67,7 +67,7 @@ internal class SpecificationBuilder
     {
         if (_isChainOfAssertions)
         {
-            actual = actual.Split(".That.").Last();
+            actual = actual.Split(".That.").Last().Split(".that.").Last();
             _textBuilder.AddWord(actual.ParseValue());
         }
         else
