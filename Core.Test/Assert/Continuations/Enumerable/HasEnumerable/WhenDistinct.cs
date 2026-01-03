@@ -2,9 +2,9 @@
 using XspecT.Internal.Specification;
 using Xunit.Sdk;
 
-namespace XspecT.Test.Assert.Collections;
+namespace XspecT.Test.Assert.Continuations.Enumerable.HasEnumerable;
 
-public class Distinct : Spec
+public class WhenDistinct : Spec
 {
     [Theory]
     [InlineData(1, 2)]

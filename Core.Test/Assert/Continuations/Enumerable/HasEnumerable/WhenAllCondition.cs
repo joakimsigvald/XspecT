@@ -22,12 +22,4 @@ public class WhenAllCondition : Spec
         var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => arr.Has().All(it => it < 3));
         ex.HasMessage($"Expected arr to have all elements satisfying the condition but found [1, 3]", "Arr has all it < 3");
     }
-
-    [Fact]
-    public void GivenConditionNotSatisfiedForAny_ThenGetException()
-    {
-        int[] arr = [1, 3];
-        var ex = Xunit.Assert.Throws<Xunit.Sdk.XunitException>(() => arr.Has().Some(it => it > 3));
-        ex.HasMessage($"Expected arr to have some element satisfying the condition but found [1, 3]", "Arr has some it > 3");
-    }
 }

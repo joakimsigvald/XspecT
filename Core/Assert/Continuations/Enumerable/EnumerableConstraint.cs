@@ -25,4 +25,12 @@ public abstract record EnumerableConstraint<TItem, TContinuation> : Constraint<I
         => value?.Count() > 5
             ? '[' + string.Join(", ", value.Take(4).Select(it => it.ParseValue()).Append("...")) + ']'
             : value.ParseValue();
+
+    private protected static Action<IEnumerable<TItem>?> NotEmptyAnd(Action<IEnumerable<TItem>> assert)
+        => actual =>
+        {
+            Xunit.Assert.NotNull(actual);
+            Xunit.Assert.NotEmpty(actual);
+            assert(actual);
+        };
 }

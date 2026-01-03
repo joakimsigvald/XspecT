@@ -319,7 +319,7 @@ Values of any type can be verified with any of the two extension methods `Is` an
   `list.Is().Empty()`  
 - Distinct  
   `list.Is().Distinct()` // all elements in the collection are different  
-  `list.Is().Distinct(it => it.Id)` // all elements have different values of the given property
+  `list.Is().Distinct(it => it.Id)` // all elements have different values of the given property  
 
 #### Does
 - Contain  
@@ -346,11 +346,14 @@ Values of any type can be verified with any of the two extension methods `Is` an
   `list.Has().Order(it => it.Age).Descending()` // with condition  
 - [One/Two/Three/Four/Five]Items  
   verify that the collection has the given number of items and return them as a n-tuple  
-  `list.Has().OneItem().That.Age.Is(3)`  
-  `list.Has().OneItem(it => it.Age == 3).That.Gender.Is('F')` - with filter  
+  `number.Has().OneItem().that.Is(3)` // numbers have one item, and that item is 3  
+  `patients.Has().OneItem().that.Age.Is(3)` // patients have one item, and its age is 3  
+  `patients.Has().OneItem(it => it.Age == 3).that.Gender.Is('F')` // patients have one item aged 3, and its gender is female  
 - All  
   `list.Has().All(it => it.Age > 3)` // all items in the collection match the criteria  
   `list.Has().All((it, i) => it.Age > i)` // with index of item  
   `list.Has().All(it => it.Age.Is().GreaterThan(3))` // apply assertion to all items  
 - Some  
   `list.Has().Some(it => it.Age > 3)` - at least one item in the collection matches the criteria  
+- None  
+  `list.Has().None(it => it.Age > 3)` - no item in the collection matches the criteria  

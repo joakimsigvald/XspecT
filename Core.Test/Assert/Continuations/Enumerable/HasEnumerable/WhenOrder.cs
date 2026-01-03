@@ -1,9 +1,9 @@
 ﻿using XspecT.Assert;
 using Xunit.Sdk;
 
-namespace XspecT.Test.Assert.Collections;
+namespace XspecT.Test.Assert.Continuations.Enumerable.HasEnumerable;
 
-public class Order : Spec
+public class WhenOrder : Spec
 {
     [Theory]
     [InlineData(1, 1)]
