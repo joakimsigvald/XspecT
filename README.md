@@ -217,16 +217,17 @@ A deep dive in the fluent assertion framework.
 
 ### Fluent assertions
 Assertions are made directly on the value to be verified. 
-Several assertions can be chained together: Every assertion returns a continuation (unless it fails and throws a XunitException).
+Several assertions can be chained together using property-binders between assertions (lowercase).
+Every assertion returns a continuation (unless it fails and throws a XunitException).
 The continuation is context-aware and allows different assertions depending on what was asserted previously.
-```
-3.Is().GreaterThan(2).and.LessThan(4);
 
-3.Is().either.GreaterThan(4).or.LessThan(4);
-```
+#### And, Either, Or
+Examples:
+`3.Is().GreaterThan(2).and.LessThan(4);` //both must pass
+`3.Is().either.GreaterThan(4).or.LessThan(4);` //at least one must pass
 
 #### Not
-Any assertion can be negated by placing Not before
+Any assertion can be negated by placing not before (note lowercase not)
 ```
 3.Is().not.GreaterThan(4);
 ```
