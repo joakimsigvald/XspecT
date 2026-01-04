@@ -1,17 +1,39 @@
-# XspecT: A fluent unit testing framework
+# XspecT — Fluent, specification-style unit testing for .NET
 
-Framework for writing and running automated tests in .Net (10+) in a fluent style, 
-based on the popular "Given-When-Then" pattern, built upon XUnit, Moq, AutoMock and AutoFixture.
+XspecT is a fluent, specification-oriented testing framework for .NET that sits on top of xUnit.
+It follows the Given–When–Then pattern and integrates seamlessly with Moq, AutoMock, and AutoFixture.
+Tests run on the standard xUnit runner and can live side-by-side with existing xUnit tests.
 
-Whether you are beginner or expert in unit-testing, this framework will help you to write more descriptive, concise and maintainable tests with less code.
+Whether you are new to unit testing or an experienced practitioner, XspecT helps you express test intent clearly by removing boilerplate, enforcing structure, and generating readable failure descriptions.
+
+Example: testing the `PlaceOrder` method on `ShoppingService`:
+```
+public class WhenPlaceOrder : Spec<ShoppingService>
+{
+    static Tag<Guid> cartId = new(); //auto-generated Guid
+
+    public WhenPlaceOrder()
+        => When(_ => _.PlaceOrder(The(cartId)))
+           .Given<ICartRepository>()
+           .That(_ => _.GetCart(The(cartId)))
+           .Returns(A<Cart>());
+
+    [Fact] public void ThenCreatesOrder()
+        => Then<IOrderService>(_ => _.CreateOrder(The<Cart>()));
+}
+```
+
+Auto-generated test data, mocked dependencies, and interaction verification — without manual setup or constructor wiring.
+
+Based on first-hand experience, teams adopting XspecT often need around *one third* of the test code
+for the same coverage compared to xUnit + Moq, while improving readability and consistency.
 
 ## Introduction
 
-It is assumed that you are already familiar with Xunit and Moq, or similar test- and mocking frameworks.
-XspecT includes a fluent assertion framework called `XspecT.Assert`, which is similar to FluentAssertions, 
-but with a less worthy syntax, based on the verbs `Is`, `Has` and `Does` instead of `Should`.
+This documentation assumes familiarity with xUnit and Moq, or similar testing and mocking frameworks.
 
-This is an example of a complete test class (*specification*) with one test method (*requirement*):
+The following is a complete XspecT test class (a *specification*) containing a single test method (a *requirement*):
+
 ```
 using XspecT;
 using XspecT.Assert;
@@ -25,54 +47,63 @@ public class CalculatorSpec : Spec<int>
 }
 ```
 
-To write a test with the XspecT framework, such as the one above, you first need to subclass `Spec`.
-A test execution contains three different phases: *arrange*, *act* and *assert*.
+To write a test with XspecT, such as the one above, you start by subclassing `Spec`.
+Each test is expressed as a specification and executed as a pipeline with three phases:
+*arrange*, *act*, and *assert*.
 
-We will begin with the first stage:
+We will begin with the first stage: arranging the test pipeline.
 
 ### Arrange
 
-There are a number of different methods in `Spec` that can be called to arrange the test pipeline.
-These are:
-* `Given` (for arrangement)
-* `After` (for setup)
-* `Before` (for teardown)
+The *arrange* stage defines the setup of the test pipeline.
+In XspecT, this is done by calling methods on `Spec`, either directly or fluently chained together.
 
-The motivation behind the naming of `After` and before `Before` is that `When` is executed before `Before` and after `After`.
-These methods can be called directly on the base class, or chained on each other (most tests can be expressed as one-liners).
+The following methods are used to arrange a test:
 
-In addition there are a number of methods to refer to test-data that can either be provided explicitly or auto-generated (with or without constraints).
-Up to 5 different values can be provided of any given type, as well as collections of up to five elements of any type.
-The methods for referring to/creating test data are named `A`, `An`, `The`, `AFirst`, `TheFirst`, `ASecond`, `TheSecond` and so on for single values
-and `Some`, `Many`, `Zero`, `One`, `Two`, `Three`, `Four` and `Five` for collections.
-Calling any of these methods multiple times yield the same value every time within the same test.
-`A`, `An`, `The`, `AFirst` and `TheFirst` are synonyms,yielding the first auto-generated value of the given type.
-`Any` or `Another` give a new value that cannot be referenced again.
+* `Given`  — defines test setup and input data
+* `After`  — setup that runs *before* the action
+* `Before` — teardown or verification that runs *after* the action
+
+The names `After` and `Before` reflect when they are executed relative to the `When` stage:
+`When` is executed **after** `After` and **before** `Before`.
+
+This means that setup and teardown behavior follows a fixed semantic order,
+independent of how the corresponding methods are arranged in the test code.
+
+XspecT also provides mechanisms for referring to test data in a stable way,
+so the same values can be consistently reused across arrangement,
+execution, and assertion.
 
 ### Act
 
-The *act* stage is specified by calling `When` with the lambda that will be executed. 
-The lambda takes the subject-under-test as argument and should call the method-under-test.
-The subject-under-test will be automatically generated based on the arrangement (unless static or explicitly provided).
-It doesn't matter in which order `Given`, `Before`, `After` or `When` is called, and they may be chained in any order.
+The *act* stage specifies the behavior under test by calling `When` with a lambda expression. 
+The lambda takes the subject under test as argument and should call the method under test.
+
+The subject under test is automatically created based on the arrangement,
+unless it is static or explicitly provided.
+
+As with arrangement, the order in which `Given`, `After`, `Before`, and `When`
+are written does not matter; they may be chained in any order.
+
+Each specification defines exactly one action under test and therefore contains a single `When` stage.
 
 ### Assert
 
-Finally to specify the *assert* stage, call `Then` or `Result`, followed by any assertions you want to make. 
-It is not until one of these two methods are called that the test-pipeline is executed and the test result provided.
-This allows the XspecT framework to arrange the test-pipeline in the natural order, regardless of in what order those arrangements were supplied in the implementation of the test.
-This means that in most cases you don't have to worry about the order in which the steps of the test is specified (as long as assert comes after arrange and act).
-In more complex tests, different arrangements may depend on each other, which makes the order in which they are supplied significant, but it is recommended to keep unit tests as simple, targeted and readable as possible.
+XspecT includes a fluent assertion library, `XspecT.Assert`, conceptually similar to FluentAssertions,
+but with a more compact syntax based on the verbs `Is`, `Has`, and `Does`.
 
-Should a test fail, this can be due to either invalid setup or that the test condition (assertion) is not satisfied.
-In the first case a `SetupFailed` exception is thrown detailing the error in the setup (this could be for instance if `Given` is called after `Then`, or `When` is called multiple times)
-In the second case, you are in the *red* zone of the red-green-refactor cycle and need to either fix the test or the implementation under test.
-To help with this, the built in assertion framework supply not only the details of the error, but also a complete description of the test (the *specification*, which is auto-generated from the test implementation),
-so that you can more easily se what behavior the test actually expects, than from reading the test implementation alone.
+The *assert* stage is specified by calling `Then` or `Result`, followed by one or more assertions.
+It is only when one of these methods is called that the test pipeline is executed and the result evaluated.
 
-Apart from verifying the result (return value) of the method, you can also verify that it throws the expected exceotion with `Then().Throws`.
+Because execution is deferred until the assert stage, XspecT can execute the test pipeline
+in its proper order, regardless of how the individual steps were written. In most cases, this means that
+you do not have to worry about the order in which arrangement and action steps are specified.
 
-After this introduction, we should be ready to look at more examples.
+If a test fails, this is either due to an invalid test setup or because an assertion was not satisfied.
+In the latter case, XspecT provides detailed assertion failures together with an automatically
+generated description of the specification, making it easier to understand the intended behavior.
+
+In addition to verifying return values, exceptions can also be asserted using `Then().Throws`.
 
 ## Test a static method with [Theory]
 
@@ -170,6 +201,32 @@ Note that when no return value is asserted, we can use the non-generic base clas
 Weather your method-under-test or mocked methods are sync or async, the tests are specified in the exact same way. 
 The XspecT framework will call async methods synchronously, so that the test does not have to await any calls, but can always be treated as if they are testing synchronous methods.
 However in some cases you have to use async and await keywords in the lambdas you provide to the test-pipeline to deal with async scenarios.
+
+## Test data helpers
+
+XspecT provides a set of helpers for referring to test data that can either be supplied explicitly
+or automatically generated (optionally with constraints).
+
+Up to five distinct values of a given type can be referenced within a test,
+as well as collections of up to five elements.
+
+For one single value, the helpers include:
+
+`A`, `An`, `The`, `AFirst`, `TheFirst`
+
+For additional single values, the helpers include:
+
+`ASecond`, `TheSecond`, `AThird`, `TheThird`, `AFourth`, `TheFourth`,`AFifth`, `TheFifth`,
+
+For collections, the helpers include:
+
+`Zero`, `One`, `Two`, `Three`, `Four`, `Five`, `Some` (at least one), `Many` (at least two), `AnyNumberOf`
+
+For auto-generating values that cannot be referenced again, the helpers include:
+
+`Any` and `Another`
+
+To ensure that different references of a specific type (such as `AFirst` and `ASecond` really are distinct), the helper `Unique` may be used. 
 
 ## Class fixtures
 
