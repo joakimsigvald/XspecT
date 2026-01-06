@@ -23,10 +23,8 @@ public class WhenPlaceOrder : Spec<ShoppingService>
 }
 ```
 
-Auto-generated test data, mocked dependencies, and interaction verification — without manual setup or constructor wiring.
-
-Based on first-hand experience, teams adopting XspecT often need around *one third* of the test code
-for the same coverage compared to xUnit + Moq, while improving readability and consistency.
+The example above highlights how XspecT reduces boilerplate by handling test data, dependency mocking, and interaction verification declaratively.
+In real-world usage, this typically leads to substantially smaller tests compared to xUnit + Moq, while maintaining coverage and improving readability.
 
 ## Introduction
 
@@ -102,6 +100,26 @@ you do not have to worry about the order in which arrangement and action steps a
 If a test fails, this is either due to an invalid test setup or because an assertion was not satisfied.
 In the latter case, XspecT provides detailed assertion failures together with an automatically
 generated description of the specification, making it easier to understand the intended behavior.
+
+Example:
+```
+Test:
+=> When(_ => _.List())
+   .Given<IMyRepository>()
+   .That(_ => _.List()).Returns(A<MyModel[]>)
+   .Given().Three<MyModel>()
+   .Then().Result.Has().Count(4)
+
+---
+
+Output:
+Expected Result to have count 4 but found 3...
+---- 
+Given three MyModel
+  and IMyRepository.List() returns a MyModel[]
+When _.List()
+Then Result has count 4
+```
 
 In addition to verifying return values, exceptions can also be asserted using `Then().Throws`.
 
