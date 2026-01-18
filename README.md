@@ -1,7 +1,7 @@
-# XspecT — Fluent, specification-style unit testing for .NET
+ï»¿# XspecT â€” Fluent, specification-style unit testing for .NET
 
 XspecT is a fluent, specification-oriented testing framework for .NET that sits on top of xUnit.
-It follows the Given–When–Then pattern and integrates seamlessly with Moq, AutoMock, and AutoFixture.
+It follows the Givenâ€“Whenâ€“Then pattern and integrates seamlessly with Moq, AutoMock, and AutoFixture.
 Tests run on the standard xUnit runner and can live side-by-side with existing xUnit tests.
 
 Whether you are new to unit testing or an experienced practitioner, XspecT helps you express test intent clearly by removing boilerplate, enforcing structure, and generating readable failure descriptions.
@@ -10,7 +10,7 @@ Example: testing the `PlaceOrder` method on `ShoppingService`:
 ```
 public class WhenPlaceOrder : Spec<ShoppingService>
 {
-    static Tag<Guid> cartId = new(); //auto-generated Guid
+    static Tag<Guid> cartId = new(); //reference an auto-generated Guid
 
     public WhenPlaceOrder()
         => When(_ => _.PlaceOrder(The(cartId)))
@@ -26,9 +26,11 @@ public class WhenPlaceOrder : Spec<ShoppingService>
 The example above highlights how XspecT reduces boilerplate by handling test data, dependency mocking, and interaction verification declaratively.
 In real-world usage, this typically leads to substantially smaller tests compared to xUnit + Moq, while maintaining coverage and improving readability.
 
-## Introduction
+## 1. Introduction
 
-This documentation assumes familiarity with xUnit and Moq, or similar testing and mocking frameworks.
+To write a test with XspecT you start by subclassing `Spec`.
+Each test is expressed as a specification and executed as a pipeline consisting of three phases:
+*arrange*, *act*, and *assert*.
 
 The following is a complete XspecT test class (a *specification*) containing a single test method (a *requirement*):
 
@@ -45,47 +47,40 @@ public class CalculatorSpec : Spec<int>
 }
 ```
 
-To write a test with XspecT, such as the one above, you start by subclassing `Spec`.
-Each test is expressed as a specification and executed as a pipeline with three phases:
-*arrange*, *act*, and *assert*.
-
-We will begin with the first stage: arranging the test pipeline.
-
-### Arrange
+### 1.1 Arrange
 
 The *arrange* stage defines the setup of the test pipeline.
 In XspecT, this is done by calling methods on `Spec`, either directly or fluently chained together.
 
 The following methods are used to arrange a test:
 
-* `Given`  — defines test setup and input data
-* `After`  — setup that runs *before* the action
-* `Before` — teardown or verification that runs *after* the action
+* `Given`  â€” defines test setup and input data
+* `After`  â€” setup that runs *before* the action
+* `Before` â€” teardown or verification that runs *after* the action
 
-The names `After` and `Before` reflect when they are executed relative to the `When` stage:
-`When` is executed **after** `After` and **before** `Before`.
+Although the names After and Before may appear inverted at first glance, `After` runs **before** the action and `Before` runs **after** it.
+The naming reflects their position relative to the When stage, allowing specifications to read fluently as:
+*When executing the action after setup and before teardown, then this happens.*
 
-This means that setup and teardown behavior follows a fixed semantic order,
-independent of how the corresponding methods are arranged in the test code.
-
-XspecT also provides mechanisms for referring to test data in a stable way,
+XspecT also provides mechanisms for preparing and referring to test data in a stable way,
 so the same values can be consistently reused across arrangement,
 execution, and assertion.
 
-### Act
+### 1.2 Act
 
 The *act* stage specifies the behavior under test by calling `When` with a lambda expression. 
-The lambda takes the subject under test as argument and should call the method under test.
+The lambda takes the subject under test as argument and should execute the behaviour under test.
 
 The subject under test is automatically created based on the arrangement,
 unless it is static or explicitly provided.
 
 As with arrangement, the order in which `Given`, `After`, `Before`, and `When`
-are written does not matter; they may be chained in any order.
+are written does not matter. Because execution is deferred until assertion, XspecT can deterministically reorder the pipeline before running it.
+So the execution order of the steps is always: `Given`->`After`->`When`->`Before`.
 
 Each specification defines exactly one action under test and therefore contains a single `When` stage.
 
-### Assert
+### 1.3 Assert
 
 XspecT includes a fluent assertion library, `XspecT.Assert`, conceptually similar to FluentAssertions,
 but with a more compact syntax based on the verbs `Is`, `Has`, and `Does`.
@@ -122,6 +117,121 @@ Then Result has count 4
 ```
 
 In addition to verifying return values, exceptions can also be asserted using `Then().Throws`.
+
+Given some prior familiarity with NuGet, unit tests and mocking, you should now be ready to start writing your own tests using Spec. 
+For professional use, the remainder of this README serves as a complete, practical guide to structuring specifications, managing test data, and verifying behavior with XspecT.
+
+## 2. The Test Pipeline
+
+
+## 3. Using Test Data
+How to create and reference test data using *mentions* (a, the, some etc.) and tags
+
+## 4. Mocking & Auto-Mocking
+Introduce the mocking framework built on top of Moq and Moq.Automock. How to use it to mock return values. How to inspect execution using *Tap*.
+How subject under test is instantiated based on mocking and *Using*.
+
+## 5. Acting & Verifying Behavior
+How to use the bild in mockin-framework and Moq to assert execution
+
+## 6. Asserting Results
+How to use the bild in assertion-framework to assert data
+
+## 7. Guidelines
+How to structure tests files and tests. Some tips what to do and what not to do to achieve fast, stable and readable tests
+
+----
+
+## 2. Arrangement & Test Data
+## 3. Arrangement & Test Data
+## 4. Acting & Verifying Behavior
+## 5. Asserting Results
+## 6. Guidelines, Pitfalls, and Best Practices
+
+## X. Specification Structure & Execution Model
+XspecT has two parts: The specification pipeline and the assertion framework. Here we will focus on the inner workings of the pipeline.
+
+### 2.1 Instantiating the test pipeline
+You create the pipeline by subclassing Spec with zero, one or two type arguments
+1. **Two arguments**: The standard way of using Spec is with two type arguments. The first argument is the type of the subject under test and the second argument is the type of the return value.
+   The subject under test is automatically instantiated and provided as the argument to the lambda provided to the `After`, `When`, and `Before`-methods. 
+   When executing the test-pipeline, the result is stored in a property in the base class. If the actual return-value is not assignable to the declared return type, a `SetupFailed`-exception is thrown.
+1. **One argument for the return type**: If you do not need a subject under test to be instantiated, you only need to supply the return type. 
+   Incidentally, spec will still provide a subject under test, but it will be of the same type as the return type.
+   This is the constructur to use when testing static classes.
+1. **One argument for subject under test**: The same one-argument subclass can be used in scenarious where the behaviour under test has no return value (void) and only side-effects or exceptions are being tested. 
+1. **Zero arguments**: There is also a subclass with zero type argument if neither subject under test or return value are of interest. Under the hood `Object` will be used as type for both.
+
+### 2.2. Execution context and lifecycle
+Being built upon Xunit, XspecT share the same feature of test isolation. Every test method is run on its own instance of the test class. This allows many tests to be run in parallell without affecting each other.
+This gives you freedom in how to structure your tests - regardless how you organize and share test setup - each test method will run in their own isolated context. 
+The flip-side to this is that heavy setup will be run once for every test-method. It is therefore encouraged to write tests for fast execution and mock out any heavy dependency that might slow the test down.
+
+After a test-pipeline has been instantiated (by Xunit test-runner instantiating your test-class before running each test), the test-pipeline starts recording the setup that you provide.
+Different types of setup is recorded in different lists, so they can be inserted at the correct point when running the test-pipeline. They include:
+1. Usings (for auto-mocking) and defaults (for data-generations)
+1. specific data values
+1. specific data setups
+1. Mocked behaviour (using Mock under the hood)
+
+The test-pipeline is not executed until Then() is called, or `Result`, which calls Then() under the hood if the pipeline has not already been executed.
+When the test-pipeline is run, all setup is applied/executed, in the order given above. 
+Then the subject under test is instantiated.
+Then the setup-methods provided in `After` are called, in the *opposite* order they were added.
+Then the method under test is run and either the return value or the exception thrown are recorded for later assertions.
+And finally the teardown-methods provided in `Before` are called, in the order they were added.
+
+### 2.3 Class fixtures
+There are two constructors on the Spec base class - one without arguments and one that take a class fixture as argument. Class fixtures is a feature of Xunit that allows you to share setup between tests.
+When used in XspecT, the class fixture serve as a separate test-pipeline with only test setup. When passing this fixture to the test pipeline, its setup will be copied to the test-pipeline. 
+So every test pipeline using the same class fixture will start with the same basic setup to which they can add their own specific setup, but apart from sharing basic setup, the tests will be disconnected from each other, so it should not matter in which order tests sharing the same class fixture run.
+
+### 2.4 Recommended test structure
+Based on the way Xunit and XspecT work and on experience using it, this is an opinionated recommendation on how to structure your tests using XspecT:
+
+1. Mimic the folder structure of your production code to be tested
+   - Create one project per production project called *[ProductionFolder].Test* or *[ProductionFolder].Spec*
+   - Create a leaf-folder per subject under test called *[NameOfClass]*
+1. Create one test-class per method under test, called *WHEN[NameOfMethod]*
+1. Let the class for each method under test be abstract and nest concrete classes inside it for each different setup, called *Given[SomePrecondition]*
+1. Place setup in the constructor and assertions in the test methods
+1. Feel free to nest given classes in more than one layer (but avoid more than four levels of nesting)
+1. Write one test-method per logical assertion (i.e. test only one thing per test)
+1. Feel free to use all of Xunit's features - such as Fact, Theory and test-data
+1. Use only the built in assertion framework from XspecT (it will give you neater specifications with clearer test-output)
+   Ex:
+   ```
+   public abstract WhenPlaceOrder : Spec<ShoppingService> 
+   {
+      static Tag<Guid> cartId = new();
+  
+      protected WhenPlaceOrder() => When(_ => _.PlaceOrder(The(cartId)));
+
+      public abstract GivenCartExists : WhenPlaceOrder 
+      { 
+         protected GivenCartExists
+           => Given<ICartRepository>().That(_ => _.GetCart(The(cartId))).Returns(A<Cart>());
+
+         public WithItems : GivenCartExists 
+         {
+            ...
+         }
+
+         public WithoutItems : GivenCartExists 
+         {
+            ...
+         }
+      }
+
+      public GivenCartNotExists : WhenPlaceOrder 
+      {
+         public GivenCartNotExists
+            => Given<ICartRepository>().That(_ => _.GetCart(The(cartId))).Returns(() => Cart.NoCart);
+
+            ...
+      }
+   }
+   ```
 
 ## Test a static method with [Theory]
 
