@@ -95,26 +95,6 @@ internal class DataProvider
 
     internal Mock GetMock(Type type) => _testDataGenerator.GetMock(type);
 
-    //private object GetAdjustedValue(Type type, object newValue)
-    //{
-    //    var value = ApplyDefaultSetup(type, newValue);
-    //    return _generatedValues.TryGetValue(type, out var generated)
-    //        ? GetUnique(type, value, generated)
-    //        : value;
-    //}
-
-    //private object GetUnique(Type type, object value, HashSet<object> generated)
-    //{
-    //    const int attempts = 5;
-    //    for (var i = 0; i < attempts; i++)
-    //    {
-    //        if (generated.Add(value))
-    //            return value;
-    //        value = ApplyDefaultSetup(type, value);
-    //    }
-    //    throw new SetupFailed($"Failed to find a unique value of {type.Alias()} after {attempts} attempts");
-    //}
-
     private object ApplyDefaultSetup(Type type, object newValue)
         => _defaultSetups.TryGetValue(type, out var setup)
             ? setup(newValue)

@@ -1,41 +1,40 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <Description>Base classes and extension classes for building Unit tests based on XUnit and Given-When-Then pattern</Description>
-    <VersionPrefix></VersionPrefix>
-    <Authors>Joakim Sigvald</Authors>
-    <TargetFramework>net10.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <AssemblyName>XspecT</AssemblyName>
-    <RootNamespace>XspecT</RootNamespace>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <IsPackable>true</IsPackable>
-    <PackageTags>unit test specification given when then fluent mock xunit moq automock autofixture</PackageTags>
-    <PackageIconUrl></PackageIconUrl>
-    <PackageProjectUrl>https://github.com/joakimsigvald/XspecT.git</PackageProjectUrl>
-    <PackageLicenseUrl></PackageLicenseUrl>
-    <PackageProjectUrl>https://github.com/joakimsigvald/XspecT</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/joakimsigvald/XspecT.git</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <PackageVersion>19.1.0</PackageVersion>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageIcon>icon.png</PackageIcon>
-    <PackageReleaseNotes>
-		Introduced lowercase keyword-style properties as bindes between setup (and) and assertions (not, and, but, either, or).
-        Added Distinct by selector assertion on collections
-</PackageReleaseNotes>
-    <GenerateDocumentationFile>True</GenerateDocumentationFile>
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="AutoFixture" Version="5.0.0-preview0012" />
-    <PackageReference Include="Moq" Version="4.20.72" />
-    <PackageReference Include="Moq.AutoMock" Version="3.6.1" />
-    <PackageReference Include="xunit" Version="2.9.3" />
-    <None Include="..\README.md" Pack="true" PackagePath="\" />
-    <None Include="..\TODO.txt" Pack="true" PackagePath="\" />
-    <None Include="..\icon.png" Pack="true" PackagePath="\" />
-  </ItemGroup>
+	<PropertyGroup>
+		<Description>Base classes and extension classes for building Unit tests based on XUnit and Given-When-Then pattern</Description>
+		<VersionPrefix></VersionPrefix>
+		<Authors>Joakim Sigvald</Authors>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<AssemblyName>XspecT</AssemblyName>
+		<RootNamespace>XspecT</RootNamespace>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<IsPackable>true</IsPackable>
+		<PackageTags>unit test specification given when then fluent mock xunit moq automock autofixture</PackageTags>
+		<PackageIconUrl></PackageIconUrl>
+		<PackageProjectUrl>https://github.com/joakimsigvald/XspecT.git</PackageProjectUrl>
+		<PackageLicenseUrl></PackageLicenseUrl>
+		<PackageProjectUrl>https://github.com/joakimsigvald/XspecT</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/joakimsigvald/XspecT.git</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageVersion>19.1.1</PackageVersion>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageIcon>icon.png</PackageIcon>
+		<PackageReleaseNotes>
+			Improved readme document
+		</PackageReleaseNotes>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="AutoFixture" Version="5.0.0-preview0012" />
+		<PackageReference Include="Moq" Version="4.20.72" />
+		<PackageReference Include="Moq.AutoMock" Version="3.6.1" />
+		<PackageReference Include="xunit" Version="2.9.3" />
+		<None Include="..\README.md" Pack="true" PackagePath="\" />
+		<None Include="..\TODO.txt" Pack="true" PackagePath="\" />
+		<None Include="..\icon.png" Pack="true" PackagePath="\" />
+	</ItemGroup>
 
 </Project>
