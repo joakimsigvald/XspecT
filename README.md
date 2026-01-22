@@ -1,8 +1,8 @@
 ﻿# XspecT — Fluent, specification-style unit testing for .NET
 
-XspecT is a fluent, specification-oriented testing framework for .NET that sits on top of xUnit.
+XspecT is a fluent, specification-oriented testing framework for .NET that builds on xUnit.
 It follows the Given–When–Then pattern and integrates seamlessly with Moq, AutoMock, and AutoFixture.
-Tests run on the standard xUnit runner and can live side-by-side with existing xUnit tests.
+Tests run on the standard xUnit runner and can live side by side with existing xUnit tests.
 
 Whether you are new to unit testing or an experienced practitioner, XspecT helps you express test intent clearly by removing boilerplate, enforcing structure, and generating readable failure descriptions.
 
@@ -10,7 +10,7 @@ Example: testing the `PlaceOrder` method on `ShoppingService`:
 ```
 public class WhenPlaceOrder : Spec<ShoppingService>
 {
-    static Tag<Guid> cartId = new(); //reference an auto-generated Guid
+    static Tag<Guid> cartId = new(); // reference an auto-generated Guid
 
     public WhenPlaceOrder()
         => When(_ => _.PlaceOrder(The(cartId)))
@@ -26,9 +26,18 @@ public class WhenPlaceOrder : Spec<ShoppingService>
 The example above highlights how XspecT reduces boilerplate by handling test data, dependency mocking, and interaction verification declaratively.
 In real-world usage, this typically leads to substantially smaller tests compared to xUnit + Moq, while improving readability.
 
+## Table of Contents
+
+1. [Introduction](#1-introduction)  
+2. [The Test Pipeline](#2-the-test-pipeline)  
+3. [Using Test Data](#3-using-test-data)  
+4. [Mocking & Auto-Mocking](#4-mocking--auto-mocking)  
+5. [Asserting Results](#5-asserting-results)  
+6. [Guidelines](#6-guidelines) 
+
 ## 1. Introduction
 
-To write a test with XspecT you start by subclassing `Spec`.
+To write a test with XspecT, start by subclassing `Spec`.
 Each test is expressed as a specification and executed as a pipeline consisting of three phases:
 *arrange*, *act*, and *assert*.
 
@@ -66,13 +75,13 @@ XspecT also provides mechanisms for preparing and referring to test data in a st
 ### 1.2 Act
 
 The *act* stage specifies the behavior under test by calling `When` with a lambda expression. 
-The lambda takes the subject under test as argument and should execute the behaviour under test.
+The lambda takes the subject under test as an argument and should execute the behavior under test.
 
 The subject under test is automatically created based on the arrangement, unless it is static or explicitly provided.
 
 As with arrangement, the order in which `Given`, `After`, `Before`, and `When`
 are declared does not matter. Because execution is deferred until assertion, XspecT can deterministically reorder the pipeline before running it.
-So the execution order of the steps is always: `Given`->`After`->`When`->`Before`.
+So the execution order of the steps is always: `Given` -> `After` -> `When` -> `Before`.
 
 Each specification defines exactly one action under test and therefore contains a single `When` stage.
 
@@ -90,7 +99,7 @@ generated description of the specification, making it easier to understand the i
 
 Example:
 
-**Test:**
+**Specification:**
 ```
 => When(_ => _.List())
    .Given<IMyRepository>()
@@ -121,6 +130,7 @@ A core feature of XspecT is *deferred execution* and *lazy evaluation*: no produ
 A test runs through four conceptual stages: preparation, execution, assertion, and teardown.
 
 ### 2.1 Preparation
+
 Before the first assertion, the pipeline is configured with test data, mocks, and lambdas to execute.
 
 #### 2.1.1 Creating the Pipeline
@@ -132,14 +142,15 @@ You can choose to pass a class fixture (a feature of xUnit) to the constructor o
 #### 2.1.2 Preparing the Pipeline
 The preparation steps are recorded and later applied in the following order:
 
-1. Default, constraints and test data are applied *in reverse order of declaration*
+1. Default, constraints, and test data are applied *in reverse order of declaration*
 1. Mocked behaviour *in the order of declaration*
 
 #### 2.1.3 Creating the Subject Under Test
-After preparation, the pipeline will use the auto-mocker to create a new instance of your subject under test (unless you provided a value of that type explicitly).
+After preparation, the pipeline will use AutoMock to create a new instance of your subject under test (unless you provided a value of that type explicitly).
 If you haven't mocked a certain interface or method that the subject uses, a default mock will be auto-generated.
 
 ### 2.2 Execution
+
 Execution is triggered by the first assertion (technically when `Result` is referenced or `Then()` is called). 
 The pipeline then executes and captures the outcome of the execution.
 
@@ -161,18 +172,21 @@ If an exception is thrown, it becomes the captured outcome and can be asserted u
 Accessing `Result` will implicitly execute the pipeline if it has not already been executed.
 
 ### 2.3 Assertion
+
 Assertions consume the captured outcome or utilize the mocking framework for verifying execution paths. 
 The pipeline executes at most once per test method, regardless of the number of references to `Result` or `Then()`.
 Assertions are covered in depth in Chapters 5 and 6.
 
 ### 2.4 Teardown
+
 Teardown steps can be provided as lambdas that take subject under test as arguments, with `Before()`.
-Teardown will be executed in the order of declaration when the test class and pipeline is disposed, after the test method has been executed.
+Teardown will be executed in the order of declaration when the test class and pipeline are disposed, after the test method has been executed.
 
 Example:
 `When(A).Before(B).Before(C)` will result in the execution order: A -> B -> C.
 
 ### 2.5 Sync vs. Async Execution
+
 XspecT supports testing synchronous and asynchronous code using the same test pipeline.
 
 When the behavior under test is asynchronous (returns `Task` or `Task<T>`), XspecT waits for completion and captures the outcome in the same way as for synchronous code.
@@ -182,6 +196,7 @@ Test methods themselves do not need to be `async`.
 As a result, tests for async code read and behave the same way as tests for synchronous code.
 
 ## 3. Using Test Data
+
 XspecT provides helpers for referring to test data that can either be supplied explicitly or automatically generated (optionally with constraints).
 
 Two complementary mechanisms are provided:
@@ -190,7 +205,7 @@ Two complementary mechanisms are provided:
 
 ### 3.1. Mentions
 
-Mentions are helper methods for generating and referring to up to five enumerated values of a given type, as well as collections of up to five elements.
+Mentions are helper methods for generating and referring to up to five numbered values of a given type, as well as collections of up to five elements.
 Mentions are resolved per type and per test and always refer to the same value within a specification.
 
 **Single values**
@@ -216,6 +231,7 @@ For auto-generated values that are not intended to be referenced again:
 To guarantee that different mentions of the same type resolve to distinct values, the `Unique<T>` helper may be used.
 
 ### 3.2 Tags
+
 Tags complement mentions by allowing values to be referred to by name rather than position.
 They are primarily useful when working with multiple values of the same type.
 
@@ -254,10 +270,12 @@ Given().Default(name).and.Using(age);
 ```
 
 ## 4. Mocking & Auto-Mocking
+
 This part assumes familiarity with Moq or similar mocking frameworks. You should have a clear understanding of when and how mocking is typically used together with xUnit.
 Here we will examine how the mocking experience can be simplified with the help of XspecT.
 
 ### 4.1 Auto-Mocking subject under test
+
 The subject under test will be created automatically with mocks and default values by AutoMock.
 Remember from chapter 2 that all mocks are configured after test data has been generated. 
 So regardless of where you provide test data or constraints on test-data, they will be available in the mocking stage of the pipeline execution.
@@ -267,26 +285,57 @@ You can even provide the subject under test by using any of those two methods:
 `Given(new MyClass(42, "Thursday"))`
 
 ### 4.2 Mocking
-To mock behavior of any dependency, call `Given<[TheService]>().That(_ => _.[TheMethod](...)).Returns/Throws(...)`. 
+
+To mock the behavior of a dependency, call `Given<[TheService]>().That(_ => _.[TheMethod](...)).Returns/Throws(...)`. 
 `That` accepts any lambda you would normally supply to the constructor when creating a mock using `Moq`. 
-Here you do not need to create and manage mocks manually, but can supply any mocked behaviour directly to the pipeline.
+You do not need to create and manage mocks manually, but can supply mocked behaviour directly to the pipeline.
 This allows most mocking scenarios to be expressed inline, close to the behavior under test.
 
-### 4.3 Observing calls with Tap
+### 4.3 Mocking with arguments
+
+If you want to vary mocked behavior based on arguments, supply a lambda with arguments to Returns. The lambda signature must match the mocked call.
+Up to five arguments are possible to mock in this way.
+
+Example with two arguments:
+```
+=> Given<IMyCalculator>()
+   .That(_ => _.Add(TheFirst<int>(), TheSecond<int>()))
+   .Returns((a, b) => a + b) //The mock adds the two arguments passed to the function and returns the sum
+```
+
+### 4.4 Mocking sequence of calls
+
+Sometimes you want to mock a scenario where more than one call is made to a mock in succession, and the mock should potentially behave differently at each successive call.
+You can describe this scenario using the methods `First` and `AndNext`.
+
+Example mocking three successive calls:
+```
+=> Given<IMyService>().That(_ => _.GetValueAsync())
+    .First().Returns(() => 1) // returns 1 on first call
+    .AndNext().Throws(An<ArgumentException>) //throw exception on second call
+    .AndNext().Returns(); //return on third call
+```
+
+### 4.5 Observing calls with Tap
+
 Tap allows observing arguments passed to a mocked call without affecting its behavior.
+A method with up to five arguments is possible to tap.
 
 Example:
 ```
+int _tappedValue = -1;
+
 => Given<IMyInterface>()
    .That(_ => _.Get(An<int>()))
    .Tap<int>(i => _tappedValue = i)
    .Returns(() => _retVal)
 ```
 
-### 4.4 Verification
+### 4.6 Verification
+
 To verify a call to a mocked dependency, call `Then<[TheService]>([SomeLambdaExpression])`. 
 
-Both mocking and verification of behavior is based on `Moq` framework.
+Both mocking and verification of behavior are based on `Moq` framework.
  
 Example:
 ```
@@ -310,16 +359,18 @@ The built-in mocking capabilities of XspecT cover almost all scenarios that Moq 
 But should you need some feature that is not provided by XspecT, you can create your mock using Moq explicitly and supply it to the pipeline using `Given(myMock.Object)`.
 
 ## 5. Asserting Results
-XspectT come with its own fluent assertion framework under the `XspecT.Assert` namespace. Even if you don't use any other feature of XspecT, you can use this framework as an alternative to `FluentAssertions` or `AwesomeAssertions`. 
+
+XspecT comes with its own fluent assertion framework under the `XspecT.Assert` namespace. 
+Even if you don't use any other feature of XspecT, you can use this framework as an alternative to `FluentAssertions` or `AwesomeAssertions`. 
 However, combined with the XspecT pipeline is where it really shines.
 
-### 5.1 Reading advice
-What follows is a compact reference manual on the fluent nature of XspecT.Assert, followed by a complete list of feature.
+**Reading advice**
+What follows is a compact reference manual on the fluent nature of XspecT.Assert, followed by a complete list of features.
 
 ### 5.1 Fluent assertions
-Assertions are made directly on the value to be verified. 
-Several assertions can be chained together using property-binders between assertions (lowercase).
-Every assertion returns a continuation (unless it fails and throws a XunitException).
+
+Assertions are made directly on the value to be verified.
+Every assertion returns a continuation, allowing chaining of assertions.
 The continuation is context-aware and allows different assertions depending on what was asserted previously.
 
 #### 5.1.1 And
@@ -358,9 +409,9 @@ Values of any type can be verified with any of the two extension methods `Is` an
   `3.Is().GreaterThan(2)`  
 - Less than:  
   `3.Is().LessThan(2)`  
-- Aproximally equal with tolerance:  
+- Aproximately equal with tolerance:  
   `Result.Is().Around(3, 0.1)`  
-- Even: (true if number is divisable by 2)  
+- Even: (true if number is divisible by 2)  
   `Result.Is().Even()`  
 - OneOf:  
   `Result.Is().OneOf(Three<int>())`  
@@ -376,6 +427,7 @@ Values of any type can be verified with any of the two extension methods `Is` an
   `Result.Has().Type<MyModel>()`  
 
 ### 5.3 Strings
+
 #### 5.3.1 Is
 - Like  
   `" ABC ".Is().Like("abc")`  
@@ -397,6 +449,7 @@ Values of any type can be verified with any of the two extension methods `Is` an
   `"ABC".Does().EndWith("BC")`  
 
 ### 5.4 Time
+
 - Before  
   `DateTime.Now.Is().Before(DateTime.Now.AddDays(1))`  
 - After  
@@ -410,6 +463,7 @@ Values of any type can be verified with any of the two extension methods `Is` an
   `TimeSpan.FromDays(1).Is().Negative()`  
 
 ### 5.5 Collections
+
 #### 5.5.1 Is
 - EqualTo  
   all elements are equal and in the same order  
@@ -469,7 +523,8 @@ Values of any type can be verified with any of the two extension methods `Is` an
 ## 6. Guidelines
 
 ### 6.1 Recommended test structure
-Based on the way Xunit and XspecT work and on experience using it, this is an opinionated recommendation on how to structure your tests using XspecT.
+
+Based on the way xUnit and XspecT work and on experience using it, this is an opinionated recommendation on how to structure your tests using XspecT.
 The goal of these conventions is to keep specifications readable, navigable, and aligned with production structure as test suites grow.
 
 1. Mimic the folder structure of your production code to be tested
@@ -481,7 +536,7 @@ The goal of these conventions is to keep specifications readable, navigable, and
 1. Feel free to nest given classes in more than one layer (but avoid more than four levels of nesting)
 1. Write one test-method per logical assertion (i.e. test only one thing per test)
 1. Feel free to use all of Xunit's features - such as Fact, Theory and test-data
-1. Use only the built in assertion framework from XspecT (it will give you neater specifications with clearer test-output)
+1. Use only the built-in assertion framework from XspecT (it will give you cleaner specifications with clearer test-output)
 
 Example:
 ```
@@ -519,16 +574,17 @@ public abstract WhenPlaceOrder : Spec<ShoppingService>
 
 ### 6.2 Class fixtures
 
-XspecT supports the Xunit feature of sharing setup between tests in a common class fixture.
+XspecT supports the xUnit feature of sharing setup between tests in a common class fixture.
 A class fixture is created in the same way as a test class, by inheriting `Spec` and providing setup.
 The only difference between a class fixture implemented with XspecT and a test class implemented with XspecT
 is that class fixtures don't have test methods or assertions.
 
 When using a class fixture and having more than one test method, no setup should be put in the constructor, 
-since the constructor is run once for each test method and provide the setup to the shared class fixture 
-(i.e would add the same setup multiple times and second time after the test pipeline was executed, which is not allowed).
+since the constructor is run once for each test method and provides the setup to the shared class fixture 
+(i.e. would add the same setup multiple times, including after the test pipeline was executed, which XspecT does not allow).
 
 ### 6.3. Some final advice
+
 Unit tests work best when they run *fast*. Write modular production code in line with best practices, 
 so that each unit can be tested in isolation while mocking or ignoring the rest.
 This enables tiny test methods with a single logical assertion and shared setup.

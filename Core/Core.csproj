@@ -18,12 +18,12 @@
 		<PackageProjectUrl>https://github.com/joakimsigvald/XspecT</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/joakimsigvald/XspecT.git</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
-		<PackageVersion>19.1.1</PackageVersion>
+		<PackageVersion>19.1.2</PackageVersion>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageIcon>icon.png</PackageIcon>
 		<PackageReleaseNotes>
-			Improved readme document
+			Improved readme document, more on mocking
 		</PackageReleaseNotes>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	</PropertyGroup>
