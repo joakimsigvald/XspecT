@@ -111,6 +111,9 @@ public abstract partial class Spec<TSUT, TResult> : ITestPipeline<TSUT, TResult>
         [CallerArgumentExpression(nameof(defaultValue))] string? defaultValueExpr = null)
         => GivenDefault(defaultValue, ApplyTo.All, defaultValueExpr!);
 
+    internal IGivenTestPipeline<TSUT, TResult> Using<TConcrete>()
+      => GivenDefault(_pipeline.Instantiate<TConcrete>, ApplyTo.Using, typeof(TConcrete).Name);
+
     internal IGivenTestPipeline<TSUT, TResult> GivenDefault<TValue>(
         TValue defaultValue, ApplyTo applyTo, string defaultValueExpr)
     {

@@ -8,7 +8,7 @@ public class MyService(IMyRepository repo, IMySettings settings, Func<DateTime> 
     public async Task<MyModel[]> GetModelsAsync()
     {
         var models = await repo.GetModelsAsync();
-        return models.ToArray();
+        return [.. models];
     }
 
     public int GetNextId() => repo.GetNextId();

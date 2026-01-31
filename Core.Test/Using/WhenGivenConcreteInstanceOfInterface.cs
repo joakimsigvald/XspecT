@@ -27,6 +27,12 @@ public class WhenUsingConcreteInstanceOfInterface : Spec<MyService, int>
         Given().Using<IMyRepository>(new FakeRepository(An<int>()))
             .Then().Result.Is(The<int>());
     }
+
+    [Fact]
+    public void GivenConcreteTypeArg_ThenUseIt()
+    {
+        Given().Using<FakeRepository>().and.Using(123).Then().Result.Is(123);
+    }
 }
 
 public class FakeRepository(int fakeId) : IMyRepository

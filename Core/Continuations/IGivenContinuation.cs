@@ -41,6 +41,13 @@ public interface IGivenContinuation<TSUT, TResult>
         [CallerArgumentExpression(nameof(defaultValue))] string? defaultValueExpr = null);
 
     /// <summary>
+    /// Provide a concrete type to be used in auto-mocking, instead of a mocked interface
+    /// </summary>
+    /// <typeparam name="TConcrete">Concrete class to be used in auto-mocking, in place of any of its interfaces</typeparam>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> Using<TConcrete>();
+
+    /// <summary>
     /// Provide a tagged default value, that will be used as test data where no specific value is given
     /// The tagged value is applied lazily while running the pipeline.
     /// </summary>

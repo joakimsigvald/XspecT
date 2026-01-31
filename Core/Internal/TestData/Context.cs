@@ -9,12 +9,12 @@ internal class Context
     private readonly Dictionary<Type, Dictionary<object, int>> _tagIndices = [];
     private readonly Dictionary<Type, HashSet<object?>> _generatedValues = [];
 
-    internal TSUT CreateSUT<TSUT>()
+    internal TClass Instantiate<TClass>()
     {
-        var sutType = typeof(TSUT);
+        var sutType = typeof(TClass);
         return sutType.IsClass && sutType != typeof(string)
-            ? _dataProvider.Instantiate<TSUT>()
-            : Create<TSUT>();
+            ? _dataProvider.Instantiate<TClass>()
+            : Create<TClass>();
     }
 
     internal TValue Apply<TValue>(Action<TValue> setup, int index)

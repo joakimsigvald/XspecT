@@ -23,6 +23,9 @@ internal class GivenContinuation<TSUT, TResult> : IGivenContinuation<TSUT, TResu
     public IGivenTestPipeline<TSUT, TResult> Unique<TValue>()
         => _spec.GivenUnique<TValue>();
 
+    public IGivenTestPipeline<TSUT, TResult> Using<TConcrete>()
+        => _spec.Using<TConcrete>();
+
     public IGivenTestPipeline<TSUT, TResult> Using<TValue>(
         TValue defaultValue,
         [CallerArgumentExpression(nameof(defaultValue))] string? defaultValueExpr = null)
