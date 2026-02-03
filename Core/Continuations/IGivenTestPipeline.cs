@@ -30,6 +30,17 @@ public interface IGivenTestPipeline<TSUT, TResult> : ITestPipeline<TSUT, TResult
     IGivenContinuation<TSUT, TResult> and { get; }
 
     /// <summary>
+    /// Transform any value and use the transformed value as default
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="transform"></param>
+    /// <param name="transformExpr"></param>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> And<TValue>(
+        Func<TValue, TValue> transform,
+        [CallerArgumentExpression(nameof(transform))] string? transformExpr = null);
+
+    /// <summary>
     /// Provide any arrangement to the test, which will be applied during test execution in reverse order of where in the test-pipeline it was provided
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
@@ -38,17 +49,6 @@ public interface IGivenTestPipeline<TSUT, TResult> : ITestPipeline<TSUT, TResult
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> And<TValue>(
         Action<TValue> setup,
-        [CallerArgumentExpression(nameof(setup))] string? setupExpr = null) where TValue : class;
-
-    /// <summary>
-    /// Transform any value and use the transformed value as default
-    /// </summary>
-    /// <typeparam name="TValue"></typeparam>
-    /// <param name="setup"></param>
-    /// <param name="setupExpr"></param>
-    /// <returns></returns>
-    IGivenTestPipeline<TSUT, TResult> And<TValue>(
-        Func<TValue, TValue> setup,
         [CallerArgumentExpression(nameof(setup))] string? setupExpr = null) where TValue : class;
 
     /// <summary>

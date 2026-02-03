@@ -229,6 +229,17 @@ public interface ITestPipeline<TSUT, TResult>
         [CallerArgumentExpression(nameof(tearDown))] string? tearDownExpr = null);
 
     /// <summary>
+    /// Transform any value and use the transformed value as default
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="transform"></param>
+    /// <param name="transformExpr"></param>
+    /// <returns></returns>
+    IGivenTestPipeline<TSUT, TResult> Given<TValue>(
+        Func<TValue, TValue> transform,
+        [CallerArgumentExpression(nameof(transform))] string? transformExpr = null);
+
+    /// <summary>
     /// Provide any arrangement to the test, which will be applied during test execution in reverse order of where in the test-pipeline it was provided
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
@@ -237,7 +248,7 @@ public interface ITestPipeline<TSUT, TResult>
     /// <returns></returns>
     IGivenTestPipeline<TSUT, TResult> Given<TValue>(
         Action<TValue> setup,
-        [CallerArgumentExpression(nameof(setup))] string? setupExpr = null) 
+        [CallerArgumentExpression(nameof(setup))] string? setupExpr = null)
         where TValue : class;
 
     /// <summary>

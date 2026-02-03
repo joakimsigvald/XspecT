@@ -58,6 +58,16 @@ public record IsString : StringConstraint<IsStringContinuation>
         => Assert(Ignore.Me, actual => Xunit.Assert.Empty((Actual ?? string.Empty).Trim())).And();
 
     /// <summary>
+    /// Asserts that the string is upper case
+    /// </summary>
+    public ContinueWith<IsStringContinuation> UpperCase() => Assert(Ignore.Me, NotNullAnd(actual => Equal(actual, actual.ToUpper()))).And();
+
+    /// <summary>
+    /// Asserts that the string is lower case
+    /// </summary>
+    public ContinueWith<IsStringContinuation> LowerCase() => Assert(Ignore.Me, NotNullAnd(actual => Equal(actual, actual.ToLower()))).And();
+
+    /// <summary>
     /// Asserts that the string is not the given value
     /// </summary>
     /// <param name="expected"></param>

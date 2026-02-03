@@ -32,6 +32,14 @@ public class WhenUsingConcreteInstanceOfInterface : Spec<MyService, int>
     public void GivenConcreteTypeArg_ThenUseIt()
     {
         Given().Using<FakeRepository>().and.Using(123).Then().Result.Is(123);
+        Specification.Is(
+            """
+            Given using 123
+              and using FakeRepository
+            When _.GetNextId()
+            Then Result is 123
+            """
+            );
     }
 }
 
